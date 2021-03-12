@@ -1,0 +1,29 @@
+{% assign connectorsBySupportLevel = site.connectors | group_by: 'support' %}
+
+{% for supportLevel in connectorsBySupportLevel %}        
+
+  {% assign connectorSupportGroup = "" | split: ',' %}
+  {% for connectorCard in supportLevel.items %}
+    {% if supportLevel.name == "IBM" %}
+      {% assign connectorSupportGroup = connectorSupportGroup | push: connectorCard %}
+    {% endif %}
+  {% endfor %}
+  {% include cardNameSort.html sortedItems=connectorSupportGroup %}
+
+
+{% endfor %}
+
+
+
+{% for supportLevel in connectorsBySupportLevel %}        
+
+  {% assign connectorSupportGroup = "" | split: ',' %}
+  {% for connectorCard in supportLevel.items %}
+    {% if supportLevel.name == "community" %}
+      {% assign connectorSupportGroup = connectorSupportGroup | push: connectorCard %}
+    {% endif %}
+  {% endfor %}
+  {% include cardNameSort.html sortedItems=connectorSupportGroup %}
+
+
+{% endfor %}

@@ -1,0 +1,345 @@
+/* ==========================================================================
+   SPLASH PAGE ON DOCS
+   ========================================================================== */
+
+/*
+   Default
+   ========================================================================== */
+
+.splash {
+  .versionPill {
+    vertical-align: 0.2rem;
+    margin-left: .25rem;
+  }
+  &.latestVersion {
+    .heroContainer {
+      background: #000;
+      color: #fff;
+      margin-top: 0;
+      position: relative;
+      margin-bottom: 0;
+      .tryItForm {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        margin: 0;
+      }
+    }
+  }
+  .splashcontent {
+    background: white;
+    .section {
+      grid-template-columns: $standard-grid-layout;
+      display: grid;
+      .sectionContent {
+        grid-column-start: 2;
+        grid-column-end: 5;
+        display: flex;
+        .content {
+          flex-grow: 1;
+        }
+      }
+    }
+  }
+  h1 {
+    margin-left: 0;
+    max-width: unset;
+    a {
+      display: inline-block;
+    }
+  }
+  p {
+    margin-left: 0;
+    max-width: 40rem;
+  }
+  .sidebar__right  {
+    display: none;
+  }
+    .heroContainer {
+      height: auto;
+      padding-top: 4rem;
+      margin-bottom: 4rem;
+      grid-template-columns: $standard-grid-layout;
+      display: grid;
+        .intro {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            grid-column-start: 2;
+            grid-column-end: 4;
+            .pictogramHero {
+              align-self: flex-start;
+              margin-bottom: 2.5rem;
+              height: 7.5rem;
+            }
+            * {
+              // margin-left: 0;
+            }
+            h1 {
+              padding-left: 1rem;
+            }
+            p {
+              margin-top: 0.5rem;
+              max-width: 40em;
+              padding-left: 1rem;
+            }
+            .pillContainer {
+              display: flex;
+              margin-top: .5rem;
+              margin-bottom: .5rem;
+              p {
+                margin: 0;
+                padding: 0;
+                flex-grow: 0;
+              }
+              .versionPill {
+                margin-left: .25rem;
+                font-size: 0.9rem;
+              }
+            }
+        }
+    }
+    .section {
+        background-color: white;
+        padding-bottom: 4rem;
+        &:first-of-type {
+          padding-top: 4rem;
+        }
+        .title {
+          padding-left: 1rem;
+          padding-right: 1rem;
+          flex-basis: 33.33333%;
+          flex-shrink: 0;
+          h2 {
+            margin: 0;
+          }
+        }
+    }
+    .splashGridContainer {
+        display: flex; // margin-left: -.25rem;
+        // margin-right: -.25rem;
+        // margin-left: -.25rem;
+        flex-direction: column;
+        // flex-wrap: wrap;
+        // margin-top: 2rem;
+        // border-left: 1px solid $keyline;
+        // border-top: 1px solid $keyline;
+        .card {
+            // padding: 1rem;
+            box-sizing: border-box;
+            flex-basis: 33.33333%;
+            display: flex;
+            // margin-bottom: .5rem;
+            // padding-left: .25rem;
+            // padding-right: .25rem;
+            .cardContent {
+              // padding: 1rem;
+              padding: 0 1rem;
+              border-bottom: 1px solid $keyline;
+              // border-right: 1px solid $keyline;
+              cursor: pointer;
+              height: 100%;
+              transition: 0.1s;
+              flex-grow: 1;
+              display: flex;
+              flex-direction: column;
+              &:hover {
+                background-color: #f4f4f4;
+              }
+              .icon {
+                margin-bottom: 0.5rem;
+                width: 2rem;
+                height: 2rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                display: none;
+                img {
+                  width: 1.5rem;
+                  height: 1.5rem;
+                }
+              }
+              h4 {
+                margin: 0;
+                padding: 0;
+              }
+              a {
+                text-decoration: none;
+                &:hover {
+                  color: #0f62fe;
+                }
+              }
+            }
+            &:last-of-type {
+              .cardContent {
+                border-bottom: none;
+              }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 2000px) {
+  .splash .splashcontent .section {
+    display: grid;
+    .sectionContent {
+      grid-column-end: 5;
+    }
+  }
+  .content {
+    .featuresHeroContainer {
+      .featuresHeroContent {
+        grid-column-end: 5;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1148px) {
+  .splash {
+    .heroContainer {
+      margin-top: 5rem;
+      margin-bottom: 4rem;
+      max-width: 50rem;
+    }
+  }
+}
+
+
+@media only screen and (max-width: 1024px) {
+  .splash {
+    .heroContainer {
+      .intro {
+        .pillContainer {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 960px) {
+  .page__inner-wrap {
+    overflow: visible;
+    &.splash {
+      .page__content {
+        padding-top: 1rem;
+      }
+    }
+  }
+  .splash {
+    .heroContainer {
+      height: auto;
+      display: block;
+      overflow: visible;
+      .intro {
+        margin-left: 0;
+        padding-left: 0rem;
+        padding-right: 0rem;
+        .pillContainer {
+          display: none;
+        }
+      }
+      .keyTasks {
+        flex-wrap: wrap;
+        flex-direction: row;
+        margin-left: -.5rem;
+        margin-right: -.5rem;
+        flex-shrink: 0;
+        flex-basis: auto;
+        .task {
+          flex-basis: 40%;
+          flex-grow: 1;
+          margin-left: .5rem;
+          margin-right: .5rem;
+          padding-top: 1rem;
+          padding-bottom: 1rem;
+          &:last-of-type {
+            border-bottom: 1px solid #dde8f4;
+          }
+        }
+      }
+    }
+    .splashcontent {
+      .section {
+        // padding-left: .75rem;
+        // padding-right: .75rem;
+        .title {
+          // padding-left: .75rem;
+          // padding-right: .75rem;
+        }
+      }
+    }
+  }
+}
+
+
+
+@media only screen and (max-width: 680px) {
+  .splash {
+    .heroContainer {
+      &.pageSpacing {
+        padding-left: 1rem;
+        padding-right: 1rem; 
+      }
+    }
+  }
+}
+
+
+@media only screen and (max-width: 600px) {
+  .splash {
+    .heroContainer {
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .splash {
+    .heroContainer {
+      // padding-left: 0;
+      // padding-right: 0;
+      .intro {
+        // padding-left: .75rem;
+        // padding-right: .75rem;
+        p {
+          margin-top: 1rem;
+        }
+      }
+      .keyTasks {
+        flex-direction: unset;
+        .task {
+          flex-basis: 100%;
+        }
+      }
+    }
+    .splashcontent {
+      .section {
+        display: flex;
+        // padding-left: .75rem;
+        // padding-right: .75rem;
+        .sectionContent {
+          flex-grow: 1;
+          .title {
+           padding-left: 0; 
+          }
+        }
+      }
+    }
+    .splashGridContainer {
+      flex-direction: column;
+      display: block;
+      .card {
+        padding-left: 0;
+        padding-right: 0;
+        .cardContent {
+          padding: 1rem;
+          height: auto;
+        }
+      }
+    }
+  }
+}

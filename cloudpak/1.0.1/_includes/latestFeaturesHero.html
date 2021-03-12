@@ -1,0 +1,24 @@
+<div class="featuresHeroContainer pageSpacing">
+  <div class="featuresHeroContent">
+    <div class="featuresHeroCards">
+      {% for item in site.keyFeatures %}
+        <div class="card">
+          {% if item.type == "url" %}
+            <button class="cardContent" onclick="window.open('{{ site.url }}{{ site.baseurl }}{{item.permalinkURL}}','_self')">           
+          {% else %}
+            <button class="cardContent" onclick="openFeatureHeroDrilldown('{{ site.url }}{{ site.baseurl }}{{item.url}}','videoContainer','remotePanel')">
+          {% endif %}
+
+            <div class="icon">
+              <img alt="" role="presentation" src="{{ site.url }}{{ site.baseurl }}/assets/images/icons/{{ item.icon }}" />
+            </div>
+            <div class="text">
+              <h4>{{ item.title }}</h4>
+              <p class="small">{{ item.description }}</p>
+            </div>
+          </button>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

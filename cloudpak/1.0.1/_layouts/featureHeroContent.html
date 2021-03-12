@@ -1,0 +1,38 @@
+---
+layout: default
+---
+<div id="videoContainer">
+  <div id="videoContainerContent">
+    <div class="videoContent">
+      <div class="ctaBar">
+        <div class="ctaBarContent">
+          <button onclick='heroBackToHome("{{ site.url }}{{ site.baseurl }}/")'>Back to home</button>
+          <div class="currentPage"><span class="slash">/</span> Feature: {{ page.breadcrumbPageTitle }}</div>
+        </div>
+      </div>
+      <div class="intro">
+        <div class="contentHeader">
+          <div class="titleDesc">
+            <h1 class="animateIn first">{{ page.contentTitle }}</h1>
+            <p class="animateIn second">{{ page.contentDescription }}</p>
+          </div>
+          <div class="animateIn third moreInfo">
+            <div class="buttons">
+              <button class="iconButtonURL" onclick="window.open('{{ site.url }}{{ site.baseurl }}{{page.url}}','_self')">
+                <img src="{{ site.url }}{{ site.baseurl }}/assets/images/icons/heroFeature_external.svg" />
+              </button>
+              <a href="{{ site.url }}{{ site.baseurl }}/{{ page.moreInfoPage }}" class="primary button moreInfoButton">
+                More info
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="featureContent">
+          {{ content }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- {% include splashContent.html fromFeatureHero=true %} -->

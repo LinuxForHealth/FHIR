@@ -1,0 +1,26 @@
+<div class="search-content__inner-wrap">
+{%- assign search_provider = site.search_provider | default: "lunr" -%}
+{%- case search_provider -%}
+
+  {%- when "lunr" -%}
+  <label for="search"><h1>Search Documentation</h1></label>
+    <div data-search="" role="search" class="bx--search bx--search--lg">
+      <input name="search input" class="bx--search-input" type="text" id="search" tabindex="0" placeholder="{{ site.data.ui-text[site.locale].search_placeholder_text | default: 'Enter your search term...' }}">
+        <svg class="bx--search-magnifier" width="16" height="16" viewBox="0 0 16 16">
+          <path d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zm4.936-1.27l4.563 4.557-.707.708-4.563-4.558a6.5 6.5 0 1 1 .707-.707z" fill-rule="nonzero"></path>
+        </svg>
+    </div>
+
+    <div id="results" class="results"></div>
+  {%- when "google" -%}
+    <form onsubmit="return executeQuery();" id="cse-search-box-form-id">
+    <input type="text" id="cse-search-input-box-id" class="search-input" tabindex="-1" placeholder="{{ site.data.ui-text[site.locale].search_placeholder_text | default: 'Enter your search term...' }}" />
+    </form>
+    <div id="results" class="results">
+        <gcse:searchresults-only></gcse:searchresults-only>    
+    </div>
+  {%- when "algolia" -%}
+    <div class="search-searchbar"></div>
+    <div class="search-hits"></div>
+{%- endcase -%}
+</div>

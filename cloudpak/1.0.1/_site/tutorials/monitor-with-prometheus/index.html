@@ -1,0 +1,582 @@
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Monitoring cluster health with Prometheus - FHIR Server Docs</title>
+<meta name="description" content="Monitor the health of your cluster by using Prometheus to capture Kafka broker JMX metrics.">
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="FHIR Server Docs">
+<meta property="og:url" content="http://localhost:4000/FHIR-Server-Docs/tutorials/monitor-with-prometheus/" />
+<meta property="og:title" content="Tutorials | Monitoring cluster health with Prometheus" />
+<meta property="og:description" content="Monitor the health of your cluster by using Prometheus to capture Kafka broker JMX metrics." />
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="IBM Event Streams | Monitoring cluster health with Prometheus" />
+
+
+
+
+  <meta property="og:description" content="Monitor the health of your cluster by using Prometheus to capture Kafka broker JMX metrics.">
+
+
+
+  <meta property="og:image" content="http://localhost:4000/FHIR-Server-Docs/assets/siteMeta/appIcon_og_fb.png">
+  <meta name="twitter:image" content="http://localhost:4000/FHIR-Server-Docs/assets/siteMeta/appIcon_og_square.png">
+
+
+
+  <meta property="article:published_time" content="2021-03-12T16:58:25+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/FHIR-Server-Docs/tutorials/monitor-with-prometheus/">
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "url": "http://localhost:4000/FHIR-Server-Docs",
+      "logo": "http://localhost:4000/FHIR-Server-Docs/assets/siteMeta/appIcon_og_fb.png"
+    }
+  </script>
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Person",
+      "name": "IBM",
+      "url": "http://localhost:4000/FHIR-Server-Docs",
+      "sameAs": null
+    }
+  </script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/FHIR-Server-Docs/feed.xml" type="application/atom+xml" rel="alternate" title="FHIR Server Docs Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/FHIR-Server-Docs/assets/css/main.css">
+
+
+
+<!--[if lte IE 9]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<link rel="shortcut icon" type="image/png" href="http://localhost:4000/FHIR-Server-Docs/assets/siteMeta/favicon.ico"/>
+<link rel="shortcut icon" type="image/png" href="http://localhost:4000/FHIR-Server-Docs/assets/siteMeta/fhir-icon-16.png"/>
+<link rel="shortcut icon" type="image/png" href="http://localhost:4000/FHIR-Server-Docs/assets/siteMeta/fhir-icon3.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="http://localhost:4000/FHIR-Server-Docs/assets/siteMeta/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:4000/FHIR-Server-Docs/assets/siteMeta/fhir-icon3.png">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:4000/FHIR-Server-Docs/assets/siteMeta/fhir-icon-16.png">
+<link rel="manifest" href="http://localhost:4000/FHIR-Server-Docs/assets/siteMeta/site.webmanifest">
+<link rel="mask-icon" href="http://localhost:4000/FHIR-Server-Docs/assets/siteMeta/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="theme-color" content="#000000">
+
+<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,600%7CIBM+Plex+Serif:300,400,500%7CIBM+Plex+Mono:300,400,500,700" rel="stylesheet">
+
+<!-- end custom head snippets -->
+
+    <link rel="shortcut icon" type="image/x-icon" href="/FHIR-Server-Docs/assets/favicon.ico" >
+    
+    <base target="_parent">
+
+  </head>
+  <script src="/FHIR-Server-Docs/assets/animation/lottie.js" type="text/javascript"></script>
+  <script src="/FHIR-Server-Docs/assets/js/connectors.js"></script>
+
+
+  
+  <body onload="" class="layout--single">
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+
+
+
+ <div id="masthead" class="masthead">
+  <div class="masthead__goToIBMCloud">
+ <!-- <div>
+    You are viewing the documentation for the container-native version of IBM FHIR Server.
+  </div> 
+   <a class="link" target="_self" href="https://www.ibm.com/products/fhir-server">Looking for the managed service on IBM Cloud? Click here.</a> -->
+</div> 
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="mastheadNav">
+
+      
+
+
+        <div class="mastheadTitle">
+          
+          <a class="site-title" href="/FHIR-Server-Docs/" target="_self"><span>IBM</span>&nbsp;FHIR Server</a>
+          <div class="viewOnIBMcom">
+            <a href="https://www.ibm.com/products/fhir-server" target="_blank">View product page</a>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+        <div class="mastheadControls">
+            <div class="menuScrollContainer">
+
+        
+
+                <ul id="visible-links" class="visible-links">
+                  
+                  
+                  
+
+                  
+
+
+
+
+                  
+                    <li class="masthead__menu-item " onclick="window.open('http://localhost:4000/FHIR-Server-Docs/','_self')">
+                      <a href="http://localhost:4000/FHIR-Server-Docs/" >Documentation</a>
+                    </li>
+                  
+
+                  
+                  
+                  
+
+                  
+
+
+
+
+                  
+                    <li class="masthead__menu-item active" onclick="window.open('http://localhost:4000/FHIR-Server-Docs/tutorials/','_self')">
+                      <a href="http://localhost:4000/FHIR-Server-Docs/tutorials/" >Tutorials</a>
+                    </li>
+                  
+
+                  
+                  
+                  
+
+                  
+
+
+
+
+                  
+                    <li class="masthead__menu-item " onclick="window.open('http://localhost:4000/FHIR-Server-Docs/faq/','_self')">
+                      <a href="http://localhost:4000/FHIR-Server-Docs/faq/" >FAQ</a>
+                    </li>
+                  
+
+                  
+                  
+                  
+
+                  
+
+
+
+
+                  
+                    <li class="masthead__menu-item " onclick="window.open('http://localhost:4000/FHIR-Server-Docs/support/','_self')">
+                      <a href="http://localhost:4000/FHIR-Server-Docs/support/" >Support</a>
+                    </li>
+                  
+
+                  
+                  
+                  
+
+                  
+
+
+
+
+                  
+                    <li class="masthead__menu-item " onclick="window.open('http://localhost:4000/FHIR-Server-Docs/search/','_self')">
+                      <button aria-label="Search Button" role="button" id="searchButton" class="search__toggle " type="button" name="search Button">
+                        <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                          <path
+                            d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z"
+                            transform="translate(-.01)"></path>
+                        </svg>
+                      </button>
+                    </li>
+                  
+
+                  
+                </ul>
+        
+
+      </div>
+    </div>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div id="initial-content" class="initial-content" role="main">
+
+
+
+
+
+<main id="main" class="mainContainer" role="main">
+    
+
+    
+  
+
+
+
+  <div class="mainContent">
+    
+      
+      
+      <div class="subMenu backMenu"> 
+    <a href="
+        http://localhost:4000/FHIR-Server-Docs/tutorials
+      "><img alt="" role="presentation" src="http://localhost:4000/FHIR-Server-Docs/assets/images/icons/previous.svg" />
+        Back to tutorials
+      </a>
+  </div>
+    
+    <div id="pageContainer" class="page" itemscope itemtype="http://schema.org/CreativeWork">
+      <div class="page__inner-wrap  ">
+        
+        <section class="page__content pageSpacing" itemprop="text">
+          
+          <header>
+            <h1 id="page-title" class="page__title" itemprop="headline">
+              Monitoring cluster health with Prometheus
+</h1>
+            
+          </header>
+          
+          <div class="content">
+            <p>You can configure Event Streams to allow JMX scrapers to export Kafka broker JMX metrics to external applications. This tutorial  details how to deploy a Prometheus JMX exporter into your IBM Cloud Private cluster and export Kafka JMX metrics to an external Prometheus system.</p>
+
+<h2 id="prequisites">Prequisites</h2>
+
+<ul>
+  <li>Ensure you have an Event Streams installation available. This tutorial is based on Event Streams version 2019.1.1.</li>
+  <li>When installing Event Streams, firstly ensure you select the <strong>Enable secure JMX connections</strong> check box in the <a href="../../2019.1.1/installing/configuring/#kafka-broker-settings"><strong>Kafka broker settings</strong></a>. This is required to ensure the Kafka brokers’ JMX ports are accessible to the Prometheus Exporter.</li>
+  <li>Ensure you have a <a href="https://prometheus.io/" target="_blank">Prometheus</a> server installed that has network access to your  cluster.</li>
+  <li>Ensure you have <a href="https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.2/manage_images/using_docker_cli.html" target="_blank">configured access to the Docker registry</a> from the machine you will be using to deploy the JMX exporter.</li>
+  <li>Ensure you have downloaded the <a href="https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_httpserver/" target="_blank">Prometheus JMX exporter httpserver jar file</a> to the machine you will be using to deploy the JMX exporter.</li>
+</ul>
+
+<h2 id="prometheus-jmx-exporter">Prometheus JMX exporter</h2>
+
+<p>The <a href="https://github.com/prometheus/jmx_exporter" target="_blank">Prometheus JMX exporter</a> can be run as a HTTP server which will provide an endpoint for the external Prometheus server to query for metrics data. In order to deploy to your  cluster, the JMX exporter needs to be packaged into a Kubernetes solution.</p>
+
+<p>Release-specific credentials for establishing the connection between the JMX exporter and the Kafka brokers are generated when Event Streams is installed with the <strong>Enable secure JMX connections</strong> selected. The credentials are stored in a Kubernetes secret inside the release namespace. See <a href="../../2019.1.1/security/secure-jmx-connections/#providing-configuration-values">secure JMX connections</a> for information about the secret contents.</p>
+
+<p>If you are deploying the JMX exporter in a different namesapce to your Event Streams installation, the secret must be copied to the required namespace.</p>
+
+<p><code class="language-plaintext highlighter-rouge">kubectl -n &lt;release-namespace&gt; get secret &lt;release-name&gt;-ibm-es-jmx-secret -o yaml --export | kubectl -n &lt;target-namespace&gt; create -f -</code></p>
+
+<p>That will create the secret <code class="language-plaintext highlighter-rouge">&lt;release-name&gt;-ibm-es-jmx-secret</code> in the target namespace, which can then be referenced in the <code class="language-plaintext highlighter-rouge">prometheus-exporter-&lt;broker-num&gt;.yaml</code> file later.</p>
+
+<h2 id="solution-overview">Solution overview</h2>
+
+<p>The tasks in this tutorial help achieve the following:</p>
+
+<ol>
+  <li>JMX exporter packaged into a Docker image, along with scripts to load configuration values and connection information.</li>
+  <li>Docker image pushed to the IBM Cloud Private cluster Docker registry into the namespace where the JMX exporter will be deployed.</li>
+  <li>Kubernetes pod specification created that exposes the configuration to the JMX exporter via environment variables and a ConfigMap.</li>
+  <li>Kubernetes ConfigMap containing the JMX exporter YAML configuration.</li>
+  <li>Kubernetes NodePort service to expose access to the JMX exporter for the external Prometheus server.</li>
+</ol>
+
+<h3 id="example-dockerfile">Example Dockerfile</h3>
+
+<p>Create a <code class="language-plaintext highlighter-rouge">Dockerfile</code> as follows.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FROM &lt;base OS Docker image with Java&gt;
+WORKDIR /opt/prometheus
+COPY jmx_prometheus_httpserver.jar .
+COPY run.sh .
+CMD ./run.sh
+</code></pre></div></div>
+
+<h3 id="example-runsh">Example run.sh</h3>
+
+<p>Create a <code class="language-plaintext highlighter-rouge">run.sh</code> script as follows. The script copies the YAML configuration and appends the release-specific connection values. It then runs the JMX exporter as an HTTP server.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cp /etc/jmx-config/config.yaml /tmp/jmx-config.yaml
+
+cat &lt;&lt; EOF &gt;&gt; /tmp/jmx-config.yaml
+
+ssl: true
+username: ${JMX_USER}
+password: ${JMX_PASSWORD}
+hostPort: ${JMX_HOST}:9999
+EOF
+
+java -Djavax.net.ssl.trustStore=/etc/jmx-secret/store.jks -Djavax.net.ssl.trustStorePassword=${STORE_PW} -jar jmx_prometheus_httpserver.jar 0.0.0.0:8080 /tmp/jmx-config.yaml
+</code></pre></div></div>
+<p>After you have created the file, ensure that it has execution permission by running <code class="language-plaintext highlighter-rouge">chmod 755 run.sh</code>.</p>
+
+<h3 id="building-the-docker-image">Building the Docker image</h3>
+
+<p>Build the Docker image as follows.</p>
+
+<ol>
+  <li>Ensure that the <code class="language-plaintext highlighter-rouge">Dockerfile</code>, <code class="language-plaintext highlighter-rouge">run.sh</code>, and <code class="language-plaintext highlighter-rouge">jmx-exporter.jar</code> are in the same directory.</li>
+  <li>Verify that your cluster IP is mapped to the <code class="language-plaintext highlighter-rouge">mycluster.icp</code> parameter by checking your system’s host file: <code class="language-plaintext highlighter-rouge">cat /etc/hosts</code><br />
+If it is not, change the value to your cluster by editing your system’s host file: <code class="language-plaintext highlighter-rouge">sudo vi /etc/hosts</code></li>
+  <li>Create a local directory, and copy the certificates file from the IBM Cloud Private master node to the local machine:<br />
+  <code class="language-plaintext highlighter-rouge">sudo mkdir -pv /etc/docker/certs.d/mycluster.icp\:8500/</code><br />
+  <code class="language-plaintext highlighter-rouge">sudo scp root@&lt;Cluster Master Host&gt;:/etc/docker/certs.d/mycluster.icp\:8500/ca.crt /etc/docker/certs.d/mycluster.icp\:8500/</code></li>
+  <li>On macOS only, run the following command:<br />
+<code class="language-plaintext highlighter-rouge">sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain /etc/docker/certs.d/mycluster.icp\:8500/ca.crt</code></li>
+  <li>Restart Docker.</li>
+  <li>Log in to Docker: <code class="language-plaintext highlighter-rouge">docker login mycluster.icp:8500</code></li>
+  <li>Create the image: <code class="language-plaintext highlighter-rouge">docker build -t &lt;remote-registry&gt;:&lt;remote-registry-port&gt;/&lt;target-namespace&gt;/&lt;image-name&gt;:&lt;image-version&gt; .</code></li>
+  <li>Push the image to your IBM Cloud Private cluster Docker registry: <code class="language-plaintext highlighter-rouge">docker push &lt;remote-registry&gt;:&lt;remote-registry-port&gt;/&lt;target-namespace&gt;/&lt;image-name&gt;:&lt;image-version&gt;</code></li>
+</ol>
+
+<h3 id="example-kubernetes-deployment-file">Example Kubernetes deployment file</h3>
+
+<p>Create and expose a JMX exporter for each Kafka broker. However, the configuration ConfigMap can be shared across each instance.</p>
+
+<ol>
+  <li>Copy the following into a file called <code class="language-plaintext highlighter-rouge">prometheus-config.yaml</code>:<br />
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+data:
+  config.yaml: |-
+    startDelaySeconds: 10
+    lowercaseOutputName: true
+    rules:
+      # The following rules match the Kafka MBeans in the jconsole order
+      # Broker metrics
+    - pattern : kafka.server&lt;type=BrokerTopicMetrics, name=(BytesInPerSec|BytesOutPerSec)&gt;&lt;&gt;(Count)
+      name: kafka_server_BrokerTopicMetrics_$1_$2
+</code></pre></div>    </div>
+  </li>
+  <li>Create the ConfigMap in your IBM Cloud Private cluster with the following command:<br />
+<code class="language-plaintext highlighter-rouge">kubectl -n &lt;target-namespace&gt; apply -f prometheus-config.yaml</code></li>
+  <li>Copy the following into a file called <code class="language-plaintext highlighter-rouge">prometheus-exporter-&lt;broker-num&gt;.yaml</code><br />
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   
+apiVersion: v1
+kind: Pod
+metadata:
+    name: prometheus-export-broker-&lt;broker-num&gt;
+    labels:
+       app: prometheus-export-broker-&lt;broker-num&gt;
+spec:
+    containers:
+    - name: jmx-exporter
+      image: &lt;full name of docker image pushed to remote registry&gt;
+      volumeMounts:
+        - name: jmx-secret-volume
+          # mountPath must match path supplied to -Djavax.net.ssl.trustStore in run.sh
+          mountPath: /etc/jmx-secret
+        - name: config-volume
+          # mountPath must match path supplied to the cp command in run.sh
+          mountPath: /etc/jmx-config
+      ports:
+      - containerPort: 8080
+      env:
+      - name: JMX_USER
+        valueFrom:
+          secretKeyRef:
+            name: &lt;release-name&gt;-ibm-es-jmx-secret
+            key: jmx_username
+      - name: JMX_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: &lt;release-name&gt;-ibm-es-jmx-secret
+            key: jmx_password
+      - name: JMX_HOST
+        value: &lt;release-name&gt;-ibm-es-kafka-broker-svc-&lt;broker-num&gt;.&lt;release-namespace&gt;.svc
+      - name: STORE_PW
+        valueFrom:
+          secretKeyRef:
+            name: &lt;release-name&gt;-ibm-es-jmx-secret
+            key: trust_store_password
+    volumes:
+        - name: jmx-secret-volume
+          secret:
+            secretName: &lt;release-name&gt;-ibm-es-jmx-secret
+            items:
+            - key: truststore.jks
+              # Path must match the filename supplied to -Djavax.net.ssl.trustStore in run.sh
+              path: store.jks
+        - name: config-volume
+          configMap:
+             name: prometheus-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-svc-&lt;broker-num&gt;
+spec:
+  type: NodePort
+  selector:
+    app: prometheus-export-broker-&lt;broker-num&gt;
+  ports:
+  - port : 8080
+    protocol: TCP
+       
+</code></pre></div>    </div>
+  </li>
+  <li>Create the resources in your IBM Cloud Private cluster with the following command:<br />
+<code class="language-plaintext highlighter-rouge">kubectl -n &lt;target-namespace&gt; apply -f prometheus-exporter-&lt;broker-num&gt;.yaml</code>.</li>
+  <li>Repeat for the total number of Kafka brokers deployed in your Event Streams installation.</li>
+  <li>After the resources are created, find the <code class="language-plaintext highlighter-rouge">NodePort</code> by using the command <code class="language-plaintext highlighter-rouge">kubectl -n &lt;target-namespace&gt; get svc</code>. The <code class="language-plaintext highlighter-rouge">NodePort</code> is listed for the service <code class="language-plaintext highlighter-rouge">prometheus-svc-&lt;broker-num&gt;</code>. The connection to be supplied to your external Prometheus as static scrape target in the Prometheus configuration file is the url <code class="language-plaintext highlighter-rouge">&lt;cluster name/IP&gt;:&lt;node-port&gt;</code></li>
+</ol>
+
+<h3 id="troubleshooting">Troubleshooting</h3>
+
+<p>If metrics are not appearing in your external Prometheus, check the logs for the Prometheus agent with the following command:</p>
+
+<p><code class="language-plaintext highlighter-rouge">kubectl -n &lt;target-namespace&gt; get logs prometheus-export-broker-&lt;broker-num&gt;</code></p>
+
+          </div>
+
+
+          
+        </section>
+
+        <aside class="sidebar__right ">
+          
+          <div class="fixedSidebar">
+            <nav class="toc">
+              <ul class="toc__menu">
+  <li><a href="#prequisites">Prequisites</a></li>
+  <li><a href="#prometheus-jmx-exporter">Prometheus JMX exporter</a></li>
+  <li><a href="#solution-overview">Solution overview</a>
+    <ul>
+      <li><a href="#example-dockerfile">Example Dockerfile</a></li>
+      <li><a href="#example-runsh">Example run.sh</a></li>
+      <li><a href="#building-the-docker-image">Building the Docker image</a></li>
+      <li><a href="#example-kubernetes-deployment-file">Example Kubernetes deployment file</a></li>
+      <li><a href="#troubleshooting">Troubleshooting</a></li>
+    </ul>
+  </li>
+</ul>
+            </nav>
+          </div>
+          
+        </aside>
+
+
+      </div>
+      <div class="pageEnd">
+        
+      </div>
+    </div>
+
+
+  </div> <!-- Main content -->
+
+</main></div>
+
+
+    
+      <div class="page__footer">
+          <footer>
+            <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+
+            
+<div class="page__footer-copyright"><a href="https://www.ibm.com/privacy/us/en/" rel="nofollow" target="_blank">Privacy Policy</a>  &nbsp;© Copyright IBM Corporation 2020</br>
+  Released under the <a href="https://www.apache.org/licenses/LICENSE-2.0" rel="nofollow" target="_blank">Apache License v2.0</a></div>
+
+          </footer>
+      </div>      
+    
+
+
+    
+  <script src="/FHIR-Server-Docs/assets/js/main.min.js"></script>
+  <!-- <script src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script> -->
+
+
+
+
+
+
+<script src="/FHIR-Server-Docs/assets/js/design.js"></script>
+
+
+
+
+
+<script src="/FHIR-Server-Docs/assets/js/lunr/lunr.min.js"></script>
+<script src="/FHIR-Server-Docs/assets/js/lunr/lunr-store.js"></script>
+<script src="/FHIR-Server-Docs/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+
+    
+
+    
+  </body>
+</html>

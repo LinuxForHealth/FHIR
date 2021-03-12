@@ -1,0 +1,12 @@
+{% assign connectorsBySortTitle = include.sortedItems | group_by: 'sortTitle' %}
+
+
+{% for sortTitle in connectorsBySortTitle %}
+  {% assign connectorsSortedByTitle = "" | split: ',' %}
+  {% for title in sortTitle.items %}
+    {% assign connectorsSortedByTitle = connectorsSortedByTitle | push: title %}
+  {% endfor %}
+  {% include cardDirectionSort.html sortedItems=connectorsSortedByTitle %}
+
+{% endfor %}
+

@@ -1,0 +1,44 @@
+
+.sidebar__right {
+  display: none;
+  // flex-basis: 20rem;
+  flex-basis: 10%;
+  min-width: 16rem;
+  flex-shrink: 0;
+  flex-grow: 0;
+  padding-right: 1.5rem;
+  animation: slideup .4s cubic-bezier(0.43, 0.01, 0.01, 0.99) both, fadein .2s both;
+  animation-delay: 0.075s;
+  .fixedSidebar {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 2rem;
+    padding-top: 1rem;
+  }
+}
+
+@include breakpoint(1400px) {
+  .sidebar__right {
+    display: block;
+  }
+}
+
+
+.splash {
+  flex-grow: 1;
+}
+
+
+
+@media only screen and (max-width: 640px) {
+  .sidebar {
+    top: 5.5rem;
+  }
+  body {
+    &.sidebarOpen {
+      // .subMenu {
+      //   top: 5.5rem;
+      // }
+    }
+  }
+}

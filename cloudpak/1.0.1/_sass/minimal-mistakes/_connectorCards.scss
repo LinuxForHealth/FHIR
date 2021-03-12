@@ -1,0 +1,372 @@
+$cardSpacing: 1.5rem;
+
+.card {
+  border: none;
+  position: relative;
+  cursor: pointer;
+  padding: 0;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background: transparent;
+  background: white;
+}
+
+.cards {
+  flex-grow: 1;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 6rem;
+}
+
+.cardsContainer {
+  display: flex;
+  flex-basis: 100%;
+  max-width: 120rem;
+  flex-wrap: wrap;
+  transition: $panelTransition;
+  margin-right: -1px;
+
+  &.filterActive {
+    .buttonContainer {
+      &.hide {
+        display: none;
+      }
+    }
+  }
+
+  .connectorsEmptyState {
+    height: 16rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    &.hide {
+      display: none;
+    }
+
+    p {
+      margin-bottom: .5rem;
+    }
+
+    button {
+      margin-top: 0rem;
+      font-size: .875rem;
+      color: $brand-01;
+      font-weight: 600;
+      background: transparent;
+      border: none;
+    }
+  }
+}
+
+.diagram {
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+  flex-shrink: 0;
+  flex-grow: 0;
+  flex-basis: 6.5em;
+  margin-left: $cardSpacing;
+  margin-top: $cardSpacing;
+  margin-bottom: 2rem;
+  pointer-events: none;
+  &.sink {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+  }
+
+  .image {
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2.5rem;
+    flex-basis: 2.5rem;
+    flex-shrink: 0;
+    flex-grow: 0;
+
+    &.placeholder {
+      background-color: #f3f7fb;
+      svg {
+        margin-top: 0.25rem;
+      }
+    }
+  }
+
+  .arrow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-basis: 2rem;
+    flex-shrink: 0;
+    flex-grow: 0;
+    display: none;
+  }
+
+  .kafka {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-basis: 2rem;
+    flex-shrink: 0;
+    flex-grow: 0;
+    display: none;
+
+    img {
+      height: 2rem;
+      width: 2rem;
+    }
+  }
+}
+
+.content {
+  display: flex;
+  flex-grow: 1;
+  margin-left: $cardSpacing;
+  margin-bottom: $cardSpacing;
+
+  .titleContent {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+    margin-right: 1rem;
+    margin-top: auto;
+    padding-top: 1rem;
+
+    h3 {
+      margin: 0;
+      padding: 0;
+      margin-bottom: .25rem;
+      font-size: 1.2rem;
+      font-weight: 400;
+      letter-spacing: 0;
+
+      text-align: left;
+
+      max-width: 30em;
+      max-width: 14em;
+    }
+
+    .pillContainer {
+      display: flex;
+      margin-left: -.5rem;
+      margin-top: 1rem;
+
+      .pill {
+        background-color: #c9deff;
+        color: #054ada;
+        margin-right: .5rem;
+
+        p {
+          color: inherit;
+        }
+
+        &.support {
+          background-color: #d5d9e0;
+          color: #13171a;
+        }
+      }
+    }
+
+
+
+    p {
+      margin: 0;
+      padding: 0;
+      margin-bottom: .25rem;
+      text-align: left;
+      font-size: .75rem;
+      color: #565656;
+      letter-spacing: 0.32px;
+      text-align: left;
+      margin-top: 0.25rem;
+    }
+  }
+
+  .supportLevel {
+    align-self: center;
+    position: absolute;
+    top: .25rem;
+    right: .25rem;
+
+    &.ibm {
+      p.secondary {
+        font-size: .75rem;
+      }
+
+      fill: #10642a;
+    }
+  }
+}
+
+.cardContent {
+  width: 100%;
+  transition: 0.1s;
+  z-index: 1;
+  display: flex;
+  padding: 2rem 3rem;
+  padding: 0;
+  transition: 0.1s;
+  height: 100%;
+}
+
+
+
+@mixin cardColumn() {
+  .cardContent {
+    flex-direction: column;
+
+    .diagram {
+      flex-basis: auto;
+    }
+  }
+}
+
+@mixin cardRow() {
+  .cardContent {
+    flex-direction: row;
+
+    .diagram {
+      flex-basis: 6.5rem;
+    }
+  }
+}
+
+.buttonContainer {
+  flex-basis: 25%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  cursor: pointer;
+  border-right: 1px solid $background;
+  border-bottom: 1px solid $background;
+
+  &.active {
+    .card {
+      box-shadow: 4px 0px 0px $brand-01 inset;
+      background-color: #e5e5e5;
+    }
+
+    .button {
+      opacity: 1 !important;
+      transform: scale(1) !important;
+    }
+  }
+
+  &:hover {
+    .card {
+      background-color: #e5e5e5;
+    }
+    .button {
+      opacity: 1 !important;
+    }
+  }
+
+  &:hover {
+    .button {
+      opacity: 1;
+
+      .image {
+        height: 1.5rem;
+        width: 1.5rem;
+      }
+    }
+  }
+
+  .button {
+    border: none;
+    background-color: transparent;
+    height: 2rem;
+    width: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 0rem;
+    bottom: 0rem;
+    padding: 0;
+    opacity: 0;
+    cursor: pointer;
+
+    .image {
+      position: relative;
+      height: 1.5rem;
+      width: 1.5rem;
+    }
+
+    img {
+      height: 1.25rem;
+      width: 1.25rem;
+    }
+
+    &:hover {
+      background-color: white;
+    }
+  }
+
+  @include cardColumn();
+}
+
+@media only screen and (max-width: 2800px) {
+  .buttonContainer {
+    flex-basis: 33.333333333%;
+  }
+}
+
+@media only screen and (max-width: 2000px) {
+  .buttonContainer {
+    flex-basis: 50%;
+  }
+}
+
+@media only screen and (max-width: 1312px) {
+  .buttonContainer {
+    flex-basis: 100%;
+  }
+}
+
+@media only screen and (max-width: 1148px) {
+  .buttonContainer {
+    flex-basis: 33.3333333%;
+  }
+
+  .buttonContainer {
+    margin-left: 0;
+  }
+
+  .tagControl {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media only screen and (max-width: 820px) {
+  .buttonContainer {
+    flex-basis: 50%;
+  }
+
+  .card {
+    flex-basis: auto;
+  }
+}
+
+
+@media only screen and (max-width: 620px) {
+  .cardsContainer {
+    flex-direction: column;
+  }
+
+  .card {
+    flex-basis: auto;
+  }
+
+  .buttonContainer {
+    flex-basis: auto;
+    flex-grow: 0;
+    flex-shrink: 0;
+  }
+}

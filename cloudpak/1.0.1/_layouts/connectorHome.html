@@ -1,0 +1,188 @@
+---
+layout: connectorsAll
+---
+
+<div id="mainConnectorContent" class="mainConnectorContent
+{% for category in page.direction %}
+  {{ category }}    
+{% endfor %}
+">
+
+  {% assign pageDocumentation = null %}
+
+  {% if page.connectorID %}
+    {%- assign pageConnectorID = page.connectorID -%}
+  {% else %}
+    {%- assign pageConnectorID = page.forID -%}
+  {% endif %}
+
+  {% for page in site.connectors %}
+    {% if pageConnectorID == page.connectorID %}
+      {% if page.documentationURL %}
+        {% assign pageDocumentation = page.documentationURL %}
+      {% endif %}
+      {%- comment -%} if the first page needs to be description, uncomment the following{%- endcomment -%}
+      {%- comment -%}{% assign connectorPages = connectorPages | push: page %}{%- endcomment -%}
+      <div class="contentArea">
+        <div class="heroArea">
+          <div class="loadingStatus">
+            {% include loadingSpinner.html theme="dark" %}
+          </div>
+          <div class="heroFadeArea">
+            {% if page.support contains "community" %}
+              <div class="IBMSupported">
+                <div class="pill supportLevel large">
+                  <div class="text">
+                    <p class="secondary">Support is provided by the community</p>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+            {% if page.support contains "IBM" %}
+              <div class="IBMSupported">
+                <div class="pill supportLevel ibm large">
+                  <div class="checkbox">
+                    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                      <path class="cls-1"
+                        d="M11.29,4.67,6.75,9.21l-2-2L3.29,8.58,6.75,12l6-6ZM8,16a8,8,0,1,1,8-8A8,8,0,0,1,8,16Z"></path>
+                    </svg>
+                  </div>
+                  <div class="text">
+                    <p class="secondary">Support is provided by IBM</p>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+            <div class="heroContent">
+              <div class="imageContainer {{ page.direction }}">
+                <div class="diagram">
+                  <div class="image">
+                    {% if page.icon %}
+                      <object aria-label="Connector {{ page.title }} icon" alt="Connector {{ page.title }} icon"
+                      data="{{ site.url }}{{ site.baseurl }}/assets/images/icons/{{page.icon}}"
+                      type="image/svg+xml">Connector {{ page.title }} icon</object>
+                    {% else %}
+                      {% assign gradientID = page.iconGradient %}
+                      {% assign initialString = page.iconInitial %}
+                      <div class="image placeholder">
+                        {% include placeHolderIcon.svg gradient=gradientID initialMaskString=initialString %}
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+                <div class="sinkSourceArrow" id="sinkSourceArrow">
+                  <img alt="connector arrow" src="{{ site.url }}{{ site.baseurl }}/assets/images/icons/connector_sink.svg"
+                    onload="loadSinkSourceAnimation();">
+                </div>
+                <script>
+                </script>
+                <div class="diagram kafka">
+                  <div class="image">
+                    <img alt="event streams icon"
+                      src="{{ site.url }}{{ site.baseurl }}/assets/images/icons/kafkaLight.svg">
+                  </div>
+                </div>
+              </div>
+              {% for category in page.direction %}
+                {% if category == "source" %}
+                  {%- assign definition = "produces data into Kafka or Event Streams" -%}
+                {% else %}
+                  {%- assign definition = "consumes data from Kafka or Event Streams" -%}
+                {% endif %}
+                <h4>{{ category | capitalize }} connector: <a class="light">{{ definition }}</a></h4>
+              {% endfor %}
+              <h1>{{ page.title }}</h1>
+              <div class="description">
+                {{ page.excerpt }}
+              </div>
+            </div>
+            <div class="ctaContainer">
+              {% for button in page.download %}
+                {% if button.url  %}
+                  {% capture url %}{{ button.url }}{% endcapture %}
+                {% else if button.file %}
+                  {% capture url %}{{ site.url }}{{ site.baseurl }}/assets/connectorDownloads/{{ button.file }}{% endcapture %}
+                {% endif %}
+                <button class="button primary large" onclick="window.open('{{ url }}','_blank')">
+                  {% case button.type %}
+                    {% when 'GitHub' %}
+                      <div class="image">
+                        <img alt="github icon" src="{{ site.url }}{{ site.baseurl }}/assets/images/icons/github.svg" />
+                      </div>
+                      <div class="content">
+                        <p class="heading-four">Source code</p>
+                        <!-- <p class="secondary">Available from GitHub</p> -->
+                      </div>
+                    {% when 'Download' %}
+                      <div class="image">
+                        <img alt="download icon" src="{{ site.url }}{{ site.baseurl }}/assets/images/icons/download_white.svg" />
+                      </div>
+                      <div class="content">
+                        <p class="heading-four">Get connector</p>
+                        <!-- <p class="secondary">Download</p> -->
+                      </div>
+                  {% endcase %}
+                </button>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <!-- get all pages under folder for the connector -->
+  {% assign connectorPages2 =  site.connectors | where:'forID', pageConnectorID %}
+  {% assign connectorPagesSorted2 =  connectorPages2 | sort: 'order' %}
+
+  <div id="subPageContent" class="subPageContent">
+    <div class="subPageTabs">
+      {%- for subPage in connectorPagesSorted2 -%}
+        {% assign isActive = "" %}
+        {% if page.url == subPage.url %}
+          {% assign isActive = "active" %}
+        {% endif %}
+        <button class="tab {{ isActive }}" role="button" tabindex="0" aria-label="Open sub page {{ subPage.slug }}"
+          onclick="subPageChange(this,'{{ site.url }}{{ site.baseurl }}{{ subPage.url }}')">
+
+          {% if subPage.connectorID %}
+            Description
+          {% else %}
+            {{ subPage.title }}
+          {% endif %}
+        </button>
+      {%- endfor -%}
+    </div>
+    <div id="subPages" class="subPages">
+      <div id="thePageContent" class="thePageContent">
+        <div class="content">
+          {{ page.content }}
+        </div>
+        {% for section in page.sections %}
+          <div class="section">
+            <div class="sectionHead">
+                <h3>{{ section.title }}</h3>
+            </div>
+            <div class="sectionType">
+              <h4>{{ section.type }}</h4>
+              <div class="sectionDescription">
+                  <p>{{ section.description }}</p>
+                  {% for button in section.buttons %}
+                      <button class="button link" onclick="window.open('{{button.url}}')">{{ button.text }}</button>
+                  {% endfor %}
+                  <!-- {% if section.url %}
+                  <div class="url">
+                    <button onclick="window.open('{{section.button.url}}')">{{ section.url }}</button>
+                  </div>    
+                  {% endif %} -->
+                </div> 
+            </div>       
+          </div>
+        {% endfor %}
+      </div>
+      <div class="subPageLoading">
+        {% include loadingSpinner.html %}
+      </div>
+    </div>
+  </div>
+</div>
