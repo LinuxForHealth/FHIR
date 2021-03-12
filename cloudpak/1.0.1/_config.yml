@@ -17,7 +17,7 @@ name                     : &name "IBM" # &name is a YAML anchor which can be *re
 description              : &description "FHIR Server Documents"
 url                      : "https://hguzha.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "/FHIR/cloudpak/1.0.1" # the subpath of your site, e.g. "/blog"
-repository               : "FHIR"
+repository               : "FHIR/cloudpak/1.0.1"
 relative_permalinks      : false
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 # breadcrumbs            : false # true, false (default)
