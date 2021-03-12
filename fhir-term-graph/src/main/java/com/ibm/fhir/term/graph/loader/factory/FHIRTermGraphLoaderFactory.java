@@ -19,7 +19,7 @@ import com.ibm.fhir.term.graph.loader.impl.UMLSTermGraphLoader;
  */
 public class FHIRTermGraphLoaderFactory {
     /**
-     * Create {@link FHIRTermGraphLoader} instance using the provided type and options map
+     * Create {@link FHIRTermGraphLoader} instance using the provided type and options map.
      *
      * @param type
      *     the type

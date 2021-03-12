@@ -19,7 +19,7 @@ public final class FHIRTermGraphFactory {
     private FHIRTermGraphFactory() { }
 
     /**
-     * Create a {@link FHIRTermGraph} instance using the given configuration properties file
+     * Create a {@link FHIRTermGraph} instance using the given configuration properties file.
      *
      * @param propFileName
      *     the configuration properties file
@@ -35,7 +35,7 @@ public final class FHIRTermGraphFactory {
     }
 
     /**
-     * Create a {@link FHIRTermGraph} instance using the given configuration object
+     * Create a {@link FHIRTermGraph} instance using the given configuration object.
      *
      * @param configuration
      *     the configuration object

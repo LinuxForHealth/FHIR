@@ -24,7 +24,7 @@ public interface FHIRTermGraph {
     public static final String IS_A = "isa";
 
     /**
-     * Get the configuration used to create this {@link FHIRTermGraph}
+     * Get the configuration used to create this {@link FHIRTermGraph}.
      *
      * @return
      *     the configuration
@@ -32,7 +32,7 @@ public interface FHIRTermGraph {
     Configuration configuration();
 
     /**
-     * Get the underlying {@link JanusGraph} instance behind this {@link FHIRTermGraph}
+     * Get the underlying {@link JanusGraph} instance behind this {@link FHIRTermGraph}.
      *
      * @return
      *     the {@link JanusGraph} instance
@@ -40,7 +40,7 @@ public interface FHIRTermGraph {
     JanusGraph getJanusGraph();
 
     /**
-     * Get the graph traversal source associated with the underlying {@link JanusGraph} instance
+     * Get the graph traversal source associated with the underlying {@link JanusGraph} instance.
      *
      * @return
      *     the graph traversal source
@@ -48,7 +48,7 @@ public interface FHIRTermGraph {
     GraphTraversalSource traversal();
 
     /**
-     * Query the indexing backend using the <a href="https://lucene.apache.org/core/2_9_4/queryparsersyntax.html">Lucene query parser syntax</a>
+     * Query the indexing backend using the <a href="https://lucene.apache.org/core/2_9_4/queryparsersyntax.html">Lucene query parser syntax</a>.
      *
      * @param query
      *     the query
@@ -61,7 +61,7 @@ public interface FHIRTermGraph {
 
     /**
      * Query the indexing backend using the <a href="https://lucene.apache.org/core/2_9_4/queryparsersyntax.html">Lucene query parser syntax</a>
-     * and the provided limit and offset
+     * and the provided limit and offset.
      *
      * @param query
      *     the query
@@ -75,17 +75,17 @@ public interface FHIRTermGraph {
     Stream<Result<JanusGraphVertex>> indexQuery(String query, int limit, int offset);
 
     /**
-     * Close the graph and its underlying resources
+     * Close the graph and its underlying resources.
      */
     void close();
 
     /**
-     * Drop the graph
+     * Drop the graph.
      */
     void drop();
 
     /**
-     * Drop all vertices and edges from the graph
+     * Drop all vertices and edges from the graph.
      */
     void dropAllVertices();
 }

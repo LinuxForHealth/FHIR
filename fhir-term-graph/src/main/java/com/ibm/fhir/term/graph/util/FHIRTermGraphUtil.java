@@ -33,7 +33,7 @@ public class FHIRTermGraphUtil {
     private FHIRTermGraphUtil() { }
 
     /**
-     * Convert the given element value to an object value that is compatible with the graph schema
+     * Convert the given element value to an object value that is compatible with the graph schema.
      *
      * @param value
      *     the element value
@@ -63,7 +63,7 @@ public class FHIRTermGraphUtil {
     }
 
     /**
-     * Normalize the string by making it case and accent insensitive
+     * Normalize the string by making it case and accent insensitive.
      *
      * @param value
      *     the string value to normalized
@@ -78,7 +78,9 @@ public class FHIRTermGraphUtil {
     }
 
     /**
-     * Sets the root logger level for the logback classic root logger
+     * Sets the root logger level for the logback classic root logger. See:
+     * <a href="https://docs.janusgraph.org/basics/common-questions/#debug-level-logging-slows-execution">JanusGraph common questions</a>
+     * for more information.
      *
      * @param level
      *     the level
@@ -89,7 +91,7 @@ public class FHIRTermGraphUtil {
     }
 
     /**
-     * Convert the {@link DateTime} value to a Long value that is compatible with the graph schema
+     * Convert the {@link DateTime} value to a Long value that is compatible with the graph schema.
      *
      * @param dateTime
      *     the dateTime value

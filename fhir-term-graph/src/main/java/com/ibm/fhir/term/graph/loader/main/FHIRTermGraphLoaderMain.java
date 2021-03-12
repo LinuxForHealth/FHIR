@@ -21,6 +21,9 @@ import org.apache.commons.cli.Options;
 import com.ibm.fhir.term.graph.loader.FHIRTermGraphLoader;
 import com.ibm.fhir.term.graph.loader.factory.FHIRTermGraphLoaderFactory;
 
+/*
+ * Main command line entry point for term graph loaders
+ */
 public class FHIRTermGraphLoaderMain {
     public static void main(String[] args) throws Exception {
         Options options = null;

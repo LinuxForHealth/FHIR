@@ -50,17 +50,17 @@ public interface FHIRTermGraphLoader {
     }
 
     /**
-     * Load the {@link FHIRTermGraph}
+     * Load the {@link FHIRTermGraph}.
      */
     void load();
 
     /**
-     * Close the loader and its underlying resources
+     * Close the loader and its underlying resources.
      */
     void close();
 
     /**
-     * Get the options used to create this {@link FHIRTermGraphLoader}
+     * Get the options used to create this {@link FHIRTermGraphLoader}.
      *
      * @return
      *     the options
@@ -68,7 +68,7 @@ public interface FHIRTermGraphLoader {
     Map<String, String> options();
 
     /**
-     * Get the underlying {@link FHIRTermGraph} instance
+     * Get the underlying {@link FHIRTermGraph} instance.
      *
      * @return
      *     the {@link FHIRTermGraph} instance
