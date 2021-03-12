@@ -1349,7 +1349,7 @@ The Bulk Data web application writes the exported FHIR resources to an IBM Cloud
 }
 ```
 
-Each tenant's configuration may define multiple storageProviders. The default is assumed, unless specified with the `X-FHIR-BULKDATA-PROVIDER` and `X-FHIR-BULKDATA-OUTCOME`. Each tenant's configuration may mix the different providers, however each provider is only of a single type. For instance, `minio` is `aws-s3` and `default` is `file`. Note, type `http` is only applicable to `$import` operations. Export is only supported with s3 and file.
+Each tenant's configuration may define multiple storageProviders. The default is assumed, unless specified with the `X-FHIR-BULKDATA-PROVIDER` and `X-FHIR-BULKDATA-PROVIDER-OUTCOME`. Each tenant's configuration may mix the different providers, however each provider is only of a single type. For instance, `minio` is `aws-s3` and `default` is `file`. Note, type `http` is only applicable to `$import` operations. Export is only supported with s3 and file.
 
 To use Amazon S3 bucket for exporting, please set `accessKeyId` to S3 access key, and set `secretAccessKey` to the S3 secret key, and the auth type to `hmac`. 
 
