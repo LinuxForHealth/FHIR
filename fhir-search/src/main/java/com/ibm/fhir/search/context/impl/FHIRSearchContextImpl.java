@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,7 @@ import java.util.List;
 
 import com.ibm.fhir.core.context.impl.FHIRPagingContextImpl;
 import com.ibm.fhir.search.SummaryValueSet;
+import com.ibm.fhir.search.TotalValueSet;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.parameters.InclusionParameter;
 import com.ibm.fhir.search.parameters.QueryParameter;
@@ -24,7 +25,8 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
     private List<InclusionParameter> includeParameters = new ArrayList<>();
     private List<InclusionParameter> revIncludeParameters = new ArrayList<>();
     private List<String> elementsParameters = null;
-    private SummaryValueSet summaryParameter = null; 
+    private SummaryValueSet summaryParameter = null;
+    private TotalValueSet totalParameter = null;
 
     public FHIRSearchContextImpl() {
         searchParameters = new ArrayList<>();
@@ -99,15 +101,6 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
         return this.getElementsParameters() != null;
     }
 
-    /*
-     * issue 49: Added toString to enable easier debugging.
-     */
-    @Override
-    public String toString() {
-        return "FHIRSearchContextImpl [searchParameters=" + searchParameters + ", sortParameters=" + sortParameters + ", includeParameters=" + includeParameters
-                + ", revIncludeParameters=" + revIncludeParameters + ", elementsParameters=" + elementsParameters + "]";
-    }
-
     @Override
     public boolean hasSummaryParameter() {
         return this.summaryParameter != null;
@@ -121,7 +114,21 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
     @Override
     public void setSummaryParameter(SummaryValueSet summary) {
         this.summaryParameter = summary;
+    }
 
+    @Override
+    public boolean hasTotalParameter() {
+        return this.totalParameter != null;
+    }
+
+    @Override
+    public TotalValueSet getTotalParameter() {
+        return this.totalParameter;
+    }
+
+    @Override
+    public void setTotalParameter(TotalValueSet total) {
+        this.totalParameter = total;
     }
 
     @Override
@@ -132,6 +139,31 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
     @Override
     public void setSearchResourceTypes(List<String> searchResourceTypes) {
         this.searchResourceTypes = searchResourceTypes;
+    }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("FHIRSearchContextImpl [searchResourceTypes=");
+        builder.append(searchResourceTypes);
+        builder.append(", searchParameters=");
+        builder.append(searchParameters);
+        builder.append(", sortParameters=");
+        builder.append(sortParameters);
+        builder.append(", includeParameters=");
+        builder.append(includeParameters);
+        builder.append(", revIncludeParameters=");
+        builder.append(revIncludeParameters);
+        builder.append(", elementsParameters=");
+        builder.append(elementsParameters);
+        builder.append(", summaryParameter=");
+        builder.append(summaryParameter);
+        builder.append(", totalParameter=");
+        builder.append(totalParameter);
+        builder.append("]");
+        return builder.toString();
     }
 }

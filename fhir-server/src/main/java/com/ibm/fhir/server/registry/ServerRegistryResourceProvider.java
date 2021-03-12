@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -189,7 +189,7 @@ public class ServerRegistryResourceProvider implements FHIRRegistryResourceProvi
             MultiResourceResult<Resource> result = persistence.search(context, resourceType);
 
             if (result.isSuccess()) {
-                List<FHIRRegistryResource> registryResources = new ArrayList<>(searchContext.getTotalCount());
+                List<FHIRRegistryResource> registryResources = new ArrayList<>(searchContext.getTotalCount() != null ? searchContext.getTotalCount() : 0);
                 registryResources.addAll(result.getResource().stream()
                         .map(ServerRegistryResource::from)
                         .filter(Objects::nonNull)

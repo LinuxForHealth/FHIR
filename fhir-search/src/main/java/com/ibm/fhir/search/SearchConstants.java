@@ -84,6 +84,9 @@ public class SearchConstants {
     // _summary
     public static final String SUMMARY = "_summary";
 
+    // _total
+    public static final String TOTAL = "_total";
+
     // _type
     public static final String RESOURCE_TYPE = "_type";
 
@@ -95,7 +98,7 @@ public class SearchConstants {
 
     // set as unmodifiable
     public static final List<String> SEARCH_RESULT_PARAMETER_NAMES =
-            Collections.unmodifiableList(Arrays.asList(SORT, COUNT, PAGE, INCLUDE, REVINCLUDE, ELEMENTS, SUMMARY));
+            Collections.unmodifiableList(Arrays.asList(SORT, COUNT, PAGE, INCLUDE, REVINCLUDE, ELEMENTS, SUMMARY, TOTAL));
 
     // set as unmodifiable
     public static final String LAST_UPDATED = "_lastUpdated";
@@ -104,7 +107,7 @@ public class SearchConstants {
 
     // set as unmodifiable
     public static final List<String> SEARCH_SINGLETON_PARAMETER_NAMES =
-            Collections.unmodifiableList(Arrays.asList(SORT, COUNT, PAGE, SUMMARY, ELEMENTS, RESOURCE_TYPE));
+            Collections.unmodifiableList(Arrays.asList(SORT, COUNT, PAGE, SUMMARY, TOTAL, ELEMENTS, RESOURCE_TYPE));
 
     // Empty Query String
     public static final String EMPTY_QUERY_STRING = "";

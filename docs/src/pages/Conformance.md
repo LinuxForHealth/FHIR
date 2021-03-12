@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2021-02-16 12:00:00 -0400
+date:   2021-03-12 12:00:00 -0400
 permalink: /conformance/
 ---
 
@@ -138,16 +138,19 @@ Finally, the specification defines a set of "Search result parameters" for contr
 * `_revinclude`
 * `_summary`
 * `_elements`
+* `_total`
 
-The `_sort`, `_count`, `_summary`, and `_elements` parameters may each only be specified once in a search. In `lenient` mode, only the first occurrence of each of these parameters is used; additional occurrences are ignored.
+The `_sort`, `_count`, `_summary`, `_elements`, and `_total` parameters may each only be specified once in a search. In `lenient` mode, only the first occurrence of each of these parameters is used; additional occurrences are ignored.
 
 The `_count` parameter can be used to request up to 1000 resources matching the search criteria. An attempt to exceed this `_count` limit will not be honored and returned resources will be capped at 1000. Any associated `_include` or `_revinclude` resources are not considered in the `_count` limit.
 
 The `_include` and `_revinclude` parameters can be used to return resources related to the primary search results, in order to reduce the overall network delay of repeated retrievals of related resources. The number of `_include` or `_revinclude` resources returned for a single page of primary search results will be limited to 1000. If the number of included resources to be returned exceeds 1000, the search will fail. For example, if the primary search result is one resource and the number of included resources is 1000, the search will succeed. However, if the primary search result is one resource and the number of included resources is 1001, the search will fail. It is possible that an included resource could be referenced by more than one primary search result. Duplicate included resources will be removed before search results are returned, so a resource will not appear in the search results more than once. A resource is considered a duplicate if a primary resource or another included resource with the same logical ID and version already exists in the search results.
 
+The `_sort` and `_total` parameters cannot be used in combination with the `_include` or `_revinclude` parameter.
+
 The `:iterate` modifier is not supported for the `_include` parameter (or any other).
 
-The `_total`, `_contained`, and `_containedType` parameters are not supported at this time.
+The `_contained` and `_containedType` parameters are not supported at this time.
 
 ### Custom search parameters
 Custom search parameters are search parameters that are not defined in the FHIR R4 specification, but are configured for search on the IBM FHIR Server. You can configure custom parameters for either extension elements or for elements that are defined in the specification but without a corresponding search parameter.

@@ -146,6 +146,7 @@ import com.ibm.fhir.persistence.util.LogicalIdentityProvider;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SummaryValueSet;
+import com.ibm.fhir.search.TotalValueSet;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.date.DateTimeHandler;
@@ -624,7 +625,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         MultiResourceResult.Builder<Resource> resultBuilder = new MultiResourceResult.Builder<>();
         FHIRSearchContext searchContext = context.getSearchContext();
         JDBCQueryBuilder queryBuilder;
-        int searchResultCount = 0;
+        Integer searchResultCount = null;
         SqlQueryData countQuery;
         SqlQueryData query;
 
@@ -639,106 +640,111 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             checkModifiers(searchContext, isSystemLevelSearch(resourceType));
             queryBuilder = new JDBCQueryBuilder(parameterDao, resourceDao, connectionStrategy.getQueryHints(), identityCache);
 
-            countQuery = queryBuilder.buildCountQuery(resourceType, searchContext);
-            if (countQuery != null) {
-                searchResultCount = resourceDao.searchCount(countQuery);
-                if (log.isLoggable(Level.FINE)) {
-                    log.fine("searchResultCount = " + searchResultCount);
+            // Skip count query if _total=none
+            if (!TotalValueSet.NONE.equals(searchContext.getTotalParameter())) {
+                countQuery = queryBuilder.buildCountQuery(resourceType, searchContext);
+                if (countQuery != null) {
+                    searchResultCount = resourceDao.searchCount(countQuery);
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine("searchResultCount = " + searchResultCount);
+                    }
+                    searchContext.setTotalCount(searchResultCount);
                 }
-                searchContext.setTotalCount(searchResultCount);
+            }
 
-                List<OperationOutcome.Issue> issues = validatePagingContext(searchContext);
-                if (!issues.isEmpty()) {
-                    resultBuilder.outcome(OperationOutcome.builder()
-                        .issue(issues)
-                        .build());
-                    if (!searchContext.isLenient()) {
-                        return resultBuilder.success(false).build();
+            List<OperationOutcome.Issue> issues = validatePagingContext(searchContext);
+            if (!issues.isEmpty()) {
+                resultBuilder.outcome(OperationOutcome.builder()
+                    .issue(issues)
+                    .build());
+                if (!searchContext.isLenient()) {
+                    return resultBuilder.success(false).build();
+                }
+            }
+
+            // For _summary=count or pageSize == 0, we return only the count
+            if ((searchResultCount == null || searchResultCount > 0)
+                    && !SummaryValueSet.COUNT.equals(searchContext.getSummaryParameter())
+                    && searchContext.getPageSize() > 0) {
+                query = queryBuilder.buildQuery(resourceType, searchContext);
+
+                List<String> elements = searchContext.getElementsParameters();
+
+                // Only consider _summary if _elements parameter is empty
+                if (elements == null && searchContext.hasSummaryParameter()) {
+                    Set<String> summaryElements = null;
+                    SummaryValueSet summary = searchContext.getSummaryParameter();
+
+                    switch (summary) {
+                    case TRUE:
+                        summaryElements = JsonSupport.getSummaryElementNames(resourceType);
+                        break;
+                    case TEXT:
+                        summaryElements = SearchUtil.getSummaryTextElementNames(resourceType);
+                        break;
+                    case DATA:
+                        summaryElements = JsonSupport.getSummaryDataElementNames(resourceType);
+                        break;
+                    default:
+                        break;
+                    }
+
+                    if (summaryElements != null) {
+                        elements = new ArrayList<>();
+                        elements.addAll(summaryElements);
                     }
                 }
 
-                // For _summary=count or pageSize == 0, we return only the count
-                if (searchResultCount > 0
-                        && !SummaryValueSet.COUNT.equals(searchContext.getSummaryParameter())
-                        && searchContext.getPageSize() > 0) {
-                    query = queryBuilder.buildQuery(resourceType, searchContext);
-
-                    List<String> elements = searchContext.getElementsParameters();
-
-                    //Only consider _summary if _elements parameter is empty
-                    if (elements == null && searchContext.hasSummaryParameter()) {
-                        Set<String> summaryElements = null;
-                        SummaryValueSet summary = searchContext.getSummaryParameter();
-
-                        switch (summary) {
-                        case TRUE:
-                            summaryElements = JsonSupport.getSummaryElementNames(resourceType);
-                            break;
-                        case TEXT:
-                            summaryElements = SearchUtil.getSummaryTextElementNames(resourceType);
-                            break;
-                        case DATA:
-                            summaryElements = JsonSupport.getSummaryDataElementNames(resourceType);
-                            break;
-                        default:
-                            break;
-                        }
-
-                        if (summaryElements != null) {
-                            elements = new ArrayList<>();
-                            elements.addAll(summaryElements);
-                        }
-                    }
-
-                    if (searchContext.hasSortParameters()) {
-                        // Sorting results of a system-level search is limited, and has a different logic path
-                        // than other sorted searches.
-                        if (resourceType.equals(Resource.class)) {
-                           resources = this.convertResourceDTOList(resourceDao.search(query), resourceType, elements);
-                        } else {
-                            resources = this.buildSortedFhirResources(resourceDao, context, resourceType, resourceDao.searchForIds(query), elements);
-                        }
+                if (searchContext.hasSortParameters()) {
+                    // Sorting results of a system-level search is limited, and has a different logic path
+                    // than other sorted searches.
+                    if (resourceType.equals(Resource.class)) {
+                        resources = this.convertResourceDTOList(resourceDao.search(query), resourceType, elements);
                     } else {
-                        List<com.ibm.fhir.persistence.jdbc.dto.Resource> resultsList = resourceDao.search(query);
-                        List<com.ibm.fhir.persistence.jdbc.dto.Resource> matchResultList = resultsList;
-                        List<com.ibm.fhir.persistence.jdbc.dto.Resource> includeResultList = new ArrayList<>();
+                        resources = this.buildSortedFhirResources(resourceDao, context, resourceType, resourceDao.searchForIds(query), elements);
+                    }
+                    searchContext.setMatchCount(resources.size());
+                } else {
+                    List<com.ibm.fhir.persistence.jdbc.dto.Resource> resultsList = resourceDao.search(query);
+                    List<com.ibm.fhir.persistence.jdbc.dto.Resource> matchResultList = resultsList;
+                    List<com.ibm.fhir.persistence.jdbc.dto.Resource> includeResultList = new ArrayList<>();
 
-                        // Check if _include or _revinclude search. If so, remove duplicates from 'include' resources
-                        // (duplicates of both 'match' and 'include' resources) and make sure _elements processing
-                        // is not done for 'include' resources.
-                        if (searchContext.hasIncludeParameters() || searchContext.hasRevIncludeParameters()) {
-                            // Calculate 'match' results count
-                            int pageSize = searchContext.getPageSize();
-                            int offset = (searchContext.getPageNumber() - 1) * pageSize;
-                            int matchResultCount = pageSize;
-                            if (searchResultCount < offset + pageSize) {
-                                matchResultCount = searchResultCount - offset;
+                    // Check if _include or _revinclude search. If so, remove duplicates from 'include' resources
+                    // (duplicates of both 'match' and 'include' resources) and make sure _elements processing
+                    // is not done for 'include' resources.
+                    if (searchContext.hasIncludeParameters() || searchContext.hasRevIncludeParameters()) {
+                        // Calculate 'match' results count
+                        int pageSize = searchContext.getPageSize();
+                        int offset = (searchContext.getPageNumber() - 1) * pageSize;
+                        int matchResultCount = pageSize;
+                        if (searchResultCount < offset + pageSize) {
+                            matchResultCount = searchResultCount - offset;
+                        }
+
+                        // Split results list into 'match' list and 'include' list. The results have been sorted
+                        // by the underlying query to return the 'match' results before the 'include' results.
+                        if (resultsList.size() > matchResultCount) {
+                            matchResultList = resultsList.subList(0, matchResultCount);
+
+                            // Remove duplicates from 'include' list
+                            Set<Long> resultIds = new HashSet<>();
+                            for (com.ibm.fhir.persistence.jdbc.dto.Resource resource : matchResultList) {
+                                resultIds.add(resource.getId());
                             }
-
-                            // Split results list into 'match' list and 'include' list. The results have been sorted
-                            // by the underlying query to return the 'match' results before the 'include' results.
-                            if (resultsList.size() > matchResultCount) {
-                                matchResultList = resultsList.subList(0, matchResultCount);
-
-                                // Remove duplicates from 'include' list
-                                Set<Long> resultIds = new HashSet<>();
-                                for (com.ibm.fhir.persistence.jdbc.dto.Resource resource : matchResultList) {
+                            for (int i=matchResultCount; i<resultsList.size(); ++i) {
+                                com.ibm.fhir.persistence.jdbc.dto.Resource resource = resultsList.get(i);
+                                if (!resultIds.contains(resource.getId())) {
                                     resultIds.add(resource.getId());
-                                }
-                                for (int i=matchResultCount; i<resultsList.size(); ++i) {
-                                    com.ibm.fhir.persistence.jdbc.dto.Resource resource = resultsList.get(i);
-                                    if (!resultIds.contains(resource.getId())) {
-                                        resultIds.add(resource.getId());
-                                        includeResultList.add(resource);
-                                    }
+                                    includeResultList.add(resource);
                                 }
                             }
                         }
-
-                        // Convert resources
-                        resources = this.convertResourceDTOList(matchResultList, resourceType, elements);
-                        resources.addAll(this.convertResourceDTOList(includeResultList, resourceType, null));
                     }
+                    searchContext.setMatchCount(matchResultList.size());
+
+                    // Convert resources
+                    resources = this.convertResourceDTOList(matchResultList, resourceType, elements);
+                    resources.addAll(this.convertResourceDTOList(includeResultList, resourceType, null));
                 }
             }
 
@@ -1066,11 +1072,16 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     .text(string("Invalid page size: " + pageSize))
                     .build())
                 .build());
-            pagingContext.setPageSize(10);
+            // Pick a valid default if lenient
+            if (pagingContext.isLenient()) {
+                pagingContext.setPageSize(10);
+            }
         }
 
-        int lastPageNumber = Math.max(((pagingContext.getTotalCount() + pageSize - 1) / pageSize), 1);
-        pagingContext.setLastPageNumber(lastPageNumber);
+        if (pagingContext.getTotalCount() != null) {
+            pagingContext.setLastPageNumber(Math.max(((pagingContext.getTotalCount() + pageSize - 1) / pageSize), 1));
+        }
+        int lastPageNumber = pagingContext.getLastPageNumber();
 
         int pageNumber = pagingContext.getPageNumber();
         if (pageNumber < 1) {
@@ -1081,7 +1092,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     .text(string("Invalid page number: " + pageNumber))
                     .build())
                 .build());
-            pagingContext.setPageNumber(1);
+            // Pick a valid default if lenient
+            if (pagingContext.isLenient()) {
+                pagingContext.setPageNumber(1);
+            }
         } else if (pageNumber > lastPageNumber) {
             issues.add(OperationOutcome.Issue.builder()
                 .severity(pagingContext.isLenient() ? IssueSeverity.WARNING : IssueSeverity.ERROR)
@@ -1090,7 +1104,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     .text(string("Specified page number: " + pageNumber + " is greater than last page number: " + lastPageNumber))
                     .build())
                 .build());
-            pagingContext.setPageNumber(lastPageNumber);
+            // Set it to the last page if lenient
+            if (pagingContext.isLenient()) {
+                pagingContext.setPageNumber(lastPageNumber);
+            }
         }
 
         return issues;

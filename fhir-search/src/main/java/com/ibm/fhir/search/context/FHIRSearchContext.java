@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,17 +10,18 @@ import java.util.List;
 
 import com.ibm.fhir.core.context.FHIRPagingContext;
 import com.ibm.fhir.search.SummaryValueSet;
+import com.ibm.fhir.search.TotalValueSet;
 import com.ibm.fhir.search.parameters.InclusionParameter;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.SortParameter;
 
 /**
- * Interface for FHIR Search Context. 
+ * Interface for FHIR Search Context.
  */
 public interface FHIRSearchContext extends FHIRPagingContext {
-    
+
     List<String> getSearchResourceTypes();
-    
+
     void setSearchResourceTypes(List<String> searchResourceTypes);
 
     List<QueryParameter> getSearchParameters();
@@ -43,7 +44,7 @@ public interface FHIRSearchContext extends FHIRPagingContext {
 
     /**
      * Get the list of element names requested to be included in the returned resources.
-     * 
+     *
      * @return a list of strings or null to indicate that there is currently no elements filter associated with the
      *         search
      */
@@ -65,16 +66,15 @@ public interface FHIRSearchContext extends FHIRPagingContext {
      * @param elementToInclude
      */
     void addElementsParameter(String elementToInclude);
-    
-    
+
     /**
      * @return true when the summary parameter is not null
      */
     boolean hasSummaryParameter();
-    
+
     /**
      * Get the summary parameter.
-     * 
+     *
      * @return the value of the summary parameter
      */
     SummaryValueSet getSummaryParameter();
@@ -83,4 +83,22 @@ public interface FHIRSearchContext extends FHIRPagingContext {
      * Set the value of the summary parameter.
      */
     void setSummaryParameter(SummaryValueSet summary);
+
+    /**
+     * @return true when the total parameter is not null
+     */
+    boolean hasTotalParameter();
+
+    /**
+     * Get the total parameter.
+     *
+     * @return the value of the total parameter
+     */
+    TotalValueSet getTotalParameter();
+
+    /**
+     * Set the value of the total parameter.
+     */
+    void setTotalParameter(TotalValueSet total);
+
 }
