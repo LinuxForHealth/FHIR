@@ -108,12 +108,6 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
 
         GraphTraversal<Vertex, Vertex> g = vertices();
 
-        /*
-        // TODO: make the time limit configurable
-        GraphTraversal<Vertex, Vertex> g = vertices().timeLimit(30000L);
-        TimeLimitStep timeLimitStep = (TimeLimitStep) g.asAdmin().getEndStep();
-        */
-
         boolean caseSensitive = isCaseSensitive(codeSystem);
 
         for (Filter filter : filters) {
@@ -232,20 +226,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
             }
         }
 
-        /*
-        whereCodeSystem(g, codeSystem)
-            .elementMap()
-            .toStream()
-            .forEach(elementMap -> concepts.add(createConcept(elementMap)));
-        */
-
         g.hasLabel("Concept").elementMap().toStream().forEach(elementMap -> concepts.add(createConcept(elementMap)));
-
-        /*
-        if (timeLimitStep.getTimedOut()) {
-            // TODO: throw new timed out exception
-        }
-        */
 
         return concepts;
     }

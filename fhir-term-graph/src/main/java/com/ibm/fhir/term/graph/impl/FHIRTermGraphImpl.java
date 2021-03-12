@@ -82,7 +82,6 @@ public class FHIRTermGraphImpl implements FHIRTermGraph {
 
         PropertyKey valueBoolean = management.makePropertyKey("valueBoolean").dataType(Boolean.class).make();
         PropertyKey valueCode = management.makePropertyKey("valueCode").dataType(String.class).make();
-//      PropertyKey valueDateTime = management.makePropertyKey("valueDateTime").dataType(String.class).make();
         PropertyKey valueDateTimeLong = management.makePropertyKey("valueDateTimeLong").dataType(Long.class).make();
         PropertyKey valueDecimal = management.makePropertyKey("valueDecimal").dataType(Double.class).make();
         PropertyKey valueInteger = management.makePropertyKey("valueInteger").dataType(Integer.class).make();
@@ -119,7 +118,6 @@ public class FHIRTermGraphImpl implements FHIRTermGraph {
 
         management.buildIndex("byValueBoolean", Vertex.class).addKey(valueBoolean).buildCompositeIndex();
         management.buildIndex("byValueCode", Vertex.class).addKey(valueCode).buildCompositeIndex();
-//      management.buildIndex("byValueDateTime", Vertex.class).addKey(valueDateTime).buildCompositeIndex();
         management.buildIndex("byValueDateTimeLong", Vertex.class).addKey(valueDateTimeLong).buildCompositeIndex();
         management.buildIndex("byValueDecimal", Vertex.class).addKey(valueDecimal).buildCompositeIndex();
         management.buildIndex("byValueInteger", Vertex.class).addKey(valueInteger).buildCompositeIndex();

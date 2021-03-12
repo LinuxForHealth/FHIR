@@ -29,7 +29,6 @@ public class FHIRTermGraphTest {
         GraphTraversalSource g = graph.traversal();
 
         g.V().drop().iterate();
-//      g.E().drop().iterate();
 
         Vertex v1 = g.addV("Concept").property("code", "a").next();
         System.out.println(v1.id());
@@ -111,7 +110,6 @@ public class FHIRTermGraphTest {
         System.out.println("");
 
         // Not descendants of 'b'
-
         GraphTraversal<Vertex, Vertex> graphTraversal = g.V();
 
         graphTraversal = graphTraversal.timeLimit(100L);
