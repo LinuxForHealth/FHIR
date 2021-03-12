@@ -16,8 +16,8 @@ title_separator          : "-"
 name                     : &name "IBM" # &name is a YAML anchor which can be *referenced later
 description              : &description "FHIR Server Documents"
 url                      : "https://hguzha.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
-baseurl                  : "/FHIR-Server-Docs" # the subpath of your site, e.g. "/blog"
-repository               : "FHIR-Server-Docs"
+baseurl                  : "/FHIR/cloudpak/1.0.1" # the subpath of your site, e.g. "/blog"
+repository               : "FHIR"
 relative_permalinks      : false
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
 # breadcrumbs            : false # true, false (default)
