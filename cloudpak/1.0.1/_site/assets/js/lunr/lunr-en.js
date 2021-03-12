@@ -144,7 +144,7 @@ function searchResults(theSearchInput) {
             structure += '</div>'
           }
         });
-        structure += '<div class="ctaArea"><img alt="" role="presentation" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/next.svg" /></div>'
+        structure += '<div class="ctaArea"><img alt="" role="presentation" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/next.svg" /></div>'
         structure += '</div>'
         structure += '</div>'
       }

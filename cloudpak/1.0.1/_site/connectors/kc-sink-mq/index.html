@@ -2,13 +2,13 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>IBM MQ - FHIR Server Docs</title>
+<!-- begin _includes/seo.html --><title>IBM MQ - IBM FHIR Server - 1.0.1</title>
 <meta name="description" content="Kafka Connect sink connector for IBM MQ for copying data from Apache Kafka into IBM MQ. Supports connecting to MQ in both bindings and client mode.">
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
-<meta property="og:site_name" content="FHIR Server Docs">
-<meta property="og:url" content="http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/kc-sink-mq/index" />
+<meta property="og:site_name" content="IBM FHIR Server - 1.0.1">
+<meta property="og:url" content="https://prb112.github.io/cloudpak/1.0.1/connectors/kc-sink-mq/index" />
 <meta property="og:title" content="Connectors | IBM MQ" />
 <meta property="og:description" content="Kafka Connect sink connector for IBM MQ for copying data from Apache Kafka into IBM MQ. Supports connecting to MQ in both bindings and client mode." />
 
@@ -22,19 +22,19 @@
 
 
 
-  <meta property="og:image" content="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/siteMeta/appIcon_og_fb.png">
-  <meta name="twitter:image" content="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/siteMeta/appIcon_og_square.png">
+  <meta property="og:image" content="https://prb112.github.iocloudpak/1.0.1/assets/siteMeta/appIcon_og_fb.png">
+  <meta name="twitter:image" content="https://prb112.github.iocloudpak/1.0.1/assets/siteMeta/appIcon_og_square.png">
 
 
 
-  <meta property="article:published_time" content="2021-03-12T18:02:58+00:00">
+  <meta property="article:published_time" content="2021-03-12T15:27:30-05:00">
 
 
 
 
 
 
-<link rel="canonical" href="http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/kc-sink-mq/index">
+<link rel="canonical" href="https://prb112.github.io/cloudpak/1.0.1/connectors/kc-sink-mq/index">
 
 
 
@@ -44,8 +44,8 @@
     {
       "@context": "http://schema.org",
       "@type": "Organization",
-      "url": "http://localhost:4000/FHIR/cloudpak/1.0.1",
-      "logo": "http://localhost:4000/FHIR/cloudpak/1.0.1/assets/siteMeta/appIcon_og_fb.png"
+      "url": "https://prb112.github.iocloudpak/1.0.1",
+      "logo": "https://prb112.github.io/cloudpak/1.0.1/assets/siteMeta/appIcon_og_fb.png"
     }
   </script>
 
@@ -56,7 +56,7 @@
       "@context": "http://schema.org",
       "@type": "Person",
       "name": "IBM",
-      "url": "http://localhost:4000/FHIR/cloudpak/1.0.1",
+      "url": "https://prb112.github.iocloudpak/1.0.1",
       "sameAs": null
     }
   </script>
@@ -70,7 +70,7 @@
 <!-- end _includes/seo.html -->
 
 
-<link href="/FHIR/cloudpak/1.0.1/feed.xml" type="application/atom+xml" rel="alternate" title="FHIR Server Docs Feed">
+<link href="/cloudpak/1.0.1/feed.xml" type="application/atom+xml" rel="alternate" title="IBM FHIR Server - 1.0.1 Feed">
 
 <!-- http://t.co/dKP3o1e -->
 <meta name="HandheldFriendly" content="True">
@@ -82,10 +82,10 @@
 </script>
 
 <!-- For all browsers -->
-<link rel="stylesheet" href="/FHIR/cloudpak/1.0.1/assets/css/main.css">
+<link rel="stylesheet" href="/cloudpak/1.0.1/assets/css/main.css">
 
 
-<link rel="stylesheet" href="/FHIR/cloudpak/1.0.1/assets/css/swiper.css">
+<link rel="stylesheet" href="/cloudpak/1.0.1/assets/css/swiper.css">
 
 
 <!--[if lte IE 9]>
@@ -108,14 +108,14 @@
 
 <!-- insert favicons. use https://realfavicongenerator.net/ -->
 
-<link rel="shortcut icon" type="image/png" href="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/siteMeta/favicon.ico"/>
-<link rel="shortcut icon" type="image/png" href="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/siteMeta/fhir-icon-16.png"/>
-<link rel="shortcut icon" type="image/png" href="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/siteMeta/fhir-icon3.png"/>
-<link rel="apple-touch-icon" sizes="180x180" href="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/siteMeta/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/siteMeta/fhir-icon3.png">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/siteMeta/fhir-icon-16.png">
-<link rel="manifest" href="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/siteMeta/site.webmanifest">
-<link rel="mask-icon" href="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/siteMeta/safari-pinned-tab.svg" color="#5bbad5">
+<link rel="shortcut icon" type="image/png" href="https://prb112.github.iocloudpak/1.0.1/assets/siteMeta/favicon.ico"/>
+<link rel="shortcut icon" type="image/png" href="https://prb112.github.iocloudpak/1.0.1/assets/siteMeta/fhir-icon-16.png"/>
+<link rel="shortcut icon" type="image/png" href="https://prb112.github.iocloudpak/1.0.1/assets/siteMeta/fhir-icon3.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="https://prb112.github.iocloudpak/1.0.1/assets/siteMeta/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://prb112.github.iocloudpak/1.0.1/assets/siteMeta/fhir-icon3.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://prb112.github.iocloudpak/1.0.1/assets/siteMeta/fhir-icon-16.png">
+<link rel="manifest" href="https://prb112.github.iocloudpak/1.0.1/assets/siteMeta/site.webmanifest">
+<link rel="mask-icon" href="https://prb112.github.iocloudpak/1.0.1/assets/siteMeta/safari-pinned-tab.svg" color="#5bbad5">
 <meta name="msapplication-TileColor" content="#000000">
 <meta name="theme-color" content="#000000">
 
@@ -123,13 +123,13 @@
 
 <!-- end custom head snippets -->
 
-    <link rel="shortcut icon" type="image/x-icon" href="/FHIR/cloudpak/1.0.1/assets/favicon.ico" >
+    <link rel="shortcut icon" type="image/x-icon" href="cloudpak/1.0.1/assets/favicon.ico" >
     
     <base target="_parent">
 
   </head>
-  <script src="/FHIR/cloudpak/1.0.1/assets/animation/lottie.js" type="text/javascript"></script>
-  <script src="/FHIR/cloudpak/1.0.1/assets/js/connectors.js"></script>
+  <script src="/cloudpak/1.0.1/assets/animation/lottie.js" type="text/javascript"></script>
+  <script src="/cloudpak/1.0.1/assets/js/connectors.js"></script>
 
 
   
@@ -160,7 +160,7 @@
 
         <div class="mastheadTitle">
           
-          <a class="site-title" href="/FHIR/cloudpak/1.0.1/" target="_self"><span>IBM</span>&nbsp;FHIR Server</a>
+          <a class="site-title" href="cloudpak/1.0.1/" target="_self"><span>IBM</span>&nbsp;FHIR Server</a>
           <div class="viewOnIBMcom">
             <a href="https://www.ibm.com/products/fhir-server" target="_blank">View product page</a>
           </div>
@@ -190,8 +190,8 @@
 
 
                   
-                    <li class="masthead__menu-item " onclick="window.open('http://localhost:4000/FHIR/cloudpak/1.0.1/','_self')">
-                      <a href="http://localhost:4000/FHIR/cloudpak/1.0.1/" >Documentation</a>
+                    <li class="masthead__menu-item " onclick="window.open('https://prb112.github.iocloudpak/1.0.1/','_self')">
+                      <a href="https://prb112.github.iocloudpak/1.0.1/" >Documentation</a>
                     </li>
                   
 
@@ -205,8 +205,8 @@
 
 
                   
-                    <li class="masthead__menu-item " onclick="window.open('http://localhost:4000/FHIR/cloudpak/1.0.1/tutorials/','_self')">
-                      <a href="http://localhost:4000/FHIR/cloudpak/1.0.1/tutorials/" >Tutorials</a>
+                    <li class="masthead__menu-item " onclick="window.open('https://prb112.github.iocloudpak/1.0.1/tutorials/','_self')">
+                      <a href="https://prb112.github.iocloudpak/1.0.1/tutorials/" >Tutorials</a>
                     </li>
                   
 
@@ -220,8 +220,8 @@
 
 
                   
-                    <li class="masthead__menu-item " onclick="window.open('http://localhost:4000/FHIR/cloudpak/1.0.1/faq/','_self')">
-                      <a href="http://localhost:4000/FHIR/cloudpak/1.0.1/faq/" >FAQ</a>
+                    <li class="masthead__menu-item " onclick="window.open('https://prb112.github.iocloudpak/1.0.1/faq/','_self')">
+                      <a href="https://prb112.github.iocloudpak/1.0.1/faq/" >FAQ</a>
                     </li>
                   
 
@@ -235,8 +235,8 @@
 
 
                   
-                    <li class="masthead__menu-item " onclick="window.open('http://localhost:4000/FHIR/cloudpak/1.0.1/support/','_self')">
-                      <a href="http://localhost:4000/FHIR/cloudpak/1.0.1/support/" >Support</a>
+                    <li class="masthead__menu-item " onclick="window.open('https://prb112.github.iocloudpak/1.0.1/support/','_self')">
+                      <a href="https://prb112.github.iocloudpak/1.0.1/support/" >Support</a>
                     </li>
                   
 
@@ -250,7 +250,7 @@
 
 
                   
-                    <li class="masthead__menu-item " onclick="window.open('http://localhost:4000/FHIR/cloudpak/1.0.1/search/','_self')">
+                    <li class="masthead__menu-item " onclick="window.open('https://prb112.github.iocloudpak/1.0.1/search/','_self')">
                       <button aria-label="Search Button" role="button" id="searchButton" class="search__toggle " type="button" name="search Button">
                         <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
                           <path
@@ -296,13 +296,13 @@
       </div>
       <div class="keyTasks">
         
-          <div class="task" role="link" tabindex="0" onclick="window.open('http://localhost:4000/FHIR/cloudpak/1.0.1/connecting/connectors/','_self')">
+          <div class="task" role="link" tabindex="0" onclick="window.open('https://prb112.github.iocloudpak/1.0.1/connecting/connectors/','_self')">
             <div class="title">
-              <h3><a tabindex="-1" href="http://localhost:4000/FHIR/cloudpak/1.0.1/connecting/connectors/">Find out more about Kafka Connect</a></h3>
+              <h3><a tabindex="-1" href="https://prb112.github.iocloudpak/1.0.1/connecting/connectors/">Find out more about Kafka Connect</a></h3>
             </div>
             <div class="progressIcon">
               <svg alt="Progress icon" class='icon'>
-                <use xlink:href='http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/next.svg#icon' />
+                <use xlink:href='https://prb112.github.iocloudpak/1.0.1/assets/images/icons/next.svg#icon' />
               </svg>
             </div>
           </div>
@@ -331,13 +331,13 @@
       </div>
       <div class="keyTasks">
         
-          <div class="task" role="link" tabindex="0" onclick="window.open('http://localhost:4000/FHIR/cloudpak/1.0.1/connecting/connectors/','_self')">
+          <div class="task" role="link" tabindex="0" onclick="window.open('https://prb112.github.iocloudpak/1.0.1/connecting/connectors/','_self')">
             <div class="title">
-              <h3><a tabindex="-1" href="http://localhost:4000/FHIR/cloudpak/1.0.1/connecting/connectors/">Find out more about Kafka Connect</a></h3>
+              <h3><a tabindex="-1" href="https://prb112.github.iocloudpak/1.0.1/connecting/connectors/">Find out more about Kafka Connect</a></h3>
             </div>
             <div class="progressIcon">
               <svg alt="Progress icon" class='icon'>
-                <use xlink:href='http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/next.svg#icon' />
+                <use xlink:href='https://prb112.github.iocloudpak/1.0.1/assets/images/icons/next.svg#icon' />
               </svg>
             </div>
           </div>
@@ -352,8 +352,8 @@
           <div class="tagControl">
   <div id="connectorsCategories" class="connectorsCategories all sink">
     <div class="collapseSplashChevronContainer">
-      <button role="link" tabindex="0" class="collapseSplashChevron" onclick="toggleSplash('http://localhost:4000/FHIR/cloudpak/1.0.1/connectors');">
-        <img alt="back arrow" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/previous.svg" />
+      <button role="link" tabindex="0" class="collapseSplashChevron" onclick="toggleSplash('https://prb112.github.iocloudpak/1.0.1/connectors');">
+        <img alt="back arrow" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/previous.svg" />
       </button>
     </div>
     <div class="menuItems">
@@ -364,7 +364,7 @@
           
           
           <button class="menuItem all" role="button"
-            onclick="filterCategories('all','http://localhost:4000/FHIR/cloudpak/1.0.1/connectors')" tabindex="0">
+            onclick="filterCategories('all','https://prb112.github.iocloudpak/1.0.1/connectors')" tabindex="0">
             <p class="">All (20)</p>
           </button>
         
@@ -372,7 +372,7 @@
           
           
           <button class="menuItem source" role="button"
-            onclick="filterCategories('source','http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/source')" tabindex="0">
+            onclick="filterCategories('source','https://prb112.github.iocloudpak/1.0.1/connectors/source')" tabindex="0">
             <p class="">Source (9)</p>
           </button>
         
@@ -380,7 +380,7 @@
           
           
           <button class="menuItem sink" role="button"
-            onclick="filterCategories('sink','http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/sink')" tabindex="0">
+            onclick="filterCategories('sink','https://prb112.github.iocloudpak/1.0.1/connectors/sink')" tabindex="0">
             <p class="">Sink (11)</p>
           </button>
         
@@ -388,7 +388,7 @@
       <div id="filterToggle" class="menuItem filterToggle">
         <div class="filterToggleContent">
           <button id="filterIcon" aria-label="toggle filter area" class="filterIcon" tabindex="0" role="link" onclick="toggleFilterArea()">
-            <img alt="" role="presentation" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/filter.svg" />
+            <img alt="" role="presentation" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/filter.svg" />
           </button>
           <div class="filterNotificationArea">
             <div class="filterNotification"></div>
@@ -866,7 +866,7 @@ sink
 
 ">
   <button role="button" aria-labelledBy="headingkc-sink-elastic" tabindex="0" id="kc-sink-elastic"
-    aria-label="Open connector Elasticsearch" class="card" onclick="connectorCard(this,'http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/kc-sink-elastic/installation');" >
+    aria-label="Open connector Elasticsearch" class="card" onclick="connectorCard(this,'https://prb112.github.iocloudpak/1.0.1/connectors/kc-sink-elastic/installation');" >
     <div class="cardContent">
       <div class="diagram sink">
         
@@ -947,7 +947,7 @@ sink
     
       <a class="button primary" href="https://github.com/ibm-messaging/kafka-connect-elastic-sink/releases/download/v1.0.1/kafka-connect-elastic-sink-1.0.1-jar-with-dependencies.jar" target="_blank" aria-label="Elasticsearch quick link ">
         <div class="image">
-          <img alt="Download Icon" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/download_blue.svg" />
+          <img alt="Download Icon" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/download_blue.svg" />
         </div>
       </a>          
       
@@ -998,7 +998,7 @@ source
 
 ">
   <button role="button" aria-labelledBy="headingkc-source-filestream" tabindex="0" id="kc-source-filestream"
-    aria-label="Open connector FileStream" class="card" onclick="connectorCard(this,'http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/kc-source-filestream/installation');" >
+    aria-label="Open connector FileStream" class="card" onclick="connectorCard(this,'https://prb112.github.iocloudpak/1.0.1/connectors/kc-source-filestream/installation');" >
     <div class="cardContent">
       <div class="diagram source">
         
@@ -1080,7 +1080,7 @@ source
       
         <a class="button primary" href="https://github.com/apache/kafka/tree/trunk/connect/file" target="_blank" aria-label="FileStream quick link ">
           <div class="image">
-            <img alt="Github Logo" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/github_dark.svg" />
+            <img alt="Github Logo" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/github_dark.svg" />
           </div>
         </a>
                   
@@ -1134,7 +1134,7 @@ sink
 
 ">
   <button role="button" aria-labelledBy="headingkc-sink-filestream" tabindex="0" id="kc-sink-filestream"
-    aria-label="Open connector FileStream" class="card" onclick="connectorCard(this,'http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/kc-sink-filestream/installation');" >
+    aria-label="Open connector FileStream" class="card" onclick="connectorCard(this,'https://prb112.github.iocloudpak/1.0.1/connectors/kc-sink-filestream/installation');" >
     <div class="cardContent">
       <div class="diagram sink">
         
@@ -1216,7 +1216,7 @@ sink
       
         <a class="button primary" href="https://github.com/apache/kafka/tree/trunk/connect/file" target="_blank" aria-label="FileStream quick link ">
           <div class="image">
-            <img alt="Github Logo" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/github_dark.svg" />
+            <img alt="Github Logo" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/github_dark.svg" />
           </div>
         </a>
                   
@@ -1270,13 +1270,13 @@ source
 
 ">
   <button role="button" aria-labelledBy="headingkc-source-mq" tabindex="0" id="kc-source-mq"
-    aria-label="Open connector IBM MQ" class="card" onclick="connectorCard(this,'http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/kc-source-mq/installation');" >
+    aria-label="Open connector IBM MQ" class="card" onclick="connectorCard(this,'https://prb112.github.iocloudpak/1.0.1/connectors/kc-source-mq/installation');" >
     <div class="cardContent">
       <div class="diagram source">
         
           <div class="image">
             <img tabindex="-1" aria-label="IBM MQ icon" alt="IBM MQ icon"
-              src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/appIcon_mq.svg"
+              src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/appIcon_mq.svg"
               type="image/svg+xml"/>
           </div>
         
@@ -1316,7 +1316,7 @@ source
     
       <a class="button primary" href="https://github.com/ibm-messaging/kafka-connect-mq-source/releases/download/v1.3.1/kafka-connect-mq-source-1.3.1-jar-with-dependencies.jar" target="_blank" aria-label="IBM MQ quick link ">
         <div class="image">
-          <img alt="Download Icon" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/download_blue.svg" />
+          <img alt="Download Icon" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/download_blue.svg" />
         </div>
       </a>          
       
@@ -1369,13 +1369,13 @@ sink
 
 ">
   <button role="button" aria-labelledBy="headingkc-sink-mq" tabindex="0" id="kc-sink-mq"
-    aria-label="Open connector IBM MQ" class="card" onclick="connectorCard(this,'http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/kc-sink-mq/installation');" >
+    aria-label="Open connector IBM MQ" class="card" onclick="connectorCard(this,'https://prb112.github.iocloudpak/1.0.1/connectors/kc-sink-mq/installation');" >
     <div class="cardContent">
       <div class="diagram sink">
         
           <div class="image">
             <img tabindex="-1" aria-label="IBM MQ icon" alt="IBM MQ icon"
-              src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/appIcon_mq.svg"
+              src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/appIcon_mq.svg"
               type="image/svg+xml"/>
           </div>
         
@@ -1415,7 +1415,7 @@ sink
     
       <a class="button primary" href="https://github.com/ibm-messaging/kafka-connect-mq-sink/releases/download/v1.3.1/kafka-connect-mq-sink-1.3.1-jar-with-dependencies.jar" target="_blank" aria-label="IBM MQ quick link ">
         <div class="image">
-          <img alt="Download Icon" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/download_blue.svg" />
+          <img alt="Download Icon" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/download_blue.svg" />
         </div>
       </a>          
       
@@ -1466,7 +1466,7 @@ source
 
 ">
   <button role="button" aria-labelledBy="headingkc-source-mysql" tabindex="0" id="kc-source-mysql"
-    aria-label="Open connector MySQL (Debezium)" class="card" onclick="connectorCard(this,'http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/kc-source-mysql/installation');" >
+    aria-label="Open connector MySQL (Debezium)" class="card" onclick="connectorCard(this,'https://prb112.github.iocloudpak/1.0.1/connectors/kc-source-mysql/installation');" >
     <div class="cardContent">
       <div class="diagram source">
         
@@ -1547,7 +1547,7 @@ source
     
       <a class="button primary" href="https://repo1.maven.org/maven2/io/debezium/debezium-connector-mysql/1.2.0.Final/debezium-connector-mysql-1.2.0.Final-plugin.tar.gz" target="_blank" aria-label="MySQL (Debezium) quick link ">
         <div class="image">
-          <img alt="Download Icon" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/download_blue.svg" />
+          <img alt="Download Icon" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/download_blue.svg" />
         </div>
       </a>          
       
@@ -1598,7 +1598,7 @@ source
 
 ">
   <button role="button" aria-labelledBy="headingkc-source-postgresql" tabindex="0" id="kc-source-postgresql"
-    aria-label="Open connector PostgreSQL (Debezium)" class="card" onclick="connectorCard(this,'http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/kc-source-postgresql/installation');" >
+    aria-label="Open connector PostgreSQL (Debezium)" class="card" onclick="connectorCard(this,'https://prb112.github.iocloudpak/1.0.1/connectors/kc-source-postgresql/installation');" >
     <div class="cardContent">
       <div class="diagram source">
         
@@ -1679,7 +1679,7 @@ source
     
       <a class="button primary" href="https://repo1.maven.org/maven2/io/debezium/debezium-connector-postgres/1.2.0.Final/debezium-connector-postgres-1.2.0.Final-plugin.tar.gz" target="_blank" aria-label="PostgreSQL (Debezium) quick link ">
         <div class="image">
-          <img alt="Download Icon" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/download_blue.svg" />
+          <img alt="Download Icon" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/download_blue.svg" />
         </div>
       </a>          
       
@@ -1730,7 +1730,7 @@ sink
 
 ">
   <button role="button" aria-labelledBy="headingkc-sink-arangodb" tabindex="0" id="kc-sink-arangodb"
-    aria-label="Open connector ArangoDB" class="card" onclick="connectorCard(this,'http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/kc-sink-arangodb/installation');" >
+    aria-label="Open connector ArangoDB" class="card" onclick="connectorCard(this,'https://prb112.github.iocloudpak/1.0.1/connectors/kc-sink-arangodb/installation');" >
     <div class="cardContent">
       <div class="diagram sink">
         
@@ -1800,7 +1800,7 @@ sink
       
         <a class="button primary" href="https://github.com/jaredpetersen/kafka-connect-arangodb" target="_blank" aria-label="ArangoDB quick link ">
           <div class="image">
-            <img alt="Github Logo" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/github_dark.svg" />
+            <img alt="Github Logo" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/github_dark.svg" />
           </div>
         </a>
                   
@@ -1854,13 +1854,13 @@ sink
 
 ">
   <button role="button" aria-labelledBy="headingkc-sink-cos" tabindex="0" id="kc-sink-cos"
-    aria-label="Open connector IBM Cloud Object Storage" class="card" onclick="connectorCard(this,'http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/kc-sink-cos/installation');" >
+    aria-label="Open connector IBM Cloud Object Storage" class="card" onclick="connectorCard(this,'https://prb112.github.iocloudpak/1.0.1/connectors/kc-sink-cos/installation');" >
     <div class="cardContent">
       <div class="diagram sink">
         
           <div class="image">
             <img tabindex="-1" aria-label="IBM Cloud Object Storage icon" alt="IBM Cloud Object Storage icon"
-              src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/objectCloudStorage.svg"
+              src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/objectCloudStorage.svg"
               type="image/svg+xml"/>
           </div>
         
@@ -1889,7 +1889,7 @@ sink
       
         <a class="button primary" href="https://github.com/ibm-messaging/kafka-connect-ibmcos-sink" target="_blank" aria-label="IBM Cloud Object Storage quick link ">
           <div class="image">
-            <img alt="Github Logo" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/github_dark.svg" />
+            <img alt="Github Logo" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/github_dark.svg" />
           </div>
         </a>
                   
@@ -1943,7 +1943,7 @@ source
 
 ">
   <button role="button" aria-labelledBy="headingkc-source-couchbase" tabindex="0" id="kc-source-couchbase"
-    aria-label="Open connector Couchbase" class="card" onclick="connectorCard(this,'http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/kc-source-couchbase/installation');" >
+    aria-label="Open connector Couchbase" class="card" onclick="connectorCard(this,'https://prb112.github.iocloudpak/1.0.1/connectors/kc-source-couchbase/installation');" >
     <div class="cardContent">
       <div class="diagram source">
         
@@ -2013,7 +2013,7 @@ source
       
         <a class="button primary" href="https://github.com/couchbase/kafka-connect-couchbase" target="_blank" aria-label="Couchbase quick link ">
           <div class="image">
-            <img alt="Github Logo" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/github_dark.svg" />
+            <img alt="Github Logo" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/github_dark.svg" />
           </div>
         </a>
                   
@@ -2067,7 +2067,7 @@ sink
 
 ">
   <button role="button" aria-labelledBy="headingkc-sink-couchbase" tabindex="0" id="kc-sink-couchbase"
-    aria-label="Open connector Couchbase" class="card" onclick="connectorCard(this,'http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/kc-sink-couchbase/installation');" >
+    aria-label="Open connector Couchbase" class="card" onclick="connectorCard(this,'https://prb112.github.iocloudpak/1.0.1/connectors/kc-sink-couchbase/installation');" >
     <div class="cardContent">
       <div class="diagram sink">
         
@@ -2137,7 +2137,7 @@ sink
       
         <a class="button primary" href="https://github.com/couchbase/kafka-connect-couchbase" target="_blank" aria-label="Couchbase quick link ">
           <div class="image">
-            <img alt="Github Logo" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/github_dark.svg" />
+            <img alt="Github Logo" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/github_dark.svg" />
           </div>
         </a>
                   
@@ -2191,7 +2191,7 @@ sink
 
 ">
   <button role="button" aria-labelledBy="headingkc-sink-http" tabindex="0" id="kc-sink-http"
-    aria-label="Open connector HTTP" class="card" onclick="connectorCard(this,'http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/kc-sink-http/installation');" >
+    aria-label="Open connector HTTP" class="card" onclick="connectorCard(this,'https://prb112.github.iocloudpak/1.0.1/connectors/kc-sink-http/installation');" >
     <div class="cardContent">
       <div class="diagram sink">
         
@@ -2261,7 +2261,7 @@ sink
       
         <a class="button primary" href="https://github.com/thomaskwscott/kafka-connect-http" target="_blank" aria-label="HTTP quick link ">
           <div class="image">
-            <img alt="Github Logo" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/github_dark.svg" />
+            <img alt="Github Logo" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/github_dark.svg" />
           </div>
         </a>
                   
@@ -2315,7 +2315,7 @@ sink
 
 ">
   <button role="button" aria-labelledBy="headingkc-sink-memcached" tabindex="0" id="kc-sink-memcached"
-    aria-label="Open connector Memcached" class="card" onclick="connectorCard(this,'http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/kc-sink-memcached/installation');" >
+    aria-label="Open connector Memcached" class="card" onclick="connectorCard(this,'https://prb112.github.iocloudpak/1.0.1/connectors/kc-sink-memcached/installation');" >
     <div class="cardContent">
       <div class="diagram sink">
         
@@ -2385,7 +2385,7 @@ sink
       
         <a class="button primary" href="https://github.com/jcustenborder/kafka-connect-memcached" target="_blank" aria-label="Memcached quick link ">
           <div class="image">
-            <img alt="Github Logo" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/github_dark.svg" />
+            <img alt="Github Logo" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/github_dark.svg" />
           </div>
         </a>
                   
@@ -2439,7 +2439,7 @@ source
 
 ">
   <button role="button" aria-labelledBy="headingkc-source-mongodbz" tabindex="0" id="kc-source-mongodbz"
-    aria-label="Open connector MongoDB (Debezium)" class="card" onclick="connectorCard(this,'http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/kc-source-mongodbz/installation');" >
+    aria-label="Open connector MongoDB (Debezium)" class="card" onclick="connectorCard(this,'https://prb112.github.iocloudpak/1.0.1/connectors/kc-source-mongodbz/installation');" >
     <div class="cardContent">
       <div class="diagram source">
         
@@ -2508,7 +2508,7 @@ source
     
       <a class="button primary" href="https://repo1.maven.org/maven2/io/debezium/debezium-connector-mongodb/1.2.0.Final/debezium-connector-mongodb-1.2.0.Final-plugin.tar.gz" target="_blank" aria-label="MongoDB (Debezium) quick link ">
         <div class="image">
-          <img alt="Download Icon" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/download_blue.svg" />
+          <img alt="Download Icon" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/download_blue.svg" />
         </div>
       </a>          
       
@@ -2559,7 +2559,7 @@ sink
 
 ">
   <button role="button" aria-labelledBy="headingkc-sink-mongodb" tabindex="0" id="kc-sink-mongodb"
-    aria-label="Open connector MongoDB" class="card" onclick="connectorCard(this,'http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/kc-sink-mongodb/installation');" >
+    aria-label="Open connector MongoDB" class="card" onclick="connectorCard(this,'https://prb112.github.iocloudpak/1.0.1/connectors/kc-sink-mongodb/installation');" >
     <div class="cardContent">
       <div class="diagram sink">
         
@@ -2629,7 +2629,7 @@ sink
       
         <a class="button primary" href="https://github.com/hpgrahsl/kafka-connect-mongodb" target="_blank" aria-label="MongoDB quick link ">
           <div class="image">
-            <img alt="Github Logo" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/github_dark.svg" />
+            <img alt="Github Logo" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/github_dark.svg" />
           </div>
         </a>
                   
@@ -2683,7 +2683,7 @@ sink
 
 ">
   <button role="button" aria-labelledBy="headingkc-sink-redis" tabindex="0" id="kc-sink-redis"
-    aria-label="Open connector Redis" class="card" onclick="connectorCard(this,'http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/kc-sink-redis/installation');" >
+    aria-label="Open connector Redis" class="card" onclick="connectorCard(this,'https://prb112.github.iocloudpak/1.0.1/connectors/kc-sink-redis/installation');" >
     <div class="cardContent">
       <div class="diagram sink">
         
@@ -2753,7 +2753,7 @@ sink
       
         <a class="button primary" href="https://github.com/jcustenborder/kafka-connect-redis" target="_blank" aria-label="Redis quick link ">
           <div class="image">
-            <img alt="Github Logo" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/github_dark.svg" />
+            <img alt="Github Logo" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/github_dark.svg" />
           </div>
         </a>
                   
@@ -2807,7 +2807,7 @@ sink
 
 ">
   <button role="button" aria-labelledBy="headingkc-sink-solr" tabindex="0" id="kc-sink-solr"
-    aria-label="Open connector Solr" class="card" onclick="connectorCard(this,'http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/kc-sink-solr/installation');" >
+    aria-label="Open connector Solr" class="card" onclick="connectorCard(this,'https://prb112.github.iocloudpak/1.0.1/connectors/kc-sink-solr/installation');" >
     <div class="cardContent">
       <div class="diagram sink">
         
@@ -2877,7 +2877,7 @@ sink
       
         <a class="button primary" href="https://github.com/bkatwal/kafka-solr-sink-connector" target="_blank" aria-label="Solr quick link ">
           <div class="image">
-            <img alt="Github Logo" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/github_dark.svg" />
+            <img alt="Github Logo" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/github_dark.svg" />
           </div>
         </a>
                   
@@ -2931,7 +2931,7 @@ source
 
 ">
   <button role="button" aria-labelledBy="headingkc-source-rss" tabindex="0" id="kc-source-rss"
-    aria-label="Open connector RSS" class="card" onclick="connectorCard(this,'http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/kc-source-rss/installation');" >
+    aria-label="Open connector RSS" class="card" onclick="connectorCard(this,'https://prb112.github.iocloudpak/1.0.1/connectors/kc-source-rss/installation');" >
     <div class="cardContent">
       <div class="diagram source">
         
@@ -3001,7 +3001,7 @@ source
       
         <a class="button primary" href="https://github.com/kaliy/kafka-connect-rss" target="_blank" aria-label="RSS quick link ">
           <div class="image">
-            <img alt="Github Logo" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/github_dark.svg" />
+            <img alt="Github Logo" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/github_dark.svg" />
           </div>
         </a>
                   
@@ -3055,7 +3055,7 @@ source
 
 ">
   <button role="button" aria-labelledBy="headingkc-source-sqlserver" tabindex="0" id="kc-source-sqlserver"
-    aria-label="Open connector SQL Server (Debezium)" class="card" onclick="connectorCard(this,'http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/kc-source-sqlserver/installation');" >
+    aria-label="Open connector SQL Server (Debezium)" class="card" onclick="connectorCard(this,'https://prb112.github.iocloudpak/1.0.1/connectors/kc-source-sqlserver/installation');" >
     <div class="cardContent">
       <div class="diagram source">
         
@@ -3124,7 +3124,7 @@ source
     
       <a class="button primary" href="https://repo1.maven.org/maven2/io/debezium/debezium-connector-sqlserver/1.2.0.Final/debezium-connector-sqlserver-1.2.0.Final-plugin.tar.gz" target="_blank" aria-label="SQL Server (Debezium) quick link ">
         <div class="image">
-          <img alt="Download Icon" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/download_blue.svg" />
+          <img alt="Download Icon" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/download_blue.svg" />
         </div>
       </a>          
       
@@ -3175,13 +3175,13 @@ source
 
 ">
   <button role="button" aria-labelledBy="headingkc-source-weathercompany" tabindex="0" id="kc-source-weathercompany"
-    aria-label="Open connector Weather Company Data" class="card" onclick="connectorCard(this,'http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/kc-source-weathercompany/installation');" >
+    aria-label="Open connector Weather Company Data" class="card" onclick="connectorCard(this,'https://prb112.github.iocloudpak/1.0.1/connectors/kc-source-weathercompany/installation');" >
     <div class="cardContent">
       <div class="diagram source">
         
           <div class="image">
             <img tabindex="-1" aria-label="Weather Company Data icon" alt="Weather Company Data icon"
-              src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/weatherComp.svg"
+              src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/weatherComp.svg"
               type="image/svg+xml"/>
           </div>
         
@@ -3210,7 +3210,7 @@ source
       
         <a class="button primary" href="https://github.com/ibm-messaging/kafka-connect-weather-source" target="_blank" aria-label="Weather Company Data quick link ">
           <div class="image">
-            <img alt="Github Logo" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/github_dark.svg" />
+            <img alt="Github Logo" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/github_dark.svg" />
           </div>
         </a>
                   
@@ -3236,10 +3236,10 @@ source
     </div>
     <div id="connectorsContent" class="sidePanel connectorsContent">
       <div id="connectorsPage" class="connectorPage">
-        <div class="mobileBackButton" onclick="mobileBackButton('http://localhost:4000/FHIR/cloudpak/1.0.1/connectors');">
+        <div class="mobileBackButton" onclick="mobileBackButton('https://prb112.github.iocloudpak/1.0.1/connectors');">
           
           <div class="subMenu backMenu"> 
-    <a ><img alt="" role="presentation" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/previous.svg" />Back to catalog</a>
+    <a ><img alt="" role="presentation" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/previous.svg" />Back to catalog</a>
   </div>
         </div>
         <div class="bgLoading">
@@ -3356,13 +3356,13 @@ source
                   <div class="image">
                     
                       <object aria-label="Connector IBM MQ icon" alt="Connector IBM MQ icon"
-                      data="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/appIcon_mq.svg"
+                      data="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/appIcon_mq.svg"
                       type="image/svg+xml">Connector IBM MQ icon</object>
                     
                   </div>
                 </div>
                 <div class="sinkSourceArrow" id="sinkSourceArrow">
-                  <img alt="connector arrow" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/connector_sink.svg"
+                  <img alt="connector arrow" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/connector_sink.svg"
                     onload="loadSinkSourceAnimation();">
                 </div>
                 <script>
@@ -3370,7 +3370,7 @@ source
                 <div class="diagram kafka">
                   <div class="image">
                     <img alt="event streams icon"
-                      src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/kafkaLight.svg">
+                      src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/kafkaLight.svg">
                   </div>
                 </div>
               </div>
@@ -3390,7 +3390,7 @@ source
                 <button class="button primary large" onclick="window.open('https://github.com/ibm-messaging/kafka-connect-mq-sink/releases/download/v1.3.1/kafka-connect-mq-sink-1.3.1-jar-with-dependencies.jar','_blank')">
                   
                       <div class="image">
-                        <img alt="download icon" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/download_white.svg" />
+                        <img alt="download icon" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/download_white.svg" />
                       </div>
                       <div class="content">
                         <p class="heading-four">Get connector</p>
@@ -3403,7 +3403,7 @@ source
                 <button class="button primary large" onclick="window.open('https://github.com/ibm-messaging/kafka-connect-mq-sink','_blank')">
                   
                       <div class="image">
-                        <img alt="github icon" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/github.svg" />
+                        <img alt="github icon" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/github.svg" />
                       </div>
                       <div class="content">
                         <p class="heading-four">Source code</p>
@@ -3495,7 +3495,7 @@ source
     <div class="subPageTabs">
         
         <button class="tab " role="button" tabindex="0" aria-label="Open sub page installation"
-          onclick="subPageChange(this,'http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/kc-sink-mq/installation')">
+          onclick="subPageChange(this,'https://prb112.github.iocloudpak/1.0.1/connectors/kc-sink-mq/installation')">
 
           
             Installation
@@ -3503,7 +3503,7 @@ source
         </button>
         
         <button class="tab " role="button" tabindex="0" aria-label="Open sub page Licensing and support"
-          onclick="subPageChange(this,'http://localhost:4000/FHIR/cloudpak/1.0.1/connectors/kc-sink-mq/Licensing%20and%20support')">
+          onclick="subPageChange(this,'https://prb112.github.iocloudpak/1.0.1/connectors/kc-sink-mq/Licensing%20and%20support')">
 
           
             Licensing and support
@@ -3592,13 +3592,13 @@ source
 
 
     
-  <script src="/FHIR/cloudpak/1.0.1/assets/js/main.min.js"></script>
+  <script src="/cloudpak/1.0.1/assets/js/main.min.js"></script>
   <!-- <script src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script> -->
 
 
 
 
-<script src="/FHIR/cloudpak/1.0.1/assets/js/swiper.min.js"></script>
+<script src="/cloudpak/1.0.1/assets/js/swiper.min.js"></script>
 <script>
 var connectorSubpageSwiper = new Swiper('.swiper-container', {
     speed: 200
@@ -3607,15 +3607,15 @@ var connectorSubpageSwiper = new Swiper('.swiper-container', {
 
 
 
-<script src="/FHIR/cloudpak/1.0.1/assets/js/design.js"></script>
+<script src="/cloudpak/1.0.1/assets/js/design.js"></script>
 
 
 
 
 
-<script src="/FHIR/cloudpak/1.0.1/assets/js/lunr/lunr.min.js"></script>
-<script src="/FHIR/cloudpak/1.0.1/assets/js/lunr/lunr-store.js"></script>
-<script src="/FHIR/cloudpak/1.0.1/assets/js/lunr/lunr-en.js"></script>
+<script src="/cloudpak/1.0.1/assets/js/lunr/lunr.min.js"></script>
+<script src="/cloudpak/1.0.1/assets/js/lunr/lunr-store.js"></script>
+<script src="/cloudpak/1.0.1/assets/js/lunr/lunr-en.js"></script>
 
 
 
