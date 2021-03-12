@@ -130,7 +130,7 @@ public class GroupHandler {
             txn.end();
             if (auditLogger.shouldLog() && resources != null) {
                 Date endTime = new Date(System.currentTimeMillis());
-                auditLogger.logSearchOnExport(queryParameters, resources.size(), startTime, endTime, Response.Status.OK, "StorageProvider@" + provider, "BulkDataOperator");
+                auditLogger.logSearchOnExport("Group", queryParameters, resources.size(), startTime, endTime, Response.Status.OK, "StorageProvider@" + provider, "BulkDataOperator");
             }
         }
 
@@ -159,7 +159,7 @@ public class GroupHandler {
             txn.end();
             if (auditLogger.shouldLog() && patients != null) {
                 Date endTime = new Date(System.currentTimeMillis());
-                auditLogger.logSearchOnExport(queryParameters, patients.size(), startTime, endTime, Response.Status.OK, "StorageProvider@" + provider, "BulkDataOperator");
+                auditLogger.logSearchOnExport("Patient", queryParameters, patients.size(), startTime, endTime, Response.Status.OK, "StorageProvider@" + provider, "BulkDataOperator");
             }
         }
         return patients;

@@ -195,7 +195,7 @@ public class ChunkWriter extends AbstractItemWriter {
                                 if (auditLogger.shouldLog()) {
                                     long endTime = System.currentTimeMillis();
                                     String location = "@source:" + ctx.getSource() + "/" + ctx.getImportPartitionWorkitem();
-                                    auditLogger.logUpdateOnImport(fhirResource, null, new Date(startTime), new Date(endTime), Response.Status.OK, location, "BulkDataOperator");
+                                    auditLogger.logUpdateOnImport(null, fhirResource, new Date(startTime), new Date(endTime), Response.Status.OK, location, "BulkDataOperator");
                                 }
                             }
 

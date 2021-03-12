@@ -213,7 +213,7 @@ public class ChunkReader extends AbstractItemReader {
             txn.end();
             if (auditLogger.shouldLog() && dto != null) {
                 Date endTime = new Date(System.currentTimeMillis());
-                auditLogger.logSearchOnExport(queryParameters, dto.size(), startTime, endTime, Response.Status.OK, "@source:" + ctx.getSource(), "BulkDataOperator");
+                auditLogger.logSearchOnExport(ctx.getPartitionResourceType(), queryParameters, dto.size(), startTime, endTime, Response.Status.OK, "@source:" + ctx.getSource(), "BulkDataOperator");
             }
         }
         pageNum++;

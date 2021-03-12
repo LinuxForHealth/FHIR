@@ -168,7 +168,7 @@ public class PatientResourceHandler {
                     }
                     if (auditLogger.shouldLog() && resources != null) {
                         Date endTime = new Date(System.currentTimeMillis());
-                        auditLogger.logSearchOnExport(queryParameters, resources.size(), startTime, endTime, Response.Status.OK, "StorageProvider@" + provider, "BulkDataOperator");
+                        auditLogger.logSearchOnExport(ctx.getPartitionResourceType(), queryParameters, resources.size(), startTime, endTime, Response.Status.OK, "StorageProvider@" + provider, "BulkDataOperator");
                     }
                 } while (searchContext.getLastPageNumber() >= compartmentPageNum);
                 compartmentPageNum = 1;
