@@ -1,3 +1,7 @@
+---
+layout: null
+---
+
 var idx = lunr(function () {
   this.field('title')
   this.field('excerpt')
@@ -46,7 +50,7 @@ function searchResults(theSearchInput) {
       })
     });
   resultdiv.empty();
-  resultdiv.prepend('<div class="numberOfResults"><p class="results__found secondary">'+result.length+' Result(s) found</p></div>');
+  resultdiv.prepend('<div class="numberOfResults"><p class="results__found secondary">'+result.length+' {{ site.data.ui-text[site.locale].results_found | default: "Result(s) found" }}</p></div>');
 
 
   let searchJson = {};
@@ -144,7 +148,7 @@ function searchResults(theSearchInput) {
             structure += '</div>'
           }
         });
-        structure += '<div class="ctaArea"><img alt="" role="presentation" src="https://prb112.github.iocloudpak/1.0.1/assets/images/icons/next.svg" /></div>'
+        structure += '<div class="ctaArea"><img alt="" role="presentation" src="{{site.url}}{{ site.baseurl }}/assets/images/icons/next.svg" /></div>'
         structure += '</div>'
         structure += '</div>'
       }
