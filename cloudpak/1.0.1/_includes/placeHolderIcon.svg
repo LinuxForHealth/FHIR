@@ -1,0 +1,48 @@
+{% raw %}
+  <svg tabindex="-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="40" viewBox="0 0 32 32">
+      <defs>
+        <style>
+          .cls-1{% endraw %}{{ include.maskID }}{% raw %} {
+            font-size: 14px;
+            fill: #fff;
+            font-family: IBMPlexSans-SemiBold, IBM Plex Sans;
+            font-weight: 600;
+          }
+    
+          .cls-2{% endraw %}{{ include.maskID }}{% raw %} {
+            mask: url(#mask{% endraw %}{{ include.maskID }}{% raw %});
+          }
+    
+          .cls-3{% endraw %}{{ include.maskID }}{% raw %} {
+            fill: url(#linear-gradient{% endraw %}{{ include.maskID }}{% raw %});
+          }
+        </style>
+        <mask id="mask{% endraw %}{{ include.maskID }}{% raw %}" x="0" y="0" width="32" height="32" maskUnits="userSpaceOnUse">
+          <text class="cls-1{% endraw %}{{ include.maskID }}{% raw %}" x="50%" y="50%" dominant-baseline="middle" text-anchor="middle">{% endraw %}{{ include.initialMaskString }}{% raw %}</text>
+        </mask>
+  <linearGradient id="linear-gradient{% endraw %}{{ include.maskID }}{% raw %}" y1="32" x2="32" gradientUnits="userSpaceOnUse">
+    {% endraw %}
+      {% case include.gradient %}
+        {% when 1 %}
+          <stop offset="0" stop-color="#ee538b" />
+          <stop offset="1" stop-color="#8a3ffc" />
+        {% when 2 %}
+          <stop offset="0" stop-color="#a66efa" />
+          <stop offset="1" stop-color="#0062ff" />
+        {% when 3 %}
+          <stop offset="0" stop-color="#00bab6" />
+          <stop offset="1" stop-color="#0062ff" />
+        {% else %}
+          <stop offset="0" stop-color="#3dbb61" />
+          <stop offset="1" stop-color="#007d79" />
+      {% endcase %}
+    {% raw %}
+
+  </linearGradient>
+  </defs>
+  <g class="cls-2{% endraw %}{{ include.maskID }}{% raw %}">
+
+  <rect class="cls-3{% endraw %}{{ include.maskID }}{% raw %}" width="32" height="32" />
+  </g>
+  </svg>
+{% endraw %}

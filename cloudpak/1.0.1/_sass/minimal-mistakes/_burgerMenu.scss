@@ -1,0 +1,67 @@
+/* ==========================================================================
+   BURGERMENU
+   ========================================================================== */
+
+
+.menuIcon {
+    cursor: pointer;
+    svg {
+        transition: 0.6s;
+    }
+    .burgerLine {
+        fill: none;
+        stroke: $text-01; // stroke-linecap: round;
+        // stroke-linejoin: round;
+        stroke-width: 2px;
+    }
+    g {
+        transition: $menuTransition;
+        ;
+        line {
+            transition: $menuTransition;
+        }
+        &#topLine {
+            transform-origin: 24px 19px;
+            line {
+                transform-origin: 24px 19px;
+            }
+        }
+        &#middleLine {
+            transform-origin: 24px 24px;
+            transition-delay: 0.1s;
+            transition-duration: 0.2s;
+            line {
+                transform-origin: 24px 24px;
+            }
+        }
+        &#bottomLine {
+            transform-origin: 24px 29px;
+            line {
+                transform-origin: 24px 29px;
+            }
+        }
+    }
+    &.open {
+        svg {
+            // transform: rotate(180deg);
+        }
+        #topLine {
+            transform: translateY(5px);
+            line {
+                transform: rotate(-45deg);
+            }
+        }
+        #middleLine {
+            transition-delay: 0s;
+            transition-duration: .2s;
+            transform: translateX(-1rem);
+            opacity: 0;
+        }
+        #bottomLine {
+            transform: translateY(-5px);
+            line {
+                transform: rotate(45deg);
+            }
+        }
+    }
+}

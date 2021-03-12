@@ -1,0 +1,115 @@
+
+
+@mixin closeSplash() {
+  .splashPanel.sidePanel {
+    flex-basis: 0;
+  }
+}
+
+@mixin openSplash($width) {
+  .splashPanel {
+    flex-basis: #{$width};
+    .splash {
+      width: #{$width};
+    }
+  }
+}
+
+@mixin closeConnector() {
+  .connectorsContent {
+    flex-basis: 0;
+  }
+}
+
+@mixin openConnector($width) {
+  .connectorsContent {
+    flex-basis: #{$width};
+    .connectorPage {
+      width: #{$width};
+    }
+  }
+}
+
+
+
+
+@mixin panelController($width) {
+  .splashPanel {
+    flex-basis: #{$width};
+    .splash {
+      width: #{$width};
+    }
+  }
+  .connectorsContent {
+    flex-basis: #{$width};
+    .connectorPage {
+      width: #{$width};
+    }
+  }
+  .connectorsAll {
+    @include closeConnector();
+    @include openSplash(#{$width});
+    &.connectorOpen {
+      @include closeSplash();
+      @include openConnector(#{$width});
+    }
+  }
+}
+
+
+
+// control starts here
+
+@include panelController(70rem);
+
+@media only screen and (max-width: 3000px) {
+  @include panelController(50rem);
+}
+
+
+@media only screen and (max-width: 2000px) {
+  @include panelController(45rem);
+}
+
+
+@media only screen and (max-width: 1300px) {
+  @include panelController(40rem);
+}
+
+
+// @media only screen and (max-width: 1200px) {
+//   @include panelController(45rem);
+// }
+
+@media only screen and (max-width: 1148px) {
+  .connectorsAll {
+    .splashPanel {
+      flex-basis: auto;
+      .splash {
+        width: auto;
+        position: relative;
+        top: 0;
+      }
+    }
+    .connectorsLayout {
+      .connectorsCards {
+        .allCards {
+          .cards {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+          }
+        }
+      }
+    }
+    &.connectorOpen {
+      .connectorsCardsContainer {
+        flex-basis: 0;
+        flex-grow: 0;
+      }
+      .connectorsContent {
+        flex-basis: 100%;
+      }
+    }
+
+  }
+}

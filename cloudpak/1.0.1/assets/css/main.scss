@@ -1,0 +1,55 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+
+@charset "utf-8";
+
+@import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
+@import "minimal-mistakes"; // main partials
+
+$event-streams-gray-1: #f0f0f0;
+$event-streams-gray-2: #dfe6eb;
+
+$event-streams-primary-action: #602797;
+
+// Overrides for featured link on home.md page
+.feature__wrapper.featured_links {
+
+  border-bottom: 0;
+
+  .feature__item {
+    border: 1px solid $event-streams-gray-2;
+    border-radius: .25rem;
+    margin-bottom: 1rem;
+    margin-left: 0;
+    min-height: 290px;
+
+    &:nth-child(3n+1),
+    &:nth-child(3n+2) {
+      margin-right: 0.75rem;
+    }
+  }
+
+  .archive__item-title {
+    display: flex;
+    justify-content: space-between;
+
+    padding: 1rem;
+    margin-top: 0;
+    background-color: $event-streams-gray-2;
+
+    svg.icon {
+      width: 1rem;
+      height: 1rem;
+      fill: $event-streams-primary-action;
+    }
+  }
+
+  .archive__item-excerpt ul {
+    padding: 1rem;
+    margin: 0;
+    > li {
+      list-style-type: none;
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{% if page.previous or page.next %}
+  <nav class="pagination">
+    {% if page.previous %}
+      <div class="previous" onclick="window.open('{{ page.previous.url | relative_url }}','_self')">
+        <div class="container">
+          <a href="{{ page.previous.url | relative_url }}" class="pagination--pager" title="Previous Item: {{ page.previous.title | markdownify | strip_html }}">{{ site.data.ui-text[site.locale].pagination_previous | default: "Previous" }}</a>
+          <h2 class="titlePreview">{{ page.previous.title | markdownify | strip_html }}</h2>
+        </div>
+      </div>
+    {% else %}
+      <div class="previous disabled">
+        <div class="container">
+          
+        </div>
+      </div>
+    {% endif %}
+    {% if page.next %}
+      <div class="next" onclick="window.open('{{ page.next.url | relative_url }}','_self')">
+        <div class="container">
+          <a href="{{ page.next.url | relative_url }}" class="pagination--pager" title="Next Item: {{ page.next.title | markdownify | strip_html }}">{{ site.data.ui-text[site.locale].pagination_next | default: "Next" }}</a>
+          <h2 class="titlePreview">{{ page.next.title | markdownify | strip_html }}</h2>
+        </div>
+      </div>
+      {% else %}
+      <div class="next disabled">
+        <div class="container">
+          
+        </div>
+      </div>
+    {% endif %}
+  </nav>
+{% endif %}

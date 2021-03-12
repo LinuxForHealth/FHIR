@@ -1,0 +1,45 @@
+{% if post.header.teaser %}
+  {% capture teaser %}{{ post.header.teaser }}{% endcapture %}
+{% else %}
+  {% assign teaser = site.teaser %}
+{% endif %}
+
+{% if post.id %}
+  {% assign title = post.title | markdownify | remove: "<p>" | remove: "</p>" %}
+{% else %}
+  {% assign title = post.title %}
+{% endif %}
+
+
+
+  {% if post.externalURL %}
+    {% assign postURL = post.externalURL %}
+    {% assign external = true %}
+  {% else %}
+    {% if post.link %}
+      {% assign postURL = post.link %}
+      {% assign external = false %}
+    {% else %}
+      {% assign postURL = post.url | relative_url %}
+      {% assign external = false %}
+    {% endif %}
+  {% endif %}
+
+  
+  
+
+
+  
+  <div class="content" onclick="openCardWindow(event,'{{ postURL }}','{% if external %}_blank{% else %}_self{% endif %}')">
+      <h2 class="archive__item-title" itemprop="headline">
+          <a data-ignoreparent="true" href="{{ postURL }}" target="{% if external %}_blank{% else %}_self{% endif %}">{{ title }}</a>
+      </h2>
+      {% if post.description %}
+          <p>{{ post.description }}</p>
+      {% endif %}
+      <div class="cta">
+        <div class="icon">
+          <svg alt="" role="presentation" class='icon'><use xlink:href='{{ site.url }}{{ site.baseurl }}/assets/images/icons/{% if external %}externalLink.svg{% else %}next.svg{% endif %}#icon'/></svg>
+        </div>
+      </div>
+</div>

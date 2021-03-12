@@ -1,0 +1,268 @@
+/* ==========================================================================
+   SIDEBAR
+   ========================================================================== */
+
+/*
+   Default
+   ========================================================================== */
+
+
+.sidebar {
+  flex-shrink: 0;
+  background: #fff;
+  transition: $menuTransition transform, 0.3s 0s opacity;
+  flex-direction: column;
+  display: flex;
+  border-right: 1px solid $keyline;
+  &.sticky {
+    height: 100vh;
+    min-height: calc(100vh - #{$mastheadHeight});
+    top: 0rem;
+  }
+
+
+  .nav__list {
+    padding-bottom: 16rem;
+    padding-top: 1rem;
+    padding-left: 1.5rem;
+    padding-right: 1rem;
+    overflow: scroll;
+    a {
+      font-size: .875rem;
+      color: inherit;
+      line-height: 1.25rem;
+      padding: 0.25rem 0;
+      display: flex;
+      position: relative;
+      &:hover,
+      &.active {
+        &:before {
+          position: absolute;
+          left: -1.5rem;
+          display: block;
+          content: " ";
+          width: 0.25rem;
+          background: $brand-01;
+          top: 0;
+          bottom: 0;
+        }
+      }
+
+      &:hover {
+        &:before {
+          background: $text-02;
+        }
+      }
+
+      &.active {
+        font-weight: 600;
+      }
+    }
+  }
+
+  .nav__sub-title {
+    display: block;
+    margin: 0.5rem 0;
+    padding: 0.25rem 0;
+    text-transform: uppercase;
+    display: block;
+    margin-top: 1rem;
+    font-size: .75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #68737c;
+    flex-grow: 1;
+  }
+}
+
+
+
+.subMenu {
+  top: 3rem;
+  left: 0rem;
+  height: 3rem;
+  background: white;
+  z-index: 18;
+  position: -webkit-sticky;
+  position: sticky;
+  display: none;
+  transition: $menuTransition;
+  align-items: center;
+  border-bottom: 1px solid $keyline;
+
+  &.backMenu {
+    display: flex;
+    top: .5rem;
+    position: sticky;
+    align-items: center;
+    padding-left: 1.5rem;
+
+    img {
+      height: 1.5rem;
+      margin-right: 0.5rem;
+      vertical-align: -7px;
+    }
+
+    a {
+      font-weight: 600;
+      color: $text-01;
+      cursor: pointer;
+
+      &:link {
+        text-decoration: none;
+      }
+
+      &:hover {
+        color: $text-01;
+      }
+
+      &:visited {
+        color: $text-01;
+      }
+    }
+  }
+
+  .versionContainer {
+    display: flex;
+  }
+
+  .menuIcon {
+    height: 100%;
+    width: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid $keyline;
+    margin-right: 1rem;
+  }
+
+  @import "burgerMenu";
+
+  .page__title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .versionPill {
+    margin-left: 0;
+  }
+}
+
+.sidebarMask {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: transparentize($color: $text-color, $amount: 0.2);
+  opacity: 0.8;
+  z-index: 100;
+  display: none;
+  cursor: pointer;
+}
+
+body {
+  &.sidebarOpen {
+    overflow: hidden;
+
+    .page__inner-wrap {
+      opacity: 0.2;
+    }
+  }
+}
+
+@media only screen and (max-width: $large) {
+  .sidebar {
+    flex-basis: 0;
+    flex-shrink: 0;
+    overflow: hidden;
+    position: fixed;
+    z-index: 101;
+    top: 3rem;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    opacity: 0;
+    width: 15rem;
+    box-shadow: 0px 57px 20px 3px rgba(19, 54, 79, 0.15);
+  }
+
+  body {
+    &.sidebarOpen {
+
+      // .masthead {
+      //   top: 0;
+      //   z-index: 9999999999;
+      // }
+      .sidebar {
+        transform: translateX(0);
+        opacity: 1;
+        // overflow: scroll;
+        z-index: 20;
+        transition: $menuTransition transform, 0.2s opacity;
+      }
+
+      // .sidebarMask {
+      //   display: block;
+      // }
+      .subMenu {
+        left: 16rem;
+        top: 3rem;
+        padding-left: 15rem;
+
+        .menuIcon {
+          border-left: 1px solid $keyline;
+        }
+
+        .versionContainer {
+          display: none;
+        }
+
+        .pageTitle {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .subMenu {
+    display: flex;
+    top: 0.5rem;
+  }
+
+  .versionsBar {
+    min-width: 15rem;
+  }
+
+  .nav__list {
+    min-width: 15rem;
+  }
+}
+
+
+
+
+@media only screen and (max-width: 880px) {
+  .subMenu {
+    top: 3rem;
+  }
+}
+
+
+@media only screen and (max-width: 640px) {
+  .subMenu {
+    top: 3rem;
+  }
+
+  .mainContainer {
+    .sidebar {
+      line-height: 1.25rem;
+      a {
+        padding: 0.5rem 0;
+      }
+    }
+  }
+}
+
+@import "versions";

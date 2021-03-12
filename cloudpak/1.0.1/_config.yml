@@ -1,0 +1,485 @@
+# Welcome to Jekyll!
+#
+# This config file is meant for settings that affect your entire site, values
+# which you are expected to set up once and rarely need to edit after that.
+# For technical reasons, this file is *NOT* reloaded automatically when you use
+# `jekyll serve`. If you change this file, please restart the server process.
+
+# remote_theme             : "mmistakes/minimal-mistakes"
+
+# minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+
+# Site Settings
+locale                   : "en-US"
+title                    : "FHIR Server Docs"
+title_separator          : "-"
+name                     : &name "IBM" # &name is a YAML anchor which can be *referenced later
+description              : &description "FHIR Server Documents"
+url                      : "https://hguzha.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+baseurl                  : "/FHIR/cloudpak/1.0.1" # the subpath of your site, e.g. "/blog"
+repository               : "FHIR/cloudpak/1.0.1"
+relative_permalinks      : false
+teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
+# breadcrumbs            : false # true, false (default)
+words_per_minute         : 200
+comments:
+  provider               : "false" # false (default), "disqus", "discourse", "facebook", "google-plus", "staticman_v2", "staticman" "custom"
+  disqus:
+    shortname            :
+  discourse:
+    server               : # https://meta.discourse.org/t/embedding-discourse-comments-via-javascript/31963 , e.g.: meta.discourse.org
+  facebook:
+    # https://developers.facebook.com/docs/plugins/comments
+    appid                :
+    num_posts            : # 5 (default)
+    colorscheme          : # "light" (default), "dark"
+staticman:
+  allowedFields          : # ['name', 'email', 'url', 'message']
+  branch                 : # "master"
+  commitMessage          : # "New comment"
+  filename               : # comment-{@timestamp}
+  format                 : # "yml"
+  moderation             : # true
+  path                   : # "_data/comments/{options.slug}"
+  requiredFields         : # ['name', 'email', 'message']
+  transforms:
+    email                : # "md5"
+  generatedFields:
+    date:
+      type               : # "date"
+      options:
+        format           : # "iso8601" (default), "timestamp-seconds", "timestamp-milliseconds"
+reCaptcha:
+  siteKey                :
+  secret                 :
+
+atom_feed:
+  path                   : # blank (default) uses feed.xml
+
+search                   : true # true, false (default)
+search_full_content      : true # true, false (default)
+search_provider          : lunr # lunr (default), algolia
+# algolia:
+#  application_id         : QB6HVGBSBA # YOUR_APPLICATION_ID
+#  index_name             : minimal_mistakes # YOUR_INDEX_NAME
+#  search_only_api_key    : 9d5014e5bbc77372547bce778dfa5663 # YOUR_SEARCH_ONLY_API_KEY
+#  powered_by             : true # true (default), false
+#  files_to_exclude:
+#    - _posts/2017-11-28-post-exclude-search.md
+
+# SEO Related
+google_site_verification : # Replace this with your ID, or delete
+bing_site_verification   :
+yandex_site_verification :
+naver_site_verification  :
+
+# Social Sharing
+twitter:
+  username               :
+facebook:
+  username               :
+  app_id                 :
+  publisher              :
+twitter_image            : /assets/siteMeta/appIcon_og_square.png # Open Graph/Twitter default site image
+og_image                 : /assets/siteMeta/appIcon_og_fb.png # Open Graph/Twitter default site image
+# For specifying social profiles, used in _includes/seo.html
+# - https://developers.google.com/structured-data/customize/social-profiles
+social:
+  type                   : # Person or Organization (defaults to Person)
+  name                   : # If the user or organization name differs from the site's name
+  links: # An array of links to social media profiles
+
+# Analytics
+analytics:
+  provider               : false # false (default), "google", "google-universal", "custom"
+  google:
+    tracking_id          : "" # Replace this with your ID, or delete
+    anonymize_ip         : true
+
+
+# Site Author
+author:
+  name             : *name # *name is a YAML reference pointing to the &anchor earlier
+  avatar           :
+  bio              :
+  location         :
+  email            :
+  uri              :
+  home             :
+  bitbucket        :
+  codepen          :
+  dribbble         :
+  flickr           :
+  facebook         :
+  foursquare       :
+  github           :
+  gitlab           :
+  google_plus      :
+  keybase          :
+  instagram        :
+  lastfm           :
+  linkedin         :
+  pinterest        :
+  soundcloud       :
+  stackoverflow    : # https://stackoverflow.com/users/123456/username
+  steam            :
+  tumblr           :
+  twitter          :
+  vine             :
+  weibo            :
+  xing             :
+  youtube          :
+
+
+# Reading Files
+include:
+  - .htaccess
+  - _pages
+exclude:
+  - "*.sublime-project"
+  - "*.sublime-workspace"
+  - vendor
+  - .asset-cache
+  - .bundle
+  - .jekyll-assets-cache
+  - .sass-cache
+  - assets/js/plugins
+  - assets/js/_main.js
+  - assets/js/vendor
+  - Capfile
+  - CHANGELOG
+  - config
+  - Gemfile
+  - Gruntfile.js
+  - gulpfile.js
+  - LICENSE
+  - log
+  - node_modules
+  - package.json
+  - Rakefile
+  - README
+  - tmp
+keep_files:
+  - .git
+  - .svn
+encoding: "utf-8"
+markdown_ext: "markdown,mkdown,mkdn,mkd,md"
+
+
+# Conversion
+markdown: kramdown
+highlighter: rouge
+lsi: false
+excerpt_separator: "<!--more-->"
+incremental: false
+
+
+# Markdown Processing
+kramdown:
+  input: GFM
+  hard_wrap: false
+  auto_ids: true
+  footnote_nr: 1
+  entity_output: as_char
+  toc_levels: 1..6
+  smart_quotes: lsquo,rsquo,ldquo,rdquo
+  enable_coderay: false
+
+
+# Collections
+collections:
+  #"2018.3.1":
+    #label: "2018.3.1"
+    #output: true
+    #version: true
+    #permalink: /:collection/:categories/:slug/
+    #order: 1
+  #"2019.1.1":
+    #label: "2019.1.1"
+    #output: true
+    #version: true
+    #permalink: /:collection/:categories/:slug/
+    #order: 2
+  #"2019.2.1":
+    #label: "2019.2.1"
+    #output: true
+    #version: true
+    #permalink: /:collection/:categories/:slug/
+    #order: 3
+  #"2019.4":
+    #label: "2019.4"
+    #output: true
+    #version: true
+    #permalink: /:collection/:categories/:slug/
+    #order: 4
+  #"10.0":
+    #label: "10.0"
+    #output: true
+    #version: true
+    #permalink: /:collection/:categories/:slug/
+    #order: 5
+  #"10.1":
+    #label: "10.1"
+    #output: true
+    #version: true
+    #permalink: /:collection/:categories/:slug/
+    #order: 6
+  "1.0":
+    label: "1.0"
+    output: true
+    version: true
+    tag: Latest
+    permalink: /:categories/:slug/
+    order: 7
+  "tutorials":
+    output: true
+    permalink: /:collection/:path/
+  "support":
+    output: false
+    permalink: /:collection/:path/
+  "keyFeatures":
+    output: true
+    permalink: /:path/
+  "connectors":
+    output: true
+    permalink: /:collection/:path/
+
+# Defaults
+defaults:
+  # _posts
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: single
+      author_profile: false
+      read_time: true
+      comments: false
+      share: true
+      related: true
+  # _pages
+  - scope:
+      path: "_pages"
+      type: "pages"
+    values:
+      layout: single
+      author_profile: false
+  # _tutorials
+  - scope:
+      path: ""
+      type: "tutorials"
+    values:
+      layout: single
+      author_profile: false
+      share: false
+      comments: false
+      mastheadNavItem: Tutorials
+  # _connectors
+  - scope:
+      path: ""
+      type: "connectors"
+    values:
+      layout: connectorHome
+      permalink: /:collection/:path
+      mastheadNavItem: Connectors
+  # - scope:
+  #     path: "_connectors/*/index.md"
+  #     type: connectors
+  #   values:
+  #     permalink: /:collection/:path:output_ext
+  #     mastheadNavItem: Connectors
+
+
+  # _keyFeatures
+  - scope:
+      path: ""
+      type: "keyFeatures"
+    values:
+      permalink: /:path
+      layout: featureHeroContent
+      mastheadNavItem: Documentation
+      latest: true
+      sidebar:
+        nav: "latestdocs"
+
+  # Support
+  - scope:
+      path: ""
+      type: "support"
+    values:
+      layout: single
+      author_profile: false
+      share: false
+      comments: false
+      mastheadNavItem: Support
+  # _2018.3.1
+  #- scope:
+      #path: ""
+      #type: "2018.3.1"
+    #values:
+      #layout: single
+      #read_time: false
+      #author_profile: false
+      #share: false
+      #comment: false
+      #version: true
+      #mastheadNavItem: Documentation
+      #sidebar:
+        #nav: "201831docs"
+  # _2019.1.1
+  #- scope:
+      #path: ""
+      #type: "2019.1.1"
+    #values:
+      #layout: single
+      #read_time: false
+      #author_profile: false
+      #share: false
+      #comment: false
+      #version: true
+      #mastheadNavItem: Documentation
+      #sidebar:
+        #nav: "201911docs"
+  # _2019.2.1
+  #- scope:
+      #path: ""
+      #type: "2019.2.1"
+    #values:
+      #layout: single
+      #read_time: false
+      #author_profile: false
+      #share: false
+      #comment: false
+      #version: true
+      #mastheadNavItem: Documentation
+      #sidebar:
+        #nav: "201921docs"
+  # _2019.4
+  #- scope:
+      #path: ""
+      #type: "2019.4"
+    #values:
+      #layout: single
+      #read_time: false
+      #author_profile: false
+      #share: false
+      #comment: false
+      #version: true
+      #latest: true
+      #mastheadNavItem: Documentation
+      #sidebar:
+        #nav: "20194docs"
+  # _10.0
+  #- scope:
+      #path: ""
+      #type: "10.0"
+    #values:
+      #layout: single
+      #read_time: false
+      #author_profile: false
+      #share: false
+      #comment: false
+      #version: true
+      #latest: true
+      #mastheadNavItem: Documentation
+      #sidebar:
+        #nav: "100docs"
+  # _10.1
+  #- scope:
+      #path: ""
+      #type: "10.1"
+    #values:
+      #layout: single
+      #read_time: false
+      #author_profile: false
+      #share: false
+      #comment: false
+      #version: true
+      #latest: true
+      #mastheadNavItem: Documentation
+      #sidebar:
+        #nav: "101docs"
+   #_1.0
+  - scope:
+      path: ""
+      type: "1.0"
+    values:
+      layout: single
+      read_time: false
+      author_profile: false
+      share: false
+      comment: false
+      version: true
+      latest: true
+      mastheadNavItem: Documentation
+      sidebar:
+        nav: "latestdocs"
+
+
+# Sass/SCSS
+sass:
+  sass_dir: _sass
+  style: compressed # http://sass-lang.com/documentation/file.SASS_REFERENCE.html#output_style
+
+
+# Outputting
+permalink: /:categories/:title/
+# paginate: 5 # amount of posts to show
+# paginate_path: /page:num/
+timezone: America/New_York # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+
+
+# Plugins (previously gems:)
+plugins:
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-gist
+  - jekyll-feed
+  - jemoji
+  - jekyll-contentblocks
+
+# mimic GitHub Pages with --safe
+whitelist:
+  - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-gist
+  - jekyll-feed
+  - jemoji
+  - jekyll-contentblocks
+
+
+# Archives
+#  Type
+#  - GitHub Pages compatible archive pages built with Liquid ~> type: liquid (default)
+#  - Jekyll Archives plugin archive pages ~> type: jekyll-archives
+#  Path (examples)
+#  - Archive page should exist at path when using Liquid method or you can
+#    expect broken links (especially with breadcrumbs enabled)
+#  - <base_path>/tags/my-awesome-tag/index.html ~> path: /tags/
+#  - <base_path/categories/my-awesome-category/index.html ~> path: /categories/
+#  - <base_path/my-awesome-category/index.html ~> path: /
+category_archive:
+  type: liquid
+  path: /categories/
+tag_archive:
+  type: liquid
+  path: /tags/
+# https://github.com/jekyll/jekyll-archives
+# jekyll-archives:
+#   enabled:
+#     - categories
+#     - tags
+#   layouts:
+#     category: archive-taxonomy
+#     tag: archive-taxonomy
+#   permalinks:
+#     category: /categories/:name/
+#     tag: /tags/:name/
+
+
+# HTML Compression
+# - http://jch.penibelst.de/
+compress_html:
+  clippings: all
+  ignore:
+    envs: development

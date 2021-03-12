@@ -1,0 +1,593 @@
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Running Kafka Streams applications - FHIR Server Docs</title>
+<meta name="description" content="Learn how to run Kafka Streams applications in IBM Event Streams.">
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="FHIR Server Docs">
+<meta property="og:url" content="http://localhost:4000/FHIR/cloudpak/1.0.1/tutorials/kafka-streams-app/" />
+<meta property="og:title" content="Tutorials | Running Kafka Streams applications" />
+<meta property="og:description" content="Learn how to run Kafka Streams applications in IBM Event Streams." />
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="IBM Event Streams | Running Kafka Streams applications" />
+
+
+
+
+  <meta property="og:description" content="Learn how to run Kafka Streams applications in IBM Event Streams.">
+
+
+
+  <meta property="og:image" content="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/siteMeta/appIcon_og_fb.png">
+  <meta name="twitter:image" content="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/siteMeta/appIcon_og_square.png">
+
+
+
+  <meta property="article:published_time" content="2021-03-12T18:02:58+00:00">
+
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/FHIR/cloudpak/1.0.1/tutorials/kafka-streams-app/">
+
+
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "url": "http://localhost:4000/FHIR/cloudpak/1.0.1",
+      "logo": "http://localhost:4000/FHIR/cloudpak/1.0.1/assets/siteMeta/appIcon_og_fb.png"
+    }
+  </script>
+
+
+
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Person",
+      "name": "IBM",
+      "url": "http://localhost:4000/FHIR/cloudpak/1.0.1",
+      "sameAs": null
+    }
+  </script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+<link href="/FHIR/cloudpak/1.0.1/feed.xml" type="application/atom+xml" rel="alternate" title="FHIR Server Docs Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/FHIR/cloudpak/1.0.1/assets/css/main.css">
+
+
+
+<!--[if lte IE 9]>
+  <style>
+    /* old IE unsupported flexbox fixes */
+    .greedy-nav .site-title {
+      padding-right: 3em;
+    }
+    .greedy-nav button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+    }
+  </style>
+<![endif]-->
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<link rel="shortcut icon" type="image/png" href="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/siteMeta/favicon.ico"/>
+<link rel="shortcut icon" type="image/png" href="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/siteMeta/fhir-icon-16.png"/>
+<link rel="shortcut icon" type="image/png" href="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/siteMeta/fhir-icon3.png"/>
+<link rel="apple-touch-icon" sizes="180x180" href="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/siteMeta/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/siteMeta/fhir-icon3.png">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/siteMeta/fhir-icon-16.png">
+<link rel="manifest" href="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/siteMeta/site.webmanifest">
+<link rel="mask-icon" href="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/siteMeta/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#000000">
+<meta name="theme-color" content="#000000">
+
+<link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,600%7CIBM+Plex+Serif:300,400,500%7CIBM+Plex+Mono:300,400,500,700" rel="stylesheet">
+
+<!-- end custom head snippets -->
+
+    <link rel="shortcut icon" type="image/x-icon" href="/FHIR/cloudpak/1.0.1/assets/favicon.ico" >
+    
+    <base target="_parent">
+
+  </head>
+  <script src="/FHIR/cloudpak/1.0.1/assets/animation/lottie.js" type="text/javascript"></script>
+  <script src="/FHIR/cloudpak/1.0.1/assets/js/connectors.js"></script>
+
+
+  
+  <body onload="" class="layout--single">
+
+    <!--[if lt IE 9]>
+<div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
+<![endif]-->
+
+    
+
+
+
+
+ <div id="masthead" class="masthead">
+  <div class="masthead__goToIBMCloud">
+ <!-- <div>
+    You are viewing the documentation for the container-native version of IBM FHIR Server.
+  </div> 
+   <a class="link" target="_self" href="https://www.ibm.com/products/fhir-server">Looking for the managed service on IBM Cloud? Click here.</a> -->
+</div> 
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="mastheadNav">
+
+      
+
+
+        <div class="mastheadTitle">
+          
+          <a class="site-title" href="/FHIR/cloudpak/1.0.1/" target="_self"><span>IBM</span>&nbsp;FHIR Server</a>
+          <div class="viewOnIBMcom">
+            <a href="https://www.ibm.com/products/fhir-server" target="_blank">View product page</a>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+        <div class="mastheadControls">
+            <div class="menuScrollContainer">
+
+        
+
+                <ul id="visible-links" class="visible-links">
+                  
+                  
+                  
+
+                  
+
+
+
+
+                  
+                    <li class="masthead__menu-item " onclick="window.open('http://localhost:4000/FHIR/cloudpak/1.0.1/','_self')">
+                      <a href="http://localhost:4000/FHIR/cloudpak/1.0.1/" >Documentation</a>
+                    </li>
+                  
+
+                  
+                  
+                  
+
+                  
+
+
+
+
+                  
+                    <li class="masthead__menu-item active" onclick="window.open('http://localhost:4000/FHIR/cloudpak/1.0.1/tutorials/','_self')">
+                      <a href="http://localhost:4000/FHIR/cloudpak/1.0.1/tutorials/" >Tutorials</a>
+                    </li>
+                  
+
+                  
+                  
+                  
+
+                  
+
+
+
+
+                  
+                    <li class="masthead__menu-item " onclick="window.open('http://localhost:4000/FHIR/cloudpak/1.0.1/faq/','_self')">
+                      <a href="http://localhost:4000/FHIR/cloudpak/1.0.1/faq/" >FAQ</a>
+                    </li>
+                  
+
+                  
+                  
+                  
+
+                  
+
+
+
+
+                  
+                    <li class="masthead__menu-item " onclick="window.open('http://localhost:4000/FHIR/cloudpak/1.0.1/support/','_self')">
+                      <a href="http://localhost:4000/FHIR/cloudpak/1.0.1/support/" >Support</a>
+                    </li>
+                  
+
+                  
+                  
+                  
+
+                  
+
+
+
+
+                  
+                    <li class="masthead__menu-item " onclick="window.open('http://localhost:4000/FHIR/cloudpak/1.0.1/search/','_self')">
+                      <button aria-label="Search Button" role="button" id="searchButton" class="search__toggle " type="button" name="search Button">
+                        <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                          <path
+                            d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z"
+                            transform="translate(-.01)"></path>
+                        </svg>
+                      </button>
+                    </li>
+                  
+
+                  
+                </ul>
+        
+
+      </div>
+    </div>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div id="initial-content" class="initial-content" role="main">
+
+
+
+
+
+<main id="main" class="mainContainer" role="main">
+    
+
+    
+  
+
+
+
+  <div class="mainContent">
+    
+      
+      
+      <div class="subMenu backMenu"> 
+    <a href="
+        http://localhost:4000/FHIR/cloudpak/1.0.1/tutorials
+      "><img alt="" role="presentation" src="http://localhost:4000/FHIR/cloudpak/1.0.1/assets/images/icons/previous.svg" />
+        Back to tutorials
+      </a>
+  </div>
+    
+    <div id="pageContainer" class="page" itemscope itemtype="http://schema.org/CreativeWork">
+      <div class="page__inner-wrap  ">
+        
+        <section class="page__content pageSpacing" itemprop="text">
+          
+          <header>
+            <h1 id="page-title" class="page__title" itemprop="headline">
+              Running Kafka Streams applications
+</h1>
+            
+          </header>
+          
+          <div class="content">
+            <p>You can run <a href="https://kafka.apache.org/documentation/streams/" target="_blank">Kafka Streams</a> applications in IBM Event Streams.</p>
+
+<p>Follow the steps in this tutorial to understand how to set up your existing Kafka Streams application to run in Event Streams, including how to set the correct connection and permission properties to allow your application to work with Event Streams.</p>
+
+<p>The examples mentioned in this tutorial are based on the <a href="https://github.com/apache/kafka/blob/2.1/streams/examples/src/main/java/org/apache/kafka/streams/examples/wordcount/WordCountDemo.java" target="_blank"><code class="language-plaintext highlighter-rouge">WordCountDemo.java</code> sample</a> which reads messages from an input topic called <code class="language-plaintext highlighter-rouge">streams-plaintext-input</code> and writes the words, together with an occurrence count for each word, to an output topic called <code class="language-plaintext highlighter-rouge">streams-wordcount-output</code>.</p>
+
+<h2 id="prerequisites">Prerequisites</h2>
+
+<ul>
+  <li>Ensure you have an Event Streams installation available. This tutorial is based on Event Streams version 2019.1.1.</li>
+  <li>Ensure you have a <a href="https://kafka.apache.org/documentation/streams/" target="_blank">Kafka Streams</a> application ready to use. You can also use one of the Kafka Streams <a href="https://github.com/apache/kafka/tree/2.1/streams/examples/src/main/java/org/apache/kafka/streams/examples" target="_blank">sample applications</a> such as the  <code class="language-plaintext highlighter-rouge">WordCountDemo.java</code> sample used here.</li>
+</ul>
+
+<h2 id="creating-input-and-output-topics">Creating input and output topics</h2>
+
+<p>Create the input and output topics in Event Streams.</p>
+
+<p>For example, you can create the topics and name them as they are named in the <a href="https://github.com/apache/kafka/blob/2.1/streams/examples/src/main/java/org/apache/kafka/streams/examples/wordcount/WordCountDemo.java" target="_blank"><code class="language-plaintext highlighter-rouge">WordCountDemo.java</code> sample</a> application. For demonstration purposes, the topics only have 1 replica and 1 partition.</p>
+
+<p>To create the topics:</p>
+<ol>
+  <li>Log in to your IBM Event Streams UI.</li>
+  <li>Click the <strong>Topics</strong> tab and click <strong>Create topic</strong>.</li>
+  <li>Enter the name <code class="language-plaintext highlighter-rouge">streams-plaintext-input</code> and click <strong>Next</strong>.</li>
+  <li>Set 1 partition for the topic, leave the default retention period, and select 1 replica.</li>
+  <li>Click <strong>Create topic</strong>.</li>
+  <li>Repeat the same steps to create a topic called <code class="language-plaintext highlighter-rouge">streams-wordcount-output</code>.</li>
+</ol>
+
+<h2 id="sending-data-to-input-topic">Sending data to input topic</h2>
+
+<p>To send data to the topic, first set up permissions to produce to the input topic, and then run the Kafka Streams producer to add messages to the topic.</p>
+
+<p>To set up permissions:</p>
+
+<ol>
+  <li>Log in to your IBM Event Streams UI.</li>
+  <li>Click the <strong>Topics</strong> tab.</li>
+  <li>Select your input topic you created earlier from the list, for example <code class="language-plaintext highlighter-rouge">streams-plaintext-input</code>.</li>
+  <li>Click <strong>Connect to this topic</strong> on the right.</li>
+  <li>On the <strong>Connect a client</strong> tab, copy the address from the <strong>Bootstrap server</strong> section. This gives the bootstrap address for Kafka clients.</li>
+  <li>From the <strong>Certificates</strong> section, download the server certificate from the <strong>Java truststore</strong> section, and make a note of the password.</li>
+  <li>To generate an API key, go to the <strong>API key</strong> section and follow the instructions. Ensure you select <strong>Produce only</strong>. The name of the input topic is filled in automatically, for example <code class="language-plaintext highlighter-rouge">streams-plaintext-input</code>.</li>
+  <li>Click the <strong>Sample code</strong> tab, and copy the snippet from the <strong>Sample configuration properties</strong> section into a new file called <code class="language-plaintext highlighter-rouge">streams-demo-input.properties</code>. This creates a new properties file for your Kafka Streams application.</li>
+  <li>Replace <code class="language-plaintext highlighter-rouge">&lt;certs.jks_file_location&gt;</code> with the path to your truststore file, <code class="language-plaintext highlighter-rouge">&lt;truststore_password&gt;</code> with the password for the JKS file, and <code class="language-plaintext highlighter-rouge">&lt;api_key&gt;</code> with the API key generated for the input topic. For example:<br />
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>security.protocol=SASL_SSL
+ssl.protocol=TLSv1.2
+ssl.truststore.location=/Users/john.smith/Downloads/es-cert.jks
+ssl.truststore.password=password
+sasl.mechanism=PLAIN
+sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username="token" password="abcAt0vjYZ1hEwXsRIuy8pxxXHNbEppOF";
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>To send messages to the input topic, use the bootstrap address, the input topic name, and the new properties file you created. For example, run <a href="https://github.com/apache/kafka/blob/2.1/bin/kafka-console-producer.sh" target="_blank"><code class="language-plaintext highlighter-rouge">kafka-console-producer.sh</code></a> with the following options:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">--broker-list &lt;broker_url&gt;</code>: where <code class="language-plaintext highlighter-rouge">&lt;broker_url&gt;</code> is your cluster’s broker URL copied earlier from the <strong>Bootstrap server</strong> section.</li>
+  <li><code class="language-plaintext highlighter-rouge">--topic &lt;topic_name&gt;</code>: where <code class="language-plaintext highlighter-rouge">&lt;topic_name&gt;</code> is the name of your input topic, in this example, <code class="language-plaintext highlighter-rouge">streams-plaintext-input</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">--producer.config &lt;properties_file&gt;</code>: where <code class="language-plaintext highlighter-rouge">&lt;properties_file&gt;</code> is the new properties file including full path to it, in this example, <code class="language-plaintext highlighter-rouge">streams-demo-input.properties</code>.</li>
+</ul>
+
+<p>For example:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kafka_2.12-1.1.0 $ ./bin/kafka-console-producer.sh \
+              --broker-list 192.0.2.24:31248 \
+              --topic streams-plaintext-input \
+              --producer.config streams-demo-input.properties
+&gt;This is a test message
+&gt;This will be used to demo the Streams sample app
+&gt;It is a Kafka Streams test message
+&gt;The words in these messages will be counted by the Streams app
+</code></pre></div></div>
+
+<p>Another method to produce messages to the topic is by using the <a href="../../2019.1.1/connecting/rest-api/#producing-messages-using-rest">Event Streams producer API</a>.</p>
+
+<h2 id="running-the-application">Running the application</h2>
+
+<p>Set up your Kafka Streams application to connect to your Event Streams instance, have permission to create topics, join consumer groups, and produce and consume messages. You can then use your application to create intermediate Kafka Streams topics, consume from the input topic, and produce to the output topic.</p>
+
+<p>To set up permissions and secure the connection:</p>
+
+<ol>
+  <li>Log in to your IBM Event Streams UI.</li>
+  <li>Click <strong>Connect to this cluster</strong> on the right.</li>
+  <li>From the <strong>Certificates</strong> section, download the server certificate from the <strong>Java truststore</strong> section, and make a note of the password.</li>
+  <li>To generate an API key, go to the <strong>API key</strong> section and follow the instructions. Ensure you select <strong>Produce, consume and create topics</strong>.<br />
+The permissions are required to do the following:
+    <ul>
+      <li>Create topics: Kafka Streams creates intermediate topics for the operations performed in the stream.</li>
+      <li>Join a consumer group: to be able to read messages from the input topic, it joins the group <a href="https://github.com/apache/kafka/blob/74c8b831472ed07e10ceda660e0e504a6a6821c4/streams/examples/src/main/java/org/apache/kafka/streams/examples/wordcount/WordCountDemo.java#L49" target="_blank"><code class="language-plaintext highlighter-rouge">streams-wordcount</code></a>.</li>
+      <li>Produce and consume messages.</li>
+    </ul>
+  </li>
+  <li>Click the <strong>Sample code</strong> tab, and copy the snippet from the <strong>Sample connection code</strong> section into your Kafka Streams application to set up a secure connection from your application to your Event Streams instance.</li>
+  <li>Using the snippet, import the following libraries to your application:<br />
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import org.apache.kafka.clients.CommonClientConfigs;
+import org.apache.kafka.common.config.SaslConfigs;
+import org.apache.kafka.common.config.SslConfigs;
+</code></pre></div>    </div>
+  </li>
+  <li>Using the snippet, reconstruct the Properties object as follows, replacing <code class="language-plaintext highlighter-rouge">&lt;certs.jks_file_location&gt;</code> with the path to your truststore file, <code class="language-plaintext highlighter-rouge">&lt;truststore_password&gt;</code> with the password for the JKS file, and <code class="language-plaintext highlighter-rouge">&lt;api_key&gt;</code> with the generated API key, for example:<br />
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Properties properties = new Properties();
+properties.put(CommonClientConfigs.BOOTSTRAP_SERVERS_CONFIG, "192.0.2.24:31248");
+properties.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, "SASL_SSL");
+properties.put(SslConfigs.SSL_PROTOCOL_CONFIG, "TLSv1.2");
+properties.put(SslConfigs.SSL_TRUSTSTORE_LOCATION_CONFIG, "&lt;certs.jks_file_location&gt;");
+properties.put(SslConfigs.SSL_TRUSTSTORE_PASSWORD_CONFIG, "&lt;truststore_password&gt;");
+properties.put(SaslConfigs.SASL_MECHANISM, "PLAIN");
+String saslJaasConfig = "org.apache.kafka.common.security.plain.PlainLoginModule required "
+    + "username=\"token\" password=\"&lt;api_key&gt;\";";
+properties.put(SaslConfigs.SASL_JAAS_CONFIG, saslJaasConfig);
+</code></pre></div>    </div>
+  </li>
+  <li>Ensure you <a href="../../2019.1.1/getting-started/client/#creating-an-apache-kafka-java-client-application">download</a> the JAR files for SLF4J and add them to your classpath.</li>
+</ol>
+
+<p>Run your Kafka Streams application. To view the topics, log in to your Event Streams UI and click the <strong>Topics</strong> tab.</p>
+
+<p>For example, the following topics are created by the <code class="language-plaintext highlighter-rouge">WordCountDemo.java</code> Kafka Streams application:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>streams-wordcount-KSTREAM-AGGREGATE-STATE-STORE-0000000003-changelog
+streams-wordcount-KSTREAM-AGGREGATE-STATE-STORE-0000000003-repartition
+</code></pre></div></div>
+
+<h2 id="viewing-messages-on-output-topic">Viewing messages on output topic</h2>
+
+<p>To receive messages from the input topic, first set up permissions so that the output topic can consume messages, and then run the Kafka Streams consumer to send messages to the topic.</p>
+
+<p>To set up permissions:</p>
+
+<ol>
+  <li>Log in to your IBM Event Streams UI.</li>
+  <li>Click the <strong>Topics</strong> tab.</li>
+  <li>Select your output topic you created earlier from the list, for example <code class="language-plaintext highlighter-rouge">streams-wordcount-output</code>.</li>
+  <li>Click <strong>Connect to this topic</strong> on the right.</li>
+  <li>On the <strong>Connect a client</strong> tab, copy the address from the <strong>Bootstrap server</strong> section. This gives the bootstrap address for Kafka clients.</li>
+  <li>From the <strong>Certificates</strong> section, download the server certificate from the <strong>Java truststore</strong> section, and make a note of the password.</li>
+  <li>To generate an API key, go to the <strong>API key</strong> section and follow the instructions. Ensure you select <strong>Consume only</strong>. The name of the output topic is filled in automatically, for example <code class="language-plaintext highlighter-rouge">streams-wordcount-output</code>.</li>
+  <li>Click the <strong>Sample code</strong> tab, and copy the snippet from the <strong>Sample configuration properties</strong> section into a new file called <code class="language-plaintext highlighter-rouge">streams-demo-output.properties</code>. This creates a new properties file for your Kafka Streams application.</li>
+  <li>Replace <code class="language-plaintext highlighter-rouge">&lt;certs.jks_file_location&gt;</code> with the path to your truststore file, <code class="language-plaintext highlighter-rouge">&lt;truststore_password&gt;</code> with the password for the JKS file, and <code class="language-plaintext highlighter-rouge">&lt;api_key&gt;</code> with the API key generated for the input topic.</li>
+</ol>
+
+<p>To view messages on the output topic, use the bootstrap address, the output topic name, and the new properties file you created. For example, run <a href="https://github.com/apache/kafka/blob/2.1/bin/kafka-console-consumer.sh" target="_blank"><code class="language-plaintext highlighter-rouge">kafka-console-consumer.sh</code></a> with the following options:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">--bootstrap-server &lt;broker_url&gt;</code>: where <code class="language-plaintext highlighter-rouge">&lt;broker_url&gt;</code> is your cluster’s broker URL copied earlier from the <strong>Bootstrap server</strong> section.</li>
+  <li><code class="language-plaintext highlighter-rouge">--topic &lt;topic_name&gt;</code>: where <code class="language-plaintext highlighter-rouge">&lt;topic_name&gt;</code> is the name of your output topic, in this example, <code class="language-plaintext highlighter-rouge">streams-wordcount-output</code>.</li>
+  <li><code class="language-plaintext highlighter-rouge">--consumer.config &lt;properties_file&gt;</code>: where <code class="language-plaintext highlighter-rouge">&lt;properties_file&gt;</code> is the new properties file including full path to it, in this example, <code class="language-plaintext highlighter-rouge">streams-demo-output.properties</code>.</li>
+</ul>
+
+<p>For example:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ./bin/kafka-console-consumer.sh \
+&gt; --bootstrap-server 192.0.2.24:31248 \
+&gt; --topic streams-wordcount-output \
+&gt; --consumer.config streams-demo-output.properties \
+&gt; --from-beginning \
+&gt; --group streams-demo-group-consumer \
+&gt; --formatter kafka.tools.DefaultMessageFormatter \
+&gt; --property key.deserializer=org.apache.kafka.common.serialization.StringDeserializer \
+&gt; --property value.deserializer=org.apache.kafka.common.serialization.LongDeserializer \
+&gt; --property print.key=true
+this    1
+is    1
+a    1
+test    1
+message    1
+this    2
+will    1
+be    1
+used    1
+to    3
+demo    1
+the    1
+streams    5
+sample    1
+app    1
+it    1
+is    2
+a    2
+kafka    7
+streams    6
+test    2
+message    2
+the    2
+words    1
+in    1
+these    1
+messages    1
+will    2
+be    2
+counted    1
+by    1
+the    3
+streams    7
+app    2
+
+Processed a total of 34 messages
+</code></pre></div></div>
+
+          </div>
+
+
+          
+        </section>
+
+        <aside class="sidebar__right ">
+          
+          <div class="fixedSidebar">
+            <nav class="toc">
+              <ul class="toc__menu">
+  <li><a href="#prerequisites">Prerequisites</a></li>
+  <li><a href="#creating-input-and-output-topics">Creating input and output topics</a></li>
+  <li><a href="#sending-data-to-input-topic">Sending data to input topic</a></li>
+  <li><a href="#running-the-application">Running the application</a></li>
+  <li><a href="#viewing-messages-on-output-topic">Viewing messages on output topic</a></li>
+</ul>
+            </nav>
+          </div>
+          
+        </aside>
+
+
+      </div>
+      <div class="pageEnd">
+        
+      </div>
+    </div>
+
+
+  </div> <!-- Main content -->
+
+</main></div>
+
+
+    
+      <div class="page__footer">
+          <footer>
+            <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+
+            
+<div class="page__footer-copyright"><a href="https://www.ibm.com/privacy/us/en/" rel="nofollow" target="_blank">Privacy Policy</a>  &nbsp;© Copyright IBM Corporation 2020</br>
+  Released under the <a href="https://www.apache.org/licenses/LICENSE-2.0" rel="nofollow" target="_blank">Apache License v2.0</a></div>
+
+          </footer>
+      </div>      
+    
+
+
+    
+  <script src="/FHIR/cloudpak/1.0.1/assets/js/main.min.js"></script>
+  <!-- <script src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script> -->
+
+
+
+
+
+
+<script src="/FHIR/cloudpak/1.0.1/assets/js/design.js"></script>
+
+
+
+
+
+<script src="/FHIR/cloudpak/1.0.1/assets/js/lunr/lunr.min.js"></script>
+<script src="/FHIR/cloudpak/1.0.1/assets/js/lunr/lunr-store.js"></script>
+<script src="/FHIR/cloudpak/1.0.1/assets/js/lunr/lunr-en.js"></script>
+
+
+
+
+
+    
+
+    
+  </body>
+</html>

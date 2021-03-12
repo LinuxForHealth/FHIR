@@ -1,0 +1,1293 @@
+# main links
+main:
+  - title: "Documentation"
+    url: /
+#  - title: "Connectors"
+#    url: /connectors
+  - title: "Tutorials"
+    url: /tutorials/
+  - title: FAQ
+    url: /faq/
+#  - title: APIs...
+#    url: /api/
+#    dropdown:
+#      - title: REST Producer
+#        url: /api/
+#      - title: Schema Javadoc
+#        url: /schema-api/
+  - title: "Support"
+    url: /support/
+  - title: "Search"
+    url: /search/
+
+connectorCategories:
+  - title: "All"
+    url: "/connectors"
+    slug: all
+  - title: "Source"
+    url: "/connectors/source"
+    slug: source
+  - title: "Sink"
+    url: "/connectors/sink"
+    slug: sink
+
+connectorQuickLinks:
+  - link:
+      - title: Find out more about Kafka Connect
+      - url: /connecting/connectors/
+
+# Sidebar navigation for latest version documentation.
+
+latestdocs:
+  - title: About
+    children:
+      - title: "Introduction"
+        url: /about/overview/
+      - title: "Documentation"
+        url: /about/documentation/
+      - title: "License"
+        url: /about/license/
+ #     - title: "Producing messages"
+ #      url: /about/producing-messages/
+ #     - title: "Consuming messages"
+ #       url: /about/consuming-messages/
+ #     - title: "Partition leadership"
+ #       url: /about/partition-leadership/
+ #     - title: "Accessibility"
+ #       url: /about/accessibility/
+ #     - title: "Notices"
+ #       url: /about/notices/
+  - title: Installing and upgrading
+    children:
+      - title: "Installing IBM FHIR Server"
+        url: /installing/trying-out/
+      - title: "Prerequisites"
+        url: /installing/prerequisites/
+ #     - title: "Limitations"
+ #       url: /installing/planning/
+ #     - title: "Performance and capacity planning"
+ #       url: /installing/capacity-planning/
+ #     - title: "Preparing for multizone clusters"
+ #       url: /installing/preparing-multizone/
+      - title: "Installing"
+        url: /installing/installing/
+      - title: "Configuring"
+        url: /installing/configuring/
+#      - title: "Storage"
+#        url: /installing/storage/
+      - title: "Air Gap Installation"
+        url: /installing/air-gap-installation/
+ #     - title: "Resources Required"
+ #       url: /installing/resources-required/
+      - title: "Tracking license consumption of IBM FHIR Server"
+        url: /installing/tracking-license/
+ #     - title: "Upgrading"
+ #       url: /installing/upgrading/
+ # - title: Getting started
+  #  children:
+#      - title: "Logging in"
+#        url: /getting-started/logging-in/
+#      - title: "Creating a Kafka topic"
+ #       url: /getting-started/creating-topics/
+ #     - title: "Running a starter application"
+ #       url: /getting-started/generating-starter-app/
+#      - title: "Creating and testing message loads"
+ #       url: /getting-started/testing-loads/
+#      - title: "Creating Kafka client applications"
+ #       url: /getting-started/client/
+ #     - title: "Connecting clients"
+ #       url: /getting-started/connecting/
+#      - title: "Using Apache Kafka console tools"
+#        url: /getting-started/using-kafka-console-tools/
+#  - title: Schemas
+#    children:
+#      - title: "Schemas overview"
+#        url: /schemas/overview/
+#      - title: "Creating and adding schemas"
+#        url: /schemas/creating/
+#      - title: "Managing schema lifecycle"
+#        url: /schemas/manage-lifecycle/
+ #     - title: "Setting Java applications to use schemas"
+#        url: /schemas/setting-java-apps/
+#      - title: "Setting non-Java applications to use schemas"
+#        url: /schemas/setting-nonjava-apps/
+#      - title: "Migrating to Event Streams schema registry"
+#        url: /schemas/migrating/
+#      - title: "Using schemas with the REST producer API"
+#        url: /schemas/using-with-rest-producer/
+#      - title: "Using the schema API"
+#        url: /schemas/schema-api/
+#      - title: "Setting Java applications to use schemas with the Apicurio Registry serdes library"
+#        url: /schemas/setting-java-apps-apicurio-serdes/
+  - title: Security
+    children:
+      - title: "Security"
+        url: /security/security/
+      - title: "SecurityContextConstraints Requirements"
+        url: /security/security-context-constraints/
+ #     - title: "Documentation"
+ #       url: /security/secure-jmx-connections/
+ #     - title: "License"
+ #       url: /security/network-policies/
+#      - title: "Considerations for GDPR"
+#        url: /security/gdpr-considerations/
+#  - title: Geo-replication
+#    children:
+#      - title: "About geo-replication"
+#        url: /georeplication/about/
+#      - title: "Planning for geo-replication"
+#        url: /georeplication/planning/
+#      - title: "Setting up geo-replication"
+#        url: /georeplication/setting-up/
+#      - title: "Monitoring and managing geo-replication"
+#        url: /georeplication/health/
+#      - title: "Switching clusters"
+#        url: /georeplication/failover/
+#  - title: Connecting external systems
+#    children:
+#      - title: "Event Streams producer API"
+#        url: /connecting/rest-api/
+#      - title: "Kafka Connect and connectors"
+#        url: /connecting/connectors/
+#      - title: "Setting up and running connectors"
+#        url: /connecting/setting-up-connectors/
+#      - title: "Connecting to IBM MQ"
+#        url: /connecting/mq/
+#      - title: "Running the MQ source connector"
+#        url: /connecting/mq/source/
+#      - title: "Running the MQ sink connector"
+#        url: /connecting/mq/sink/
+#      - title: "Running connectors on IBM z/OS"
+#        url: /connecting/mq/zos/
+#  - title: Administering
+#    children:
+#      - title: "Monitoring deployment health"
+#        url: /administering/deployment-health/
+#      - title: "Monitoring Kafka cluster health"
+#        url: /administering/cluster-health/
+#      - title: "Monitoring topic health"
+#        url: /administering/topic-health/
+#      - title: "Monitoring consumer group lag"
+#        url: /administering/consumer-lag/
+#      - title: "Monitoring applications with distributed tracing"
+#        url: /administering/tracing/
+#      - title: "Monitoring with external tools"
+#        url: /administering/external-monitoring/
+#      - title: "Modifying installation settings"
+#        url: /administering/modifying-installation/
+#      - title: "Optimizing Kafka cluster with Cruise Control"
+#        url: /administering/cruise-control/
+#      - title: "Scaling"
+#        url: /administering/scaling/
+#      - title: "Setting client quotas"
+#        url: /administering/quotas/
+#      - title: "Managing a multizone setup"
+#        url: /administering/managing-multizone/
+#      - title: "Stopping and starting Event Streams"
+#        url: /administering/stopping-starting/
+#  - title: Troubleshooting
+#    children:
+#      - title: "Troubleshooting overview"
+#        url: /troubleshooting/intro/
+#      - title: "Gathering logs"
+#        url: /troubleshooting/gathering-logs/
+#      - title: "Resources not available"
+#        url: /troubleshooting/resources-not-available/
+#      - title: "Error when creating multiple geo-replicators"
+#        url: /troubleshooting/georeplication-error/
+#      - title: "TimeoutException when using standard Kafka producer"
+#        url: /troubleshooting/kafka-producer-error/
+#      - title: "Standard Kafka consumer hangs"
+#        url: /troubleshooting/kafka-consumer-hangs/
+#      - title: "Command 'cloudctl es' fails with 'not a registered command' error"
+#        url: /troubleshooting/cloudctl-es-not-registered/
+#      - title: "Command 'cloudctl es' produces 'FAILED' message"
+#        url: /troubleshooting/cloudctl-es-fails/
+#      - title: "UI does not open when using Chrome on Ubuntu"
+#        url: /troubleshooting/chrome-ubuntu-issue/
+#      - title: "Unable to remove destination cluster"
+#        url: /troubleshooting/error-removing-destination/
+#      - title: "403 error when signing in"
+#        url: /troubleshooting/ui-403-error/
+#      - title: "The UI cannot load data"
+#        url: /troubleshooting/problem-with-piping/
+#      - title: "UI shows black images in Firefox"
+#        url: /troubleshooting/firefox-black-images/
+#      - title: "Event Streams not installing due to Security Context Constraint (SCC) issues"
+#        url: /troubleshooting/default-scc-issues/
+#      - title: "Not authorized error when building maven schema registry project"
+#        url: /troubleshooting/schema-registry-not-authorized-error/
+#      - title: "Client receives AuthorizationException when communicating with brokers"
+#        url: /troubleshooting/authorization-failed-exceptions/
+
+# Sidebar navigation for 10.1 version documentation.
+
+#101docs:
+  #- title: About
+    #children:
+      #- title: "Introduction"
+        #url: /about/overview/
+      #- title: "What's new"
+        #url: /about/whats-new/
+      #- title: "Key concepts"
+        #url: /about/key-concepts/
+      #- title: "Producing messages"
+        #url: /about/producing-messages/
+      #- title: "Consuming messages"
+        #url: /about/consuming-messages/
+      #- title: "Partition leadership"
+        #url: /about/partition-leadership/
+      #- title: "Accessibility"
+        #url: /about/accessibility/
+      #- title: "Notices"
+        #url: /about/notices/
+  #- title: Installing and upgrading
+    #children:
+      #- title: "Trying out Event Streams"
+        #url: /installing/trying-out/
+      #- title: "Prerequisites"
+        #url: /installing/prerequisites/
+      #- title: "Planning your installation"
+        #url: /installing/planning/
+      #- title: "Performance and capacity planning"
+        #url: /installing/capacity-planning/
+      #- title: "Preparing for multizone clusters"
+        #url: /installing/preparing-multizone/
+      #- title: "Installing"
+        #url: /installing/installing/
+      #- title: "Configuring"
+        #url: /installing/configuring/
+      #- title: "Post-installation tasks"
+        #url: /installing/post-installation/
+      #- title: "Migrating from open-source Kafka"
+        #url: /installing/moving-from-oss-kafka/
+      #- title: "Uninstalling"
+        #url: /installing/uninstalling/
+      #- title: "Upgrading and migrating"
+        #url: /installing/upgrading/
+  #- title: Getting started
+    #children:
+      #- title: "Logging in"
+        #url: /getting-started/logging-in/
+      #- title: "Creating a Kafka topic"
+        #url: /getting-started/creating-topics/
+      #- title: "Running a starter application"
+        #url: /getting-started/generating-starter-app/
+      #- title: "Creating and testing message loads"
+        #url: /getting-started/testing-loads/
+      #- title: "Creating Kafka client applications"
+        #url: /getting-started/client/
+      #- title: "Connecting clients"
+        #url: /getting-started/connecting/
+      #- title: "Using Apache Kafka console tools"
+        #url: /getting-started/using-kafka-console-tools/
+  #- title: Schemas
+    #children:
+      #- title: "Schemas overview"
+        #url: /schemas/overview/
+      #- title: "Creating and adding schemas"
+        #url: /schemas/creating/
+      #- title: "Managing schema lifecycle"
+        #url: /schemas/manage-lifecycle/
+      #- title: "Setting Java applications to use schemas"
+        #url: /schemas/setting-java-apps/
+      #- title: "Setting non-Java applications to use schemas"
+        #url: /schemas/setting-nonjava-apps/
+      #- title: "Migrating to Event Streams schema registry"
+        #url: /schemas/migrating/
+      #- title: "Using schemas with the REST producer API"
+        #url: /schemas/using-with-rest-producer/
+      #- title: "Using the schema API"
+        #url: /schemas/schema-api/
+  #- title: Security
+    #children:
+      #- title: "Managing access"
+        #url: /security/managing-access/
+      #- title: "Encrypting your data"
+        #url: /security/encrypting-data/
+      #- title: "Configuring secure JMX connections"
+        #url: /security/secure-jmx-connections/
+      #- title: "Network policies"
+        #url: /security/network-policies/
+      #- title: "Considerations for GDPR"
+        #url: /security/gdpr-considerations/
+  #- title: Geo-replication
+    #children:
+      #- title: "About geo-replication"
+        #url: /georeplication/about/
+      #- title: "Planning for geo-replication"
+        #url: /georeplication/planning/
+      #- title: "Setting up geo-replication"
+        #url: /georeplication/setting-up/
+      #- title: "Monitoring and managing geo-replication"
+        #url: /georeplication/health/
+      #- title: "Switching clusters"
+        #url: /georeplication/failover/
+  #- title: Connecting external systems
+    #children:
+      #- title: "Event Streams producer API"
+        #url: /connecting/rest-api/
+      #- title: "Kafka Connect and connectors"
+        #url: /connecting/connectors/
+      #- title: "Setting up and running connectors"
+        #url: /connecting/setting-up-connectors/
+      #- title: "Connecting to IBM MQ"
+        #url: /connecting/mq/
+      #- title: "Running the MQ source connector"
+        #url: /connecting/mq/source/
+      #- title: "Running the MQ sink connector"
+        #url: /connecting/mq/sink/
+      #- title: "Running connectors on IBM z/OS"
+        #url: /connecting/mq/zos/
+  #- title: Administering
+    #children:
+      #- title: "Monitoring deployment health"
+        #url: /administering/deployment-health/
+      #- title: "Monitoring Kafka cluster health"
+        #url: /administering/cluster-health/
+      #- title: "Monitoring topic health"
+        #url: /administering/topic-health/
+      #- title: "Monitoring consumer group lag"
+        #url: /administering/consumer-lag/
+      #- title: "Monitoring applications with distributed tracing"
+        #url: /administering/tracing/
+      #- title: "Monitoring with external tools"
+        #url: /administering/external-monitoring/
+      #- title: "Modifying installation settings"
+        #url: /administering/modifying-installation/
+      #- title: "Scaling"
+        #url: /administering/scaling/
+      #- title: "Setting client quotas"
+        #url: /administering/quotas/
+      #- title: "Managing a multizone setup"
+        #url: /administering/managing-multizone/
+      #- title: "Stopping and starting Event Streams"
+        #url: /administering/stopping-starting/
+  #- title: Troubleshooting
+    #children:
+      #- title: "Troubleshooting overview"
+        #url: /troubleshooting/intro/
+      #- title: "Gathering logs"
+        #url: /troubleshooting/gathering-logs/
+      #- title: "Resources not available"
+        #url: /troubleshooting/resources-not-available/
+      #- title: "Error when creating multiple geo-replicators"
+        #url: /troubleshooting/georeplication-error/
+      #- title: "TimeoutException when using standard Kafka producer"
+        #url: /troubleshooting/kafka-producer-error/
+      #- title: "Standard Kafka consumer hangs"
+        #url: /troubleshooting/kafka-consumer-hangs/
+      #- title: "Command 'cloudctl es' fails with 'not a registered command' error"
+        #url: /troubleshooting/cloudctl-es-not-registered/
+      #- title: "Command 'cloudctl es' produces 'FAILED' message"
+        #url: /troubleshooting/cloudctl-es-fails/
+      #- title: "UI does not open when using Chrome on Ubuntu"
+        #url: /troubleshooting/chrome-ubuntu-issue/
+      #- title: "Unable to remove destination cluster"
+       # url: /troubleshooting/error-removing-destination/
+      #- title: "403 error when signing in"
+        #url: /troubleshooting/ui-403-error/
+      #- title: "The UI cannot load data"
+        #url: /troubleshooting/problem-with-piping/
+      #- title: "UI shows black images in Firefox"
+        #url: /troubleshooting/firefox-black-images/
+      #- title: "Event Streams not installing due to Security Context Constraint (SCC) issues"
+        #url: /troubleshooting/default-scc-issues/
+      #- title: "Not authorized error when building maven schema registry project"
+        #url: /troubleshooting/schema-registry-not-authorized-error/
+      #- title: "Client receives AuthorizationException when communicating with brokers"
+        #url: /troubleshooting/authorization-failed-exceptions/
+      #- title: "Required value error when installing on OpenShift 4.5.0-4.5.5"
+        #url: /troubleshooting/required-value-error/
+      #- title: "Operator is generating constant log output"
+        #url: /troubleshooting/operator-keeps-reconciling/
+      #- title: "Operator upgrade causes Kafka pod errors"
+        #url: /troubleshooting/operator-upgrade-issue/
+
+# Sidebar navigation for 10.0 version documentation.
+
+#100docs:
+  #- title: About
+    #children:
+      #- title: "Introduction"
+        #url: /about/overview/
+      #- title: "What's new"
+        #url: /about/whats-new/
+      #- title: "Key concepts"
+        #url: /about/key-concepts/
+      #- title: "Producing messages"
+        #url: /about/producing-messages/
+      #- title: "Consuming messages"
+        #url: /about/consuming-messages/
+      #- title: "Partition leadership"
+        #url: /about/partition-leadership/
+      #- title: "Accessibility"
+        #url: /about/accessibility/
+      #- title: "Notices"
+        #url: /about/notices/
+  #- title: Installing and upgrading
+    #children:
+      #- title: "Trying out Event Streams"
+        #url: /installing/trying-out/
+      #- title: "Prerequisites"
+        #url: /installing/prerequisites/
+      #- title: "Planning your installation"
+        #url: /installing/planning/
+      #- title: "Performance and capacity planning"
+        #url: /installing/capacity-planning/
+      #- title: "Preparing for multizone clusters"
+        #url: /installing/preparing-multizone/
+      #- title: "Installing"
+        #url: /installing/installing/
+      #- title: "Configuring"
+        #url: /installing/configuring/
+      #- title: "Post-installation tasks"
+        #url: /installing/post-installation/
+      #- title: "Migrating from open-source Kafka"
+        #url: /installing/moving-from-oss-kafka/
+      #- title: "Uninstalling"
+        #url: /installing/uninstalling/
+      #- title: "Upgrading and migrating"
+        #url: /installing/upgrading/
+  #- title: Getting started
+    #children:
+      #- title: "Logging in"
+        #url: /getting-started/logging-in/
+      #- title: "Creating a Kafka topic"
+        #url: /getting-started/creating-topics/
+      #- title: "Running a starter application"
+        #url: /getting-started/generating-starter-app/
+      #- title: "Creating and testing message loads"
+        #url: /getting-started/testing-loads/
+      #- title: "Creating Kafka client applications"
+        #url: /getting-started/client/
+      #- title: "Connecting clients"
+        #url: /getting-started/connecting/
+      #- title: "Using Apache Kafka console tools"
+        #url: /getting-started/using-kafka-console-tools/
+  #- title: Schemas
+    #children:
+      #- title: "Schemas overview"
+        #url: /schemas/overview/
+      #- title: "Creating and adding schemas"
+        #url: /schemas/creating/
+      #- title: "Managing schema lifecycle"
+        #url: /schemas/manage-lifecycle/
+      #- title: "Setting Java applications to use schemas"
+        #url: /schemas/setting-java-apps/
+      #- title: "Setting non-Java applications to use schemas"
+        #url: /schemas/setting-nonjava-apps/
+      #- title: "Migrating to Event Streams schema registry"
+        #url: /schemas/migrating/
+      #- title: "Using schemas with the REST producer API"
+        #url: /schemas/using-with-rest-producer/
+      #- title: "Using the schema API"
+        #url: /schemas/schema-api/
+  #- title: Security
+    #children:
+      #- title: "Managing access"
+        #url: /security/managing-access/
+      #- title: "Encrypting your data"
+        #url: /security/encrypting-data/
+      #- title: "Configuring secure JMX connections"
+        #url: /security/secure-jmx-connections/
+      #- title: "Network policies"
+        #url: /security/network-policies/
+      #- title: "Considerations for GDPR"
+        #url: /security/gdpr-considerations/
+  #- title: Geo-replication
+    #children:
+      #- title: "About geo-replication"
+        #url: /georeplication/about/
+      #- title: "Planning for geo-replication"
+        #url: /georeplication/planning/
+      #- title: "Setting up geo-replication"
+        #url: /georeplication/setting-up/
+      #- title: "Monitoring and managing geo-replication"
+        #url: /georeplication/health/
+      #- title: "Switching clusters"
+        #url: /georeplication/failover/
+  #- title: Connecting external systems
+    #children:
+      #- title: "Event Streams producer API"
+       # url: /connecting/rest-api/
+      #- title: "Kafka Connect and connectors"
+       # url: /connecting/connectors/
+      #- title: "Setting up and running connectors"
+        #url: /connecting/setting-up-connectors/
+      #- title: "Connecting to IBM MQ"
+        #url: /connecting/mq/
+      #- title: "Running the MQ source connector"
+        #url: /connecting/mq/source/
+      #- title: "Running the MQ sink connector"
+        #url: /connecting/mq/sink/
+      #- title: "Running connectors on IBM z/OS"
+        #url: /connecting/mq/zos/
+  #- title: Administering
+    #children:
+      #- title: "Monitoring deployment health"
+        #url: /administering/deployment-health/
+      #- title: "Monitoring Kafka cluster health"
+        #url: /administering/cluster-health/
+      #- title: "Monitoring topic health"
+        #url: /administering/topic-health/
+      #- title: "Monitoring consumer group lag"
+        #url: /administering/consumer-lag/
+      #- title: "Monitoring applications with distributed tracing"
+        #url: /administering/tracing/
+      #- title: "Monitoring with external tools"
+        #url: /administering/external-monitoring/
+      #- title: "Modifying installation settings"
+        #url: /administering/modifying-installation/
+      #- title: "Scaling"
+        #url: /administering/scaling/
+      #- title: "Setting client quotas"
+        #url: /administering/quotas/
+      #- title: "Managing a multizone setup"
+        #url: /administering/managing-multizone/
+      #- title: "Stopping and starting Event Streams"
+        #url: /administering/stopping-starting/
+  #- title: Troubleshooting
+    #children:
+      #- title: "Troubleshooting overview"
+        #url: /troubleshooting/intro/
+      #- title: "Gathering logs"
+        #url: /troubleshooting/gathering-logs/
+      #- title: "Resources not available"
+        #url: /troubleshooting/resources-not-available/
+      #- title: "Error when creating multiple geo-replicators"
+        #url: /troubleshooting/georeplication-error/
+      #- title: "TimeoutException when using standard Kafka producer"
+        #url: /troubleshooting/kafka-producer-error/
+      #- title: "Standard Kafka consumer hangs"
+        #url: /troubleshooting/kafka-consumer-hangs/
+      #- title: "Command 'cloudctl es' fails with 'not a registered command' error"
+        #url: /troubleshooting/cloudctl-es-not-registered/
+      #- title: "Command 'cloudctl es' produces 'FAILED' message"
+        #url: /troubleshooting/cloudctl-es-fails/
+      #- title: "UI does not open when using Chrome on Ubuntu"
+        #url: /troubleshooting/chrome-ubuntu-issue/
+      #- title: "Unable to remove destination cluster"
+        #url: /troubleshooting/error-removing-destination/
+      #- title: "403 error when signing in"
+        #url: /troubleshooting/ui-403-error/
+      #- title: "The UI cannot load data"
+        #url: /troubleshooting/problem-with-piping/
+      #- title: "UI shows black images in Firefox"
+        #url: /troubleshooting/firefox-black-images/
+      #- title: "Event Streams not installing due to Security Context Constraint (SCC) issues"
+        #url: /troubleshooting/default-scc-issues/
+      #- title: "Not authorized error when building maven schema registry project"
+        #url: /troubleshooting/schema-registry-not-authorized-error/
+      #- title: "Client receives AuthorizationException when communicating with brokers"
+        #url: /troubleshooting/authorization-failed-exceptions/
+      #- title: "Required value error when installing on OpenShift 4.5.0-4.5.5"
+        #url: /troubleshooting/required-value-error/
+      #- title: "Operator is generating constant log output"
+        #url: /troubleshooting/operator-keeps-reconciling/
+
+# Sidebar navigation for 2019.4 version documentation.
+
+#20194docs:
+  #- title: About
+    #children:
+      #- title: "Introduction"
+        #url: /about/overview/
+      #- title: "What's new"
+        #url: /about/whats-new/
+      #- title: "Key concepts"
+        #url: /about/key-concepts/
+      #- title: "Producing messages"
+        #url: /about/producing-messages/
+      #- title: "Consuming messages"
+        #url: /about/consuming-messages/
+      #- title: "Partition leadership"
+        #url: /about/partition-leadership/
+      #- title: "Accessibility"
+        #url: /about/accessibility/
+      #- title: "Notices"
+        #url: /about/notices/
+  #- title: Installing and upgrading
+    #children:
+      #- title: "Trying out Event Streams"
+        #url: /installing/trying-out/
+      #- title: "Pre-requisites"
+        #url: /installing/prerequisites/
+      #- title: "Planning for installation"
+        #url: /installing/planning/
+      #- title: "Performance and capacity planning"
+        #url: /installing/capacity-planning/
+      #- title: "Preparing for multizone clusters"
+        #url: /installing/preparing-multizone/
+      #- title: "Installing on IBM Cloud Private"
+        #url: /installing/installing/
+      #- title: "Installing on OpenShift"
+        #url: /installing/installing-openshift/
+      #- title: "Configuring"
+        #url: /installing/configuring/
+      #- title: "Post-installation tasks"
+        #url: /installing/post-installation/
+      #- title: "Migrating from Community Edition"
+        #url: /installing/migrating/
+      #- title: "Migrating from open source Kafka"
+        #url: /installing/moving-from-oss-kafka/
+      #- title: "Uninstalling"
+        #url: /installing/uninstalling/
+      #- title: "Upgrading"
+        #url: /installing/upgrading/
+      #- title: "Rolling back"
+        #url: /installing/rolling-back/
+  #- title: Getting started
+    #children:
+      #- title: "Logging in"
+        #url: /getting-started/logging-in/
+      #- title: "Generating a starter application"
+        #url: /getting-started/generating-starter-app/
+      #- title: "Creating and testing message loads"
+        #url: /getting-started/testing-loads/
+      #- title: "Creating Kafka Java client applications"
+        #url: /getting-started/client/
+      #- title: "Using Apache Kafka console tools"
+        #url: /getting-started/using-kafka-console-tools/
+  #- title: Schemas
+    #children:
+      #- title: "Schemas overview"
+        #url: /schemas/overview/
+      #- title: "Creating and adding schemas"
+        #url: /schemas/creating/
+      #- title: "Managing schema lifecycle"
+        #url: /schemas/manage-lifecycle/
+      #- title: "Setting Java applications to use schemas"
+        #url: /schemas/setting-java-apps/
+      #- title: "Setting non-Java applications to use schemas"
+        #url: /schemas/setting-nonjava-apps/
+      #- title: "Migrating to Event Streams schema registry"
+        #url: /schemas/migrating/
+      #- title: "Using schemas with the REST producer API"
+        #url: /schemas/using-with-rest-producer/
+      #- title: "Using the schema API"
+        #url: /schemas/schema-api/
+  #- title: Security
+    #children:
+      #- title: "Managing access"
+        #url: /security/managing-access/
+      #- title: "Encrypting your data"
+        #url: /security/encrypting-data/
+      #- title: "Configuring secure JMX connections"
+        #url: /security/secure-jmx-connections/
+      #- title: "Updating certificates"
+        #url: /security/updating-certificates/
+      #- title: "Network policies"
+        #url: /security/network-policies/
+      #- title: "Considerations for GDPR"
+        #url: /security/gdpr-considerations/
+  #- title: Geo-replication
+    #children:
+      #- title: "About geo-replication"
+        #url: /georeplication/about/
+      #- title: "Planning for geo-replication"
+        #url: /georeplication/planning/
+      #- title: "Setting up geo-replication"
+        #url: /georeplication/setting-up/
+      #- title: "Monitoring and managing geo-replication"
+        #url: /georeplication/health/
+  #- title: Connecting external systems
+    #children:
+      #- title: "Producing messages using REST"
+        #url: /connecting/rest-api/
+      #- title: "Kafka Connect and connectors"
+        #url: /connecting/connectors/
+      #- title: "Setting up and running connectors"
+        #url: /connecting/setting-up-connectors/
+      #- title: "Connecting to IBM MQ"
+        #url: /connecting/mq/
+      #- title: "Running the MQ source connector"
+        #url: /connecting/mq/source/
+      #- title: "Running the MQ sink connector"
+        #url: /connecting/mq/sink/
+      #- title: "Running connectors on IBM z/OS"
+        #url: /connecting/mq/zos/
+      #- title: "Running connectors on IBM Cloud Private"
+        #url: /connecting/icp/
+  #- title: Administering
+    #children:
+      #- title: "Monitoring deployment health"
+        #url: /administering/deployment-health/
+      #- title: "Monitoring Kafka cluster health"
+        #url: /administering/cluster-health/
+      #- title: "Monitoring topic health"
+        #url: /administering/topic-health/
+      #- title: "Monitoring with external tools"
+        #url: /administering/external-monitoring/
+      #- title: "Modifying Kafka broker configurations"
+        #url: /administering/modifying-configs/
+      #- title: "Modifying installation settings"
+        #url: /administering/modifying-installation/
+      #- title: "Running Helm upgrade commands"
+        #url: /administering/helm-upgrade-command/
+      #- title: "Scaling"
+        #url: /administering/scaling/
+      #- title: "Setting client quotas"
+        #url: /administering/quotas/
+      #- title: "Managing a multizone setup"
+        #url: /administering/managing-multizone/
+      #- title: "Stopping and starting Event Streams"
+        #url: /administering/stopping-starting/
+  #- title: Troubleshooting
+    #children:
+      #- title: "Troubleshooting overview"
+        #url: /troubleshooting/intro/
+      #- title: "Diagnosing installation issues"
+        #url: /troubleshooting/diagnosing-installation-issues/
+      #- title: "Gathering logs"
+        #url: /troubleshooting/gathering-logs/
+      #- title: "Resources not available"
+        #url: /troubleshooting/resources-not-available/
+      #- title: "Full cleanup after uninstallation"
+        #url: /troubleshooting/cleanup-uninstall/
+      #- title: "ConsumerTimeoutException when pods available"
+        #url: /troubleshooting/pod-timeout-error/
+      #- title: "Error when creating multiple geo-replicators"
+        #url: /troubleshooting/georeplication-error/
+      #- title: "TimeoutException when using standard Kafka producer"
+        #url: /troubleshooting/kafka-producer-error/
+      #- title: "Standard Kafka consumer hangs"
+        #url: /troubleshooting/kafka-consumer-hangs/
+      #- title: "Command 'cloudctl es' fails with 'not a registered command' error"
+        #url: /troubleshooting/cloudctl-es-not-registered/
+      #- title: "Command 'cloudctl es' produces 'FAILED' message"
+        #url: /troubleshooting/cloudctl-es-fails/
+      #- title: "UI does not open when using Chrome on Ubuntu"
+        #url: /troubleshooting/chrome-ubuntu-issue/
+      #- title: "Chart deployment fails with 'no ImagePolicies' error"
+        #url: /troubleshooting/no-image-policy/
+      #- title: "Chart deployment fails with 'no matching repositories in the ImagePolicies' error"
+        #url: /troubleshooting/image-policy-missing-repository/
+      #- title: "Chart deployment starts but no helm release is created"
+        #url: /troubleshooting/no-helm-release-is-created/
+      #- title: "The Messages page is blank"
+        #url: /troubleshooting/messages-page-blank/
+      #- title: "Unable to connect to Kafka cluster"
+        #url: /troubleshooting/kafka-connection-issue/
+      #- title: "Unable to remove destination cluster"
+        #url: /troubleshooting/error-removing-destination/
+      #- title: "Geo-replication fails to start"
+        #url: /troubleshooting/georeplication-connect-error/
+      #- title: "403 error when signing in"
+        #url: /troubleshooting/ui-403-error/
+      #- title: "Kafka client apps unable to connect to cluster"
+        #url: /troubleshooting/client-connect-error/
+      #- title: "The UI cannot load data"
+        #url: /troubleshooting/problem-with-piping/
+      #- title: "Helm commands fail when running as Team Administrator"
+        #url: /troubleshooting/helm-cli-team-administrator/
+      #- title: "UI does not open when using Chrome on macOS Catalina"
+        #url: /troubleshooting/chrome-macos-issue/
+      #- title: "Error when geo-replicating to an earlier version of Event Streams"
+        #url: /troubleshooting/georeplication-version-error/
+      #- title: "Error when downloading Java dependencies for schema registry"
+        #url: /troubleshooting/schemaregistry-java-deps-download-error/
+      #- title: "Failed to read 'log header' errors in Kafka logs"
+        #url: /troubleshooting/failed-to-read-log/
+
+# Sidebar navigation for 2019.2.1 version documentation.
+
+#201921docs:
+  #- title: About
+    #children:
+      #- title: "Introduction"
+        #url: /about/overview/
+      #- title: "What's new"
+        #url: /about/whats-new/
+      #- title: "Key concepts"
+        #url: /about/key-concepts/
+      #- title: "Producing messages"
+        #url: /about/producing-messages/
+      #- title: "Consuming messages"
+        #url: /about/consuming-messages/
+      #- title: "Partition leadership"
+        #url: /about/partition-leadership/
+      #- title: "Accessibility"
+        #url: /about/accessibility/
+      #- title: "Notices"
+        #url: /about/notices/
+  #- title: Installing and upgrading
+    #children:
+      #- title: "Trying out Event Streams"
+        #url: /installing/trying-out/
+      #- title: "Pre-requisites"
+        #url: /installing/prerequisites/
+      #- title: "Planning for installation"
+        #url: /installing/planning/
+      #- title: "Performance and capacity planning"
+        #url: /installing/capacity-planning/
+      #- title: "Installing on IBM Cloud Private"
+        #url: /installing/installing/
+      #- title: "Installing on OpenShift"
+        #url: /installing/installing-openshift/
+      #- title: "Configuring"
+        #url: /installing/configuring/
+      #- title: "Migrating from Community Edition"
+        #url: /installing/migrating/
+      #- title: "Post-installation tasks"
+        #url: /installing/post-installation/
+      #- title: "Uninstalling"
+        #url: /installing/uninstalling/
+      #- title: "Upgrading"
+        #url: /installing/upgrading/
+      #- title: "Rolling back"
+        #url: /installing/rolling-back/
+  #- title: Getting started
+    #children:
+      #- title: "Logging in"
+        #url: /getting-started/logging-in/
+      #- title: "Generating a starter application"
+        #url: /getting-started/generating-starter-app/
+      #- title: "Creating and testing message loads"
+        #url: /getting-started/testing-loads/
+      #- title: "Creating Kafka Java client applications"
+        #url: /getting-started/client/
+      #- title: "Using Apache Kafka console tools"
+        #url: /getting-started/using-kafka-console-tools/
+  #- title: Schemas
+    #children:
+      #- title: "Schemas overview"
+        #url: /schemas/overview/
+      #- title: "Creating and adding schemas"
+        #url: /schemas/creating/
+      #- title: "Managing schema lifecycle"
+        #url: /schemas/manage-lifecycle/
+      #- title: "Setting Java applications to use schemas"
+        #url: /schemas/setting-java-apps/
+      #- title: "Setting non-Java applications to use schemas"
+        #url: /schemas/setting-nonjava-apps/
+      #- title: "Migrating to Event Streams schema registry"
+        #url: /schemas/migrating/
+      #- title: "Using schemas with the REST producer API"
+        #url: /schemas/using-with-rest-producer/
+      #- title: "Using the schema API"
+        #url: /schemas/schema-api/
+  #- title: Security
+    #children:
+      #- title: "Managing access"
+        #url: /security/managing-access/
+      #- title: "Encrypting your data"
+        #url: /security/encrypting-data/
+      #- title: "Configuring secure JMX connections"
+        #url: /security/secure-jmx-connections/
+      #- title: "Network policies"
+        #url: /security/network-policies/
+      #- title: "Considerations for GDPR"
+        #url: /security/gdpr-considerations/
+  #- title: Geo-replication
+    #children:
+      #- title: "About geo-replication"
+        #url: /georeplication/about/
+      #- title: "Planning for geo-replication"
+        #url: /georeplication/planning/
+      #- title: "Setting up geo-replication"
+        #url: /georeplication/setting-up/
+      #- title: "Monitoring and managing geo-replication"
+        #url: /georeplication/health/
+  #- title: Connecting external systems
+    #children:
+      #- title: "Producing messages using REST"
+        #url: /connecting/rest-api/
+      #- title: "Kafka Connect and connectors"
+        #url: /connecting/connectors/
+      #- title: "Setting up and running connectors"
+        #url: /connecting/setting-up-connectors/
+      #- title: "Connecting to IBM MQ"
+        #url: /connecting/mq/
+      #- title: "Running the MQ source connector"
+        #url: /connecting/mq/source/
+      #- title: "Running the MQ sink connector"
+        #url: /connecting/mq/sink/
+      #- title: "Running connectors on IBM z/OS"
+        #url: /connecting/mq/zos/
+      #- title: "Running connectors on IBM Cloud Private"
+        #url: /connecting/icp/
+  #- title: Administering
+    #children:
+      #- title: "Monitoring deployment health"
+        #url: /administering/deployment-health/
+      #- title: "Monitoring Kafka cluster health"
+        #url: /administering/cluster-health/
+      #- title: "Monitoring topic health"
+        #url: /administering/topic-health/
+      #- title: "Monitoring with external tools"
+        #url: /administering/external-monitoring/
+      #- title: "Modifying Kafka broker configurations"
+        #url: /administering/modifying-configs/
+      #- title: "Modifying installation settings"
+        #url: /administering/modifying-installation/
+      #- title: "Running Helm upgrade commands"
+        #url: /administering/helm-upgrade-command/
+      #- title: "Scaling"
+        #url: /administering/scaling/
+      #- title: "Setting client quotas"
+        #url: /administering/quotas/
+  #- title: Troubleshooting
+    #children:
+      #- title: "Troubleshooting overview"
+        #url: /troubleshooting/intro/
+      #- title: "Diagnosing installation issues"
+        #url: /troubleshooting/diagnosing-installation-issues/
+      #- title: "Gathering logs"
+        #url: /troubleshooting/gathering-logs/
+      #- title: "Resources not available"
+        #url: /troubleshooting/resources-not-available/
+      #- title: "Full cleanup after uninstallation"
+        #url: /troubleshooting/cleanup-uninstall/
+      #- title: "ConsumerTimeoutException when pods available"
+        #url: /troubleshooting/pod-timeout-error/
+      #- title: "Error when creating multiple geo-replicators"
+        #url: /troubleshooting/georeplication-error/
+      #- title: "TimeoutException when using standard Kafka producer"
+        #url: /troubleshooting/kafka-producer-error/
+      #- title: "Standard Kafka consumer hangs"
+        #url: /troubleshooting/kafka-consumer-hangs/
+      #- title: "Command 'cloudctl es' fails with 'not a registered command' error"
+        #url: /troubleshooting/cloudctl-es-not-registered/
+      #- title: "Command 'cloudctl es' produces 'FAILED' message"
+        #url: /troubleshooting/cloudctl-es-fails/
+      #- title: "UI does not open when using Chrome on Ubuntu"
+        #url: /troubleshooting/chrome-ubuntu-issue/
+      #- title: "Chart deployment fails with 'no ImagePolicies' error"
+        #url: /troubleshooting/no-image-policy/
+      #- title: "Chart deployment fails with 'no matching repositories in the ImagePolicies' error"
+        #url: /troubleshooting/image-policy-missing-repository/
+      #- title: "Chart deployment starts but no helm release is created"
+        #url: /troubleshooting/no-helm-release-is-created/
+      #- title: "The Messages page is blank"
+        #url: /troubleshooting/messages-page-blank/
+      #- title: "Unable to connect to Kafka cluster"
+        #url: /troubleshooting/kafka-connection-issue/
+      #- title: "Unable to remove destination cluster"
+        #url: /troubleshooting/error-removing-destination/
+      #- title: "Geo-replication fails to start"
+        #url: /troubleshooting/georeplication-connect-error/
+      #- title: "403 error when signing in"
+        #url: /troubleshooting/ui-403-error/
+      #- title: "Kafka client apps unable to connect to cluster"
+        #url: /troubleshooting/client-connect-error/
+      #- title: "Rollback fails"
+        #url: /troubleshooting/rollback-fails/
+      #- title: "The UI cannot load data"
+        #url: /troubleshooting/problem-with-piping/
+      #- title: "Cannot add schemas when using IBM Cloud Private 3.1.2"
+        #url: /troubleshooting/cannot-add-schemas-icp312/
+      #- title: "Cannot add schemas after installing earlier Event Streams version"
+        #url: /troubleshooting/cannot-add-schemas-earlier-install/
+      #- title: "Redis latency due to Transparent Huge Pages"
+        #url: /troubleshooting/redis-latency-transparent-huge-pages/
+      #- title: "Failed to read 'log header' errors in Kafka logs"
+        #url: /troubleshooting/failed-to-read-log/
+
+# Sidebar navigation for 2019.1.1 version documentation.
+
+#201911docs:
+  #- title: About
+    #children:
+      #- title: "Introduction"
+        #url: /about/overview/
+      #- title: "What's new"
+        #url: /about/whats-new/
+      #- title: "Key concepts"
+        #url: /about/key-concepts/
+      #- title: "Producing messages"
+        #url: /about/producing-messages/
+      #- title: "Consuming messages"
+        #url: /about/consuming-messages/
+      #- title: "Partition leadership"
+        #url: /about/partition-leadership/
+      #- title: "Accessibility"
+        #url: /about/accessibility/
+      #- title: "Notices"
+        #url: /about/notices/
+  #- title: Installing
+    #children:
+      #- title: "Trying out Event Streams"
+        #url: /installing/trying-out/
+      #- title: "Pre-requisites"
+        #url: /installing/prerequisites/
+      #- title: "Planning for installation"
+        #url: /installing/planning/
+      #- title: "Capacity planning"
+        #url: /installing/capacity-planning/
+      #- title: "Installing on IBM Cloud Private"
+        #url: /installing/installing/
+      #- title: "Installing on OpenShift"
+        #url: /installing/installing-openshift/
+      #- title: "Configuring"
+        #url: /installing/configuring/
+      #- title: "Migrating from Community Edition"
+        #url: /installing/migrating/
+      #- title: "Post-installation tasks"
+        #url: /installing/post-installation/
+      #- title: "Uninstalling"
+        #url: /installing/uninstalling/
+      #- title: "Upgrading"
+        #url: /installing/upgrading/
+      #- title: "Rolling back"
+        #url: /installing/rolling-back/
+  #- title: Getting started
+    #children:
+      #- title: "Logging in"
+        #url: /getting-started/logging-in/
+      #- title: "Generating a starter application"
+        #url: /getting-started/generating-starter-app/
+      #- title: "Creating and testing message loads"
+        #url: /getting-started/testing-loads/
+      #- title: "Creating Kafka Java client applications"
+        #url: /getting-started/client/
+      #- title: "Using Apache Kafka console tools"
+        #url: /getting-started/using-kafka-console-tools/
+  #- title: Security
+    #children:
+      #- title: "Managing access"
+        #url: /security/managing-access/
+      #- title: "Encrypting your data"
+       #url: /security/encrypting-data/
+      #- title: "Configuring secure JMX connections"
+        #url: /security/secure-jmx-connections/
+      #- title: "Network policies"
+        #url: /security/network-policies/
+      #- title: "Considerations for GDPR"
+        #url: /security/gdpr-considerations/
+  #- title: Geo-replication
+    #children:
+      #- title: "About geo-replication"
+        #url: /georeplication/about/
+      #- title: "Planning for geo-replication"
+        #url: /georeplication/planning/
+      #- title: "Setting up geo-replication"
+        #url: /georeplication/setting-up/
+      #- title: "Monitoring and managing geo-replication"
+        #url: /georeplication/health/
+  #- title: Connecting other systems
+    #children:
+      #- title: "Producing messages using REST"
+        #url: /connecting/rest-api/
+      #- title: "Connecting to IBM MQ"
+        #url: /connecting/mq/
+      #- title: "Running the MQ source connector"
+        #url: /connecting/mq/source/
+      #- title: "Running the MQ sink connector"
+        #url: /connecting/mq/sink/
+      #- title: "Running connectors on IBM z/OS"
+        #url: /connecting/mq/zos/
+  #- title: Administering
+    #children:
+      #- title: "Monitoring deployment health"
+        #url: /administering/deployment-health/
+      #- title: "Monitoring Kafka cluster health"
+        #url: /administering/cluster-health/
+      #- title: "Monitoring topic health"
+        #url: /administering/topic-health/
+      #- title: "Monitoring with external tools"
+        #url: /administering/external-monitoring/
+      #- title: "Modifying Kafka broker configurations"
+        #url: /administering/modifying-configs/
+      #- title: "Modifying installation settings"
+        #url: /administering/modifying-installation/
+      #- title: "Running Helm upgrade commands"
+        #url: /administering/helm-upgrade-command/
+      #- title: "Scaling"
+        #url: /administering/scaling/
+      #- title: "Setting client quotas"
+        #url: /administering/quotas/
+  #- title: Troubleshooting
+    #children:
+      #- title: "Troubleshooting overview"
+        #url: /troubleshooting/intro/
+      #- title: "Diagnosing installation issues"
+        #url: /troubleshooting/diagnosing-installation-issues/
+      #- title: "Resources not available"
+        #url: /troubleshooting/resources-not-available/
+      #- title: "Full cleanup after uninstallation"
+        #url: /troubleshooting/cleanup-uninstall/
+      #- title: "ConsumerTimeoutException when pods available"
+        #url: /troubleshooting/pod-timeout-error/
+      #- title: "Error when creating multiple geo-replicators"
+        #url: /troubleshooting/georeplication-error/
+      #- title: "TimeoutException when using standard Kafka producer"
+        #url: /troubleshooting/kafka-producer-error/
+      #- title: "Standard Kafka consumer hangs"
+        #url: /troubleshooting/kafka-consumer-hangs/
+      #- title: "Command 'cloudctl es' fails with 'not a registered command' error"
+        #url: /troubleshooting/cloudctl-es-not-registered/
+      #- title: "Command 'cloudctl es' produces 'FAILED' message"
+        #url: /troubleshooting/cloudctl-es-fails/
+      #- title: "UI does not open when using Chrome on Ubuntu"
+        #url: /troubleshooting/chrome-ubuntu-issue/
+      #- title: "Chart deployment fails with 'no ImagePolicies' error"
+        #url: /troubleshooting/no-image-policy/
+      #- title: "Chart deployment fails with 'no matching repositories in the ImagePolicies' error"
+        #url: /troubleshooting/image-policy-missing-repository/
+      #- title: "Chart deployment starts but no helm release is created"
+        #url: /troubleshooting/no-helm-release-is-created/
+      #- title: "The Messages page is blank"
+        #url: /troubleshooting/messages-page-blank/
+      #- title: "Unable to connect to Kafka cluster"
+        #url: /troubleshooting/kafka-connection-issue/
+      #- title: "Unable to remove destination cluster"
+        #url: /troubleshooting/error-removing-destination/
+      #- title: "Geo-replication fails to start"
+        #url: /troubleshooting/georeplication-connect-error/
+      #- title: "403 error when signing in"
+        #url: /troubleshooting/ui-403-error/
+      #- title: "Pods fail to start, status is blocked"
+        #url: /troubleshooting/pods-apparmor-blocked/
+      #- title: "Kafka client apps unable to connect to cluster"
+        #url: /troubleshooting/client-connect-error/
+      #- title: "Rollback fails"
+        #url: /troubleshooting/rollback-fails/
+      #- title: "The UI cannot load data"
+        #url: /troubleshooting/problem-with-piping/
+      #- title: "Failed to read 'log header' errors in Kafka logs"
+        #url: /troubleshooting/failed-to-read-log/
+
+# Sidebar navigation for version 2018.3.1 documentation.
+
+#201831docs:
+  #- title: About
+    #children:
+      #- title: "Introduction"
+        #url: /about/overview/
+      #- title: "What's new"
+        #url: /about/whats-new/
+      #- title: "Key concepts"
+       # url: /about/key-concepts/
+      #- title: "Producing messages"
+        #url: /about/producing-messages/
+      #- title: "Consuming messages"
+        #url: /about/consuming-messages/
+      #- title: "Partition leadership"
+        #url: /about/partition-leadership/
+      #- title: "Accessibility"
+        #url: /about/accessibility/
+      #- title: "Notices"
+        #url: /about/notices/
+  #- title: Installing
+    #children:
+      #- title: "Trying out Event Streams"
+        #url: /installing/trying-out/
+      #- title: "Pre-requisites"
+        #url: /installing/prerequisites/
+      #- title: "Planning for installation"
+        #url: /installing/planning/
+      #- title: "Capacity planning"
+        #url: /installing/capacity-planning/
+      #- title: "Installing"
+        #url: /installing/installing/
+      #- title: "Configuring"
+        #url: /installing/configuring/
+      #- title: "Migrating from Community Edition"
+        #url: /installing/migrating/
+      #- title: "Post-installation tasks"
+        #url: /installing/post-installation/
+      #- title: "Uninstalling"
+        #url: /installing/uninstalling/
+      #- title: "Upgrading"
+        #url: /installing/upgrading/
+  #- title: Getting started
+    #children:
+      #- title: "Logging in"
+        #url: /getting-started/logging-in/
+      #- title: "Generating a starter application"
+        #url: /getting-started/generating-starter-app/
+      #- title: "Creating and testing message loads"
+        #url: /getting-started/testing-loads/
+      #- title: "Creating Kafka Java client applications"
+        #url: /getting-started/client/
+      #- title: "Using Apache Kafka console tools"
+        #url: /getting-started/using-kafka-console-tools/
+  #- title: Security
+    #children:
+      #- title: "Managing access"
+        #url: /security/managing-access/
+      #- title: "Encrypting your data"
+        #url: /security/encrypting-data/
+      #- title: "Considerations for GDPR"
+        #url: /security/gdpr-considerations/
+  #- title: Geo-replication
+    #children:
+      #- title: "About geo-replication"
+        #url: /georeplication/about/
+      #- title: "Planning for geo-replication"
+        #url: /georeplication/planning/
+      #- title: "Setting up geo-replication"
+        #url: /georeplication/setting-up/
+      #- title: "Monitoring and managing of geo-replication"
+        #url: /georeplication/health/
+  #- title: Connecting other systems
+    #children:
+      #- title: "Connecting to IBM MQ"
+        #url: /connecting/mq/
+      #- title: "Running the MQ source connector"
+        #url: /connecting/mq/source/
+      #- title: "Running the MQ sink connector"
+        #url: /connecting/mq/sink/
+      #- title: "Running connectors on IBM z/OS"
+        #url: /connecting/mq/zos/
+  #- title: Administering
+    #children:
+      #- title: "Monitoring deployment health"
+        #url: /administering/deployment-health/
+      #- title: "Monitoring Kafka cluster health"
+        #url: /administering/cluster-health/
+      #- title: "Modifying Kafka broker configurations"
+        #url: /administering/modifying-configs/
+      #- title: "Running Helm upgrade commands"
+        #url: /administering/helm-upgrade-command/
+      #- title: "Scaling"
+        #url: /administering/scaling/
+      #- title: "Setting client quotas"
+        #url: /administering/quotas/
+  #- title: Troubleshooting
+    #children:
+      #- title: "Troubleshooting overview"
+        #url: /troubleshooting/intro/
+      #- title: "Diagnosing installation issues"
+        #url: /troubleshooting/diagnosing-installation-issues/
+      #- title: "Resources not available"
+        #url: /troubleshooting/resources-not-available/
+      #- title: "Full cleanup after uninstallation"
+        #url: /troubleshooting/cleanup-uninstall/
+      #- title: "ConsumerTimeoutException when pods available"
+        #url: /troubleshooting/pod-timeout-error/
+      #- title: "Error when creating multiple geo-replicators"
+        #url: /troubleshooting/georeplication-error/
+      #- title: "TimeoutException when using standard Kafka producer"
+        #url: /troubleshooting/kafka-producer-error/
+      #- title: "Standard Kafka consumer hangs"
+        #url: /troubleshooting/kafka-consumer-hangs/
+      #- title: "Command 'cloudctl es' fails with 'not a registered command' error"
+        #url: /troubleshooting/cloudctl-es-not-registered/
+      #- title: "Command 'cloudctl es' produces 'FAILED' message"
+        #url: /troubleshooting/cloudctl-es-fails/
+      #- title: "UI does not open when using Chrome on Ubuntu"
+        #url: /troubleshooting/chrome-ubuntu-issue/
+      #- title: "Chart deployment fails with 'no ImagePolicies' error"
+        #url: /troubleshooting/no-image-policy/
+      #- title: "Chart deployment fails with 'no matching repositories in the ImagePolicies' error"
+        #url: /troubleshooting/image-policy-missing-repository/
+      #- title: "Chart deployment starts but no helm release is created"
+        #url: /troubleshooting/no-helm-release-is-created/
+      #- title: "The Messages page is blank"
+        #url: /troubleshooting/messages-page-blank/
+      #- title: "Unable to connect to Kafka cluster"
+        #url: /troubleshooting/kafka-connection-issue/
+      #- title: "Unable to remove destination cluster"
+        #url: /troubleshooting/error-removing-destination/
+      #- title: "Geo-replication fails to start"
+        #url: /troubleshooting/georeplication-connect-error/
+      #- title: "403 error when signing in"
+        #url: /troubleshooting/ui-403-error/
+      #- title: "Pods fail to start, status is blocked"
+        #url: /troubleshooting/pods-apparmor-blocked/
+      #- title: "Kafka client apps unable to connect to cluster"
+        #url: /troubleshooting/client-connect-error/
+      #- title: "Failed to read 'log header' errors in Kafka logs"
+        #url: /troubleshooting/failed-to-read-log/

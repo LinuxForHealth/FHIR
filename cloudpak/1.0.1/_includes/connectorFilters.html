@@ -1,0 +1,107 @@
+<div class="filterContent" id="filterArea">
+  <div class="filterCount">
+    <div class="title">
+      Filter is active
+    </div>
+    <button class="trigger" tabindex="-1" role="link" onclick="clearFilterArea();">
+      Clear
+    </button>
+  </div>
+  <div id="filters" class="filters bothActive">
+    <div class="actualFilters">
+      <div id="supportLevelFilter" class="filterGroup">
+        <p class="secondary">Filter by support provider</p>
+        <div class="toggles">
+          <button id="ibmTag" class="tagToggle" tabindex="-1" role="link"
+            onclick="toggleTag(this,'supportLevelFilter','ibmTag')">
+            <p>IBM Support</p>
+            <div class="eye open">
+              <svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink">
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g fill-rule="nonzero">
+                    <path
+                      d="M7.99978728,5 C9.65664153,5 10.9997873,6.34314575 10.9997873,8 C10.9997873,9.65685425 9.65664153,11 7.99978728,11 C6.34293303,11 4.99978728,9.65685425 4.99978728,8 C4.99978728,6.34314575 6.34293303,5 7.99978728,5 Z M7.99978728,10 C8.53022026,10 9.03892809,9.78928632 9.41400084,9.41421356 C9.7890736,9.03914081 9.99978728,8.53043298 9.99978728,8 C9.99978728,6.8954305 9.10435678,6 7.99978728,6 C6.89521778,6 5.99978728,6.8954305 5.99978728,8 C5.99978728,9.1045695 6.89521778,10 7.99978728,10 Z"
+                      fill="#FFFFFF"></path>
+                    <path
+                      d="M1.00007124,7.99981596 C2.13359254,10.9163293 4.89123829,12.8815169 7.98080114,13.0003606 C11.1119697,12.8813772 13.8724677,10.9117045 14.9995746,8 L15.0034958,8.01047772 C13.8724677,5.08829545 11.1119697,3.11862283 8.01877342,2.9996394 C4.88767084,3.11862033 2.12722317,5.08821245 1.00007124,7.99981596 Z"
+                      stroke="#FFFFFF"></path>
+                  </g>
+                </g>
+              </svg>
+            </div>
+          </button>
+          <button id="communityTag" class="tagToggle" tabindex="-1" role="link"
+            onclick="toggleTag(this,'supportLevelFilter','communityTag')">
+            <p>Community</p>
+            <div class="eye open">
+              <svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink">
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g fill-rule="nonzero">
+                    <path
+                      d="M7.99978728,5 C9.65664153,5 10.9997873,6.34314575 10.9997873,8 C10.9997873,9.65685425 9.65664153,11 7.99978728,11 C6.34293303,11 4.99978728,9.65685425 4.99978728,8 C4.99978728,6.34314575 6.34293303,5 7.99978728,5 Z M7.99978728,10 C8.53022026,10 9.03892809,9.78928632 9.41400084,9.41421356 C9.7890736,9.03914081 9.99978728,8.53043298 9.99978728,8 C9.99978728,6.8954305 9.10435678,6 7.99978728,6 C6.89521778,6 5.99978728,6.8954305 5.99978728,8 C5.99978728,9.1045695 6.89521778,10 7.99978728,10 Z"
+                      fill="#FFFFFF"></path>
+                    <path
+                      d="M1.00007124,7.99981596 C2.13359254,10.9163293 4.89123829,12.8815169 7.98080114,13.0003606 C11.1119697,12.8813772 13.8724677,10.9117045 14.9995746,8 L15.0034958,8.01047772 C13.8724677,5.08829545 11.1119697,3.11862283 8.01877342,2.9996394 C4.88767084,3.11862033 2.12722317,5.08821245 1.00007124,7.99981596 Z"
+                      stroke="#FFFFFF"></path>
+                  </g>
+                </g>
+              </svg>
+            </div>
+          </button>
+        </div>
+      </div>
+      <!-- <div id="typeFilter" class="filterGroup">
+        <p class="secondary">Filter by connector type</p>
+        <div class="toggles">
+          <button id="kafkaConnectTag" class="tagToggle" tabindex="-1" role="link"
+            onclick="toggleTag(this,'typeFilter','kafkaConnectTag')">
+            <p>Kafka Connect</p>
+            <div class="eye open">
+              <svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink">
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g fill-rule="nonzero">
+                    <path
+                      d="M7.99978728,5 C9.65664153,5 10.9997873,6.34314575 10.9997873,8 C10.9997873,9.65685425 9.65664153,11 7.99978728,11 C6.34293303,11 4.99978728,9.65685425 4.99978728,8 C4.99978728,6.34314575 6.34293303,5 7.99978728,5 Z M7.99978728,10 C8.53022026,10 9.03892809,9.78928632 9.41400084,9.41421356 C9.7890736,9.03914081 9.99978728,8.53043298 9.99978728,8 C9.99978728,6.8954305 9.10435678,6 7.99978728,6 C6.89521778,6 5.99978728,6.8954305 5.99978728,8 C5.99978728,9.1045695 6.89521778,10 7.99978728,10 Z"
+                      fill="#FFFFFF"></path>
+                    <path
+                      d="M1.00007124,7.99981596 C2.13359254,10.9163293 4.89123829,12.8815169 7.98080114,13.0003606 C11.1119697,12.8813772 13.8724677,10.9117045 14.9995746,8 L15.0034958,8.01047772 C13.8724677,5.08829545 11.1119697,3.11862283 8.01877342,2.9996394 C4.88767084,3.11862033 2.12722317,5.08821245 1.00007124,7.99981596 Z"
+                      stroke="#FFFFFF"></path>
+                  </g>
+                </g>
+              </svg>
+            </div>
+          </button>
+          <button id="otherTag" class="tagToggle" tabindex="-1" role="link"
+            onclick="toggleTag(this,'typeFilter','otherTag')">
+            <p>Other</p>
+            <div class="eye open">
+              <svg width="16px" height="16px" viewBox="0 0 16 16" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink">
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                  <g fill-rule="nonzero">
+                    <path
+                      d="M7.99978728,5 C9.65664153,5 10.9997873,6.34314575 10.9997873,8 C10.9997873,9.65685425 9.65664153,11 7.99978728,11 C6.34293303,11 4.99978728,9.65685425 4.99978728,8 C4.99978728,6.34314575 6.34293303,5 7.99978728,5 Z M7.99978728,10 C8.53022026,10 9.03892809,9.78928632 9.41400084,9.41421356 C9.7890736,9.03914081 9.99978728,8.53043298 9.99978728,8 C9.99978728,6.8954305 9.10435678,6 7.99978728,6 C6.89521778,6 5.99978728,6.8954305 5.99978728,8 C5.99978728,9.1045695 6.89521778,10 7.99978728,10 Z"
+                      fill="#FFFFFF"></path>
+                    <path
+                      d="M1.00007124,7.99981596 C2.13359254,10.9163293 4.89123829,12.8815169 7.98080114,13.0003606 C11.1119697,12.8813772 13.8724677,10.9117045 14.9995746,8 L15.0034958,8.01047772 C13.8724677,5.08829545 11.1119697,3.11862283 8.01877342,2.9996394 C4.88767084,3.11862033 2.12722317,5.08821245 1.00007124,7.99981596 Z"
+                      stroke="#FFFFFF"></path>
+                  </g>
+                </g>
+              </svg>
+
+            </div>
+
+          </button>
+        </div>
+      </div> -->
+    </div>
+    <div class="filterTriggerArea">
+      <button class="trigger" tabindex="-1" role="link" onclick="clearFilterArea();">
+        Clear
+      </button>
+    </div>
+  </div>
+</div>

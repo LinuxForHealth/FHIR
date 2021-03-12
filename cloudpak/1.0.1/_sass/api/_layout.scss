@@ -1,0 +1,9 @@
+.toc-wrapper {
+    flex-grow: 0;
+    flex-basis: 15rem;
+    flex-shrink: 0;
+    background: #fff;
+    flex-direction: column;
+    display: flex;
+    border-right: 1px solid $keyline;
+}

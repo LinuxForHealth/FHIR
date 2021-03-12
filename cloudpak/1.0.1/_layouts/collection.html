@@ -1,0 +1,59 @@
+---
+layout: archive
+---
+
+<main class="mainContent">
+  <div class="page">
+    <div class="page__inner-wrap">
+      <div class="collectionPageContent">
+
+          <div class="contentContainer {% if page.toc %}tocOpen{% endif %} pageSpacing">         
+              
+              {% for item in page.sections %}
+              
+                  <div class="gridContainer">
+                    <div class="card blank">
+                      <div class="largeCard">
+                          <div class="content">
+                              <h1>{{ item.name }}</h1>
+                              {% if item.description %}
+                                <p>{{ item.description }}</p>
+                              {% endif %}
+                          </div>
+                      </div>
+                    </div>
+                    {% include documents-collection.html collection=page.collection sort_by=page.sort_by sort_order=page.sort_order type=page.entries_layout section=item.name %}
+                  </div>
+              
+              {% endfor %}
+              
+  
+              {{ content }}
+              </div>
+
+
+      </div>
+      {% if page.toc %}
+      <div class="sidebar__right ">
+        <div class="fixedSidebar">
+
+            <aside class="sidebar__right">
+
+                  <nav class="toc">
+                    {% include toc.html sanitize=true html=afterHTML h_min=1 h_max=2 class="toc__menu" %}
+                  </nav>
+
+                
+            </aside>
+
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</main>
+
+
+
+
+

@@ -1,0 +1,12 @@
+.apiContainer {
+    padding: 0;
+    margin: 0;
+    iframe {
+        width: 100vw;
+        border: none;
+        outline: none;
+        height: calc(100vh - 3.5rem);
+        opacity: 0;
+        transition: 0.4s;
+    }
+}

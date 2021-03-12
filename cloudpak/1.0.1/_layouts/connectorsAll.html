@@ -1,0 +1,134 @@
+---
+layout: default
+---
+
+{%- assign connectorOpen = false -%}
+{%- assign connectorPanelIsOpen = false -%}
+
+{% if page.connectorID %}
+  {%- assign connectorOpen = true -%}
+  {% assign connectorPanelIsOpen = "connectorOpen" %}
+{% endif %}
+{% if page.forID %}
+  {%- assign connectorOpen = true -%}
+  {% assign connectorPanelIsOpen = "connectorOpen" %}
+{% endif %}
+
+<div id="connectorsAll" class="connectorsAll {{ connectorPanelIsOpen }}">
+  {%- assign pageCategory = "all" -%}
+  {% for link in site.data.navigation.connectorCategories %}
+    {%- if page.url contains link.slug -%}
+      {%- assign pageCategory = link.slug -%}
+    {%- endif -%}
+  {% endfor %}
+  <div id="connectorsLayout" class="connectorsLayout">
+    <div id="splashPanel" class="sidePanel splashPanel desktopSplashPanel">
+      {% include connectorSplash.html %}
+    </div>
+    <div id="connectorsCardsContainer" class="connectorsCardsContainer">
+      <div id="mobileSplashPanel" class="splashPanel mobileSplashPanel">
+        {% include connectorSplash.html isFadeContainer="true" %}
+      </div>
+      <div id="connectorsCards" class="connectorsCards {{ pageCategory }}">
+        <div class="allCards {{ pageCategory }}">
+          {% include connectorCategories.html %}
+          {% include connectorFilters.html %}
+
+          {% assign isAllConnectors = false %}
+          {% if page.url == "/connectors" %}
+          {% assign isAllConnectors = true %}
+          {% endif %}
+          <div class="cards">
+            <div id="cardsContainer" class="cardsContainer vertical">
+              {% assign sortedConnectors = "" | split: ',' %}
+              {% include sortingCards.html %}                
+
+              {% assign count = 0 %}
+              {% for connector in sortedConnectors %}
+                {% assign count = count | plus: 1 %}
+                {% assign connectorURL =  connector.url | split: "/" %}
+                {% assign connectorID = connector.connectorID %}
+                {% assign pageConnectorID = page.connectorID %}
+                {% assign connectorTags = connector.tags %}
+                {% assign connectorSupport = connector.support %}
+                {% assign connectorType = connector.type %}
+                {% assign connectorInitial = "" %}
+                {% if connector.iconInitial %}
+                  {% assign connectorInitial = connector.iconInitial %}
+                  {% assign connectorGradient = connector.iconGradient | default: 1 %}
+                {% endif %}
+                {% capture connectorURL %}{{ site.url }}{{ site.baseurl }}{{ connector.url }}{% endcapture %}
+                {%- comment -%}index.md is used to prevent subpages appearing as tiles{%- endcomment -%}
+                {% if connector.path contains "index.md" %}
+                  {% include connectorCard.html countInc=count connectorID=connectorID gradientID=connectorGradient connectorInitialString=connectorInitial pageConnectorID=pageConnectorID connectorTags=connectorTags connectorURL=connectorURL connectorSupport=connectorSupport connectorType=connectorType %}
+                {% endif %}
+              {% endfor %}
+              <div id="connectorsEmptyState" class="connectorsEmptyState hide">
+                <p class="secondary">No connectors can be found matching your filters</p>
+                <button onclick="clearFilterArea();calculateFilters();toggleFilterArea('close')"> Clear Filters
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="addToCatalog">
+        Have a connector you want added to our catalog?
+      </div>
+    </div>
+    <div id="connectorsContent" class="sidePanel connectorsContent">
+      <div id="connectorsPage" class="connectorPage">
+        <div class="mobileBackButton" onclick="mobileBackButton('{{ site.url }}{{ site.baseurl }}/connectors');">
+          {% assign backToTitle = 'Back to catalog' %}
+          {% include backToPage.html string=backToTitle %}
+        </div>
+        <div class="bgLoading">
+          {% include loadingSpinner.html %}
+        </div>
+        <div id="contentLoadContainer" class="contentLoadContainer">
+          {{ content }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page__footer">
+    {% include footer/custom.html %}
+    {% include footer.html %}
+  </div>
+</div>
+<script>
+  calculateFilters();
+
+  // var fadeContainer = document.getElementById("fadeContainer");
+  // console.log(fadeContainer)
+  // if (fadeContainer.offsetParent) {
+  //   var viewportWidth;
+  //   var setViewportWidth = function () {
+  //     viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+  //   }
+  //   var logWidth = function () {
+  //     // if (viewportWidth <= 1024) {
+  //     window.addEventListener('scroll', function (e) {
+  //       var splashPanel = document.getElementById('mobileSplashPanel');
+  //       var a = window.scrollY;
+  //       var b = splashPanel.scrollTop - splashPanel.clientHeight;
+  //       var c = (a / b).toFixed(2);
+
+  //       var cssString = "opacity:" + (((1 - (c * -1)) * 1)).toFixed(1) + ";transform:translate3D(0," + ((c *
+  //         100) * -1).toFixed(0) + "px,0)"
+
+  //       console.log(cssString);
+
+  //       document.getElementById("fadeContainer").style.cssText = cssString;
+  //     });
+  //     // }   
+  //   }
+  //   setViewportWidth();
+  //   logWidth();
+
+  //   window.addEventListener('resize', function () {
+  //     setViewportWidth();
+  //     logWidth();
+  //   }, false);
+  // }
+</script>
