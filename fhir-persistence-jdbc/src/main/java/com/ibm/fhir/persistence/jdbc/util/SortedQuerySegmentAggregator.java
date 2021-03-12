@@ -35,6 +35,7 @@ import com.ibm.fhir.persistence.jdbc.connection.QueryHints;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.util.type.LastUpdatedParmBehaviorUtil;
+import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.parameters.SortParameter;
 import com.ibm.fhir.search.sort.Sort;
 
@@ -137,7 +138,6 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
             // Build LEFT OUTER JOIN clause
             sqlSortQuery.append(this.buildSortJoinClause());
 
-
             // Build GROUP BY clause
             sqlSortQuery.append(GROUP_BY);
 
@@ -217,8 +217,13 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
                 expression.append(MAX);
             }
             expression.append(LEFT_PAREN);
-            expression.append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append(DOT_CHAR);
-            expression.append(attributeName);
+
+            if (SearchConstants.LAST_UPDATED.equals(sortParm.getCode())) {
+                expression.append("R.LAST_UPDATED");
+            } else {
+                expression.append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append(DOT_CHAR);
+                expression.append(attributeName);
+            }
             expression.append(RIGHT_PAREN);
             if (useInOrderByClause) {
                 expression.append(SPACE);
@@ -300,31 +305,33 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
         // Build the LEFT OUTER JOINs needed to access the required sort parameters.
         int sortParmIndex = 1;
         for (SortParameter sortParm : this.sortParameters) {
-            sortParameterNameId = ParameterNamesCache.getParameterNameId(sortParm.getCode());
-            if (sortParameterNameId == null) {
-                // Only read...don't try and create the parameter name if it doesn't exist
-                sortParameterNameId = this.parameterDao.readParameterNameId(sortParm.getCode());
-                if (sortParameterNameId != null) {
-                    this.parameterDao.addParameterNamesCacheCandidate(sortParm.getCode(), sortParameterNameId);
-                } else {
-                    sortParameterNameId = -1; // so we don't break the query syntax
+            if (!SearchConstants.LAST_UPDATED.equals(sortParm.getCode())) {
+                sortParameterNameId = ParameterNamesCache.getParameterNameId(sortParm.getCode());
+                if (sortParameterNameId == null) {
+                    // Only read...don't try and create the parameter name if it doesn't exist
+                    sortParameterNameId = this.parameterDao.readParameterNameId(sortParm.getCode());
+                    if (sortParameterNameId != null) {
+                        this.parameterDao.addParameterNamesCacheCandidate(sortParm.getCode(), sortParameterNameId);
+                    } else {
+                        sortParameterNameId = -1; // so we don't break the query syntax
+                    }
                 }
+
+                // Note...the PARAMETER_NAME_ID=xxx is provided as a literal because this helps
+                // the query optimizer significantly with index range scan cardinality estimation
+                joinBuffer.append(" LEFT OUTER JOIN ").append(this.getSortParameterTableName(sortParm)).append(SPACE)
+                        .append(SORT_PARAMETER_ALIAS).append(sortParmIndex)
+                        .append(ON)
+                        .append(LEFT_PAREN)
+                        .append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append(".PARAMETER_NAME_ID=")
+                        .append(sortParameterNameId)
+                        .append(AND)
+                        .append(SORT_PARAMETER_ALIAS).append(sortParmIndex)
+                        .append(".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID")
+                        .append(RIGHT_PAREN).append(SPACE);
+
+                sortParmIndex++;
             }
-
-            // Note...the PARAMETER_NAME_ID=xxx is provided as a literal because this helps
-            // the query optimizer significantly with index range scan cardinality estimation
-            joinBuffer.append(" LEFT OUTER JOIN ").append(this.getSortParameterTableName(sortParm)).append(SPACE)
-                    .append(SORT_PARAMETER_ALIAS).append(sortParmIndex)
-                    .append(ON)
-                    .append(LEFT_PAREN)
-                    .append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append(".PARAMETER_NAME_ID=")
-                    .append(sortParameterNameId)
-                    .append(AND)
-                    .append(SORT_PARAMETER_ALIAS).append(sortParmIndex)
-                    .append(".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID")
-                    .append(RIGHT_PAREN).append(SPACE);
-
-            sortParmIndex++;
         }
 
         log.exiting(CLASSNAME, METHODNAME);
@@ -394,6 +401,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
             if (i > 0) {
                 orderByBuffer.append(COMMA_CHAR);
             }
+
             orderByBuffer.append(this.buildAggregateExpression(this.sortParameters.get(i), i + 1, true));
         }
 

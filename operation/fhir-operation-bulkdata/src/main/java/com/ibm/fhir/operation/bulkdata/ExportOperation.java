@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,9 +22,12 @@ import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.operation.bulkdata.BulkDataConstants.ExportType;
+import com.ibm.fhir.operation.bulkdata.OperationConstants.ExportType;
+import com.ibm.fhir.operation.bulkdata.config.preflight.Preflight;
+import com.ibm.fhir.operation.bulkdata.config.preflight.PreflightFactory;
 import com.ibm.fhir.operation.bulkdata.processor.BulkDataFactory;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
+import com.ibm.fhir.operation.bulkdata.util.CommonUtil;
 import com.ibm.fhir.server.operation.spi.AbstractOperation;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
@@ -36,6 +39,9 @@ import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
  */
 public class ExportOperation extends AbstractOperation {
     private static final String FILE = "export.json";
+
+    private static final CommonUtil common = new CommonUtil();
+    private static final BulkDataExportUtil export = new BulkDataExportUtil();
 
     public ExportOperation() {
         super();
@@ -54,8 +60,11 @@ public class ExportOperation extends AbstractOperation {
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType,
             String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
             throws FHIROperationException {
+        common.checkEnabled();
+        common.checkAllowed(operationContext);
+
         // Pick off parameters
-        MediaType outputFormat = BulkDataExportUtil.checkAndConvertToMediaType(parameters);
+        MediaType outputFormat = export.checkAndConvertToMediaType(parameters);
         if (FHIRMediaType.SUBTYPE_FHIR_PARQUET.equals(outputFormat.getSubtype())) {
             Boolean enableParquet = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_ENABLEPARQUET, false);
             if (!enableParquet) {
@@ -65,26 +74,34 @@ public class ExportOperation extends AbstractOperation {
             }
         }
 
-        Instant since = BulkDataExportUtil.checkAndExtractSince(parameters);
-        List<String> types = BulkDataExportUtil.checkAndValidateTypes(parameters);
-        List<String> typeFilters = BulkDataExportUtil.checkAndValidateTypeFilters(parameters);
+        Instant since = export.checkAndExtractSince(parameters);
+        List<String> types = export.checkAndValidateTypes(parameters);
+        List<String> typeFilters = export.checkAndValidateTypeFilters(parameters);
 
         // If Patient - Export Patient Filter Resources
         Parameters response = null;
-        BulkDataConstants.ExportType exportType = BulkDataExportUtil.checkExportType(operationContext.getType(), resourceType);
-
-        // Allow the configuration to force use of the "legacy" system export implementation
-        // (useful for A/B comparison)
-        String systemExportImpl = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_BULKDATA_BATCHJOB_SYSTEMEXPIMPL, "fast");
+        OperationConstants.ExportType exportType = export.checkExportType(operationContext.getType(), resourceType);
 
         if (!ExportType.INVALID.equals(exportType)) {
             // For System $export, resource type(s) is required.
             if (ExportType.SYSTEM.equals(exportType) && types == null) {
-                throw BulkDataExportUtil.buildOperationException("Missing resource type(s)!", IssueType.INVALID);
+                throw export.buildOperationException("Missing resource type(s)!", IssueType.INVALID);
             }
 
-            response = BulkDataFactory.getTenantInstance().export(logicalId, exportType, outputFormat, since, types,
-                    typeFilters, operationContext, resourceHelper, systemExportImpl);
+            if (ExportType.PATIENT.equals(exportType)) {
+                if (types != null && !types.isEmpty()) {
+                    export.checkExportPatientResourceTypes(types);
+                } else {
+                    types = export.addDefaultsForPatientCompartment();
+                }
+            }
+
+            // Early detection of potential issues.
+            Preflight preflight =  PreflightFactory.getInstance(operationContext, null, exportType);
+            preflight.preflight();
+
+            response = BulkDataFactory.getInstance(operationContext)
+                        .export(logicalId, exportType, outputFormat, since, types, typeFilters, operationContext);
         } else {
             // Unsupported on instance, specific types other than group/patient/system
             throw buildExceptionWithIssue(

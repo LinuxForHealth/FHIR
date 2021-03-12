@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -994,6 +994,10 @@ public class CodeGenerator {
 
             if (isUnsignedInt(structureDefinition)) {
                 cb.field(mods("private", "static", "final"), "int", "MIN_VALUE", "0").newLine();
+            }
+
+            if (isNarrative(structureDefinition)) {
+                cb.field(mods("public", "static", "final"), "Narrative", "EMPTY", "builder().status(NarrativeStatus.EMPTY).div(Xhtml.from(" + quote("Narrative text intentionally left empty") + ")).build()").newLine();
             }
 
             if (isXhtml(structureDefinition)) {
@@ -4273,6 +4277,10 @@ public class CodeGenerator {
 
     private boolean isUriSubtype(String className) {
         return uriSubtypeClassNames.contains(className);
+    }
+
+    private boolean isNarrative(JsonObject structureDefinition) {
+        return "Narrative".equals(structureDefinition.getString("name"));
     }
 
     private boolean isXhtml(JsonObject structureDefinition) {

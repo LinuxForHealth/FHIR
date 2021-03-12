@@ -17,6 +17,9 @@ services:
         source: ./fhir-server/volumes/userlib
         target: /opt/ol/wlp/usr/servers/fhir-server/userlib
         read_only: true
+      - type: bind
+        source: ./fhir-server/volumes/output
+        target: /opt/ol/wlp/usr/servers/fhir-server/output
     command: bash -c "
         java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
           --db-type derby --prop db.database=/opt/ol/wlp/usr/servers/fhir-server/derby/profile --prop db.create=Y

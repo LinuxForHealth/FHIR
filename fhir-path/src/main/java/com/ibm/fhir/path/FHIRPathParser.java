@@ -1,14 +1,27 @@
 // Generated from FHIRPath.g4 by ANTLR 4.9.1
 package com.ibm.fhir.path;
-import org.antlr.v4.runtime.atn.*;
-import org.antlr.v4.runtime.dfa.DFA;
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.misc.*;
-import org.antlr.v4.runtime.tree.*;
 import java.util.List;
-import java.util.Iterator;
-import java.util.ArrayList;
 
+import org.antlr.v4.runtime.FailedPredicateException;
+import org.antlr.v4.runtime.NoViableAltException;
+import org.antlr.v4.runtime.Parser;
+import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.RecognitionException;
+import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.RuntimeMetaData;
+import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.TokenStream;
+import org.antlr.v4.runtime.Vocabulary;
+import org.antlr.v4.runtime.VocabularyImpl;
+import org.antlr.v4.runtime.atn.ATN;
+import org.antlr.v4.runtime.atn.ATNDeserializer;
+import org.antlr.v4.runtime.atn.ParserATNSimulator;
+import org.antlr.v4.runtime.atn.PredictionContextCache;
+import org.antlr.v4.runtime.dfa.DFA;
+import org.antlr.v4.runtime.tree.ParseTreeVisitor;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
+//Manually changed to 4.9.1
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class FHIRPathParser extends Parser {
     static { RuntimeMetaData.checkVersion("4.9.1", RuntimeMetaData.VERSION); }
@@ -17,24 +30,24 @@ public class FHIRPathParser extends Parser {
     protected static final PredictionContextCache _sharedContextCache =
         new PredictionContextCache();
     public static final int
-        T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-        T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
-        T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24, 
-        T__24=25, T__25=26, T__26=27, T__27=28, T__28=29, T__29=30, T__30=31, 
-        T__31=32, T__32=33, T__33=34, T__34=35, T__35=36, T__36=37, T__37=38, 
-        T__38=39, T__39=40, T__40=41, T__41=42, T__42=43, T__43=44, T__44=45, 
-        T__45=46, T__46=47, T__47=48, T__48=49, T__49=50, T__50=51, T__51=52, 
-        T__52=53, T__53=54, DATE=55, DATETIME=56, TIME=57, IDENTIFIER=58, DELIMITEDIDENTIFIER=59, 
+        T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9,
+        T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17,
+        T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, T__23=24,
+        T__24=25, T__25=26, T__26=27, T__27=28, T__28=29, T__29=30, T__30=31,
+        T__31=32, T__32=33, T__33=34, T__34=35, T__35=36, T__36=37, T__37=38,
+        T__38=39, T__39=40, T__40=41, T__41=42, T__42=43, T__43=44, T__44=45,
+        T__45=46, T__46=47, T__47=48, T__48=49, T__49=50, T__50=51, T__51=52,
+        T__52=53, T__53=54, DATE=55, DATETIME=56, TIME=57, IDENTIFIER=58, DELIMITEDIDENTIFIER=59,
         STRING=60, NUMBER=61, WS=62, COMMENT=63, LINE_COMMENT=64;
     public static final int
-        RULE_expression = 0, RULE_term = 1, RULE_literal = 2, RULE_externalConstant = 3, 
-        RULE_invocation = 4, RULE_function = 5, RULE_paramList = 6, RULE_quantity = 7, 
-        RULE_unit = 8, RULE_dateTimePrecision = 9, RULE_pluralDateTimePrecision = 10, 
+        RULE_expression = 0, RULE_term = 1, RULE_literal = 2, RULE_externalConstant = 3,
+        RULE_invocation = 4, RULE_function = 5, RULE_paramList = 6, RULE_quantity = 7,
+        RULE_unit = 8, RULE_dateTimePrecision = 9, RULE_pluralDateTimePrecision = 10,
         RULE_typeSpecifier = 11, RULE_qualifiedIdentifier = 12, RULE_identifier = 13;
     private static String[] makeRuleNames() {
         return new String[] {
-            "expression", "term", "literal", "externalConstant", "invocation", "function", 
-            "paramList", "quantity", "unit", "dateTimePrecision", "pluralDateTimePrecision", 
+            "expression", "term", "literal", "externalConstant", "invocation", "function",
+            "paramList", "quantity", "unit", "dateTimePrecision", "pluralDateTimePrecision",
             "typeSpecifier", "qualifiedIdentifier", "identifier"
         };
     }
@@ -42,24 +55,24 @@ public class FHIRPathParser extends Parser {
 
     private static String[] makeLiteralNames() {
         return new String[] {
-            null, "'.'", "'['", "']'", "'+'", "'-'", "'*'", "'/'", "'div'", "'mod'", 
-            "'&'", "'is'", "'as'", "'|'", "'<='", "'<'", "'>'", "'>='", "'='", "'~'", 
-            "'!='", "'!~'", "'in'", "'contains'", "'and'", "'or'", "'xor'", "'implies'", 
-            "'('", "')'", "'{'", "'}'", "'true'", "'false'", "'%'", "'$this'", "'$index'", 
-            "'$total'", "','", "'year'", "'month'", "'week'", "'day'", "'hour'", 
-            "'minute'", "'second'", "'millisecond'", "'years'", "'months'", "'weeks'", 
+            null, "'.'", "'['", "']'", "'+'", "'-'", "'*'", "'/'", "'div'", "'mod'",
+            "'&'", "'is'", "'as'", "'|'", "'<='", "'<'", "'>'", "'>='", "'='", "'~'",
+            "'!='", "'!~'", "'in'", "'contains'", "'and'", "'or'", "'xor'", "'implies'",
+            "'('", "')'", "'{'", "'}'", "'true'", "'false'", "'%'", "'$this'", "'$index'",
+            "'$total'", "','", "'year'", "'month'", "'week'", "'day'", "'hour'",
+            "'minute'", "'second'", "'millisecond'", "'years'", "'months'", "'weeks'",
             "'days'", "'hours'", "'minutes'", "'seconds'", "'milliseconds'"
         };
     }
     private static final String[] _LITERAL_NAMES = makeLiteralNames();
     private static String[] makeSymbolicNames() {
         return new String[] {
-            null, null, null, null, null, null, null, null, null, null, null, null, 
-            null, null, null, null, null, null, null, null, null, null, null, null, 
-            null, null, null, null, null, null, null, null, null, null, null, null, 
-            null, null, null, null, null, null, null, null, null, null, null, null, 
-            null, null, null, null, null, null, null, "DATE", "DATETIME", "TIME", 
-            "IDENTIFIER", "DELIMITEDIDENTIFIER", "STRING", "NUMBER", "WS", "COMMENT", 
+            null, null, null, null, null, null, null, null, null, null, null, null,
+            null, null, null, null, null, null, null, null, null, null, null, null,
+            null, null, null, null, null, null, null, null, null, null, null, null,
+            null, null, null, null, null, null, null, null, null, null, null, null,
+            null, null, null, null, null, null, null, "DATE", "DATETIME", "TIME",
+            "IDENTIFIER", "DELIMITEDIDENTIFIER", "STRING", "NUMBER", "WS", "COMMENT",
             "LINE_COMMENT"
         };
     }
@@ -119,7 +132,7 @@ public class FHIRPathParser extends Parser {
             super(parent, invokingState);
         }
         @Override public int getRuleIndex() { return RULE_expression; }
-     
+
         public ExpressionContext() { }
         public void copyFrom(ExpressionContext ctx) {
             super.copyFrom(ctx);
@@ -601,7 +614,7 @@ public class FHIRPathParser extends Parser {
                         }
                         break;
                     }
-                    } 
+                    }
                 }
                 setState(76);
                 _errHandler.sync(this);
@@ -625,7 +638,7 @@ public class FHIRPathParser extends Parser {
             super(parent, invokingState);
         }
         @Override public int getRuleIndex() { return RULE_term; }
-     
+
         public TermContext() { }
         public void copyFrom(TermContext ctx) {
             super.copyFrom(ctx);
@@ -754,7 +767,7 @@ public class FHIRPathParser extends Parser {
             super(parent, invokingState);
         }
         @Override public int getRuleIndex() { return RULE_literal; }
-     
+
         public LiteralContext() { }
         public void copyFrom(LiteralContext ctx) {
             super.copyFrom(ctx);
@@ -993,7 +1006,7 @@ public class FHIRPathParser extends Parser {
             super(parent, invokingState);
         }
         @Override public int getRuleIndex() { return RULE_invocation; }
-     
+
         public InvocationContext() { }
         public void copyFrom(InvocationContext ctx) {
             super.copyFrom(ctx);
@@ -1498,7 +1511,7 @@ public class FHIRPathParser extends Parser {
                     setState(141);
                     identifier();
                     }
-                    } 
+                    }
                 }
                 setState(146);
                 _errHandler.sync(this);
@@ -1561,6 +1574,7 @@ public class FHIRPathParser extends Parser {
         return _localctx;
     }
 
+    @Override
     public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
         switch (ruleIndex) {
         case 0:

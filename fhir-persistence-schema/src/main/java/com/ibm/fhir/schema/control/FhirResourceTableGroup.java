@@ -113,16 +113,6 @@ public class FhirResourceTableGroup {
 
     private static final String ROW_ID = "ROW_ID";
 
-    // suffix for the token view
-    private static final String _TOKEN_VALUES_V = "_TOKEN_VALUES_V";
-
-    private static final String _STR = "_STR";
-    private static final String _NUMBER = "_NUMBER";
-    private static final String _DATE = "_DATE";
-    private static final String _TOKEN = "_TOKEN";
-    private static final String _QUANTITY = "_QUANTITY";
-    private static final String _LATLNG = "_LATLNG";
-
     /**
      * Public constructor
      */
@@ -190,12 +180,13 @@ public class FhirResourceTableGroup {
         // things sensible.
         Table tbl = Table.builder(schemaName, tableName)
                 .setTenantColumnName(MT_ID)
-                .setVersion(FhirSchemaVersion.V0010.vid()) // for is_deleted support
+                .setVersion(FhirSchemaVersion.V0011.vid()) // for is_deleted and last_updated support
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
                 .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
                 .addBigIntColumn(CURRENT_RESOURCE_ID, true)
                 .addCharColumn(IS_DELETED, 1, false, "'X'")
+                .addTimestampColumn(LAST_UPDATED, true) // nullable has to match the migration add column
                 .addPrimaryKey(tableName + "_PK", LOGICAL_RESOURCE_ID)
                 .addForeignKeyConstraint("FK_" + tableName + "_LRID", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
@@ -219,8 +210,8 @@ public class FhirResourceTableGroup {
                         statements.add(new DropTable(schemaName, prefix + "_TOKEN_VALUES"));
                     }
 
-                    if (priorVersion < FhirSchemaVersion.V0010.vid()) {
-                        addLogicalResourcesIsDeletedMigrationV0010(statements, tableName);
+                    if (priorVersion < FhirSchemaVersion.V0011.vid()) {
+                        addLogicalResourcesMigration(statements, tableName, priorVersion);
                     }
                     return statements;
                 })
@@ -251,26 +242,36 @@ public class FhirResourceTableGroup {
      * @param statements
      * @param tableName
      */
-    private void addLogicalResourcesIsDeletedMigrationV0010(List<IDatabaseStatement> statements, String tableName) {
-        // Note that we use 'X' as the default value because this acts as a marker
-        // for the schema tool to easily check to see if the table needs to be
-        // migrated. This is fine as long as we made sure that inserts into
-        // the xxx_logical_resources tables always include a proper value for
-        // this column. For Db2 and PostgreSQL, this happens in the add_any_resource
-        // stored procedures.
-        List<ColumnBase> columns = new ColumnDefBuilder()
-                .addCharColumn(IS_DELETED, 1, false, "'X'")
-                .buildColumns();
-        for (ColumnBase column : columns) {
-            statements.add(new AddColumn(schemaName, tableName, column));
+    private void addLogicalResourcesMigration(List<IDatabaseStatement> statements, String tableName, int priorVersion) {
+        ColumnDefBuilder builder = new ColumnDefBuilder();
+        if (priorVersion < FhirSchemaVersion.V0010.vid()) {
+            // Note that we use 'X' as the default value because this acts as a marker
+            // for the schema tool to easily check to see if the table needs to be
+            // migrated. This is fine as long as we made sure that inserts into
+            // the xxx_logical_resources tables always include a proper value for
+            // this column. For Db2 and PostgreSQL, this happens in the add_any_resource
+            // stored procedures.
+            builder.addCharColumn(IS_DELETED, 1, false, "'X'");
         }
 
-        // Db2 requires a REORG before the table can be used again, so
-        // we add this as a final step. This will be ignored by database
-        // adapters that don't require it (e.g. PostgreSQL).
-        statements.add(new ReorgTable(schemaName, tableName));
-    }
+        if (priorVersion < FhirSchemaVersion.V0011.vid()) {
+            // Add the LAST_UPDATED column if needed. We have to allow null because
+            // no default value is appropriate
+            builder.addTimestampColumn(LAST_UPDATED, true);
+        }
 
+        List<ColumnBase> columns = builder.buildColumns();
+        if (columns.size() > 0) {
+            for (ColumnBase column : columns) {
+                statements.add(new AddColumn(schemaName, tableName, column));
+            }
+
+            // Db2 requires a REORG before the table can be used again, so
+            // we add this as a final step. This will be ignored by database
+            // adapters that don't require it (e.g. PostgreSQL).
+            statements.add(new ReorgTable(schemaName, tableName));
+        }
+    }
 
     /**
      * Add the resources table definition
@@ -402,8 +403,8 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         // Simplified composite value support. Eliminate the composites table and instead
         // use a new composite_id column to correlate parameters involved in a composite relationship
         // drop PK constraint; remove ROW_ID column after data migration
-        statements.add(new DropPrimaryKey(schemaName, tableName));
-        statements.add(new DropColumn(schemaName, tableName, ROW_ID));
+        statements.add(new DropPrimaryKey(schemaName, tableName, true));
+        statements.add(new DropColumn(schemaName, tableName, true, ROW_ID));
 
         // Add COMPOSITE_ID SMALLINT used to tie together composite parameter rows
         List<ColumnBase> columns = new ColumnDefBuilder()
@@ -440,7 +441,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
 
         // logical_resources (1) ---- (*) patient_resource_token_refs (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0008.vid())
+                .setVersion(FhirSchemaVersion.V0009.vid())
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(       PARAMETER_NAME_ID,    false)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true)
@@ -483,7 +484,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                     }
 
                     if (priorVersion < FhirSchemaVersion.V0009.vid()) {
-                            addCompositeMigrationStepsV0009(statements, tableName);
+                        addCompositeMigrationStepsV0009(statements, tableName);
                     }
                     return statements;
                 })

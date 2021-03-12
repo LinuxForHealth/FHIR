@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2021
-lastupdated: "2021-02-26"
+lastupdated: "2021-03-10"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -255,15 +255,11 @@ The datasource definitions themselves are configured in accordance with the [Lib
 For example, the fhir-server-config snippet from above would have a corresponding Liberty config like this:
 ```xml
 <server>
-    <library id="fhirSharedLib">
-        <fileset dir="${shared.resource.dir}/lib/postgresql" includes="*.jar"/>
-    </library>
-
     <!-- ============================================================== -->
     <!-- TENANT: default; DSID: default; TYPE: read-write               -->
     <!-- ============================================================== -->
     <dataSource id="fhirDefaultDefault" jndiName="jdbc/fhir_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
-        <jdbcDriver javax.sql.XADataSource="org.postgresql.xa.PGXADataSource" libraryRef="fhirSharedLib"/>
+        <jdbcDriver javax.sql.XADataSource="org.postgresql.xa.PGXADataSource" libraryRef="sharedLibPostgres"/>
         <properties.postgresql
              serverName="postgres_postgres_1"
              portNumber="5432"
@@ -283,6 +279,11 @@ The IBM FHIR Server is packaged with the following sample datasource definitions
 * datasource-postgresql.xml
 * datasource-db2.xml
 * datasource-derby.xml
+
+There are 3 libraries defined in the main `server.xml` that reference the required client drivers for each database type:
+* sharedLibDerby
+* sharedLibDb2
+* sharedLibPostgres
 
 When a datasource definition is included in a configDropin under `configDropins/overrides`, this file is picked up when the server starts as indicated by the following AUDIT message:
 
@@ -306,7 +307,7 @@ Reminder:  the Embedded Derby support is designed to support simple getting star
     <!-- created by the IBM FHIR Server's DB_BOOTSTRAP process.         -->
     <!-- ============================================================== -->
     <dataSource id="fhirDefaultDefault" jndiName="jdbc/fhir_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
-        <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="fhirSharedLib"/>
+        <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="sharedLibDerby"/>
         <properties.derby.embedded createDatabase="create" databaseName="derby/fhirDB"/>
         <connectionManager maxPoolSize="50" minPoolSize="10"/>
     </dataSource>
@@ -380,7 +381,7 @@ Here is a simple example of a single (default) Derby datastore.
     <!-- TENANT: default; DSID: default; TYPE: read-write               -->
     <!-- ============================================================== -->
     <dataSource id="fhirDefaultDefault" jndiName="jdbc/fhir_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
-        <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="fhirSharedLib"/>
+        <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="sharedLibDerby"/>
         <properties.derby.embedded createDatabase="create" databaseName="derby/fhirDB"/>
         <connectionManager maxPoolSize="50" minPoolSize="10"/>
     </dataSource>
@@ -430,7 +431,7 @@ Furthermore, the REST API consumers associated with Acme applications will be co
     <!-- TENANT: acme; DSID: study1; TYPE: read-write                   -->
     <!-- ============================================================== -->
     <dataSource id="fhirDefaultDefault" jndiName="jdbc/fhir_acme_study1" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
-        <jdbcDriver javax.sql.XADataSource="com.ibm.db2.jcc.DB2XADataSource" libraryRef="fhirSharedLib"/>
+        <jdbcDriver javax.sql.XADataSource="com.ibm.db2.jcc.DB2XADataSource" libraryRef="sharedLibDb2"/>
         <properties.db2.jcc
             serverName="dbserver1"
             portNumber="50000"
@@ -447,7 +448,7 @@ Furthermore, the REST API consumers associated with Acme applications will be co
     <!-- TENANT: acme; DSID: study2; TYPE: read-write                   -->
     <!-- ============================================================== -->
     <dataSource id="fhirDefaultDefault" jndiName="jdbc/fhir_acme_study2" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
-        <jdbcDriver javax.sql.XADataSource="com.ibm.db2.jcc.DB2XADataSource" libraryRef="fhirSharedLib"/>
+        <jdbcDriver javax.sql.XADataSource="com.ibm.db2.jcc.DB2XADataSource" libraryRef="sharedLibDb2"/>
         <properties.db2.jcc
             serverName="dbserver1"
             portNumber="50000"
@@ -1254,91 +1255,118 @@ It is also possible to configure the persistence properties for a specific tenan
 database hostname or database schema name.
 
 ## 4.10 Bulk data operations
-Bulk data export is implemented according to the [HL7 FHIR BulkDataAccess IG: STU1](http://hl7.org/fhir/uv/bulkdata/STU1/export/index.html), and Bulk data import is implemented according to the [Proposal for $import Operation](https://github.com/smart-on-fhir/bulk-import/blob/master/import.md).
+The IBM FHIR Server implements bulk data export according to the [HL7 FHIR BulkDataAccess IG: STU1](http://hl7.org/fhir/uv/bulkdata/STU1/export/index.html), and bulk data import is implemented according to the [Proposal for $import Operation](https://github.com/smart-on-fhir/bulk-import/blob/master/import.md).
 
 There are 2 modules involved:
 
 - fhir-operation-bulkdata
-- fhir-bulkimportexport-webapp   
+- fhir-bulkdata-webapp   
 
 The *fhir-operation-bulkdata* module implements the REST APIs for bulk data export, import and status as FHIR Operations.  There are five operations:
 
-* ExportOperation - system export
-* PatientExportOperation - Patient export
-* GroupExportOperation - Group export
-* ImportOperation - import resources using the system endpoint
-* StatusOperation - polling status for import and export ($bulkdata-status)
+| Operation | Path |
+|-----|-----|
+| ExportOperation| system `$export` |
+| PatientExportOperation| Patient `Patient/$export` |
+| GroupExportOperation| Group `Group/[id]/$export` |
+| ImportOperation | import resources using the system endpoint, `$import` |
+| StatusOperation | polling status for import and export `$bulkdata-status` |
 
-Each operation calls the JavaBatch framework defined in the *fhir-bulkimportexport-webapp* module to execute the export unit-of-work.
-There are 4 JavaBatch jobs defined as following in *fhir-bulkimportexport-webapp* module for the above 3 export operations and 1 import operation:
+Each operation queues a job with the Open Liberty JavaBatch framework. Each job instance unit-of-work is executed as a job with the *fhir-bulkdata-webapp* module. There are 5 JavaBatch jobs defined in the *fhir-bulkdata-webapp* module for the above 3 export operations and 1 import operation:
 
-- FhirBulkExportChunkJob
-- FhirBulkExportPatientChunkJob
-- FhirBulkExportGroupChunkJob
-- FhirBulkImportChunkJob
+| Java Batch Job | Operation |
+|-----|-----|
+| FhirBulkExportChunkJob| `$export` |
+| FhirBulkExportFastJob| `$export` |
+| FhirBulkExportPatientChunkJob| `Patient/$export` |
+| FhirBulkExportGroupChunkJob| `Group/[id]/$export` |
+| FhirBulkImportChunkJob | `$import` |
 
-The *fhir-bulkimportexport-webapp* module is a wrapper for the whole BulkData web application, which is the build artifact - fhir-bulkimportexport.war. This web archive is copied to the apps directory of the liberty fhir-server instance. Following is a sample liberty server configuration (server.xml) for fhir-bulkimportexport.war:
+The *fhir-bulkdata-webapp* module is a wrapper for the whole BulkData web application, which is the build artifact - fhir-bulkdata-webapp.war. This web archive is copied to the `apps/` directory of the liberty server. The feature is configured using the `configDropins/default/bulkdata.xml`, such as:
 
 ```xml
-<webApplication id="fhir-bulkimportexport-webapp" location="fhir-bulkimportexport.war" name="fhir-bulkimportexport-webapp">
-     <classloader commonLibraryRef="fhirSharedLib" privateLibraryRef="configResources,fhirUserLib"/>
-        <application-bnd>
-            <security-role id="users" name="FHIRUsers">
-                     <group name="FHIRUsers"/>
-            </security-role>
-        </application-bnd>
+<webApplication id="fhir-bulkdata-webapp" location="fhir-bulkdata-webapp.war" name="fhir-bulkdata-webapp">
+    <classloader privateLibraryRef="configResources,fhirUserLib"/>
+    <application-bnd>
+        <security-role id="users" name="FHIRUsers">
+            <group id="bulkUsersGroup" name="FHIRUsers"/>
+        </security-role>
+    </application-bnd>
 </webApplication>
 ```
 
-BulkData web application writes the exported FHIR resources to an IBM Cloud Object Storage (COS) or any Amazon S3-Compatible bucket (e.g, Amazon S3, minIO etc) as configured in the per-tenant server configuration under `fhirServer/bulkdata`. The following is an example configuration for bulkdata; please refer to section 5 for the detailed description of these properties:
+The Bulk Data web application writes the exported FHIR resources to an IBM Cloud Object Storage (COS), any Amazon S3-Compatible bucket (e.g, Amazon S3, minIO etc), or directory as configured in the per-tenant server configuration under `fhirServer/bulkdata`. The following is an example configuration for bulkdata; please refer to section 5 for the detailed description of these properties:
 
-```
+``` json
 "bulkdata": {
-    "bulkDataBatchJobIdEncryptionKey": "change-password",
-    "applicationName": "fhir-bulkimportexport-webapp",
-    "moduleName": "fhir-bulkimportexport.war",
-    "jobParameters": {
-        "cos.bucket.name": "exports",
-        "cos.location": "us",
-        "cos.endpoint.internal": "fake",
-        "cos.endpoint.external": "fake",
-        "cos.credential.ibm": "N",
-        "cos.api.key": "fake",
-        "cos.srvinst.id": "fake"
+    "enabled": true,
+    "core": {
+        "api": {
+            "url": "https://localhost:9443/ibm/api/batch",
+            "user": "fhiradmin",
+            "password": "change-password",
+            "truststore": "resources/security/fhirTrustStore.p12",
+            "truststorePassword": "change-password"
+        },
+        "cos" : { 
+            "useServerTruststore": true
+        },
+        "pageSize": 100,
+        "batchIdEncryptionKey": "example-password",
+        "maxPartitions": 3, 
+        "maxInputs": 5
     },
-    "implementation_type": "cos",
-    "batch-uri": "https://localhost:9443/ibm/api/batch/jobinstances",
-    "batch-user": "fhiradmin",
-    "batch-user-password": "change-password",
-    "batch-truststore": "resources/security/fhirTrustStore.p12",
-    "batch-truststore-password": "change-password",
-    "isExportPublic": true,
-    "validBaseUrls": [
-        "https://test-url/"
-    ],
-    "maxInputPerRequest": 5,
-    "systemExportImpl": "fast"
+    "storageProviders": {
+        "default" : {
+            "type": "file",
+            "fileBase": "${WLP_OUTPUT_DIR}/fhir-server/output",
+            "exportPublic": true,
+            "disableOperationOutcomes": true,
+            "duplicationCheck": false, 
+            "validateResources": false
+        },
+        "minio" : {
+            "type": "aws-s3",
+            "bucketName": "fhirbulkdata",
+            "location": "us",
+            "endpointInternal": "https://minio:9000",
+            "endpointExternal": "https://localhost:9000",
+            "auth" : {
+                "type": "hmac",
+                "accessKeyId": "example",
+                "secretAccessKey": "example-password"
+            },
+            "enableParquet": false,
+            "disableBaseUrlValidation": true,
+            "exportPublic": true,
+            "disableOperationOutcomes": true,
+            "duplicationCheck": false, 
+            "validateResources": false, 
+            "create": false,
+            "presigned": true
+        }
+    }
 }
 ```
 
-To use Amazon S3 bucket for exporting, please set `cos.credential.ibm` to `N`, set `cos.api.key` to S3 access key, and set `cos.srvinst.id` to the S3 secret key. The following is a sample path to the exported ndjson file, the full path can be found in the response to the polling location request after the export request (please refer to the FHIR BulkDataAccess spec for details).  
+Each tenant's configuration may define multiple storageProviders. The default is assumed, unless specified with the `X-FHIR-BULKDATA-PROVIDER` and `X-FHIR-BULKDATA-OUTCOME`. Each tenant's configuration may mix the different providers, however each provider is only of a single type. For instance, `minio` is `aws-s3` and `default` is `file`. Note, type `http` is only applicable to `$import` operations. Export is only supported with s3 and file.
 
-`.../exports/6xjd4M8afi6Xo95eYv7zPxBqSCoOEFywZLoqH1QBtbw=/Patient_1.ndjson`
+To use Amazon S3 bucket for exporting, please set `accessKeyId` to S3 access key, and set `secretAccessKey` to the S3 secret key, and the auth type to `hmac`. 
 
-Basic system exports (without typeFilters) use a streamlined implementation which bypasses the IBM FHIR Server search API for direct access to the data, enabling better throughput. The `fhirServer/bulkdata/systemExportImpl` property can be used to disable the streamlined system export implementation. To use the legacy implementation based on IBM FHIR Server search, set the value to "legacy". The new system export implementation will be used by default for any export not using typeFilters. Exports using typeFilters use FHIR search capabilities so cannot use the streamlined export function.
+Basic system exports to S3 without typeFilters use a streamlined implementation which bypasses the IBM FHIR Server Search API for direct access to the data enabling better throughput. The `fhirServer/bulkdata/core/systemExportImpl` property can be used to disable the streamlined system export implementation. To use the legacy implementation based on IBM FHIR Server search, set the value to "legacy". The new system export implementation is used by default for any export not using typeFilters. Exports using typeFilters use FHIR Search, and cannot use the streamlined export.
 
-To import using the `$import` proposal, one must additionally configure the `fhirServer/bulkdata/validBaseUrls`. For example, if one stores bulkdata on `https://test-url.cos.ibm.com/bucket1` and `https://test-url.cos.ibm.com/bucket2` you must specify both baseUrls in the configuration:
+To import using the `$import` operation with `https`, one must additionally configure the `fhirServer/bulkdata/validBaseUrls`. For example, if one stores bulk data at `https://test-url1.cos.ibm.com/bucket1/test.ndjson` and `https://test-url2.cos.ibm.com/bucket2/test2.ndjson` you must specify both baseUrls in the configuration:
 
 ```json
     "validBaseUrls": [
-        "https://test-url.cos.ibm.com/bucket1",
-        "https://test-url.cos.ibm.com/bucket2"
+        "https://test-url1.cos.ibm.com/bucket1",
+        "https://test-url2.cos.ibm.com/bucket2"
     ]
 ```
 
-These base urls are not checked when using cloud object store and bulk-import. If you need to disable the validBaseUrls feature you may add `fhirServer/bulkdata/validBaseUrlsDisabled` as `true`.
+These base urls are not checked when using cloud object store and bulk-import. If you need to disable the validBaseUrls feature you may add `fhirServer/bulkdata/storageProviders/(source)/disableBaseUrlValidation` as `true`.
 
-The `fhirServer/bulkdata/maxInputPerRequest` is used to configure a maximum number of inputs supported by the instance.  The default number is 5.
+For Bulk Data import, the `fhirServer/bulkdata/core/maxInputs` is used to configure a maximum number of inputs supported by the instance. The default number is 5. There is a hard character limit on the total input type and url must be under 4096 characters, as such the configuration may be tuned for each url scheme.
 
 Note: When `$import` is executed, if a resource to import includes a `Resource.id` then this id is honored (via create-on-update). If `Resource.id` is not valued, the server will perform a create and assign a new `Resource.id` for this resource.
 
@@ -1347,7 +1375,7 @@ Following is the beautified response of sample polling location request after th
 ```json
 {
 "transactionTime": "2020/01/20 16:53:41.160 -0500",
-"request": "/$export?_type=Patient",
+"request": "https://myserver/fhir-server/api/v4/$export?_type=Patient",
 "requiresAccessToken": false,
 "output" : [
   { "type" : "AllergyIntolerance",
@@ -1365,14 +1393,21 @@ Following is the beautified response of sample polling location request after th
 }
 ```
 
-For the Import Operation, the polled status includes an indication of `$import` and the location of the OperationOutcome NDJsons and the corresponding failure and success counts.
+For the Import Operation, the polled status includes an indication of `$import` and the location of the OperationOutcome NDJSON files and the corresponding failure and success counts.
+
+For S3 exports, the bulk data feature may use presigned urls.  To enable presigned urls, the authentication type must be `hmac` and `fhirServer/bulkdata/storageProviders/(source)/presigned` must be `true`.  The urls become:
+
+```
+https://s3.appdomain.cloud/fhir-example/Patient_1.ndjson?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=fcEXbf9cc1ac49e99eEX77%2F20210228%2Fus%2Fs3%2Faws4_request&X-Amz-Date=20210EXT160538Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&X-Amz-Signature=5ecfc207546b9737fd38d4f0EXEX1c58f4f82976338a44c
+```
+
+The presigned URL is valid for 86400 seconds (1 day).
 
 Note, the deletion of an a job is split into two phases, ACCEPTED (202) response and DELETED (204).  202 is returned until the operation is stopped or removed, and then 204.
 
-By default, the exported `ndjson` file is configured with public access automatically and with 2 hours expiration time, the randomly generated secret in the path is used to protect the file. please note that IBM COS does not support expiration time for each single COS object, so please configure retention policy (e.g, 1 day) for the bucket if IBM COS is used. For both Amazon S3 and IBM COS, please remember that public access should never be configured to the bucket itself.
+By default, the exported `ndjson` file is configured with public access automatically and with 2 hours expiration time, the randomly generated secret in the path is used to protect the file. Please note that IBM COS does not support expiration time for each single COS object, so please configure retention policy (e.g, 1 day) for the bucket if IBM COS is used. For both Amazon S3 and IBM COS, please remember that public access should never be configured to the bucket itself.
 
-Note: `fhirServer/bulkdata/isExportPublic` can be set to "false" to disable public access.
-      minio doesn't support object level ACL, so access token is always needed to download the exported `ndjson` files.
+Note: `fhirServer/bulkdata/storageProviders/(source)/exportPublic` can be set to "false" to disable public access. Also, *minio* doesn't support object level ACL, so access token is always needed to download the exported `ndjson` files.
 
 JavaBatch feature must be enabled in `server.xml` as following on the Liberty server:
 
@@ -1447,22 +1482,24 @@ Note: If you use PostgreSQL database as IBM FHIR Server data store or the JavaBa
 For more information about Liberty JavaBatch configuration, please refer to [IBM WebSphere Liberty Java Batch White paper](https://www-03.ibm.com/support/techdocs/atsmastr.nsf/webindex/wp102544).
 
 ### 4.10.1 Integration Testing
-To integration test, there are tests in `ExportOperationTest.java` in `fhir-server-test` module with server integration test cases for system, patient and group export. Further, there are tests in `ImportOperationTest.java` in `fhir-server-test` module.
+To integration test, there are tests in `ExportOperationTest.java` in `fhir-server-test` module with server integration test cases for system, patient and group export. Further, there are tests in `ImportOperationTest.java` in `fhir-server-test` module. These tests rely on the `fhir-server-config-db2.json` which specifies two storageProviders.
 
 ### 4.10.2 Export to Parquet
-Version 4.4 of the IBM FHIR Server introduces experimental support for exporting to Parquet format (as an alternative to the default NDJSON export). However, due to the size of the dependencies needed to make this work, this feature is disabled by default.
+Version 4.4 of the IBM FHIR Server introduced experimental support for exporting to Parquet format (as an alternative to the default NDJSON export). However, due to the size of the dependencies needed to make this work, this feature is disabled by default.
 
 To enable export to parquet, an administrator must:
-1. make Apache Spark (version 3.0) and the IBM Stocator adapter (version 1.1) available to the fhir-bulkimportexport-webapp; and
-2. set the `/fhirServer/bulkdata/enableParquet` config property to `true`
+1. make Apache Spark (version 3.0) and the IBM Stocator adapter (version 1.1) available to the fhir-bulkdata-webapp by dropping the necessary jar files under `fhir-server/userlib` directory; and
+2. set the `/fhirServer/bulkdata/storageProviders/(source)/enableParquet` config property to `true`
 
-One way to accomplish the first part of this is to change the scope of these dependencies from the fhir-bulkimportexport-webapp pom.xml and rebuild the webapp to include them.
+An alternative way to accomplish the first part of this is to change the scope of these dependencies from the fhir-bulkdata-webapp pom.xml and rebuild the webapp to include them.
 
 ### 4.10.3 Job Logs
 Because the bulk import and export operations are built on Liberty's java batch implementation, users may need to check the [Liberty batch job logs](https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_batch_view_joblog.html) for detailed step information / troubleshooting.
 
 In a standard installation, these logs will be at `wlp/usr/servers/fhir-server/logs/joblogs`.
 In the `ibmcom/ibm-fhir-server` docker image, these logs will be at `/logs/joblogs`.
+
+Note, if you are using the default derby, the logs are overwritten upon restart of the server. You should use Db2 or Postgres for production purposes.
 
 ## 4.11 Audit logging service
 The Audit logging service pushes FHIR server audit events for FHIR operations in [Cloud Auditing Data Federation (CADF)](https://www.dmtf.org/standards/cadf) standard format to a Kafka backend, such as *IBM Cloud Event Streams service*.
@@ -1881,7 +1918,7 @@ One final consideration when configuring interactions is the `fhirServer/resourc
 
 In this case, since the `fhirServer/resources/open` property is set to `false`, only the resource types listed (`Condition`, `Observation`, `Patient`) are allowed to be interacted with via the FHIR REST API. For example, a `create` request of a `Procedure` resource will fail since that resource type is not specified.
 
-Whole-system search is a special case of this resource type validation, since no resource type is specified on a whole-system search request. In this case, validation will be done against the `Resource` resource type. In the above configuration example, a whole-system search request such as `GET [base]?_lastUpdated=gt2020-01-01` will fail because the `Resource` resource type is not specified. If the configuration were to have the `fhirServer/resources/open` property set to `true`, or if the `Resource` resource type were specified in the `fhirServer/resources` property group, then the whole-system search request would be allowed, assuming the `search` interaction was valid for the `Resource` resource type.
+Whole-system search and whole-system history are special cases. Since no resource type is specified on a whole-system request, validation will be done against the `Resource` resource type. In the above configuration example, a whole-system search request such as `GET [base]?_lastUpdated=gt2020-01-01` will fail because the `Resource` resource type is not specified. If the configuration were to have the `fhirServer/resources/open` property set to `true`, or if the `Resource` resource type were specified in the `fhirServer/resources` property group, then the whole-system search request would be allowed, assuming the `search` interaction was valid for the `Resource` resource type.
 
 In addition to interaction configuration, the `fhirServer/resources` property group also provides the ability to configure search parameter filtering and profile validation. See [Search configuration](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#12-filtering) and [Resource validation](#44-resource-validation) respectively for details.
 
@@ -1895,40 +1932,6 @@ This can be accomplished by configuring the `fhirServer/core/originalRequestUriH
 For example, consider a FHIR Server that is listening at https://fhir:9443/fhir-server/api/v4 and is configured with an  originalRequestUriHeaderName of `X-FHIR-FORWARDED-URL`. If this server is proxied by a server at https://example.com/fhir, then the proxy must set the `X-FHIR-FORWARDED-URL` header to the value of the front-end request URL (e.g. https://example.com/fhir/Patient/abc-123).
 
 The originalRequestUriHeader is expected to contain the full path of the original request. Values with no scheme (e.g. `https://`) will be handled like relative URLs, but full URL values (including scheme, hostname, optional port, and path) are recommended. Query string values can be included in the header value but will be ignored by the server; the server will use the query string of the actual request to process the request.
-
-## 4.12.2 System Level History Usage and Concurrency Implications
-
-The System Level History operation can be used to obtain a list of changes (create, update, delete) to resources in the IBM FHIR Server. This may be useful for other systems to reliably track these changes and keep themselves in-sync.
-
-```
-    curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history'
-```
-
-The response is a FHIR bundle as described by the FHIR `_history` specification. The bundle contains only references to the resources, not the resources themselves. Clients may choose which resources they fetch. They may also fetch the resources in parallel, which may greatly improve throughput.
-
-To return all changes that have occurred since a known point in time, use the `_since` query parameter:
-
-```
-    curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history?_since=2021-02-21T00:00:00Z'
-```
-
-By default, the returned bundle will contain up to 100 resource references. The number of resources can be increased (up to 1000) using the `_count` parameter. Specifying `_count` values larger than 1000 will return no more than 1000 resource references:
-```
-    curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history?_count=1000'
-```
-
-Client applications can use the `_since` parameter to scan sequentially through all the changes recorded by the IBM FHIR Server. Each result bundle contains a `next` link which can be used to fetch the next set of data. To simplify client implementations, the IBM FHIR Server also includes a custom attribute `_afterHistoryId`. This value can be used by a client to checkpoint where they are in the list of changes, and ask for only changes that come after the given id:
-
-```
-    curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history?_count=1000&_afterHistoryId=3004'
-```
-
-When specifying `_afterHistoryId` the `_since` does not have to be provided. Several resources can share the same timestamp, but the ids used for `_afterHistoryId` are unique.
-
-It is important to understand how transaction boundaries and concurrency can affect how ids and `last_updated` times are allocated during ingestion (create, update and delete operations). For the majority of data, the `_afterHistoryId` values are fetched in order and can be used to reliably get the list of changes in the correct order. However, an issue arises when the `_history` API is used to fetch recent changes, specifically those within the current transaction timeout window. A resource may be allocated an id and last_updated value, but not committed for some time. This most often occurs when processing very large bundles. If another, smaller and quicker transaction inserts or modifies a resource and that transaction is committed, the history id and last_updated time will be after the values already assigned to the first resource. If the client calls the `_history` operation before the first transaction commits and uses the `next` link to continue fetching data, the client may miss the data from the first transaction once it is finally committed. This behavior is a common concern in databases and not specific to the IBM FHIR Server. Note too that this only applies to different resources. Changes can _never_ appear out of order for a specific resource because the IBM FHIR Server uses database locking to ensure consistency.
-
-To guarantee no data is skipped, clients should not process resources with a last_updated timestamp which is after `{current-time} - {transaction-timeout}`. By waiting for the transaction timeout window to close, the client can be sure the data being returned is complete and in order, and new data will not appear. The transaction timeout default value is 120s but this value is configurable. Implementers should check with server administrators on the correct value to use.
-
 
 # 5 Appendix
 
@@ -2015,32 +2018,48 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/audit/ip`|string|A string used to identify the IP address, useful to identify only one IP|
 |`fhirServer/search/useBoundingRadius`|boolean|True, the bounding area is a Radius, else the bounding area is a box.|
 |`fhirServer/search/useStoredCompartmentParam`|boolean|False, Compute and store parameter to accelerate compartment searches. Requires reindex using at least IBM FHIR Server version 4.5.1 before this feature is enabled |
-|`fhirServer/bulkdata/applicationName`| string|Fixed value, always set to fhir-bulkimportexport-webapp |
-|`fhirServer/bulkdata/moduleName`|string| Fixed value, always set to fhir-bulkimportexport.war |
-|`fhirServer/bulkdata/jobParameters/cos.bucket.name`|string|Object store bucket name |
-|`fhirServer/bulkdata/jobParameters/cos.location`|string|Object store location |
-|`fhirServer/bulkdata/jobParameters/cos.endpoint.internal`|string|Object store end point url used to read/write from COS |
-|`fhirServer/bulkdata/jobParameters/cos.endpoint.external`|string|Object store end point url used in the constructed download URLs|
-|`fhirServer/bulkdata/jobParameters/credential.ibm`|string|If use IBM credential, "Y" or "N" |
-|`fhirServer/bulkdata/jobParameters/cos.api.key`|string|API key for accessing IBM COS |
-|`fhirServer/bulkdata/jobParameters/cos.srvinst.id`|string|Service instance Id for accessing IBM COS |
-|`fhirServer/bulkdata/implementation_type`|string|Use "cos" for any S3-compatible object store |
-|`fhirServer/bulkdata/batch-uri`|string|The URL to access the FHIR server hosting the batch web application |
-|`fhirServer/bulkdata/batch-user`|string|User for submitting JavaBatch job |
-|`fhirServer/bulkdata/batch-user-password`|string|Password for above batch user |
-|`fhirServer/bulkdata/batch-truststore`|string|Trust store for JavaBatch job submission |
-|`fhirServer/bulkdata/batch-truststore-password`|string|Password for above trust store |
-|`fhirServer/bulkdata/bulkDataBatchJobIdEncryptionKey`|string|Encryption key for JavaBatch job id |
-|`fhirServer/bulkdata/isExportPublic`|boolean|If give public read only access to the exported files |
-|`fhirServer/bulkdata/validBaseUrls`|string|The list of supported urls which are approved for the fhir server to access|
-|`fhirServer/bulkdata/validBaseUrlsDisabled`|boolean|Disables the URL checking feature|
-|`fhirServer/bulkdata/maxInputPerRequest`|integer|The maximum inputs per bulk import|
-|`fhirServer/bulkdata/cosFileMaxResources`|int|The maximum number of FHIR resources per COS file, "-1" means no limit, the default value is 200000 |
-|`fhirServer/bulkdata/cosFileMaxSize`|int|The maximum COS file size in bytes, "-1" means no limit, the default value is 209715200 (200M) |
-|`fhirServer/bulkdata/patientExportPageSize`|int| The search page size for patient/group export, the default value is 200 |
-|`fhirServer/bulkdata/useFhirServerTrustStore`|boolean| If the COS Client should use the IBM FHIR Server's TrustStore to access S3/IBMCOS service |
-|`fhirServer/bulkdata/enableParquet`|boolean| Whether or not the server is configured to support export to parquet; to properly enable it the administrator must first make spark and stocator available to the fhir-bulkimportexport-webapp (e.g through the shared lib at `wlp/user/shared/resources/lib`) |
-|`fhirServer/bulkdata/ignoreImportOutcomes`|boolean| Control if push OperationOutcomes to COS/S3. |
+|`fhirServer/bulkdata/enabled`| string|Enabling the BulkData operations |
+|`fhirServer/bulkdata/core/api/url`|string|The URL to access the FHIR server hosting the batch web application |
+|`fhirServer/bulkdata/core/api/user`|string|User for submitting JavaBatch job |
+|`fhirServer/bulkdata/core/api/password`|string|Password for above batch user |
+|`fhirServer/bulkdata/core/api/truststore`|string|Trust store for JavaBatch job submission |
+|`fhirServer/bulkdata/core/api/truststorePassword`|string|Password for above trust store |
+|`fhirServer/bulkdata/core/api/trustAll`|boolean|Indicates calls to the local API should skip hostname verification|
+|`fhirServer/bulkdata/core/cos/partUploadTriggerSizeMB`|number|The size, in megabytes, at which to write a "part" for multi-part uploads. The S3 API requires parts to be between 5 and 5000 MB and does not allow more than 10,000 parts per object. |
+|`fhirServer/bulkdata/core/cos/objectSizeThresholdMB`|number|The size, in megabytes, at which to finish writing a given object. Use `0` to indicate that all resources of a given type should be written to a single object, but be aware that S3 objects can have a maximum of 10,000 parts and a maximum size of 5,000,000 MB (5 TB). |
+|`fhirServer/bulkdata/core/cos/objectResourceCountThreshold`|number|The number of resources at which to finish writing a given object. The actual number of resources written to a single object may be slightly above this number, dependent on the configured page size. Use `0` to indicate that there is no limit to the number of resources to be written to a single object.|
+|`fhirServer/bulkdata/core/cos/requestTimeout`|number|The request timeout in second for the COS client|
+|`fhirServer/bulkdata/core/cos/socketTimeout`|number|The socket timeout in second for the COS client| 
+|`fhirServer/bulkdata/core/cos/useServerTruststore`|boolean|If the COS Client should use the IBM FHIR Server's TrustStore to access S3/IBMCOS service |
+|`fhirServer/bulkdata/core/batchIdEncryptionKey`|string|Encoding key for JavaBatch job id |
+|`fhirServer/bulkdata/core/pageSize`|number|The search page size for patient/group export and the legacy export, the default value is 1000 |
+|`fhirServer/bulkdata/core/maxPartitions`|number| The maximum number of simultaneous partitions that are processed per Export and Import |
+|`fhirServer/bulkdata/core/maxInputs`|number| The number of inputs allowed for $import |
+|`fhirServer/bulkdata/core/iamEndpoint`|string| Override the system's IAM endpoint |
+|`fhirServer/bulkdata/core/fastTxTimeout`|number| Time timeout for the fast implementations transaction |
+|`fhirServer/bulkdata/storageProviders/<source>/type`|string|The type of storageProvider aws-s3, ibm-cos, file, https |
+|`fhirServer/bulkdata/storageProviders/<source>/bucketName`|string| Object store bucket name |
+|`fhirServer/bulkdata/storageProviders/<source>/location`|string|Object store location |
+|`fhirServer/bulkdata/storageProviders/<source>/endpointInternal`|string|Object store end point url used to read/write from COS |
+|`fhirServer/bulkdata/storageProviders/<source>/endpointExternal`|string|Object store end point url used in the constructed download URLs|
+|`fhirServer/bulkdata/storageProviders/<source>/fileBase`|string| The absolute path of the output directory |
+|`fhirServer/bulkdata/storageProviders/<source>/validBaseUrls`|list|The list of supported urls which are approved for the fhir server to access|
+|`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|boolean|Disables the URL checking feature, allowing all URLs to be imported|
+|`fhirServer/bulkdata/storageProviders/<source>/exportPublic`|boolean|Whether or not the server is configured to support export to parquet; to properly enable it the administrator must first make spark and stocator available to the fhir-bulkdata-webapp (e.g through the shared lib at `wlp/user/shared/resources/lib`)|
+|`fhirServer/bulkdata/storageProviders/<source>/enableParquet`|boolean|If give public read only access to the exported files|
+|`fhirServer/bulkdata/storageProviders/<source>/disableOperationOutcomes`|boolean|Disables the base url validation, allowing all URLs to be imported|
+|`fhirServer/bulkdata/storageProviders/<source>/duplicationCheck`|boolean|Enables duplication check on import|
+|`fhirServer/bulkdata/storageProviders/<source>/validateResources`|boolean|Enables the validation of imported resources|
+|`fhirServer/bulkdata/storageProviders/<source>/presigned`|boolean|When an hmac auth type is used, presigns the URLs of an export|
+|`fhirServer/bulkdata/storageProviders/<source>/create`|boolean|Enables the creation of buckets|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/type`|string|A type of hmac, iam, or basic|
+|`fhirServer/bulkdata/storageProviders/<source>/accessKeyId`|string|For HMAC, API key for accessing COS |
+|`fhirServer/bulkdata/storageProviders/<source>/secretAccessKey`|string|For HMAC, secret key for accessing COS |
+|`fhirServer/bulkdata/storageProviders/<source>/iamApiKey`|string|For IAM, API key for accessing IBM COS |
+|`fhirServer/bulkdata/storageProviders/<source>/iamResourceInstanceId`|string|For IAM, secret key for accessing IBM COS |
+|`fhirServer/bulkdata/storageProviders/<source>/user`|string|For basic, user COS |
+|`fhirServer/bulkdata/storageProviders/<source>/secretAccessKey`|string|For basic, password for accessing COS |
+
 
 ### 5.1.2 Default property values
 | Property Name                 | Default value   |
@@ -2120,6 +2139,27 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/useFhirServerTrustStore`|false|
 |`fhirServer/bulkdata/enableParquet`|false|
 |`fhirServer/bulkdata/ignoreImportOutcomes`|false|
+|`fhirServer/bulkdata/enabled`|true |
+|`fhirServer/bulkdata/core/api/trustAll`|false|
+|`fhirServer/bulkdata/core/cos/partUploadTriggerSizeMB`|10 |
+|`fhirServer/bulkdata/core/cos/objectSizeThresholdMB`|200 |
+|`fhirServer/bulkdata/core/cos/objectResourceCountThreshold`|200000|
+|`fhirServer/bulkdata/core/cos/requestTimeout`|120|
+|`fhirServer/bulkdata/core/cos/socketTimeout`|120| 
+|`fhirServer/bulkdata/core/cos/useServerTruststore`|false|
+|`fhirServer/bulkdata/core/pageSize`|1000|
+|`fhirServer/bulkdata/core/maxPartitions`|5|
+|`fhirServer/bulkdata/core/maxInputs`|5|
+|`fhirServer/bulkdata/core/iamEndpoint`|https://iam.cloud.ibm.com/oidc/token|
+|`fhirServer/bulkdata/core/fastTxTimeout`|90000|
+|`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|false|
+|`fhirServer/bulkdata/storageProviders/<source>/exportPublic`|false|
+|`fhirServer/bulkdata/storageProviders/<source>/enableParquet`|false|
+|`fhirServer/bulkdata/storageProviders/<source>/disableOperationOutcomes`|false|
+|`fhirServer/bulkdata/storageProviders/<source>/duplicationCheck`|false|
+|`fhirServer/bulkdata/storageProviders/<source>/validateResources`|false|
+|`fhirServer/bulkdata/storageProviders/<source>/presigned`|false|
+|`fhirServer/bulkdata/storageProviders/<source>/create`|false|
 
 ### 5.1.3 Property attributes
 Depending on the context of their use, config properties can be:
@@ -2205,26 +2245,49 @@ must restart the server for that change to take effect.
 |`fhirServer/audit/serviceProperties/load`|N|N|
 |`fhirServer/audit/hostname`|N|N|
 |`fhirServer/audit/ip`|N|N|
-|`fhirServer/bulkdata/jobParameters/cos.bucket.name`|Y|Y|
-|`fhirServer/bulkdata/jobParameters/cos.location`|Y|Y|
-|`fhirServer/bulkdata/jobParameters/cos.endpoint.internal`|Y|Y|
-|`fhirServer/bulkdata/jobParameters/cos.endpoint.external`|Y|Y|
-|`fhirServer/bulkdata/jobParameters/credential.ibm`|Y|Y|
-|`fhirServer/bulkdata/jobParameters/cos.api.key`|Y|Y|
-|`fhirServer/bulkdata/jobParameters/cos.srvinst.id`|Y|Y|
-|`fhirServer/bulkdata/bulkDataBatchJobIdEncryptionKey`|Y|Y|
-|`fhirServer/bulkdata/isExportPublic`|Y|Y|
-|`fhirServer/bulkdata/validBaseUrls`|Y|Y|
-|`fhirServer/bulkdata/maxInputPerRequest`|Y|Y|
-|`fhirServer/bulkdata/validBaseUrlsDisabled`|Y|Y|
-|`fhirServer/bulkdata/cosFileMaxResources`|Y|Y|
-|`fhirServer/bulkdata/cosFileMaxSize`|Y|Y|
-|`fhirServer/bulkdata/patientExportPageSize`|Y|Y|
-|`fhirServer/bulkdata/useFhirServerTrustStore`|Y|Y|
-|`fhirServer/bulkdata/enableParquet`|Y|Y|
-|`fhirServer/bulkdata/ignoreImportOutcomes`|Y|Y|
+|`fhirServer/bulkdata/enabled`|Y|Y|
+|`fhirServer/bulkdata/core/api/url`|Y|Y|
+|`fhirServer/bulkdata/core/api/user`|Y|Y|
+|`fhirServer/bulkdata/core/api/password`|Y|Y|
+|`fhirServer/bulkdata/core/api/truststore`|Y|Y|
+|`fhirServer/bulkdata/core/api/truststorePassword`|Y|Y|
+|`fhirServer/bulkdata/core/api/trustAll`|Y|Y|
+|`fhirServer/bulkdata/core/cos/partUploadTriggerSizeMB`|N|N|
+|`fhirServer/bulkdata/core/cos/objectSizeThresholdMB`|N|N|
+|`fhirServer/bulkdata/core/cos/objectResourceCountThreshold`|N|N|
+|`fhirServer/bulkdata/core/cos/requestTimeout`|N|N|
+|`fhirServer/bulkdata/core/cos/socketTimeout`|N|N|
+|`fhirServer/bulkdata/core/cos/useServerTruststore`|Y|Y|
+|`fhirServer/bulkdata/core/batchIdEncryptionKey`|N|N|
+|`fhirServer/bulkdata/core/pageSize`|Y|Y|
+|`fhirServer/bulkdata/core/maxPartitions`|Y|Y|
+|`fhirServer/bulkdata/core/maxInputs`|Y|Y|
+|`fhirServer/bulkdata/core/iamEndpoint`|N|N|
+|`fhirServer/bulkdata/core/fastTxTimeout`|N|N|
+|`fhirServer/bulkdata/storageProviders/<source>/type`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/bucketName`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/location`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/endpointInternal`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/endpointExternal`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/fileBase`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/validBaseUrls`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/exportPublic`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/enableParquet`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/disableOperationOutcomes`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/duplicationCheck`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/validateResources`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/presigned`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/create`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/type`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/accessKeyId`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/secretAccessKey`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/iamApiKey`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/iamResourceInstanceId`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/user`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/secretAccessKey`|Y|Y|
 
-## 5.2 Keystores, truststores, and the FHIR server
+## 5.2 Keystores, truststores, and the IBM FHIR server
 
 ### 5.2.1 Background
 As stated earlier, the FHIR server is installed with a default configuration in `server.xml` which includes the definition of a keystore (`fhirKeyStore.p12`) and a truststore (`fhirTrustStore.p12`)<sup id="a7">[7](#f7)</sup>. These files are provided only as examples and while they may suffice in a test environment, the FHIR server deployer should generate a new keystore and truststore for any installations where security is a concern. Review the information in the following topics to learn how to configure a secure keystore and truststore.
@@ -2339,12 +2402,8 @@ A copy of this snippet is provided here for illustrative purposes:
 
 <dataSource id="OAuthDataSource" jndiName="jdbc/OAuth2DB">
     <properties.derby.embedded createDatabase="create" databaseName="derby/oauth2db" />
-    <jdbcDriver libraryRef="derbyLib" />
+    <jdbcDriver libraryRef="sharedLibDerby" />
 </dataSource>
-
-<library id="derbyLib">
-    <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar" />
-</library>
 ```
 
 ### 5.3.1.1 oidcProvider.xml snippet details

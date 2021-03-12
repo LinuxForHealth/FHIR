@@ -1,57 +1,42 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.audit.beans;
 
-import com.google.gson.annotations.SerializedName;
-
 /**
  * This class encapsulates the data for a FHIR server audit log entry.
  */
 public class AuditLogEntry {
 
-    @SerializedName("component_id")
     private String componentId;
 
-    @SerializedName("component_ip")
     private String componentIp;
 
-    @SerializedName("tenant_id")
     private String tenantId;
 
     private String location;
 
-    @SerializedName("event_type")
     private String eventType;
 
-    @SerializedName("timestamp")
     private String timestamp;
 
-    @SerializedName("description")
     private String description;
 
-    @SerializedName("user_name")
     private String userName;
 
-    @SerializedName("client_cert_cn")
     private String clientCertCn;
 
-    @SerializedName("client_cert_issuer_ou")
     private String clientCertIssuerOu;
 
-    @SerializedName("correlation_id")
     private String correlationId;
 
-    @SerializedName("patient_id")
     private String patientId;
 
-    @SerializedName("context")
     private Context context;
 
-    @SerializedName("config_data")
     private ConfigData configData;
 
     public AuditLogEntry(String componentId, String eventType, String timestamp, String componentIp, String tenantId) {

@@ -30,16 +30,12 @@
 
     <dataSource id="OAuthDataSource" jndiName="jdbc/OAuth2DB">
         <properties.derby.embedded createDatabase="create" databaseName="derby/oauth2db"/>
-        <jdbcDriver libraryRef="derbyLib"/>
+        <jdbcDriver libraryRef="sharedLibDerby"/>
     </dataSource>
-
-    <library id="derbyLib">
-        <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
-    </library>
 
     <!-- DB2-related configuration
     <dataSource id="OAuthDataSource" jndiName="jdbc/oAuthConfigDB">
-        <jdbcDriver libraryRef="db2Lib"/>
+        <jdbcDriver libraryRef="sharedLibDb2"/>
         <properties.db2.jcc 
             serverName="dbserver1.mycompany.com" 
             portNumber="50000" 
@@ -49,9 +45,5 @@
             currentSchema="OAUTHDBSCHEMA" 
             driverType="4"/>
     </dataSource>
-
-    <library id="db2Lib">
-        <fileset dir="${shared.resource.dir}/lib/db2" includes="*.jar"/>
-    </library>
     -->
 </server>

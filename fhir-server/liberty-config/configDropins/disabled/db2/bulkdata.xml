@@ -3,6 +3,7 @@
         This configDropin work with Db2 and user-password
     -->
     <featureManager>
+        <feature>batch-1.0</feature>
         <feature>batchManagement-1.0</feature>
         <feature>jdbc-4.1</feature>
         <feature>servlet-4.0</feature>
@@ -22,8 +23,8 @@
         </security-role>
     </authorization-roles>
 
-    <webApplication id="fhir-bulkimportexport-webapp" location="fhir-bulkimportexport.war" name="fhir-bulkimportexport-webapp">
-        <classloader commonLibraryRef="fhirSharedLib" privateLibraryRef="configResources,fhirUserLib"/>
+    <webApplication id="fhir-bulkdata-webapp" location="fhir-bulkdata-webapp.war" name="fhir-bulkdata-webapp">
+        <classloader privateLibraryRef="configResources,fhirUserLib"/>
         <application-bnd>
             <security-role id="users" name="FHIRUsers">
                 <group id="bulkUsersGroup" name="FHIRUsers"/>
@@ -39,8 +40,8 @@
     <variable name="BATCH_DB_PASS" defaultValue=""/>
     <variable name="BATCH_DB_SSL" defaultValue="true"/>
 
-    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
-        <jdbcDriver libraryRef="fhirSharedLib"/>
+    <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+        <jdbcDriver javax.sql.XADataSource="com.ibm.db2.jcc.DB2XADataSource" libraryRef="sharedLibDb2"/>
         <properties.db2.jcc
             serverName="${BATCH_DB_HOSTNAME}"
             currentSchema="${BATCH_DB_SCHEMA}"

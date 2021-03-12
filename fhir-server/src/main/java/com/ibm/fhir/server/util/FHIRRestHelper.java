@@ -61,6 +61,7 @@ import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Reference;
@@ -82,7 +83,6 @@ import com.ibm.fhir.path.patch.FHIRPathPatch;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
-import com.ibm.fhir.persistence.ResourceChangeLogRecord.ChangeType;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
@@ -3197,7 +3197,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             String requestUri, Map<String, String> requestProperties) throws Exception {
         log.entering(this.getClass().getName(), "doHistory");
 
-        Bundle bundle = null;
+        // Validate that the interaction is allowed
+        validateInteraction(Interaction.HISTORY.value(), "Resource");
 
         // extract the query parameters
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -3208,7 +3209,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         // Start a new txn in the persistence layer if one is not already active.
         Integer count = historyContext.getCount();
-        Instant since = historyContext.getSince() != null ? historyContext.getSince().getValue().toInstant() : null;
+        Instant since = historyContext.getSince() != null && historyContext.getSince().getValue() != null ? historyContext.getSince().getValue().toInstant() : null;
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         txn.begin();
         try {
@@ -3226,32 +3227,52 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             txn.end();
         }
 
+
         // Create a history bundle and add an entry for each record
         Bundle.Builder bundleBuilder = Bundle.builder();
 
         Long lastChangeId = null;
-        Instant lastUpdated = null;
+        Instant lastChangeTime = null;
 
+        // The FHIR spec states the result bundle entries are "sorted with oldest versions last",
+        // (which has to be with respect to versions of a particular resource)
+        // When using _since          - the 'records' list is sorted {change_tstamp, resourceType, resourceId}
+        // When using _afterHistoryId - the 'records' list is sorted {resourceId}
+        // Both sort orders guarantee that for a given resource, versions will be increasing, so to
+        // meet the spec, we just process in reverse.
         for (int i=records.size()-1; i>=0; i--) {
             ResourceChangeLogRecord changeRecord = records.get(i);
-            if (lastChangeId == null) {
-                // We have to build the bundle in reverse, so grab the lastChangeId from the first item we process
+            if (lastChangeId == null || changeRecord.getChangeId() > lastChangeId) {
+                // Keep track of the greatest change id value
                 lastChangeId = changeRecord.getChangeId();
-                lastUpdated = changeRecord.getChangeTstamp();
+            }
+
+            if (lastChangeTime == null || changeRecord.getChangeTstamp().isAfter(lastChangeTime)) {
+                // Keep track of the latest timestamp
+                lastChangeTime = changeRecord.getChangeTstamp();
             }
 
             Request.Builder requestBuilder = Request.builder();
-            if (changeRecord.getChangeType() == ChangeType.DELETE) {
-                requestBuilder.method(HTTPVerb.DELETE);
-                requestBuilder.url(Url.of(changeRecord.getResourceTypeName() + "/" + changeRecord.getLogicalId()));
-            } else {
+            Bundle.Entry.Response.Builder responseBuilder = Bundle.Entry.Response.builder();
+            switch (changeRecord.getChangeType()) {
+            case CREATE:
                 requestBuilder.method(HTTPVerb.POST);
                 requestBuilder.url(Url.of(changeRecord.getResourceTypeName()));
+                responseBuilder.status(com.ibm.fhir.model.type.String.of("201 Created"));
+                break;
+            case UPDATE:
+                requestBuilder.method(HTTPVerb.PUT);
+                requestBuilder.url(Url.of(changeRecord.getResourceTypeName() + "/" + changeRecord.getLogicalId()));
+                responseBuilder.status(com.ibm.fhir.model.type.String.of("200 OK"));
+                break;
+            case DELETE:
+                requestBuilder.method(HTTPVerb.DELETE);
+                requestBuilder.url(Url.of(changeRecord.getResourceTypeName() + "/" + changeRecord.getLogicalId()));
+                responseBuilder.status(com.ibm.fhir.model.type.String.of("200 OK"));
+                break;
             }
 
-            Bundle.Entry.Response.Builder responseBuilder = Bundle.Entry.Response.builder();
             responseBuilder.lastModified(com.ibm.fhir.model.type.Instant.of(changeRecord.getChangeTstamp().atZone(UTC)));
-            responseBuilder.status(com.ibm.fhir.model.type.String.of("200 OK"));
 
             Bundle.Entry.Builder entryBuilder = Bundle.Entry.builder();
             entryBuilder.fullUrl(Url.of(changeRecord.getResourceTypeName() + "/" + changeRecord.getLogicalId() + "/_history/" + changeRecord.getVersionId()));
@@ -3260,24 +3281,34 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             bundleBuilder.entry(entryBuilder.build());
         }
 
+        // Get the service base address to use for next and self links
+        String serviceBase = ReferenceUtil.getBaseUrl(null);
+        if (serviceBase.endsWith("/")) {
+            serviceBase = serviceBase.substring(0, serviceBase.length()-1);
+        }
+
         if (lastChangeId != null) {
             // post the next link which a client can use to get the next set of changes.
             // If this link is not included, the client can assume we've reached the end.
             // We don't include the _since filter, because the _afterHistoryId is more
             // specific and avoids any nasty issues related to clock drift in a cluster
             // of IBM FHIR Servers.
-            String serviceBase = ReferenceUtil.getBaseUrl(null);
-            if (serviceBase.endsWith("/")) {
-                serviceBase = serviceBase.substring(0, serviceBase.length()-1);
-            }
 
             StringBuilder nextRequest = new StringBuilder();
             nextRequest.append(serviceBase);
             nextRequest.append("?");
-            if (historyContext.getCount() != null) {
-                nextRequest.append("_count=").append(historyContext.getCount());
+            nextRequest.append("_count=").append(count);
+
+            if (historyContext.getSince() != null && historyContext.getSince().getValue() != null) {
+                // As _since was given, we need to go with time-based paging, and the client
+                // will be responsible for managing duplicates.
+                nextRequest.append("&_since=").append(lastChangeTime.atZone(UTC).format(DateTime.PARSER_FORMATTER));
+            } else {
+                // in all other cases we fetch ordered by resource_id, and so the client
+                // should get the next page using the _afterHistoryId marker, allowing
+                // easy paging through the stream of changes without duplicates
+                nextRequest.append("&_afterHistoryId=").append(lastChangeId);
             }
-            nextRequest.append("&_afterHistoryId=").append(lastChangeId);
             Bundle.Link.Builder linkBuilder = Bundle.Link.builder();
             linkBuilder.url(Uri.of(nextRequest.toString()));
             linkBuilder.relation(com.ibm.fhir.model.type.String.of("next"));
@@ -3285,6 +3316,23 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             bundleBuilder.link(linkBuilder.build());
         }
 
+        // Add a self link
+        StringBuilder selfRequest = new StringBuilder();
+        selfRequest.append(serviceBase);
+        selfRequest.append("?");
+        selfRequest.append("_count=").append(count);
+
+        // only one of afterHistoryId or since can be not null at this stage
+        if (historyContext.getAfterHistoryId() != null) {
+            selfRequest.append("&_afterHistoryId=").append(historyContext.getAfterHistoryId());
+        }
+        if (historyContext.getSince() != null && historyContext.getSince().getValue() != null) {
+            selfRequest.append("&_since=").append(historyContext.getSince().getValue().format(DateTime.PARSER_FORMATTER));
+        }
+        Bundle.Link.Builder linkBuilder = Bundle.Link.builder();
+        linkBuilder.url(Uri.of(selfRequest.toString()));
+        linkBuilder.relation(com.ibm.fhir.model.type.String.of("self"));
+        bundleBuilder.link(linkBuilder.build());
         bundleBuilder.type(BundleType.HISTORY);
 
         return bundleBuilder.build();

@@ -88,6 +88,19 @@
         <fileset dir="${server.config.dir}/userlib" includes="*.jar"/>
     </library>
 
+    <!-- Shared library definitions for the supported database types -->
+    <library id="sharedLibDb2">
+        <fileset dir="${shared.resource.dir}/lib/db2" includes="*.jar"/>
+    </library>
+
+    <library id="sharedLibDerby">
+        <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
+    </library>
+    
+    <library id="sharedLibPostgres">
+        <fileset dir="${shared.resource.dir}/lib/postgresql" includes="*.jar"/>
+    </library>
+
     <webAppSecurity allowFailOverToBasicAuth="true" singleSignonEnabled="false"/>
     
     <cors domain="/"
