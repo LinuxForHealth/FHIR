@@ -47,7 +47,6 @@ public class FHIRTermGraphLoaderMain {
             HelpFormatter formatter = new HelpFormatter();
             formatter.printHelp(String.format("FHIRTermGraphLoaderMain %s <loader-specific-options>", type.toString()), options);
         } catch (Exception e) {
-            e.printStackTrace();
             System.out.println("An error occurred: " + e.getMessage());
         } finally {
             if (loader != null) {

@@ -2054,7 +2054,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/checkReferenceTypes`|true|
 |`fhirServer/core/serverRegistryResourceProviderEnabled`|false|
 |`fhirServer/core/graphTermServiceProvider/enabled`|false|
-|`fhirServer/core/graphTermServiceProvider/configuration`|null|
 |`fhirServer/core/conditionalDeleteMaxNumber`|10|
 |`fhirServer/core/capabilityStatementCacheTimeout`|60|
 |`fhirServer/core/extendedCodeableConceptValidation`|true|

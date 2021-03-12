@@ -14,7 +14,20 @@ import com.ibm.fhir.term.graph.loader.impl.CodeSystemTermGraphLoader;
 import com.ibm.fhir.term.graph.loader.impl.SnomedTermGraphLoader;
 import com.ibm.fhir.term.graph.loader.impl.UMLSTermGraphLoader;
 
+/*
+ * Factory class used to create FHIRTermGraphLoader instances
+ */
 public class FHIRTermGraphLoaderFactory {
+    /**
+     * Create {@link FHIRTermGraphLoader} instance using the provided type and options map
+     *
+     * @param type
+     *     the type
+     * @param options
+     *     the options map
+     * @return
+     *     a {@link FHIRTermGraphLoader} instance
+     */
     public static FHIRTermGraphLoader create(Type type, Map<String, String> options) {
         switch (type) {
         case CODESYSTEM:

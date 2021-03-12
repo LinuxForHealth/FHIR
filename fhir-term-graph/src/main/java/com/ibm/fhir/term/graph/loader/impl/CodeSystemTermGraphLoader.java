@@ -214,7 +214,6 @@ public class CodeSystemTermGraphLoader extends AbstractTermGraphLoader {
             HelpFormatter formatter = new HelpFormatter();
             formatter.printHelp("CodeSystemTermGraphLoader", options);
         } catch (Exception e) {
-            e.printStackTrace();
             System.out.println("An error occurred: " + e.getMessage());
         } finally {
             if (loader != null) {

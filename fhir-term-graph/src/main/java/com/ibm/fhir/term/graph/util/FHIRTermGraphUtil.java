@@ -32,6 +32,14 @@ import ch.qos.logback.classic.Logger;
 public class FHIRTermGraphUtil {
     private FHIRTermGraphUtil() { }
 
+    /**
+     * Convert the given element value to an object value that is compatible with the graph schema
+     *
+     * @param value
+     *     the element value
+     * @return
+     *     an object value that is compatible with the graph schema
+     */
     public static Object toObject(Element value) {
         if (value.is(FHIR_BOOLEAN)) {
             return value.as(FHIR_BOOLEAN).getValue();
@@ -54,6 +62,14 @@ public class FHIRTermGraphUtil {
         throw new IllegalArgumentException();
     }
 
+    /**
+     * Normalize the string by making it case and accent insensitive
+     *
+     * @param value
+     *     the string value to normalized
+     * @return
+     *     the normalized string value
+     */
     public static String normalize(String value) {
         if (value != null) {
             return Normalizer.normalize(value, Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "").toLowerCase();
@@ -61,11 +77,25 @@ public class FHIRTermGraphUtil {
         return null;
     }
 
+    /**
+     * Sets the root logger level for the logback classic root logger
+     *
+     * @param level
+     *     the level
+     */
     public static void setRootLoggerLevel(Level level) {
         Logger rootLogger = (Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
         rootLogger.setLevel(level);
     }
 
+    /**
+     * Convert the {@link DateTime} value to a Long value that is compatible with the graph schema
+     *
+     * @param dateTime
+     *     the dateTime value
+     * @return
+     *     the Long equivalent value (milliseconds from the epoch)
+     */
     public static Long toLong(DateTime dateTime) {
         TemporalAccessor value = dateTime.getValue();
         if (value instanceof ZonedDateTime) {

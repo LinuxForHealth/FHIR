@@ -308,7 +308,6 @@ public class SnomedTermGraphLoader extends AbstractTermGraphLoader {
             HelpFormatter formatter = new HelpFormatter();
             formatter.printHelp("SnomedTermGraphLoader", options);
         } catch (Exception e) {
-            e.printStackTrace();
             System.out.println("An error occurred: " + e.getMessage());
         } finally {
             if (loader != null) {

@@ -17,11 +17,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
@@ -57,9 +55,6 @@ public class UMLSTermGraphLoader extends AbstractTermGraphLoader {
 
     // Map of code system name to preferred label, configured in properties file
     private Properties codeSystemMap = new Properties();
-
-    // Set of code systems which are case sensitive, configured in properties file
-    private Set<String> caseSensitiveCodeSystems = new HashSet<>();
 
     // Map of code system id to corresponding vertex
     private Map<String, Vertex> codeSystemVertices = new ConcurrentHashMap<>();
@@ -104,7 +99,6 @@ public class UMLSTermGraphLoader extends AbstractTermGraphLoader {
     public void load() {
         try {
             loadSourceAttributes();
-            loadCaseSensitiveCodeSystems();
             loadConcepts();
             loadRelations();
         } catch (Exception e) {
@@ -121,12 +115,7 @@ public class UMLSTermGraphLoader extends AbstractTermGraphLoader {
     private final Vertex createCodeSystemVertex(String sab) {
         String version = sabToVersion.get(sab);
         String url = (String) codeSystemMap.getOrDefault(sab, sab);
-
-        boolean caseSensitive = false;
-        if (caseSensitiveCodeSystems.contains(sab)) {
-            caseSensitive = true;
-        }
-        Vertex csv = g.addV("CodeSystem").property("url", url).property("version", version).property("caseSensitive", caseSensitive).next();
+        Vertex csv = g.addV("CodeSystem").property("url", url).property("version", version).next();
         g.tx().commit();
         return csv;
 
@@ -304,20 +293,6 @@ public class UMLSTermGraphLoader extends AbstractTermGraphLoader {
                     sabToVersion.put(rsab, sver);
                 }
             });
-        }
-    }
-
-    /**
-     * Loads configuration of code systems noted to be case sensitive
-     *
-     * @throws IOException
-     */
-    private void loadCaseSensitiveCodeSystems() throws IOException {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("conf/umlsSourceCaseSensitivity.txt")))) {
-            String line = reader.readLine().trim();
-            if (!line.isEmpty()) {
-                caseSensitiveCodeSystems.add(reader.readLine());
-            }
         }
     }
 
