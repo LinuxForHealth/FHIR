@@ -1,0 +1,120 @@
+{% assign connectorID = include.connectorID %}
+
+{% assign pageConnectorID = include.pageConnectorID %}
+
+{% assign connectorTags = include.connectorTags %}
+{% assign connectorURL = include.connectorURL %}
+{% assign count = include.countInc %}
+
+{% assign gradientValue = include.gradientID %}
+
+{% assign initial = include.connectorInitialString %}
+
+<!-- get all pages under folder for the connector -->
+{% assign connectorPages =  site.connectors | where:'forID', connectorID %}
+{% assign connectorPagesSorted =  connectorPages | sort: 'order' %}
+
+{%- for subPage in connectorPagesSorted -%}
+  {% unless subPage.path contains "index.md" %}
+    {% capture theFirstSubPageURL %}{{ site.url }}{{ site.baseurl }}{{ subPage.url }}{% endcapture %}
+    {% break %}
+  {% endunless %}
+{%- endfor -%}
+
+<div class="buttonContainer all 
+{% assign connectorTagLowerCase = include.connectorType | downcase %}
+{% if connectorTagLowerCase == "kafkaconnect" %}
+  kafkaConnectTag
+{% else %}
+  otherTag
+{% endif %}
+
+{{ include.connectorSupport | downcase }}Tag
+
+{{ connectorID }}
+{% if page.url contains connectorID %}
+active
+{% endif %}
+
+{% for category in connector.direction %}{{ category | append: ' ' }}{% endfor %}
+  {% capture currentPageFullURL %}{{ site.url }}{{ site.baseurl }}{{page.url}}{% endcapture %}
+{% if theFirstSubPageURL == currentPageFullURL %} active{% endif %}
+
+">
+  <button role="button" aria-labelledBy="heading{{ connectorID }}" tabindex="0" id="{{ connectorID }}"
+    aria-label="Open connector {{ connector.title }}" class="card" {% if isAllConnectors %} {%- comment -%}use
+    {{ connectorURL }} if first page is description{%- endcomment -%}
+    onclick="connectorCard(this,'{{ theFirstSubPageURL }}');" {% else %} {%- comment -%}{%- endcomment -%}
+    {%- comment -%}use {{ connectorURL }} if first page is description{%- endcomment -%}
+    onclick="connectorCard(this,'{{ theFirstSubPageURL }}');" {% endif %}>
+    <div class="cardContent">
+      <div class="diagram {{ connector.direction }}">
+        {% if connector.icon %}
+          <div class="image">
+            <img tabindex="-1" aria-label="{{ connector.title }} icon" alt="{{ connector.title }} icon"
+              src="{{ site.url }}{{ site.baseurl }}/assets/images/icons/{{ connector.icon }}"
+              type="image/svg+xml"/>
+          </div>
+        {% else %}
+          <div class="image placeholder">
+              {% include placeHolderIcon.svg gradient=gradientValue maskID=count initialMaskString=initial %}
+          </div>
+        {% endif %}
+      </div>
+      <div class="content">
+        <div class="titleContent">
+          <p class="secondary connectorType">
+            {% for category in connector.direction %}
+              {{ category | capitalize }} connector |
+              {% if connectorTagLowerCase == "kafkaconnect" %}
+                Kafka Connect
+              {% else %}
+                {{ include.connectorType | default: "Other" }}
+              {% endif %}
+            {% endfor %}
+          </p>
+          <h3 id="heading{{ connectorID }}">{{ connector.title }}</h3>
+        </div>
+        {% if include.connectorSupport == "IBM" %}
+          <div class="pill supportLevel ibm">
+            <div class="checkbox">
+              <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+                <path class="cls-1"
+                  d="M11.29,4.67,6.75,9.21l-2-2L3.29,8.58,6.75,12l6-6ZM8,16a8,8,0,1,1,8-8A8,8,0,0,1,8,16Z" />
+              </svg>
+            </div>
+            <div class="text">
+              <p class="secondary">IBM supported</p>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </button>
+
+  {% for button in connector.download %}
+    {% if button.url  %}
+      {% assign url = button.url %}
+    {% else if button.file %}
+      {% capture url %}{{ site.url }}{{ site.baseurl }}/assets/connectorDownloads/{{ button.file }}{% endcapture %}
+    {% endif %}
+    
+    {% if button.type == "Download" %}
+      <a class="button primary" href="{{ url }}" target="_blank" aria-label="{{ connector.title }} quick link ">
+        <div class="image">
+          <img alt="Download Icon" src="{{ site.url }}{{ site.baseurl }}/assets/images/icons/download_blue.svg" />
+        </div>
+      </a>          
+      {% break %}
+    {% else %}
+      {% if button.type == 'GitHub' %}
+        <a class="button primary" href="{{ url }}" target="_blank" aria-label="{{ connector.title }} quick link ">
+          <div class="image">
+            <img alt="Github Logo" src="{{ site.url }}{{ site.baseurl }}/assets/images/icons/github_dark.svg" />
+          </div>
+        </a>
+      {% endif %}            
+    {% endif %}  
+
+  {% endfor %}
+</div>

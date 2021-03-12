@@ -1,0 +1,427 @@
+/* ==========================================================================
+   BASE ELEMENTS
+   ========================================================================== */
+
+html {
+  /* sticky footer fix */
+  position: relative;
+  min-height: 100%;
+  background-color: $background;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: $text-color;
+  color: #152935;
+  font-family: $global-font-family;
+  line-height: 1.5;
+  background: $background;
+  font-size: 0.875rem;
+  background: $background;
+  &.layout {
+    &--splash {
+      
+    }
+    &--connectorsAll {
+      
+    }
+    &--single {
+      background-color: white;
+    }
+  }
+
+  &.overflow--hidden {
+    /* when primary navigation is visible, the content in the background won't scroll */
+    overflow: hidden;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 2em 0 0.5em;
+  line-height: 1.2;
+  font-family: $header-font-family;
+  font-weight: bold;
+  padding-top: 1rem;
+}
+
+h1 {
+  margin-top: 0;
+  font-size: $type-size-3;
+  &.hero {
+    margin-bottom: 0;
+    padding-top: 0;
+    line-height: 117%;
+    font-size: 2.75rem;
+    &.small {
+      font-size: 1.2rem;
+    }
+  }
+}
+
+
+small,
+.small {
+  font-size: $type-size-6;
+  line-height: 1rem;
+}
+
+u,
+ins {
+  text-decoration: none;
+  border-bottom: 1px solid $text-color;
+  a {
+    color: inherit;
+  }
+}
+
+del a {
+  color: inherit;
+}
+
+/* reduce orphans and widows when printing */
+
+p,
+pre,
+blockquote,
+ul,
+ol,
+dl,
+figure,
+table,
+fieldset {
+  orphans: 3;
+  widows: 3;
+}
+
+/* abbreviations */
+
+abbr[title],
+abbr[data-original-title] {
+  text-decoration: none;
+  cursor: help;
+  border-bottom: 1px dotted $text-color;
+}
+
+/* blockquotes */
+
+blockquote {
+  margin: 2em 1em 2em 0;
+  padding-left: 1em;
+  padding-right: 1em;
+  font-style: italic;
+  border-left: 0.25em solid $primary-color;
+
+  cite {
+    font-style: italic;
+
+    &:before {
+      content: "\2014";
+      padding-right: 5px;
+    }
+  }
+}
+
+/* links */
+
+a {
+  color: $brand-01;
+  &:focus {
+    @extend %tab-focus;
+  }
+
+  &:hover,
+  &:active {
+    color: $hover-primary-text;
+    outline: 0;
+  }
+
+  &:visited {
+    color: $brand-01;
+  }
+}
+
+/* buttons */
+
+button:focus {
+  @extend %tab-focus;
+}
+
+/* code */
+
+tt,
+code,
+kbd,
+samp,
+pre {
+  font-family: $monospace;
+}
+
+pre {
+  display: flex;
+  overflow-x: auto; /* add scrollbars to wide code blocks*/
+  code {
+    flex-basis: 100%;
+    flex-shrink: 1;
+    flex-grow: 0;
+    width: 100%;
+  }
+}
+
+p > code,
+a > code,
+li > code,
+figcaption > code,
+td > code {
+  padding-top: 0.1rem;
+  padding-bottom: 0.1rem;
+  font-size: $type-size-6;
+  background: $code-background-color;
+  border-radius: $border-radius;
+
+  &:before,
+  &:after {
+    letter-spacing: -0.2em;
+    content: "\00a0"; /* non-breaking space*/
+  }
+}
+
+/* horizontal rule */
+
+hr {
+  display: block;
+  margin: 1em 0;
+  border: 0;
+  border-top: 1px solid $border-color;
+}
+
+/* lists */
+
+ul li,
+ol li {
+  margin-bottom: 0.5em;
+}
+
+li ul,
+li ol {
+  margin-top: 0.5em;
+}
+
+/*
+   Media and embeds
+   ========================================================================== */
+
+/* Figures and images */
+
+figure {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin: 2em 0;
+
+  img,
+  iframe,
+  .fluid-width-video-wrapper {
+    margin-bottom: 1em;
+  }
+
+  img {
+    width: 100%;
+    border-radius: $border-radius;
+    -webkit-transition: $global-transition;
+    transition: $global-transition;
+  }
+
+  > a {
+    display: block;
+  }
+
+  &.half {
+    > a,
+    > img {
+      @include breakpoint($small) {
+        width: calc(50% - 0.5em);
+      }
+    }
+
+    figcaption {
+      width: 100%;
+    }
+  }
+
+  &.third {
+    > a,
+    > img {
+      @include breakpoint($small) {
+        width: calc(33.3333% - 0.5em);
+      }
+    }
+
+    figcaption {
+      width: 100%;
+    }
+  }
+}
+
+/* Figure captions */
+
+figcaption {
+  margin-bottom: 0.5em;
+  color: $muted-text-color;
+  font-family: $caption-font-family;
+  font-size: $type-size-6;
+
+  a {
+    -webkit-transition: $global-transition;
+    transition: $global-transition;
+
+    &:hover {
+      color: $link-color-hover;
+    }
+  }
+}
+
+/* Fix IE9 SVG bug */
+
+svg:not(:root) {
+  overflow: hidden;
+}
+
+/*
+   Navigation lists
+   ========================================================================== */
+
+/**
+ * Removes margins, padding, and bullet points from navigation lists
+ *
+ * Example usage:
+ * <nav>
+ *    <ul>
+ *      <li><a href="#link-1">Link 1</a></li>
+ *      <li><a href="#link-2">Link 2</a></li>
+ *      <li><a href="#link-3">Link 3</a></li>
+ *    </ul>
+ *  </nav>
+ */
+
+nav {
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    list-style: none;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  /* override white-space for nested lists */
+  ul li,
+  ol li {
+    margin-bottom: 0;
+  }
+
+  li ul,
+  li ol {
+    margin-top: 0;
+  }
+}
+
+/*
+   Global animation transition
+   ========================================================================== */
+
+b,
+i,
+strong,
+em,
+blockquote,
+p,
+q,
+span,
+figure,
+img,
+h1,
+h2,
+header,
+input,
+a,
+tr,
+td,
+form button,
+input[type="submit"],
+.btn,
+.highlight,
+.archive__item-teaser {
+  -webkit-transition: $global-transition;
+  transition: $global-transition;
+}
+
+
+button.bx--btn {
+  display: inline-block;
+}
+
+.bx--btn--secondary {
+  background-color: transparent;
+  border: 2px solid #0f62fe;
+  color: #0f62fe;
+}
+.bx--btn {
+  letter-spacing: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: .875rem;
+  font-weight: 600;
+  height: 2.5rem;
+  padding: 0 1rem;
+  border-radius: 0;
+  text-align: center;
+  text-decoration: none;
+  transition-duration: .1s;
+  transition-timing-function: ease-in;
+  white-space: nowrap;
+  line-height: 16px;
+  margin-right: auto;
+  svg {
+    height: 1.25rem;
+    width: 1.25rem;
+    vertical-align: -5px;
+    margin-left: 0.25rem !important;
+    rect,path {
+      fill: #0f62fe;
+      transition-duration: .1s;
+    }
+  }
+}
+
+.bx--btn--secondary:focus, .bx--btn--secondary:hover {
+  background-color: #0f62fe;
+  color: white;
+  svg {
+    rect,path {
+      fill: white;
+    }
+  }
+}
+
+button.bx--btn .bx--btn__icon {
+  position: relative;
+  vertical-align: middle;
+  top: -1px;
+}

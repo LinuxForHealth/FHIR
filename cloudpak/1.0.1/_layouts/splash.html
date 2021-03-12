@@ -1,0 +1,49 @@
+---
+layout: single
+---
+<div id="splashHeaderContent" class="splashHeaderContent">
+  <div id="homePanel" class="panel homepanel">
+    <div class="heroContainer pageSpacing">
+      <div class="intro">
+        {% if page.latest %}
+          <img class="pictogramHero" src="{{ site.url }}{{ site.baseurl }}/images/fhir-icon2.png" />
+        {% endif %}
+        <h1 class="hero small">
+          Welcome to IBM FHIR® Server <a onclick="toggleDropdown('open');" href="#" aria-label="Change Version"
+            tabindex="0" class="versionPill">{{ page.collection }}</a> 
+        </h1>
+        <h1 class="hero">
+          Documentation
+        </h1>
+
+        {% if page.latest %}
+          <p class="esIntro">IBM FHIR Server is capable of processing, validating, and storing healthcare data in an industry-standard format that 
+		    can be used for running search and other reporting capabilities. Built for the enterprise and offering cloud 
+			portability, it’s an integral component of a data integration pipeline.</p>
+
+          {% if page.latest %}
+            {%- assign collectionURL = "" -%}
+          {% else %}
+            {% if page.mastheadNavItem == "Documentation" %}
+              {%- assign collectionURL = page.collection -%}
+            {% endif %}
+          {% endif %}
+        {% endif %}
+
+      </div>
+    </div>
+    {% if page.latest %}
+<!--      {% include latestFeaturesHero.html %}
+    {% endif %}
+  </div>
+  <div id="remotePanel" class="panel remotePanel pageSpacing">
+  
+  </div> -->
+  <div class='loading'> 
+    <p class='loadingText'>
+      Loading...
+    </p>
+  </div>
+</div>
+
+{% include splashContent.html fromFeatureHero=true %}

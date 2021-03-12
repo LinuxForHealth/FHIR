@@ -1,0 +1,59 @@
+<html lang="{{ site.locale | slice: 0,2 | default: "en" }}" class="no-js">
+  <head>
+    {% include head.html %}
+    {% include head/custom.html %}
+    <link rel="shortcut icon" type="image/x-icon" href="{{ "/assets/favicon.ico" | prepend: site.baseurl }}" >
+    {% if page.url == '/404.html' %}
+      <script src="{{ '/assets/js/404.js' | relative_url }}"></script>
+    {% endif %}
+    <base target="_parent">
+
+  </head>
+  <script src="{{ '/assets/animation/lottie.js' | relative_url }}" type="text/javascript"></script>
+  <script src="{{ '/assets/js/connectors.js' | relative_url }}"></script>
+
+
+  {% if page.mastheadNavItem == "Documentation" %}
+    {% assign checkURL = 'urlChecker()' %}
+  {% else %}
+    {% assign checkURL = '' %}
+  {% endif %}
+  <body onload="{{ checkURL }}" class="layout--{{ page.layout | default: layout.layout }}{% if page.classes or layout.classes %}{{ page.classes | default: layout.classes | join: ' ' | prepend: ' ' }}{% endif %}">
+
+    {% include browser-upgrade.html %}
+    {% include masthead.html %}
+
+    <div id="initial-content" class="initial-content" role="main">{{ content }}</div>
+
+
+    {% if page.collection != 'connectors' %}
+      <div class="page__footer">
+          <footer>
+            {% include footer/custom.html %}
+            {% include footer.html %}
+          </footer>
+      </div>      
+    {% endif %}
+
+
+    {% include scripts.html %}
+    {% if page.mastheadNavItem == "Search" %}
+      <script>
+        window.addEventListener("load", function load(event){
+          document.getElementById("search").focus();
+          var urlParams = new URLSearchParams(window.location.search);
+          if ( urlParams.has('q') ) {
+            var query = urlParams.get('q');
+            var input = document.getElementById('search');
+            input.value = query;
+            searchResults('input#search');
+          }
+        });
+
+
+      </script>
+    {% endif %}
+
+    
+  </body>
+</html>

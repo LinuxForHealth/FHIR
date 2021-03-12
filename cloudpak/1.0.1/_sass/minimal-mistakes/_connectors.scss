@@ -1,0 +1,1295 @@
+$categories: all sink source other;
+$panelWidth: 40rem;
+$panelTransition: .4s $easing;
+$paddingSides: 3rem;
+
+@import 'connectorPageWidths.scss';
+
+.connectorsAll {
+
+  @import 'connectorFilters.scss';
+  position: relative;
+
+  .collapseSplashChevronContainer {
+    z-index: 3;
+    flex-basis: 0rem;
+    transition: $panelTransition;
+    height: 100%;
+    height: 3rem;
+    display: flex;
+    cursor: pointer;
+    justify-content: center;
+    // background: white;
+    border: none;
+    overflow: hidden;
+    // border-right: 1px solid $background;
+    .collapseSplashChevron {
+      flex-grow: 0;
+      flex-shrink: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      animation: chevronSlideIn .4s .2s;
+      animation-fill-mode: both;
+      left: 0;
+      background: transparent;
+      border: none;
+      img {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+  }
+
+  &.connectorOpen {
+
+    .connectorsLayout {
+      .connectorsCards {
+        .tagControl {
+          // padding-top: 1rem;
+          // top: -0.5rem;
+        }
+      }
+    }
+
+    .splashPanel {
+      height: 0;
+    }
+
+    .collapseSplashChevronContainer {
+      flex-basis: 3rem;
+    }
+
+    @keyframes chevronSlideIn {
+      0% {
+        transform: translateX(1.5rem);
+        opacity: 0;
+      }
+
+      100% {
+        transform: translateX(0rem);
+        opacity: 1;
+      }
+    }
+  }
+
+
+
+  .splash {
+    flex-grow: 0;
+    transition: 0.4s $easing;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 4rem;
+
+    .heroContainer {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+      padding-left: 3rem;
+      padding-right: 3rem;
+      max-width: 38rem;
+      margin-left: auto;
+      margin-right: auto;
+
+      .intro {
+        padding-left: 0;
+      }
+      .connectorTitle {
+        margin-bottom: 1rem;
+      }
+      .keyTasks {
+        max-width: 40rem;
+        flex-wrap: wrap;
+        flex-direction: row;
+        flex-shrink: 0;
+        flex-basis: auto;
+        margin-top: 1rem;
+        .task {
+          // border: 1px solid #dde8f4;
+          flex-grow: 1;
+          flex-basis: 4rem;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          padding-left: 1rem;
+          border-top: 0;
+          padding-right: 1rem;
+          border-left: 0;
+          border-right: 0;
+          padding-bottom: 1rem;
+          padding-top: 1rem;
+          font-weight: 400;
+          &:hover {
+            background-color: white;
+          }
+          cursor: pointer;
+          .title {
+            flex-grow: 1;
+            h3 {
+              margin: 0;
+              padding: 0;
+            }
+          }
+          &:last-of-type {
+            // border-bottom: 1px solid #dde8f4;
+          }
+          .progressIcon {
+            justify-self: flex-end;
+            .icon {
+              height: 1.5rem;
+              width: 1.5rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .connectorsLayout {
+    display: flex;
+
+    .connectorsCardsContainer {
+      flex-grow: 1;
+      flex-shrink: 1;
+      transition: 0.4s;
+      width: 100%;
+      -webkit-overflow-scrolling: touch;
+      display: flex;
+      flex-direction: column;
+
+      .addToCatalog {
+        z-index: 1;
+        padding-bottom: 8rem;
+        text-align: center;
+        display: none;
+      }
+    }
+
+
+    .splashPanel {
+      transition: $panelTransition;
+      flex-shrink: 0;
+      flex-grow: 0;
+      height: calc(100vh - 0.5rem);
+      overflow: hidden;
+
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .mobileSplashPanel {
+      display: none;
+      height: auto;
+      position: relative;
+    }
+
+    .connectorsCards {
+      flex-grow: 1;
+      flex-shrink: 1;
+      display: flex;
+      flex-wrap: wrap;
+      transition: .4s $easing .05s;
+      flex-direction: column;
+      z-index: 10;
+      position: relative;
+
+
+
+      &.all {
+        .buttonContainer {
+          &:not(.all) {
+            display: flex;
+          }
+        }
+      }
+
+      &.undefined {
+        .buttonContainer {
+          &:not(.all) {
+            display: flex;
+          }
+        }
+
+        .tagControl .connectorsCategories .menuItems .visible-links .menuItem.all {
+          font-weight: 900;
+          background-color: $keyline;
+          background-color: $brand-01;
+          color: white;
+          border-color: $brand-01;
+          border-left-color: $brand-01 !important;
+          border-right-color: $brand-01 !important;
+          border-top-color: darken($color: $brand-01, $amount: 4);
+        }
+      }
+
+      @each $category in $categories {
+        &.#{$category} {
+          .buttonContainer:not(.#{$category}) {
+            display: none;
+          }
+
+          .buttonContainer.#{$category} {
+            @for $i from 1 through 15 {
+              &:nth-of-type(#{$i}) {
+                animation-delay: $i*0.05s;
+              }
+            }
+          }
+        }
+      }
+
+      .tagControl {
+        display: flex;
+        justify-content: space-between;
+        z-index: 4;
+        position: -webkit-sticky;
+        position: sticky;
+        top: -1rem;
+        transition: $panelTransition;
+        flex-wrap: wrap;
+        flex-direction: column;
+        padding-left: 3rem;
+        border-bottom: 1px solid $background;
+        padding: 1rem;
+        padding-bottom: 0;
+        padding-top: 1rem;
+
+        .chooseCategories {
+          padding-left: 1rem;
+          padding-right: 1rem;
+
+          p {
+            white-space: nowrap;
+          }
+        }
+
+        .connectorsCategories {
+          flex-shrink: 0;
+          display: flex;
+          justify-self: flex-start;
+          align-self: flex-start;
+          align-items: center;
+          flex-grow: 1;
+          width: 100%;
+          padding: 0rem;
+          background: $background;
+
+          @each $category in $categories {
+            &.#{$category} {
+              .menuItems .visible-links {
+                .menuItem.#{$category} {
+                  font-weight: 900;
+                  background-color: $keyline;
+                  background-color: $brand-01;
+                  color: white;
+                  &:hover {
+                    background: #0353e9;
+                  }
+                  .heading-four {
+                    color: white;
+                  }
+                }
+              }
+            }
+
+            &.sink,
+            &.source {
+              .kafkaConnectLabel {
+                border-bottom-color: $brand-01 !important;
+
+                p {
+                  font-weight: 600;
+                }
+              }
+            }
+          }
+
+          .menuItems {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            height: 3rem;
+            background: white;
+
+            .kafkaConnectLabel {
+              height: 2rem;
+              display: flex;
+              align-items: center;
+              position: relative;
+              padding-left: .5rem;
+              margin-left: calc(25% - 2px + .25rem);
+              margin-right: calc(25% + -2px + .25rem);
+              text-align: center;
+              justify-content: center;
+              border-radius: 0.25rem 0.25rem 0 0;
+              z-index: 1;
+              height: 3rem;
+
+              &:before,
+              &:after {
+                background-color: $keyline;
+                height: 5rem;
+                bottom: 0;
+                top: 0rem;
+                left: 0;
+                right: 0;
+                position: absolute;
+                display: block;
+                width: 2px;
+                content: " ";
+              }
+
+              &:before {
+                left: 0;
+              }
+
+              &:after {
+                right: 0;
+                left: auto;
+              }
+
+              p {
+                margin: 0;
+              }
+            }
+
+            .visible-links {
+              flex-grow: 1;
+              display: flex;
+              max-width: 50rem;
+              background: white;
+
+              .menuItem {
+                flex-grow: 1;
+                display: flex;
+                padding-left: 1rem;
+                cursor: pointer;
+                padding-right: 1rem;
+                background: transparent;
+                border: none;
+                border-right: 1px solid $keyline;
+                padding-bottom: 0;
+                align-items: center;
+                p {
+                  font-weight: 400;
+                  margin: 0;
+                  padding: 0;
+                  font-size: 0.75rem;
+                }
+
+                .heading-four {
+                  margin: 0;
+                  padding: 0;
+                }
+
+              }
+            }
+
+            .filterToggle {
+              flex-basis: 3rem;
+              flex-shrink: 0;
+              flex-grow: 0;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              cursor: pointer;
+              background: white;
+
+              &.filterActive {
+                .filterToggleContent {
+                  .filterNotificationArea {
+                    .filterNotification {
+                      opacity: 1;
+                      transform: scale(1);
+                    }
+                  }
+                }
+              }
+
+              .filterToggleContent {
+                display: flex;
+                width: 3rem;
+                height: 3rem;
+                overflow: hidden;
+                padding: 0;
+                flex-direction: column;
+                position: relative;
+
+                .filterIcon {
+                  flex-grow: 1;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  border: none;
+                  background: transparent;
+                  font-weight: 600;
+                  color: $brand-01;
+                  font-size: .75rem;
+                  transition: 0.2s $easing;
+                }
+
+                .filterNotificationArea {
+                  flex-shrink: 0;
+                  flex-grow: 0;
+                  height: 1rem;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  overflow: hidden;
+                  transition: 0.2s $easing;
+                  position: absolute;
+                  bottom: 0;
+                  left: 0;
+                  right: 0;
+                  pointer-events: none;
+
+                  .filterNotification {
+                    background-color: $brand-01;
+                    border-radius: 10rem;
+                    height: .35rem;
+                    width: .35rem;
+                    content: " ";
+                    opacity: 0;
+                    transform: scale(.75);
+                    transition: 0.2s $easing;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        .filterToggle {
+          &.visible {
+            .filterToggleContent {
+              display: none;
+            }
+          }
+        }
+      }
+
+      .allCards {
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: column;
+        transition: $panelTransition;
+        position: relative;
+        width: 100%;
+        @import 'connectorCards.scss';
+      }
+
+      .page__footer {
+        display: flex;
+        padding-left: 3rem;
+      }
+
+    }
+
+    .connectorsContent {
+      flex-shrink: 0;
+      flex-grow: 0;
+      height: 100vh;
+      padding-bottom: 10rem;
+      overflow: scroll;
+      background: white;
+      z-index: 2;
+
+      position: -webkit-sticky;
+      position: sticky;
+      top: .5rem;
+      transition: .4s $easing;
+      -webkit-overflow-scrolling: touch;
+
+      .bgLoading {
+        position: absolute;
+        top: 0rem;
+        left: 0;
+        right: 0;
+        height: 20rem;
+        color: black;
+        text-align: center;
+        height: 25rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .connectorPage {
+        position: relative;
+        background-color: $background;
+        display: flex;
+        flex-direction: column;
+        background: white;
+
+        &.loading {
+          .heroArea {
+            .loadingStatus {
+              display: flex !important;
+            }
+          }
+
+          .ctaContainer,
+          .subPageContent {
+            opacity: 0;
+          }
+        }
+
+        .contentLoadContainer {
+          flex-grow: 1;
+          display: flex;
+          flex-direction: column;
+
+          .mainConnectorContent {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+
+            .subPageContent {
+              flex-grow: 1;
+            }
+          }
+        }
+
+        .initialHeroArea {
+          background: #000000;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          position: relative;
+          height: 25rem;
+          justify-content: center;
+          color: white;
+          align-items: center;
+        }
+
+        .mainConnectorContent {
+
+          .imageContainer {
+            &.sink {
+              flex-direction: row-reverse;
+              justify-content: flex-end;
+            }
+          }
+
+          .heroArea {
+            background: #000000;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+
+            &.initialHeroArea {
+              .loadingStatus {
+                display: flex;
+              }
+            }
+
+            .loadingStatus {
+              display: none;
+              color: white;
+              position: absolute;
+              top: 4rem;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              text-align: center;
+              align-items: center;
+              justify-content: center;
+            }
+
+            .heroContent {
+              padding: 3rem $paddingSides 0rem $paddingSides;
+
+              h2 {
+                margin-bottom: .5rem;
+              }
+
+              .description {
+                p {
+                  margin-top: 0;
+                  font-size: 1rem;
+                }
+              }
+            }
+
+            .heroFadeArea {
+              transition: .2s;
+            }
+
+            .IBMSupported {
+              margin: .5rem;
+              display: flex;
+              align-self: flex-end;
+              justify-content: flex-end;
+              position: absolute;
+              top: 0;
+              right: 0;
+            }
+
+            .titleDesc {
+              display: flex;
+              flex-direction: column;
+
+              .description {
+                color: white;
+
+                p {
+                  margin-top: .25rem;
+                }
+              }
+
+            }
+
+            h4 {
+              color: white;
+              margin-top: 0rem;
+              padding-top: 0;
+
+              .light {
+                font-weight: 400;
+              }
+            }
+
+            h1 {
+              color: white;
+              padding-top: 0;
+              margin-bottom: .5rem;
+            }
+          }
+
+          .imageContainer {
+            margin-right: auto;
+            display: flex;
+            margin-bottom: 2rem;
+
+            &.source {
+              flex-direction: row;
+              justify-content: flex-start;
+            }
+
+            .diagram {
+              padding: 0.5rem;
+              border: 1px solid #3a4044;
+              border-radius: 0.125rem;
+              margin-left: -0.375rem;
+
+              &.kafka {
+                display: flex;
+                align-items: center;
+                height: 3rem;
+                width: 3rem;
+                align-self: center;
+
+                .image {
+                  background-color: transparent;
+                  height: 1.5rem;
+                  width: 1.5rem;
+                  margin-left: 0.15rem;
+                }
+              }
+            }
+
+            .image {
+              width: 3rem;
+              height: 3rem;
+              background: white;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              svg {
+                margin-top: .25rem;
+              }
+            }
+
+            .sinkSourceArrow {
+              margin-left: -0.535rem;
+              display: flex;
+              align-items: center;
+              position: relative;
+              z-index: 2;
+              margin-right: -0.125rem;
+              height: 2.5rem;
+              align-self: center;
+              width: 4.5rem;
+            }
+          }
+
+          .description {
+            color: white;
+            margin: 1rem 0 0 0;
+            max-width: 32rem;
+          }
+
+          .subPageContent {
+            transition: .2s;
+            position: relative;
+            background-color: white;
+
+            .thePageContent {
+              // display: flex;
+              .content {
+                padding-top: 1rem;
+                p {
+                  &:first-of-type {
+                    margin-top: 0;
+                  }
+                }
+                ol {
+                  li {
+                    &:first-of-type {
+                      // padding-top: 1rem;
+                    }
+                  }
+                }
+              }
+              .section {
+                display: flex;
+                flex-direction: row;
+                margin-top: 2rem;
+                margin-bottom: 2rem;
+                h3,h4 {
+                  margin: 0;
+                  padding: 0;
+                }
+                .sectionHead {
+                  flex-basis: 10rem;
+                  flex-shrink: 0;
+                  flex-grow: 0;
+                }
+                .sectionTitle {
+                  flex-grow: 0;
+                  flex-shrink: 0;
+                }
+                .sectionDescription {
+                  flex-basis: auto;
+                  flex-grow: 1;
+                  font-size: .75rem;
+                  color: #565656;
+                  letter-spacing: 0.32px;
+                  text-align: left;
+                  margin-top: 0.25rem;
+                  max-width: 24rem;
+                  p {
+                    margin-top: 0;
+                    padding-top: 0;
+                    margin-bottom: 0;
+                  }
+                }
+              }
+            }
+
+            .subPageLoading {
+              display: none;
+              justify-content: center;
+            }
+
+            &.loading {
+              .thePageContent {
+                display: none;
+              }
+
+              .subPageLoading {
+                display: flex;
+              }
+            }
+          }
+
+          .topContent {
+            padding: 4rem;
+            padding-top: 2rem;
+            padding-bottom: 0;
+
+            h1 {
+              margin-bottom: 1.5rem;
+            }
+          }
+        }
+
+        .subPageTabs {
+          box-shadow: inset 0px -0.1875rem 0px #f3f3f3;
+          display: flex;
+          margin: 3rem;
+          padding-top: .5rem;
+          margin-bottom: 0.5rem;
+          margin-top: 1rem;
+
+          .tab {
+            padding-top: 1rem;
+            padding-bottom: 0.7rem;
+            padding-right: 3rem;
+            padding-left: 0.5rem;
+            transition: 0.1s;
+            cursor: pointer;
+            border: none;
+            border-bottom: 0.1875rem solid #f3f3f3;
+            background: transparent;
+            white-space: nowrap;
+
+            &:first-of-type {
+              margin-left: -.5rem;
+            }
+
+            &:hover {
+              border-bottom: 3px solid #dcdcdc;
+            }
+
+            a {
+              color: $text-01;
+            }
+
+            &.active {
+              border-bottom: .1875rem solid $brand-01;
+              font-weight: 600;
+
+              a {
+                color: $brand-01;
+              }
+            }
+          }
+        }
+
+        .subPages {
+          padding: $paddingSides;
+          padding-top: 0;
+          margin-right: 1rem;
+
+          ol {
+            padding-left: 0;
+            width: 100%;
+
+            li {
+              &:first-of-type {
+                p {
+                  &:first-of-type {
+                    margin-top: 0;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+  .page__footer {
+    position: absolute;
+  }
+}
+
+
+.mobileBackButton {
+  background-color: white;
+  height: 3rem;
+  display: none;
+}
+
+@media only screen and (max-width: 1200px) {
+  .connectorsAll {
+    .chooseCategories {
+      display: none;
+    }
+
+    .connectorsCategories {
+      padding-left: 0 !important;
+    }
+
+    .menuItems {
+      padding-left: 0 !important;
+    }
+
+    .connectorsLayout {
+      .connectorsCards {
+        .allCards {
+          .cardsContainer {
+            .card {
+              .cardContent {
+                .content {
+                  .titleContent {
+                    margin-left: 0;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1148px) {
+
+  .connectorsAll {
+    .mobileSplashPanel {
+      display: flex !important;
+    }
+  }
+
+  .desktopSplashPanel {
+    display: none !important;
+  }
+
+  .connectorsAll {
+    &.connectorOpen {
+      .contentArea {
+        animation-name: none !important;
+      }
+    }
+  }
+
+  .connectorsContent {
+    height: auto;
+
+    &.loading {
+      .heroFadeArea {
+        opacity: 0;
+      }
+
+      .contentArea {
+        .heroArea {
+          animation-name: none !important;
+        }
+      }
+    }
+
+  }
+
+  .connectorsAll {
+    .connectorsLayout {
+
+      .connectorsContent {
+        position: static;
+        top: unset;
+        transition: 0s;
+        height: auto;
+        min-height: calc(100vh - 3.5rem);
+
+        .connectorPage {
+          height: auto;
+
+          .mainConnectorContent {
+            .heroArea {
+              .heroFadeArea {
+                max-width: 50rem;
+                margin-left: auto;
+                margin-right: auto;
+                width: 100%;
+                transition: 0s;
+              }
+            }
+
+            .subPageContent {
+              .subPageTabs {
+                padding-left: 3rem;
+                padding-right: 3rem;
+                max-width: 50rem;
+                margin-left: auto;
+                margin-right: auto;
+                width: 100%;
+                transition: 0s;
+              }
+
+              .subPages {
+                max-width: 50rem;
+                margin-left: auto;
+                margin-right: auto;
+                width: 100%;
+                transition: 0s;
+              }
+            }
+          }
+        }
+      }
+
+    }
+
+
+    &.connectorOpen {
+      .connectorsCardsContainer {
+        display: none;
+      }
+
+      .mobileBackButton {
+        display: block;
+      }
+
+      .connectorsLayout {
+
+        .connectorsContent {
+
+          .connectorPage {
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+@media only screen and (max-width: 880px) {
+  .connectorsAll {
+    .connectorsLayout {
+      .connectorsCards {
+        .tagControl {
+          top: 2rem;
+        }
+      }
+    }
+  }
+}
+
+
+@media only screen and (max-width: 680px) {
+  .connectorsAll {
+    .connectorsLayout {
+      .heroContainer {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .connectorsContent {
+        .connectorPage {
+          .mainConnectorContent {
+            .heroArea {
+              .IBMSupported {
+                position: static;
+                .pill {
+                  margin-bottom: 0;
+                }
+              }
+              .heroContent {
+                padding: 1rem 1rem 0rem 1rem;
+              }
+
+              .ctaContainer {
+                padding-left: 0rem;
+                padding-right: 1rem;
+              }
+            }
+
+            .subPageContent {
+              .subPageTabs {
+                padding-left: 1rem;
+                padding-right: 1rem;
+                overflow: scroll;
+                -webkit-overflow-scrolling: touch;
+              }
+
+              .subPages {
+                padding-left: 1rem;
+                padding-right: 1rem;
+
+                ol {
+                  padding-left: 1rem;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.ctaContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  justify-content: flex-start;
+  // padding-left: $paddingSides;
+  padding-right: $paddingSides;
+  margin-top: 2.5rem;
+  // margin-bottom: 3rem;
+
+  .button {
+    // width: 18rem;
+    flex-basis: 50%;
+    max-width: 16rem;
+    flex-grow: 1;
+    text-align: left;
+    background: $brand-01;
+    padding-top: 1rem;
+    padding-left: 1.25rem;
+    display: flex;
+    padding-bottom: 1rem;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-right: 1px;
+    &:hover {
+      background: #0353e9;
+    }
+
+    .image {
+      height: 1rem;
+      margin-right: .75rem;
+
+      img {
+        height: 1rem;
+      }
+    }
+
+    .content {
+      h4 {
+        margin-bottom: 0;
+        font-weight: 400;
+      }
+
+      p {
+        margin: 0;
+        color: white;
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+
+.supportLevel {
+  align-self: center;
+  white-space: nowrap;
+  height: 1.25rem;
+  background: #373d42;
+  border-radius: 0.2rem;
+  p.secondary {
+    color: #cacaca;
+    font-size: .875rem;
+  }
+
+  &.large {
+    height: 1.5rem;
+    margin-bottom: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.8rem;
+
+    .checkbox {
+      margin-right: .5rem;
+    }
+  }
+
+  .checkbox {
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: .25rem;
+
+    svg {
+      height: .75rem;
+      width: .75rem;
+    }
+
+    .cls-1 {
+      fill: #10642a;
+    }
+  }
+
+  p {
+    font-size: 0.65rem;
+    margin: 0;
+    padding: 0;
+  }
+
+  &.ibm {
+    background-color: #42be65;
+    color: #071908;
+    fill: #071908;
+
+    p.secondary {
+      color: #071908;
+    }
+  }
+}
+
+$slideDistance: 4rem;
+$slideDistancePos: $slideDistance;
+$slideDistanceNeg: $slideDistance*-1;
+
+$slideDuration: .4s;
+
+@keyframes connectorSlideIn {
+  0% {
+    transform: translateY($slideDistanceNeg);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes connectorSlideOut {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY($slideDistanceNeg);
+  }
+}
+
+@keyframes connectorFadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes connectorFadeOut {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.contentArea {
+  .heroArea {
+    animation-fill-mode: both;
+  }
+}
+
+.contentLoadContainer {
+  transition: 0.4s $easing;
+}
+
+.contentArea,
+.subPageContent {
+  transition: 0.4s $easing;
+}
+
+.connectorPage {
+
+  &.loading {
+
+    .contentArea {
+      transform: translateY(-6rem);
+      z-index: 2;
+      transition-delay: .05s;
+
+      .heroFadeArea {
+        opacity: 0;
+      }
+    }
+
+    .subPageContent {
+      opacity: 0;
+      z-index: 1;
+    }
+  }
+}

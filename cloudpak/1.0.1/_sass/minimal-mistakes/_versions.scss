@@ -1,0 +1,187 @@
+.versionsBar {
+  background-color: white;
+  box-shadow: inset 0px -1px 0px $keyline;
+  overflow: hidden;
+  display: block;
+  flex-direction: column;
+  display: flex;
+  flex-direction: column; // flex-basis: 3.5em;
+  flex-shrink: 0;
+  &.open {
+      .selectedVersion,
+      .allVersions {
+          // transform: translateY(-4rem); // height of selectedVersion
+          li {
+            @for $i from 1 through 15 {
+              &:nth-of-type(#{$i}) {
+                .versionPill {
+                  animation-delay: $i*0.025s;
+                }
+              }
+            }
+          }
+          .versionPill {
+            animation: 0.3s slideinleft;
+            animation-fill-mode: both;
+          }
+      }
+      .selectedVersion {
+          opacity: 0;
+          flex-basis: 0rem;
+          overflow: hidden;
+      }
+  }
+  .selectedVersion {
+      flex-basis: $versionsHeight;
+      flex-shrink: 0;
+      flex-grow: 0; // min-height: 4.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.2s cubic-bezier(0.43, 0.01, 0.01, 0.99), transform 0.2s cubic-bezier(0.43, 0.01, 0.01, 0.99); // padding-bottom: 2rem;
+      .latestLabel {
+          margin-right: 0.5rem;
+      }
+      .versionContainer {
+        overflow: hidden;
+        justify-content: flex-end;
+        padding-left: 1.5rem;
+        padding-right: 1rem;
+        width: 100%;
+        height: 100%;
+        flex-shrink: 0;
+        flex-grow: 0;
+        flex-basis: $versionsHeight;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        .versionLabel {
+          color: $text-color;
+          font-size: 0.75rem;
+          margin-bottom: 0.15rem;
+          font-weight: 600;
+        }
+        .changeVersion {
+          color: $brand-01;
+          color: $text-02;
+          font-size: 0.75rem;
+          // text-decoration: underline;
+        }
+      }
+  }
+  .allVersions {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      height: 0;
+      transition: 0.2s cubic-bezier(0.43, 0.01, 0.01, 0.99), transform 0.2s cubic-bezier(0.43, 0.01, 0.01, 0.99); // padding-bottom: 2rem;
+      ul {
+          display: flex;
+          padding: 0;
+          margin: 0;
+          flex-direction: column;
+          box-sizing: border-box;
+          .version {
+              list-style: none;
+              padding: 0;
+              margin: 0;
+              padding: 0.5rem 0.5rem 0.5rem 2rem;
+              display: flex;
+              flex-shrink: 0;
+              justify-content: space-between;
+              cursor: pointer;
+              &.disabled {
+                cursor: not-allowed;
+                opacity: 0.2;
+                .versionPill {
+                  cursor: not-allowed;
+                  opacity: 0.2;
+                }
+              }
+              &:first-of-type {
+                  border-top: 1px solid $keyline;
+              }
+              &:hover {
+                  background-color: $background;
+              }
+              .activeContainer {
+                flex-basis: 2rem;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                img {
+                  height: 1rem;
+                  width: 1rem;
+                }
+              }
+          }
+      }
+  }
+  .versionPill {
+      // when pill is contained in the version dropdown
+      margin-left: -0.5rem;
+  }
+  .versionChange {
+    color: $text-02;
+    font-size: 0.75rem;
+    font-style: italic;
+    align-self: center;
+    margin-left: auto;
+  }
+}
+
+@keyframes slideinleft {
+0% {
+  transform: translateY(1rem);
+  opacity: 0;
+}
+100% {
+  transform: translateY(0rem);
+  opacity: 1;
+}
+}
+
+.latest {
+color: $text-02;
+font-size: 0.75rem;
+font-style: italic;
+align-self: center;
+margin-left: auto;
+margin-right: 1rem;
+}
+
+.versionPill {
+  background-color: $brand-01;
+  border-radius: 20rem;
+  padding: 0.125rem 0.5rem !important;
+  display: block;
+  margin-right: 0.5rem;
+  color: white;
+  text-decoration: none;
+  font-size: 0.75rem;
+  cursor: pointer;
+  &:visited {
+    color: white;
+  }
+  &.active {
+      &:visited {
+          color: white;
+      }
+  }
+  &.inactive {
+      background-color: #DFE3E6;
+      color: $text-color;
+      &:hover {
+        color: $text-color;
+      }
+  }
+  &:hover {
+    color: white;
+  }
+}

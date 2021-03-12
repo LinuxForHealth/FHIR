@@ -1,0 +1,77 @@
+{% assign navigation = site.data.navigation[include.nav] %}
+
+<nav class="nav__list">
+  {% if page.sidebar.title %}<h3 class="nav__title" style="padding-left: 0;">{{ page.sidebar.title }}</h3>{% endif %}
+  <ul class="nav__items">
+
+    {% for nav in navigation %}
+      <li>
+        {% if nav.url %}
+          {% comment %} internal/external URL check {% endcomment %}
+          {% if nav.url contains "://" %}
+            {% assign nav_url = nav.url %}
+          {% else %}
+            {% assign nav_url = nav.url %}
+          {% endif %}
+
+
+
+          {% assign currentCollection = site.collections | where:"label", page.collection  | first %}
+
+          
+
+                    {% capture collection_target %}
+                      {% if currentCollection.tag != "Latest" }} %}
+                        /{{ page.collection }}
+                      {% endif %}
+                    {% endcapture %}
+
+              
+
+          <a href="{{ site.baseurl }}{{ collection_target | strip}}{{ nav_url }}"><span class="nav__sub-title">{{ nav.title }}</span></a>
+        {% else %}
+          <span class="nav__sub-title">{{ nav.title }}</span>
+        {% endif %}
+
+        {% if nav.children != null %}
+        <ul>
+          {% for child in nav.children | sort:"order" %}
+            {% comment %} internal/external URL check {% endcomment %}
+            {% if child.url contains "://" %}
+              {% assign child_url = child.url %}
+            {% else %}
+              {% assign child_url = child.url %}
+            {% endif %}
+
+            {% comment %} set "active" class on current page {% endcomment %}
+            {% capture selected_child_url %}{{ child_url }}{% endcapture %}
+
+
+      {% assign basicURL = page.url | replace: page.collection,"" | replace: "//","/" %}
+
+            {% if basicURL == selected_child_url %}
+              {% assign active = "active" %}
+            {% else %}
+              {% assign active = "" %}
+            {% endif %}
+
+            <li>
+
+
+          {% assign currentCollection = site.collections | where:"label", page.collection  | first %}
+
+                    {% capture collection_target %}
+                      {% if currentCollection.version and currentCollection.tag != "Latest" }} %}
+                        /{{ page.collection }}
+                      {% endif %}
+                    {% endcapture %}
+
+              <a href="{{ site.baseurl }}{{ collection_target | strip}}{{ child_url }}" class="{{ active }}">{{ child.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+</nav>

@@ -1,0 +1,53 @@
+<div class="tagControl">
+  <div id="connectorsCategories" class="connectorsCategories all {{ pageCategory }}">
+    <div class="collapseSplashChevronContainer">
+      <button role="link" tabindex="0" class="collapseSplashChevron" onclick="toggleSplash('{{ site.url }}{{ site.baseurl }}/connectors');">
+        <img alt="back arrow" src="{{ site.url }}{{ site.baseurl }}/assets/images/icons/previous.svg" />
+      </button>
+    </div>
+    <div class="menuItems">
+      <div class="visible-links">
+        {% assign mastheadNavTitle = page.slug %}
+        {% for link in site.data.navigation.connectorCategories %}
+          {% if link.url contains 'http' %}
+            {% assign domain = '' %}
+          {% else %}
+            {% assign domain = site.url | append: site.baseurl %}
+          {% endif %}
+          {% assign i = 0 %}
+          {% for connector in site.connectors %}
+            {% if link.slug == "all" %}
+              {% if connector.connectorID %}
+                {% assign i = i | plus:1 %}
+              {% endif %}
+            {% else %}
+              {% if connector.connectorID %}
+                {% if connector.direction contains link.slug %}
+                  {% assign i = i | plus:1 %}
+                {% endif %}
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+          <button class="menuItem {{ link.slug }}" role="button"
+            onclick="filterCategories('{{ link.slug }}','{{ site.url }}{{ site.baseurl }}{{ link.url }}')" tabindex="0">
+            <p class="">{{ link.title }} ({{ i }})</p>
+          </button>
+        {% endfor %}
+      </div>
+      <div id="filterToggle" class="menuItem filterToggle">
+        <div class="filterToggleContent">
+          <button id="filterIcon" aria-label="toggle filter area" class="filterIcon" tabindex="0" role="link" onclick="toggleFilterArea()">
+            <img alt="" role="presentation" src="{{ site.url }}{{ site.baseurl }}/assets/images/icons/filter.svg" />
+          </button>
+          <div class="filterNotificationArea">
+            <div class="filterNotification"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      var category = sessionStorage.connectorCategory;
+      setActiveCategory(category);
+    </script>
+  </div>
+</div>

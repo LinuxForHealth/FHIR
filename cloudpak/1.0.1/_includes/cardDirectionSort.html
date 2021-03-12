@@ -1,0 +1,37 @@
+{% assign theUnsortedConnectors = include.sortedItems %}
+
+
+
+ {% assign allDirections = theUnsortedConnectors | group_by: 'direction' %}
+
+
+  {%- comment -%}push 'source' connectors first{%- endcomment -%}
+  {% for direction in allDirections %}   
+      {% if direction.name == "source" %}
+        {% for connectorCard in direction.items %}   
+          {% assign sortedConnectors = sortedConnectors | push: connectorCard %}
+        {% endfor %}
+      {% endif %}
+  {% endfor %}
+  
+  {%- comment -%}push 'sink' connectors second{%- endcomment -%}
+  {% for direction in allDirections %}          
+      {% if direction.name == "sink" %}
+        {% for connectorCard in direction.items %}   
+          {% assign sortedConnectors = sortedConnectors | push: connectorCard %}
+        {% endfor %}
+      {% endif %}
+  {% endfor %}
+
+  {%- comment -%}push 'both' connectors last{%- endcomment -%}
+  {% for direction in allDirections %}             
+      {% if direction.name == "both" %}
+        {% for connectorCard in direction.items %}   
+          {% assign sortedConnectors = sortedConnectors | push: connectorCard %}
+        {% endfor %}
+      {% endif %}
+  {% endfor %}
+  
+
+
+  

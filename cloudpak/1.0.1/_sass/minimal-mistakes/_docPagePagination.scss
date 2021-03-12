@@ -1,0 +1,71 @@
+.pagination {
+  border-top: 1px solid #f3f3f3;
+  width: 100%;
+  display: flex;
+  display: grid;
+  .previous,.next {
+    background-color: white;
+    height: 10rem;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    cursor: pointer;
+    &:hover {
+      box-shadow: inset 0px 0px 0px 1px $hover-outline;
+      z-index: 1;
+    }
+    &.disabled {
+      color: rgba($muted-text-color, 0.5);
+      pointer-events: none;
+      cursor: not-allowed;
+    }
+    .container {
+      flex-shrink: 0;
+      flex-grow: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      padding-bottom: 1rem;
+      .pagination--pager {
+        display: block;
+        margin-top: 1rem;
+        font-size: .75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: $text-02;
+        flex-grow: 0;
+
+        &:visited {
+          color: $text-02;
+        }
+      }
+      .titlePreview {
+        flex-grow: 1;
+        display: flex;
+        align-items: flex-start;
+        margin: 0;
+        padding-top: 0.5rem;
+      }
+    }
+  } 
+  .previous {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    justify-content: flex-end;
+    box-shadow: inset -1px 0px 0px 0px #f3f3f3;
+    z-index: 1;
+  }
+  .next {
+    grid-column-start: 3;
+    grid-column-end: 6;
+    margin-left: -1px;   
+    padding-left: 2rem;
+  }
+}
+
+@include footerGrid();
+
+
+
+

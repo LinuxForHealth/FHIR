@@ -1,0 +1,391 @@
+/* ==========================================================================
+   MASTHEAD
+   ========================================================================== */
+
+.masthead {
+  position: relative;
+  // border-bottom: 1px solid $border-color;
+  // -webkit-animation: $intro-transition;
+  // animation: $intro-transition;
+  // -webkit-animation-delay: 0.15s;
+  // animation-delay: 0.15s;
+  z-index: 20;
+  min-height: $mastheadHeight;
+  background-color: $text-01;
+  background-color: #161616;
+  border-bottom: 1px solid #3d3d3d;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  // position: fixed;
+  // right: 0;
+  // left: 0;
+  // top: 0;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0.5rem - 5.5rem;
+  &__goToIBMCloud {
+    background: $brand-01;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    padding-left: 1.5rem;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    font-size: .75rem;
+    .link {
+      color: white;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding-left: 1rem;
+      padding-right: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      &:hover {
+        color: inherit;
+        background-color: #0043ce;
+      }
+    }
+  }
+  &__inner-wrap {
+    max-width: 100%;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    font-family: $sans-serif-narrow;
+
+    // @include breakpoint($x-large) {
+    //   max-width: $x-large;
+    // }
+
+    * {
+      color: white;
+      fill: white;
+    }
+
+    nav {
+      z-index: 10;
+    }
+
+    a {
+      text-decoration: none;
+      &:visited {
+        color: white;
+      }
+    }
+    a:hover, a:active {
+      color: inherit;
+    }
+  }
+  .divider {
+    border-right: 1px solid #3d3d3d;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    height: 100%;
+  }
+  .apiTitle {
+    font-size: .75rem;
+    opacity: .8;
+    align-self: center;
+  }
+}
+
+.site-title {
+  display: flex;
+  align-self: stretch;
+  -webkit-box-align: center;
+  align-items: center;
+  font-weight: 600;
+  z-index: 20;
+  line-height: 1em;
+  span {
+    font-weight: 400;
+  }
+}
+
+.masthead__menu {
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%;
+
+  .site-nav {
+    margin-left: 0;
+
+  }
+
+  .mastheadNav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  .mastheadTitle {
+    height: $mastheadHeight;
+    display: flex;
+    align-items: center;
+    flex-grow: 999;
+    padding-left: 1.5rem;
+    // padding-top: 0.25rem;
+    align-items: center;
+  }
+  .mastheadControls {
+    .menuScrollContainer {
+      display: flex;
+      justify-content: space-between;
+      height: $mastheadHeight;
+    }
+    .visible-links {
+      margin: 0;
+      padding: 0;
+      clear: both;
+      list-style-type: none;
+      display: flex;
+      overflow-x: scroll;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding-right: .5rem;
+      &.apiMenu {
+        padding-right: 2rem;
+      }
+      li {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        a {
+          color: white;
+        }
+      }
+    }
+  }
+}
+
+.viewOnIBMcom {
+  margin-left: 1rem;
+  a {
+    font-size: 0.75rem;
+    color: #93a2af;
+    &:visited {
+      color: #93a2af;
+    }
+  }
+}
+
+
+.masthead__menu-item {
+  display: block;
+  list-style-type: none;
+  white-space: nowrap;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  cursor: pointer;
+  &:first-of-type {
+    margin-left: 1.5rem;
+  }
+  &:last-of-type {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  &--lg {
+    padding-right: 2em;
+    font-weight: 700;
+  }
+  &.active {
+    border-bottom: 0.25rem solid $brand-01;
+    padding-top: .25rem;
+    a {
+      font-weight: 600;
+    }
+  }
+}
+
+.dropdownMastheadItem {
+  display: flex;
+  position: relative;
+  background: transparent;
+  border: none;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0;
+  margin-right: 0;
+  position: static;
+  flex-direction: column;
+  outline: none;
+  button {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin-top: 0;
+    height: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-bottom: -.5rem;
+  }
+  &.active {
+    .chevron {
+      bottom: 0.25rem;
+    }
+  }
+  &.hover {
+    .chevron {
+      img {
+        transform: rotate(180deg);
+      }
+    }
+    .mastheadGroup {
+      display: flex;
+      .item {
+        opacity: 1;
+        display: flex;
+      }
+    }
+  }
+  .chevron {
+    flex-basis: .45rem;
+    width: 100%;
+    flex-shrink: 0;
+    flex-grow: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+    transform: translateY(-.25rem);
+    img {
+      transition: .2s $easing;
+    }
+  }
+  .mastheadGroup {
+    display: flex;
+    flex-direction: column;
+    top: 100%;
+    position: absolute;
+    z-index: 19;
+    width: 10rem;
+    align-items: center;
+    display: none;
+    background-color: #1c2328;
+    animation: .2s slideDown, .2s fadein;
+    box-shadow: 0px 20px 20px 0px rgba(18, 23, 25, 0.5);
+    .item {
+      color: white;
+      background-color: #1c2328;
+      border-bottom: 1px solid #3d3d3d;
+      width: 100%;
+      padding: 1rem;
+      text-align: left;
+      animation: .2s slideDown, .2s fadein;
+      display: none;
+      animation-fill-mode: both;
+      a {
+        font-weight: 400 !important;
+        margin: 0;
+      }
+      &:hover {
+        background-color: darken(#1c2328, 5)
+      }
+      @for $i from 1 through 15 {
+        &:nth-of-type(#{$i}) {
+            animation-delay: $i*0.05s;
+            z-index: 5-$i;
+        }
+      }
+    }
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    transform: translateY(-1rem);
+    // opacity: 0;
+  }
+  100% {
+    transform: translateY(0rem);
+    // opacity: 1;
+  }
+}
+
+@media only screen and (max-width: $large) {
+  .masthead {
+    // position: fixed;
+    // top: 0;
+    // min-height: 3rem;
+    // top: -2.5rem;
+    // .mastheadControls,.mastheadTitle {
+    //   height: 3rem;
+    // }
+    // .mastheadTitle {
+    //   padding-left: 0.75rem;
+    // }
+    .mastheadControls {
+      li {
+        &:first-of-type {
+          margin-left: 0.75rem;
+        }
+      }
+    }
+  }
+}
+
+
+
+@media only screen and (max-width: 880px) {
+  .masthead {
+    top: -4.5rem;
+    .masthead__menu {
+      .mastheadTitle {
+        height: 2.5rem;
+        height: 4.5rem;
+        padding-top: 0.5rem;
+        padding-left: 1.25rem;
+      }
+      .mastheadNav {
+        flex-direction: column;
+      }
+      .mastheadControls {
+        .menuScrollContainer {
+          height: 3rem;
+        }
+      }
+    }
+    .mastheadControls {
+      width: 100%;
+      height: 3rem;
+      .visible-links {
+        height: 3rem;
+        padding-left: 0.5rem;
+      }
+    }
+  }
+}
+
+
+@media only screen and (max-width: 720px) {
+  .mastheadGroup {
+    width: auto !important;
+    left: 0;
+    right: 0;
+  }
+}
+
+
+@media only screen and (max-width: 640px) {
+  .masthead {
+    .masthead__menu {
+      .mastheadNav {
+        flex-direction: column;
+      }
+    }
+    .mastheadTitle {
+      height: 2.5rem;
+      // padding-top: 0.5rem;
+      .site-title {
+        padding-bottom: 0;
+      }
+    }
+  }
+}

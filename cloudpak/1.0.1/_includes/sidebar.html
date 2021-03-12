@@ -1,0 +1,100 @@
+{% assign version1Pages = site.collections | where: "version", "true" | sort: 'order' | reverse %}
+
+{% if page.author_profile or layout.author_profile or page.sidebar %}
+  <div id="sidebarMask" class="sidebarMask">
+
+  </div>
+  <div id="sidebar" class="sidebar sticky">
+      <div aria-label="Change Version" role="button" aria-expanded="false"
+      {% if page.version %}
+        id="versionDropdown"
+        tabindex="0"
+        class="versionsBar"
+      {% else %}
+        tabindex="-1"
+        class="versionsBar disabled"
+      {% endif %} >
+          <div class="selectedVersion" id="selectedVersion">
+            <div class="versionContainer" >
+              {% if page.version %}
+                <a id="versionPillCurrent" class="versionPill">{{ page.collection }}</a>
+                <a class="versionChange">Change Version</a>
+              {% elsif page.latest %}
+                {% for collection in version1Pages reversed %}
+                  {% if collection.tag == "Latest" }} %}
+                    <a id="versionPillCurrent" class="disabled versionPill">{{ collection.label }}</a>
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+            </div>
+          </div>
+          {% capture url_path %}{{site.url}}{{site.baseurl}}{{page.url}}{% endcapture %}
+
+
+          <div class="allVersions" id="allVersions">
+            <ul>
+
+                {% for collection in version1Pages %}
+
+                        {% assign collectionJson = collection | json %}
+
+
+                    {% assign name = collection.label %}
+
+                    <!-- {% capture target_url_path %}{{ url_path | replace: page.collection, collection.label }}{% endcapture %} -->
+
+                    {% capture collection_target %}
+                      {% if collection.tag != "Latest" }} %}
+                        /{{ collection.label }}
+                      {% endif %}
+                    {% endcapture %}
+
+                    {% capture target_url_path %}{{site.url | strip }}{{site.baseurl | strip }}{{collection_target | strip }}{{page.url | replace: page.collection | replace: "//", "/" }}{% endcapture %}
+
+
+                    <li class="version" data-url="{{ target_url_path | strip }}" onclick="openVersion('{{ target_url_path | strip }}','{{ collection.label | strip }}')">
+
+                        <div class="pillContainer">
+                          {% if collection.label == page.collection }} %}
+                            {% assign activeCollection = "active" %}
+                          {% else %}
+                            {% assign activeCollection = "inactive" %}
+                          {% endif %}
+                          <a tabindex="-1" href="{{ target_url_path | strip }}" class="versionPill {{ activeCollection }}">{{ collection.label }}</a>
+                        </div>
+                        <div class="activeContainer">
+                            {% if collection.label == page.collection }} %}
+                            <img alt="" src="{{site.url}}{{ site.baseurl }}/images/checkbox.svg" />
+                            {% endif %}
+                        </div>
+                        <div class="latest">
+                            {{ collection.tag }}
+                        </div>
+                      </li>
+
+                {% endfor %}
+
+            </ul>
+          </div>
+        </div>
+
+  {% if page.sidebar %}
+    {% for s in page.sidebar %}
+      {% if s.image %}
+        <img src=
+        {% if s.image contains "://" %}
+          "{{ s.image }}"
+        {% else %}
+          "{{ s.image | relative_url }}"
+        {% endif %}
+        alt="{% if s.image_alt %}{{ s.image_alt }}{% endif %}">
+      {% endif %}
+      {% if s.title %}<h3>{{ s.title }}</h3>{% endif %}
+      {% if s.text %}{{ s.text | markdownify }}{% endif %}
+    {% endfor %}
+    {% if page.sidebar.nav %}
+      {% include nav_list.html nav=page.sidebar.nav %}
+    {% endif %}
+  {% endif %}
+  </div>
+{% endif %}
