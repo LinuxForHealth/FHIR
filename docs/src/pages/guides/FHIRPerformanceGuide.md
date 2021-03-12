@@ -114,7 +114,7 @@ See [Managing PostgreSQL Connections](https://cloud.ibm.com/docs/databases-for-p
 The recommended approach for tenant datatstore configuration is to use individual JTA datasources, each with their own connection manager (connection pool):
 
 ```
-    <dataSource id="fhirDatasourcePGCloudDefault" jndiName="jdbc/fhir_tenant1_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+    <dataSource id="fhirDatasourcePGCloudDefault" jndiName="jdbc/fhir_tenant1_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true" validationTimeout="30s">
         <jdbcDriver javax.sql.XADataSource="org.postgresql.xa.PGXADataSource" libraryRef="sharedLibPostgres"/>
             <properties.postgresql
                  serverName="your.postgres.host"
@@ -142,7 +142,7 @@ The IBM FHIR Server proxy datasource is based on a custom datasource implementat
 To use the IBM FHIR Server proxy datasource, just one Liberty Profile JTA `<dataSource>` is required:
 
 ```
-    <dataSource id="fhirProxyDataSource" jndiName="jdbc/fhirProxyDataSource" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+    <dataSource id="fhirProxyDataSource" jndiName="jdbc/fhirProxyDataSource" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true" validationTimeout="30s">
         <jdbcDriver libraryRef="fhirSharedLib" javax.sql.XADataSource="com.ibm.fhir.persistence.proxy.FHIRProxyXADataSource"/>
         <connectionManager maxPoolSize="200" minPoolSize="20" connectionTimeout="60s" maxIdleTime="2m" numConnectionsPerThreadLocal="2"/>
     </dataSource>

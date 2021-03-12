@@ -7,7 +7,7 @@
     <!-- ============================================================== -->
     <!-- TENANT: default; DSID: default; TYPE: read-write               -->
     <!-- ============================================================== -->
-    <dataSource id="bootstrapDefaultDefault" jndiName="jdbc/bootstrap_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+    <dataSource id="bootstrapDefaultDefault" jndiName="jdbc/bootstrap_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true" validationTimeout="30s">
         <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="sharedLibDerby"/>
         <properties.derby.embedded createDatabase="create" databaseName="derby/fhirDB"/>
         <connectionManager maxPoolSize="50" minPoolSize="10"/>
