@@ -156,9 +156,8 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle everythingBundle = response.readEntity(Bundle.class);
         
-        // The initial bundle includes resources from 11 resource types (not counting practitioners and organizations), 
-        // here we test that when count = 1 we only get 12 resources, 1 from each resource type + 1 for the Patient
-        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 12);
+        // Count is ignored
+        assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 895);
     }
 
     /**

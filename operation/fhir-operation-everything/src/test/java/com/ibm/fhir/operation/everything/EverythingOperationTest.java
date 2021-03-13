@@ -112,7 +112,8 @@ public class EverythingOperationTest {
     public void testConvertParametersStartEndCount() throws FHIRParserException, IOException {
         Parameters parameters = loadParametersFile("parameters-start-end-count.json");
         MultivaluedMap<String, String> queryParameters = everythingOperation.parseQueryParameters(parameters);
-        assertEquals("10", queryParameters.getFirst(SearchConstants.COUNT));
+        // Count is ignored so even though count was 10 the value will still be the max
+        assertEquals(SearchConstants.MAX_PAGE_SIZE + "", queryParameters.getFirst(SearchConstants.COUNT));
         assertEquals(2, queryParameters.get(EverythingOperation.DATE_QUERY_PARAMETER).size());
         assertTrue(queryParameters.get(EverythingOperation.DATE_QUERY_PARAMETER).contains(EverythingOperation.STARTING_FROM + "1970-11-04"));
         assertTrue(queryParameters.get(EverythingOperation.DATE_QUERY_PARAMETER).contains(EverythingOperation.UP_UNTIL+ "1971-01-01"));
@@ -126,7 +127,8 @@ public class EverythingOperationTest {
     public void testConvertParametersStartEndCountSince() throws FHIRParserException, IOException {
         Parameters parameters = loadParametersFile("parameters-start-end-count-since.json");
         MultivaluedMap<String, String> queryParameters = everythingOperation.parseQueryParameters(parameters);
-        assertEquals("10", queryParameters.getFirst(SearchConstants.COUNT));
+        // Count is ignored so even though count was 10 the value will still be the max
+        assertEquals(SearchConstants.MAX_PAGE_SIZE + "", queryParameters.getFirst(SearchConstants.COUNT));
         assertEquals(2, queryParameters.get(EverythingOperation.DATE_QUERY_PARAMETER).size());
         assertTrue(queryParameters.get(EverythingOperation.DATE_QUERY_PARAMETER).contains(EverythingOperation.STARTING_FROM + "1970-11-04"));
         assertTrue(queryParameters.get(EverythingOperation.DATE_QUERY_PARAMETER).contains(EverythingOperation.UP_UNTIL+ "1971-01-01"));

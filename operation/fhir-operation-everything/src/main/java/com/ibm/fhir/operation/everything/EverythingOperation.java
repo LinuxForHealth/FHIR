@@ -6,7 +6,6 @@
 package com.ibm.fhir.operation.everything;
 
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_DATE;
-import static com.ibm.fhir.model.util.ModelSupport.FHIR_INTEGER;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_INSTANT;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_STRING;
 
@@ -109,6 +108,11 @@ public class EverythingOperation extends AbstractOperation {
     private static final String OPERATION_DEFINITION_FILE = "everything.json";
 
     /**
+     * The maximum number of cumulative resources from all compartments for a given patient. 
+     */
+    private static final int MAX_OVERALL_RESOURCES = 10000;
+
+    /**
      * The list of resources for which the <code>date</code> query parameter can be used
      */
     private static final Set<String> SUPPORT_CLINICAL_DATE_QUERY = new HashSet<>(Arrays.asList(
@@ -167,7 +171,6 @@ public class EverythingOperation extends AbstractOperation {
             throw exceptionWithIssue;
         }
         if (patient == null) {
-            
             FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Patient with ID '" + logicalId + "' does not exist.", IssueType.NOT_FOUND);
             LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
             throw exceptionWithIssue;
@@ -187,20 +190,50 @@ public class EverythingOperation extends AbstractOperation {
         List<String> resourceTypesOverride = getOverridenIncludedResourceTypes(parameters);
         List<String> resourceTypes = resourceTypesOverride.isEmpty() ? defaultResourceTypes : resourceTypesOverride;
         
+        int totalResourceCount = 0;
         for (String compartmentType : resourceTypes) {
             MultivaluedMap<String, String> searchParameters = queryParameters;
             if (startOrEndProvided  && !SUPPORT_CLINICAL_DATE_QUERY.contains(compartmentType)) {
-                LOG.finest("The request specified the a '" + START_QUERY_PARAMETER + "' and/or '" + END_QUERY_PARAMETER + "' query parameter. They are not valid for resource type '" + compartmentType + "', so will be ignored.");
+                LOG.finest("The request specified a '" + START_QUERY_PARAMETER + "' and/or '" + END_QUERY_PARAMETER + "' query parameter. They are not valid for resource type '" + compartmentType + "', so will be ignored.");
                 searchParameters = queryParametersWithoutDates;
             }
             Bundle results = null;
+            int currentResourceCount = 0;
             try {
                 results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, searchParameters, null, null, null);
+                currentResourceCount = results.getTotal().getValue();
+                totalResourceCount += currentResourceCount;
+                LOG.finest("Got " + compartmentType + " resources " + currentResourceCount + " for a total of " + totalResourceCount);
             } catch (Exception e) {
-                LOG.warning("Error retrieving $everything resources of type '" + compartmentType + "' for patient " + logicalId);
-                continue;
+                FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving $everything resources of type '" + compartmentType + "' for patient " + logicalId, IssueType.EXCEPTION);
+                LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
+                throw exceptionWithIssue;
+            }
+            // If retrieving all these resources exceeds the maximum number of resources allowed for this operation the operation is failed
+            if (totalResourceCount > MAX_OVERALL_RESOURCES) {
+                FHIROperationException exceptionWithIssue = buildExceptionWithIssue("The maximum number of resources allowed for the $everything operation (" + MAX_OVERALL_RESOURCES + ") has been exceeded for patient '" + logicalId + "'. Try using the bulkexport feature.", IssueType.TOO_COSTLY);
+                LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
+                throw exceptionWithIssue;                
             }
             allEntries.addAll(results.getEntry());
+            
+            // We are retrieving sub-resources MAX_PAGE_SIZE items at a time, but there could be more so we need to retrieve the rest of the pages for the last resource if needed
+            if (currentResourceCount > SearchConstants.MAX_PAGE_SIZE) {
+                // We already retrieved page 1 so we account for that and start retrieving the rest of the pages
+                int page = 2;
+                while ((currentResourceCount -= SearchConstants.MAX_PAGE_SIZE) > 0) {
+                    LOG.finest("Retrieving page " + page + " of the " + compartmentType + " resources for patient " + logicalId);
+                    try {
+                        searchParameters.putSingle(SearchConstants.PAGE, page++ + "");
+                        results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, searchParameters, null, null, null);
+                    } catch (Exception e) {
+                        FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving $everything resources page '" + page + "' of type '" + compartmentType + "' for patient " + logicalId, IssueType.EXCEPTION);
+                        LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
+                        throw exceptionWithIssue;
+                    }                    
+                    allEntries.addAll(results.getEntry());
+                }
+            }
         }
         
         Bundle.Builder bundleBuilder = Bundle.builder()
@@ -230,11 +263,11 @@ public class EverythingOperation extends AbstractOperation {
     protected MultivaluedMap<String, String> parseQueryParameters(Parameters parameters) {
         MultivaluedMap<String, String> queryParameters = new MultivaluedHashMap<String, String>();
         Parameter countParameter = getParameter(parameters, SearchConstants.COUNT);
-        if (countParameter == null) {
-            queryParameters.add(SearchConstants.COUNT, SearchConstants.MAX_PAGE_SIZE + "");
-        } else {
-            queryParameters.add(SearchConstants.COUNT, countParameter.getValue().as(FHIR_INTEGER).getValue() + "");
+        if (countParameter != null) {
+            LOG.fine("The `count` parameter is currently not supported by the $everything operation, it will be ignored.");
         }
+        // We will try to grab all resources of a given type, in order to reduce the number of pages we will get the max page size
+        queryParameters.add(SearchConstants.COUNT, SearchConstants.MAX_PAGE_SIZE + "");
         // We use gt/lt here in an effort to be more liberal in terms of what we return
         // https://ibm-watsonhealth.slack.com/archives/C14JTTR6C/p1614181836050500?thread_ts=1614180853.047300&cid=C14JTTR6C
         Parameter startParameter = getParameter(parameters, START_QUERY_PARAMETER);
