@@ -352,17 +352,15 @@ public class ExportOperationTest extends FHIRServerTestBase {
     }
 
     public void verifyFileLines(String workItem, int count, String resourceType) throws IOException {
-        List<String> lines = Files.readAllLines(new File(path + "/" + workItem).toPath());
+        List<String> lines = Files.readAllLines(Paths.get(path + "/" + workItem));
         for (String line : lines) {
             try (ByteArrayInputStream bais = new ByteArrayInputStream(line.getBytes())) {
-                try {
-                    // Checks to see if it's a single type.
-                    com.ibm.fhir.model.resource.Resource r = FHIRParser.parser(Format.JSON).parse(bais);
-                    assertEquals(resourceType, r.getClass().getSimpleName());
-                } catch (FHIRParserException e) {
-                    e.printStackTrace();
-                    Assert.fail();
-                }
+                // Checks to see if it's a single type.
+                com.ibm.fhir.model.resource.Resource r = FHIRParser.parser(Format.JSON).parse(bais);
+                assertEquals(resourceType, r.getClass().getSimpleName());
+            } catch (FHIRParserException e) {
+                e.printStackTrace();
+                Assert.fail();
             }
         }
         int actual = lines.size();

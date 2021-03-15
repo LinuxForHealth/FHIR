@@ -58,6 +58,9 @@ public class ReadResultDTO implements Serializable {
         return resources.isEmpty() || chunk;
     }
 
+    /**
+     * Indicates the ChunkData bytestream should be used versus the results from the ReadResultDTO
+     */
     public void makeChunk() {
         this.chunk = true;
     }
