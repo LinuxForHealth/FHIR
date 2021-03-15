@@ -342,7 +342,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
 
             if (auditLogger.shouldLog() && resourcesProcessed >= 0) {
                 Date endTime = new Date(System.currentTimeMillis());
-                auditLogger.logFastOnExport("_lastUpdated=" + this.lastTimestamp + "&" + "_type=" + this.fhirResourceType, resourcesProcessed, endTime, endTime, Response.Status.OK, "StorageProvider@" + ctx.getSource(), "BulkDataOperator");
+                auditLogger.logFastOnExport(resourceTypeStr, "_lastUpdated=" + this.lastTimestamp + "&" + "_type=" + this.fhirResourceType, resourcesProcessed, endTime, endTime, Response.Status.OK, "StorageProvider@" + ctx.getSource(), "BulkDataOperator");
             }
         }
 
