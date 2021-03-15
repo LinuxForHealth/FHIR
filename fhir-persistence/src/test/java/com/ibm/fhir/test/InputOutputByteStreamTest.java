@@ -39,14 +39,37 @@ public class InputOutputByteStreamTest {
         byte[] readBack = new byte[8];
         int len = is.read(readBack);
         assertEquals(len, source.length);
-        assertEquals(Arrays.compare(source, 0, source.length-1, readBack, 0, len-1), 0);
+        assertEquals(compare(source, 0, source.length-1, readBack, 0, len-1), 0);
 
         // Check that we can repeat the read with another InputStream
         InputStream is2 = iobs.inputStream();
         byte[] readBack2 = new byte[16]; // different size for more testing
         int len2 = is2.read(readBack2);
         assertEquals(len2, source.length);
-        assertEquals(Arrays.compare(source, 0, source.length-1, readBack2, 0, len2-1), 0);
+        assertEquals(compare(source, 0, source.length-1, readBack2, 0, len2-1), 0);
+    }
+
+    /**
+     * Check that the two arrays are equal. Can't use {@link Arrays#compare(byte[], int, int, byte[], int, int)}
+     * because that's since J9 and we still supprt J8.
+     * @param left
+     * @param leftFrom
+     * @param leftTo
+     * @param right
+     * @param rightFrom
+     * @param rightTo
+     * @return
+     */
+    private int compare(byte[] left, int leftFrom, int leftTo, byte[] right, int rightFrom, int rightTo) {
+        int leftCount = leftTo - leftFrom + 1;
+        int rightCount = rightTo - rightFrom + 1;
+        int result = leftCount < rightCount ? -1 : rightCount > leftCount ? 1 : 0;
+
+        for (int i=0; i<leftCount && result == 0; i++) {
+            result = left[leftFrom + i] - right[rightFrom+i];
+        }
+
+        return result;
     }
 
     @Test
@@ -65,14 +88,14 @@ public class InputOutputByteStreamTest {
         InputStream is = iobs.inputStream();
         byte[] readBack = new byte[8];
         int len = is.read(readBack);
-        assertEquals(Arrays.compare(source, 0, source.length-1, readBack, 0, len-1), 0);
+        assertEquals(compare(source, 0, source.length-1, readBack, 0, len-1), 0);
 
         // read back a subset
         InputStream is2 = iobs.inputStream();
         byte[] readBack2 = new byte[3]; // check we can read some not all
         int len2 = is2.read(readBack2);
         assertEquals(len2, 3);
-        assertEquals(Arrays.compare(source, 0, 2, readBack2, 0, 2), 0);
+        assertEquals(compare(source, 0, 2, readBack2, 0, 2), 0);
 
         // Read the remaining byte
         assertEquals(is2.read(), 0x04);
@@ -98,7 +121,7 @@ public class InputOutputByteStreamTest {
         byte[] readBack = new byte[source.length];
         int len = is.read(readBack);
         assertEquals(len, source.length);
-        assertEquals(Arrays.compare(source, 0, source.length-1, readBack, 0, len-1), 0);
+        assertEquals(compare(source, 0, source.length-1, readBack, 0, len-1), 0);
     }
 
     @Test
