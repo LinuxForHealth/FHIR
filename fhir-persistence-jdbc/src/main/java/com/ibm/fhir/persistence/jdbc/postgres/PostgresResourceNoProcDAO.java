@@ -8,6 +8,7 @@ package com.ibm.fhir.persistence.jdbc.postgres;
 
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UTC;
 
+import java.io.InputStream;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -118,7 +119,7 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
             long resourceId = this.storeResource(resource.getResourceType(),
                 parameters,
                 resource.getLogicalId(),
-                resource.getData(),
+                resource.getDataStream().inputStream(),
                 lastUpdated,
                 resource.isDeleted(),
                 sourceKey,
@@ -192,7 +193,7 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
      * @return the resource_id for the entry we created
      * @throws Exception
      */
-    public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters, String p_logical_id, byte[] p_payload, Timestamp p_last_updated, boolean p_is_deleted,
+    public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters, String p_logical_id, InputStream p_payload, Timestamp p_last_updated, boolean p_is_deleted,
         String p_source_key, Integer p_version, Connection conn, ParameterDAO parameterDao) throws Exception {
 
         final String METHODNAME = "storeResource() for " + tablePrefix + " resource";
@@ -404,7 +405,7 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
             stmt.setLong(1, v_resource_id);
             stmt.setLong(2, v_logical_resource_id);
             stmt.setInt(3, v_insert_version);
-            stmt.setBytes(4, p_payload);
+            stmt.setBinaryStream(4, p_payload);
             stmt.setTimestamp(5, p_last_updated, UTC);
             stmt.setString(6, p_is_deleted ? "Y" : "N");
             stmt.executeUpdate();

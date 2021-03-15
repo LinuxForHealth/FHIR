@@ -14,10 +14,14 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Objects;
 
+import net.jcip.annotations.NotThreadSafe;
+
 /**
  * A byte buffer which supports both InputStream and OutputStream interfaces
- * without needless copying of (potentially large) byte arrays.
+ * without needless copying of (potentially large) byte arrays. Not intended for
+ * multi-threaded access (no synchronization).
  */
+@NotThreadSafe
 public class InputOutputByteStream {
 
     // The buffer used to hold the bytes
@@ -25,10 +29,6 @@ public class InputOutputByteStream {
 
     // the position in the buffer where we will write the next byte
     private int offset = 0;
-
-    // Control access so we don't try to read and write at the same time
-    // private static enum AccessMode { READ, WRITE };
-    //private AccessMode accessMode = AccessMode.WRITE;
 
     // @implNote See ByteArrayOutputStream for notes on array size limit
     private static final int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
@@ -107,7 +107,7 @@ public class InputOutputByteStream {
         public int read(byte b[], int off, int len) throws IOException {
             Objects.checkFromIndexSize(off, len, b.length);
 
-            if (posn == offset) {
+            if (posn >= offset) {
                 return -1;
             }
 
@@ -151,6 +151,18 @@ public class InputOutputByteStream {
      */
     public InputOutputByteStream(int initialCapacity) {
         this.buffer = new byte[initialCapacity];
+        this.reshapeStrat = new ReshapeStrategy();
+    }
+
+    public InputOutputByteStream(byte[] adoptBuffer, int offset) {
+        // Adopt a buffer which may already contain data
+        this.buffer = adoptBuffer;
+        this.offset = offset;
+
+        // Just in case we get a null buffer, provide our own
+        if (this.buffer == null) {
+            this.buffer = new byte[4096];
+        }
         this.reshapeStrat = new ReshapeStrategy();
     }
 
@@ -205,6 +217,15 @@ public class InputOutputByteStream {
     public InputStream inputStream() {
         // ByteArrayInputStream uses synchronized, so we cut our own
         return new ByteInputStream();
+    }
+
+    /**
+     * Reset the offset to make the buffer appear empty. Does not change the current
+     * length (capacity). Note that any streams currently being used to read the data
+     * will end.
+     */
+    public void reset() {
+        this.offset = 0;
     }
 
     /**
