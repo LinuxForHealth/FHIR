@@ -61,7 +61,7 @@ public class BulkAuditLogger {
     }
 
     private void log(AuditLogEventType eventType, String action, String description, Resource oldResource, Resource newResource, Date startTime, Date endTime,
-        Response.Status responseStatus, String queryString, Long totalSearch, String location, String users) throws Exception {
+            Response.Status responseStatus, String queryString, Long totalSearch, String location, String users) throws Exception {
         log(eventType, action, description, oldResource, newResource, startTime, endTime, responseStatus, queryString, totalSearch, location, users, null);
     }
 
