@@ -42,7 +42,6 @@ public class BulkDataExportUtil {
     private static JobIdEncodingTransformer transformer = new JobIdEncodingTransformer();
     private static Set<String> RESOURCE_TYPES = ModelSupport.getResourceTypes(false).stream()
                                                     .map(m -> m.getSimpleName())
-                                                    .filter(f -> !isFiltered(f))
                                                     .collect(Collectors.toSet());
 
     public BulkDataExportUtil() {
