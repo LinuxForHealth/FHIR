@@ -48,9 +48,6 @@ public class BulkDataExportUtil {
         // No Operation
     }
 
-    private static boolean isFiltered(String resource) {
-        return "DomainResource".equals(resource) || "Resource".equals(resource);
-    }
 
     /**
      * Check the Export Type is valid and converts to intermediate enum
