@@ -313,6 +313,7 @@ Type operations are invoked at `[base]/[resourceType]/$[operation]`
 | [$export](https://hl7.org/fhir/uv/bulkdata/OperationDefinition-patient-export.html) | Patient | Obtain a set of resources pertaining to all patients | exports to an S3-compatible data store; see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide/#410-bulk-data-operations) for config info |
 | [$document](https://hl7.org/fhir/R4/operation-composition-document.html) | Composition | Generate a document | Prototype-level implementation |
 | [$apply](https://hl7.org/fhir/R4/operation-plandefinition-apply.html) | PlanDefinition | Applies a PlanDefinition to a given context | A prototype implementation that performs naive conversion |
+| [$everything](https://www.hl7.org/fhir/operation-patient-everything.html) | Patient | Obtain all resources pertaining to a patient | Current implementation supports obtaining all resources for a patient up to an aggregate total of 10,000 resources (at which point it is recommended to use the `$export` operation). This implementation does not currently support using the `_since` and `_count` query parameters. Pagination is not currently supported. |
 
 ### Instance operations
 Instance operations are invoked at `[base]/[resourceType]/[id]/$[operation]`
