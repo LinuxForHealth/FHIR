@@ -2900,8 +2900,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
         }
 
-        // Strip any path segments for whole-system interactions (in case of whole-system search, "Resource" is passed as the type)
-        if (type == null || type.isEmpty() || "Resource".equals(type)) {
+        // Strip any path segments for whole-system interactions (in case of whole-system search, "Resource" is passed as the type, or $everything-based search)
+        if (type == null || type.isEmpty() || "Resource".equals(type) || baseUri.contains("$everything")) {
             if (baseUri.endsWith("/_search")) {
                 baseUri = baseUri.substring(0, baseUri.length() - "/_search".length());
             } else if (baseUri.endsWith("/_history")) {
