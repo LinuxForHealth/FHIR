@@ -68,6 +68,15 @@ public class ChunkReader extends com.ibm.fhir.bulkdata.jbatch.export.patient.Chu
             return null;
         }
 
+        // Move the page number forward. On the first readItem call, this will increment from 0 to 1.
+        pageNum++;
+
+        ExportTransientUserData chunkData = (ExportTransientUserData) stepCtx.getTransientUserData();
+        if (chunkData != null && pageNum > chunkData.getLastPageNum()) {
+            chunkData.setMoreToExport(false);
+            return null;
+        }
+
         long executionId = jobCtx.getExecutionId();
         JobOperator jobOperator = BatchRuntime.getJobOperator();
         JobExecution jobExecution = jobOperator.getJobExecution(executionId);
@@ -82,12 +91,6 @@ public class ChunkReader extends com.ibm.fhir.bulkdata.jbatch.export.patient.Chu
         ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
         adapter.registerRequestContext(ctx.getTenantId(), ctx.getDatastoreId(), ctx.getIncomingUrl());
 
-        ExportTransientUserData chunkData = (ExportTransientUserData) stepCtx.getTransientUserData();
-        if (chunkData != null && pageNum > chunkData.getLastPageNum()) {
-            chunkData.setMoreToExport(false);
-            return null;
-        }
-
         // We don't want to recreated the persistence layer, we want to reuse it.
         groupHandler.register(getPersistence(), ctx.getSource());
         groupHandler.process(ctx.getGroupId());
@@ -95,11 +98,8 @@ public class ChunkReader extends com.ibm.fhir.bulkdata.jbatch.export.patient.Chu
         // Get a Page of Patients
         List<Member> pageOfMembers = groupHandler.getPageOfMembers(pageNum, pageSize);
 
-        // Move the Page Number Forward
-        pageNum++;
-
         if (chunkData == null) {
-            chunkData = (ExportTransientUserData) ExportTransientUserData.Builder.builder()
+            chunkData = ExportTransientUserData.Builder.builder()
                 .pageNum(pageNum)
                 .uploadId(null)
                 .cosDataPacks(new ArrayList<PartETag>())
@@ -111,7 +111,7 @@ public class ChunkReader extends com.ibm.fhir.bulkdata.jbatch.export.patient.Chu
                 .currentUploadSize(0)
                 .uploadCount(1)
                 .lastPageNum(0)
-                .lastWritePageNum(1)
+                .lastWrittenPageNum(1)
                 .build();
 
             stepCtx.setTransientUserData(chunkData);

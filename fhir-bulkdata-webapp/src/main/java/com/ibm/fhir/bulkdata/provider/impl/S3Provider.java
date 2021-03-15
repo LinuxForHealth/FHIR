@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 
@@ -330,25 +331,22 @@ public class S3Provider implements Provider {
 
     @Override
     public void writeResources(String mediaType, List<ReadResultDTO> dtos) throws Exception {
-        long cosMultiPartMinSize = ConfigurationFactory.getInstance().getCoreCosPartUploadTriggerSize();
-        for (ReadResultDTO dto : dtos) {
-            switch (mediaType) {
-            case FHIRMediaType.APPLICATION_PARQUET:
-                if (chunkData.getPageNum() > chunkData.getLastPageNum() || chunkData.getBufferStream().size() > cosMultiPartMinSize || chunkData.isFinishCurrentUpload()) {
-                    pushFhirParquetToCos(dto.getResources());
-                    chunkData.setLastWritePageNum(chunkData.getPageNum());
-                }
-                break;
-            case FHIRMediaType.APPLICATION_NDJSON:
-            default:
-                if (chunkData.getPageNum() > chunkData.getLastPageNum() || chunkData.getBufferStream().size() > cosMultiPartMinSize || chunkData.isFinishCurrentUpload()) {
-                    // TODO try PipedOutputStream -> PipedInputStream instead?
-                    pushFhirJsonsToCos(new ByteArrayInputStream(chunkData.getBufferStream().toByteArray()), chunkData.getBufferStream().size());
-                    chunkData.setLastWritePageNum(chunkData.getPageNum());
-                }
+        switch (mediaType) {
+        case FHIRMediaType.APPLICATION_PARQUET:
+            pushFhirParquetToCos(dtos.stream()
+                    .flatMap(dto -> dto.getResources().stream())
+                    .collect(Collectors.toList()));
+            break;
+        case FHIRMediaType.APPLICATION_NDJSON:
+        default:
+            // Only if we're greater than zero, otherwise there is nothing to upload.
+            if (chunkData.getBufferStream().size() > 0) {
+                // TODO try PipedOutputStream -> PipedInputStream instead?  Or maybe a ByteBuffer with a flip instead?
+                pushFhirJsonsToCos(new ByteArrayInputStream(chunkData.getBufferStream().toByteArray()), chunkData.getBufferStream().size());
             }
             break;
         }
+        chunkData.setLastWrittenPageNum(chunkData.getPageNum());
     }
 
     @Override
@@ -380,38 +378,35 @@ public class S3Provider implements Provider {
             chunkData.setUploadId(uploadId);
         }
 
-        // Only if we're greater than zero....Otherwise there is nothing to upload.
-        if (chunkData.getBufferStream().size() > 0) {
-            chunkData.getCosDataPacks().add(BulkDataUtils.multiPartUpload(client, bucketName, itemName, uploadId, in, dataLength, chunkData.getPartNum()));
-            logger.info("pushFhirJsonsToCos: '" + dataLength + "' bytes were successfully appended to COS object - '" + itemName + "' uploadId='" + uploadId + "'");
-            chunkData.setPartNum(chunkData.getPartNum() + 1);
-            chunkData.getBufferStream().reset();
+        chunkData.getCosDataPacks().add(BulkDataUtils.multiPartUpload(client, bucketName, itemName, uploadId, in, dataLength, chunkData.getPartNum()));
+        logger.info("pushFhirJsonsToCos: '" + dataLength + "' bytes were successfully appended to COS object - '" + itemName + "' uploadId='" + uploadId + "'");
+        chunkData.setPartNum(chunkData.getPartNum() + 1);
+        chunkData.getBufferStream().reset();
 
-            // Close it out...
-            if (chunkData.getPageNum() > chunkData.getLastPageNum() || chunkData.isFinishCurrentUpload()) {
-                BulkDataUtils.finishMultiPartUpload(client, bucketName, itemName, uploadId, chunkData.getCosDataPacks());
-                // Partition status for the exported resources, e.g, Patient[1000,1000,200]
-                if (chunkData.getResourceTypeSummary() == null) {
-                    chunkData.setResourceTypeSummary(fhirResourceType + "[" + chunkData.getCurrentUploadResourceNum());
-                    if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
-                        chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
-                    }
-                } else {
-                    chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "," + chunkData.getCurrentUploadResourceNum());
-                    if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
-                        chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
-                    }
+        // Close it out...
+        if (chunkData.isFinishCurrentUpload()) {
+            BulkDataUtils.finishMultiPartUpload(client, bucketName, itemName, uploadId, chunkData.getCosDataPacks());
+            // Partition status for the exported resources, e.g, Patient[1000,1000,200]
+            if (chunkData.getResourceTypeSummary() == null) {
+                chunkData.setResourceTypeSummary(fhirResourceType + "[" + chunkData.getCurrentUploadResourceNum());
+                if (chunkData.getPageNum() >= chunkData.getLastPageNum()) {
+                    chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
                 }
+            } else {
+                chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "," + chunkData.getCurrentUploadResourceNum());
+                if (chunkData.getPageNum() >= chunkData.getLastPageNum()) {
+                    chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
+                }
+            }
 
-                if (chunkData.getPageNum() <= chunkData.getLastPageNum()) {
-                    chunkData.setPartNum(1);
-                    chunkData.setUploadId(null);
-                    chunkData.setCurrentUploadResourceNum(0);
-                    chunkData.setCurrentUploadSize(0);
-                    chunkData.setFinishCurrentUpload(false);
-                    chunkData.getCosDataPacks().clear();
-                    chunkData.setUploadCount(chunkData.getUploadCount() + 1);
-                }
+            if (chunkData.getPageNum() < chunkData.getLastPageNum()) {
+                chunkData.setPartNum(1);
+                chunkData.setUploadId(null);
+                chunkData.setCurrentUploadResourceNum(0);
+                chunkData.setCurrentUploadSize(0);
+                chunkData.setFinishCurrentUpload(false);
+                chunkData.getCosDataPacks().clear();
+                chunkData.setUploadCount(chunkData.getUploadCount() + 1);
             }
         }
     }
@@ -435,17 +430,17 @@ public class S3Provider implements Provider {
         // Partition status for the exported resources, e.g, Patient[1000,1000,200]
         if (chunkData.getResourceTypeSummary() == null) {
             chunkData.setResourceTypeSummary(fhirResourceType + "[" + chunkData.getCurrentUploadResourceNum());
-            if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
+            if (chunkData.getPageNum() >= chunkData.getLastPageNum()) {
                 chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
             }
         } else {
             chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "," + chunkData.getCurrentUploadResourceNum());
-            if (chunkData.getPageNum() > chunkData.getLastPageNum()) {
+            if (chunkData.getPageNum() >= chunkData.getLastPageNum()) {
                 chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
 
             }
         }
-        if (chunkData.getPageNum() <= chunkData.getLastPageNum()) {
+        if (chunkData.getPageNum() < chunkData.getLastPageNum()) {
             chunkData.setPartNum(1);
             chunkData.setUploadId(null);
             chunkData.setCurrentUploadResourceNum(0);
