@@ -10,6 +10,7 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_CHECK_REFERENCE_TYP
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_CONFIGURATION;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_ENABLED;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_TIME_LIMIT;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_CONNECTIONPROPS;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_TOPICNAME;
@@ -204,7 +205,8 @@ public class FHIRServletContextListener implements ServletContextListener {
                 } else {
                     Map<String, Object> map = new HashMap<>();
                     propertyGroup.getProperties().stream().forEach(entry -> map.put(entry.getName(), entry.getValue()));
-                    graphTermServiceProvider = new GraphTermServiceProvider(new MapConfiguration(map));
+                    int timeLimit = fhirConfig.getIntProperty(PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_TIME_LIMIT, GraphTermServiceProvider.DEFAULT_TIME_LIMIT);
+                    graphTermServiceProvider = new GraphTermServiceProvider(new MapConfiguration(map), timeLimit);
                     FHIRTermService.getInstance().addProvider(graphTermServiceProvider);
                 }
             }

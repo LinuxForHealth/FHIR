@@ -31,6 +31,7 @@ import org.apache.commons.configuration.Configuration;
 import org.apache.tinkerpop.gremlin.process.traversal.P;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.__;
+import org.apache.tinkerpop.gremlin.process.traversal.step.filter.TimeLimitStep;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.janusgraph.core.attribute.Text;
 
@@ -38,46 +39,73 @@ import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.CodeSystem.Concept.Designation;
 import com.ibm.fhir.model.resource.CodeSystem.Concept.Property;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.ValueSet.Compose.Include.Filter;
 import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.PropertyType;
 import com.ibm.fhir.term.graph.FHIRTermGraph;
 import com.ibm.fhir.term.graph.factory.FHIRTermGraphFactory;
 import com.ibm.fhir.term.graph.util.FHIRTermGraphUtil;
+import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
 
 public class GraphTermServiceProvider implements FHIRTermServiceProvider {
+    public static final int DEFAULT_TIME_LIMIT = 90000;   // 90 seconds
     private static final int DEFAULT_COUNT = 1000;
+
     private final FHIRTermGraph graph;
+    private final int timeLimit;
 
     public GraphTermServiceProvider(Configuration configuration) {
         Objects.requireNonNull(configuration, "configuration");
         graph = FHIRTermGraphFactory.open(configuration);
+        timeLimit = DEFAULT_TIME_LIMIT;
+    }
+
+    public GraphTermServiceProvider(Configuration configuration, int timeLimit) {
+        Objects.requireNonNull(configuration, "configuration");
+        graph = FHIRTermGraphFactory.open(configuration);
+        this.timeLimit = timeLimit;
     }
 
     public GraphTermServiceProvider(FHIRTermGraph graph) {
         this.graph = Objects.requireNonNull(graph, "graph");
+        timeLimit = DEFAULT_TIME_LIMIT;
+    }
+
+    public GraphTermServiceProvider(FHIRTermGraph graph, int timeLimit) {
+        this.graph = Objects.requireNonNull(graph, "graph");
+        this.timeLimit = timeLimit;
     }
 
     @Override
     public Set<Concept> closure(CodeSystem codeSystem, Code code) {
         Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
+
         Set<Concept> concepts = new LinkedHashSet<>();
         concepts.add(getConcept(codeSystem, code, false, false));
-        whereCodeSystem(hasCode(vertices(), code.getValue(), isCaseSensitive(codeSystem)), codeSystem)
-            .repeat(__.in(FHIRTermGraph.IS_A)
-                .simplePath()
-                .dedup())
-            .emit()
-            .elementMap()
-            .toStream()
-            .forEach(elementMap -> concepts.add(createConcept(elementMap)));
+
+        GraphTraversal<Vertex, Vertex> g = whereCodeSystem(hasCode(vertices(), code.getValue(), isCaseSensitive(codeSystem)), codeSystem)
+                .repeat(__.in(FHIRTermGraph.IS_A)
+                    .simplePath()
+                    .dedup())
+                .emit()
+                .timeLimit(timeLimit);
+        TimeLimitStep<?> timeLimitStep = getTimeLimitStep(g);
+
+        g.elementMap().toStream().forEach(elementMap -> concepts.add(createConcept(elementMap)));
+
+        checkTimeLimit(timeLimitStep);
+
         return concepts;
     }
 
@@ -90,12 +118,18 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem) {
         Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
+
         Set<Concept> concepts = new LinkedHashSet<>(getCount(codeSystem));
-        hasVersion(hasUrl(vertices(), codeSystem.getUrl()), codeSystem.getVersion())
-            .out("concept")
-            .elementMap()
-            .toStream()
-            .forEach(elementMap -> concepts.add(createConcept(elementMap)));
+
+        GraphTraversal<Vertex, Vertex> g = hasVersion(hasUrl(vertices(), codeSystem.getUrl()), codeSystem.getVersion())
+                .out("concept")
+                .timeLimit(timeLimit);
+        TimeLimitStep<?> timeLimitStep = getTimeLimitStep(g);
+
+        g.elementMap().toStream().forEach(elementMap -> concepts.add(createConcept(elementMap)));
+
+        checkTimeLimit(timeLimitStep);
+
         return concepts;
     }
 
@@ -226,13 +260,22 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
             }
         }
 
-        g.hasLabel("Concept").elementMap().toStream().forEach(elementMap -> concepts.add(createConcept(elementMap)));
+        g = g.hasLabel("Concept").timeLimit(timeLimit);
+        TimeLimitStep<?> timeLimitStep = getTimeLimitStep(g);
+
+        g.elementMap().toStream().forEach(elementMap -> concepts.add(createConcept(elementMap)));
+
+        checkTimeLimit(timeLimitStep);
 
         return concepts;
     }
 
     public FHIRTermGraph getGraph() {
         return graph;
+    }
+
+    public int getTimeLimit() {
+        return timeLimit;
     }
 
     @Override
@@ -249,15 +292,37 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
     @Override
     public boolean subsumes(CodeSystem codeSystem, Code codeA, Code codeB) {
         Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
+
         boolean caseSensitive = isCaseSensitive(codeSystem);
+
         if (codeA.equals(codeB) || (!caseSensitive && normalize(codeA.getValue()).equals(normalize(codeB.getValue())))) {
             return true;
         }
-        return whereCodeSystem(hasCode(vertices(), codeA.getValue(), caseSensitive), codeSystem)
-            .repeat(__.in(FHIRTermGraph.IS_A)
-                .simplePath())
-            .until(hasCode(codeB.getValue(), caseSensitive))
-            .hasNext();
+
+        GraphTraversal<Vertex, Vertex> g = whereCodeSystem(hasCode(vertices(), codeA.getValue(), caseSensitive), codeSystem)
+                .repeat(__.in(FHIRTermGraph.IS_A)
+                    .simplePath())
+                .until(hasCode(codeB.getValue(), caseSensitive))
+                .timeLimit(timeLimit);
+        TimeLimitStep<?> timeLimitStep = getTimeLimitStep(g);
+
+        boolean subsumes = g.hasNext();
+
+        checkTimeLimit(timeLimitStep);
+
+        return subsumes;
+    }
+
+    private void checkTimeLimit(TimeLimitStep<?> timeLimitStep) {
+        if (timeLimitStep.getTimedOut()) {
+            throw new FHIRTermServiceException("Graph traversal timed out", Collections.singletonList(Issue.builder()
+                .severity(IssueSeverity.ERROR)
+                .code(IssueType.TOO_COSTLY)
+                .details(CodeableConcept.builder()
+                    .text(string("Graph traversal timed out"))
+                    .build())
+                .build()));
+        }
     }
 
     private Concept createConcept(CodeSystem codeSystem, String code, Optional<Map<Object, Object>> optional, boolean includeDesignations, boolean includeProperties) {
@@ -352,7 +417,6 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
             return "valueBoolean";
         case CODE:
             return "valueCode";
-//      case CODING:
         case DATE_TIME:
             return "valueDateTimeLong";
         case DECIMAL:
@@ -366,6 +430,11 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         }
     }
 
+    @SuppressWarnings("rawtypes")
+    private TimeLimitStep<?> getTimeLimitStep(GraphTraversal<Vertex, Vertex> g) {
+        return (TimeLimitStep) g.asAdmin().getEndStep();
+    }
+
     private Element getValue(Map<Object, Object> elementMap) {
         if (elementMap.containsKey("valueBoolean")) {
             return com.ibm.fhir.model.type.Boolean.of((Boolean) elementMap.get("valueBoolean"));
@@ -376,11 +445,6 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         if (elementMap.containsKey("valueDateTime")) {
             return DateTime.of((String) elementMap.get("valueDateTime"));
         }
-        /*
-        if (elementMap.containsKey("valueDecimal")) {
-            return Decimal.of((Double) elementMap.get("valueDecimal"));
-        }
-        */
         if (elementMap.containsKey("valueDecimalString")) {
             return Decimal.of((String) elementMap.get("valueDecimalString"));
         }

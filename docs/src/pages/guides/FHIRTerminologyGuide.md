@@ -105,6 +105,7 @@ The FHIR term graph module [fhir-term-graph](https://github.com/IBM/FHIR/tree/ma
         "term": {
             "graphTermServiceProvider": {
                 "enabled": true,
+                "timeLimit": 30000,
                 "configuration": {
                     "storage.backend": "cql",
                     "storage.hostname": "127.0.0.1",

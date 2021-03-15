@@ -17,6 +17,7 @@ import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
 import com.ibm.fhir.term.spi.TranslationOutcome;
 import com.ibm.fhir.term.spi.TranslationParameters;
 
@@ -43,6 +44,8 @@ public class TranslateOperation extends AbstractTermOperation {
             return outcome.toParameters();
         } catch (FHIROperationException e) {
             throw e;
+        } catch (FHIRTermServiceException e) {
+            throw new FHIROperationException(e.getMessage(), e.getCause()).withIssue(e.getIssues());
         } catch (Exception e) {
             throw new FHIROperationException("An error occurred during the ConceptMap translate operation", e);
         }

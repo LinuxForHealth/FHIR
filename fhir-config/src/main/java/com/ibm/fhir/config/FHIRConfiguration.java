@@ -39,6 +39,7 @@ public class FHIRConfiguration {
 
     // Terminology service properties
     public static final String PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_ENABLED = "fhirServer/term/graphTermServiceProvider/enabled";
+    public static final String PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_TIME_LIMIT = "fhirServer/term/graphTermServiceProvider/timeLimit";
     public static final String PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_CONFIGURATION = "fhirServer/term/graphTermServiceProvider/configuration";
 
     // Resources properties

@@ -372,7 +372,6 @@ public final class CodeSystemSupport {
             return Boolean.of(value.getValue());
         case CODE:
             return Code.of(value.getValue());
-//      case CODING:
         case DATE_TIME:
             return DateTime.of(value.getValue());
         case DECIMAL:
@@ -403,7 +402,6 @@ public final class CodeSystemSupport {
             return Boolean.of(value);
         case CODE:
             return Code.of(value);
-//      case CODING:
         case DATE_TIME:
             return DateTime.of(value);
         case DECIMAL:
