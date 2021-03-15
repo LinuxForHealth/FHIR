@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
-import java.util.Objects;
 
 import net.jcip.annotations.NotThreadSafe;
 
@@ -81,7 +80,6 @@ public class InputOutputByteStream {
 
         @Override
         public void write(byte b[], int off, int len) {
-            Objects.checkFromIndexSize(off, len, b.length);
             int newLength = offset + len;
             extend(newLength);
             System.arraycopy(b, off, buffer, offset, len);
@@ -105,8 +103,6 @@ public class InputOutputByteStream {
 
         @Override
         public int read(byte b[], int off, int len) throws IOException {
-            Objects.checkFromIndexSize(off, len, b.length);
-
             if (posn >= offset) {
                 return -1;
             }
