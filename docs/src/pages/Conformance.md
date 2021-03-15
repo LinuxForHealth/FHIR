@@ -88,7 +88,7 @@ In a highly concurrent system, several resources could share the same timestamp.
 | patient-1  |       2 | 12:06 |         5 | UPDATE |
 | patient-3  |       2 | 12:06 |         6 | DELETE |
 
-Note how the change time for `patient-3` and `patient-4` is the same, although they have different change ids. Significantly, `patient-4` has a change time before `patient-2` even though its id is greater. This can happen if the clocks in a cluster are not perfectly synchronized. This only applies to different resources - changes can _never_ appear out of order for a specific resource because the IBM FHIR Server uses database locking to ensure consistency. 
+Note how the change time for `patient-3` and `patient-4` is the same, although they have different change ids. Significantly, `patient-4` has a change time before `patient-2` even though its id is greater. This can happen if the clocks in a cluster are not perfectly synchronized. This only applies to different resources - changes can _never_ appear out of order for a specific resource because the IBM FHIR Server uses database locking to ensure consistency.
 
 Clients must also exercise caution when reading recently ingested resources. When processing large bundles in parallel, an id may be assigned by the database but ACID isolation means that the record will not be visible to a reader until the transaction is committed. This could be up to 120s or longer if a larger transaction-timeout property has been defined. If a smaller bundle starts after the larger bundle and its transaction is committed first, its change ids and timestamps will be visible to readers before the resources from the other bundle, which will have earlier change ids and timestamps. If clients do not take this into account, they may miss some resources. This behavior is a common concern in databases and not specific to the IBM FHIR Server.
 
@@ -314,6 +314,8 @@ Type operations are invoked at `[base]/[resourceType]/$[operation]`
 | [$document](https://hl7.org/fhir/R4/operation-composition-document.html) | Composition | Generate a document | Prototype-level implementation |
 | [$apply](https://hl7.org/fhir/R4/operation-plandefinition-apply.html) | PlanDefinition | Applies a PlanDefinition to a given context | A prototype implementation that performs naive conversion |
 | [$everything](https://www.hl7.org/fhir/operation-patient-everything.html) | Patient | Obtain all resources pertaining to a patient | Current implementation supports obtaining all resources for a patient up to an aggregate total of 10,000 resources (at which point it is recommended to use the `$export` operation). This implementation does not currently support using the `_since` and `_count` query parameters. Pagination is not currently supported. |
+
+Note: the `$everything` operation is not currently packaged with the IBM FHIR Server. To add it to an existing installation, you must build or download the jar from [Bintray](https://bintray.com/ibm-watson-health/ibm-fhir-server-releases/fhir-operation-everything) and add it to your server's `userlib` directory.
 
 ### Instance operations
 Instance operations are invoked at `[base]/[resourceType]/[id]/$[operation]`

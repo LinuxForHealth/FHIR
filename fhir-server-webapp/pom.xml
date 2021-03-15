@@ -78,6 +78,8 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-operation-everything</artifactId>
             <version>${project.version}</version>
+            <!-- temporarily set to provided scope to avoid packaging it in 4.6.1 -->
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.servlet</groupId>
