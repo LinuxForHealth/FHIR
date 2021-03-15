@@ -629,6 +629,24 @@ public class ExportOperationTest extends FHIRServerTestBase {
         }
     }
 
+    @Test(groups = { TEST_GROUP_NAME })
+    public void testGroupWhichIsOutsidePatientCompartment() throws Exception {
+        if (ON) {
+            Response response =
+                    doPost(GROUP_VALID_URL.replace("?", "1234"), FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON, Instant.of("2019-01-01T08:21:26.94-04:00"), Arrays.asList("Binary"), null, "default", "default");
+            assertEquals(response.getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
+        }
+    }
+
+    @Test(groups = { TEST_GROUP_NAME })
+    public void testPatientWhichIsOutsidePatientCompartment() throws Exception {
+        if (ON) {
+            Response response =
+                    doPost(PATIENT_VALID_URL.replace("?", "1234"), FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON, Instant.of("2019-01-01T08:21:26.94-04:00"), Arrays.asList("Binary"), null, "default", "default");
+            assertEquals(response.getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
+        }
+    }
+
     @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" }, enabled = true)
     public void testBaseExportToS3() throws Exception {
         if (ON) {
