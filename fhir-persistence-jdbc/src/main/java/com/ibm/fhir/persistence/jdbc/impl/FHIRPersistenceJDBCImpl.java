@@ -50,6 +50,7 @@ import com.ibm.fhir.config.FHIRConfigProvider;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.FHIRUtilities;
 import com.ibm.fhir.core.context.FHIRPagingContext;
 import com.ibm.fhir.database.utils.api.DataAccessException;
@@ -1074,7 +1075,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 .build());
             // Pick a valid default if lenient
             if (pagingContext.isLenient()) {
-                pagingContext.setPageSize(10);
+                pagingContext.setPageSize(FHIRConstants.FHIR_PAGE_SIZE_DEFAULT);
             }
         }
 
@@ -1094,7 +1095,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 .build());
             // Pick a valid default if lenient
             if (pagingContext.isLenient()) {
-                pagingContext.setPageNumber(1);
+                pagingContext.setPageNumber(FHIRConstants.FHIR_PAGE_NUMBER_DEFAULT);
             }
         } else if (pageNumber > lastPageNumber) {
             issues.add(OperationOutcome.Issue.builder()

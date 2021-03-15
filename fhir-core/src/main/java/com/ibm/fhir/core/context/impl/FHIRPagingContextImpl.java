@@ -6,11 +6,10 @@
 
 package com.ibm.fhir.core.context.impl;
 
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.context.FHIRPagingContext;
 
 public class FHIRPagingContextImpl implements FHIRPagingContext {
-    protected static final int DEFAULT_PAGE_SIZE = 10;
-    protected static final int DEFAULT_PAGE_NUMBER = 1;
     protected static final int DEFAULT_LAST_PAGE_NUMBER = Integer.MAX_VALUE;
 
     protected int lastPageNumber;
@@ -29,8 +28,8 @@ public class FHIRPagingContextImpl implements FHIRPagingContext {
      * </pre>
      */
     public FHIRPagingContextImpl() {
-        this.pageNumber = DEFAULT_PAGE_NUMBER;
-        this.pageSize = DEFAULT_PAGE_SIZE;
+        this.pageNumber = FHIRConstants.FHIR_PAGE_NUMBER_DEFAULT;
+        this.pageSize = FHIRConstants.FHIR_PAGE_SIZE_DEFAULT;
         this.lastPageNumber = DEFAULT_LAST_PAGE_NUMBER;
     }
 

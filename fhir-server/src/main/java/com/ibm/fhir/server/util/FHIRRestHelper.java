@@ -2785,6 +2785,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         // If for search with _summary=count or pageSize == 0, then don't add previous and next links.
         if (!SummaryValueSet.COUNT.equals(summaryParameter) && context.getPageSize() > 0) {
+            // In case the currently requested page is < 1, ensure the next link points to page 1,
+            // to avoid unnecessarily paging through additional page numbers < 1
             int nextPageNumber = Math.max(context.getPageNumber() + 1, 1);
             if (nextPageNumber <= context.getLastPageNumber()
                     && (nextPageNumber == 1 || context.getTotalCount() != null || context.getMatchCount() > 0)) {
