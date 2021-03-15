@@ -950,16 +950,20 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
     /**
      * This method is the entry point for processing inclusion criteria, which
-     * define resources that are part of a comparment-based search.
+     * define resources that are part of a compartment-based search.
      * Example inclusion criteria for AuditEvent in the Patient compartment:
      *
+     * TODO: revisit this method in light of https://jira.hl7.org/browse/FHIR-15906 (removal of chained inclusion criteria)
+     * TODO: consider leaving the chained inclusion in light of https://jira.hl7.org/browse/FHIR-17358
      * <pre>
      * {
-     *        "name": "AuditEvent",
-     *        "inclusionCriteria": ["patient",          This is a simple attribute inclusion criterion
-     *        "participant.patient:Device",             This is a chained inclusion criterion
-     *        "participant.patient:RelatedPerson",      This is a chained inclusion criterion
-     *        "reference.patient:*"]                    This is a chained inclusion criterion with wildcard. The wildcard means "any resource type".
+     *   "name": "AuditEvent",
+     *   "inclusionCriteria": [
+     *     "patient",                              This is a simple attribute inclusion criterion
+     *     "participant.patient:Device",           This is a chained inclusion criterion
+     *     "participant.patient:RelatedPerson",    This is a chained inclusion criterion
+     *     "reference.patient:*"                   This is a chained inclusion criterion with wildcard. The wildcard means "any resource type".
+     *   ]
      * }
      * </pre>
      * <p>

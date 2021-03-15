@@ -1,23 +1,26 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.persistence.search.test;
 
-import static org.testng.AssertJUnit.assertEquals;
+import static com.ibm.fhir.model.test.TestUtil.isResourceInResponse;
+import static com.ibm.fhir.model.type.String.string;
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertNotNull;
+import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.List;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
-import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.model.type.Reference;
 
 /**
  * Unit tests for compartment-based searches
@@ -25,37 +28,171 @@ import com.ibm.fhir.model.test.TestUtil;
  * GET [base]/Patient/[id]/[type]?parameter(s)
  */
 public abstract class AbstractSearchCompartmentTest extends AbstractPLSearchTest {
+    private static final String PATIENT = "Patient";
+    private static final String PATIENT_ID = "123";
+
+    private static final String PRACTITIONER = "Practitioner";
+    private static final String PRACTITIONER_ID = "abc";
+
+    private static final String DEVICE = "Device";
+    private static final String OTHER_ID = "xyz";
 
     @Override
     protected Basic getBasicResource() throws Exception {
-        return TestUtil.readExampleResource("json/ibm/basic/BasicCompartment.json");
+        Basic basic = TestUtil.readExampleResource("json/ibm/basic/BasicWithAllTypes.json");
+        // Add a references to a patient and a practitioner so we can exercise those compartments
+        return basic.toBuilder()
+                .subject(Reference.builder()
+                    .reference(string(PATIENT + "/" + PATIENT_ID))
+                    .build())
+                .author(Reference.builder()
+                    .reference(string(PRACTITIONER + "/" + PRACTITIONER_ID))
+                    .build())
+                .build();
     }
 
     @Override
     protected void setTenant() throws Exception {
         FHIRRequestContext.get().setTenantId("compartment");
 
-        // Need to set reference before storing the resource. The server-url
-        // is now used to determine if an absolute reference is local (can be served
+        // Need to set the original request URI before storing the resource.
+        // The server-url is now used to determine if an absolute reference is local (can be served
         // from this FHIR server).
-        createReference();
-    }
-
-    @BeforeClass
-    public void createReference() throws FHIRException {
-        String originalRequestUri = "https://example.com/Patient/123";
-        FHIRRequestContext context = FHIRRequestContext.get();
-        context.setOriginalRequestUri(originalRequestUri);
+        FHIRRequestContext.get().setOriginalRequestUri("https://example.com/Patient/123");
     }
 
     @Test
-    public void testSearchCompartment() throws Exception {
-        // The saved Basic resource is a member of the compartment Patient/123
-        // Check that we can find the resource with additional query parameters
-        // Note that "Reference-relative just happens to be another searchable
-        // parameter in the BasicCompartment.json resource
-        List<Resource> results = runQueryTest("Patient", "123",
-            Basic.class, "Reference-relative", "Patient/123");
-        assertEquals(1, results.size());
+    public void testSearchPatientCompartment_relativeReference_number() throws Exception {
+        assertCompartmentSearchReturnsSavedResource(PATIENT, PATIENT_ID, "integer", "12");
+        assertCompartmentSearchReturnsSavedResource(PRACTITIONER, PRACTITIONER_ID, "integer", "12");
+        assertCompartmentSearchDoesntReturnSavedResource(PATIENT, OTHER_ID, "integer", "12");
+        assertCompartmentSearchDoesntReturnSavedResource(DEVICE, PATIENT_ID, "integer", "12");
+    }
+
+    @Test
+    public void testSearchPatientCompartment_relativeReference_quantity() throws Exception {
+        assertCompartmentSearchReturnsSavedResource(PATIENT, PATIENT_ID, "Quantity", "25|http://unitsofmeasure.org|s");
+        assertCompartmentSearchReturnsSavedResource(PRACTITIONER, PRACTITIONER_ID, "Quantity", "25|http://unitsofmeasure.org|s");
+        assertCompartmentSearchDoesntReturnSavedResource(PATIENT, OTHER_ID, "Quantity", "25|http://unitsofmeasure.org|s");
+        assertCompartmentSearchDoesntReturnSavedResource(DEVICE, PATIENT_ID, "Quantity", "25|http://unitsofmeasure.org|s");
+    }
+
+    @Test
+    public void testSearchPatientCompartment_relativeReference_reference() throws Exception {
+        // Note that "Reference just happens to be another searchable parameter in the Basic resource.
+        assertCompartmentSearchReturnsSavedResource(PATIENT, PATIENT_ID, "Reference", "Patient/123");
+        assertCompartmentSearchReturnsSavedResource(PRACTITIONER, PRACTITIONER_ID, "Reference", "Patient/123");
+        assertCompartmentSearchDoesntReturnSavedResource(PATIENT, OTHER_ID, "Reference", "Patient/123");
+        assertCompartmentSearchDoesntReturnSavedResource(DEVICE, PATIENT_ID, "Reference", "Patient/123");
+    }
+
+    @Test
+    public void testSearchPatientCompartment_relativeReference_string() throws Exception {
+        assertCompartmentSearchReturnsSavedResource(PATIENT, PATIENT_ID, "string", "testString");
+        assertCompartmentSearchReturnsSavedResource(PRACTITIONER, PRACTITIONER_ID, "string", "testString");
+        assertCompartmentSearchDoesntReturnSavedResource(PATIENT, OTHER_ID, "string", "testString");
+        assertCompartmentSearchDoesntReturnSavedResource(DEVICE, PATIENT_ID, "string", "testString");
+    }
+
+    @Test
+    public void testSearchPatientCompartment_relativeReference_token() throws Exception {
+        assertCompartmentSearchReturnsSavedResource(PATIENT, PATIENT_ID, "CodeableConcept", "http://example.org/codesystem|code");
+        assertCompartmentSearchReturnsSavedResource(PRACTITIONER, PRACTITIONER_ID, "CodeableConcept", "http://example.org/codesystem|code");
+        assertCompartmentSearchDoesntReturnSavedResource(PATIENT, OTHER_ID, "CodeableConcept", "http://example.org/codesystem|code");
+        assertCompartmentSearchDoesntReturnSavedResource(DEVICE, PATIENT_ID, "CodeableConcept", "http://example.org/codesystem|code");
+    }
+
+    @Test
+    public void testSearchPatientCompartment_relativeReference_uri() throws Exception {
+        assertCompartmentSearchReturnsSavedResource(PATIENT, PATIENT_ID, "uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
+        assertCompartmentSearchReturnsSavedResource(PRACTITIONER, PRACTITIONER_ID, "uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
+        assertCompartmentSearchDoesntReturnSavedResource(PATIENT, OTHER_ID, "uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
+        assertCompartmentSearchDoesntReturnSavedResource(DEVICE, PATIENT_ID, "uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
+    }
+
+    @Test
+    public void testSearchPatientCompartment_relativeReference_chained_number() throws Exception {
+        assertCompartmentSearchReturnsComposition(PATIENT, PATIENT_ID, "subject:Basic.integer", "12");
+        assertCompartmentSearchReturnsComposition(PRACTITIONER, PRACTITIONER_ID, "subject:Basic.integer", "12");
+        assertCompartmentSearchDoesntReturnComposition(PATIENT, OTHER_ID, "subject:Basic.integer", "12");
+        assertCompartmentSearchDoesntReturnComposition(DEVICE, PATIENT_ID, "subject:Basic.integer", "12");
+    }
+
+    @Test
+    public void testSearchPatientCompartment_relativeReference_chained_quantity() throws Exception {
+        assertCompartmentSearchReturnsComposition(PATIENT, PATIENT_ID, "subject:Basic.Quantity", "25|http://unitsofmeasure.org|s");
+        assertCompartmentSearchReturnsComposition(PRACTITIONER, PRACTITIONER_ID, "subject:Basic.Quantity", "25|http://unitsofmeasure.org|s");
+        assertCompartmentSearchDoesntReturnComposition(PATIENT, OTHER_ID, "subject:Basic.Quantity", "25|http://unitsofmeasure.org|s");
+        assertCompartmentSearchDoesntReturnComposition(DEVICE, PATIENT_ID, "subject:Basic.Quantity", "25|http://unitsofmeasure.org|s");
+    }
+
+    @Test
+    public void testSearchPatientCompartment_relativeReference_chained_reference() throws Exception {
+        // Note that "Reference just happens to be another searchable parameter in the Basic resource.
+        assertCompartmentSearchReturnsComposition(PATIENT, PATIENT_ID, "subject:Basic.Reference", "Patient/123");
+        assertCompartmentSearchReturnsComposition(PRACTITIONER, PRACTITIONER_ID, "subject:Basic.Reference", "Patient/123");
+        assertCompartmentSearchDoesntReturnComposition(PATIENT, OTHER_ID, "subject:Basic.Reference", "Patient/123");
+        assertCompartmentSearchDoesntReturnComposition(DEVICE, PATIENT_ID, "subject:Basic.Reference", "Patient/123");
+    }
+
+    @Test
+    public void testSearchPatientCompartment_relativeReference_chained_string() throws Exception {
+        assertCompartmentSearchReturnsComposition(PATIENT, PATIENT_ID, "subject:Basic.string", "testString");
+        assertCompartmentSearchReturnsComposition(PRACTITIONER, PRACTITIONER_ID, "subject:Basic.string", "testString");
+        assertCompartmentSearchDoesntReturnComposition(PATIENT, OTHER_ID, "subject:Basic.string", "testString");
+        assertCompartmentSearchDoesntReturnComposition(DEVICE, PATIENT_ID, "subject:Basic.string", "testString");
+    }
+
+    @Test
+    public void testSearchPatientCompartment_relativeReference_chained_token() throws Exception {
+        assertCompartmentSearchReturnsComposition(PATIENT, PATIENT_ID, "subject:Basic.CodeableConcept", "http://example.org/codesystem|code");
+        assertCompartmentSearchReturnsComposition(PRACTITIONER, PRACTITIONER_ID, "subject:Basic.CodeableConcept", "http://example.org/codesystem|code");
+        assertCompartmentSearchDoesntReturnSavedResource(PATIENT, OTHER_ID, "subject:Basic.CodeableConcept", "http://example.org/codesystem|code");
+        assertCompartmentSearchDoesntReturnSavedResource(DEVICE, PATIENT_ID, "subject:Basic.CodeableConcept", "http://example.org/codesystem|code");
+    }
+
+    @Test
+    public void testSearchPatientCompartment_relativeReference_chained_uri() throws Exception {
+        assertCompartmentSearchReturnsComposition(PATIENT, PATIENT_ID, "subject:Basic.uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
+        assertCompartmentSearchReturnsComposition(PRACTITIONER, PRACTITIONER_ID, "subject:Basic.uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
+        assertCompartmentSearchDoesntReturnComposition(PATIENT, OTHER_ID, "subject:Basic.uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
+        assertCompartmentSearchDoesntReturnComposition(DEVICE, PATIENT_ID, "subject:Basic.uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
+    }
+
+
+    protected void assertCompartmentSearchReturnsSavedResource(String compartmentType, String compartmentId,
+            String searchParamName, String queryValue) throws Exception {
+        assertTrue("Expected resource was not returned from the search",
+                compartmentSearchReturnsResource(compartmentType, compartmentId, searchParamName, queryValue, savedResource));
+    }
+
+    protected void assertCompartmentSearchDoesntReturnSavedResource(String compartmentType, String compartmentId,
+            String searchParamName, String queryValue) throws Exception {
+        assertFalse("Unexpected resource was returned from the search",
+                compartmentSearchReturnsResource(compartmentType, compartmentId, searchParamName, queryValue, savedResource));
+    }
+
+    protected void assertCompartmentSearchReturnsComposition(String compartmentType, String compartmentId,
+            String searchParamName, String queryValue) throws Exception {
+        assertTrue("Expected resource was not returned from the search",
+            compartmentSearchReturnsResource(compartmentType, compartmentId, searchParamName, queryValue, composition));
+    }
+
+    protected void assertCompartmentSearchDoesntReturnComposition(String compartmentType, String compartmentId,
+            String searchParamName, String queryValue) throws Exception {
+        assertFalse("Unexpected resource was returned from the search",
+            compartmentSearchReturnsResource(compartmentType, compartmentId, searchParamName, queryValue, composition));
+    }
+
+    /**
+     * Executes the compartment query and returns whether the expected resource was in the result set
+     * @throws Exception
+     */
+    protected boolean compartmentSearchReturnsResource(String compartmentType, String compartmentId,
+            String searchParamCode, String queryValue, Resource expectedResource) throws Exception {
+        List<? extends Resource> resources = runQueryTest(compartmentType, compartmentId,
+                expectedResource.getClass(), searchParamCode, queryValue, Integer.MAX_VALUE);
+        assertNotNull(resources);
+        return isResourceInResponse(expectedResource, resources);
     }
 }

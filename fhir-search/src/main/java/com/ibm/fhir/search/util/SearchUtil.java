@@ -1400,7 +1400,7 @@ public class SearchUtil {
      * @throws Exception an exception
      */
     public static FHIRSearchContext parseReadQueryParameters(Class<?> resourceType,
-        Map<String, List<String>> queryParameters, String interaction, boolean lenient) throws Exception {
+            Map<String, List<String>> queryParameters, String interaction, boolean lenient) throws Exception {
         String resourceTypeName = resourceType.getSimpleName();
 
         // Read and vRead only allow general search parameters
@@ -1414,14 +1414,13 @@ public class SearchUtil {
             log.log(Level.FINE, "Error while parsing search parameter '" + nonGeneralParam + "' for resource type " + resourceTypeName, se);
         }
 
-        return parseQueryParameters(null, null, resourceType, queryParameters, lenient);
+        return parseCompartmentQueryParameters(null, null, resourceType, queryParameters, lenient);
     }
 
 
-    public static FHIRSearchContext parseQueryParameters(String compartmentName, String compartmentLogicalId,
-            Class<?> resourceType,
-            Map<String, List<String>> queryParameters, String queryString) throws Exception {
-        return parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, true);
+    public static FHIRSearchContext parseCompartmentQueryParameters(String compartmentName, String compartmentLogicalId,
+            Class<?> resourceType, Map<String, List<String>> queryParameters) throws Exception {
+        return parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, true);
     }
 
     /**
@@ -1442,7 +1441,7 @@ public class SearchUtil {
      * @return
      * @throws Exception
      */
-    public static FHIRSearchContext parseQueryParameters(String compartmentName, String compartmentLogicalId,
+    public static FHIRSearchContext parseCompartmentQueryParameters(String compartmentName, String compartmentLogicalId,
             Class<?> resourceType, Map<String, List<String>> queryParameters, boolean lenient) throws Exception {
 
         QueryParameter rootParameter = null;
