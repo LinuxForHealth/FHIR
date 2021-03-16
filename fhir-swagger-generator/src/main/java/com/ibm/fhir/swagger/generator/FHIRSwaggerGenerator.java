@@ -981,7 +981,7 @@ public class FHIRSwaggerGenerator {
             property.add("format", "int32");
         } else if (com.ibm.fhir.model.type.Base64Binary.class.equals(fieldClass)) {
             property.add("type", "string");
-            property.add("pattern","(\\s*([0-9a-zA-Z\\+\\=]){4}\\s*)+");
+            property.add("pattern","(\\s*([0-9a-zA-Z\\+/=]){4}\\s*)+");
         } else if (String.class.equals(fieldClass)) {
             property.add("type", "string");
             if ("id".equals(elementName)) {
