@@ -340,36 +340,24 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
         logger.fine("Drop tablespace not supported. This is as expected");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#disableForeignKey(java.lang.String, java.lang.String, java.lang.String)
-     */
     @Override
     public void disableForeignKey(String schemaName, String tableName, String constraintName) {
         // not expecting this to be called for this adapter
         throw new UnsupportedOperationException("Disable FK currently not supported for this adapter.");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#enableForeignKey(java.lang.String, java.lang.String, java.lang.String)
-     */
     @Override
     public void enableForeignKey(String schemaName, String tableName, String constraintName) {
         // not expecting this to be called for this adapter
         throw new UnsupportedOperationException("Disable FK currently not supported for this adapter.");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#setIntegrityOff(java.lang.String, java.lang.String)
-     */
     @Override
     public void setIntegrityOff(String schemaName, String tableName) {
         // not expecting this to be called for this adapter
         throw new UnsupportedOperationException("Set integrity off not supported for this adapter.");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#setIntegrityUnchecked(java.lang.String, java.lang.String)
-     */
     @Override
     public void setIntegrityUnchecked(String schemaName, String tableName) {
         // not expecting this to be called for this adapter
@@ -404,10 +392,8 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
 
         try {
             runStatement(ddl);
-        }
-        catch (UndefinedNameException x) {
+        } catch (UndefinedNameException x) {
             logger.warning(ddl + "; Sequence not found");
         }
     }
-
 }
