@@ -680,6 +680,7 @@ public class FHIRTermService {
             throw new UnsupportedOperationException("Validation parameters are not supported");
         }
         Coding coding = Coding.builder()
+                .system(codeSystem.getUrl())
                 .version(version)
                 .code(code)
                 .display(display)
