@@ -141,9 +141,6 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
         this.searchResourceTypes = searchResourceTypes;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
