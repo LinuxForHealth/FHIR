@@ -47,6 +47,9 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
 
     private final ParameterDAO parameterDao;
 
+    // Note that currently the global logical_resources table does not carry
+    // the is_deleted flag. Until it does, the queries will return deleted
+    // resources, which can be skipped for reindex. (issue-2055)
     private static final String PICK_SINGLE_RESOURCE = ""
             + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid "
             + "    FROM logical_resources lr "
@@ -216,7 +219,7 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
      * collisions which will cause the FOR UPDATE to block, then return no rows.
      * @param reindexTstamp
      * @param resourceCount
-     * @return
+     * @return the resource record, or null when there is nothing left to do
      * @throws Exception
      */
     public ResourceIndexRecord getResourceToReindex(Instant reindexTstamp, Integer resourceTypeId, String logicalId) throws Exception {
@@ -282,7 +285,6 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
         Connection connection = getConnection();
 
         // existing resource, so need to delete all its parameters
-        // delete composites first, or else the foreign keys there restrict deletes on referenced tables
         deleteFromParameterTable(connection, tablePrefix + "_str_values", logicalResourceId);
         deleteFromParameterTable(connection, tablePrefix + "_number_values", logicalResourceId);
         deleteFromParameterTable(connection, tablePrefix + "_date_values", logicalResourceId);

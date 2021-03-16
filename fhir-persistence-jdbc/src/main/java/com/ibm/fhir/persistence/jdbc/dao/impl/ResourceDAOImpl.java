@@ -76,7 +76,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     public static final int IDX_DATA = 6;
     public static final int IDX_LOGICAL_ID = 7;
 
-    // Read the current version of the resource
+    // Read the current version of the resource (even if the resource has been deleted)
     private static final String SQL_READ = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
             "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
             "LR.LOGICAL_ID = ? AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID";

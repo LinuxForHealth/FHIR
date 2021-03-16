@@ -1926,33 +1926,48 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     logicalId = parts[1];
                 }
 
-                // Look up the resourceTypeId for the given resourceType
+                // Look up the optional resourceTypeId for the given resourceType parameter
                 resourceTypeId = cache.getResourceTypeCache().getId(resourceType);
             }
 
-            long start = System.nanoTime();
-            ResourceIndexRecord rir = reindexDAO.getResourceToReindex(tstamp, resourceTypeId, logicalId);
-            long end = System.nanoTime();
+            // Need to skip over deleted resources so we have to loop until we find something not
+            // deleted, or reach the end.
+            ResourceIndexRecord rir;
+            do {
+                long start = System.nanoTime();
+                rir = reindexDAO.getResourceToReindex(tstamp, resourceTypeId, logicalId);
+                long end = System.nanoTime();
 
-            if (log.isLoggable(Level.FINER)) {
-                double elapsed = (end-start)/1e6;
-                log.finer(String.format("Selected %d resource for reindexing in %.3f ms ", rir != null ? 1 : 0, elapsed));
-            }
+                if (log.isLoggable(Level.FINER)) {
+                    double elapsed = (end-start)/1e6;
+                    log.finer(String.format("Selected %d resource for reindexing in %.3f ms ", rir != null ? 1 : 0, elapsed));
+                }
 
-            if (rir != null) {
-                // result is only 0 if getResourceToReindex doesn't give us anything because this indicates
-                // there's nothing left to do
-                result = 1;
+                if (rir != null) {
 
-                // This is important so we log it as info
-                log.info("Reindexing FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'");
+                    // This is important so we log it as info
+                    log.info("Reindexing FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'");
 
-                // Read the current resource
-                com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO = resourceDao.read(rir.getLogicalId(), rir.getResourceType());
-                Class<? extends Resource> resourceTypeClass = getResourceType(resourceType);
-                reindexDAO.setPersistenceContext(context);
-                updateParameters(rir, resourceTypeClass, existingResourceDTO, reindexDAO, operationOutcomeResult);
-            }
+                    // Read the current resource
+                    com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO = resourceDao.read(rir.getLogicalId(), rir.getResourceType());
+                    if (existingResourceDTO != null && !existingResourceDTO.isDeleted()) {
+                        rir.setDeleted(false); // just to be clear
+                        Class<? extends Resource> resourceTypeClass = getResourceType(resourceType);
+                        reindexDAO.setPersistenceContext(context);
+                        updateParameters(rir, resourceTypeClass, existingResourceDTO, reindexDAO, operationOutcomeResult);
+
+                        // result is only 0 if getResourceToReindex doesn't give us anything because this indicates
+                        // there's nothing left to do
+                        result = 1;
+                    } else {
+                        // Skip this particular resource because it has been deleted
+                        if (log.isLoggable(Level.FINE)) {
+                            log.info("Skipping reindex for deleted FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'");
+                        }
+                        rir.setDeleted(true);
+                    }
+                }
+            } while (rir != null && rir.isDeleted());
 
         } catch(FHIRPersistenceFKVException e) {
             getTransaction().setRollbackOnly();

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,19 +14,22 @@ public class ResourceIndexRecord {
 
     // The LOGICAL_RESOURCES.LOGICAL_RESOURCE_ID database id
     private final long logicalResourceId;
-    
+
     // The resource type of the resource to reindex
     private final int resourceTypeId;
-    
+
     // The resource's logical identifier
     private final String logicalId;
-    
+
     // The resource type, which gets set after we identify the resourceTypeId
     private String resourceType;
-    
+
     // support for optimistic locking pattern
     private final long transactionId;
-    
+
+    // Deletion flag for the resource. Set when we read the resource
+    private boolean deleted;
+
     public ResourceIndexRecord(long logicalResourceId, int resourceTypeId, String logicalId, long transactionId) {
         this.logicalResourceId = logicalResourceId;
         this.resourceTypeId = resourceTypeId;
@@ -74,5 +77,19 @@ public class ResourceIndexRecord {
      */
     public long getTransactionId() {
         return transactionId;
+    }
+
+    /**
+     * @return the deleted
+     */
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    /**
+     * @param deleted the deleted to set
+     */
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }
