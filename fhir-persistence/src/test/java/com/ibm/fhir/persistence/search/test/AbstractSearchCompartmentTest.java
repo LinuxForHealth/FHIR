@@ -147,8 +147,8 @@ public abstract class AbstractSearchCompartmentTest extends AbstractPLSearchTest
     public void testSearchPatientCompartment_relativeReference_chained_token() throws Exception {
         assertCompartmentSearchReturnsComposition(PATIENT, PATIENT_ID, "subject:Basic.CodeableConcept", "http://example.org/codesystem|code");
         assertCompartmentSearchReturnsComposition(PRACTITIONER, PRACTITIONER_ID, "subject:Basic.CodeableConcept", "http://example.org/codesystem|code");
-        assertCompartmentSearchDoesntReturnSavedResource(PATIENT, OTHER_ID, "subject:Basic.CodeableConcept", "http://example.org/codesystem|code");
-        assertCompartmentSearchDoesntReturnSavedResource(DEVICE, PATIENT_ID, "subject:Basic.CodeableConcept", "http://example.org/codesystem|code");
+        assertCompartmentSearchDoesntReturnComposition(PATIENT, OTHER_ID, "subject:Basic.CodeableConcept", "http://example.org/codesystem|code");
+        assertCompartmentSearchDoesntReturnComposition(DEVICE, PATIENT_ID, "subject:Basic.CodeableConcept", "http://example.org/codesystem|code");
     }
 
     @Test
