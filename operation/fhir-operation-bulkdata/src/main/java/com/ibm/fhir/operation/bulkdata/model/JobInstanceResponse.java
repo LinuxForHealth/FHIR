@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,7 +35,7 @@ import com.ibm.fhir.exception.FHIROperationException;
  *  {
    “jobName”: “BulkImportJob”,
    “instanceId”: 9,
-   “appName”: “fhir-bulkimportexport-webapp#fhir-bulkimportexport-webapp-4.0.0-SNAPSHOT.war”,
+   “appName”: “fhir-bulkdata-webapp#fhir-bulkdata-webapp-4.0.0-SNAPSHOT.war”,
    “submitter”: “fhiruser”,
    “batchStatus”: “STARTING”,
    “jobXMLName”: “FhirBulkExportChunkJob”,
@@ -277,7 +277,7 @@ public class JobInstanceResponse {
 
             } catch (Exception e) {
                 throw new FHIROperationException(
-                        "Problem parsing the bulk export submission response from the job server", e);
+                        "Problem parsing the submission response from the job server", e);
             }
         }
 

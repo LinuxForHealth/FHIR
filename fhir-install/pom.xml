@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-bulkimportexport-webapp</artifactId>
+            <artifactId>fhir-bulkdata-webapp</artifactId>
             <version>${project.version}</version>
             <type>war</type>
         </dependency>
@@ -295,6 +295,11 @@
                 <dependency>
                     <groupId>${project.groupId}</groupId>
                     <artifactId>fhir-operation-document</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-operation-everything</artifactId>
                     <version>${project.version}</version>
                 </dependency>
                 <dependency>

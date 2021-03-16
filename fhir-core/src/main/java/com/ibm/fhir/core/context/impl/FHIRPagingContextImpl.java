@@ -1,22 +1,22 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.core.context.impl;
 
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.context.FHIRPagingContext;
 
 public class FHIRPagingContextImpl implements FHIRPagingContext {
-    protected static final int DEFAULT_PAGE_SIZE = 10;
-    protected static final int DEFAULT_PAGE_NUMBER = 1;
     protected static final int DEFAULT_LAST_PAGE_NUMBER = Integer.MAX_VALUE;
 
     protected int lastPageNumber;
     protected int pageNumber;
     protected int pageSize;
-    protected int totalCount;
+    protected Integer totalCount;
+    protected int matchCount;
     protected boolean lenient = true;
 
     /**
@@ -28,8 +28,8 @@ public class FHIRPagingContextImpl implements FHIRPagingContext {
      * </pre>
      */
     public FHIRPagingContextImpl() {
-        this.pageNumber = DEFAULT_PAGE_NUMBER;
-        this.pageSize = DEFAULT_PAGE_SIZE;
+        this.pageNumber = FHIRConstants.FHIR_PAGE_NUMBER_DEFAULT;
+        this.pageSize = FHIRConstants.FHIR_PAGE_SIZE_DEFAULT;
         this.lastPageNumber = DEFAULT_LAST_PAGE_NUMBER;
     }
 
@@ -49,8 +49,13 @@ public class FHIRPagingContextImpl implements FHIRPagingContext {
     }
 
     @Override
-    public int getTotalCount() {
+    public Integer getTotalCount() {
         return totalCount;
+    }
+
+    @Override
+    public int getMatchCount() {
+        return matchCount;
     }
 
     @Override
@@ -71,6 +76,11 @@ public class FHIRPagingContextImpl implements FHIRPagingContext {
     @Override
     public void setTotalCount(int totalCount) {
         this.totalCount = totalCount;
+    }
+
+    @Override
+    public void setMatchCount(int matchCount) {
+        this.matchCount = matchCount;
     }
 
     @Override

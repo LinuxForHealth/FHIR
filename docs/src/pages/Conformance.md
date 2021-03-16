@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2021-02-16 12:00:00 -0400
+date:   2021-03-12 12:00:00 -0400
 permalink: /conformance/
 ---
 
@@ -49,8 +49,8 @@ The `_format` parameter is supported and provides a useful mechanism for request
 
 The `_pretty` parameter is also supported.
 
-## System-level history
-The system-level history interaction can be used to obtain a list of changes (create, update, delete) to resources in the IBM FHIR Server. This may be useful for other systems to reliably track these changes and keep themselves in-sync.
+## Whole System History
+The whole system history interaction can be used to obtain a list of changes (create, update, delete) to resources in the IBM FHIR Server. This may be useful for other systems to reliably track these changes and keep themselves in-sync.
 
 ```
     curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history'
@@ -69,17 +69,30 @@ By default, the returned bundle will contain up to 100 resource references. The 
     curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history?_count=1000'
 ```
 
-Client applications can use the `_since` parameter to scan sequentially through all the changes recorded by the IBM FHIR Server. Each result bundle contains a `next` link which can be used to fetch the next set of data. To simplify client implementations, the IBM FHIR Server also includes a custom attribute `_afterHistoryId`. This value can be used by a client to checkpoint where they are in the list of changes, and ask for only changes that come after the given id:
+Client applications can use the `_since` parameter to scan sequentially through all the changes recorded by the IBM FHIR Server. Each result bundle contains a `next` link which can be used to fetch the next set of data. To simplify client implementations, the IBM FHIR Server also includes a custom attribute `_afterHistoryId`. This value can be used by a client to checkpoint where they are in the list of changes, and ask for only changes that come after the given id. This is convenient, because the `_afterHistoryId` is based on a unique identifier. The client does not need to worry about duplicates which otherwise occur when using `_since` to sequentially fetch history:
 
 ```
     curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/_history?_count=1000&_afterHistoryId=3004'
 ```
 
-When specifying `_afterHistoryId` the `_since` does not have to be provided. Several resources can share the same timestamp, but the ids used for `_afterHistoryId` are unique.
+Clients cannot use both `_afterHistoryId` and `_since` together nor should they switch to using the other without understanding how concurrency, transaction boundaries and cluster clock synchronization issues can affect how ids and timestamps are assigned during ingestion. If `_since` is specified, the `next` link in the returned bundle will include the `_since` parameter using the greatest `lastModified` from the returned resources as its value. If `_afterHistoryId` is specified, the `next` link in the returned bundle will include the `_afterHistoryId` parameter using the greatest internal id from the returned resources as its value. If you do not specify any filter parameter, the IBM FHIR Server uses `_afterHistoryId=0` as the initial start point and so will use `_afterHistoryId` for the subsequent `next` links.
 
-It is important to understand how transaction boundaries and concurrency can affect how ids and `last_updated` times are allocated during ingestion (create, update and delete operations). For the majority of data, the `_afterHistoryId` values are fetched in order and can be used to reliably get the list of changes in the correct order. However, an issue arises when the `_history` API is used to fetch recent changes, specifically those within the current transaction timeout window. A resource may be allocated an id and last_updated value, but not committed for some time. This most often occurs when processing very large bundles. If another, smaller and quicker transaction inserts or modifies a resource and that transaction is committed, the history id and last_updated time will be after the values already assigned to the first resource. If the client calls the `_history` operation before the first transaction commits and uses the `next` link to continue fetching data, the client may miss the data from the first transaction once it is finally committed. This behavior is a common concern in databases and not specific to the IBM FHIR Server. Note too that this only applies to different resources. Changes can _never_ appear out of order for a specific resource because the IBM FHIR Server uses database locking to ensure consistency.
+In a highly concurrent system, several resources could share the same timestamp. Also, the internal id used to identify individual resource changes may not correlate perfectly with the `lastModified` time. Take the following, for example:
 
-To guarantee no data is skipped, clients should not process resources with a last_updated timestamp which is after `{current-time} - {transaction-timeout}`. By waiting for the transaction timeout window to close, the client can be sure the data being returned is complete and in order, and new data will not appear. The transaction timeout default value is 120s but this value is configurable. Implementers should check with server administrators on the correct value to use.
+| logical-id | version |  time | change-id |  change-type |
+| ---------- | ------- | ----- | --------- | ------------ |
+| patient-1  |       1 | 12:00 |         1 | CREATE |
+| patient-2  |       1 | 12:05 |         2 | CREATE |
+| patient-3  |       1 | 12:05 |         3 | CREATE |
+| patient-4  |       1 | 12:04 |         4 | CREATE |
+| patient-1  |       2 | 12:06 |         5 | UPDATE |
+| patient-3  |       2 | 12:06 |         6 | DELETE |
+
+Note how the change time for `patient-3` and `patient-4` is the same, although they have different change ids. Significantly, `patient-4` has a change time before `patient-2` even though its id is greater. This can happen if the clocks in a cluster are not perfectly synchronized. This only applies to different resources - changes can _never_ appear out of order for a specific resource because the IBM FHIR Server uses database locking to ensure consistency.
+
+Clients must also exercise caution when reading recently ingested resources. When processing large bundles in parallel, an id may be assigned by the database but ACID isolation means that the record will not be visible to a reader until the transaction is committed. This could be up to 120s or longer if a larger transaction-timeout property has been defined. If a smaller bundle starts after the larger bundle and its transaction is committed first, its change ids and timestamps will be visible to readers before the resources from the other bundle, which will have earlier change ids and timestamps. If clients do not take this into account, they may miss some resources. This behavior is a common concern in databases and not specific to the IBM FHIR Server.
+
+To guarantee no data is skipped, clients should not process resources with a `lastModified` timestamp which is after `{current_time} - {transaction_timeout} - {max_cluster_clock_drift}`. By waiting for this time window to close, the client can be sure the data being returned is complete and in order, and new data will not appear. The default value for transaction timeout is 120s but this is configurable. A value of 2 seconds is a reasonable default to consider for `max_cluster_clock_drift` in lieu of specific information. Implementers should check with server administrators on the appropriate values to use.
 
 ## Search
 The IBM FHIR Server supports all search parameter types defined in the specification:
@@ -125,16 +138,19 @@ Finally, the specification defines a set of "Search result parameters" for contr
 * `_revinclude`
 * `_summary`
 * `_elements`
+* `_total`
 
-The `_sort`, `_count`, `_summary`, and `_elements` parameters may each only be specified once in a search. In `lenient` mode, only the first occurrence of each of these parameters is used; additional occurrences are ignored.
+The `_sort`, `_count`, `_summary`, `_elements`, and `_total` parameters may each only be specified once in a search. In `lenient` mode, only the first occurrence of each of these parameters is used; additional occurrences are ignored.
 
 The `_count` parameter can be used to request up to 1000 resources matching the search criteria. An attempt to exceed this `_count` limit will not be honored and returned resources will be capped at 1000. Any associated `_include` or `_revinclude` resources are not considered in the `_count` limit.
 
 The `_include` and `_revinclude` parameters can be used to return resources related to the primary search results, in order to reduce the overall network delay of repeated retrievals of related resources. The number of `_include` or `_revinclude` resources returned for a single page of primary search results will be limited to 1000. If the number of included resources to be returned exceeds 1000, the search will fail. For example, if the primary search result is one resource and the number of included resources is 1000, the search will succeed. However, if the primary search result is one resource and the number of included resources is 1001, the search will fail. It is possible that an included resource could be referenced by more than one primary search result. Duplicate included resources will be removed before search results are returned, so a resource will not appear in the search results more than once. A resource is considered a duplicate if a primary resource or another included resource with the same logical ID and version already exists in the search results.
 
+The `_sort` and `_total` parameters cannot be used in combination with the `_include` or `_revinclude` parameter.
+
 The `:iterate` modifier is not supported for the `_include` parameter (or any other).
 
-The `_total`, `_contained`, and `_containedType` parameters are not supported at this time.
+The `_contained` and `_containedType` parameters are not supported at this time.
 
 ### Custom search parameters
 Custom search parameters are search parameters that are not defined in the FHIR R4 specification, but are configured for search on the IBM FHIR Server. You can configure custom parameters for either extension elements or for elements that are defined in the specification but without a corresponding search parameter.
@@ -300,6 +316,9 @@ Type operations are invoked at `[base]/[resourceType]/$[operation]`
 | [$export](https://hl7.org/fhir/uv/bulkdata/OperationDefinition-patient-export.html) | Patient | Obtain a set of resources pertaining to all patients | exports to an S3-compatible data store; see the [user guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide/#410-bulk-data-operations) for config info |
 | [$document](https://hl7.org/fhir/R4/operation-composition-document.html) | Composition | Generate a document | Prototype-level implementation |
 | [$apply](https://hl7.org/fhir/R4/operation-plandefinition-apply.html) | PlanDefinition | Applies a PlanDefinition to a given context | A prototype implementation that performs naive conversion |
+| [$everything](https://www.hl7.org/fhir/operation-patient-everything.html) | Patient | Obtain all resources pertaining to a patient | Current implementation supports obtaining all resources for a patient up to an aggregate total of 10,000 resources (at which point it is recommended to use the `$export` operation). This implementation does not currently support using the `_since` and `_count` query parameters. Pagination is not currently supported. |
+
+Note: the `$everything` operation is not currently packaged with the IBM FHIR Server. To add it to an existing installation, you must build or download the jar from [Bintray](https://bintray.com/ibm-watson-health/ibm-fhir-server-releases/fhir-operation-everything) and add it to your server's `userlib` directory.
 
 ### Instance operations
 Instance operations are invoked at `[base]/[resourceType]/[id]/$[operation]`

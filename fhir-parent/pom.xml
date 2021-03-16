@@ -67,11 +67,12 @@
         <module>../operation/fhir-operation-document</module>
         <module>../operation/fhir-operation-healthcheck</module>
         <module>../operation/fhir-operation-apply</module>
-        <module>../operation/fhir-operation-bulkdata</module>
         <module>../operation/fhir-operation-convert</module>
         <module>../operation/fhir-operation-term</module>
         <module>../operation/fhir-operation-reindex</module>
-        <module>../fhir-bulkimportexport-webapp</module>
+        <module>../operation/fhir-operation-bulkdata</module>
+        <module>../operation/fhir-operation-everything</module>
+        <module>../fhir-bulkdata-webapp</module>
         <module>../fhir-search</module>
         <module>../fhir-client</module>
         <module>../fhir-cli</module>

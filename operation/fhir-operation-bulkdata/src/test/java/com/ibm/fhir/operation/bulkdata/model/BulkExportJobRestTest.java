@@ -1,8 +1,9 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.model;
 
 import static org.testng.Assert.assertNotNull;
@@ -304,18 +305,11 @@ public class BulkExportJobRestTest {
     public void testBulkExportJobInstanceRequestWithSensitive() throws Exception {
         String jsonString =
                 "{\n" +
-                        "    \"applicationName\": \"fhir-bulkimportexport-webapp\",\n" +
-                        "    \"moduleName\": \"fhir-bulkimportexport-webapp-4.0.0-SNAPSHOT.war\",\n" +
+                        "    \"applicationName\": \"fhir-bulkdata-webapp\",\n" +
+                        "    \"moduleName\": \"fhir-bulkdata-webapp-4.0.0-SNAPSHOT.war\",\n" +
                         "    \"jobXMLName\": \"FhirBulkExportChunkJob\",\n" +
                         "    \"jobParameters\": {\n" +
                         "        \"fhir.resourcetype\": \"Patient\",\n" +
-                        "        \"cos.bucket.name\": \"fhir-r4-connectathon\",\n" +
-                        "        \"cos.location\": \"us\",\n" +
-                        "        \"cos.endpoint.internal\": \"https://fake.cloud\",\n" +
-                        "        \"cos.endpoint.external\": \"https://fake.cloud\",\n" +
-                        "        \"cos.credential.ibm\": \"Y\",\n" +
-                        "        \"cos.api.key\": \"key\",\n" +
-                        "        \"cos.srvinst.id\": \"crn:v1:bluemix:public:cloud-object-storage:global:a/<>::\",\n" +
                         "        \"fhir.search.fromdate\": \"2019-08-01\",\n" +
                         "        \"fhir.tenant\": \"default\",\n" +
                         "        \"fhir.search.patientgroupid\": \"mytest\",\n" +
@@ -337,8 +331,8 @@ public class BulkExportJobRestTest {
     public void testBulkExportJobInstanceRequestWithSensitiveEmptyJobParameters() throws Exception {
         String jsonString =
                 "{\n" +
-                        "    \"applicationName\": \"fhir-bulkimportexport-webapp\",\n" +
-                        "    \"moduleName\": \"fhir-bulkimportexport-webapp-4.0.0-SNAPSHOT.war\",\n" +
+                        "    \"applicationName\": \"fhir-bulkdata-webapp\",\n" +
+                        "    \"moduleName\": \"fhir-bulkdata-webapp-4.0.0-SNAPSHOT.war\",\n" +
                         "    \"jobXMLName\": \"FhirBulkExportChunkJob\",\n" +
                         "    \"jobParameters\": {\n" +
                         "    }\n" +
@@ -357,18 +351,11 @@ public class BulkExportJobRestTest {
     public void testBulkExportJobInstanceRequestWithoutSensitive() throws Exception {
         String jsonString =
                 "{\n" +
-                        "    \"applicationName\": \"fhir-bulkimportexport-webapp\",\n" +
-                        "    \"moduleName\": \"fhir-bulkimportexport-webapp-4.0.0-SNAPSHOT.war\",\n" +
+                        "    \"applicationName\": \"fhir-bulkdata-webapp\",\n" +
+                        "    \"moduleName\": \"fhir-bulkdata-webapp-4.0.0-SNAPSHOT.war\",\n" +
                         "    \"jobXMLName\": \"FhirBulkExportChunkJob\",\n" +
                         "    \"jobParameters\": {\n" +
                         "        \"fhir.resourcetype\": \"Patient\",\n" +
-                        "        \"cos.bucket.name\": \"fhir-r4-connectathon\",\n" +
-                        "        \"cos.location\": \"us\",\n" +
-                        "        \"cos.endpoint.internal\": \"https://fake.cloud\",\n" +
-                        "        \"cos.endpoint.external\": \"https://fake.cloud\",\n" +
-                        "        \"cos.credential.ibm\": \"Y\",\n" +
-                        "        \"cos.api.key\": \"key\",\n" +
-                        "        \"cos.srvinst.id\": \"crn:v1:bluemix:public:cloud-object-storage:global:a/<>::\",\n" +
                         "        \"fhir.search.fromdate\": \"2019-08-01\",\n" +
                         "        \"fhir.tenant\": \"default\",\n" +
                         "        \"cos.bucket.pathprefix\": \"mytest\",\n" +
@@ -380,13 +367,11 @@ public class BulkExportJobRestTest {
 
         String expected =
                 "{\n" +
-                        "    \"applicationName\": \"fhir-bulkimportexport-webapp\",\n" +
-                        "    \"moduleName\": \"fhir-bulkimportexport-webapp-4.0.0-SNAPSHOT.war\",\n" +
+                        "    \"applicationName\": \"fhir-bulkdata-webapp\",\n" +
+                        "    \"moduleName\": \"fhir-bulkdata-webapp-4.0.0-SNAPSHOT.war\",\n" +
                         "    \"jobXMLName\": \"FhirBulkExportChunkJob\",\n" +
                         "    \"jobParameters\": {\n" +
                         "        \"fhir.resourcetype\": \"Patient\",\n" +
-                        "        \"cos.location\": \"us\",\n" +
-                        "        \"cos.credential.ibm\": \"Y\",\n" +
                         "        \"fhir.search.fromdate\": \"2019-08-01\"\n" +
                         "    }\n" +
                         "}";
@@ -460,7 +445,7 @@ public class BulkExportJobRestTest {
                 "{\n" +
                         "    \"jobName\": \"BulkImportJob\",\n" +
                         "    \"instanceId\": 2,\n" +
-                        "    \"appName\": \"fhir-bulkimportexport-webapp#fhir-bulkimportexport-webapp-4.0.0-SNAPSHOT.war\",\n"
+                        "    \"appName\": \"fhir-bulkdata-webapp#fhir-bulkdata-webapp-4.0.0-SNAPSHOT.war\",\n"
                         +
                         "    \"submitter\": \"fhiradmin\",\n" +
                         "    \"batchStatus\": \"STARTING\",\n" +
@@ -495,7 +480,7 @@ public class BulkExportJobRestTest {
                 "{\n" +
                         "    \"jobName\": \"BulkImportJob\",\n" +
                         "    \"instanceId\": 2,\n" +
-                        "    \"appName\": \"fhir-bulkimportexport-webapp-4.0.0-SNAPSHOT.war\",\n" +
+                        "    \"appName\": \"fhir-bulkdata-webapp-4.0.0-SNAPSHOT.war\",\n" +
                         "    \"submitter\": \"fhiradmin\",\n" +
                         "    \"batchStatus\": \"STARTING\",\n" +
                         "    \"jobXMLName\": \"FhirBulkExportChunkJob\",\n" +
@@ -528,7 +513,7 @@ public class BulkExportJobRestTest {
                 "{\n" +
                         "    \"jobName\": \"BulkImportJob\",\n" +
                         "    \"instanceId\": 2,\n" +
-                        "    \"appName\": \"fhir-bulkimportexport-webapp-4.0.0-SNAPSHOT.war\",\n" +
+                        "    \"appName\": \"fhir-bulkdata-webapp-4.0.0-SNAPSHOT.war\",\n" +
                         "    \"submitter\": \"fhiradmin\",\n" +
                         "    \"batchStatus\": \"STARTING\",\n" +
                         "    \"jobXMLName\": \"FhirBulkExportChunkJob\",\n" +
@@ -549,7 +534,7 @@ public class BulkExportJobRestTest {
                 "{\n" +
                         "    \"jobName\": \"BulkImportJob\",\n" +
                         "    \"instanceId\": 2,\n" +
-                        "    \"appName\": \"fhir-bulkimportexport-webapp-4.0.0-SNAPSHOT.war\",\n" +
+                        "    \"appName\": \"fhir-bulkdata-webapp-4.0.0-SNAPSHOT.war\",\n" +
                         "    \"submitter\": \"fhiradmin\",\n" +
                         "    \"batchStatus\": \"STARTING\",\n" +
                         "    \"jobXMLName\": \"FhirBulkExportChunkJob\",\n" +
@@ -578,7 +563,7 @@ public class BulkExportJobRestTest {
                 "{\n" +
                         "    \"jobName\": \"BulkImportJob\",\n" +
                         "    \"instanceId\": 2,\n" +
-                        "    \"appName\": \"fhir-bulkimportexport-webapp-4.0.0-SNAPSHOT.war\",\n" +
+                        "    \"appName\": \"fhir-bulkdata-webapp-4.0.0-SNAPSHOT.war\",\n" +
                         "    \"submitter\": \"fhiradmin\",\n" +
                         "    \"batchStatus\": \"STARTING\",\n" +
                         "    \"jobXMLName\": \"FhirBulkExportChunkJob\",\n" +
@@ -599,7 +584,7 @@ public class BulkExportJobRestTest {
                 "{\n" +
                         "    \"jobName\": \"BulkImportJob\",\n" +
                         "    \"instanceId\": 2,\n" +
-                        "    \"appName\": \"fhir-bulkimportexport-webapp-4.0.0-SNAPSHOT.war\",\n" +
+                        "    \"appName\": \"fhir-bulkdata-webapp-4.0.0-SNAPSHOT.war\",\n" +
                         "    \"submitter\": \"fhiradmin\",\n" +
                         "    \"batchStatus\": \"STARTING\",\n" +
                         "    \"jobXMLName\": \"FhirBulkExportChunkJob\",\n" +
@@ -655,7 +640,7 @@ public class BulkExportJobRestTest {
                 "{\n" +
                         "    \"jobName\": \"BulkImportJob\",\n" +
                         "    \"instanceId\": 2,\n" +
-                        "    \"appName\": \"fhir-bulkimportexport-webapp#fhir-bulkimportexport-webapp-4.0.0-SNAPSHOT.war\",\n"
+                        "    \"appName\": \"fhir-bulkdata-webapp#fhir-bulkdata-webapp-4.0.0-SNAPSHOT.war\",\n"
                         +
                         "    \"submitter\": \"fhiradmin\",\n" +
                         "    \"batchStatus\": \"STARTING\",\n" +
@@ -713,13 +698,6 @@ public class BulkExportJobRestTest {
                         "    \"instanceName\": \"my-inst\",\n" +
                         "    \"jobParameters\": {\n" +
                         "        \"fhir.resourcetype\": \"Patient\",\n" +
-                        "        \"cos.bucket.name\": \"fhir-r4-connectathon\",\n" +
-                        "        \"cos.location\": \"us\",\n" +
-                        "        \"cos.endpoint.internal\": \"https://fake.cloud\",\n" +
-                        "        \"cos.endpoint.external\": \"https://fake.cloud\",\n" +
-                        "        \"cos.credential.ibm\": \"Y\",\n" +
-                        "        \"cos.api.key\": \"key\",\n" +
-                        "        \"cos.srvinst.id\": \"crn:v1:bluemix:public:cloud-object-storage:global:a/<>::\",\n" +
                         "        \"fhir.search.fromdate\": \"2019-08-01\",\n" +
                         "        \"fhir.tenant\": \"default\",\n" +
                         "        \"cos.bucket.pathprefix\": \"mytest\",\n" +
@@ -736,8 +714,6 @@ public class BulkExportJobRestTest {
                         "    \"instanceName\": \"my-inst\",\n" +
                         "    \"jobParameters\": {\n" +
                         "        \"fhir.resourcetype\": \"Patient\",\n" +
-                        "        \"cos.location\": \"us\",\n" +
-                        "        \"cos.credential.ibm\": \"Y\",\n" +
                         "        \"fhir.search.fromdate\": \"2019-08-01\"\n" +
                         "    }\n" +
                         "}";

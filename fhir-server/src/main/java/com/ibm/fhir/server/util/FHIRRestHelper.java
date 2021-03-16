@@ -2520,7 +2520,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         throws Exception {
 
         // throws if we have a count of more than 2,147,483,647 resources
-        UnsignedInt totalCount = UnsignedInt.of(searchContext.getTotalCount());
+        UnsignedInt totalCount = searchContext.getTotalCount() != null ? UnsignedInt.of(searchContext.getTotalCount()) : null;
         // generate ID for this bundle and set total
         Bundle.Builder bundleBuilder = Bundle.builder()
                                             .type(BundleType.SEARCHSET)
@@ -2529,12 +2529,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         if (resources.size() > 0) {
             // Calculate how many resources are 'match' mode
-            int pageSize = searchContext.getPageSize();
-            int offset = (searchContext.getPageNumber() - 1) * pageSize;
-            int matchResourceCount = pageSize;
-            if (totalCount.getValue() < offset + pageSize) {
-                matchResourceCount = totalCount.getValue() - offset;
-            }
+            int matchResourceCount = searchContext.getMatchCount();
             List<Resource> matchResources = resources.subList(0,  matchResourceCount);
 
             // Check if too many included resources
@@ -2707,7 +2702,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             throws Exception {
 
         // throws if we have a count of more than 2,147,483,647 resources
-        UnsignedInt totalCount = UnsignedInt.of(historyContext.getTotalCount());
+        UnsignedInt totalCount = historyContext.getTotalCount() != null ? UnsignedInt.of(historyContext.getTotalCount()) : null;
         // generate ID for this bundle and set the "total" field for the bundle
         Bundle.Builder bundleBuilder = Bundle.builder()
                                              .type(BundleType.HISTORY)
@@ -2790,8 +2785,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         // If for search with _summary=count or pageSize == 0, then don't add previous and next links.
         if (!SummaryValueSet.COUNT.equals(summaryParameter) && context.getPageSize() > 0) {
-            int nextPageNumber = context.getPageNumber() + 1;
-            if (nextPageNumber <= context.getLastPageNumber()) {
+            // In case the currently requested page is < 1, ensure the next link points to page 1,
+            // to avoid unnecessarily paging through additional page numbers < 1
+            int nextPageNumber = Math.max(context.getPageNumber() + 1, 1);
+            if (nextPageNumber <= context.getLastPageNumber()
+                    && (nextPageNumber == 1 || context.getTotalCount() != null || context.getMatchCount() > 0)) {
 
                 // starting with the self URI
                 String nextLinkUrl = selfUri;
@@ -2818,7 +2816,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 bundleBuilder.link(nextLink);
             }
 
-            int prevPageNumber = context.getPageNumber() - 1;
+            int prevPageNumber = Math.min(context.getPageNumber() - 1, context.getLastPageNumber());
             if (prevPageNumber > 0) {
 
                 // starting with the original request URI
@@ -2900,8 +2898,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
         }
 
-        // Strip any path segments for whole-system interactions (in case of whole-system search, "Resource" is passed as the type)
-        if (type == null || type.isEmpty() || "Resource".equals(type)) {
+        // Strip any path segments for whole-system interactions (in case of whole-system search, "Resource" is passed as the type, or $everything-based search)
+        if (type == null || type.isEmpty() || "Resource".equals(type) || baseUri.contains("$everything")) {
             if (baseUri.endsWith("/_search")) {
                 baseUri = baseUri.substring(0, baseUri.length() - "/_search".length());
             } else if (baseUri.endsWith("/_history")) {
@@ -3227,16 +3225,29 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             txn.end();
         }
 
+
         // Create a history bundle and add an entry for each record
         Bundle.Builder bundleBuilder = Bundle.builder();
 
         Long lastChangeId = null;
+        Instant lastChangeTime = null;
 
+        // The FHIR spec states the result bundle entries are "sorted with oldest versions last",
+        // (which has to be with respect to versions of a particular resource)
+        // When using _since          - the 'records' list is sorted {change_tstamp, resourceType, resourceId}
+        // When using _afterHistoryId - the 'records' list is sorted {resourceId}
+        // Both sort orders guarantee that for a given resource, versions will be increasing, so to
+        // meet the spec, we just process in reverse.
         for (int i=records.size()-1; i>=0; i--) {
             ResourceChangeLogRecord changeRecord = records.get(i);
-            if (lastChangeId == null) {
-                // We have to build the bundle in reverse, so grab the lastChangeId from the first item we process
+            if (lastChangeId == null || changeRecord.getChangeId() > lastChangeId) {
+                // Keep track of the greatest change id value
                 lastChangeId = changeRecord.getChangeId();
+            }
+
+            if (lastChangeTime == null || changeRecord.getChangeTstamp().isAfter(lastChangeTime)) {
+                // Keep track of the latest timestamp
+                lastChangeTime = changeRecord.getChangeTstamp();
             }
 
             Request.Builder requestBuilder = Request.builder();
@@ -3285,7 +3296,17 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             nextRequest.append(serviceBase);
             nextRequest.append("?");
             nextRequest.append("_count=").append(count);
-            nextRequest.append("&_afterHistoryId=").append(lastChangeId);
+
+            if (historyContext.getSince() != null && historyContext.getSince().getValue() != null) {
+                // As _since was given, we need to go with time-based paging, and the client
+                // will be responsible for managing duplicates.
+                nextRequest.append("&_since=").append(lastChangeTime.atZone(UTC).format(DateTime.PARSER_FORMATTER));
+            } else {
+                // in all other cases we fetch ordered by resource_id, and so the client
+                // should get the next page using the _afterHistoryId marker, allowing
+                // easy paging through the stream of changes without duplicates
+                nextRequest.append("&_afterHistoryId=").append(lastChangeId);
+            }
             Bundle.Link.Builder linkBuilder = Bundle.Link.builder();
             linkBuilder.url(Uri.of(nextRequest.toString()));
             linkBuilder.relation(com.ibm.fhir.model.type.String.of("next"));
@@ -3298,6 +3319,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         selfRequest.append(serviceBase);
         selfRequest.append("?");
         selfRequest.append("_count=").append(count);
+
+        // only one of afterHistoryId or since can be not null at this stage
         if (historyContext.getAfterHistoryId() != null) {
             selfRequest.append("&_afterHistoryId=").append(historyContext.getAfterHistoryId());
         }

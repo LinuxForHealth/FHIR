@@ -623,18 +623,6 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         
     }
     
-    private void assertResponseBundle(Bundle bundle, BundleType expectedType, int expectedEntryCount) {
-        assertNotNull(bundle);
-        assertNotNull(bundle.getType());
-        assertNotNull(bundle.getType().getValue());
-        assertEquals(expectedType.getValue(), bundle.getType().getValue());
-        if (expectedEntryCount > 0) {
-            assertNotNull(bundle.getEntry());
-            assertEquals(expectedEntryCount, bundle.getEntry().size());
-        }
-    }
-    
-    
     private void assertGoodGetResponse(Bundle.Entry entry, int expectedStatusCode, HTTPReturnPreference returnPref) throws Exception {
         assertNotNull(entry);
         Bundle.Entry.Response response = entry.getResponse();

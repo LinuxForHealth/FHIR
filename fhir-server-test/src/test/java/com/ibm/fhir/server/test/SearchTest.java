@@ -1093,6 +1093,48 @@ public class SearchTest extends FHIRServerTestBase {
 
     }
 
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePractitioner" })
+    public void testSearchPractitioner_total_none() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Practitioner").queryParam("_id", practitionerId)
+                .queryParam("_total", "none")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertNull(bundle.getTotal());
+        assertTrue(bundle.getEntry().size() == 1);
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePractitioner" })
+    public void testSearchPractitioner_total_estimate() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Practitioner").queryParam("_id", practitionerId)
+                .queryParam("_total", "estimate")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getTotal().getValue().equals(1));
+        assertTrue(bundle.getEntry().size() == 1);
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePractitioner" })
+    public void testSearchPractitioner_total_accurate() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Practitioner").queryParam("_id", practitionerId)
+                .queryParam("_total", "accurate")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getTotal().getValue().equals(1));
+        assertTrue(bundle.getEntry().size() == 1);
+    }
+
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreateObservation" })
     public void testSearchObservationWithSubjectIncluded_summary_text() {
         WebTarget target = getWebTarget();
@@ -1700,7 +1742,8 @@ public class SearchTest extends FHIRServerTestBase {
         assertNotNull(organization);
         assertEquals(organizationId, organization.getId());
         assertEquals("2", organization.getMeta().getVersionId().getValue());
-}
+    }
+
     @Test(groups = { "server-search" })
     public void test_SearchCarePlan_APDate() throws Exception {
         WebTarget target = getWebTarget();

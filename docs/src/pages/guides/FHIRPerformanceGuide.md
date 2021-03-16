@@ -109,15 +109,40 @@ Assuming there are N instances of the IBM FHIR Server, the recommended connectio
 
 See [Managing PostgreSQL Connections](https://cloud.ibm.com/docs/databases-for-postgresql?topic=databases-for-postgresql-managing-connections) in the IBM Cloud documentation for more information.
 
+### 3.1.3 JEE Datasource (Default, Recommended)
 
-### 3.1.3 Proxy Datasource (Default, Legacy)
-
-The default datasource configuration used by the IBM FHIR Server is based on a custom datasource implementation which allows datasources to be programmatically added and removed without a server restart, something not supported natively in Liberty Profile.
-
-Just one Liberty Profile JTA `<dataSource>` is required:
+The recommended approach for tenant datatstore configuration is to use individual JTA datasources, each with their own connection manager (connection pool):
 
 ```
-    <dataSource id="fhirProxyDataSource" jndiName="jdbc/fhirProxyDataSource" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+    <dataSource id="fhirDatasourcePGCloudDefault" jndiName="jdbc/fhir_tenant1_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true" validationTimeout="30s">
+        <jdbcDriver javax.sql.XADataSource="org.postgresql.xa.PGXADataSource" libraryRef="sharedLibPostgres"/>
+            <properties.postgresql
+                 serverName="your.postgres.host"
+                 portNumber="5432"
+                 databaseName="fhirdb"
+                 user="fhirserver"
+                 password="change-password"
+                 currentSchema="fhirdata"
+                 ssl="true"
+                 sslmode="require"
+                 sslrootcert="resources/security/your-postgres-host.crt" />
+        />
+        <connectionManager maxPoolSize="200" minPoolSize="20" connectionTimeout="60s" maxIdleTime="2m" numConnectionsPerThreadLocal="2"/>
+    </dataSource>
+```
+
+Because each datasource gets its own connection manager you can tune each independently. If multiple datasources point to the same database (for example using different schemas to support multi-tenancy) be sure to configure the database `max_connections` accordingly. Also, remember to sum the maxPoolSize for all datasources across all IBM FHIR Server nodes in your deployment.
+
+Each JTA datasource should be configured in its own `.xml` server configuration file and placed into `{fhir-server-home}/configDropins/overrides` where it will be picked up automatically by Liberty Profile on startup.
+
+### 3.1.4 Proxy Datasource (Legacy)
+
+The IBM FHIR Server proxy datasource is based on a custom datasource implementation which allows datasources to be programmatically added and removed without a server restart, something not supported natively in Liberty Profile. This implementation has been deprecated and is no longer the default configuration.
+
+To use the IBM FHIR Server proxy datasource, just one Liberty Profile JTA `<dataSource>` is required:
+
+```
+    <dataSource id="fhirProxyDataSource" jndiName="jdbc/fhirProxyDataSource" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true" validationTimeout="30s">
         <jdbcDriver libraryRef="fhirSharedLib" javax.sql.XADataSource="com.ibm.fhir.persistence.proxy.FHIRProxyXADataSource"/>
         <connectionManager maxPoolSize="200" minPoolSize="20" connectionTimeout="60s" maxIdleTime="2m" numConnectionsPerThreadLocal="2"/>
     </dataSource>
@@ -141,31 +166,6 @@ Note, the FHIRProxyXADataSource is only called to provide new connections. Most 
 | maxIdleTime | 2m | Removes connections from the pool when they are unused for this amount of time, but does not shrink the pool below minPoolSize |
 | numConnectionsPerThreadLocal | 2 | Number of connections cached in thread-local storage. Testing has shown the value 2 is sufficient to eliminate contention in high-concurrency scenarios. |
 
-### 3.1.4 JEE Datasource (Recommended)
-
-The recommended approach for tenant datatstore configuration is to use individual JTA datasources, each with their own connection manager (connection pool):
-
-```
-    <dataSource id="fhirDatasourcePGCloudDefault" jndiName="jdbc/fhir_tenant1_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
-        <jdbcDriver javax.sql.XADataSource="org.postgresql.xa.PGXADataSource" libraryRef="fhirSharedLib"/>
-            <properties.postgresql
-                 serverName="your.postgres.host"
-                 portNumber="5432"
-                 databaseName="fhirdb"
-                 user="fhirserver"
-                 password="change-password"
-                 currentSchema="fhirdata"
-                 ssl="true"
-                 sslmode="require"
-                 sslrootcert="resources/security/your-postgres-host.crt" />
-        />
-        <connectionManager maxPoolSize="200" minPoolSize="20" connectionTimeout="60s" maxIdleTime="2m" numConnectionsPerThreadLocal="2"/>
-    </dataSource>
-```
-
-Because each datasource gets its own connection manager you can tune each independently. If multiple datasources point to the same database (for example using different schemas to support multi-tenancy) be sure to configure the database `max_connections` accordingly. Also, remember to sum the maxPoolSize for all datasources across all IBM FHIR Server nodes in your deployment.
-
-Each JTA datasource should be configured in its own `.xml` server configuration file and placed into `{fhir-server-home}/configDropins/overrides` where it will be picked up automatically by Liberty Profile on startup.
 
 
 ## 3.2 Transaction Timeout
@@ -260,7 +260,7 @@ Using random values for resource identifiers can cause performance issues in lar
 
 For best performance, ids generated by clients should not be purely random but instead be structured to include a prefix which increments over time. This causes index entries for new values to share pages (right-hand inserts), greatly reducing the write amplification overhead.
 
-One example of a suitable id generation strategy can be found here in the IBM FHIR Server codebase (here)[https://github.com/IBM/FHIR/blob/main/fhir-persistence-jdbc/src/main/java/com/ibm/fhir/persistence/jdbc/util/TimestampPrefixedUUID.java]
+One example of a suitable id generation strategy can be found in the [IBM FHIR Server fhir-persistence-jdbc project](https://github.com/IBM/FHIR/blob/main/fhir-persistence-jdbc/src/main/java/com/ibm/fhir/persistence/jdbc/util/TimestampPrefixedUUID.java).
 
 This strategy provides both the desirable trait of global uniqueness as well as a low write amplification overhead thanks to the time-based prefix.
 

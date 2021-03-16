@@ -271,7 +271,7 @@ The IBM FHIR Server Bulk Data modules utilize Java Batch (JSR-352) from the Libe
 
 ``` xml
     <dataSource id="fhirbatchDS" jndiName="jdbc/fhirbatchDB">
-        <jdbcDriver libraryRef="fhirSharedLib"/>
+        <jdbcDriver libraryRef="sharedLibDb2"/>
         <properties.db2.jcc
             serverName="dashdb-txn-***-************.services.dal.bluemix.net"
             portNumber="50001"

@@ -56,6 +56,7 @@ import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.SummaryValueSet;
+import com.ibm.fhir.search.TotalValueSet;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.context.FHIRSearchContextFactory;
@@ -750,6 +751,12 @@ public class SearchUtil {
             if (queryParameters.containsKey(SearchConstants.SORT)) {
                 throw SearchExceptionUtil.buildNewInvalidSearchException(
                         "_sort search result parameter not supported with _include or _revinclude.");
+            }
+            // Make sure _total is not present with _include and/or _revinclude.
+            // TODO: do we really need to forbid this?
+            if (queryParameters.containsKey(SearchConstants.TOTAL)) {
+                throw SearchExceptionUtil.buildNewInvalidSearchException(
+                        "_total search result parameter not supported with _include or _revinclude.");
             }
             // Because _include and _revinclude searches all require certain resource type modifier in
             // search parameter, so we just don't support it.
@@ -1547,6 +1554,8 @@ public class SearchUtil {
                 parseElementsParameter(resourceType, context, first, lenient);
             } else if (SearchConstants.SUMMARY.equals(name) && first != null) {
                 context.setSummaryParameter(SummaryValueSet.from(first));
+            } else if (SearchConstants.TOTAL.equals(name) && first != null) {
+                context.setTotalParameter(TotalValueSet.from(first));
             }
         } catch (FHIRSearchException se) {
             throw se;
@@ -1554,7 +1563,6 @@ public class SearchUtil {
             throw SearchExceptionUtil.buildNewParseParameterException(name, e);
         }
     }
-
 
     public static boolean isChainedParameter(String name) {
         return name.contains(SearchConstants.CHAINED_PARAMETER_CHARACTER);

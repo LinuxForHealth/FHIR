@@ -1,0 +1,42 @@
+{
+    "__comment": "FHIR Server - Bulk Data - Test Configuration",
+    "fhirServer": {
+        "bulkdata": {
+            "legacy": false,
+            "enabled": true,
+            "core": {
+                "api": {
+                    "url": "https://localhost:9443/ibm/api/batch",
+                    "user": "fhiradmin",
+                    "password": "change-password",
+                    "truststore": "resources/security/fhirTrustStore.p12",
+                    "truststore-password": "asdf", 
+                    "trustAll": true
+                },
+                "cos" : { 
+                    "partUploadTriggerSizeMB": 10,
+                    "objectSizeThresholdMB": 15,
+                    "objectResourceCountThreshold": 200000,
+                    "useServerTruststore": true
+                },
+                "pageSize": 100,
+                "_comment": "max of 1000",
+                "batchIdEncryptionKey": "change-password",
+                "maxPartitions": 3,
+                "maxInputs": 5,
+                "systemExportImpl": "none"
+            },
+            "storageProviders": {
+                "default" : {
+                    "type": "ibm-cos",
+                    "validBaseUrls": [],
+                    "fileBase": "/Users/asdf/wffh/ol-fhir/wlp/usr/output",
+                    "bucketName": "fhir-a",
+                    "location": "us",
+                    "endpointInternal": "https://s3.x.cloud-object-storage.appdomain.cloud",
+                    "endpointExternal": "https://s3.x.cloud-object-storage.appdomain.cloud"
+                }
+            }
+        }
+    }
+}
