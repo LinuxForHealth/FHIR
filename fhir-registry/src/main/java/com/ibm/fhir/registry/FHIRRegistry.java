@@ -290,6 +290,7 @@ public final class FHIRRegistry {
 
     private void processResource(FHIRRegistryResource registryResource, Map<String,Set<Canonical>> resourceTypeWithCanonicalUrls) {
         String type = registryResource.getType();
+        System.out.println("r -> " + type); 
         resourceTypeWithCanonicalUrls.compute(type, (k,v) -> checkOrCreateSet(k,v,registryResource));
     }
 
