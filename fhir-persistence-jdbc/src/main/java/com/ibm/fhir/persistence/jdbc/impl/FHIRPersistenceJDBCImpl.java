@@ -13,8 +13,6 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABL
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.util.ModelSupport.getResourceType;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -143,6 +141,7 @@ import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
 import com.ibm.fhir.persistence.jdbc.util.TimestampPrefixedUUID;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
+import com.ibm.fhir.persistence.util.InputOutputByteStream;
 import com.ibm.fhir.persistence.util.LogicalIdentityProvider;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.search.SearchConstants;
@@ -168,6 +167,7 @@ import com.ibm.fhir.search.util.SearchUtil;
 public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSupplier {
     private static final String CLASSNAME = FHIRPersistenceJDBCImpl.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
+    private static final int DATA_BUFFER_INITIAL_SIZE = 10*1024; // 10KiB
 
     protected static final String TXN_JNDI_NAME = "java:comp/UserTransaction";
     public static final String TRX_SYNCH_REG_JNDI_NAME = "java:comp/TransactionSynchronizationRegistry";
@@ -340,7 +340,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         final String METHODNAME = "create";
         log.entering(CLASSNAME, METHODNAME);
 
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        // Most resources are well under 10K after being serialized and compressed
+        InputOutputByteStream ioStream = new InputOutputByteStream(DATA_BUFFER_INITIAL_SIZE);
         String logicalId;
 
         // We need to update the meta in the resource, so we need a modifiable version
@@ -380,10 +381,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             resourceDTO.setResourceType(updatedResource.getClass().getSimpleName());
 
             // Serialize and compress the Resource
-            GZIPOutputStream zipStream = new GZIPOutputStream(stream);
+            GZIPOutputStream zipStream = new GZIPOutputStream(ioStream.outputStream());
             FHIRGenerator.generator( Format.JSON, false).generate(updatedResource, zipStream);
             zipStream.finish();
-            resourceDTO.setData(stream.toByteArray());
+            resourceDTO.setDataStream(ioStream);
             zipStream.close();
 
             // The DAO objects are now created on-the-fly (not expensive to construct) and
@@ -496,7 +497,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         Class<? extends Resource> resourceType = resource.getClass();
         com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO;
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        InputOutputByteStream ioStream = new InputOutputByteStream(DATA_BUFFER_INITIAL_SIZE);
 
         // Resources are immutable, so we need a new builder to update it (since R4)
         Resource.Builder resultResourceBuilder = resource.toBuilder();
@@ -571,10 +572,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             resourceDTO.setResourceType(updatedResource.getClass().getSimpleName());
 
             // Serialize and compress the Resource
-            GZIPOutputStream zipStream = new GZIPOutputStream(stream);
+            GZIPOutputStream zipStream = new GZIPOutputStream(ioStream.outputStream());
             FHIRGenerator.generator(Format.JSON, false).generate(updatedResource, zipStream);
             zipStream.finish();
-            resourceDTO.setData(stream.toByteArray());
+            resourceDTO.setDataStream(ioStream);
             zipStream.close();
 
             // Persist the Resource DTO.
@@ -809,7 +810,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO = null;
         T existingResource = null;
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        InputOutputByteStream ioStream = new InputOutputByteStream(DATA_BUFFER_INITIAL_SIZE);
 
         Resource.Builder resourceBuilder;
 
@@ -863,10 +864,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             resourceDTO.setVersionId(newVersionNumber);
 
             // Serialize and compress the Resource
-            GZIPOutputStream zipStream = new GZIPOutputStream(stream);
+            GZIPOutputStream zipStream = new GZIPOutputStream(ioStream.outputStream());
             FHIRGenerator.generator(Format.JSON, false).generate(updatedResource, zipStream);
             zipStream.finish();
-            resourceDTO.setData(stream.toByteArray());
+            resourceDTO.setDataStream(ioStream);
             zipStream.close();
 
             Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
@@ -1759,7 +1760,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         InputStream in = null;
         try {
             if (resourceDTO != null) {
-                in = new GZIPInputStream(new ByteArrayInputStream(resourceDTO.getData()));
+                in = new GZIPInputStream(resourceDTO.getDataStream().inputStream());
                 if (elements != null) {
                     // parse/filter the resource using elements
                     resource = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parseAndFilter(in, elements);

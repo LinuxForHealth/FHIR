@@ -6,9 +6,8 @@
 
 package com.ibm.fhir.bulkdata.jbatch.export.fast;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.time.Instant;
 import java.time.temporal.TemporalAccessor;
@@ -50,6 +49,7 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.ResourcePayload;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
+import com.ibm.fhir.persistence.util.InputOutputByteStream;
 import com.ibm.fhir.search.date.DateTimeHandler;
 
 /**
@@ -147,7 +147,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
     private long txEndTime;
 
     // The buffer space we collect data into until we hit the threshold to push to COS
-    private ByteArrayOutputStream outputStream;
+    private InputOutputByteStream ioBuffer;
 
     // The sum of the multi-part sizes for parts that have been uploaded
     private long currentObjectSize;
@@ -186,7 +186,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
      */
     public ResourcePayloadReader() {
         super();
-        this.outputStream = new ByteArrayOutputStream(this.initialBufferSize);
+        this.ioBuffer = new InputOutputByteStream(this.initialBufferSize);
         if (logger.isLoggable(Level.FINE)) {
             logger.fine("Max resources Per Object: " + resourcesPerObject);
             logger.fine("Part Upload Trigger Size: " + partUploadTriggerSize);
@@ -253,7 +253,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
 
             // Just in case the framework tries to reopen an existing instance,
             // make sure we start with an empty output stream
-            this.outputStream.reset();
+            this.ioBuffer.reset();
         }
 
         // Transient user data is required to signal completion of this partition
@@ -403,11 +403,12 @@ public class ResourcePayloadReader extends AbstractItemReader {
                     completeCurrentUpload();
                 }
 
-                // Accumulate the payload in the outputStream buffer
-                if (this.outputStream.size() > 0) {
-                    this.outputStream.write(NDJSON_LINE_SEPARATOR);
+                // Accumulate the payload in the output buffer
+                OutputStream outputStream = ioBuffer.outputStream();
+                if (this.ioBuffer.size() > 0) {
+                    outputStream.write(NDJSON_LINE_SEPARATOR);
                 }
-                this.currentObjectSize += t.transferTo(this.outputStream);
+                this.currentObjectSize += t.transferTo(outputStream);
                 this.currentObjectResourceCount++;
 
                 // upload now if we have reached the Goldilocks threshold size for a part
@@ -461,7 +462,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
         // the total number of parts), but not so large that the
         // upload would take too long and exceed our transaction
         // timeout.
-        if (this.outputStream.size() > this.partUploadTriggerSize) {
+        if (this.ioBuffer.size() > this.partUploadTriggerSize) {
             uploadPart();
         }
     }
@@ -474,15 +475,15 @@ public class ResourcePayloadReader extends AbstractItemReader {
         // S3 API: Part number must be an integer between 1 and 10000
         int currentObjectPartNumber = uploadedParts.size() + 1;
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine(logPrefix() + " Uploading part# " + currentObjectPartNumber + " ["+ outputStream.size() + " bytes] for uploadId '" + uploadId + "'");
+            logger.fine(logPrefix() + " Uploading part# " + currentObjectPartNumber + " ["+ ioBuffer.size() + " bytes] for uploadId '" + uploadId + "'");
         }
 
-        byte[] buffer = outputStream.toByteArray();
-        InputStream is = new ByteArrayInputStream(buffer);
+        // The ioBuffer can provide us with an InputStream without having to copy the byte-buffer
+        InputStream is = ioBuffer.inputStream();
         PartETag uploadResult = BulkDataUtils.multiPartUpload(cosClient, cosBucketName, currentObjectName,
-                uploadId, is, buffer.length, currentObjectPartNumber);
+                uploadId, is, ioBuffer.size(), currentObjectPartNumber);
         uploadedParts.add(uploadResult);
-        outputStream.reset();
+        ioBuffer.reset();
     }
 
     /**
@@ -494,7 +495,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
         }
 
         // upload any final amount of data we have in the buffer
-        if (this.outputStream.size() > 0) {
+        if (this.ioBuffer.size() > 0) {
             logger.fine(logPrefix() + " uploading final part for '" + this.uploadId + "'");
             uploadPart();
         }
