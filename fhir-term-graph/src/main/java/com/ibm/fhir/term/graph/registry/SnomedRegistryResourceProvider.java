@@ -65,9 +65,6 @@ public class SnomedRegistryResourceProvider implements FHIRRegistryResourceProvi
                     String sctid = tokens[1];
                     ValidationOutcome outcome = FHIRTermService.getInstance().validateCode(SNOMED_CODE_SYSTEM, null, Code.of(sctid), null);
                     if (outcome == null || (Boolean.FALSE.equals(outcome.getResult()))) {
-                        if (outcome != null) {
-                            System.out.println("outcome: " + outcome.toParameters());
-                        }
                         log.log(Level.WARNING, "Code: " + sctid + " is invalid or SNOMED CT is not supported");
                         return null;
                     }
