@@ -448,7 +448,7 @@ By default, only 3 vacuum jobs can run concurrently.
 
 ### 4.1.5 Max Locks
 
-To drop an IBM FHiR Server schema in PostgreSQL, set the following configuration in `postgresql.conf`:
+To drop an IBM FHIR Server schema in PostgreSQL, set the following configuration in `postgresql.conf`:
 
 ```
 max_locks_per_transaction = 128		# min 10
