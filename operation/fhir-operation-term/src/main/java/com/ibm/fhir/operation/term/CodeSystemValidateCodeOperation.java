@@ -38,6 +38,11 @@ public class CodeSystemValidateCodeOperation extends AbstractTermOperation {
         try {
             CodeSystem codeSystem = getResource(operationContext, logicalId, parameters, resourceHelper, CodeSystem.class);
             Element codedElement = getCodedElement(parameters, "codeableConcept", "coding", "code", false);
+            if (codedElement.is(Coding.class) && codedElement.as(Coding.class).getSystem() == null) {
+                codedElement = codedElement.as(Coding.class).toBuilder()
+                        .system(codeSystem.getUrl())
+                        .build();
+            }
             validate(codeSystem, codedElement);
             ValidationOutcome outcome = codedElement.is(CodeableConcept.class) ?
                     service.validateCode(codeSystem, codedElement.as(CodeableConcept.class), ValidationParameters.from(parameters)) :
