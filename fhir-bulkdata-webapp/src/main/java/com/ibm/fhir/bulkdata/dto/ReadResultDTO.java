@@ -27,7 +27,7 @@ public class ReadResultDTO implements Serializable {
     }
 
     public ReadResultDTO(List<Resource> resources) {
-        this.resources = resources;
+        this.resources.addAll(resources);
     }
 
     /**
