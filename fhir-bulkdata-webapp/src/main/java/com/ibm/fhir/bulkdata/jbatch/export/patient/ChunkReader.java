@@ -12,8 +12,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -85,6 +87,13 @@ public class ChunkReader extends AbstractItemReader {
 
     private FHIRPersistence fhirPersistence = null;
 
+    boolean isDoDuplicationCheck = false;
+
+    // Used to prevent the same resource from being exported multiple times when multiple _typeFilter for the same
+    // resource type are used, which leads to multiple search requests which can have overlaps of resources,
+    // loadedResourceIds and isDoDuplicationCheck are always reset when moving to the next resource type.
+    Set<String> loadedPatientIds = new HashSet<>();
+
     @Inject
     @Any
     @BatchProperty(name = OperationFields.PARTITION_RESOURCETYPE)
@@ -127,6 +136,10 @@ public class ChunkReader extends AbstractItemReader {
 
         FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
         fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
+
+        List<Map<String, List<String>>> typeFilters = searchParametersForResoureTypes.get(resourceType);
+        isDoDuplicationCheck = typeFilters != null && typeFilters.size() > 1 ?
+                true : adapter.shouldStorageProviderCheckDuplicate(ctx.getSource());
     }
 
     @Override
@@ -191,6 +204,11 @@ public class ChunkReader extends AbstractItemReader {
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
             Date startTime = new Date(System.currentTimeMillis());
             List<Resource> patientResources = fhirPersistence.search(persistenceContext, Patient.class).getResource();
+            if (isDoDuplicationCheck) {
+                patientResources = patientResources.stream()
+                        .filter(r -> loadedPatientIds.add(r.getId()))
+                        .collect(Collectors.toList());
+            }
 
             if (auditLogger.shouldLog() && patientResources != null) {
                 Date endTime = new Date(System.currentTimeMillis());
@@ -224,7 +242,6 @@ public class ChunkReader extends AbstractItemReader {
                 }
 
                 List<String> patientIds = patientResources.stream()
-                            .filter(item -> item.getId() != null)
                             .map(item -> item.getId())
                             .collect(Collectors.toList());
 
@@ -236,7 +253,7 @@ public class ChunkReader extends AbstractItemReader {
                     if (FHIRMediaType.APPLICATION_PARQUET.equals(ctx.getFhirExportFormat())) {
                         dto.setResources(resources);
                     }
-                    handler.fillChunkDataBuffer(patientResources);
+                    handler.fillChunkData(ctx.getFhirExportFormat(), chunkData, resources);
                 }
             } else {
                 logger.fine("readItem: End of reading!");
