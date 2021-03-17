@@ -176,8 +176,8 @@ public class ChunkReader extends AbstractItemReader {
         searchContext.setPageSize(pageSize);
         searchContext.setPageNumber(pageNum);
 
-        ReadResultDTO dto = null;
 
+        ReadResultDTO dto = new ReadResultDTO();
         // Note we're already running inside a transaction (started by the Javabatch framework)
         // so this txn will just wrap it...the commit won't happen until the checkpoint
         FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
@@ -215,19 +215,26 @@ public class ChunkReader extends AbstractItemReader {
             }
 
             resourceType = ModelSupport.getResourceType(ctx.getPartitionResourceType());
-            if (dto != null && !dto.empty()) {
+
+            if (resources != null && !resources.isEmpty()) {
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("readItem[" + ctx.getPartitionResourceType() + "]: loaded " + dto.size() + " patients");
                 }
 
-                List<String> patientIds = dto.getResources().stream()
+                List<String> patientIds = resources.stream()
                             .filter(item -> item.getId() != null)
-                            .map(item -> item.getId())
+                            .map(item -> "Patient/" + item.getId())
                             .collect(Collectors.toList());
 
                 if (patientIds != null && patientIds.size() > 0) {
                     handler.register(chunkData, ctx, fhirPersistence, pageSize, resourceType, searchParametersForResoureTypes, ctx.getSource());
-                    handler.fillChunkData(resources, patientIds);
+                    if ("Patient".equals(ctx.getPartitionResourceType())) {
+                        handler.fillChunkPatientDataBuffer(resources);
+                        dto.setResources(resources);
+                    } else {
+                        dto = new ReadResultDTO();
+                        handler.fillChunkDataBuffer(patientIds, dto);
+                    }
                 }
             } else {
                 logger.fine("readItem: End of reading!");
