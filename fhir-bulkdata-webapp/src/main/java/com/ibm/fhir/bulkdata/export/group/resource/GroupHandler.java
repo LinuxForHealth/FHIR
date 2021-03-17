@@ -6,27 +6,21 @@
 package com.ibm.fhir.bulkdata.export.group.resource;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import com.ibm.fhir.bulkdata.audit.BulkAuditLogger;
 import com.ibm.fhir.model.resource.Group;
 import com.ibm.fhir.model.resource.Group.Member;
-import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
-import com.ibm.fhir.search.SearchConstants;
-import com.ibm.fhir.search.context.FHIRSearchContext;
-import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * GroupHandler handles each Page of Members in a Group (enabling paging of the members of the Group)
@@ -114,32 +108,22 @@ public class GroupHandler {
     }
 
     private Group findGroupByID(String groupId) throws Exception{
-        FHIRSearchContext searchContext;
         FHIRPersistenceContext persistenceContext;
-        Map<String, List<String>> queryParameters = new HashMap<>();
+        SingleResourceResult<Group> result = null;
 
-        queryParameters.put(SearchConstants.ID, Arrays.asList(groupId));
-        searchContext = SearchUtil.parseQueryParameters(Group.class, queryParameters);
-        List<Resource> resources = null;
         Date startTime = new Date(System.currentTimeMillis());
         FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
         txn.begin();
         try {
-            persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
-            // TODO why not a read instead?
-            resources = fhirPersistence.search(persistenceContext, Group.class).getResource();
+            persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null);
+            return fhirPersistence.read(persistenceContext, Group.class, groupId).getResource();
         } finally {
             txn.end();
-            if (auditLogger.shouldLog() && resources != null) {
+            if (auditLogger.shouldLog() && result != null) {
                 Date endTime = new Date(System.currentTimeMillis());
-                auditLogger.logSearchOnExport("Group", queryParameters, resources.size(), startTime, endTime, Response.Status.OK, "StorageProvider@" + provider, "BulkDataOperator");
+                auditLogger.logReadOnExport(result.getResource(), startTime, endTime,
+                        result.isSuccess() ? Status.OK : Status.BAD_REQUEST, "StorageProvider@" + provider, "BulkDataOperator");
             }
-        }
-
-        if (resources != null) {
-            return (Group) resources.get(0);
-        } else {
-            return null;
         }
     }
 }
