@@ -234,6 +234,7 @@ public class ChunkReader extends AbstractItemReader {
                         handler.fillChunkPatientDataBuffer(resources);
                         dto.setResources(resources);
                     } else {
+                        dto = new ReadResultDTO();
                         handler.fillChunkDataBuffer(patientIds, dto);
                     }
                 }
