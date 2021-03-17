@@ -7,10 +7,10 @@
 package com.ibm.fhir.term.graph.loader.impl;
 
 import static com.ibm.fhir.term.graph.loader.util.FHIRTermGraphLoaderUtil.toMap;
-import static com.ibm.fhir.term.graph.util.FHIRTermGraphUtil.normalize;
 import static com.ibm.fhir.term.graph.util.FHIRTermGraphUtil.toLong;
 import static com.ibm.fhir.term.graph.util.FHIRTermGraphUtil.toObject;
 import static com.ibm.fhir.term.util.CodeSystemSupport.getConcepts;
+import static com.ibm.fhir.term.util.CodeSystemSupport.normalize;
 
 import java.io.FileInputStream;
 import java.io.InputStream;

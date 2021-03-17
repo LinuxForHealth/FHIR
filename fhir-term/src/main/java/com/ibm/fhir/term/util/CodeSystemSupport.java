@@ -9,6 +9,8 @@ package com.ibm.fhir.term.util;
 import static com.ibm.fhir.core.util.LRUCache.createLRUCache;
 import static com.ibm.fhir.model.type.String.string;
 
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -92,7 +94,7 @@ public final class CodeSystemSupport {
      *     the code system concept that matches the specified code, or null if not such concept exists
      */
     public static Concept findConcept(CodeSystem codeSystem, Concept concept, Code code) {
-        if (concept.getCode().equals(code) || (!isCaseSensitive(codeSystem)) && concept.getCode().getValue().equalsIgnoreCase(code.getValue())) {
+        if (concept.getCode().equals(code) || (!isCaseSensitive(codeSystem)) && normalize(concept.getCode().getValue()).equals(normalize(code.getValue()))) {
             return concept;
         }
         Concept result = null;
@@ -341,6 +343,21 @@ public final class CodeSystemSupport {
             concepts.addAll(getConcepts(c));
         }
         return concepts;
+    }
+
+    /**
+     * Normalize the string by making it case and accent insensitive.
+     *
+     * @param value
+     *     the string value to normalized
+     * @return
+     *     the normalized string value
+     */
+    public static java.lang.String normalize(java.lang.String value) {
+        if (value != null) {
+            return Normalizer.normalize(value, Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "").toLowerCase();
+        }
+        return null;
     }
 
     /**

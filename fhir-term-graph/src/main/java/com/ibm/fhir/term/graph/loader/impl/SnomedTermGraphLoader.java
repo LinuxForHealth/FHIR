@@ -8,7 +8,7 @@ package com.ibm.fhir.term.graph.loader.impl;
 
 import static com.ibm.fhir.term.graph.loader.util.FHIRTermGraphLoaderUtil.toLabel;
 import static com.ibm.fhir.term.graph.loader.util.FHIRTermGraphLoaderUtil.toMap;
-import static com.ibm.fhir.term.graph.util.FHIRTermGraphUtil.normalize;
+import static com.ibm.fhir.term.util.CodeSystemSupport.normalize;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

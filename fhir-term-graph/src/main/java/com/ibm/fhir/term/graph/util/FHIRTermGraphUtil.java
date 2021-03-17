@@ -10,8 +10,6 @@ import static com.ibm.fhir.model.util.ModelSupport.FHIR_BOOLEAN;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_INTEGER;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_STRING;
 
-import java.text.Normalizer;
-import java.text.Normalizer.Form;
 import java.time.LocalDate;
 import java.time.Year;
 import java.time.YearMonth;
@@ -60,21 +58,6 @@ public class FHIRTermGraphUtil {
             return value.as(FHIR_STRING).getValue();
         }
         throw new IllegalArgumentException();
-    }
-
-    /**
-     * Normalize the string by making it case and accent insensitive.
-     *
-     * @param value
-     *     the string value to normalized
-     * @return
-     *     the normalized string value
-     */
-    public static String normalize(String value) {
-        if (value != null) {
-            return Normalizer.normalize(value, Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "").toLowerCase();
-        }
-        return null;
     }
 
     /**

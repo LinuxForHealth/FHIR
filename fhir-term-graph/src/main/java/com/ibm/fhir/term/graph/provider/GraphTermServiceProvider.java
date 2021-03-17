@@ -7,13 +7,13 @@
 package com.ibm.fhir.term.graph.provider;
 
 import static com.ibm.fhir.model.type.String.string;
-import static com.ibm.fhir.term.graph.util.FHIRTermGraphUtil.normalize;
 import static com.ibm.fhir.term.graph.util.FHIRTermGraphUtil.toLong;
 import static com.ibm.fhir.term.graph.util.FHIRTermGraphUtil.toObject;
 import static com.ibm.fhir.term.util.CodeSystemSupport.convertsToBoolean;
 import static com.ibm.fhir.term.util.CodeSystemSupport.getCodeSystemPropertyType;
 import static com.ibm.fhir.term.util.CodeSystemSupport.hasCodeSystemProperty;
 import static com.ibm.fhir.term.util.CodeSystemSupport.isCaseSensitive;
+import static com.ibm.fhir.term.util.CodeSystemSupport.normalize;
 import static com.ibm.fhir.term.util.CodeSystemSupport.toElement;
 
 import java.util.ArrayList;
@@ -54,9 +54,9 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.PropertyType;
 import com.ibm.fhir.term.graph.FHIRTermGraph;
 import com.ibm.fhir.term.graph.factory.FHIRTermGraphFactory;
-import com.ibm.fhir.term.graph.util.FHIRTermGraphUtil;
 import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
+import com.ibm.fhir.term.util.CodeSystemSupport;
 
 /**
  * Graph-based implementation of the {@link FHIRTermServiceProvider} interface using {@link FHIRTermGraph}
@@ -204,7 +204,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
                                 .collect(Collectors.toSet()))), codeSystem);
                         } else {
                             g = whereCodeSystem(g.has("codeLowerCase", P.within(Arrays.stream(value.getValue().split(","))
-                                .map(FHIRTermGraphUtil::normalize)
+                                .map(CodeSystemSupport::normalize)
                                 .collect(Collectors.toSet()))), codeSystem);
                         }
                     } else {
@@ -242,7 +242,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
                                 .collect(Collectors.toSet()))), codeSystem);
                         } else {
                             g = whereCodeSystem(g.has("codeLowerCase", P.without(Arrays.stream(value.getValue().split(","))
-                                .map(FHIRTermGraphUtil::normalize)
+                                .map(CodeSystemSupport::normalize)
                                 .collect(Collectors.toSet()))), codeSystem);
                         }
                     } else {

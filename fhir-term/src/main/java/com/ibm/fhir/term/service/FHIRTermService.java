@@ -8,6 +8,7 @@ package com.ibm.fhir.term.service;
 
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.util.FHIRUtil.STRING_DATA_ABSENT_REASON_UNKNOWN;
+import static com.ibm.fhir.term.util.CodeSystemSupport.normalize;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -906,7 +907,7 @@ public class FHIRTermService {
                 java.lang.String url = (version != null) ? system + "|" + version : system;
                 caseSensitive = CodeSystemSupport.isCaseSensitive(url);
             }
-            result = caseSensitive ? outcome.getDisplay().equals(coding.getDisplay()) : outcome.getDisplay().getValue().equalsIgnoreCase(coding.getDisplay().getValue());
+            result = caseSensitive ? outcome.getDisplay().equals(coding.getDisplay()) : normalize(outcome.getDisplay().getValue()).equals(normalize(coding.getDisplay().getValue()));
             message = !result ? java.lang.String.format("The display '%s' is incorrect for code '%s' from code system '%s'", coding.getDisplay().getValue(), coding.getCode().getValue(), system) : null;
         }
         return ValidationOutcome.builder()
