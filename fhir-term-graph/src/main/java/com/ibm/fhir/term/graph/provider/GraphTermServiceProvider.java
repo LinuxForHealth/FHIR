@@ -457,7 +457,6 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         if (elementMap.containsKey("valueString")) {
             return string((String) elementMap.get("valueString"));
         }
-        System.out.println("elementMap: " + elementMap);
         return null;
     }
 
