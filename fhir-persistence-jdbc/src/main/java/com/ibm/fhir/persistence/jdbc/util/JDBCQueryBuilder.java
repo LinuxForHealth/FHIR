@@ -54,8 +54,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -1048,19 +1050,22 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 whereClauseSegment.append(RIGHT_PAREN);
             } else {
                 for (QueryParameterValue value : currentParm.getValues()) {
-                    String s = value.getValueString();
+                    String valueString = value.getValueString();
 
                     // split the resource type name out (since issue #1366)
-                    String[] parts = s.split("/");
+                    String[] parts = valueString.split("/");
                     if (parts.length == 2) {
                         if (resourceTypeName == null) {
                             resourceTypeName = parts[0];
-                        } else if (resourceTypeName.equals(parts[0])){
-                            log.warning("Resource type name must be consistent across inclusion criteria values");
+                        } else if (!resourceTypeName.equals(parts[0])){
+                            log.warning("Resource type name must be consistent across inclusion criteria values " +
+                                    "[" + resourceTypeName + "," + parts[0] + "]");
                         }
                         currentParmValues.add(parts[1]);
                     } else {
-                        log.warning("TODO: infer the resourceType from the parameter name?");
+                        log.warning("Unexpected inclusion criteria value: '" + valueString + "'. " +
+                                  "Inclusion criteria should always be of the form <compartmentName>/<id>");
+                        currentParmValues.add(valueString);
                     }
                 }
 
@@ -1069,36 +1074,44 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 this.populateNameIdSubSegment(whereClauseSegment, currentParm.getCode(), PARAMETER_TABLE_ALIAS);
                 whereClauseSegment.append(AND);
 
-                // Build this piece: pX.token_value = search-attribute-value [ AND pX.code_system_id = <n> ]
-                whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(DOT).append(TOKEN_VALUE)
-                        .append(IN).append(LEFT_PAREN)
-                        .append(String.join(", ", Collections.nCopies(currentParmValues.size(), BIND_VAR)))
-                        .append(RIGHT_PAREN);
-                if (resourceTypeName != null) {
-
-                    for (String currentParmValue : currentParmValues) {
-                        Long commonTokenValueId = getCommonTokenValueId(resourceTypeName, currentParmValue);
-                        if (commonTokenValueId != null) {
-                            // #1929 improves cardinality estimation
-                            // resulting in far better execution plans for many search queries. Because COMMON_TOKEN_VALUE_ID
-                            // is the primary key for the common_token_values table, we don't need the CODE_SYSTEM_ID = ? predicate.
-                            whereClauseSegment.append(AND)
-                                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(COMMON_TOKEN_VALUE_ID)
-                                .append(EQ)
-                                .append(commonTokenValueId);
-                        } else {
-                            // Can't use the common_token_value_id optimization, so do it the old way
-                            // and join against the code-system.
-                            Integer codeSystemIdForResourceType = getCodeSystemId(resourceTypeName);
-                            whereClauseSegment.append(AND).append(PARAMETER_TABLE_ALIAS).append(DOT)
-                            .append(CODE_SYSTEM_ID).append(EQ).append(nullCheck(codeSystemIdForResourceType));
-                        }
+                boolean fallback = false;
+                Set<String> commonTokenValueIds = new HashSet<>();
+                for (String currentParmValue : currentParmValues) {
+                    Long commonTokenValueId = getCommonTokenValueId(resourceTypeName, currentParmValue);
+                    if (commonTokenValueId == null) {
+                        // Can't use the common_token_value_id optimization, so do it the old way.
+                        log.warning("Unable to obtain common token value id for " + resourceTypeName + "/" + currentParmValue);
+                        fallback = true;
+                        break;
+                    } else {
+                        commonTokenValueIds.add(commonTokenValueId.toString());
                     }
                 }
-                whereClauseSegment.append(RIGHT_PAREN);
-                for (String currentParmValue : currentParmValues) {
-                    bindVariables.add(currentParmValue);
+
+                if (fallback) {
+                    // Can't use the common_token_value_id optimization, so do it the old way.
+                    // pX.token_value IN (val1, val2, ...) [ AND pX.code_system_id = n ]
+                    whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(DOT).append(TOKEN_VALUE)
+                            .append(IN).append(LEFT_PAREN)
+                            .append(String.join(", ", Collections.nCopies(currentParmValues.size(), BIND_VAR)))
+                            .append(RIGHT_PAREN);
+                    Integer codeSystemIdForResourceType = getCodeSystemId(resourceTypeName);
+                    whereClauseSegment.append(AND).append(PARAMETER_TABLE_ALIAS).append(DOT)
+                    .append(CODE_SYSTEM_ID).append(EQ).append(nullCheck(codeSystemIdForResourceType));
+                    for (String currentParmValue : currentParmValues) {
+                        bindVariables.add(currentParmValue);
+                    }
+                } else {
+                    // #1929 improves cardinality estimation
+                    // resulting in far better execution plans for many search queries. Because COMMON_TOKEN_VALUE_ID
+                    // is the primary key for the common_token_values table, we don't need the CODE_SYSTEM_ID = ? predicate.
+                    whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(DOT).append(COMMON_TOKEN_VALUE_ID)
+                        .append(IN).append(LEFT_PAREN)
+                        .append(String.join(", ", String.join(",", commonTokenValueIds)))
+                        .append(RIGHT_PAREN);
                 }
+
+                whereClauseSegment.append(RIGHT_PAREN);
             }
 
             currentParm = currentParm.getNextParameter();

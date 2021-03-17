@@ -27,6 +27,7 @@ import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
+import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
@@ -35,6 +36,7 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.search.SearchConstants;
+import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.util.SearchUtil;
@@ -104,10 +106,10 @@ public class PatientResourceHandler {
             List<String> searchCriteria = new ArrayList<>();
             if (ctx.getFhirSearchFromDate() != null) {
                 // https://www.hl7.org/fhir/r4/search.html#prefix
-                searchCriteria.add("ge" + ctx.getFhirSearchFromDate());
+                searchCriteria.add(Prefix.GE.value() + ctx.getFhirSearchFromDate());
             }
             if (ctx.getFhirSearchToDate() != null) {
-                searchCriteria.add("lt" + ctx.getFhirSearchToDate());
+                searchCriteria.add(Prefix.LT.value() + ctx.getFhirSearchToDate());
             }
 
             if (!searchCriteria.isEmpty()) {
@@ -115,9 +117,14 @@ public class PatientResourceHandler {
             }
             queryParameters.put(SearchConstants.SORT, Arrays.asList(SearchConstants.LAST_UPDATED));
 
-            searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
-            QueryParameter inclusionCriteria = SearchUtil.buildInclusionCriteria("Patient", patientIds, resourceType.getSimpleName());
-            searchContext.getSearchParameters().add(0, inclusionCriteria);
+            if (Patient.class.isAssignableFrom(resourceType)) {
+                queryParameters.put(SearchConstants.ID, patientIds);
+                searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+            } else {
+                searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+                QueryParameter inclusionCriteria = SearchUtil.buildInclusionCriteria("Patient", patientIds, resourceType.getSimpleName());
+                searchContext.getSearchParameters().add(0, inclusionCriteria);
+            }
 
             do {
                 searchContext.setPageSize(pageSize);
