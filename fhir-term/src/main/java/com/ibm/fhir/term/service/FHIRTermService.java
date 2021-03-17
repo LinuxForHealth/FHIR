@@ -35,7 +35,7 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
 import com.ibm.fhir.model.type.code.ConceptSubsumptionOutcome;
-import com.ibm.fhir.term.service.provider.DefaultTermServiceProvider;
+import com.ibm.fhir.term.service.provider.RegistryTermServiceProvider;
 import com.ibm.fhir.term.spi.ExpansionParameters;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
 import com.ibm.fhir.term.spi.LookupOutcome;
@@ -642,12 +642,10 @@ public class FHIRTermService {
     }
 
     /**
-     * Validate a code and display using the provided code system and version
+     * Validate a code and display using the provided code system
      *
      * @param code system
      *     the code system
-     * @param version
-     *     the version
      * @param code
      *     the code
      * @param display
@@ -655,17 +653,15 @@ public class FHIRTermService {
      * @return
      *     the outcome of validation
      */
-    public ValidationOutcome validateCode(CodeSystem codeSystem, String version, Code code, String display) {
-        return validateCode(codeSystem, version, code, display, ValidationParameters.EMPTY);
+    public ValidationOutcome validateCode(CodeSystem codeSystem, Code code, String display) {
+        return validateCode(codeSystem, code, display, ValidationParameters.EMPTY);
     }
 
     /**
-     * Validate a code and display using the provided code system, version and validation parameters
+     * Validate a code and display using the provided code system and validation parameters
      *
      * @param codeSystem
      *     the code system
-     * @param version
-     *     the version
      * @param code
      *     the code
      * @param display
@@ -675,13 +671,13 @@ public class FHIRTermService {
      * @return
      *     the outcome of validation
      */
-    public ValidationOutcome validateCode(CodeSystem codeSystem, String version, Code code, String display, ValidationParameters parameters) {
+    public ValidationOutcome validateCode(CodeSystem codeSystem, Code code, String display, ValidationParameters parameters) {
         if (!ValidationParameters.EMPTY.equals(parameters)) {
             throw new UnsupportedOperationException("Validation parameters are not supported");
         }
         Coding coding = Coding.builder()
                 .system(codeSystem.getUrl())
-                .version(version)
+                .version(codeSystem.getVersion())
                 .code(code)
                 .display(display)
                 .build();
@@ -884,7 +880,7 @@ public class FHIRTermService {
 
     private List<FHIRTermServiceProvider> loadProviders() {
         List<FHIRTermServiceProvider> providers = new ArrayList<>();
-        providers.add(new DefaultTermServiceProvider());
+        providers.add(new RegistryTermServiceProvider());
         Iterator<FHIRTermServiceProvider> iterator = ServiceLoader.load(FHIRTermServiceProvider.class).iterator();
         while (iterator.hasNext()) {
             providers.add(iterator.next());

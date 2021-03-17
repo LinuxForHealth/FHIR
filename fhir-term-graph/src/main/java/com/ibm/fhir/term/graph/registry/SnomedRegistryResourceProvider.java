@@ -35,7 +35,6 @@ import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
-import com.ibm.fhir.term.registry.resource.FHIRTermRegistryResource;
 import com.ibm.fhir.term.service.FHIRTermService;
 import com.ibm.fhir.term.spi.ValidationOutcome;
 
@@ -47,8 +46,8 @@ public class SnomedRegistryResourceProvider implements FHIRRegistryResourceProvi
     private static final String SNOMED_COPYRIGHT = "This value set includes content from SNOMED CT, which is copyright © 2002+ International Health Terminology Standards Development Organisation (SNOMED International), and distributed by agreement between SNOMED International and HL7. Implementer use of SNOMED CT is not covered by this agreement";
 
     public static final CodeSystem SNOMED_CODE_SYSTEM = loadCodeSystem();
-    private static final FHIRRegistryResource SNOMED_CODE_SYSTEM_REGISTRY_RESOURCE = FHIRTermRegistryResource.from(SNOMED_CODE_SYSTEM);
-    private static final FHIRRegistryResource SNOMED_ALL_CONCEPTS_IMPLICIT_VALUE_SET_REGISTRY_RESOURCE = FHIRTermRegistryResource.from(buildAllConceptsImplicitValueSet());
+    private static final FHIRRegistryResource SNOMED_CODE_SYSTEM_REGISTRY_RESOURCE = FHIRRegistryResource.from(SNOMED_CODE_SYSTEM);
+    private static final FHIRRegistryResource SNOMED_ALL_CONCEPTS_IMPLICIT_VALUE_SET_REGISTRY_RESOURCE = FHIRRegistryResource.from(buildAllConceptsImplicitValueSet());
     private static final Map<String, FHIRRegistryResource> SNOMED_SUBSUMED_BY_IMPLICIT_VALUE_SET_REGISTRY_RESOURCE_CACHE = createLRUCache(128);
 
     @Override
@@ -63,12 +62,12 @@ public class SnomedRegistryResourceProvider implements FHIRRegistryResourceProvi
                 String[] tokens = url.split("=");
                 if (tokens.length == 2) {
                     String sctid = tokens[1];
-                    ValidationOutcome outcome = FHIRTermService.getInstance().validateCode(SNOMED_CODE_SYSTEM, null, Code.of(sctid), null);
+                    ValidationOutcome outcome = FHIRTermService.getInstance().validateCode(SNOMED_CODE_SYSTEM, Code.of(sctid), null);
                     if (outcome == null || (Boolean.FALSE.equals(outcome.getResult()))) {
                         log.log(Level.WARNING, "Code: " + sctid + " is invalid or SNOMED CT is not supported");
                         return null;
                     }
-                    return SNOMED_SUBSUMED_BY_IMPLICIT_VALUE_SET_REGISTRY_RESOURCE_CACHE.computeIfAbsent(sctid, k -> FHIRTermRegistryResource.from(buildSubsumedByImplicitValueSet(sctid)));
+                    return SNOMED_SUBSUMED_BY_IMPLICIT_VALUE_SET_REGISTRY_RESOURCE_CACHE.computeIfAbsent(sctid, k -> FHIRRegistryResource.from(buildSubsumedByImplicitValueSet(sctid)));
                 }
             }
         } else if (CodeSystem.class.equals(resourceType) && SNOMED_URL.equals(url)) {

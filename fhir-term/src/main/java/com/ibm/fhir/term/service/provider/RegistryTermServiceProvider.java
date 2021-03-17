@@ -18,9 +18,9 @@ import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
 import com.ibm.fhir.term.util.CodeSystemSupport;
 
 /**
- * Default implementation of the FHIRTermServiceProvider interface using CodeSystemSupport
+ * Registry-based implementation of the {@link FHIRTermServiceProvider} interface using {@link CodeSystemSupport}
  */
-public class DefaultTermServiceProvider implements FHIRTermServiceProvider {
+public class RegistryTermServiceProvider implements FHIRTermServiceProvider {
     @Override
     public Set<Concept> closure(CodeSystem codeSystem, Code code) {
         Concept concept = CodeSystemSupport.findConcept(codeSystem, code);

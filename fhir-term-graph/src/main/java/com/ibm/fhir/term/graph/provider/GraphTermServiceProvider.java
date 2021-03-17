@@ -58,6 +58,9 @@ import com.ibm.fhir.term.graph.util.FHIRTermGraphUtil;
 import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
 
+/**
+ * Graph-based implementation of the {@link FHIRTermServiceProvider} interface using {@link FHIRTermGraph}
+ */
 public class GraphTermServiceProvider implements FHIRTermServiceProvider {
     public static final int DEFAULT_TIME_LIMIT = 90000;   // 90 seconds
     private static final int DEFAULT_COUNT = 1000;

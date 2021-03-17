@@ -155,7 +155,7 @@ public class ServerRegistryResourceProvider implements FHIRRegistryResourceProvi
                 transactionHelper = null;
 
                 return result.getResource().stream()
-                        .map(ServerRegistryResource::from)
+                        .map(FHIRRegistryResource::from)
                         .filter(Objects::nonNull)
                         .sorted()
                         .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
@@ -191,7 +191,7 @@ public class ServerRegistryResourceProvider implements FHIRRegistryResourceProvi
             if (result.isSuccess()) {
                 List<FHIRRegistryResource> registryResources = new ArrayList<>(searchContext.getTotalCount());
                 registryResources.addAll(result.getResource().stream()
-                        .map(ServerRegistryResource::from)
+                        .map(FHIRRegistryResource::from)
                         .filter(Objects::nonNull)
                         .collect(Collectors.toList()));
 
@@ -201,7 +201,7 @@ public class ServerRegistryResourceProvider implements FHIRRegistryResourceProvi
                     searchContext.setPageNumber(++pageNumber);
                     result = persistence.search(context, resourceType);
                     registryResources.addAll(result.getResource().stream()
-                            .map(ServerRegistryResource::from)
+                            .map(FHIRRegistryResource::from)
                             .filter(Objects::nonNull)
                             .collect(Collectors.toList()));
                 }
