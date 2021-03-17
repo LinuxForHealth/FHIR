@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -64,6 +64,7 @@ import com.ibm.fhir.persistence.jdbc.dto.ReferenceParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.util.JDBCParameterBuildingVisitor;
+import com.ibm.fhir.search.SearchConstants;
 
 /**
  * Tests all valid combinations of search paramter types and data types
@@ -79,6 +80,7 @@ public class ParameterExtractionTest {
     private static final String SAMPLE_DATE_START = "2016-01-01T00:00:00.000000Z";
     private static final String SAMPLE_DATE_END = "2016-01-02T00:00:00.000000Z";
     private static final String UNITSOFMEASURE = "http://unitsofmeasure.org";
+    private static final String SEARCH_PARAM_CODE_VALUE = "value";
 
     private static final Extension SAMPLE_EXTENSION = Extension.builder().url(SAMPLE_URI).build();
 
@@ -94,7 +96,7 @@ public class ParameterExtractionTest {
             .name(string("test-param"))
             .status(PublicationStatus.DRAFT)
             .description(Markdown.of("#Test Parameter"))
-            .code(Code.of("value"))
+            .code(Code.of(SEARCH_PARAM_CODE_VALUE))
             .base(ResourceType.BASIC);
     private static final SearchParameter numberSearchParam = searchParamBuilder.type(SearchParamType.NUMBER).build();
     private static final SearchParameter dateSearchParam = searchParamBuilder.type(SearchParamType.DATE).build();
@@ -649,12 +651,20 @@ public class ParameterExtractionTest {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(referenceSearchParam);
         Reference.builder()
                  .reference(string(SAMPLE_REF))
+                 .identifier(Identifier.builder()
+                     .system(Uri.of(SAMPLE_URI))
+                     .value(string(SAMPLE_STRING))
+                     .build())
                  .build()
                  .accept(parameterBuilder);
         List<ExtractedParameterValue> params = parameterBuilder.getResult();
-        assertEquals(params.size(), 1, "Number of extracted parameters");
+        assertEquals(params.size(), 2, "Number of extracted parameters");
+        assertEquals(((ReferenceParmVal) params.get(0)).getName(), SEARCH_PARAM_CODE_VALUE);
         assertEquals(((ReferenceParmVal) params.get(0)).getRefValue().getValue(), SAMPLE_REF_ID);
         assertEquals(((ReferenceParmVal) params.get(0)).getRefValue().getTargetResourceType(), SAMPLE_REF_RESOURCE_TYPE);
+        assertEquals(((TokenParmVal) params.get(1)).getName(), SEARCH_PARAM_CODE_VALUE + SearchConstants.IDENTIFIER_MODIFIER_SUFFIX);
+        assertEquals(((TokenParmVal) params.get(1)).getValueSystem(), SAMPLE_URI);
+        assertEquals(((TokenParmVal) params.get(1)).getValueCode(), SAMPLE_STRING);
     }
 
     @Test
