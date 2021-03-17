@@ -9,7 +9,6 @@ package com.ibm.fhir.bulkdata.jbatch.export.group;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import javax.batch.api.BatchProperty;
 import javax.batch.operations.JobOperator;
@@ -34,6 +33,9 @@ import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
 import com.ibm.fhir.operation.bulkdata.model.type.OperationFields;
+import com.ibm.fhir.search.util.ReferenceUtil;
+import com.ibm.fhir.search.util.ReferenceValue;
+import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
 
 /**
  * BulkData Group Export ChunkReader
@@ -122,12 +124,24 @@ public class ChunkReader extends com.ibm.fhir.bulkdata.jbatch.export.patient.Chu
 
         ReadResultDTO dto = new ReadResultDTO();
         if (!pageOfMembers.isEmpty()) {
-            List<String> patientIds = pageOfMembers.stream()
-                    .filter(patientRef -> patientRef != null)
-                    .map(patientRef -> patientRef.getEntity().getReference().getValue())
-                    .collect(Collectors.toList());
-
-            if (patientIds != null && !patientIds.isEmpty()) {
+            List<String> patientIds = new ArrayList<>();
+            String baseUrl = ReferenceUtil.getBaseUrl(null);
+            for (Member member : pageOfMembers) {
+                ReferenceValue refVal = ReferenceUtil.createReferenceValueFrom(member.getEntity(), baseUrl);
+                if (refVal.getType() != ReferenceType.LITERAL_RELATIVE ||
+                        !"Patient".equals(refVal.getTargetResourceType())) {
+                    logger.warning("Skipping group member '" + refVal.getValue() + "'. "
+                            + "Only literal references to patients on this server will be exported.");
+                    continue;
+                }
+                if (refVal.getVersion() != null) {
+                    logger.warning("Skipping group member '" + refVal.getValue() + "'. "
+                            + "Versioned references are not supported by Group export at this time.");
+                    continue;
+                }
+                patientIds.add(refVal.getValue());
+            }
+            if (!patientIds.isEmpty()) {
                 patientHandler.register(chunkData, ctx, getPersistence(), pageSize, resourceType, searchParametersForResoureTypes, ctx.getSource());
 
                 if ("Patient".equals(ctx.getPartitionResourceType())) {
