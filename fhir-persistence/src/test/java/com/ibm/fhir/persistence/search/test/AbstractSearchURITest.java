@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2020
+ * (C) Copyright IBM Corp. 2018, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -85,7 +85,7 @@ public abstract class AbstractSearchURITest extends AbstractPLSearchTest {
     }
 
     @Test
-    public void testUriAbove() throws Exception {
+    public void testSearchURI__uri_above() throws Exception {
         assertSearchDoesntReturnSavedResource("uri:above", "FHIR/dstu2");
         assertSearchDoesntReturnSavedResource("uri:above", "http://hl7.org/fhir/");
         assertSearchReturnsSavedResource("uri:above", "http://hl7.org/fhir/DSTU2/Fred");

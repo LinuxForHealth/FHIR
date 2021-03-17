@@ -205,7 +205,7 @@ public abstract class AbstractPersistenceTest {
         if (parmName != null && parmValue != null) {
             queryParms.put(parmName, Collections.singletonList(parmValue));
         }
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParms, null);
+        FHIRSearchContext searchContext = SearchUtil.parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParms);
         if (maxPageSize != null) {
             searchContext.setPageSize(maxPageSize);
         }

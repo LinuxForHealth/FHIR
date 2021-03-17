@@ -1012,7 +1012,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
 
-            FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(compartment, compartmentId, resourceType, queryParameters,
+            FHIRSearchContext searchContext = SearchUtil.parseCompartmentQueryParameters(compartment, compartmentId, resourceType, queryParameters,
                 HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
 
             // First, invoke the 'beforeSearch' interceptor methods.

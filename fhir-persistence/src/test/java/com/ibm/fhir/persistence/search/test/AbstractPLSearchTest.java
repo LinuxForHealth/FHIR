@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2020
+ * (C) Copyright IBM Corp. 2018, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -35,15 +35,15 @@ import com.ibm.fhir.persistence.test.common.AbstractPersistenceTest;
 
 /**
  * An abstract parent for the persistence layer search tests.
- * 
+ *
  * Abstract subclasses in this package implement the logic of the search tests and should
  * be extended by concrete subclasses in each persistence layer implementation.
- * 
+ *
  * Abstract subclasses that implement the test logic should implement {@code setTenant()}
  * and {@code getBasicResource()} to set up for the tests.
- * 
- * @implNote Previously, we used the {@code dependsOnMethod} argument to the {@code @Test} annotation, 
- * but this was preventing us from executing single test methods from Eclipse due to 
+ *
+ * @implNote Previously, we used the {@code dependsOnMethod} argument to the {@code @Test} annotation,
+ * but this was preventing us from executing single test methods from Eclipse due to
  * https://github.com/cbeust/testng-eclipse/issues/435
  */
 public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
@@ -54,18 +54,18 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
      * Each search test must implement this method to configure the tenant to use.
      */
     protected abstract void setTenant() throws Exception;
-    
+
     /**
      * Each search test must implement this method to specify the basic resource to use for the test.
      * @return
      *      the Basic resource to use in the search tests
      */
     protected abstract Basic getBasicResource() throws Exception;
-    
+
     @BeforeClass
     public void createResources() throws Exception {
         setTenant();
-        
+
         // Must have a transaction in place because this done before the class test methods
         persistence.getTransaction().begin();
         try {
@@ -103,7 +103,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
         assertNotNull(resource.getMeta());
         assertNotNull(resource.getMeta().getVersionId().getValue());
         assertEquals("1", resource.getMeta().getVersionId().getValue());
-        
+
         // update the resource to verify that historical versions won't be returned in search results
         result = persistence.update(getDefaultPersistenceContext(), resource.getId(), resource);
         assertTrue(result.isSuccess());
@@ -113,7 +113,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
         assertNotNull(resource.getMeta());
         assertNotNull(resource.getMeta().getVersionId().getValue());
         assertEquals("2", resource.getMeta().getVersionId().getValue());
-        
+
         savedResource = resource;
     }
 
@@ -146,7 +146,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
         }
         return searchReturnsResource(expectedResource.getClass(), queryParms, expectedResource);
     }
-    
+
     /**
      * Executes the query test and returns whether the expected resource was in the result set
      * @throws Exception
@@ -158,25 +158,26 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
     }
 
     /**
-     * Create a Composition with a reference to savedResource for chained search tests. 
+     * Create a Composition with a reference to savedResource for chained search tests.
      * @throws Exception
      */
     protected Composition createCompositionReferencingSavedResource() throws Exception {
-        
+
         Reference ref = Reference.builder()
                 .reference(com.ibm.fhir.model.type.String.of("Basic/" + savedResource.getId()))
                 .build();
-        
+
         composition = Composition.builder()
                 .subject(ref)
                 .status(CompositionStatus.builder().value(CompositionStatus.ValueSet.PRELIMINARY).build())
                 .type(CodeableConcept.builder().text(string("test")).build())
                 .category(CodeableConcept.builder().text(string("test")).build())
                 .date(DateTime.of("2019"))
-                .author(Reference.builder().display(string("Some Guy")).build())
+                .author(Reference.builder().reference(string("Patient/123")).build())
+                .author(Reference.builder().reference(string("Practitioner/abc")).build())
                 .title(string("TEST"))
                 .build();
-        
+
         SingleResourceResult<Composition> result = persistence.create(getDefaultPersistenceContext(), composition);
         assertTrue(result.isSuccess());
         composition = result.getResource();
@@ -185,7 +186,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
         assertNotNull(composition.getMeta());
         assertNotNull(composition.getMeta().getVersionId().getValue());
         assertEquals("1", composition.getMeta().getVersionId().getValue());
-        
+
         // update the resource to verify that historical versions won't be returned in search results
         result = persistence.update(getDefaultPersistenceContext(), composition.getId(), composition);
         assertTrue(result.isSuccess());
@@ -195,10 +196,10 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
         assertNotNull(composition.getMeta());
         assertNotNull(composition.getMeta().getVersionId().getValue());
         assertEquals("2", composition.getMeta().getVersionId().getValue());
-        
+
         return composition;
     }
-    
+
     /**
      * Asserts that the Composition which references the savedResource is in the search result set
      * @throws Exception
