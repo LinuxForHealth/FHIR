@@ -46,8 +46,9 @@ public class SystemExportResourceHandler {
         boolean isDoDuplicationCheck = adapter.shouldStorageProviderCheckDuplicate(source);
         int resSubTotal = 0;
         if (chunkData == null) {
-            logger.warning("fillChunkDataBuffer: chunkData is null, this should never happen!");
-            throw new Exception("fillChunkDataBuffer: chunkData is null, this should never happen!");
+            String msg = "fillChunkDataBuffer: chunkData is null, this should never happen!";
+            logger.warning(msg);
+            throw new Exception(msg);
         }
 
         for (Resource res : dto.getResources()) {

@@ -19,9 +19,7 @@ import javax.ws.rs.core.Response;
 import com.ibm.fhir.bulkdata.audit.BulkAuditLogger;
 import com.ibm.fhir.model.resource.Group;
 import com.ibm.fhir.model.resource.Group.Member;
-import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
@@ -40,7 +38,6 @@ public class GroupHandler {
     private BulkAuditLogger auditLogger = new BulkAuditLogger();
 
     protected FHIRPersistence fhirPersistence;
-    private int pageSize = ConfigurationFactory.getInstance().getCorePageSize();
 
     // List for the patients
     private List<Member> patientMembers = null;
@@ -129,6 +126,7 @@ public class GroupHandler {
         txn.begin();
         try {
             persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
+            // TODO why not a read instead?
             resources = fhirPersistence.search(persistenceContext, Group.class).getResource();
         } finally {
             txn.end();
@@ -143,29 +141,5 @@ public class GroupHandler {
         } else {
             return null;
         }
-    }
-
-    public List<Resource> patientIdsToPatients(List<String> patientIds) throws Exception {
-        List<Resource> patients = null;
-        Map<String, List<String>> queryParameters = new HashMap<>();
-        queryParameters.put(SearchConstants.ID, patientIds);
-
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(Patient.class, queryParameters);
-        searchContext.setPageSize(pageSize);
-
-        Date startTime = new Date(System.currentTimeMillis());
-        FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
-        txn.begin();
-        try {
-            FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
-            patients = fhirPersistence.search(persistenceContext, Patient.class).getResource();
-        } finally {
-            txn.end();
-            if (auditLogger.shouldLog() && patients != null) {
-                Date endTime = new Date(System.currentTimeMillis());
-                auditLogger.logSearchOnExport("Patient", queryParameters, patients.size(), startTime, endTime, Response.Status.OK, "StorageProvider@" + provider, "BulkDataOperator");
-            }
-        }
-        return patients;
     }
 }
