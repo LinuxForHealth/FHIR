@@ -192,8 +192,6 @@ public class ChunkReader extends AbstractItemReader {
                 auditLogger.logSearchOnExport(ctx.getPartitionResourceType(), queryParameters, resources.size(), startTime, endTime, Response.Status.OK, "StorageProvider@" + ctx.getSource(), "BulkDataOperator");
             }
 
-            pageNum++;
-
             dto = new ReadResultDTO(resources);
 
             if (chunkData == null) {
