@@ -134,12 +134,12 @@ public class ChunkReader extends com.ibm.fhir.bulkdata.jbatch.export.patient.Chu
                 ReferenceValue refVal = ReferenceUtil.createReferenceValueFrom(member.getEntity(), baseUrl);
                 if (refVal.getType() != ReferenceType.LITERAL_RELATIVE ||
                         !"Patient".equals(refVal.getTargetResourceType())) {
-                    logger.warning("Skipping group member '" + refVal.getValue() + "'. "
+                    logger.info("Skipping group member '" + refVal.getValue() + "'. "
                             + "Only literal references to patients on this server will be exported.");
                     continue;
                 }
                 if (refVal.getVersion() != null) {
-                    logger.warning("Skipping group member '" + refVal.getValue() + "'. "
+                    logger.info("Skipping group member '" + refVal.getValue() + "'. "
                             + "Versioned references are not supported by Group export at this time.");
                     continue;
                 }
@@ -152,7 +152,7 @@ public class ChunkReader extends com.ibm.fhir.bulkdata.jbatch.export.patient.Chu
                 if (FHIRMediaType.APPLICATION_PARQUET.equals(ctx.getFhirExportFormat())) {
                     dto.setResources(resources);
                 }
-                patientHandler.fillChunkDataBuffer(resources);
+                patientHandler.fillChunkData(ctx.getFhirExportFormat(), chunkData, resources);
             }
         } else {
             logger.fine("readItem: End of reading!");

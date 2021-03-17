@@ -11,10 +11,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import javax.batch.api.BatchProperty;
 import javax.batch.api.chunk.AbstractItemReader;
@@ -37,6 +40,7 @@ import com.ibm.fhir.bulkdata.export.system.resource.SystemExportResourceHandler;
 import com.ibm.fhir.bulkdata.jbatch.context.BatchContextAdapter;
 import com.ibm.fhir.bulkdata.jbatch.export.data.ExportCheckpointUserData;
 import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
+import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
@@ -83,6 +87,11 @@ public class ChunkReader extends AbstractItemReader {
     int indexOfCurrentTypeFilter = 0;
 
     boolean isDoDuplicationCheck = false;
+
+    // Used to prevent the same resource from being exported multiple times when multiple _typeFilter for the same
+    // resource type are used, which leads to multiple search requests which can have overlaps of resources,
+    // loadedResourceIds and isDoDuplicationCheck are always reset when moving to the next resource type.
+    Set<String> loadedResourceIds = new HashSet<>();
 
     private long executionId = -1;
 
@@ -133,6 +142,9 @@ public class ChunkReader extends AbstractItemReader {
         FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
         fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
 
+        List<Map<String, List<String>>> typeFilters = searchParametersForResoureTypes.get(resourceType);
+        isDoDuplicationCheck = typeFilters != null && typeFilters.size() > 1 ?
+                true : adapter.shouldStorageProviderCheckDuplicate(ctx.getSource());
     }
 
     @Override
@@ -178,9 +190,6 @@ public class ChunkReader extends AbstractItemReader {
         // Add the search parameters from the current typeFilter for current resource type.
         if (searchParametersForResoureTypes.get(resourceType) != null) {
             queryParameters.putAll(searchParametersForResoureTypes.get(resourceType).get(indexOfCurrentTypeFilter));
-            if (searchParametersForResoureTypes.get(resourceType).size() > 1) {
-                isDoDuplicationCheck = true;
-            }
         }
 
         List<String> searchCriteria = new ArrayList<>();
@@ -202,7 +211,9 @@ public class ChunkReader extends AbstractItemReader {
         FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
         searchContext.setPageSize(pageSize);
         searchContext.setPageNumber(pageNum);
-        ReadResultDTO dto = null;
+        List<Resource> resources = null;
+
+        ReadResultDTO dto = new ReadResultDTO();
 
         // Note we're already running inside a transaction (started by the Javabatch framework)
         // so this txn will just wrap it...the commit won't happen until the checkpoint
@@ -212,13 +223,19 @@ public class ChunkReader extends AbstractItemReader {
         try {
             // Execute the search query to obtain the page of resources
             persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
-            List<Resource> resources = fhirPersistence.search(persistenceContext, resourceType).getResource();
-            dto = new ReadResultDTO(resources);
+            resources = fhirPersistence.search(persistenceContext, resourceType).getResource();
+            if (isDoDuplicationCheck) {
+                resources = resources.stream()
+                        // the add returns false if the id already exists, which filters it out of the collection
+                        .filter(r -> loadedResourceIds.add(r.getId()))
+                        .collect(Collectors.toList());
+            }
         } finally {
             txn.end();
-            if (auditLogger.shouldLog() && dto != null) {
+            if (auditLogger.shouldLog() && resources != null) {
                 Date endTime = new Date(System.currentTimeMillis());
-                auditLogger.logSearchOnExport(ctx.getPartitionResourceType(), queryParameters, dto.size(), startTime, endTime, Response.Status.OK, "@source:" + ctx.getSource(), "BulkDataOperator");
+                auditLogger.logSearchOnExport(ctx.getPartitionResourceType(), queryParameters, resources.size(), startTime, endTime,
+                        Response.Status.OK, "@source:" + ctx.getSource(), "BulkDataOperator");
             }
         }
 
@@ -237,21 +254,25 @@ public class ChunkReader extends AbstractItemReader {
                     .lastPageNum(searchContext.getLastPageNumber())
                     .lastWrittenPageNum(1)
                     .build();
-            stepCtx.setTransientUserData(chunkData);
         } else {
             chunkData.setPageNum(pageNum);
             chunkData.setIndexOfCurrentTypeFilter(indexOfCurrentTypeFilter);
             chunkData.setLastPageNum(searchContext.getLastPageNumber());
         }
 
-        if (dto != null && !dto.empty()) {
+        if (resources != null && !resources.isEmpty()) {
             if (logger.isLoggable(Level.FINE)) {
-                logger.fine("readItem: loaded " + dto.size() + " resources");
+                logger.fine("readItem: loaded " + resources.size() + " resources");
             }
-            handler.fillChunkDataBuffer(ctx.getSource(), ctx.getFhirExportFormat(), chunkData, dto);
+
+            if (FHIRMediaType.APPLICATION_PARQUET.equals(ctx.getFhirExportFormat())) {
+                dto.setResources(resources);
+            }
+            handler.fillChunkData(ctx.getFhirExportFormat(), chunkData, resources);
         } else {
             logger.fine("readItem: End of reading!");
         }
+
         stepCtx.setTransientUserData(chunkData);
         return dto;
     }

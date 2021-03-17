@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.bulkdata.export.patient.resource;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -15,22 +14,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.core.Response;
 
 import com.ibm.fhir.bulkdata.audit.BulkAuditLogger;
+import com.ibm.fhir.bulkdata.export.system.resource.SystemExportResourceHandler;
 import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
-import com.ibm.fhir.core.FHIRMediaType;
-import com.ibm.fhir.model.format.Format;
-import com.ibm.fhir.model.generator.FHIRGenerator;
-import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
-import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
@@ -44,11 +37,9 @@ import com.ibm.fhir.search.util.SearchUtil;
 /**
  * The PatientResourceHandler controls the population of the Patient Resources (Or Group member Resources into the TransientData object)
  */
-public class PatientResourceHandler {
+public class PatientResourceHandler extends SystemExportResourceHandler {
 
     private static final Logger logger = Logger.getLogger(PatientResourceHandler.class.getName());
-
-    private static final byte[] NDJSON_EOF = ConfigurationFactory.getInstance().getEndOfFileDelimiter(null);
 
     private BulkAuditLogger auditLogger = new BulkAuditLogger();
 
@@ -64,8 +55,6 @@ public class PatientResourceHandler {
     private Class<? extends Resource> resourceType;
     private Map<Class<? extends Resource>, List<Map<String, List<String>>>> searchParametersForResoureTypes;
     private String provider = null;
-
-    private ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
 
     public PatientResourceHandler() {
         // No Operation
@@ -88,7 +77,8 @@ public class PatientResourceHandler {
      * @throws Exception
      */
     public List<Resource> executeSearch(List<String> patientIds) throws Exception {
-        boolean isDoDuplicationCheck = searchParametersForResoureTypes.get(resourceType).size() > 1 ?
+        List<Map<String, List<String>>> typeFilters = searchParametersForResoureTypes.get(resourceType);
+        boolean isDoDuplicationCheck = typeFilters != null && typeFilters.size() > 1 ?
                 true : adapter.shouldStorageProviderCheckDuplicate(ctx.getSource());
         int indexOfCurrentTypeFilter = 0;
         int compartmentPageNum = 1;
@@ -161,38 +151,5 @@ public class PatientResourceHandler {
                 && indexOfCurrentTypeFilter < searchParametersForResoureTypes.get(resourceType).size());
 
         return results;
-    }
-
-    public void fillChunkDataBuffer(List<Resource> resources) throws Exception {
-        int resSubTotal = 0;
-        for (Resource res : resources) {
-            try {
-                // No need to fill buffer for parquet because we're letting spark write to COS;
-                // we don't need to control the Multi-part upload like in the NDJSON case
-                if (!FHIRMediaType.APPLICATION_PARQUET.equals(ctx.getFhirExportFormat())) {
-                    FHIRGenerator.generator(Format.JSON).generate(res, chunkData.getBufferStream());
-                    chunkData.getBufferStream().write(NDJSON_EOF);
-                }
-                resSubTotal++;
-            } catch (FHIRGeneratorException e) {
-                if (res.getId() != null) {
-                    logger.log(Level.WARNING, "fillChunkPatientDataBuffer: Error while writing " + resourceType +
-                            " with id '" + res.getId() + "'", e);
-                } else {
-                    logger.log(Level.WARNING, "fillChunkPatientDataBuffer: Error while writing "  + resourceType +
-                            " with unknown id", e);
-                }
-            } catch (IOException e) {
-                logger.warning("fillChunkPatientDataBuffer: chunkDataBuffer written error!");
-                throw e;
-            }
-        }
-        chunkData.addCurrentUploadResourceNum(resSubTotal);
-        chunkData.addCurrentUploadSize(chunkData.getBufferStream().size());
-        chunkData.addTotalResourcesNum(resSubTotal);
-        if (logger.isLoggable(Level.FINE)) {
-            logger.fine("fillChunkPatientDataBuffer: Processed resources - '" + resSubTotal + "' "
-                    + "Bufferred data size - '" + chunkData.getBufferStream().size() + "'");
-        }
     }
 }
