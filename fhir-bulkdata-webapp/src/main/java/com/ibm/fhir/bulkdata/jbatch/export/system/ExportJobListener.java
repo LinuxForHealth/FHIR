@@ -131,8 +131,10 @@ public class ExportJobListener implements JobListener {
             for (ExportCheckpointUserData partitionSummary : partitionSummaries) {
                 logger.info(partitionSummary.getResourceTypeSummary() + "\t|"
                         + partitionSummary.getTotalResourcesNum());
-                resourceTypeSummaries.add(partitionSummary.getResourceTypeSummary());
-                totalExportedFhirResources += partitionSummary.getTotalResourcesNum();
+                if (partitionSummary.getTotalResourcesNum() > 0) {
+                    resourceTypeSummaries.add(partitionSummary.getResourceTypeSummary());
+                    totalExportedFhirResources += partitionSummary.getTotalResourcesNum();
+                }
             }
 
             logger.info(" ---- Total: " + totalExportedFhirResources
