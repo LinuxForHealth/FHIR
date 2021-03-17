@@ -1,0 +1,182 @@
+#################
+# Product names #
+#################
+# {{site.data.reuse.long_name}}
+long_name: "IBM Event Streams"
+
+# {{site.data.reuse.short_name}}
+short_name: "Event Streams"
+
+# {{site.data.reuse.cp4i}}
+cp4i: "IBM Cloud Pak for Integration"
+
+# {{site.data.reuse.icpcs}}
+icpcs: "IBM Cloud Platform Common Services"
+
+# {{site.data.reuse.cs}}
+cs: "Common Services"
+
+# {{site.data.reuse.icp_master_host}}
+icp_master_host: on the IBM Cloud Private [master host](https://www.ibm.com/support/knowledgecenter/SSBS6K_3.2.1/manage_cluster/cluster_endpoints.html#master)
+
+# {{site.data.reuse.icp_foundation}}
+icp_foundation: "IBM Cloud Private Foundation"
+
+# {{site.data.reuse.openshift}}
+openshift: "Red Hat OpenShift Container Platform"
+
+# {{site.data.reuse.openshift_short}}
+openshift_short: "OpenShift Container Platform"
+
+# {{site.data.reuse.kafka-connect-mq-source}}
+kafka-connect-mq-source: "Kafka Connect source connector for IBM MQ"
+
+# {{site.data.reuse.kafka-connect-connecting-to-mq}}
+kafka-connect-connecting-to-mq: "Connecting to IBM MQ?"
+
+# {{site.data.reuse.kafka-connect-add-connectors-to-kafka-connect}}
+kafka-connect-add-connectors-to-kafka-connect: "Add connectors to your Kafka Connect environment"
+
+# {{site.data.reuse.kafka-connect-mq-source-short}}
+kafka-connect-mq-source-short: "MQ source connector"
+
+# {{site.data.reuse.kafka-connect-mq-sink}}
+kafka-connect-mq-sink: "Kafka Connect sink connector for IBM MQ"
+
+# {{site.data.reuse.kafka-connect-mq-sink-short}}
+kafka-connect-mq-sink-short: "MQ sink connector"
+
+# {{site.data.reuse.jmx-secret}}
+jmx-secret: <releasename>ibm-es-jmx-secret
+
+###############
+# Tasks Steps #
+###############
+
+# {{site.data.reuse.icpcs_ui_login}}
+icpcs_ui_login: "Log in to your IBM Cloud Platform Common Services management console as an administrator. For more information, see the IBM Cloud Platform Common Services [documentation](https://www.ibm.com/support/knowledgecenter/en/SSHKN6/common-web-ui/1.x.x/cfc_gui.html)."
+
+# {{site.data.reuse.icp_ui_login}}
+icp_ui_login: "Log in to your IBM Cloud Private cluster management console from a supported web browser by using the URL `https://<Cluster Master Host>:<Cluster Master API Port>`. The master host and port for your cluster are set during the installation of IBM Cloud Private. For more information, see the IBM Cloud Private [documentation](https://www.ibm.com/support/knowledgecenter/SSBS6K_3.1.2/manage_cluster/cfc_gui.html)."
+
+# {{site.data.reuse.icp_cli_login321}}
+icp_cli_login321: "Log in to your cluster as an administrator by using the IBM Cloud Private CLI:<br /> `cloudctl login -a https://<cluster-address>:<cluster-router-https-port>`"
+
+# {{site.data.reuse.icp_cli_login}}
+icp_cli_login: "Log in to your cluster as an administrator by using the IBM Cloud Private CLI:<br /> `cloudctl login -a https://<Cluster Master Host>:<Cluster Master API Port>`<br/>The master host and port for your cluster are set during the installation of IBM Cloud Private."
+
+# {{site.data.reuse.cp_cli_login}}
+cp_cli_login: "Log in to your cluster as an administrator by using the IBM Cloud Pak CLI:<br /> `cloudctl login -a https://<cluster_address>:<cluster_router_https_port>`"
+
+# {{site.data.reuse.es_cli_init}}
+es_cli_init: "Run the following command to initialize the IBM Event Streams CLI: `cloudctl es init`"
+
+# {{site.data.reuse.openshift_cli_login}}
+openshift_cli_login: "Log in to your Red Hat OpenShift Container Platform as a cluster administrator by using the [`oc` CLI](https://docs.openshift.com/container-platform/4.4/cli_reference/openshift_cli/getting-started-cli.html#cli-logging-in_cli-developer-commands)."
+
+# {{site.data.reuse.openshift_ui_login}}
+openshift_ui_login: "Log in to the OpenShift Container Platform [web console](https://docs.openshift.com/container-platform/4.4/web_console/web-console.html) using your login credentials."
+
+# {{site.data.reuse.es_ui_login}}
+es_ui_login: "Log in to your Event Streams UI as an administrator from a supported web browser (see how to determine the [login URL](../../getting-started/logging-in/) for your Event Streams UI)."
+
+# {{site.data.reuse.es_ui_login_nonadmin}}
+es_ui_login_nonadmin: "Log in to the Event Streams UI from a supported web browser (see how to determine the [login URL](../../getting-started/logging-in/) for your Event Streams UI)."
+
+# {{site.data.reuse.es_ui_login_nonadmin_mq}}
+es_ui_login_nonadmin_mq: "Log in to the Event Streams UI from a supported web browser (see how to determine the [login URL](../../../getting-started/logging-in/) for your Event Streams UI)."
+
+# {{site.data.reuse.maven_prereq}}
+maven_prereq: "Ensure you have Java version 8. Also, ensure you have [Apache Maven](https://maven.apache.org/) installed on your system."
+
+# {{site.data.reuse.enter_install_details}}
+enter_install_details: "Enter a release name that identifies your Event Streams installation, select the target namespace you created previously, select a target cluster (for example, **local-cluster**), and accept the terms of the license agreement."
+
+# {{site.data.reuse.task_openshift_navigate_installed_operators}}
+task_openshift_navigate_installed_operators: "Expand the **Operators** dropdown and select **Installed Operators** to open the **Installed Operators** page."
+
+# {{site.data.reuse.task_openshift_select_project}}
+task_openshift_select_project: "Expand the **Project** dropdown and select the project the instance is installed in."
+
+# {{site.data.reuse.task_openshift_select_operator}}
+task_openshift_select_operator: "Expand the **Project** dropdown and select the project the instance is installed in. Click the operator called **IBM Event Streams** managing the project."
+
+# {{site.data.reuse.task_openshift_select_instance}}
+task_openshift_select_instance: "Select the **Event Streams** tab and search the **Name** column for the installed instance and click it."
+
+# {{site.data.reuse.task_openshift_select_routes}}
+task_openshift_select_routes: "Expand the **Networking** dropdown and select **Routes**."
+
+#########
+# Notes #
+#########
+
+# {{site.data.reuse.sample_select_note}}
+sample_select_note: "You can select this sample to use when [installing](../installing) your instance. You can also use it to start out with your configuration, and change settings as required for your purposes. For ways to customize your setup, see [configuring](../configuring)."
+
+# {{site.data.reuse.prod_persistence_note}}
+prod_persistence_note: "**Important:** For production deployments, ensure you configure a storage solution by editing the sample as described in [enabling persistent storage](../configuring/#enabling-persistent-storage)."
+
+# {{site.data.reuse.cli_options_short}}
+cli_options_short: "**Tip:** You can use short options instead of spelling out the long version. For example, use `-d` instead of `--destination`, or `-n` instead of `--name`."
+
+# {{site.data.reuse.replicator_origin_list}}
+replicator_origin_list: "**Note:** When logged in to the destination cluster, the origin cluster will not show up in the **Origin locations** section until you [define topics to replicate](#specifying-what-and-where-to-replicate), and the geo-replicator is created."
+
+# {{site.data.reuse.monitor_metrics_retention}}
+monitor_metrics_retention: "**Important:** By default, the metrics data used to provide monitoring information is only stored for a day. Modify the [time period](https://www.ibm.com/support/knowledgecenter/SSBS6K_3.2.1/manage_metrics/monitoring_service.html?view=kc#promlogs) for metric retention to be able to view monitoring data for longer time periods, such as 1 week or 1 month."
+
+# {{site.data.reuse.geo-rep_note}}
+geo-rep_note: "**Note:** Geo-replication is only available in the paid-for version of IBM Event Streams (not available in the Community Edition)."
+
+# {{site.data.reuse.fsGroupGid}}
+fsGroupGid: "**Important:** If membership of a specific group is required to access the file system used for persistent volumes, ensure you specify in the [**File system group ID**](../configuring#global-install-settings) field the GID of the group that owns the file system."
+
+# {{site.data.reuse.kafkaConnectStep2_title}}
+kafkaConnectStep2_title: "Add the connector plugin to your Kafka Connect environment."
+
+# {{site.data.reuse.kafkaConnectStep2_content_1}}
+kafkaConnectStep2_content_1: "To add a connector, ensure you have your connector plugin directory or JAR files in the location specified in the `plugin.path` property of your Kafka Connect worker configuration (for example, `<kafka>/config/connect-distributed.properties`). The `plugin.path` property is a comma-separated list of paths to directories that contain connector plugins.\n\n"
+
+# {{site.data.reuse.kafkaConnectStep2_content1_example}}
+kafkaConnectStep2_content1_example: "For example:\n```\n plugin.path=/usr/local/share/java,/usr/local/share/kafka/plugins,/opt/connectors\n```\n\n"
+
+# {{site.data.reuse.kafkaConnectStep3_title}}
+kafkaConnectStep3_title: "Restart Kafka Connect to make the new connector available in the environment. <br> <br> For more information about how to set up a Kafka Connect environment, add connectors to it, and start the connectors, see how to [set up and run connectors](../../connecting/setting-up-connectors/)."
+
+#####################################################
+# DEPRECATED (USED IN OLDER DOCUMENTATION VERSIONS) #
+#####################################################
+
+# Product names
+
+# {{site.data.reuse.icp}}
+icp: "IBM Cloud Private"
+
+# {{site.data.reuse.ce_long}}
+ce_long: "IBM Event Streams Community Edition"
+
+# {{site.data.reuse.ce_short}}
+ce_short: "Community Edition"
+
+# Task Steps
+
+# {{site.data.reuse.icp_ui_login321}}
+icp_ui_login321: "Log in to your IBM Cloud Private cluster management console as an administrator. For more information, see the IBM Cloud Private [documentation](https://www.ibm.com/support/knowledgecenter/SSBS6K_3.2.1/manage_cluster/cfc_gui.html)."
+
+# {{site.data.reuse.helm_charts_note}}
+helm_charts_note: "**Note:** Where `<charts.tgz>` is the name of the chart file you used to install IBM Event Streams, including the full path to it if in a different directory. To run `helm upgrade` commands, [ensure you have the original chart file available](../../administering/helm-upgrade-command/)."
+
+# Notes
+# {{site.data.reuse.ce_deprecated}}
+ce_deprecated: "IBM Event Streams Community Edition is no longer available from 1 May 2020. For information about trying out Kafka and Event Streams for free, see the [product pages](https://www.ibm.com/cloud/event-streams/get-started)."
+# Icons
+
+# Event Streams 2018.3.0 only cueing graphic and text - example:
+#![Event Streams 2018.3.0 only icon](../../images/2018.3.0.svg "Only in Event Streams 2018.3.0.") In {{site.data.reuse.long_name}} 2018.3.0,
+
+# Event Streams 2018.3.1 or Fix Pack 1 and later cueing graphic and text - example:
+# ![Event Streams 2018.3.1 and later icon](../../images/2018.3.1.svg "Only in Event Streams 2018.3.1 and later.") In {{site.data.reuse.long_name}} 2018.3.1 and later,
+
+# {{site.data.reuse.more_options}}
+# more_options: "![Three vertical dots for the more options icon at end of each row.](../images/more_options.png){:height="30px" width="15px"}"

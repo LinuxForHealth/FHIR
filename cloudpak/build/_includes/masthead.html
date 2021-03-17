@@ -1,0 +1,131 @@
+{% assign pageTitle = page.title %}
+
+
+{% if site.baseurl contains "mhub/qp-docs" %}
+  <div class="draftBar">
+    <p>
+      ***DRAFT preview – intended for internal IBM use only***
+    </p>
+  </div>
+{% endif %}
+
+ <div id="masthead" class="masthead">
+  <div class="masthead__goToIBMCloud">
+ <!-- <div>
+    You are viewing the documentation for the container-native version of IBM FHIR Server.
+  </div> 
+   <a class="link" target="_self" href="https://www.ibm.com/products/fhir-server">Looking for the managed service on IBM Cloud? Click here.</a> -->
+</div> 
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="mastheadNav">
+
+      {% assign mastheadNavTitle = page.mastheadNavItem %}
+
+
+        <div class="mastheadTitle">
+          {% if page.latest %}
+            {%- assign collectionURL = "" -%}
+          {% else %}
+            {% if page.mastheadNavItem == "Documentation" %}
+              {%- assign collectionURL = page.collection -%}
+            {% endif %}
+          {% endif %}
+          <a class="site-title" href="{{ site.baseurl }}/{{ collectionURL }}" target="_self"><span>IBM</span>&nbsp;FHIR Server</a>
+          <div class="viewOnIBMcom">
+            <a href="https://www.ibm.com/products/fhir-server" target="_blank">View product page</a>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+        <div class="mastheadControls">
+            <div class="menuScrollContainer">
+
+        {% if mastheadNavTitle == "APIs" %}
+            <ul id="visible-links" class="visible-links apiMenu">
+                {% for link in site.data.navigation.main %}
+
+                  {% if link.url contains 'http' %}
+                    {% assign domain = '' %}
+                  {% else %}
+                    {% assign domain = site.url | append: site.baseurl %}
+                  {% endif %}
+                  {% unless (page.url == '/' and link.url == '/') %}
+
+                  {% endunless %}
+
+                  {% if link.title == "APIs..." %}
+                    <a href="{{ site.baseurl }}/{{ collectionURL }}" target="_self" class="apiTitle">...APIs (go back)</a>
+                    {% for link in link.dropdown %}
+
+                      {% if page.url == link.url %}
+                        {% assign activeClass = "active" %}
+                      {% else %}
+                        {% assign activeClass = "" %}
+                      {% endif %}
+                      <li class="masthead__menu-item {{ activeClass }}" onclick="window.open('{{ domain }}{{ link.url }}','_self')">
+                        <a href="{{ domain }}{{ link.url }}" {% if link.description %}title="{{ link.description }}"
+                          {% endif %}>{{ link.title }}</a>
+                        </a>
+                      </li>
+                    {% endfor %}
+                  {% endif %}
+                {% endfor %}
+            </ul>
+
+          {% else %}
+
+                <ul id="visible-links" class="visible-links">
+                  {% for link in site.data.navigation.main %}
+                  {% if link.url contains 'http' %}
+                    {% assign domain = '' %}
+                  {% else %}
+                    {% assign domain = site.url | append: site.baseurl %}
+                  {% endif %}
+                  {% unless (page.url == '/' and link.url == '/') %}
+
+                  {% endunless %}
+
+                  {% if mastheadNavTitle == link.title %}
+                    {% assign active = "active" %}
+                  {% else %}
+                    {% assign active = "" %}
+                  {% endif %}
+
+
+
+
+                  {% if link.title == "Search" %}
+                    <li class="masthead__menu-item {{ active }}" onclick="window.open('{{ domain }}{{ link.url }}','_self')">
+                      <button aria-label="Search Button" role="button" id="searchButton" class="search__toggle {{ active }}" type="button" name="search Button">
+                        <svg class="icon" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+                          <path
+                            d="M15.5,13.12L13.19,10.8a1.69,1.69,0,0,0-1.28-.55l-0.06-.06A6.5,6.5,0,0,0,5.77,0,6.5,6.5,0,0,0,2.46,11.59a6.47,6.47,0,0,0,7.74.26l0.05,0.05a1.65,1.65,0,0,0,.5,1.24l2.38,2.38A1.68,1.68,0,0,0,15.5,13.12ZM6.4,2A4.41,4.41,0,1,1,2,6.4,4.43,4.43,0,0,1,6.4,2Z"
+                            transform="translate(-.01)"></path>
+                        </svg>
+                      </button>
+                    </li>
+                  {% else %}
+                    <li class="masthead__menu-item {{ active }}" onclick="window.open('{{ domain }}{{ link.url }}','_self')">
+                      <a href="{{ domain }}{{ link.url }}" {% if link.description %}title="{{ link.description }}"
+                        {% endif %}>{{ link.title }}</a>
+                    </li>
+                  {% endif %}
+
+                  {% endfor %}
+                </ul>
+        {% endif %}
+
+      </div>
+    </div>
+      </nav>
+    </div>
+  </div>
+</div>

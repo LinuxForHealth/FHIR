@@ -1,0 +1,70 @@
+{%- if include.fromFeatureHero -%}
+    {% assign latestVersion =  site.collections | where:'tag', 'Latest' | first %}
+    {% assign thePageSource = site.[latestVersion.label] | where: 'layout', 'splash' | first %}
+{% else %}
+{% assign thePageSource = page %}  
+{%- endif -%}
+
+
+
+<div class="splashcontent">
+    <div class="section pageSpacing">
+      <div class="sectionContent">
+            <div class="title">
+              
+              <h2>{{ thePageSource.gettingStarted[0].mainTitle }}</h2>
+            </div>
+            <div class="content">
+                <div class="splashGridContainer">
+                  {% for item in thePageSource.gettingStarted %}
+                    {% if item.link[0] != blank %}
+                    <div class="card">
+                        {% if item.link[3].external == true %}
+                          {% assign target = "_blank" %}
+                        {% else %}
+                          {% assign target = "_self" %}
+                        {% endif %}
+                        <div class="cardContent" onclick="window.open('{{ item.link[1].url }}','{{ target }}')">
+                          <div class="icon">
+                            <img alt="" role="presentation" src="{{ site.url }}{{ site.baseurl }}/assets/images/icons/{{ item.link[2].icon }}" />
+                          </div>
+                          <p class="large"><a href="{{ item.link[1].url }}">{{ item.link[0].title }}</a></p>
+                        </div>
+                    </div>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+            </div>
+      </div>
+    </div>
+    <div class="section pageSpacing">
+      <div class="sectionContent">
+              <div class="title">
+                <h2>{{ thePageSource.commonTasks[0].mainTitle }}</h2>
+              </div>
+              <div class="content">
+                  <div class="splashGridContainer">
+                    {% for item in thePageSource.commonTasks %}
+                      {% if item.link[0] != blank %}
+                        <div class="card">
+                          {% if item.link[3].external == true %}
+                            {% assign target = "_blank" %}
+                          {% else %}
+                            {% assign target = "_self" %}
+                          {% endif %}
+                          <div class="cardContent" onclick="window.open('{{ item.link[1].url }}','{{ target }}')">
+                            <div class="icon">
+                                <div class="icon">
+                                  <img alt="" role="presentation" src="{{ site.url }}{{ site.baseurl }}/assets/images/icons/{{ item.link[2].icon }}" />
+                                </div>
+                            </div>
+                            <p class="large"><a href="{{ item.link[1].url }}">{{ item.link[0].title }}</a></p>
+                          </div>
+                        </div>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+              </div>
+      </div>
+    </div>
+</div>

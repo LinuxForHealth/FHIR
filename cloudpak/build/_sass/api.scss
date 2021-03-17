@@ -1,0 +1,44 @@
+/* Variables */
+@import "minimal-mistakes/variables";
+@import "api/layout";
+
+
+h1, .heading-one {
+    font-size: 2rem !important;
+    font-weight: 400 !important;
+    max-width: 18em !important;
+    margin-bottom: 1.75rem !important;
+  }
+  // h2, .heading-three {
+  //   font-size: 1.75rem;
+  //   font-weight: 400;
+  //   max-width: 30em;
+  //   margin-bottom: 1rem;
+  // }
+  h2, .heading-two {
+    font-size: 1.25rem !important;
+    font-weight: 400 !important;
+    letter-spacing: 0 !important;
+    max-width: 30em !important;
+    + table {
+      margin-top: 1rem;
+    }
+  }
+  h3, .heading-three {
+    font-size: 1rem !important;
+    line-height: 1.25 !important;
+    font-weight: 600 !important;
+    max-width: 30em !important;
+  }
+  h4, .heading-four {
+    font-size: 0.875rem !important;
+    line-height: 1.25 !important;
+    font-weight: 600 !important;
+    max-width: 40em !important;
+    font-family: inherit !important;
+  }
+
+
+  .content > table {
+      padding: 0 !important;
+  }

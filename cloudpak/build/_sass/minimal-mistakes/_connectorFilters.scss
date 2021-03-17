@@ -1,0 +1,346 @@
+.filterContent {
+  padding: 0rem;
+  height: 0;
+  background: $background;
+  overflow: hidden;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 2.5rem;
+  z-index: 2;
+  background: white;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  box-shadow: 0px 2px 5px $background;
+  border-color: $background;
+  border-width: 0;
+
+  .filterCount {
+    display: none;
+    justify-content: space-between;
+
+    .title {
+      font-size: .75rem;
+      align-self: center;
+      padding-left: .5rem;
+    }
+
+    .trigger {
+      font-size: .75rem;
+      font-weight: 600;
+      color: $brand-01;
+      background: transparent;
+      border: none;
+    }
+  }
+
+  &.filterActive {
+    .filterTriggerArea {
+      flex-basis: auto !important;
+      padding-left: .5rem;
+
+      .trigger {
+        opacity: 1;
+        transform: translateX(0rem);
+      }
+    }
+  }
+
+  &.filterActive {
+    &:not(.visible) {
+      .filterCount {
+        display: flex;
+        height: 2rem;
+      }
+    }
+  }
+
+  &.animate {
+    transition-duration: .3s;
+    transition-timing-function: $easing;
+
+    .filterGroup {
+      opacity: 0;
+      transform: translateY(-1.5rem);
+      transition-property: transform, opacity;
+      transition-duration: .3s, .2s;
+      transition-timing-function: $easing;
+
+      &:first-of-type {
+        transition-delay: 0.025s;
+      }
+
+      &:nth-of-type(2) {
+        transition-delay: 0.05s;
+      }
+    }
+
+    &.visible {
+      .filterGroup {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+  }
+
+  &.filterActive {
+    height: 2rem;
+  }
+
+  &.visible {
+    height: auto;
+    margin-bottom: .5rem;
+    border-top: .5rem solid $background;
+
+    .filterIcon {
+      display: flex;
+    }
+
+    .filterGroup {
+      opacity: 1;
+      transform: translateY(0)
+    }
+  }
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1rem;
+
+  .filterTriggerArea {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    flex-basis: 0;
+    flex-shrink: 0;
+    flex-grow: 0;
+    overflow: hidden;
+    align-items: flex-end;
+    display: flex;
+    justify-content: center;
+
+    .trigger {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: $brand-01;
+      cursor: pointer;
+      white-space: nowrap;
+      align-items: center;
+      margin-top: 2.3rem;
+      margin-top: 1.3rem;
+      height: 2rem;
+      background: transparent;
+      border: transparent;
+      font-size: .75rem;
+      color: $brand-01;
+      font-weight: 600;
+      background: transparent;
+      transition: 0.2s $easing;
+      opacity: 0;
+      transform: translateX(1rem);
+      padding: 0;
+    }
+  }
+
+  &:not(.bothActive) {
+    .tagToggle {
+      &:not(.active) {
+        opacity: 0.4;
+      }
+    }
+  }
+
+  .filterIcon {
+    margin-right: 0rem;
+    flex-basis: 3rem;
+    flex-shrink: 0;
+    flex-grow: 0;
+    justify-content: center;
+    display: flex;
+    display: none;
+  }
+
+  .actualFilters {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+
+    .filterGroup {
+      animation-fill-mode: both;
+      padding-right: 0;
+      flex-basis: 100%;
+      padding-right: .5rem;
+      max-width: 25rem;
+
+      &:nth-of-type(2) {
+        padding-right: 0;
+      }
+
+      p {
+        margin-bottom: .25rem;
+        margin-top: 0;
+      }
+
+      .toggles {
+        display: flex;
+
+      }
+    }
+
+    .tagToggle {
+      border: 1px solid #f3f3f3;
+      display: flex;
+      padding: 0.5rem;
+      margin-right: 1px;
+      background: $background;
+      cursor: pointer;
+      align-items: center;
+      flex-grow: 1;
+      flex-basis: 50%;
+      white-space: nowrap;
+      justify-content: space-between;
+
+      p {
+        margin: 0;
+        padding: 0;
+        font-size: .75rem;
+      }
+
+      .eye {
+        display: flex;
+        align-items: center;
+        margin-left: auto;
+        padding-top: 1px;
+        transition: 0.2s $easing;
+        opacity: 0;
+        transform: scale(.95);
+        flex-shrink: 0;
+        margin-left: 0.5rem;
+      }
+
+      &.active {
+        background-color: #171717;
+        border-color: #171717;
+        background-color: $brand-01;
+        border-color: $brand-01;
+
+        p {
+          color: white;
+          font-weight: 600;
+          margin: 0;
+          padding: 0;
+        }
+
+        .eye {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1148px) {
+  .filterContent {
+    margin-left: 0;
+    margin-right: 0;
+    top: 3.5rem;
+
+    &.visible {
+      margin-left: 0;
+      margin-right: 0;
+      margin-bottom: .5rem;
+    }
+
+    .filterTriggerArea {
+      margin-left: auto;
+    }
+  }
+}
+
+@media only screen and (max-width: 880px) {
+  .filterContent {
+    margin-left: 0;
+    margin-right: 0;
+    top: 5.5rem;
+
+    &.filterActive {
+      top: 6rem;
+
+      &.visible {
+        top: 5.5rem;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 540px) {
+  .filterContent {
+    &.filterActive {
+      .filters {
+        &:before {
+          right: 4rem !important;
+        }
+
+        .filterTriggerArea {
+          width: 4rem;
+          flex-basis: 4rem;
+        }
+      }
+    }
+
+    .filters {
+      margin: 0;
+      padding: 0;
+      height: auto;
+      position: relative;
+      flex-wrap: nowrap;
+
+      &:before {
+        position: absolute;
+        right: 0rem;
+        top: 0;
+        bottom: 0;
+        width: 2rem;
+        content: " ";
+        z-index: 1;
+        background: -moz-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+        background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+        background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#ffffff', GradientType=1);
+        pointer-events: none;
+
+      }
+
+      .filterTriggerArea {
+        flex-grow: 0;
+        flex-shrink: 0;
+        width: 0rem;
+        flex-basis: 0rem;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+      }
+
+      .actualFilters {
+        height: auto;
+        overflow: scroll;
+        padding-bottom: 1rem;
+        padding-top: 1rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        position: relative;
+
+        .filterGroup {
+          max-width: none;
+          margin-right: 1rem;
+
+          &:nth-of-type(2) {
+            padding-right: 2rem;
+          }
+        }
+      }
+    }
+  }
+
+}

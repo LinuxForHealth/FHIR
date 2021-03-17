@@ -1,0 +1,174 @@
+/* ==========================================================================
+   PAGE LAYOUT
+   ========================================================================== */
+
+
+.pageSpacing {
+  padding-left: 4rem;
+  padding-right: 4rem;
+  grid-template-columns: $standard-grid-layout;
+}
+
+
+
+.mainContainer {
+  display: flex;
+  .sidebar {
+    flex-basis: 24rem;
+  }
+  .mainContent {
+    flex-grow: 1;
+    min-height: calc( 100vh - 3.5rem );
+    display: flex;
+    flex-direction: column;
+    .page {
+      display: flex;
+      flex-grow: 1;
+      flex-direction: column;
+    }
+  }
+}
+
+.page__inner-wrap  {
+  display: flex;
+  flex-grow: 1;
+  &.splash,&.featureHeroContent {
+    .page__content {
+      padding-bottom: 0;
+      padding-top: 0;
+    }
+  }
+  .page__content {
+      flex-grow: 1;
+      width: 100%;
+      padding-top: 4rem;
+      padding-bottom: 4rem;
+  }
+}
+
+@import "docPagePagination";
+
+
+
+@include contentWidth(60rem);
+
+@media only screen and (max-width: 1700px) {
+  @include contentWidth(40rem);
+  @include footerGrid(40rem);
+  .pageSpacing {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+  .mainContainer {
+    .sidebar {
+      flex-basis: 16rem;
+      a {
+        font-size: .75rem;
+      }
+    }
+  }
+  .sidebar__right {
+    flex-basis: 16rem;
+    .toc__menu {
+      a {
+        font-size: .75rem;
+        // padding: .25rem 0;
+      }
+    }
+  }
+}
+
+
+@media only screen and (max-width: 1400px) {
+  .pageSpacing {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+  .mainContainer {
+    .sidebar {
+      flex-basis: 18rem;
+    }
+  }
+}
+
+@media only screen and (max-width: 1313px) {
+  @include footerGrid(40rem,1fr 20rem 20rem 1fr);
+  .sidebar__right {
+    display: none;
+  }
+  .layout--single {
+    .page__inner-wrap {
+      .content {
+      overflow-x: scroll;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 1024px) {
+  .mainContainer {
+    flex-direction: column;
+  }
+}
+
+
+@media only screen and (max-width: 880px) {
+  .page__inner-wrap {
+    .page__content {
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+    }
+  }
+}
+
+
+@media only screen and (max-width: 768px) {
+  .heroContainer.pageSpacing {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+  .pageSpacing {
+    padding-left: .5rem;
+    padding-right: .5rem;
+  } 
+  .page__inner-wrap {
+    .page__content {
+      padding-top: 1rem;
+      padding-bottom: 4rem;
+      .page__title {
+        margin-bottom: .5rem;
+        margin-top: 0;
+      }
+    }
+  }
+  .pagination {
+    display: flex;
+    flex-direction: column;
+    .previous,.next {
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+      padding-left: 0;
+      max-width: none;
+      box-shadow: 0px 1px 0px #f3f3f3;    
+      .container {
+        max-width: 40rem;
+        flex-basis: 100%;
+        max-width: 40rem;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+  }
+}
+
+
+@media only screen and (max-width: 704px) {
+  .pagination {
+    .previous,.next {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      max-width: none;
+    }
+  }
+}
