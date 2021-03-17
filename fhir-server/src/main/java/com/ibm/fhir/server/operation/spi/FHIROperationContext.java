@@ -27,7 +27,7 @@ public class FHIROperationContext {
      * This property is of type String and represents the value of the Location header.
      */
     public static final String PROPNAME_LOCATION_URI = "LOCATION_URI";
-    
+
     /**
      * This property is of type FHIRPersistence and is the handle to the persistence layer implementation
      * being used by the FHIR Server while processing the current request.
@@ -35,19 +35,19 @@ public class FHIROperationContext {
      * this property unless you have been advised otherwise.
      */
     public static final String PROPNAME_PERSISTENCE_IMPL = "PERSISTENCE_IMPL";
-    
+
     /**
      * This property is of type javax.ws.rs.core.UriInfo and contains Application and Request
      * URI information associated with the REST API request for which the interceptor is being invoked.
      */
     public static final String PROPNAME_URI_INFO = "URI_INFO";
-    
+
     /**
      * This property is of type javax.ws.rs.core.HttpHeaders and contains the set of HTTP headers
      * associated with the REST API request.
      */
     public static final String PROPNAME_HTTP_HEADERS = "HTTP_HEADERS";
-    
+
     /**
      * This property is of type {@link java.util.Map<String,String>} and contains the
      * set of additional request properties associated with the REST API request.
@@ -59,17 +59,22 @@ public class FHIROperationContext {
      * associated with the REST API request for which the interceptor is being invoked.
      */
     public static final String PROPNAME_SECURITY_CONTEXT = "SECURITY_CONTEXT";
-    
+
     /**
-     *This property is of type HttpMethod 
+     * This property is to inject the JWT into the Operation Context.
+     */
+    public static final String PROPNAME_JWT = "JWT";
+
+    /**
+     *This property is of type HttpMethod
      */
     public static final String PROPNAME_METHOD_TYPE = "METHOD_TYPE";
-    
+
     /**
-     * The property is of Response.Status. 
+     * The property is of Response.Status.
      */
     public static final String PROPNAME_STATUS_TYPE = "STATUS";
-    
+
     /**
      * The property is of the Response
      */
@@ -77,27 +82,27 @@ public class FHIROperationContext {
 
     private Type type = null;
     private Map<String, Object> properties = null;
-    
+
     private FHIROperationContext(Type type) {
         if (type == null) {
             throw new IllegalArgumentException("Context type cannot be null");
         }
         this.type = type;
-        properties = new HashMap<String, Object>();
+        properties = new HashMap<>();
     }
-    
+
     public Type getType() {
         return type;
     }
-    
+
     public void setProperty(String name, Object value) {
         properties.put(name, value);
     }
-    
+
     public Object getProperty(String name) {
         return properties.get(name);
     }
-    
+
     /**
      * Returns the HttpHeaders instance associated with the request that triggered the operation.
      * Note that this HttpHeaders instance is only valid within the scope of a single request.
@@ -105,28 +110,28 @@ public class FHIROperationContext {
     public HttpHeaders getHttpHeaders() {
         return (HttpHeaders) getProperty(PROPNAME_HTTP_HEADERS);
     }
-    
+
     /**
-     * Returns the Map containing additional request properties associated with the 
+     * Returns the Map containing additional request properties associated with the
      * FHIR REST API request that triggered the interceptor invocation.
      */
     @SuppressWarnings("unchecked")
     public Map<String, String> getRequestProperties() {
         return (Map<String, String>) getProperty(PROPNAME_REQUEST_PROPERTIES);
     }
-    
+
     public static FHIROperationContext createSystemOperationContext() {
         return new FHIROperationContext(Type.SYSTEM);
     }
-    
+
     public static FHIROperationContext createResourceTypeOperationContext() {
         return new FHIROperationContext(Type.RESOURCE_TYPE);
     }
-    
+
     public static FHIROperationContext createInstanceOperationContext() {
         return new FHIROperationContext(Type.INSTANCE);
     }
-    
+
     /**
      * Retrieves the specified header from the combined list of request headers
      * and additional request properties associated with the request.
@@ -144,7 +149,7 @@ public class FHIROperationContext {
         }
         return value;
     }
-    
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -152,7 +157,7 @@ public class FHIROperationContext {
         sb.append("type=" + type.name());
         sb.append(", properties={").append((properties != null ? properties.toString() : "<null>")).append("}");
         sb.append("]");
-        
+
         return sb.toString();
     }
 }

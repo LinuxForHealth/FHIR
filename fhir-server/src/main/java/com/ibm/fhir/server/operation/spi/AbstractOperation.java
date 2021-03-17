@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,6 +8,11 @@ package com.ibm.fhir.server.operation.spi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
+import javax.ws.rs.core.SecurityContext;
+
+import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationDefinition;
@@ -82,7 +87,7 @@ public abstract class AbstractOperation implements FHIROperation {
     }
 
     protected List<OperationDefinition.Parameter> getParameterDefinitions(OperationParameterUse use) {
-        List<OperationDefinition.Parameter> parameterDefinitions = new ArrayList<OperationDefinition.Parameter>();
+        List<OperationDefinition.Parameter> parameterDefinitions = new ArrayList<>();
         OperationDefinition definition = getDefinition();
         for (OperationDefinition.Parameter parameter : definition.getParameter()) {
             if (use.getValue().equals(parameter.getUse().getValue())) {
@@ -93,7 +98,7 @@ public abstract class AbstractOperation implements FHIROperation {
     }
 
     protected List<Parameters.Parameter> getParameters(Parameters parameters, String name) {
-        List<Parameters.Parameter> result = new ArrayList<Parameters.Parameter>();
+        List<Parameters.Parameter> result = new ArrayList<>();
         if (parameters == null) {
             return result;
         }
@@ -107,7 +112,7 @@ public abstract class AbstractOperation implements FHIROperation {
     }
 
     protected List<String> getResourceTypeNames() {
-        List<String> resourceTypeNames = new ArrayList<String>();
+        List<String> resourceTypeNames = new ArrayList<>();
         OperationDefinition definition = getDefinition();
         for (com.ibm.fhir.model.type.code.ResourceType type : definition.getResource()) {
             resourceTypeNames.add(type.getValue());
@@ -278,5 +283,41 @@ public abstract class AbstractOperation implements FHIROperation {
             throws FHIROperationException {
         OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
         return new FHIROperationException(msg, cause).withIssue(ooi);
+    }
+
+    /**
+     * verifies the authorization to an administrative operation.
+     *
+     * @param operation
+     * @param operationContext
+     * @throws FHIROperationException
+     */
+    public void authorize(String operation, FHIROperationContext operationContext) throws FHIROperationException {
+        Object securityContext = operationContext.getProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT);
+        Object jwt = operationContext.getProperty(FHIROperationContext.PROPNAME_JWT);
+
+        boolean authorize = false;
+
+        if (jwt != null && jwt instanceof JsonWebToken) {
+            JsonWebToken jwtObj = (JsonWebToken) jwt;
+            Set<String> groups = jwtObj.getGroups();
+            if (groups != null) {
+                for (String group : groups) {
+                    if ("FHIROperationAdmin".equals(group)) {
+                        authorize = true;
+                        return;
+                    }
+                }
+            }
+        }
+
+        if (!authorize && securityContext != null && securityContext instanceof SecurityContext) {
+            SecurityContext ctx = (SecurityContext) securityContext;
+            authorize = ctx.isUserInRole("FHIROperationAdmin");
+        }
+
+        if (!authorize) {
+            throw buildExceptionWithIssue("Access to operation [$" + operation + "] is forbidden", IssueType.FORBIDDEN);
+        }
     }
 }

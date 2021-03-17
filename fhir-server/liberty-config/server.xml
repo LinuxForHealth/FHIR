@@ -67,6 +67,9 @@
             <security-role id="users" name="FHIRUsers">
                 <group id="usersGroup" name="FHIRUsers"/>
             </security-role>
+            <security-role id="admin" name="FHIROperationAdmin">
+                <group id="operationAdminGroup" name="FHIROperationAdmin"/>
+            </security-role>
         </application-bnd>
     </webApplication>
 
@@ -122,6 +125,9 @@
         </group>
         <group name="clientAdministrator">
             <member name="fhiruser"/>
+        </group>
+        <group name="FHIROperationAdmin">
+            <member name="fhiradmin"/>
         </group>
     </basicRegistry>
 </server>

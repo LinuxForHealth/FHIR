@@ -67,6 +67,7 @@ public class ReindexOperation extends AbstractOperation {
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType,
             String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
             throws FHIROperationException {
+        authorize("reindex", operationContext);
 
         // Allow only POST because we're changing the state of the database
         String method = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_METHOD_TYPE);
