@@ -35,8 +35,8 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.search.SearchConstants;
-import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
+import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
@@ -115,66 +115,56 @@ public class PatientResourceHandler {
             }
             queryParameters.put(SearchConstants.SORT, Arrays.asList(SearchConstants.LAST_UPDATED));
 
-            List<String> compartmentSearchCriterias = CompartmentUtil.getCompartmentResourceTypeInclusionCriteria("Patient", resourceType.getSimpleName());
-            if (compartmentSearchCriterias.size() > 1) {
-                isDoDuplicationCheck = true;
-            }
+            searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+            QueryParameter inclusionCriteria = SearchUtil.buildInclusionCriteria("Patient", patientIds, resourceType.getSimpleName());
+            searchContext.getSearchParameters().add(0, inclusionCriteria);
 
-            for (String compartmentSearchCriteria : compartmentSearchCriterias) {
-                HashMap<String, List<String>> queryTmpParameters = new HashMap<>();
-                queryTmpParameters.putAll(queryParameters);
+            do {
+                searchContext.setPageSize(pageSize);
+                searchContext.setPageNumber(compartmentPageNum);
 
-                queryTmpParameters.put(compartmentSearchCriteria, Arrays.asList(String.join(",", patientIds)));
-                searchContext = SearchUtil.parseQueryParameters(resourceType, queryTmpParameters);
+                FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
 
-                do {
-                    searchContext.setPageSize(pageSize);
-                    searchContext.setPageNumber(compartmentPageNum);
+                Date startTime = new Date(System.currentTimeMillis());
+                List<Resource> resources = fhirPersistence.search(persistenceContext, resourceType).getResource();
+                compartmentPageNum++;
 
-                    FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
-
-                    Date startTime = new Date(System.currentTimeMillis());
-                    List<Resource> resources = fhirPersistence.search(persistenceContext, resourceType).getResource();
-                    compartmentPageNum++;
-
-                    for (Resource res : resources) {
-                        if (res == null || (isDoDuplicationCheck && loadedResourceIds.contains(res.getId()))) {
-                            continue;
-                        }
-                        try {
-                            // No need to fill buffer for parquet because we're letting spark write to COS;
-                            // we don't need to control the Multi-part upload like in the NDJSON case
-                            if (!FHIRMediaType.APPLICATION_PARQUET.equals(ctx.getFhirExportFormat())) {
-                                if (dto != null) {
-                                    dto.addResource(res);
-                                }
-                                FHIRGenerator.generator(Format.JSON).generate(res, chunkData.getBufferStream());
-                                chunkData.getBufferStream().write(ConfigurationFactory.getInstance().getEndOfFileDelimiter(ctx.getSource()));
-                            }
-                            resSubTotal++;
-                            if (isDoDuplicationCheck) {
-                                loadedResourceIds.add(res.getId());
-                            }
-                        } catch (FHIRGeneratorException e) {
-                            if (res.getId() != null) {
-                                logger.log(Level.WARNING, "fillChunkDataBuffer: Error while writing resources with id '"
-                                        + res.getId() + "'", e);
-                            } else {
-                                logger.log(Level.WARNING, "fillChunkDataBuffer: Error while writing resources with unknown id", e);
-                            }
-                        } catch (IOException e) {
-                            logger.warning("fillChunkDataBuffer: chunkDataBuffer written error!");
-                            throw e;
-                        }
+                for (Resource res : resources) {
+                    if (res == null || (isDoDuplicationCheck && loadedResourceIds.contains(res.getId()))) {
+                        continue;
                     }
-
-                    if (auditLogger.shouldLog() && resources != null) {
-                        Date endTime = new Date(System.currentTimeMillis());
-                        auditLogger.logSearchOnExport(ctx.getPartitionResourceType(), queryParameters, resources.size(), startTime, endTime, Response.Status.OK, "StorageProvider@" + provider, "BulkDataOperator");
+                    try {
+                        // No need to fill buffer for parquet because we're letting spark write to COS;
+                        // we don't need to control the Multi-part upload like in the NDJSON case
+                        if (!FHIRMediaType.APPLICATION_PARQUET.equals(ctx.getFhirExportFormat())) {
+                            if (dto != null) {
+                                dto.addResource(res);
+                            }
+                            FHIRGenerator.generator(Format.JSON).generate(res, chunkData.getBufferStream());
+                            chunkData.getBufferStream().write(ConfigurationFactory.getInstance().getEndOfFileDelimiter(ctx.getSource()));
+                        }
+                        resSubTotal++;
+                        if (isDoDuplicationCheck) {
+                            loadedResourceIds.add(res.getId());
+                        }
+                    } catch (FHIRGeneratorException e) {
+                        if (res.getId() != null) {
+                            logger.log(Level.WARNING, "fillChunkDataBuffer: Error while writing resources with id '"
+                                    + res.getId() + "'", e);
+                        } else {
+                            logger.log(Level.WARNING, "fillChunkDataBuffer: Error while writing resources with unknown id", e);
+                        }
+                    } catch (IOException e) {
+                        logger.warning("fillChunkDataBuffer: chunkDataBuffer written error!");
+                        throw e;
                     }
-                } while (searchContext.getLastPageNumber() >= compartmentPageNum);
-                compartmentPageNum = 1;
-            }
+                }
+                if (auditLogger.shouldLog() && resources != null) {
+                    Date endTime = new Date(System.currentTimeMillis());
+                    auditLogger.logSearchOnExport(ctx.getPartitionResourceType(), queryParameters, resources.size(), startTime, endTime, Response.Status.OK, "StorageProvider@" + provider, "BulkDataOperator");
+                }
+            } while (searchContext.getLastPageNumber() >= compartmentPageNum);
+            compartmentPageNum = 1;
 
             indexOfCurrentTypeFilter++;
         } while (searchParametersForResoureTypes.get(resourceType) != null

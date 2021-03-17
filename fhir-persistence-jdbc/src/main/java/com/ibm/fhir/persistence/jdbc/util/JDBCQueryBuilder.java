@@ -52,6 +52,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -1023,9 +1024,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
         StringBuilder whereClauseSegment = new StringBuilder();
-        String operator = EQ;
         QueryParameter currentParm;
-        String currentParmValue;
+        List<String> currentParmValues;
         List<Object> bindVariables = new ArrayList<>();
         SqlQueryData queryData;
         SqlQueryData chainedIncQueryData;
@@ -1036,6 +1036,9 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             if (currentParm.getValues() == null || currentParm.getValues().isEmpty()) {
                 throw new FHIRPersistenceException("No Paramter values found when processing inclusion criteria.");
             }
+            currentParmValues = new ArrayList<>();
+            String resourceTypeName = null;
+
             // Handle the special case of chained inclusion criteria.
             if (currentParm.getCode().contains(DOT)) {
                 whereClauseSegment.append(LEFT_PAREN);
@@ -1044,42 +1047,58 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 bindVariables.addAll(chainedIncQueryData.getBindVariables());
                 whereClauseSegment.append(RIGHT_PAREN);
             } else {
-                currentParmValue = currentParm.getValues().get(0).getValueString();
+                for (QueryParameterValue value : currentParm.getValues()) {
+                    String s = value.getValueString();
+
+                    // split the resource type name out (since issue #1366)
+                    String[] parts = s.split("/");
+                    if (parts.length == 2) {
+                        if (resourceTypeName == null) {
+                            resourceTypeName = parts[0];
+                        } else if (resourceTypeName.equals(parts[0])){
+                            log.warning("Resource type name must be consistent across inclusion criteria values");
+                        }
+                        currentParmValues.add(parts[1]);
+                    } else {
+                        log.warning("TODO: infer the resourceType from the parameter name?");
+                    }
+                }
+
                 // Build this piece:
                 // (pX.PARAMETER_NAME_ID = x AND
                 this.populateNameIdSubSegment(whereClauseSegment, currentParm.getCode(), PARAMETER_TABLE_ALIAS);
                 whereClauseSegment.append(AND);
 
-                // split the resource type name out (since issue #1366)
-                String resourceTypeName = null;
-                String[] parts = currentParmValue.split("/");
-                if (parts.length == 2) {
-                    resourceTypeName = parts[0];
-                    currentParmValue = parts[1];
-                }
-
                 // Build this piece: pX.token_value = search-attribute-value [ AND pX.code_system_id = <n> ]
-                whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(DOT).append(TOKEN_VALUE).append(operator)
-                        .append(BIND_VAR);
+                whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(DOT).append(TOKEN_VALUE)
+                        .append(IN).append(LEFT_PAREN)
+                        .append(String.join(", ", Collections.nCopies(currentParmValues.size(), BIND_VAR)))
+                        .append(RIGHT_PAREN);
                 if (resourceTypeName != null) {
 
-                    Long commonTokenValueId = getCommonTokenValueId(resourceTypeName, currentParmValue);
-                    if (commonTokenValueId != null) {
-                        // #1929 improves cardinality estimation
-                        // resulting in far better execution plans for many search queries. Because COMMON_TOKEN_VALUE_ID
-                        // is the primary key for the common_token_values table, we don't need the CODE_SYSTEM_ID = ? predicate.
-                        whereClauseSegment.append(AND).append(PARAMETER_TABLE_ALIAS).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ)
-                            .append(commonTokenValueId);
-                    } else {
-                        // Can't use the common_token_value_id optimization, so do it the old way
-                        // and join against the code-system.
-                        Integer codeSystemIdForResourceType = getCodeSystemId(resourceTypeName);
-                        whereClauseSegment.append(AND).append(PARAMETER_TABLE_ALIAS).append(DOT)
-                        .append(CODE_SYSTEM_ID).append(EQ).append(nullCheck(codeSystemIdForResourceType));
+                    for (String currentParmValue : currentParmValues) {
+                        Long commonTokenValueId = getCommonTokenValueId(resourceTypeName, currentParmValue);
+                        if (commonTokenValueId != null) {
+                            // #1929 improves cardinality estimation
+                            // resulting in far better execution plans for many search queries. Because COMMON_TOKEN_VALUE_ID
+                            // is the primary key for the common_token_values table, we don't need the CODE_SYSTEM_ID = ? predicate.
+                            whereClauseSegment.append(AND)
+                                .append(PARAMETER_TABLE_ALIAS).append(DOT).append(COMMON_TOKEN_VALUE_ID)
+                                .append(EQ)
+                                .append(commonTokenValueId);
+                        } else {
+                            // Can't use the common_token_value_id optimization, so do it the old way
+                            // and join against the code-system.
+                            Integer codeSystemIdForResourceType = getCodeSystemId(resourceTypeName);
+                            whereClauseSegment.append(AND).append(PARAMETER_TABLE_ALIAS).append(DOT)
+                            .append(CODE_SYSTEM_ID).append(EQ).append(nullCheck(codeSystemIdForResourceType));
+                        }
                     }
                 }
                 whereClauseSegment.append(RIGHT_PAREN);
-                bindVariables.add(currentParmValue);
+                for (String currentParmValue : currentParmValues) {
+                    bindVariables.add(currentParmValue);
+                }
             }
 
             currentParm = currentParm.getNextParameter();
