@@ -1444,9 +1444,32 @@ public class SearchUtil {
     public static FHIRSearchContext parseCompartmentQueryParameters(String compartmentName, String compartmentLogicalId,
             Class<?> resourceType, Map<String, List<String>> queryParameters, boolean lenient) throws Exception {
 
+        List<String> compartmentLogicalIds = Collections.singletonList(compartmentLogicalId);
+        QueryParameter inclusionCriteria = buildInclusionCriteria(compartmentName, compartmentLogicalIds, resourceType.getSimpleName());
+        FHIRSearchContext context = parseQueryParameters(resourceType, queryParameters, lenient);
+
+        // Add the inclusion criteria to the front of the search parameter list
+        if (inclusionCriteria != null) {
+            context.getSearchParameters().add(0, inclusionCriteria);
+        }
+
+        return context;
+    }
+
+    /**
+     * Build a query parameter to encapsulate the inclusion criteria for a compartment query
+     *
+     * @param compartmentName
+     * @param compartmentLogicalIds
+     * @param resourceType
+     * @return
+     * @throws FHIRSearchException
+     */
+    public static QueryParameter buildInclusionCriteria(String compartmentName, List<String> compartmentLogicalIds, String resourceType)
+            throws FHIRSearchException {
         QueryParameter rootParameter = null;
 
-        if (compartmentName != null && compartmentLogicalId != null) {
+        if (compartmentName != null && compartmentLogicalIds != null && !compartmentLogicalIds.isEmpty()) {
             // The inclusion criteria are represented as a chain of parameters, each with a value of the
             // compartmentLogicalId.
             // The query parsers will OR these parameters to achieve the compartment search.
@@ -1460,15 +1483,17 @@ public class SearchUtil {
             } else {
                 // pre #1708 behavior, which is the default
                 inclusionCriteria =
-                        CompartmentUtil.getCompartmentResourceTypeInclusionCriteria(compartmentName,
-                                resourceType.getSimpleName());
+                        CompartmentUtil.getCompartmentResourceTypeInclusionCriteria(compartmentName, resourceType);
             }
 
             for (String criteria : inclusionCriteria) {
                 QueryParameter parameter  = new QueryParameter(Type.REFERENCE, criteria, null, null, true);
-                QueryParameterValue value = new QueryParameterValue();
-                value.setValueString(compartmentName + "/" + compartmentLogicalId);
-                parameter.getValues().add(value);
+                for (String compartmentLogicalId : compartmentLogicalIds) {
+                    QueryParameterValue value = new QueryParameterValue();
+                    value.setValueString(compartmentName + "/" + compartmentLogicalId);
+                    parameter.getValues().add(value);
+                }
+
                 if (rootParameter == null) {
                     rootParameter = parameter;
                 } else {
@@ -1480,15 +1505,7 @@ public class SearchUtil {
                 }
             }
         }
-
-        FHIRSearchContext context = parseQueryParameters(resourceType, queryParameters, lenient);
-
-        // Add the inclusion criteria search parameters to the front of the search parameter list
-        if (rootParameter != null) {
-            context.getSearchParameters().add(0, rootParameter);
-        }
-
-        return context;
+        return rootParameter;
     }
 
     private static SearchConstants.Prefix getPrefix(String s) throws FHIRSearchException {

@@ -138,15 +138,11 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 }
                 try {
                     if (CompartmentUtil.getCompartmentResourceTypes("Patient").contains(event.getFhirResourceType())) {
-                        // Get Patient compartment inclusion criteria search parameters. It will actually be one QueryParameter object with each inclusion
-                        // criteria search parameter chained off the root.
-                        // NOTE: We currently do not support OR'd compartment searches, nor do we currently expect more than one patient ID to be
-                        // specified in the authorization token (see getPatientIdFromToken()). We will use the first ID specified for the compartment search.
-                        FHIRSearchContext compartmentSearchContext = SearchUtil.parseCompartmentQueryParameters("Patient", patientIdFromToken.get(0),
-                                ModelSupport.getResourceType(event.getFhirResourceType()), Collections.emptyMap(), searchContext.isLenient());
+                        // Build the Patient compartment inclusion criteria search parameter
+                        QueryParameter inclusionCriteria = SearchUtil.buildInclusionCriteria("Patient", patientIdFromToken, event.getFhirResourceType());
 
-                        // Add compartment search parameters to front of search parameter list
-                        searchContext.getSearchParameters().addAll(0, compartmentSearchContext.getSearchParameters());
+                        // Add the inclusion criteria parameter to the front of the search parameter list
+                        searchContext.getSearchParameters().add(0, inclusionCriteria);
                     }
                 } catch (Exception e) {
                     String msg = "Unexpected exception converting to Patient compartment search: " + e.getMessage();
