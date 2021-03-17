@@ -10,6 +10,7 @@ import static com.ibm.fhir.core.util.LRUCache.createLRUCache;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.term.util.CodeSystemSupport.getCodeSystem;
 import static com.ibm.fhir.term.util.CodeSystemSupport.isCaseSensitive;
+import static com.ibm.fhir.term.util.CodeSystemSupport.normalize;
 
 import java.time.ZoneOffset;
 import java.util.ArrayList;
@@ -401,7 +402,7 @@ public final class ValueSetSupport {
         }
         java.lang.String url = (version != null) ? system + "|" + version : system;
         if (!isCaseSensitive(url)) {
-            code = code.toLowerCase();
+            code = normalize(code);
         }
         if (version != null) {
             Set<java.lang.String> codeSet = codeSetMap.get(system + "|" + version);
@@ -449,7 +450,7 @@ public final class ValueSetSupport {
                 if (system != null && code != null) {
                     java.lang.String url = !VERSION_UNKNOWN.equals(version) ? system + "|" + version : system;
                     if (!isCaseSensitive(url)) {
-                        code = code.toLowerCase();
+                        code = normalize(code);
                     }
                     codeSetMap.computeIfAbsent(system + "|" + version, k -> new LinkedHashSet<>()).add(code);
                 }
