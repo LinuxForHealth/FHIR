@@ -167,7 +167,7 @@ public class PatientResourceHandler {
                             throw e;
                         }
                     }
-                    dto.makeChunk();
+
                     if (auditLogger.shouldLog() && resources != null) {
                         Date endTime = new Date(System.currentTimeMillis());
                         auditLogger.logSearchOnExport(ctx.getPartitionResourceType(), queryParameters, resources.size(), startTime, endTime, Response.Status.OK, "StorageProvider@" + provider, "BulkDataOperator");

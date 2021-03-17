@@ -233,7 +233,6 @@ public class ChunkReader extends AbstractItemReader {
                     if ("Patient".equals(ctx.getPartitionResourceType())) {
                         handler.fillChunkPatientDataBuffer(resources);
                         dto.setResources(resources);
-                        dto.makeChunk();
                     } else {
                         handler.fillChunkDataBuffer(patientIds, dto);
                     }
