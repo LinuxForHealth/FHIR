@@ -7,6 +7,9 @@
 package com.ibm.fhir.bulkdata.jbatch.export.data;
 
 import java.io.ByteArrayOutputStream;
+import java.util.List;
+
+import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
 
 /**
  * Bulk Export Job Transient data
@@ -22,7 +25,7 @@ public class ExportTransientUserData extends ExportCheckpointUserData {
     }
 
     public static ExportTransientUserData fromCheckPointUserData(ExportCheckpointUserData checkPointData) {
-        return (ExportTransientUserData)ExportTransientUserData.Builder.builder()
+        return ExportTransientUserData.Builder.builder()
             .pageNum(checkPointData.pageNum)
             .uploadId(checkPointData.uploadId)
             .cosDataPacks(checkPointData.cosDataPacks)
@@ -34,7 +37,7 @@ public class ExportTransientUserData extends ExportCheckpointUserData {
             .currentUploadSize(checkPointData.currentUploadSize)
             .uploadCount(checkPointData.uploadCount)
             .lastPageNum(checkPointData.lastPageNum)
-            .lastWritePageNum(checkPointData.lastWritePageNum)
+            .lastWrittenPageNum(checkPointData.lastWrittenPageNum)
             .build();
     }
 
@@ -49,7 +52,67 @@ public class ExportTransientUserData extends ExportCheckpointUserData {
         }
 
         @Override
-        public ExportCheckpointUserData build(){
+        public Builder pageNum(int pageNum) {
+            return (Builder) super.pageNum(pageNum);
+        }
+
+        @Override
+        public Builder lastPageNum(int lastPageNum) {
+            return (Builder) super.lastPageNum(lastPageNum);
+        }
+
+        @Override
+        public Builder partNum(int partNum) {
+            return (Builder) super.partNum(partNum);
+        }
+
+        @Override
+        public Builder uploadId(String uploadId) {
+            return (Builder) super.uploadId(uploadId);
+        }
+
+        @Override
+        public Builder uploadCount(long uploadCount) {
+            return (Builder) super.uploadCount(uploadCount);
+        }
+
+        @Override
+        public Builder cosDataPacks(List<PartETag> cosDataPacks) {
+            return (Builder) super.cosDataPacks(cosDataPacks);
+        }
+
+        @Override
+        public Builder currentUploadResourceNum(long currentUploadResourceNum) {
+            return (Builder) super.currentUploadResourceNum(currentUploadResourceNum);
+        }
+
+        @Override
+        public Builder currentUploadSize(long currentUploadSize) {
+            return (Builder) super.currentUploadSize(currentUploadSize);
+        }
+
+        @Override
+        public Builder totalResourcesNum(long totalResourcesNum) {
+            return (Builder) super.totalResourcesNum(totalResourcesNum);
+        }
+
+        @Override
+        public Builder indexOfCurrentTypeFilter(int indexOfCurrentTypeFilter) {
+            return (Builder) super.indexOfCurrentTypeFilter(indexOfCurrentTypeFilter);
+        }
+
+        @Override
+        public Builder resourceTypeSummary(String resourceTypeSummary) {
+            return (Builder) super.resourceTypeSummary(resourceTypeSummary);
+        }
+
+        @Override
+        public Builder lastWrittenPageNum(int lastWritePageNum) {
+            return (Builder) super.lastWrittenPageNum(lastWritePageNum);
+        }
+
+        @Override
+        public ExportTransientUserData build(){
             ExportTransientUserData transientUserData = new ExportTransientUserData();
             transientUserData.pageNum  = this.pageNum;
             transientUserData.lastPageNum = this.lastPageNum;
@@ -62,7 +125,7 @@ public class ExportTransientUserData extends ExportCheckpointUserData {
             transientUserData.totalResourcesNum = this.totalResourcesNum;
             transientUserData.indexOfCurrentTypeFilter = this.indexOfCurrentTypeFilter;
             transientUserData.resourceTypeSummary = this.resourceTypeSummary;
-            transientUserData.lastWritePageNum = this.lastWritePageNum;
+            transientUserData.lastWrittenPageNum = this.lastWritePageNum;
             return transientUserData;
         }
     }
@@ -73,6 +136,6 @@ public class ExportTransientUserData extends ExportCheckpointUserData {
                 + ", uploadId=" + uploadId + ", uploadCount=" + uploadCount + ", cosDataPacks=" + cosDataPacks + ", currentUploadResourceNum="
                 + currentUploadResourceNum + ", currentUploadSize=" + currentUploadSize + ", totalResourcesNum=" + totalResourcesNum
                 + ", indexOfCurrentTypeFilter=" + indexOfCurrentTypeFilter + ", resourceTypeSummary=" + resourceTypeSummary + ", lastWritePageNum="
-                + lastWritePageNum + "]";
+                + lastWrittenPageNum + "]";
     }
 }

@@ -31,7 +31,7 @@ public class ExportCheckpointUserData implements java.io.Serializable {
     protected String resourceTypeSummary = null;
     // Used to mark the complete of the partition.
     private boolean isMoreToExport = true;
-    protected int lastWritePageNum;
+    protected int lastWrittenPageNum;
 
     protected ExportCheckpointUserData() {
         super();
@@ -50,7 +50,7 @@ public class ExportCheckpointUserData implements java.io.Serializable {
             .currentUploadSize(userData.currentUploadSize)
             .uploadCount(userData.uploadCount)
             .lastPageNum(userData.lastPageNum)
-            .lastWritePageNum(userData.lastWritePageNum)
+            .lastWrittenPageNum(userData.lastWrittenPageNum)
             .build();
     }
 
@@ -131,7 +131,7 @@ public class ExportCheckpointUserData implements java.io.Serializable {
             return this;
         }
 
-        public Builder lastWritePageNum(int lastWritePageNum) {
+        public Builder lastWrittenPageNum(int lastWritePageNum) {
             this.lastWritePageNum = lastWritePageNum;
             return this;
         }
@@ -149,7 +149,7 @@ public class ExportCheckpointUserData implements java.io.Serializable {
             checkPointUserData.totalResourcesNum = this.totalResourcesNum;
             checkPointUserData.indexOfCurrentTypeFilter = this.indexOfCurrentTypeFilter;
             checkPointUserData.resourceTypeSummary = this.resourceTypeSummary;
-            checkPointUserData.lastWritePageNum = this.lastWritePageNum;
+            checkPointUserData.lastWrittenPageNum = this.lastWritePageNum;
 
             return checkPointUserData;
         }
@@ -268,15 +268,15 @@ public class ExportCheckpointUserData implements java.io.Serializable {
         this.uploadCount = uploadCount;
     }
 
-    public int getLastWritePageNum() {
-        return lastWritePageNum;
+    public int getLastWrittenPageNum() {
+        return lastWrittenPageNum;
     }
 
     /**
      * @param lastWritePageNum the last page of search results that was exported
      */
-    public void setLastWritePageNum(int lastWritePageNum) {
-        this.lastWritePageNum = lastWritePageNum;
+    public void setLastWrittenPageNum(int lastWritePageNum) {
+        this.lastWrittenPageNum = lastWritePageNum;
     }
 
     @Override
@@ -285,7 +285,7 @@ public class ExportCheckpointUserData implements java.io.Serializable {
                 + uploadCount + ", cosDataPacks=" + cosDataPacks + ", currentUploadResourceNum=" + currentUploadResourceNum + ", currentUploadSize="
                 + currentUploadSize + ", isFinishCurrentUpload=" + isFinishCurrentUpload + ", totalResourcesNum=" + totalResourcesNum
                 + ", indexOfCurrentTypeFilter=" + indexOfCurrentTypeFilter + ", resourceTypeSummary=" + resourceTypeSummary + ", isMoreToExport="
-                + isMoreToExport + ", lastWritePageNum=" + lastWritePageNum + "]";
+                + isMoreToExport + ", lastWritePageNum=" + lastWrittenPageNum + "]";
     }
 
 }

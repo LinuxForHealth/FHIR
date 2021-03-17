@@ -49,6 +49,7 @@ import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCacheUpdater;
 import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
+import com.ibm.fhir.persistence.util.InputOutputByteStream;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 
 /**
@@ -66,7 +67,16 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     public static final String DEFAULT_VALUE_REINDEX_TSTAMP = "1970-01-01 00:00:00";
 
-    // Read the current version of the resource
+    // column indices for all our resource reading queries
+    public static final int IDX_RESOURCE_ID = 1;
+    public static final int IDX_LOGICAL_RESOURCE_ID = 2;
+    public static final int IDX_VERSION_ID = 3;
+    public static final int IDX_LAST_UPDATED = 4;
+    public static final int IDX_IS_DELETED = 5;
+    public static final int IDX_DATA = 6;
+    public static final int IDX_LOGICAL_ID = 7;
+
+    // Read the current version of the resource (even if the resource has been deleted)
     private static final String SQL_READ = "SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID " +
             "FROM %s_RESOURCES R, %s_LOGICAL_RESOURCES LR WHERE " +
             "LR.LOGICAL_ID = ? AND R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID";
@@ -244,12 +254,15 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         Resource resource = new Resource();
 
         try {
-            resource.setData(resultSet.getBytes("DATA"));
-            resource.setId(resultSet.getLong("RESOURCE_ID"));
-            resource.setLastUpdated(resultSet.getTimestamp("LAST_UPDATED"));
-            resource.setLogicalId(resultSet.getString("LOGICAL_ID"));
-            resource.setVersionId(resultSet.getInt("VERSION_ID"));
-            resource.setDeleted(resultSet.getString("IS_DELETED").equals("Y") ? true : false);
+            byte[] payloadData = resultSet.getBytes(IDX_DATA);
+            if (payloadData != null) {
+                resource.setDataStream(new InputOutputByteStream(payloadData, payloadData.length));
+            }
+            resource.setId(resultSet.getLong(IDX_RESOURCE_ID));
+            resource.setLastUpdated(resultSet.getTimestamp(IDX_LAST_UPDATED));
+            resource.setLogicalId(resultSet.getString(IDX_LOGICAL_ID));
+            resource.setVersionId(resultSet.getInt(IDX_VERSION_ID));
+            resource.setDeleted(resultSet.getString(IDX_IS_DELETED).equals("Y") ? true : false);
         } catch (Throwable e) {
             FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure creating Resource DTO.");
             throw severe(log, fx, e);
@@ -556,13 +569,13 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             stmt.setString(2, resource.getLogicalId());
 
             // Check for large objects, and branch around it.
-            boolean large = FhirSchemaConstants.STORED_PROCEDURE_SIZE_LIMIT < resource.getData().length;
+            boolean large = FhirSchemaConstants.STORED_PROCEDURE_SIZE_LIMIT < resource.getDataStream().size();
             if (large) {
                 // Outside of the normal flow we have a BIG JSON or XML
                 stmt.setNull(3, Types.BLOB);
             } else {
                 // Normal Flow, we set the data
-                stmt.setBytes(3, resource.getData());
+                stmt.setBinaryStream(3, resource.getDataStream().inputStream());
             }
 
             lastUpdated = resource.getLastUpdated();
@@ -582,7 +595,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                 String largeStmtString = String.format(LARGE_BLOB, resource.getResourceType());
                 try (PreparedStatement ps = connection.prepareStatement(largeStmtString)) {
                     // Use the long id to update the record in the database with the large object.
-                    ps.setBytes(1, resource.getData());
+                    ps.setBinaryStream(1, resource.getDataStream().inputStream());
                     ps.setLong(2, versionedResourceRowId);
                     long dbCallStartTime2 = System.nanoTime();
                     int numberOfRows = -1;

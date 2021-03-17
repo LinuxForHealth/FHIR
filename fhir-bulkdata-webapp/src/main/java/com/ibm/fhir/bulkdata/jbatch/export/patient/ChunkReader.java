@@ -67,8 +67,10 @@ public class ChunkReader extends AbstractItemReader {
 
     private PatientResourceHandler handler = new PatientResourceHandler();
 
-    // Maintains the pointer to the current resources by pageNum,pageSize
-    protected int pageNum = 1;
+    // Initialized to zero so we can increment it on every call to readItem (including the first one).
+    protected int pageNum = 0;
+
+    // Control the number of records to read in each "item".
     protected int pageSize;
 
     protected Class<? extends Resource> resourceType;
@@ -107,7 +109,7 @@ public class ChunkReader extends AbstractItemReader {
 
         if (checkpoint != null) {
             ExportCheckpointUserData checkPointData = (ExportCheckpointUserData) checkpoint;
-            pageNum = checkPointData.getLastWritePageNum();
+            pageNum = checkPointData.getLastWrittenPageNum();
             stepCtx.setTransientUserData(ExportTransientUserData.fromCheckPointUserData(checkPointData));
         }
 
@@ -141,6 +143,9 @@ public class ChunkReader extends AbstractItemReader {
             // short-circuit
             return null;
         }
+
+        // Move the page number forward. On the first readItem call, this will increment from 0 to 1.
+        pageNum++;
 
         ExportTransientUserData chunkData = (ExportTransientUserData) stepCtx.getTransientUserData();
         if (chunkData != null && pageNum > chunkData.getLastPageNum()) {
@@ -184,30 +189,28 @@ public class ChunkReader extends AbstractItemReader {
 
             if (auditLogger.shouldLog() && resources != null) {
                 Date endTime = new Date(System.currentTimeMillis());
-                auditLogger.logSearchOnExport(queryParameters, resources.size(), startTime, endTime, Response.Status.OK, "StorageProvider@" + ctx.getSource(), "BulkDataOperator");
+                auditLogger.logSearchOnExport(ctx.getPartitionResourceType(), queryParameters, resources.size(), startTime, endTime, Response.Status.OK, "StorageProvider@" + ctx.getSource(), "BulkDataOperator");
             }
 
             pageNum++;
 
-            if (chunkData == null) {
-                // @formatter:off
-                chunkData =
-                        (ExportTransientUserData) ExportTransientUserData.Builder.builder()
-                            .pageNum(pageNum)
-                            .uploadId(null)
-                            .cosDataPacks(new ArrayList<PartETag>())
-                            .partNum(1)
-                            .indexOfCurrentTypeFilter(0)
-                            .resourceTypeSummary(null)
-                            .totalResourcesNum(0)
-                            .currentUploadResourceNum(0)
-                            .currentUploadSize(0)
-                            .uploadCount(1)
-                            .lastPageNum(searchContext.getLastPageNumber())
-                            .lastWritePageNum(1)
-                            .build();
-                // @formatter:on
+            dto = new ReadResultDTO(resources);
 
+            if (chunkData == null) {
+                chunkData = ExportTransientUserData.Builder.builder()
+                        .pageNum(pageNum)
+                        .uploadId(null)
+                        .cosDataPacks(new ArrayList<PartETag>())
+                        .partNum(1)
+                        .indexOfCurrentTypeFilter(0)
+                        .resourceTypeSummary(null)
+                        .totalResourcesNum(0)
+                        .currentUploadResourceNum(0)
+                        .currentUploadSize(0)
+                        .uploadCount(1)
+                        .lastPageNum(searchContext.getLastPageNumber())
+                        .lastWrittenPageNum(1)
+                        .build();
             } else {
                 chunkData.setPageNum(pageNum);
                 chunkData.setLastPageNum(searchContext.getLastPageNumber());

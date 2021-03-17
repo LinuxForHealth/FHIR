@@ -1012,7 +1012,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             Class<? extends Resource> resourceType = getResourceType(resourceTypeName);
 
-            FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(compartment, compartmentId, resourceType, queryParameters,
+            FHIRSearchContext searchContext = SearchUtil.parseCompartmentQueryParameters(compartment, compartmentId, resourceType, queryParameters,
                 HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
 
             // First, invoke the 'beforeSearch' interceptor methods.
@@ -2520,7 +2520,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         throws Exception {
 
         // throws if we have a count of more than 2,147,483,647 resources
-        UnsignedInt totalCount = UnsignedInt.of(searchContext.getTotalCount());
+        UnsignedInt totalCount = searchContext.getTotalCount() != null ? UnsignedInt.of(searchContext.getTotalCount()) : null;
         // generate ID for this bundle and set total
         Bundle.Builder bundleBuilder = Bundle.builder()
                                             .type(BundleType.SEARCHSET)
@@ -2529,12 +2529,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         if (resources.size() > 0) {
             // Calculate how many resources are 'match' mode
-            int pageSize = searchContext.getPageSize();
-            int offset = (searchContext.getPageNumber() - 1) * pageSize;
-            int matchResourceCount = pageSize;
-            if (totalCount.getValue() < offset + pageSize) {
-                matchResourceCount = totalCount.getValue() - offset;
-            }
+            int matchResourceCount = searchContext.getMatchCount();
             List<Resource> matchResources = resources.subList(0,  matchResourceCount);
 
             // Check if too many included resources
@@ -2707,7 +2702,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             throws Exception {
 
         // throws if we have a count of more than 2,147,483,647 resources
-        UnsignedInt totalCount = UnsignedInt.of(historyContext.getTotalCount());
+        UnsignedInt totalCount = historyContext.getTotalCount() != null ? UnsignedInt.of(historyContext.getTotalCount()) : null;
         // generate ID for this bundle and set the "total" field for the bundle
         Bundle.Builder bundleBuilder = Bundle.builder()
                                              .type(BundleType.HISTORY)
@@ -2790,8 +2785,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         // If for search with _summary=count or pageSize == 0, then don't add previous and next links.
         if (!SummaryValueSet.COUNT.equals(summaryParameter) && context.getPageSize() > 0) {
-            int nextPageNumber = context.getPageNumber() + 1;
-            if (nextPageNumber <= context.getLastPageNumber()) {
+            // In case the currently requested page is < 1, ensure the next link points to page 1,
+            // to avoid unnecessarily paging through additional page numbers < 1
+            int nextPageNumber = Math.max(context.getPageNumber() + 1, 1);
+            if (nextPageNumber <= context.getLastPageNumber()
+                    && (nextPageNumber == 1 || context.getTotalCount() != null || context.getMatchCount() > 0)) {
 
                 // starting with the self URI
                 String nextLinkUrl = selfUri;
@@ -2818,7 +2816,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 bundleBuilder.link(nextLink);
             }
 
-            int prevPageNumber = context.getPageNumber() - 1;
+            int prevPageNumber = Math.min(context.getPageNumber() - 1, context.getLastPageNumber());
             if (prevPageNumber > 0) {
 
                 // starting with the original request URI
@@ -2900,8 +2898,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
         }
 
-        // Strip any path segments for whole-system interactions (in case of whole-system search, "Resource" is passed as the type)
-        if (type == null || type.isEmpty() || "Resource".equals(type)) {
+        // Strip any path segments for whole-system interactions (in case of whole-system search, "Resource" is passed as the type, or $everything-based search)
+        if (type == null || type.isEmpty() || "Resource".equals(type) || baseUri.contains("$everything")) {
             if (baseUri.endsWith("/_search")) {
                 baseUri = baseUri.substring(0, baseUri.length() - "/_search".length());
             } else if (baseUri.endsWith("/_history")) {

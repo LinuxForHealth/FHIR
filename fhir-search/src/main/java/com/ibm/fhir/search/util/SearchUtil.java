@@ -56,6 +56,7 @@ import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.SummaryValueSet;
+import com.ibm.fhir.search.TotalValueSet;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.context.FHIRSearchContextFactory;
@@ -751,6 +752,12 @@ public class SearchUtil {
                 throw SearchExceptionUtil.buildNewInvalidSearchException(
                         "_sort search result parameter not supported with _include or _revinclude.");
             }
+            // Make sure _total is not present with _include and/or _revinclude.
+            // TODO: do we really need to forbid this?
+            if (queryParameters.containsKey(SearchConstants.TOTAL)) {
+                throw SearchExceptionUtil.buildNewInvalidSearchException(
+                        "_total search result parameter not supported with _include or _revinclude.");
+            }
             // Because _include and _revinclude searches all require certain resource type modifier in
             // search parameter, so we just don't support it.
             if (Resource.class.equals(resourceType)) {
@@ -1393,7 +1400,7 @@ public class SearchUtil {
      * @throws Exception an exception
      */
     public static FHIRSearchContext parseReadQueryParameters(Class<?> resourceType,
-        Map<String, List<String>> queryParameters, String interaction, boolean lenient) throws Exception {
+            Map<String, List<String>> queryParameters, String interaction, boolean lenient) throws Exception {
         String resourceTypeName = resourceType.getSimpleName();
 
         // Read and vRead only allow general search parameters
@@ -1407,14 +1414,13 @@ public class SearchUtil {
             log.log(Level.FINE, "Error while parsing search parameter '" + nonGeneralParam + "' for resource type " + resourceTypeName, se);
         }
 
-        return parseQueryParameters(null, null, resourceType, queryParameters, lenient);
+        return parseCompartmentQueryParameters(null, null, resourceType, queryParameters, lenient);
     }
 
 
-    public static FHIRSearchContext parseQueryParameters(String compartmentName, String compartmentLogicalId,
-            Class<?> resourceType,
-            Map<String, List<String>> queryParameters, String queryString) throws Exception {
-        return parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, true);
+    public static FHIRSearchContext parseCompartmentQueryParameters(String compartmentName, String compartmentLogicalId,
+            Class<?> resourceType, Map<String, List<String>> queryParameters) throws Exception {
+        return parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParameters, true);
     }
 
     /**
@@ -1435,7 +1441,7 @@ public class SearchUtil {
      * @return
      * @throws Exception
      */
-    public static FHIRSearchContext parseQueryParameters(String compartmentName, String compartmentLogicalId,
+    public static FHIRSearchContext parseCompartmentQueryParameters(String compartmentName, String compartmentLogicalId,
             Class<?> resourceType, Map<String, List<String>> queryParameters, boolean lenient) throws Exception {
 
         QueryParameter rootParameter = null;
@@ -1547,6 +1553,8 @@ public class SearchUtil {
                 parseElementsParameter(resourceType, context, first, lenient);
             } else if (SearchConstants.SUMMARY.equals(name) && first != null) {
                 context.setSummaryParameter(SummaryValueSet.from(first));
+            } else if (SearchConstants.TOTAL.equals(name) && first != null) {
+                context.setTotalParameter(TotalValueSet.from(first));
             }
         } catch (FHIRSearchException se) {
             throw se;
@@ -1554,7 +1562,6 @@ public class SearchUtil {
             throw SearchExceptionUtil.buildNewParseParameterException(name, e);
         }
     }
-
 
     public static boolean isChainedParameter(String name) {
         return name.contains(SearchConstants.CHAINED_PARAMETER_CHARACTER);

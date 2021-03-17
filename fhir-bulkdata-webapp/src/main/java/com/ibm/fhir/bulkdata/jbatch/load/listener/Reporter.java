@@ -79,7 +79,7 @@ public class Reporter {
         logger.info("Operation Type: $import");
         logger.info(String.format("%-22s%-22s%-22s%-22s%-22s%-22s%-22s%-22s%-22s",
             "Resource Type","failures", "success", "processed", "totalRead", "totalValidation", "totalWrite", "fileSize", "Resource Size"));
-        int totalImportedFhirResources = 0;
+        long totalImportedFhirResources = 0;
         for (ImportCheckPointData importedResourceTypeSummary : importedResourceTypeSummaries.values()) {
             String resourceType = importedResourceTypeSummary.getImportPartitionResourceType();
             long failures = importedResourceTypeSummary.getNumOfImportFailures();
@@ -89,6 +89,8 @@ public class Reporter {
             long totalValidation = importedResourceTypeSummary.getTotalValidationMilliSeconds();
             long processed = importedResourceTypeSummary.getNumOfImportedResources();
             long fileSize = importedResourceTypeSummary.getImportFileSize();
+
+            totalImportedFhirResources += success;
 
             double resourceSize = -1.0;
             if (success + failures > 0) {

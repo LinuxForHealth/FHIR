@@ -22,6 +22,7 @@ import com.ibm.fhir.database.utils.api.DuplicateSchemaException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTarget;
+import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.common.AddForeignKeyConstraint;
 import com.ibm.fhir.database.utils.common.CommonDatabaseAdapter;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
@@ -339,36 +340,24 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
         logger.fine("Drop tablespace not supported. This is as expected");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#disableForeignKey(java.lang.String, java.lang.String, java.lang.String)
-     */
     @Override
     public void disableForeignKey(String schemaName, String tableName, String constraintName) {
         // not expecting this to be called for this adapter
         throw new UnsupportedOperationException("Disable FK currently not supported for this adapter.");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#enableForeignKey(java.lang.String, java.lang.String, java.lang.String)
-     */
     @Override
     public void enableForeignKey(String schemaName, String tableName, String constraintName) {
         // not expecting this to be called for this adapter
         throw new UnsupportedOperationException("Disable FK currently not supported for this adapter.");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#setIntegrityOff(java.lang.String, java.lang.String)
-     */
     @Override
     public void setIntegrityOff(String schemaName, String tableName) {
         // not expecting this to be called for this adapter
         throw new UnsupportedOperationException("Set integrity off not supported for this adapter.");
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.api.IDatabaseAdapter#setIntegrityUnchecked(java.lang.String, java.lang.String)
-     */
     @Override
     public void setIntegrityUnchecked(String schemaName, String tableName) {
         // not expecting this to be called for this adapter
@@ -394,5 +383,17 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
         final String ddl = "DROP PERMISSION " + nm;
 
         warnOnce(MessageKey.DROP_PERMISSION, "Not supported in PostgreSQL: " + ddl);
+    }
+
+    @Override
+    public void dropSequence(String schemaName, String sequenceName) {
+        final String sname = DataDefinitionUtil.getQualifiedName(schemaName.toLowerCase(), sequenceName.toLowerCase());
+        final String ddl = "DROP SEQUENCE IF EXISTS " + sname;
+
+        try {
+            runStatement(ddl);
+        } catch (UndefinedNameException x) {
+            logger.warning(ddl + "; Sequence not found");
+        }
     }
 }
