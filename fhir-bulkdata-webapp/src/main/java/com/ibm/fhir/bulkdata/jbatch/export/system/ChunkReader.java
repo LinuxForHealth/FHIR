@@ -65,16 +65,18 @@ public class ChunkReader extends AbstractItemReader {
 
     private SystemExportResourceHandler handler = new SystemExportResourceHandler();
 
-    // The handle to the persistence instance used to fetch the resources we want to export
+    // The handle to the persistence instance used to fetch the resources we want to export.
     FHIRPersistence fhirPersistence;
 
     // The resource type class of the resources being exported by this instance (derived from the injected
-    // fhirResourceType value
+    // fhirResourceType value).
     Class<? extends Resource> resourceType;
 
     private BulkDataContext ctx = null;
 
-    int pageNum = 1;
+    // Initialized to zero so we can increment it on every call to readItem (including the first one).
+    int pageNum = 0;
+
     // Control the number of records to read in each "item".
     int pageSize = ConfigurationFactory.getInstance().getCorePageSize();
 
@@ -114,7 +116,7 @@ public class ChunkReader extends AbstractItemReader {
 
         if (checkpoint != null) {
             ExportCheckpointUserData checkPointData = (ExportCheckpointUserData) checkpoint;
-            pageNum = checkPointData.getLastWritePageNum();
+            pageNum = checkPointData.getLastWrittenPageNum();
             indexOfCurrentTypeFilter = checkPointData.getIndexOfCurrentTypeFilter();
 
             // We use setTransient from checkpoint when we have just uploaded to COS.
@@ -149,6 +151,9 @@ public class ChunkReader extends AbstractItemReader {
             // short-circuit
             return null;
         }
+
+        // Move the page number forward. On the first readItem call, this will increment from 0 to 1.
+        pageNum++;
 
         ExportTransientUserData chunkData = (ExportTransientUserData) stepCtx.getTransientUserData();
         // If the search already reaches the last page, then check if need to move to the next typeFilter.
@@ -213,29 +218,25 @@ public class ChunkReader extends AbstractItemReader {
             txn.end();
             if (auditLogger.shouldLog() && dto != null) {
                 Date endTime = new Date(System.currentTimeMillis());
-                auditLogger.logSearchOnExport(queryParameters, dto.size(), startTime, endTime, Response.Status.OK, "@source:" + ctx.getSource(), "BulkDataOperator");
+                auditLogger.logSearchOnExport(ctx.getPartitionResourceType(), queryParameters, dto.size(), startTime, endTime, Response.Status.OK, "@source:" + ctx.getSource(), "BulkDataOperator");
             }
         }
-        pageNum++;
 
         if (chunkData == null) {
-            // @formatter:off
-                chunkData =
-                        (ExportTransientUserData) ExportTransientUserData.Builder.builder()
-                            .pageNum(pageNum)
-                            .uploadId(null)
-                            .cosDataPacks(new ArrayList<PartETag>())
-                            .partNum(1)
-                            .indexOfCurrentTypeFilter(0)
-                            .resourceTypeSummary(null)
-                            .totalResourcesNum(0)
-                            .currentUploadResourceNum(0)
-                            .currentUploadSize(0)
-                            .uploadCount(1)
-                            .lastPageNum(searchContext.getLastPageNumber())
-                            .lastWritePageNum(1)
-                            .build();
-                // @formatter:on
+            chunkData = ExportTransientUserData.Builder.builder()
+                    .pageNum(pageNum)
+                    .uploadId(null)
+                    .cosDataPacks(new ArrayList<PartETag>())
+                    .partNum(1)
+                    .indexOfCurrentTypeFilter(0)
+                    .resourceTypeSummary(null)
+                    .totalResourcesNum(0)
+                    .currentUploadResourceNum(0)
+                    .currentUploadSize(0)
+                    .uploadCount(1)
+                    .lastPageNum(searchContext.getLastPageNumber())
+                    .lastWrittenPageNum(1)
+                    .build();
             stepCtx.setTransientUserData(chunkData);
         } else {
             chunkData.setPageNum(pageNum);

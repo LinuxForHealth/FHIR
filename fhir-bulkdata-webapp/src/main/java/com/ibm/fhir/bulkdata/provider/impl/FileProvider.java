@@ -161,10 +161,27 @@ public class FileProvider implements Provider {
     @Override
     public void writeResources(String mediaType, List<ReadResultDTO> dtos) throws Exception {
         if (out == null) {
-            this.fileName = cosBucketPathPrefix + "_" + fhirResourceType + "_" + chunkData.getUploadCount() + ".ndjson";
+            boolean parquet = configuration.isStorageProviderParquetEnabled(source);
+            String ext;
+            if (parquet) {
+                ext = ".parquet";
+            } else {
+                ext = ".ndjson";
+            }
+            this.fileName = cosBucketPathPrefix + File.separator + fhirResourceType + "_" + chunkData.getUploadCount() + ext;
             String base = configuration.getBaseFileLocation(source);
 
-            String fn = base + "/" + fileName;
+            String folder = base + File.separator + cosBucketPathPrefix + File.separator;
+            Path folderPath = Paths.get(folder);
+            try {
+                Files.createDirectories(folderPath);
+            } catch(IOException ioe) {
+                if (!Files.exists(folderPath)) {
+                    throw ioe;
+                }
+            }
+
+            String fn = base + File.separator + fileName;
             Path p1 = Paths.get(fn);
             try {
                 // This is a trap. Be sure to mark CREATE and APPEND.

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018,2020
+ * (C) Copyright IBM Corp. 2018, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -79,6 +79,17 @@ public class InclusionParameterParseTest extends BaseSearchTest {
 
         // In strict mode, the query should throw a FHIRSearchException
         queryParameters.put("_sort", Collections.singletonList("birthDate"));
+        queryParameters.put("_include", Collections.singletonList("Patient:general-practitioner"));
+        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+    }
+
+    @Test(expectedExceptions = FHIRSearchException.class)
+    public void testIncludeInvalidWithTotal() throws Exception {
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        Class<Patient> resourceType = Patient.class;
+
+        // In strict mode, the query should throw a FHIRSearchException
+        queryParameters.put("_total", Collections.singletonList("none"));
         queryParameters.put("_include", Collections.singletonList("Patient:general-practitioner"));
         SearchUtil.parseQueryParameters(resourceType, queryParameters);
     }
@@ -301,6 +312,17 @@ public class InclusionParameterParseTest extends BaseSearchTest {
 
         String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
         assertTrue(selfUri.contains(queryString));
+    }
+
+    @Test(expectedExceptions = FHIRSearchException.class)
+    public void testRevincludeInvalidWithTotal() throws Exception {
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        Class<Organization> resourceType = Organization.class;
+
+        // In strict mode, the query should throw a FHIRSearchException
+        queryParameters.put("_total", Collections.singletonList("none"));
+        queryParameters.put("_revinclude", Collections.singletonList("Patient:organization"));
+        SearchUtil.parseQueryParameters(resourceType, queryParameters);
     }
 
     @Test

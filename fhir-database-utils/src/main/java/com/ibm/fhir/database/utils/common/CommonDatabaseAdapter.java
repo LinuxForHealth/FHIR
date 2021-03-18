@@ -531,8 +531,8 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT "
                 + " INCREMENT BY " + incrementBy
-                + " START WITH " + startWith 
-                + " CACHE " + cache 
+                + " START WITH " + startWith
+                + " CACHE " + cache
                 + " NO CYCLE";
         runStatement(ddl);
     }
@@ -549,6 +549,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
             logger.warning(ddl + "; Sequence not found");
         }
     }
+
     @Override
     public void alterSequenceRestartWith(String schemaName, String sequenceName, long restartWith, int cache, int incrementBy) {
         // make sure we never reduce the sequence value
@@ -560,8 +561,8 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
 
         // Note the keyword RESTART instead of START.
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
-        final String ddl = "ALTER SEQUENCE " + qname 
-                + " RESTART WITH " + restartWith 
+        final String ddl = "ALTER SEQUENCE " + qname
+                + " RESTART WITH " + restartWith
                 + " INCREMENT BY " + incrementBy
                 + " CACHE " + cache;
 
@@ -668,14 +669,14 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         // Create the qualified name, making sure the input is also secure
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, indexName);
         final String ddl = "DROP INDEX " + qname;
-        
+
         try {
             runStatement(ddl);
         } catch (UndefinedNameException x) {
             logger.warning(ddl + "; INDEX not found");
         }
     }
-    
+
     @Override
     public void dropView(String schemaName, String viewName) {
         // don't propagate errors...we don't really care if the drop failed
@@ -688,30 +689,30 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         CreateOrReplaceViewDAO dao = new CreateOrReplaceViewDAO(schemaName, viewName, selectClause);
         runStatement(dao);
     }
-    
-    @Override 
+
+    @Override
     public void createView(String schemaName, String viewName, String selectClause) {
         // for databases (like Derby) without CREATE OR REPLACE support
         CreateOrReplaceViewDAO dao = new CreateOrReplaceViewDAO(schemaName, viewName, selectClause, false);
         runStatement(dao);
     }
-    
+
     @Override
     public void alterTableAddColumn(String schemaName, String tableName, ColumnBase column) {
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
         final String col = buildColumns(Collections.singletonList(column), null);
-        
+
         final StringBuilder ddl = new StringBuilder();
         ddl.append("ALTER TABLE ");
         ddl.append(qname);
         ddl.append(" ADD COLUMN ");
         ddl.append(col);
         runStatement(ddl.toString());
-        
+
         // required for Db2
         reorgTable(schemaName, tableName);
     }
-    
+
     @Override
     public void reorgTable(String schemaName, String tableName) {
         // NOP, unless overridden by a subclass (Db2Adapter, for example)

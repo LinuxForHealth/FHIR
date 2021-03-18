@@ -108,7 +108,7 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
             stmt = connection.prepareCall(stmtString);
             stmt.setString(1, resource.getResourceType());
             stmt.setString(2, resource.getLogicalId());
-            stmt.setBytes(3, resource.getData());
+            stmt.setBinaryStream(3, resource.getDataStream().inputStream());
 
             lastUpdated = resource.getLastUpdated();
             stmt.setTimestamp(4, lastUpdated, UTC);

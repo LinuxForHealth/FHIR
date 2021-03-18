@@ -67,8 +67,10 @@ public class ChunkReader extends AbstractItemReader {
 
     private PatientResourceHandler handler = new PatientResourceHandler();
 
-    // Maintains the pointer to the current resources by pageNum,pageSize
-    protected int pageNum = 1;
+    // Initialized to zero so we can increment it on every call to readItem (including the first one).
+    protected int pageNum = 0;
+
+    // Control the number of records to read in each "item".
     protected int pageSize;
 
     protected Class<? extends Resource> resourceType;
@@ -107,7 +109,7 @@ public class ChunkReader extends AbstractItemReader {
 
         if (checkpoint != null) {
             ExportCheckpointUserData checkPointData = (ExportCheckpointUserData) checkpoint;
-            pageNum = checkPointData.getLastWritePageNum();
+            pageNum = checkPointData.getLastWrittenPageNum();
             stepCtx.setTransientUserData(ExportTransientUserData.fromCheckPointUserData(checkPointData));
         }
 
@@ -142,6 +144,9 @@ public class ChunkReader extends AbstractItemReader {
             return null;
         }
 
+        // Move the page number forward. On the first readItem call, this will increment from 0 to 1.
+        pageNum++;
+
         ExportTransientUserData chunkData = (ExportTransientUserData) stepCtx.getTransientUserData();
         if (chunkData != null && pageNum > chunkData.getLastPageNum()) {
             // No more page to read, so return null to end the reading.
@@ -171,8 +176,8 @@ public class ChunkReader extends AbstractItemReader {
         searchContext.setPageSize(pageSize);
         searchContext.setPageNumber(pageNum);
 
-        ReadResultDTO dto = null;
 
+        ReadResultDTO dto = new ReadResultDTO();
         // Note we're already running inside a transaction (started by the Javabatch framework)
         // so this txn will just wrap it...the commit won't happen until the checkpoint
         FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
@@ -184,50 +189,52 @@ public class ChunkReader extends AbstractItemReader {
 
             if (auditLogger.shouldLog() && resources != null) {
                 Date endTime = new Date(System.currentTimeMillis());
-                auditLogger.logSearchOnExport(queryParameters, resources.size(), startTime, endTime, Response.Status.OK, "StorageProvider@" + ctx.getSource(), "BulkDataOperator");
+                auditLogger.logSearchOnExport(ctx.getPartitionResourceType(), queryParameters, resources.size(), startTime, endTime, Response.Status.OK, "StorageProvider@" + ctx.getSource(), "BulkDataOperator");
             }
 
             dto = new ReadResultDTO(resources);
-            pageNum++;
 
             if (chunkData == null) {
-                // @formatter:off
-                chunkData =
-                        (ExportTransientUserData) ExportTransientUserData.Builder.builder()
-                            .pageNum(pageNum)
-                            .uploadId(null)
-                            .cosDataPacks(new ArrayList<PartETag>())
-                            .partNum(1)
-                            .indexOfCurrentTypeFilter(0)
-                            .resourceTypeSummary(null)
-                            .totalResourcesNum(0)
-                            .currentUploadResourceNum(0)
-                            .currentUploadSize(0)
-                            .uploadCount(1)
-                            .lastPageNum(searchContext.getLastPageNumber())
-                            .lastWritePageNum(1)
-                            .build();
-                // @formatter:on
-
+                chunkData = ExportTransientUserData.Builder.builder()
+                        .pageNum(pageNum)
+                        .uploadId(null)
+                        .cosDataPacks(new ArrayList<PartETag>())
+                        .partNum(1)
+                        .indexOfCurrentTypeFilter(0)
+                        .resourceTypeSummary(null)
+                        .totalResourcesNum(0)
+                        .currentUploadResourceNum(0)
+                        .currentUploadSize(0)
+                        .uploadCount(1)
+                        .lastPageNum(searchContext.getLastPageNumber())
+                        .lastWrittenPageNum(1)
+                        .build();
             } else {
                 chunkData.setPageNum(pageNum);
                 chunkData.setLastPageNum(searchContext.getLastPageNumber());
             }
 
             resourceType = ModelSupport.getResourceType(ctx.getPartitionResourceType());
-            if (dto != null && !dto.empty()) {
+
+            if (resources != null && !resources.isEmpty()) {
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("readItem[" + ctx.getPartitionResourceType() + "]: loaded " + dto.size() + " patients");
                 }
 
-                List<String> patientIds = dto.getResources().stream()
+                List<String> patientIds = resources.stream()
                             .filter(item -> item.getId() != null)
-                            .map(item -> item.getId())
+                            .map(item -> "Patient/" + item.getId())
                             .collect(Collectors.toList());
 
                 if (patientIds != null && patientIds.size() > 0) {
                     handler.register(chunkData, ctx, fhirPersistence, pageSize, resourceType, searchParametersForResoureTypes, ctx.getSource());
-                    handler.fillChunkData(resources, patientIds);
+                    if ("Patient".equals(ctx.getPartitionResourceType())) {
+                        handler.fillChunkPatientDataBuffer(resources);
+                        dto.setResources(resources);
+                    } else {
+                        dto = new ReadResultDTO();
+                        handler.fillChunkDataBuffer(patientIds, dto);
+                    }
                 }
             } else {
                 logger.fine("readItem: End of reading!");

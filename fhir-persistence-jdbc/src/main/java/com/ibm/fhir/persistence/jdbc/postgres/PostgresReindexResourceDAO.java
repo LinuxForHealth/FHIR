@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,11 +28,14 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ResourceIndexRecord;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 
 /**
- * Derby specialization of the DAO used to assist the reindex custom operation
+ * PostgreSQL specialization of the DAO used to assist the reindex custom operation
  */
 public class PostgresReindexResourceDAO extends ReindexResourceDAO {
     private static final Logger logger = Logger.getLogger(PostgresReindexResourceDAO.class.getName());
 
+    // Note that currently the global logical_resources table does not carry
+    // the is_deleted flag. Until it does, the queries will return deleted
+    // resources, which can be skipped for reindex. (issue-2055)
     private static final String PICK_SINGLE_RESOURCE = ""
             + "   UPDATE logical_resources "
             + "      SET reindex_tstamp = ?,"

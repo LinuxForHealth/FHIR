@@ -63,6 +63,8 @@ public class ResourcePayload {
         try {
             long result = 0;
 
+            // Do not increase the size of this buffer - doing so may have
+            // a serious negative impact on performance
             byte[] buffer = new byte[4096];
             int len;
 
@@ -76,6 +78,8 @@ public class ResourcePayload {
             // how many bytes did we transfer
             return result;
         } finally {
+            // Must close the source here...it's a GZipInputStream and leaks off-heap memory
+            // if we fail to close it.
             decompressedPayload.close();
         }
     }

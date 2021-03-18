@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,7 @@
 package com.ibm.fhir.server.test;
 
 import static com.ibm.fhir.model.test.TestUtil.isResourceInResponse;
+
 import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.AssertJUnit.assertEquals;
@@ -2451,17 +2452,6 @@ public class BundleTest extends FHIRServerTestBase {
         if (DEBUG) {
             System.out.println(method + " " + bundleType + " bundle contents:\n"
                     + TestUtil.writeResource(bundle, Format.JSON, prettyPrint));
-        }
-    }
-
-    private void assertResponseBundle(Bundle bundle, BundleType expectedType, int expectedEntryCount) {
-        assertNotNull(bundle);
-        assertNotNull(bundle.getType());
-        assertNotNull(bundle.getType().getValue());
-        assertEquals(expectedType.getValue(), bundle.getType().getValue());
-        if (expectedEntryCount > 0) {
-            assertNotNull(bundle.getEntry());
-            assertEquals(expectedEntryCount, bundle.getEntry().size());
         }
     }
 

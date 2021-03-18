@@ -8,20 +8,25 @@ package com.ibm.fhir.persistence.jdbc.dto;
 
 import java.sql.Timestamp;
 
+import com.ibm.fhir.persistence.util.InputOutputByteStream;
+
 /**
  * This class defines the Data Transfer Object representing a row in the FHIR Resource table.
  */
 public class Resource {
-    
+
     private long id;
     private String logicalId;
     private int versionId;
     private String resourceType;
     private Timestamp lastUpdated;
-    private byte[] data;
+
+    // The buffer holding the payload data
+    private InputOutputByteStream dataStream;
+
     private boolean deleted;
 
-    
+
     public Resource() {
         super();
     }
@@ -66,14 +71,6 @@ public class Resource {
         this.versionId = versionId;
     }
 
-    public byte[] getData() {
-        return data;
-    }
-
-    public void setData(byte[] data) {
-        this.data = data;
-    }
-
     public boolean isDeleted() {
         return deleted;
     }
@@ -81,12 +78,25 @@ public class Resource {
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
     }
-    
+
     @Override
     public String toString() {
         return "Resource [id=" + id + ", logicalId=" + logicalId + ", versionId=" + versionId + ", resourceType="
                 + resourceType + ", lastUpdated=" + lastUpdated + ", deleted=" + deleted + "]";
     }
 
+    /**
+     * @return the dataStream
+     */
+    public InputOutputByteStream getDataStream() {
+        return dataStream;
+    }
+
+    /**
+     * @param dataStream the dataStream to set
+     */
+    public void setDataStream(InputOutputByteStream dataStream) {
+        this.dataStream = dataStream;
+    }
 }
 

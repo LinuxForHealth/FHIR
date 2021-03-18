@@ -17,6 +17,7 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.search.SearchConstants.Type;
+import com.ibm.fhir.search.TotalValueSet;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.context.FHIRSearchContextFactory;
 import com.ibm.fhir.search.parameters.QueryParameter;
@@ -123,6 +124,19 @@ public class UriTest {
         paramVal.setValueCode("value");
         QueryParameter queryParameter = new QueryParameter(Type.TOKEN, "param", null, null, Collections.singletonList(paramVal));
         ctx.setSearchParameters(Collections.singletonList(queryParameter));
+
+        assertEquals(SearchUtil.buildSearchSelfUri(requestUriString, ctx), expectedUri);
+    }
+
+    @Test
+    public void testUriWithTotalParameter() throws URISyntaxException {
+        String expectedUri = "https://test?_count=10&_total=none&_page=1";
+        String requestUriString = "https://test?_total=none";
+
+        FHIRSearchContext ctx = FHIRSearchContextFactory.createSearchContext();
+        ctx.setPageNumber(1);
+        ctx.setPageSize(10);
+        ctx.setTotalParameter(TotalValueSet.NONE);
 
         assertEquals(SearchUtil.buildSearchSelfUri(requestUriString, ctx), expectedUri);
     }

@@ -7,6 +7,7 @@
 package com.ibm.fhir.server.test;
 
 import static com.ibm.fhir.model.type.String.string;
+
 import static org.testng.Assert.fail;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
@@ -42,6 +43,7 @@ import com.ibm.fhir.client.FHIRClientFactory;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.core.FHIRUtilities;
+import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest.Resource.Interaction;
@@ -54,6 +56,7 @@ import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.ConditionalReadStatus;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
@@ -715,5 +718,23 @@ public abstract class FHIRServerTestBase {
         condition = condition.toBuilder().subject(Reference.builder().reference(string("Patient/" + patientId)).build()).build();
 
         return condition;
+    }
+
+    /**
+     * Assert the the given {@link Bundle} is of the expected {@link BundleType} and has the expected entry count.
+     * 
+     * @param bundle the bundle to tet
+     * @param expectedType
+     * @param expectedEntryCount
+     */
+    public static void assertResponseBundle(Bundle bundle, BundleType expectedType, int expectedEntryCount) {
+        assertNotNull(bundle);
+        assertNotNull(bundle.getType());
+        assertNotNull(bundle.getType().getValue());
+        assertEquals(expectedType.getValue(), bundle.getType().getValue());
+        if (expectedEntryCount > 0) {
+            assertNotNull(bundle.getEntry());
+            assertEquals(expectedEntryCount, bundle.getEntry().size());
+        }
     }
 }
