@@ -153,6 +153,35 @@ public interface ConfigurationAdapter {
     int getCoreCosSocketTimeout();
 
     /**
+     * The size (in bytes) to buffer before writing to file.
+     *
+     * @implNote System value.
+     *
+     * @return
+     */
+    int getCoreFileWriteTriggerSize();
+
+    /**
+     * The size (in bytes) at which to finish writing to a given file,
+     * or 0 to indicate that there is no file size threshold.
+     *
+     * @implNote System value.
+     *
+     * @return
+     */
+    long getCoreFileSizeThreshold();
+
+    /**
+     * The number of resources at which to finish writing to a given file,
+     * or 0 to indicate that there is no resource count threshold.
+     *
+     * @implNote System value.
+     *
+     * @return
+     */
+    int getCoreFileResourceCountThreshold();
+
+    /**
      * get the core page size used in Search.
      *
      * @return

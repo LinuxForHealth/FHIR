@@ -133,6 +133,11 @@
                     "objectResourceCountThreshold": 200000,
                     "useServerTruststore": true
                 },
+                "file" : { 
+                    "writeTriggerSizeMB": 1,
+                    "sizeThresholdMB": 200,
+                    "resourceCountThreshold": 200000
+                },
                 "pageSize": 100,
                 "batchIdEncryptionKey": "change-password",
                 "maxPartitions": 3, 

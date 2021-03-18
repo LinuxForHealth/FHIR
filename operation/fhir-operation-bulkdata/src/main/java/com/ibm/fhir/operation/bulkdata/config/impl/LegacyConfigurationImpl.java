@@ -61,6 +61,18 @@ public class LegacyConfigurationImpl extends AbstractSystemConfigurationImpl {
     }
 
     @Override
+    public int getCoreFileResourceCountThreshold() {
+        final String PATH = "fhirServer/bulkdata/cosFileMaxResources";
+        return FHIRConfigHelper.getIntProperty(PATH, DEFAULT_FILE_MAX_RESOURCE_COUNT);
+    }
+
+    @Override
+    public long getCoreFileSizeThreshold() {
+        final String PATH = "fhirServer/bulkdata/cosFileMaxSize";
+        return FHIRConfigHelper.getIntProperty(PATH, DEFAULT_FILE_MAX_SIZE_MB * 1024 * 1024);
+    }
+
+    @Override
     public int getCorePageSize() {
         int pageSize = FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/patientExportPageSize", SearchConstants.MAX_PAGE_SIZE);
         return Math.min(SearchConstants.MAX_PAGE_SIZE, pageSize);
