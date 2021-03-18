@@ -1,5 +1,8 @@
 {
     "__comment": "FHIR Server configuration",
     "fhirServer": {
+        "search": {
+            "useStoredCompartmentParam": false
+        }
     }
 }
