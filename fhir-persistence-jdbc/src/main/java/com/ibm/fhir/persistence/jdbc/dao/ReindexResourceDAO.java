@@ -293,8 +293,9 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
         deleteFromParameterTable(connection, tablePrefix + "_quantity_values", logicalResourceId);
 
         if (parameters != null) {
+            boolean mt = getFlavor().isMultitenant();
             JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao, getResourceReferenceDAO());
-            try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, null, tablePrefix, false, logicalResourceId, 100,
+            try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, null, tablePrefix, mt, logicalResourceId, 100,
                 identityCache, getResourceReferenceDAO(), getTransactionData())) {
                 for (ExtractedParameterValue p: parameters) {
                     p.accept(pvd);
