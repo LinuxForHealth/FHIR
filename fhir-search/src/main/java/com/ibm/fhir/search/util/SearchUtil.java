@@ -1232,9 +1232,22 @@ public class SearchUtil {
                 // [parameter]=[base]/[type]/[id] - absolute local reference
                 // [parameter]=[id] - relativel local reference
                 // [parameter]=[literal|version#fragment] - canonical url - currently not supported
-                String valueString = unescapeSearchParm(v);
-                valueString = extractReferenceValue(valueString);
-                parameterValue.setValueString(valueString);
+                // [parameter]:identifier=[system|code] - token search of identifier field
+                if (Modifier.IDENTIFIER.equals(modifier)) {
+                    String[] parts = v.split(SearchConstants.BACKSLASH_NEGATIVE_LOOKBEHIND + "\\|");
+                    if (parts.length == 2) {
+                        parameterValue.setValueSystem(unescapeSearchParm(parts[0]));
+                        parameterValue.setValueCode(unescapeSearchParm(parts[1]));
+                    }
+                    else {
+                        parameterValue.setValueCode(unescapeSearchParm(v));
+                    }
+                }
+                else {
+                    String valueString = unescapeSearchParm(v);
+                    valueString = extractReferenceValue(valueString);
+                    parameterValue.setValueString(valueString);
+                }
                 break;
             }
             case QUANTITY: {

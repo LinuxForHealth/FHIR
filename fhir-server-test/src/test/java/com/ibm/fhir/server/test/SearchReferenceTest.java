@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.server.test;
 
+import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
@@ -21,7 +22,9 @@ import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
 
 public class SearchReferenceTest extends FHIRServerTestBase {
@@ -38,24 +41,34 @@ public class SearchReferenceTest extends FHIRServerTestBase {
     private String patientResourceIdWithPractitionerReferenceTypeId;
     @SuppressWarnings("unused")
     private String patientResourceIdWithPractitionerRoleReferenceTypeId;
+    @SuppressWarnings("unused")
+    private String patientWithLogicalReference;
 
     /*
      * creates the various test cases for a patient with a reference
      */
-    public String createPatientWithReference(String field, String reference) throws Exception {
+    public String createPatientWithReference(String field, String reference, Identifier logicalReference) throws Exception {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
         Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
 
+        Reference.Builder referenceBuilder = Reference.builder();
+        if (reference != null) {
+            referenceBuilder.reference(com.ibm.fhir.model.type.String.of(reference));
+        }
+        if (logicalReference != null) {
+            referenceBuilder.identifier(logicalReference);
+        }
+
         if ("organization".equals(field)) {
             patient = patient.toBuilder()
                     .gender(AdministrativeGender.MALE)
-                    .managingOrganization(Reference.builder().display(com.ibm.fhir.model.type.String.of("Test Organization")).reference(com.ibm.fhir.model.type.String.of(reference)).build()).build();
+                    .managingOrganization(referenceBuilder.display(com.ibm.fhir.model.type.String.of("Test Organization")).build()).build();
         } else if ("general-practitioner".equals(field)) {
             patient = patient.toBuilder()
                     .gender(AdministrativeGender.MALE)
-                    .generalPractitioner(Reference.builder().display(com.ibm.fhir.model.type.String.of("Test Practitioner")).reference(com.ibm.fhir.model.type.String.of(reference)).build()).build();
+                    .generalPractitioner(referenceBuilder.display(com.ibm.fhir.model.type.String.of("Test Practitioner")).build()).build();
         }
         Entity<Patient> entity =
                 Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
@@ -81,25 +94,27 @@ public class SearchReferenceTest extends FHIRServerTestBase {
     public void testCreatePatient() throws Exception {
         // references without an explicit type will be interpreted as literals (e.g. externals) not local references
         // we will not infer their type, which means that searches specifying a type will not match them by design
-        patientResourceIdWithReferenceId = createPatientWithReference("organization", "3001");
+        patientResourceIdWithReferenceId = createPatientWithReference("organization", "3001", null);
 
         // relative reference
-        patientResourceIdWithReferenceTypeId = createPatientWithReference("organization", "Organization/3002");
+        patientResourceIdWithReferenceTypeId = createPatientWithReference("organization", "Organization/3002", null);
 
         // relative reference because the url aligns with the server base address
-        patientResourceIdWithReferenceUrl = createPatientWithReference("organization", "https://localhost:9443/fhir-server/api/v4/Organization/3003");
+        patientResourceIdWithReferenceUrl = createPatientWithReference("organization", "https://localhost:9443/fhir-server/api/v4/Organization/3003", null);
 
-        // patientResourceIdWithReferenceCanonicalUri = createPatientWithReference("https://localhost:9443/fhir-server/api/v4/Organization/3004|1.0.0");
+        // patientResourceIdWithReferenceCanonicalUri = createPatientWithReference("https://localhost:9443/fhir-server/api/v4/Organization/3004|1.0.0", null);
 
         // Literal reference to another server
-        patientWithLiteralReference = createPatientWithReference("organization", "https://an.example.com/Organization/3004");
+        patientWithLiteralReference = createPatientWithReference("organization", "https://an.example.com/Organization/3004", null);
 
         // relative reference to Practitioner for general practitioner
-        patientResourceIdWithPractitionerReferenceTypeId = createPatientWithReference("general-practitioner", "Practitioner/3002");
+        patientResourceIdWithPractitionerReferenceTypeId = createPatientWithReference("general-practitioner", "Practitioner/3002", null);
 
         // relative reference to PractitionerRole for general practitioner
-        patientResourceIdWithPractitionerRoleReferenceTypeId = createPatientWithReference("general-practitioner", "PractitionerRole/3002");
+        patientResourceIdWithPractitionerRoleReferenceTypeId = createPatientWithReference("general-practitioner", "PractitionerRole/3002", null);
 
+        // logical reference
+        patientWithLogicalReference = createPatientWithReference("organization", null, Identifier.builder().system(Uri.of("https://an.example.com/OrgId")).value(string("3005")).build());
     }
 
     @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
@@ -326,4 +341,58 @@ public class SearchReferenceTest extends FHIRServerTestBase {
                 "Multiple resource type matches found for logical ID '3002' for search parameter 'general-practitioner'.");
     }
 
+    @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
+    public void testSearchLogicalReferenceUsingId() {
+        // should find a match here because the search parameter only searches identifier of reference
+        WebTarget target = getWebTarget();
+
+        Response response =
+                target.path("Patient").queryParam("organization:identifier", "3001").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() == 0);
+    }
+
+    @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
+    public void testSearchLogicalReferenceWithIdentifier() {
+        WebTarget target = getWebTarget();
+
+        Response response =
+                target.path("Patient").queryParam("organization:identifier", "https://an.example.com/OrgId|3005").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+        Patient p = null;
+        for (Bundle.Entry entry : bundle.getEntry()) {
+            if (entry.getResource() != null && entry.getResource() instanceof Patient) {
+                p = (Patient) entry.getResource();
+            }
+        }
+        assertNotNull(p);
+        assertEquals("https://an.example.com/OrgId", p.getManagingOrganization().getIdentifier().getSystem().getValue());
+        assertEquals("3005", p.getManagingOrganization().getIdentifier().getValue().getValue());
+    }
+
+    @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
+    public void testSearchLogicalReferenceWithIdentifierValue() {
+        WebTarget target = getWebTarget();
+
+        Response response =
+                target.path("Patient").queryParam("organization:identifier", "3005").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+        Patient p = null;
+        for (Bundle.Entry entry : bundle.getEntry()) {
+            if (entry.getResource() != null && entry.getResource() instanceof Patient) {
+                p = (Patient) entry.getResource();
+            }
+        }
+        assertNotNull(p);
+        assertEquals("https://an.example.com/OrgId", p.getManagingOrganization().getIdentifier().getSystem().getValue());
+        assertEquals("3005", p.getManagingOrganization().getIdentifier().getValue().getValue());
+    }
 }

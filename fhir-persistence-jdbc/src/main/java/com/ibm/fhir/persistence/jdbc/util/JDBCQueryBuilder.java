@@ -553,79 +553,108 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
         StringBuilder whereClauseSegment = new StringBuilder();
-        String operator = getOperator(queryParm, EQ);
 
-        String searchValue;
+        String codeValue;
+        Long commonTokenValueId;
+        Integer codeSystemId;
         SqlQueryData queryData;
         List<Object> bindVariables = new ArrayList<>();
+        String queryParmCode = queryParm.getCode();
+
+        // Append the suffix for :identifier modifier
+        if (Modifier.IDENTIFIER.equals(queryParm.getModifier())) {
+            queryParmCode += SearchConstants.IDENTIFIER_MODIFIER_SUFFIX;
+        }
 
         // Build this piece of the segment:
         // (P1.PARAMETER_NAME_ID = x AND
-        this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
+        this.populateNameIdSubSegment(whereClauseSegment, queryParmCode, tableAlias);
 
         whereClauseSegment.append(AND).append(LEFT_PAREN);
 
         boolean parmValueProcessed = false;
         for (QueryParameterValue value : queryParm.getValues()) {
-            String targetResourceType = null;
-            searchValue = SqlParameterEncoder.encode(value.getValueString());
 
-            // Make sure we split out the resource type if it is included in the search value
-            String[] parts = value.getValueString().split("/");
-            if (parts.length == 2) {
-                targetResourceType = parts[0];
-                searchValue = parts[1];
-            }
-
-            // Handle query parm representing this name/value pair construct:
-            // <code>{name}:{Resource Type} = {resource-id}</code>
-            if (queryParm.getModifier() != null && queryParm.getModifier().equals(Modifier.TYPE)) {
-                if (!SearchConstants.Type.REFERENCE.equals(queryParm.getType())) {
-                    // Not a Reference
-                    searchValue =
-                            queryParm.getModifierResourceTypeName() + "/"
-                                    + SqlParameterEncoder.encode(value.getValueString());
-                } else {
-                    // This is a Reference type.
-                    if (parts.length != 2) {
-                        // fallback to get the target resource type using the modifier
-                        targetResourceType = queryParm.getModifierResourceTypeName();
-                    }
-                }
-            }
+            codeValue = null;
+            commonTokenValueId = null;
+            codeSystemId = null;
 
             // If multiple values are present, we need to OR them together.
             if (parmValueProcessed) {
                 whereClauseSegment.append(OR);
+            }
+            whereClauseSegment.append(LEFT_PAREN);
+
+            if (Modifier.IDENTIFIER.equals(queryParm.getModifier())) {
+                // Include code
+                codeValue = SqlParameterEncoder.encode(value.getValueCode());
+
+                // Include system if present.
+                if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
+                    commonTokenValueId = getCommonTokenValueId(value.getValueSystem(), value.getValueCode());
+
+                    if (commonTokenValueId == null) {
+                        codeSystemId = getCodeSystemId(value.getValueSystem());
+                    }
+                }
             } else {
-                parmValueProcessed = true;
+                String targetResourceType = null;
+                codeValue = SqlParameterEncoder.encode(value.getValueString());
+
+                // Make sure we split out the resource type if it is included in the search value
+                String[] parts = value.getValueString().split("/");
+                if (parts.length == 2) {
+                    targetResourceType = parts[0];
+                    codeValue = parts[1];
+                }
+
+                // Handle query parm representing this name/value pair construct:
+                // <code>{name}:{Resource Type} = {resource-id}</code>
+                if (queryParm.getModifier() != null && queryParm.getModifier().equals(Modifier.TYPE)) {
+                    if (!SearchConstants.Type.REFERENCE.equals(queryParm.getType())) {
+                        // Not a Reference
+                        codeValue =
+                                queryParm.getModifierResourceTypeName() + "/"
+                                        + SqlParameterEncoder.encode(value.getValueString());
+                    } else {
+                        // This is a Reference type.
+                        if (parts.length != 2) {
+                            // fallback to get the target resource type using the modifier
+                            targetResourceType = queryParm.getModifierResourceTypeName();
+                        }
+                    }
+                }
+
+                // If the predicate includes a code-system it will resolve to a single value from
+                // common_token_values. It helps the query optimizer if we include this additional
+                // filter because it can make better cardinality estimates.
+                if (targetResourceType != null) {
+                    // targetResourceType is treated as the code-system for references
+                    commonTokenValueId = getCommonTokenValueId(targetResourceType, codeValue);
+
+                    // add the [optional] condition for the resource type if we have one
+                    if (commonTokenValueId == null) {
+                        codeSystemId = getCodeSystemId(targetResourceType);
+                    }
+                }
             }
 
-            // If the predicate includes a code-system it will resolve to a single value from
-            // common_token_values. It helps the query optimizer if we include this additional
-            // filter because it can make better cardinality estimates.
-            Long commonTokenValueId = null;
-            if (EQ.equals(operator) && targetResourceType != null) {
-                // targetResourceType is treated as the code-system for references
-                commonTokenValueId = getCommonTokenValueId(targetResourceType, searchValue);
-            }
+            // Build this piece: pX.token_value = search-attribute-value [ AND pX.code_system_id = <n> ]
+            whereClauseSegment.append(tableAlias).append(DOT).append(TOKEN_VALUE).append(EQ).append(BIND_VAR);
+            bindVariables.add(codeValue);
 
-            // Build this piece: pX.token_value {operator} search-attribute-value [ AND pX.code_system_id = <n> ]
-            whereClauseSegment.append(tableAlias).append(DOT).append(TOKEN_VALUE).append(operator).append(BIND_VAR);
-            bindVariables.add(searchValue);
-
-            // add the [optional] condition for the resource type if we have one
             if (commonTokenValueId != null) {
                 // #1929 improves cardinality estimation
                 // resulting in far better execution plans for many search queries. Because COMMON_TOKEN_VALUE_ID
                 // is the primary key for the common_token_values table, we don't need the CODE_SYSTEM_ID = ? predicate.
-                whereClauseSegment.append(AND).append(tableAlias).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ)
-                    .append(commonTokenValueId);
-            } else if (targetResourceType != null) {
+                whereClauseSegment.append(AND).append(tableAlias).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ).append(commonTokenValueId);
+            } else if (codeSystemId != null) {
                 // For better performance, use a literal for the resource type code-system-id, not a parameter marker
-                Integer codeSystemIdForResourceType = getCodeSystemId(targetResourceType);
-                whereClauseSegment.append(AND).append(tableAlias).append(DOT).append(CODE_SYSTEM_ID).append(EQ).append(nullCheck(codeSystemIdForResourceType));
+                whereClauseSegment.append(AND).append(tableAlias).append(DOT).append(CODE_SYSTEM_ID).append(EQ).append(nullCheck(codeSystemId));
             }
+
+            whereClauseSegment.append(RIGHT_PAREN);
+            parmValueProcessed = true;
         }
         whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
 
