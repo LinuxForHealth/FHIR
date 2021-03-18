@@ -176,7 +176,7 @@ public class JobParameter {
                 throws IOException {
 
             if (parameter.getFhirResourceType() != null) {
-                generator.write(OperationFields.FHIR_RESOURCE_TYPE, parameter.getFhirResourceType());
+                generator.write(OperationFields.FHIR_RESOURCE_TYPES, parameter.getFhirResourceType());
             }
 
             if (parameter.getFhirSearchFromDate() != null) {
@@ -296,8 +296,8 @@ public class JobParameter {
         }
 
         public static void parse(Builder builder, JsonObject obj) throws FHIROperationException, IOException {
-            if (obj.containsKey(OperationFields.FHIR_RESOURCE_TYPE)) {
-                String fhirResourceType = obj.getString(OperationFields.FHIR_RESOURCE_TYPE);
+            if (obj.containsKey(OperationFields.FHIR_RESOURCE_TYPES)) {
+                String fhirResourceType = obj.getString(OperationFields.FHIR_RESOURCE_TYPES);
                 builder.fhirResourceType(fhirResourceType);
             }
 

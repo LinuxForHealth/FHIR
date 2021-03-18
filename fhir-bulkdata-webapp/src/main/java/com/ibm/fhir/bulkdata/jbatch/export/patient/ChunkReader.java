@@ -130,7 +130,7 @@ public class ChunkReader extends AbstractItemReader {
         adapter.registerRequestContext(ctx.getTenantId(), ctx.getDatastoreId(), ctx.getIncomingUrl());
 
         searchParametersForResoureTypes = BulkDataUtils.getSearchParametersFromTypeFilters(ctx.getFhirTypeFilters());
-        resourceType = ModelSupport.getResourceType(ctx.getFhirResourceType());
+        resourceType = ModelSupport.getResourceType(partResourceType);
 
         pageSize = adapter.getCorePageSize();
 

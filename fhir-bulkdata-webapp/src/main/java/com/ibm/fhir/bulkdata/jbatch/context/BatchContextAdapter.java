@@ -41,7 +41,7 @@ public class BatchContextAdapter {
         BulkDataContext ctx = new BulkDataContext();
         context(ctx);
         source(ctx);
-        ctx.setFhirResourceType(props.getProperty(OperationFields.FHIR_RESOURCE_TYPE));
+        ctx.setFhirResourceTypes(props.getProperty(OperationFields.FHIR_RESOURCE_TYPES));
         return ctx;
     }
 
