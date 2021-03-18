@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -276,29 +276,18 @@ public final class FHIRRegistry {
     }
 
     /**
-     * Given the list of providers, the method scans through the list to find all profile resource, and merge them together
-     * in order to develop a list of resource specific canonical URLs.
+     * Get a map containing sets of type specific canonical URLs for all profile resources from all providers.
+     *
      * @return
+     *     the map of sets
      */
-    public Map<String,Set<Canonical>> getProfiles() {
-        Map<String,Set<Canonical>> resourceTypeWithCanonicalUrls = new HashMap<>();
-        providers.stream().map(provider -> provider.getProfileResources())
-                .flatMap(Collection::stream)
-                .forEach(r -> processResource(r, resourceTypeWithCanonicalUrls));
-        return resourceTypeWithCanonicalUrls;
-    }
-
-    private void processResource(FHIRRegistryResource registryResource, Map<String,Set<Canonical>> resourceTypeWithCanonicalUrls) {
-        String type = registryResource.getType();
-        resourceTypeWithCanonicalUrls.compute(type, (k,v) -> checkOrCreateSet(k,v,registryResource));
-    }
-
-    private Set<Canonical> checkOrCreateSet(String k, Set<Canonical> v, FHIRRegistryResource registryResource) {
-        Canonical canonicalUrl = Canonical.of(registryResource.getUrl(), registryResource.getVersion().toString());
-        if (v == null) {
-            v = new HashSet<>();
-        }
-        v.add(canonicalUrl);
-        return v;
+    public Map<String, Set<Canonical>> getProfiles() {
+        Map<String, Set<Canonical>> map = new HashMap<>();
+        providers.stream()
+            .map(provider -> provider.getProfileResources())
+            .flatMap(Collection::stream)
+            .forEach(r -> map.computeIfAbsent(r.getType(), k -> new LinkedHashSet<>())
+                .add(Canonical.of(r.getUrl(), r.getVersion().toString())));
+        return map;
     }
 }
