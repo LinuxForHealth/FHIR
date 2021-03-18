@@ -52,7 +52,7 @@ public class SystemExportPartitionMapper implements PartitionMapper {
         BulkDataContext ctx = ctxAdapter.getStepContextForPatientExportPartitionMapper();
 
         // We know these are real resource types.
-        List<String> resourceTypes = Arrays.asList(ctx.getFhirResourceType().split("\\s*,\\s*"));
+        List<String> resourceTypes = Arrays.asList(ctx.getFhirResourceTypes().split("\\s*,\\s*"));
 
         PartitionPlanImpl pp = new PartitionPlanImpl();
         pp.setPartitions(resourceTypes.size());
