@@ -20,6 +20,7 @@ import javax.inject.Inject;
 
 import com.ibm.fhir.bulkdata.jbatch.context.BatchContextAdapter;
 import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
+import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
 
@@ -39,6 +40,8 @@ public class ExportCheckpointAlgorithm implements CheckpointAlgorithm {
 
     Boolean isFileExport;
 
+    ConfigurationAdapter config = ConfigurationFactory.getInstance();
+
     public ExportCheckpointAlgorithm() {
         // No Operation
     }
@@ -55,7 +58,7 @@ public class ExportCheckpointAlgorithm implements CheckpointAlgorithm {
             JobExecution jobExecution = jobOperator.getJobExecution(jobCtx.getExecutionId());
             BatchContextAdapter contextAdapter = new BatchContextAdapter(jobExecution.getJobParameters());
             BulkDataContext ctx = contextAdapter.getStepContextForSystemChunkWriter();
-            isFileExport = "file".equals(ConfigurationFactory.getInstance().getStorageProviderType(ctx.getSource()));
+            isFileExport = "file".equals(config.getStorageProviderType(ctx.getSource()));
         }
 
         if (logger.isLoggable(Level.FINE)) {
@@ -97,16 +100,19 @@ public class ExportCheckpointAlgorithm implements CheckpointAlgorithm {
             return false;
         }
 
-        long cosFileMaxResources = ConfigurationFactory.getInstance().getCoreCosObjectResourceCountThreshold();
-        long cosFileThresholdSize = ConfigurationFactory.getInstance().getCoreCosObjectSizeThreshold();
-        long cosMultiPartMinSize = ConfigurationFactory.getInstance().getCoreCosPartUploadTriggerSize();
+        long resourceCountThreshold = isFileExport ? config.getCoreFileResourceCountThreshold()
+                : config.getCoreCosObjectResourceCountThreshold();
+        long sizeThreshold = isFileExport ? config.getCoreFileSizeThreshold()
+                : config.getCoreCosObjectSizeThreshold();
+        long writeTrigger = isFileExport ? config.getCoreFileWriteTriggerSize()
+                : config.getCoreCosPartUploadTriggerSize();
 
         // Set to true if we have enough bytes to write a part
-        boolean readyToWrite = isFileExport || (chunkData.getBufferStream().size() > cosMultiPartMinSize);
+        boolean readyToWrite = chunkData.getBufferStream().size() >= writeTrigger;
 
         // Check if we should finish writing the current object/file
-        boolean overFileSizeThreshold = cosFileThresholdSize != 0 && chunkData.getBufferStream().size() >= cosFileThresholdSize;
-        boolean overMaxResourceCountThreshold = cosFileMaxResources != 0 && chunkData.getCurrentUploadResourceNum() >= cosFileMaxResources;
+        boolean overFileSizeThreshold = sizeThreshold != 0 && chunkData.getBufferStream().size() >= sizeThreshold;
+        boolean overMaxResourceCountThreshold = resourceCountThreshold != 0 && chunkData.getCurrentUploadResourceNum() >= resourceCountThreshold;
         boolean end = chunkData.getPageNum() >= chunkData.getLastPageNum();
         chunkData.setFinishCurrentUpload(overFileSizeThreshold || overMaxResourceCountThreshold || end);
 
