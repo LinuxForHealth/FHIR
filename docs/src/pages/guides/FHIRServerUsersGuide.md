@@ -258,7 +258,7 @@ For example, the fhir-server-config snippet from above would have a correspondin
     <!-- ============================================================== -->
     <!-- TENANT: default; DSID: default; TYPE: read-write               -->
     <!-- ============================================================== -->
-    <dataSource id="fhirDefaultDefault" jndiName="jdbc/fhir_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+    <dataSource id="fhirDefaultDefault" jndiName="jdbc/fhir_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true" validationTimeout="30s">
         <jdbcDriver javax.sql.XADataSource="org.postgresql.xa.PGXADataSource" libraryRef="sharedLibPostgres"/>
         <properties.postgresql
              serverName="postgres_postgres_1"
@@ -306,7 +306,7 @@ Reminder:  the Embedded Derby support is designed to support simple getting star
     <!-- This datasource aligns with the Apache Derby database that is  -->
     <!-- created by the IBM FHIR Server's DB_BOOTSTRAP process.         -->
     <!-- ============================================================== -->
-    <dataSource id="fhirDefaultDefault" jndiName="jdbc/fhir_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+    <dataSource id="fhirDefaultDefault" jndiName="jdbc/fhir_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true" validationTimeout="30s">
         <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="sharedLibDerby"/>
         <properties.derby.embedded createDatabase="create" databaseName="derby/fhirDB"/>
         <connectionManager maxPoolSize="50" minPoolSize="10"/>
@@ -380,7 +380,7 @@ Here is a simple example of a single (default) Derby datastore.
     <!-- ============================================================== -->
     <!-- TENANT: default; DSID: default; TYPE: read-write               -->
     <!-- ============================================================== -->
-    <dataSource id="fhirDefaultDefault" jndiName="jdbc/fhir_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+    <dataSource id="fhirDefaultDefault" jndiName="jdbc/fhir_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true" validationTimeout="30s">
         <jdbcDriver javax.sql.XADataSource="org.apache.derby.jdbc.EmbeddedXADataSource" libraryRef="sharedLibDerby"/>
         <properties.derby.embedded createDatabase="create" databaseName="derby/fhirDB"/>
         <connectionManager maxPoolSize="50" minPoolSize="10"/>
@@ -430,7 +430,7 @@ Furthermore, the REST API consumers associated with Acme applications will be co
     <!-- ============================================================== -->
     <!-- TENANT: acme; DSID: study1; TYPE: read-write                   -->
     <!-- ============================================================== -->
-    <dataSource id="fhirDefaultDefault" jndiName="jdbc/fhir_acme_study1" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+    <dataSource id="fhirDefaultDefault" jndiName="jdbc/fhir_acme_study1" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true" validationTimeout="30s">
         <jdbcDriver javax.sql.XADataSource="com.ibm.db2.jcc.DB2XADataSource" libraryRef="sharedLibDb2"/>
         <properties.db2.jcc
             serverName="dbserver1"
@@ -447,7 +447,7 @@ Furthermore, the REST API consumers associated with Acme applications will be co
     <!-- ============================================================== -->
     <!-- TENANT: acme; DSID: study2; TYPE: read-write                   -->
     <!-- ============================================================== -->
-    <dataSource id="fhirDefaultDefault" jndiName="jdbc/fhir_acme_study2" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true">
+    <dataSource id="fhirDefaultDefault" jndiName="jdbc/fhir_acme_study2" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true" validationTimeout="30s">
         <jdbcDriver javax.sql.XADataSource="com.ibm.db2.jcc.DB2XADataSource" libraryRef="sharedLibDb2"/>
         <properties.db2.jcc
             serverName="dbserver1"
@@ -1308,12 +1308,12 @@ The Bulk Data web application writes the exported FHIR resources to an IBM Cloud
             "truststore": "resources/security/fhirTrustStore.p12",
             "truststorePassword": "change-password"
         },
-        "cos" : { 
+        "cos" : {
             "useServerTruststore": true
         },
         "pageSize": 100,
         "batchIdEncryptionKey": "example-password",
-        "maxPartitions": 3, 
+        "maxPartitions": 3,
         "maxInputs": 5
     },
     "storageProviders": {
@@ -1322,7 +1322,7 @@ The Bulk Data web application writes the exported FHIR resources to an IBM Cloud
             "fileBase": "${WLP_OUTPUT_DIR}/fhir-server/output",
             "exportPublic": true,
             "disableOperationOutcomes": true,
-            "duplicationCheck": false, 
+            "duplicationCheck": false,
             "validateResources": false
         },
         "minio" : {
@@ -1340,8 +1340,8 @@ The Bulk Data web application writes the exported FHIR resources to an IBM Cloud
             "disableBaseUrlValidation": true,
             "exportPublic": true,
             "disableOperationOutcomes": true,
-            "duplicationCheck": false, 
-            "validateResources": false, 
+            "duplicationCheck": false,
+            "validateResources": false,
             "create": false,
             "presigned": true
         }
@@ -1349,9 +1349,9 @@ The Bulk Data web application writes the exported FHIR resources to an IBM Cloud
 }
 ```
 
-Each tenant's configuration may define multiple storageProviders. The default is assumed, unless specified with the `X-FHIR-BULKDATA-PROVIDER` and `X-FHIR-BULKDATA-OUTCOME`. Each tenant's configuration may mix the different providers, however each provider is only of a single type. For instance, `minio` is `aws-s3` and `default` is `file`. Note, type `http` is only applicable to `$import` operations. Export is only supported with s3 and file.
+Each tenant's configuration may define multiple storageProviders. The default is assumed, unless specified with the `X-FHIR-BULKDATA-PROVIDER` and `X-FHIR-BULKDATA-PROVIDER-OUTCOME`. Each tenant's configuration may mix the different providers, however each provider is only of a single type. For instance, `minio` is `aws-s3` and `default` is `file`. Note, type `http` is only applicable to `$import` operations. Export is only supported with s3 and file.
 
-To use Amazon S3 bucket for exporting, please set `accessKeyId` to S3 access key, and set `secretAccessKey` to the S3 secret key, and the auth type to `hmac`. 
+To use Amazon S3 bucket for exporting, please set `accessKeyId` to S3 access key, and set `secretAccessKey` to the S3 secret key, and the auth type to `hmac`.
 
 Basic system exports to S3 without typeFilters use a streamlined implementation which bypasses the IBM FHIR Server Search API for direct access to the data enabling better throughput. The `fhirServer/bulkdata/core/systemExportImpl` property can be used to disable the streamlined system export implementation. To use the legacy implementation based on IBM FHIR Server search, set the value to "legacy". The new system export implementation is used by default for any export not using typeFilters. Exports using typeFilters use FHIR Search, and cannot use the streamlined export.
 
@@ -2030,7 +2030,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/cos/objectSizeThresholdMB`|number|The size, in megabytes, at which to finish writing a given object. Use `0` to indicate that all resources of a given type should be written to a single object, but be aware that S3 objects can have a maximum of 10,000 parts and a maximum size of 5,000,000 MB (5 TB). |
 |`fhirServer/bulkdata/core/cos/objectResourceCountThreshold`|number|The number of resources at which to finish writing a given object. The actual number of resources written to a single object may be slightly above this number, dependent on the configured page size. Use `0` to indicate that there is no limit to the number of resources to be written to a single object.|
 |`fhirServer/bulkdata/core/cos/requestTimeout`|number|The request timeout in second for the COS client|
-|`fhirServer/bulkdata/core/cos/socketTimeout`|number|The socket timeout in second for the COS client| 
+|`fhirServer/bulkdata/core/cos/socketTimeout`|number|The socket timeout in second for the COS client|
 |`fhirServer/bulkdata/core/cos/useServerTruststore`|boolean|If the COS Client should use the IBM FHIR Server's TrustStore to access S3/IBMCOS service |
 |`fhirServer/bulkdata/core/batchIdEncryptionKey`|string|Encoding key for JavaBatch job id |
 |`fhirServer/bulkdata/core/pageSize`|number|The search page size for patient/group export and the legacy export, the default value is 1000 |
@@ -2147,7 +2147,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/cos/objectSizeThresholdMB`|200 |
 |`fhirServer/bulkdata/core/cos/objectResourceCountThreshold`|200000|
 |`fhirServer/bulkdata/core/cos/requestTimeout`|120|
-|`fhirServer/bulkdata/core/cos/socketTimeout`|120| 
+|`fhirServer/bulkdata/core/cos/socketTimeout`|120|
 |`fhirServer/bulkdata/core/cos/useServerTruststore`|false|
 |`fhirServer/bulkdata/core/pageSize`|1000|
 |`fhirServer/bulkdata/core/maxPartitions`|5|

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2021
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,7 +24,7 @@ import com.ibm.fhir.model.resource.RelatedPerson;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Reference;
-import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.model.util.ModelSupport;
 
 /**
  * This class contains a collection of tests that will be run against
@@ -100,7 +100,7 @@ public abstract class AbstractCompartmentTest extends AbstractPersistenceTest {
         assertNotNull(resource);
         assertNotNull(resource.getId());
 
-        String resourceTypeName = FHIRUtil.getResourceTypeName(resource);
+        String resourceTypeName = ModelSupport.getTypeName(resource.getClass());
         return Reference.builder()
                         .reference(string(resourceTypeName + "/" + resource.getId()))
                         .build();
@@ -111,6 +111,13 @@ public abstract class AbstractCompartmentTest extends AbstractPersistenceTest {
         List<Resource> results = runQueryTest("Patient", savedPatient.getId(),
                                     Observation.class, "_id", savedObservation.getId());
         assertEquals(1, results.size());
+    }
+
+    @Test
+    public void testPatientCompartmentViaLogicalId() throws Exception {
+        List<Resource> results = runQueryTest("Patient", savedPatient.getId(),
+                                    Observation.class, "_id", savedObservation2.getId());
+        assertEquals(0, results.size());
     }
 
     @Test
@@ -139,12 +146,5 @@ public abstract class AbstractCompartmentTest extends AbstractPersistenceTest {
         List<Resource> results = runQueryTest("RelatedPerson", savedRelatedPerson.getId(),
                                     Observation.class, "_id", savedObservation.getId());
         assertEquals(1, results.size());
-    }
-
-    @Test
-    public void testPatientCompartmentViaLogicalId() throws Exception {
-        List<Resource> results = runQueryTest("Patient", savedPatient.getId(),
-                                    Observation.class, "_id", savedObservation2.getId());
-        assertEquals(0, results.size());
     }
 }

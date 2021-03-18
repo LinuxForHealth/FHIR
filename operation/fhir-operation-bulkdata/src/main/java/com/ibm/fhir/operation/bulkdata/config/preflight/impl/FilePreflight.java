@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.operation.bulkdata.config.preflight.impl;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -54,9 +53,13 @@ public class FilePreflight extends NopPreflight {
             } else {
                 // This is an import
                 for (Input input : getInputs()) {
-                    File f = new File(input.getUrl());
+
                     // We want to append the input path on the base, we don't want to allow everything.
-                    Path p1 = Paths.get(base, f.getAbsolutePath());
+                    Path p1 = Paths.get(base, input.getUrl()).normalize();
+                    if (!p1.startsWith(p)) {
+                        throw util.buildExceptionWithIssue("The path is outside the accepted base path", IssueType.INVALID);
+                    }
+
                     accessible = Files.isReadable(p1);
                     if (!accessible) {
                         // Skip out of the for loop

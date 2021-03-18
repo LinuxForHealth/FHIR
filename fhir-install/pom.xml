@@ -299,6 +299,11 @@
                 </dependency>
                 <dependency>
                     <groupId>${project.groupId}</groupId>
+                    <artifactId>fhir-operation-everything</artifactId>
+                    <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>${project.groupId}</groupId>
                     <artifactId>fhir-operation-healthcheck</artifactId>
                     <version>${project.version}</version>
                 </dependency>

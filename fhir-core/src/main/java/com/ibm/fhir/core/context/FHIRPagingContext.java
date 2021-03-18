@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,12 +29,20 @@ public interface FHIRPagingContext {
     int getPageSize();
 
     /**
-     * @return the total number of matching resources for the corresponding query
+     * @return the total number of matching resources for the corresponding query, or null if total count is not available
      * @see <a href="https://www.hl7.org/fhir/r4/search.html#count">https://www.hl7.org/fhir/r4/search.html#count</a>
      * @implSpec this number only includes the total number of matching resources; it does not count extra resources
      *           such as OperationOutcome or included resources that may also be returned
      */
-    int getTotalCount();
+    Integer getTotalCount();
+
+    /**
+     * @return the number of matching resources returned for the corresponding query
+     * @see <a href="https://www.hl7.org/fhir/r4/search.html#count">https://www.hl7.org/fhir/r4/search.html#count</a>
+     * @implSpec this number only includes the number of matching resources returned; it does not count extra resources
+     *           such as OperationOutcome or included resources that may also be returned
+     */
+    int getMatchCount();
 
     /**
      * @param lastPageNumber the last page of results that can be requested for the corresponding query
@@ -62,6 +70,14 @@ public interface FHIRPagingContext {
      *           such as OperationOutcome or included resources that may also be returned
      */
     void setTotalCount(int totalCount);
+
+    /**
+     * @param matchCount the number of matching resources returned for the corresponding query
+     * @see <a href="https://www.hl7.org/fhir/r4/search.html#count">https://www.hl7.org/fhir/r4/search.html#count</a>
+     * @implSpec this number only includes the number of matching resources returned; it does not count extra resources
+     *           such as OperationOutcome or included resources that may also be returned
+     */
+    void setMatchCount(int matchCount);
 
     /**
      * @return whether the request should be handled with leniency

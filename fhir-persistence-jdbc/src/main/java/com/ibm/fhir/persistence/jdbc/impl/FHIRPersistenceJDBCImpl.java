@@ -13,8 +13,6 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABL
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.util.ModelSupport.getResourceType;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -50,6 +48,7 @@ import com.ibm.fhir.config.FHIRConfigProvider;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.FHIRUtilities;
 import com.ibm.fhir.core.context.FHIRPagingContext;
 import com.ibm.fhir.database.utils.api.DataAccessException;
@@ -142,10 +141,12 @@ import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
 import com.ibm.fhir.persistence.jdbc.util.TimestampPrefixedUUID;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
+import com.ibm.fhir.persistence.util.InputOutputByteStream;
 import com.ibm.fhir.persistence.util.LogicalIdentityProvider;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SummaryValueSet;
+import com.ibm.fhir.search.TotalValueSet;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.date.DateTimeHandler;
@@ -166,6 +167,7 @@ import com.ibm.fhir.search.util.SearchUtil;
 public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSupplier {
     private static final String CLASSNAME = FHIRPersistenceJDBCImpl.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
+    private static final int DATA_BUFFER_INITIAL_SIZE = 10*1024; // 10KiB
 
     protected static final String TXN_JNDI_NAME = "java:comp/UserTransaction";
     public static final String TRX_SYNCH_REG_JNDI_NAME = "java:comp/TransactionSynchronizationRegistry";
@@ -338,7 +340,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         final String METHODNAME = "create";
         log.entering(CLASSNAME, METHODNAME);
 
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        // Most resources are well under 10K after being serialized and compressed
+        InputOutputByteStream ioStream = new InputOutputByteStream(DATA_BUFFER_INITIAL_SIZE);
         String logicalId;
 
         // We need to update the meta in the resource, so we need a modifiable version
@@ -378,10 +381,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             resourceDTO.setResourceType(updatedResource.getClass().getSimpleName());
 
             // Serialize and compress the Resource
-            GZIPOutputStream zipStream = new GZIPOutputStream(stream);
+            GZIPOutputStream zipStream = new GZIPOutputStream(ioStream.outputStream());
             FHIRGenerator.generator( Format.JSON, false).generate(updatedResource, zipStream);
             zipStream.finish();
-            resourceDTO.setData(stream.toByteArray());
+            resourceDTO.setDataStream(ioStream);
             zipStream.close();
 
             // The DAO objects are now created on-the-fly (not expensive to construct) and
@@ -494,7 +497,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         Class<? extends Resource> resourceType = resource.getClass();
         com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO;
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        InputOutputByteStream ioStream = new InputOutputByteStream(DATA_BUFFER_INITIAL_SIZE);
 
         // Resources are immutable, so we need a new builder to update it (since R4)
         Resource.Builder resultResourceBuilder = resource.toBuilder();
@@ -569,10 +572,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             resourceDTO.setResourceType(updatedResource.getClass().getSimpleName());
 
             // Serialize and compress the Resource
-            GZIPOutputStream zipStream = new GZIPOutputStream(stream);
+            GZIPOutputStream zipStream = new GZIPOutputStream(ioStream.outputStream());
             FHIRGenerator.generator(Format.JSON, false).generate(updatedResource, zipStream);
             zipStream.finish();
-            resourceDTO.setData(stream.toByteArray());
+            resourceDTO.setDataStream(ioStream);
             zipStream.close();
 
             // Persist the Resource DTO.
@@ -624,7 +627,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         MultiResourceResult.Builder<Resource> resultBuilder = new MultiResourceResult.Builder<>();
         FHIRSearchContext searchContext = context.getSearchContext();
         JDBCQueryBuilder queryBuilder;
-        int searchResultCount = 0;
+        Integer searchResultCount = null;
         SqlQueryData countQuery;
         SqlQueryData query;
 
@@ -639,106 +642,111 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             checkModifiers(searchContext, isSystemLevelSearch(resourceType));
             queryBuilder = new JDBCQueryBuilder(parameterDao, resourceDao, connectionStrategy.getQueryHints(), identityCache);
 
-            countQuery = queryBuilder.buildCountQuery(resourceType, searchContext);
-            if (countQuery != null) {
-                searchResultCount = resourceDao.searchCount(countQuery);
-                if (log.isLoggable(Level.FINE)) {
-                    log.fine("searchResultCount = " + searchResultCount);
+            // Skip count query if _total=none
+            if (!TotalValueSet.NONE.equals(searchContext.getTotalParameter())) {
+                countQuery = queryBuilder.buildCountQuery(resourceType, searchContext);
+                if (countQuery != null) {
+                    searchResultCount = resourceDao.searchCount(countQuery);
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine("searchResultCount = " + searchResultCount);
+                    }
+                    searchContext.setTotalCount(searchResultCount);
                 }
-                searchContext.setTotalCount(searchResultCount);
+            }
 
-                List<OperationOutcome.Issue> issues = validatePagingContext(searchContext);
-                if (!issues.isEmpty()) {
-                    resultBuilder.outcome(OperationOutcome.builder()
-                        .issue(issues)
-                        .build());
-                    if (!searchContext.isLenient()) {
-                        return resultBuilder.success(false).build();
+            List<OperationOutcome.Issue> issues = validatePagingContext(searchContext);
+            if (!issues.isEmpty()) {
+                resultBuilder.outcome(OperationOutcome.builder()
+                    .issue(issues)
+                    .build());
+                if (!searchContext.isLenient()) {
+                    return resultBuilder.success(false).build();
+                }
+            }
+
+            // For _summary=count or pageSize == 0, we return only the count
+            if ((searchResultCount == null || searchResultCount > 0)
+                    && !SummaryValueSet.COUNT.equals(searchContext.getSummaryParameter())
+                    && searchContext.getPageSize() > 0) {
+                query = queryBuilder.buildQuery(resourceType, searchContext);
+
+                List<String> elements = searchContext.getElementsParameters();
+
+                // Only consider _summary if _elements parameter is empty
+                if (elements == null && searchContext.hasSummaryParameter()) {
+                    Set<String> summaryElements = null;
+                    SummaryValueSet summary = searchContext.getSummaryParameter();
+
+                    switch (summary) {
+                    case TRUE:
+                        summaryElements = JsonSupport.getSummaryElementNames(resourceType);
+                        break;
+                    case TEXT:
+                        summaryElements = SearchUtil.getSummaryTextElementNames(resourceType);
+                        break;
+                    case DATA:
+                        summaryElements = JsonSupport.getSummaryDataElementNames(resourceType);
+                        break;
+                    default:
+                        break;
+                    }
+
+                    if (summaryElements != null) {
+                        elements = new ArrayList<>();
+                        elements.addAll(summaryElements);
                     }
                 }
 
-                // For _summary=count or pageSize == 0, we return only the count
-                if (searchResultCount > 0
-                        && !SummaryValueSet.COUNT.equals(searchContext.getSummaryParameter())
-                        && searchContext.getPageSize() > 0) {
-                    query = queryBuilder.buildQuery(resourceType, searchContext);
-
-                    List<String> elements = searchContext.getElementsParameters();
-
-                    //Only consider _summary if _elements parameter is empty
-                    if (elements == null && searchContext.hasSummaryParameter()) {
-                        Set<String> summaryElements = null;
-                        SummaryValueSet summary = searchContext.getSummaryParameter();
-
-                        switch (summary) {
-                        case TRUE:
-                            summaryElements = JsonSupport.getSummaryElementNames(resourceType);
-                            break;
-                        case TEXT:
-                            summaryElements = SearchUtil.getSummaryTextElementNames(resourceType);
-                            break;
-                        case DATA:
-                            summaryElements = JsonSupport.getSummaryDataElementNames(resourceType);
-                            break;
-                        default:
-                            break;
-                        }
-
-                        if (summaryElements != null) {
-                            elements = new ArrayList<>();
-                            elements.addAll(summaryElements);
-                        }
-                    }
-
-                    if (searchContext.hasSortParameters()) {
-                        // Sorting results of a system-level search is limited, and has a different logic path
-                        // than other sorted searches.
-                        if (resourceType.equals(Resource.class)) {
-                           resources = this.convertResourceDTOList(resourceDao.search(query), resourceType, elements);
-                        } else {
-                            resources = this.buildSortedFhirResources(resourceDao, context, resourceType, resourceDao.searchForIds(query), elements);
-                        }
+                if (searchContext.hasSortParameters()) {
+                    // Sorting results of a system-level search is limited, and has a different logic path
+                    // than other sorted searches.
+                    if (resourceType.equals(Resource.class)) {
+                        resources = this.convertResourceDTOList(resourceDao.search(query), resourceType, elements);
                     } else {
-                        List<com.ibm.fhir.persistence.jdbc.dto.Resource> resultsList = resourceDao.search(query);
-                        List<com.ibm.fhir.persistence.jdbc.dto.Resource> matchResultList = resultsList;
-                        List<com.ibm.fhir.persistence.jdbc.dto.Resource> includeResultList = new ArrayList<>();
+                        resources = this.buildSortedFhirResources(resourceDao, context, resourceType, resourceDao.searchForIds(query), elements);
+                    }
+                    searchContext.setMatchCount(resources.size());
+                } else {
+                    List<com.ibm.fhir.persistence.jdbc.dto.Resource> resultsList = resourceDao.search(query);
+                    List<com.ibm.fhir.persistence.jdbc.dto.Resource> matchResultList = resultsList;
+                    List<com.ibm.fhir.persistence.jdbc.dto.Resource> includeResultList = new ArrayList<>();
 
-                        // Check if _include or _revinclude search. If so, remove duplicates from 'include' resources
-                        // (duplicates of both 'match' and 'include' resources) and make sure _elements processing
-                        // is not done for 'include' resources.
-                        if (searchContext.hasIncludeParameters() || searchContext.hasRevIncludeParameters()) {
-                            // Calculate 'match' results count
-                            int pageSize = searchContext.getPageSize();
-                            int offset = (searchContext.getPageNumber() - 1) * pageSize;
-                            int matchResultCount = pageSize;
-                            if (searchResultCount < offset + pageSize) {
-                                matchResultCount = searchResultCount - offset;
+                    // Check if _include or _revinclude search. If so, remove duplicates from 'include' resources
+                    // (duplicates of both 'match' and 'include' resources) and make sure _elements processing
+                    // is not done for 'include' resources.
+                    if (searchContext.hasIncludeParameters() || searchContext.hasRevIncludeParameters()) {
+                        // Calculate 'match' results count
+                        int pageSize = searchContext.getPageSize();
+                        int offset = (searchContext.getPageNumber() - 1) * pageSize;
+                        int matchResultCount = pageSize;
+                        if (searchResultCount < offset + pageSize) {
+                            matchResultCount = searchResultCount - offset;
+                        }
+
+                        // Split results list into 'match' list and 'include' list. The results have been sorted
+                        // by the underlying query to return the 'match' results before the 'include' results.
+                        if (resultsList.size() > matchResultCount) {
+                            matchResultList = resultsList.subList(0, matchResultCount);
+
+                            // Remove duplicates from 'include' list
+                            Set<Long> resultIds = new HashSet<>();
+                            for (com.ibm.fhir.persistence.jdbc.dto.Resource resource : matchResultList) {
+                                resultIds.add(resource.getId());
                             }
-
-                            // Split results list into 'match' list and 'include' list. The results have been sorted
-                            // by the underlying query to return the 'match' results before the 'include' results.
-                            if (resultsList.size() > matchResultCount) {
-                                matchResultList = resultsList.subList(0, matchResultCount);
-
-                                // Remove duplicates from 'include' list
-                                Set<Long> resultIds = new HashSet<>();
-                                for (com.ibm.fhir.persistence.jdbc.dto.Resource resource : matchResultList) {
+                            for (int i=matchResultCount; i<resultsList.size(); ++i) {
+                                com.ibm.fhir.persistence.jdbc.dto.Resource resource = resultsList.get(i);
+                                if (!resultIds.contains(resource.getId())) {
                                     resultIds.add(resource.getId());
-                                }
-                                for (int i=matchResultCount; i<resultsList.size(); ++i) {
-                                    com.ibm.fhir.persistence.jdbc.dto.Resource resource = resultsList.get(i);
-                                    if (!resultIds.contains(resource.getId())) {
-                                        resultIds.add(resource.getId());
-                                        includeResultList.add(resource);
-                                    }
+                                    includeResultList.add(resource);
                                 }
                             }
                         }
-
-                        // Convert resources
-                        resources = this.convertResourceDTOList(matchResultList, resourceType, elements);
-                        resources.addAll(this.convertResourceDTOList(includeResultList, resourceType, null));
                     }
+                    searchContext.setMatchCount(matchResultList.size());
+
+                    // Convert resources
+                    resources = this.convertResourceDTOList(matchResultList, resourceType, elements);
+                    resources.addAll(this.convertResourceDTOList(includeResultList, resourceType, null));
                 }
             }
 
@@ -802,7 +810,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO = null;
         T existingResource = null;
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        InputOutputByteStream ioStream = new InputOutputByteStream(DATA_BUFFER_INITIAL_SIZE);
 
         Resource.Builder resourceBuilder;
 
@@ -856,10 +864,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             resourceDTO.setVersionId(newVersionNumber);
 
             // Serialize and compress the Resource
-            GZIPOutputStream zipStream = new GZIPOutputStream(stream);
+            GZIPOutputStream zipStream = new GZIPOutputStream(ioStream.outputStream());
             FHIRGenerator.generator(Format.JSON, false).generate(updatedResource, zipStream);
             zipStream.finish();
-            resourceDTO.setData(stream.toByteArray());
+            resourceDTO.setDataStream(ioStream);
             zipStream.close();
 
             Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
@@ -1066,11 +1074,16 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     .text(string("Invalid page size: " + pageSize))
                     .build())
                 .build());
-            pagingContext.setPageSize(10);
+            // Pick a valid default if lenient
+            if (pagingContext.isLenient()) {
+                pagingContext.setPageSize(FHIRConstants.FHIR_PAGE_SIZE_DEFAULT);
+            }
         }
 
-        int lastPageNumber = Math.max(((pagingContext.getTotalCount() + pageSize - 1) / pageSize), 1);
-        pagingContext.setLastPageNumber(lastPageNumber);
+        if (pagingContext.getTotalCount() != null) {
+            pagingContext.setLastPageNumber(Math.max(((pagingContext.getTotalCount() + pageSize - 1) / pageSize), 1));
+        }
+        int lastPageNumber = pagingContext.getLastPageNumber();
 
         int pageNumber = pagingContext.getPageNumber();
         if (pageNumber < 1) {
@@ -1081,7 +1094,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     .text(string("Invalid page number: " + pageNumber))
                     .build())
                 .build());
-            pagingContext.setPageNumber(1);
+            // Pick a valid default if lenient
+            if (pagingContext.isLenient()) {
+                pagingContext.setPageNumber(FHIRConstants.FHIR_PAGE_NUMBER_DEFAULT);
+            }
         } else if (pageNumber > lastPageNumber) {
             issues.add(OperationOutcome.Issue.builder()
                 .severity(pagingContext.isLenient() ? IssueSeverity.WARNING : IssueSeverity.ERROR)
@@ -1090,7 +1106,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     .text(string("Specified page number: " + pageNumber + " is greater than last page number: " + lastPageNumber))
                     .build())
                 .build());
-            pagingContext.setPageNumber(lastPageNumber);
+            // Set it to the last page if lenient
+            if (pagingContext.isLenient()) {
+                pagingContext.setPageNumber(lastPageNumber);
+            }
         }
 
         return issues;
@@ -1322,7 +1341,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @throws Exception
      */
     private List<ExtractedParameterValue> extractSearchParameters(Resource fhirResource, com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTOx)
-                 throws Exception {
+             throws Exception {
         final String METHODNAME = "extractSearchParameters";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -1741,7 +1760,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         InputStream in = null;
         try {
             if (resourceDTO != null) {
-                in = new GZIPInputStream(new ByteArrayInputStream(resourceDTO.getData()));
+                in = new GZIPInputStream(resourceDTO.getDataStream().inputStream());
                 if (elements != null) {
                     // parse/filter the resource using elements
                     resource = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parseAndFilter(in, elements);
@@ -1907,33 +1926,48 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     logicalId = parts[1];
                 }
 
-                // Look up the resourceTypeId for the given resourceType
+                // Look up the optional resourceTypeId for the given resourceType parameter
                 resourceTypeId = cache.getResourceTypeCache().getId(resourceType);
             }
 
-            long start = System.nanoTime();
-            ResourceIndexRecord rir = reindexDAO.getResourceToReindex(tstamp, resourceTypeId, logicalId);
-            long end = System.nanoTime();
+            // Need to skip over deleted resources so we have to loop until we find something not
+            // deleted, or reach the end.
+            ResourceIndexRecord rir;
+            do {
+                long start = System.nanoTime();
+                rir = reindexDAO.getResourceToReindex(tstamp, resourceTypeId, logicalId);
+                long end = System.nanoTime();
 
-            if (log.isLoggable(Level.FINER)) {
-                double elapsed = (end-start)/1e6;
-                log.finer(String.format("Selected %d resource for reindexing in %.3f ms ", rir != null ? 1 : 0, elapsed));
-            }
+                if (log.isLoggable(Level.FINER)) {
+                    double elapsed = (end-start)/1e6;
+                    log.finer(String.format("Selected %d resource for reindexing in %.3f ms ", rir != null ? 1 : 0, elapsed));
+                }
 
-            if (rir != null) {
-                // result is only 0 if getResourceToReindex doesn't give us anything because this indicates
-                // there's nothing left to do
-                result = 1;
+                if (rir != null) {
 
-                // This is important so we log it as info
-                log.info("Reindexing FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'");
+                    // This is important so we log it as info
+                    log.info("Reindexing FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'");
 
-                // Read the current resource
-                com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO = resourceDao.read(rir.getLogicalId(), rir.getResourceType());
-                Class<? extends Resource> resourceTypeClass = getResourceType(resourceType);
-                reindexDAO.setPersistenceContext(context);
-                updateParameters(rir, resourceTypeClass, existingResourceDTO, reindexDAO, operationOutcomeResult);
-            }
+                    // Read the current resource
+                    com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO = resourceDao.read(rir.getLogicalId(), rir.getResourceType());
+                    if (existingResourceDTO != null && !existingResourceDTO.isDeleted()) {
+                        rir.setDeleted(false); // just to be clear
+                        Class<? extends Resource> resourceTypeClass = getResourceType(resourceType);
+                        reindexDAO.setPersistenceContext(context);
+                        updateParameters(rir, resourceTypeClass, existingResourceDTO, reindexDAO, operationOutcomeResult);
+
+                        // result is only 0 if getResourceToReindex doesn't give us anything because this indicates
+                        // there's nothing left to do
+                        result = 1;
+                    } else {
+                        // Skip this particular resource because it has been deleted
+                        if (log.isLoggable(Level.FINE)) {
+                            log.info("Skipping reindex for deleted FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'");
+                        }
+                        rir.setDeleted(true);
+                    }
+                }
+            } while (rir != null && rir.isDeleted());
 
         } catch(FHIRPersistenceFKVException e) {
             getTransaction().setRollbackOnly();
