@@ -192,7 +192,7 @@ public class FHIRServletContextListener implements ServletContextListener {
             if (serverRegistryResourceProviderEnabled) {
                 log.info("Registering ServerRegistryResourceProvider...");
                 ServerRegistryResourceProvider provider = new ServerRegistryResourceProvider(persistenceHelper);
-                FHIRRegistry.getInstance().register(provider);
+                FHIRRegistry.getInstance().addProvider(provider);
                 FHIRPersistenceInterceptorMgr.getInstance().addInterceptor(provider);
             }
 

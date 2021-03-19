@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -45,6 +45,7 @@ public final class CodeSystemSupport {
     private static final Logger log = Logger.getLogger(CodeSystemSupport.class.getName());
 
     private static final Map<java.lang.String, java.lang.Boolean> CASE_SENSITIVITY_CACHE = createLRUCache(2048);
+    private static final Pattern IN_COMBINING_DIACRITICAL_MARKS_PATTERN = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
 
     private CodeSystemSupport() { }
 
@@ -355,7 +356,7 @@ public final class CodeSystemSupport {
      */
     public static java.lang.String normalize(java.lang.String value) {
         if (value != null) {
-            return Normalizer.normalize(value, Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "").toLowerCase();
+            return IN_COMBINING_DIACRITICAL_MARKS_PATTERN.matcher(Normalizer.normalize(value, Form.NFD)).replaceAll("").toLowerCase();
         }
         return null;
     }

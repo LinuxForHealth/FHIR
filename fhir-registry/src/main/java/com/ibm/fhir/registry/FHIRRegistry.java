@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,6 @@ import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.resource.Resource;
@@ -68,7 +68,7 @@ public final class FHIRRegistry {
      * @param provider
      *     the registry resource provider to be added
      */
-    public void register(FHIRRegistryResourceProvider provider) {
+    public void addProvider(FHIRRegistryResourceProvider provider) {
         Objects.requireNonNull(provider);
         providers.add(provider);
     }
@@ -179,11 +179,13 @@ public final class FHIRRegistry {
     public <T extends Resource> Collection<T> getResources(Class<T> resourceType) {
         Objects.requireNonNull(resourceType);
         requireDefinitionalResourceType(resourceType);
-        return providers.stream()
-                .map(provider -> provider.getRegistryResources(resourceType))
-                .flatMap(Collection::stream)
-                .map(registryResource -> resourceType.cast(registryResource.getResource()))
-                .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
+        List<T> resources = new ArrayList<>();
+        for (FHIRRegistryResourceProvider provider : providers) {
+            for (FHIRRegistryResource registryResource : provider.getRegistryResources(resourceType)) {
+                resources.add(resourceType.cast(registryResource.getResource()));
+            }
+        }
+        return Collections.unmodifiableList(resources);
     }
 
     /**
@@ -199,11 +201,16 @@ public final class FHIRRegistry {
         if (!ModelSupport.isResourceType(type)) {
             throw new IllegalArgumentException("The type argument must be a valid FHIR resource type name");
         }
-        return providers.stream().map(provider -> provider.getProfileResources(type))
-                .flatMap(Collection::stream)
-                .sorted()
-                .map(registryResource -> Canonical.of(registryResource.getUrl(), registryResource.getVersion().toString()))
-                .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
+        List<FHIRRegistryResource> registryResources = new ArrayList<>();
+        for (FHIRRegistryResourceProvider provider : providers) {
+            registryResources.addAll(provider.getProfileResources(type));
+        }
+        Collections.sort(registryResources);
+        List<Canonical> profiles = new ArrayList<>();
+        for (FHIRRegistryResource registryResource : registryResources) {
+            profiles.add(Canonical.of(registryResource.getUrl(), registryResource.getVersion().toString()));
+        }
+        return Collections.unmodifiableList(profiles);
     }
 
     /**
@@ -219,31 +226,38 @@ public final class FHIRRegistry {
     public Collection<SearchParameter> getSearchParameters(String type) {
         Objects.requireNonNull(type);
         SearchParamType.ValueSet.from(type);
-        return providers.stream()
-                .map(provider -> provider.getSearchParameterResources(type))
-                .flatMap(Collection::stream)
-                .map(registryResource -> registryResource.getResource().as(SearchParameter.class))
-                .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
+        List<SearchParameter> searchParameters = new ArrayList<>();
+        for (FHIRRegistryResourceProvider provider : providers) {
+            for (FHIRRegistryResource registryResource : provider.getSearchParameterResources(type)) {
+                searchParameters.add(registryResource.getResource().as(SearchParameter.class));
+            }
+        }
+        return Collections.unmodifiableList(searchParameters);
+
     }
 
     private FHIRRegistryResource findRegistryResource(Class<? extends Resource> resourceType, String url, String version) {
         if (version == null) {
             // find the latest version of the registry resource with the specified resourceType and url (across all providers)
-            List<FHIRRegistryResource> registryResources = providers.stream()
-                    .map(provider -> provider.getRegistryResource(resourceType, url, version))
-                    .filter(Objects::nonNull)
-                    .distinct()
-                    .sorted()
-                    .collect(Collectors.toList());
+            Set<FHIRRegistryResource> distinct = new HashSet<>();
+            for (FHIRRegistryResourceProvider provider : providers) {
+                FHIRRegistryResource registryResource = provider.getRegistryResource(resourceType, url, version);
+                if (registryResource != null) {
+                    distinct.add(registryResource);
+                }
+            }
+            List<FHIRRegistryResource> registryResources = new ArrayList<>(distinct);
+            Collections.sort(registryResources);
             return !registryResources.isEmpty() ? registryResources.get(registryResources.size() - 1) : null;
         }
-
         // find the first registry resource with the specified resourceType, url, and version
-        return providers.stream()
-                .map(provider -> provider.getRegistryResource(resourceType, url, version))
-                .filter(Objects::nonNull)
-                .findFirst()
-                .orElse(null);
+        for (FHIRRegistryResourceProvider provider : providers) {
+            FHIRRegistryResource registryResource = provider.getRegistryResource(resourceType, url, version);
+            if (registryResource != null) {
+                return registryResource;
+            }
+        }
+        return null;
     }
 
     private Resource getResource(FHIRRegistryResource registryResource, String url, String id) {
@@ -276,18 +290,19 @@ public final class FHIRRegistry {
     }
 
     /**
-     * Get a map containing sets of type specific canonical URLs for all profile resources from all providers.
+     * Get a map containing sets of type specific canonical URLs for all profile resources across all providers.
      *
      * @return
      *     the map of sets
      */
     public Map<String, Set<Canonical>> getProfiles() {
         Map<String, Set<Canonical>> map = new HashMap<>();
-        providers.stream()
-            .map(provider -> provider.getProfileResources())
-            .flatMap(Collection::stream)
-            .forEach(r -> map.computeIfAbsent(r.getType(), k -> new LinkedHashSet<>())
-                .add(Canonical.of(r.getUrl(), r.getVersion().toString())));
+        for (FHIRRegistryResourceProvider provider : providers) {
+            for (FHIRRegistryResource r : provider.getProfileResources()) {
+                map.computeIfAbsent(r.getType(), k -> new LinkedHashSet<>())
+                    .add(Canonical.of(r.getUrl(), r.getVersion().toString()));
+            }
+        }
         return map;
     }
 }

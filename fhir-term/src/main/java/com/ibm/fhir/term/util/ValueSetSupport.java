@@ -14,6 +14,7 @@ import static com.ibm.fhir.term.util.CodeSystemSupport.normalize;
 
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -23,7 +24,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
@@ -114,11 +114,16 @@ public final class ValueSetSupport {
     }
 
     private static Set<java.lang.String> getCodeSystemReferences(List<Include> includesAndExcludes) {
-        return includesAndExcludes.stream()
-                .filter(includeOrExclude -> includeOrExclude.getConcept().isEmpty())
-                .map(ValueSetSupport::getCodeSystemReference)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
+        Set<java.lang.String> codeSystemReferences = new LinkedHashSet<>();
+        for (Include includeOrExclude : includesAndExcludes) {
+            if (includeOrExclude.getConcept().isEmpty()) {
+                java.lang.String codeSystemReference = getCodeSystemReference(includeOrExclude);
+                if (codeSystemReference != null) {
+                    codeSystemReferences.add(codeSystemReference);
+                }
+            }
+        }
+        return codeSystemReferences;
     }
 
     private static java.lang.String getCodeSystemReference(Include includeOrExclude) {
@@ -133,28 +138,31 @@ public final class ValueSetSupport {
     }
 
     private static Set<java.lang.String> getValueSetReferences(List<Include> includesAndExcludes) {
-        return includesAndExcludes.stream()
-                .map(includeOrExclude -> includeOrExclude.getValueSet())
-                .flatMap(List::stream)
-                .map(canonical -> canonical.getValue())
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
+        Set<java.lang.String> valueSetReferences = new LinkedHashSet<>();
+        for (Include includeOrExclude : includesAndExcludes) {
+            for (Canonical canonical : includeOrExclude.getValueSet()) {
+                if (canonical.getValue() != null) {
+                    valueSetReferences.add(canonical.getValue());
+                }
+            }
+        }
+        return valueSetReferences;
     }
 
     /**
-     * Get a set containing {@link ValueSet.Expansion.Contains} instances where all structural
+     * Get a list containing {@link ValueSet.Expansion.Contains} instances where all structural
      * hierarchies have been flattened.
      *
      * @param expansion
      *     the expansion containing the list of Contains instances to flatten
      * @return
-     *     flattened set of Contains instances for the given expansion
+     *     flattened list of Contains instances for the given expansion
      */
-    public static Set<Expansion.Contains> getContains(Expansion expansion) {
+    public static List<Expansion.Contains> getContains(Expansion expansion) {
         if (expansion == null) {
-            return Collections.emptySet();
+            return Collections.emptyList();
         }
-        Set<Expansion.Contains> result = (expansion.getTotal() != null) ? new LinkedHashSet<>(expansion.getTotal().getValue()) : new LinkedHashSet<>();
+        List<Expansion.Contains> result = (expansion.getTotal() != null) ? new ArrayList<>(expansion.getTotal().getValue()) : new ArrayList<>();
         for (Expansion.Contains contains : expansion.getContains()) {
             result.addAll(getContains(contains));
         }
@@ -267,11 +275,11 @@ public final class ValueSetSupport {
         return !systemContains.isEmpty() ? systemContains : valueSetContains;
     }
 
-    private static Set<Expansion.Contains> getContains(Expansion.Contains contains) {
+    private static List<Expansion.Contains> getContains(Expansion.Contains contains) {
         if (contains == null) {
-            return Collections.emptySet();
+            return Collections.emptyList();
         }
-        Set<Expansion.Contains> result = new LinkedHashSet<>();
+        List<Expansion.Contains> result = new ArrayList<>();
         result.add(contains);
         for (Expansion.Contains c : contains.getContains()) {
             result.addAll(getContains(c));
@@ -296,16 +304,20 @@ public final class ValueSetSupport {
         return contains.getContains();
     }
 
-    private static Set<Contains> wrap(Set<Expansion.Contains> unwrapped) {
-        return unwrapped.stream()
-            .map(ValueSetSupport::wrap)
-            .collect(Collectors.toCollection(LinkedHashSet::new));
+    private static List<Contains> wrap(Collection<Expansion.Contains> unwrapped) {
+        List<Contains> wrapped = new ArrayList<>(unwrapped.size());
+        for (Expansion.Contains contains : unwrapped) {
+            wrapped.add(wrap(contains));
+        }
+        return wrapped;
     }
 
-    private static Set<Expansion.Contains> unwrap(Set<Contains> wrapped) {
-        return wrapped.stream()
-            .map(ValueSetSupport::unwrap)
-            .collect(Collectors.toCollection(LinkedHashSet::new));
+    private static List<Expansion.Contains> unwrap(Collection<Contains> wrapped) {
+        List<Expansion.Contains> unwrapped = new ArrayList<>(wrapped.size());
+        for (Contains contains : wrapped) {
+            unwrapped.add(unwrap(contains));
+        }
+        return unwrapped;
     }
 
     private static class Contains {
