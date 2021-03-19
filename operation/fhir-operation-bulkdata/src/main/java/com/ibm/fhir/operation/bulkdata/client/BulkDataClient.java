@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.operation.bulkdata.client;
 
+import java.io.File;
 import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -721,7 +722,7 @@ public class BulkDataClient {
                             ext = ".ndjson";
                         }
                         // Originally we set i to resourceCounts[i], however we don't always know the count when create the file.
-                        sUrl = cosBucketPathPrefix + "_" + resourceType + "_" + (i + 1) + ext;
+                        sUrl = cosBucketPathPrefix + File.separator + resourceType + "_" + (i + 1) + ext;
                     }
                     outputList.add(new PollingLocationResponse.Output(resourceType, sUrl, resourceCounts[i]));
                 }

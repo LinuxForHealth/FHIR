@@ -2029,6 +2029,9 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/cos/requestTimeout`|number|The request timeout in second for the COS client|
 |`fhirServer/bulkdata/core/cos/socketTimeout`|number|The socket timeout in second for the COS client|
 |`fhirServer/bulkdata/core/cos/useServerTruststore`|boolean|If the COS Client should use the IBM FHIR Server's TrustStore to access S3/IBMCOS service |
+|`fhirServer/bulkdata/core/file/writeTriggerSizeMB`|number|The size, in megabytes, at which to write the buffer to file.|
+|`fhirServer/bulkdata/core/file/sizeThresholdMB`|number|The size, in megabytes, at which to finish writing a given file. Use `0` to indicate that all resources of a given type should be written to a single file.|
+|`fhirServer/bulkdata/core/file/resourceCountThreshold`|number|The number of resources at which to finish writing a given file. The actual number of resources written to a single file may be slightly above this number, dependent on the configured page size. Use `0` to indicate that there is no limit to the number of resources to be written to a single file.|
 |`fhirServer/bulkdata/core/batchIdEncryptionKey`|string|Encoding key for JavaBatch job id |
 |`fhirServer/bulkdata/core/pageSize`|number|The search page size for patient/group export and the legacy export, the default value is 1000 |
 |`fhirServer/bulkdata/core/maxPartitions`|number| The maximum number of simultaneous partitions that are processed per Export and Import |
