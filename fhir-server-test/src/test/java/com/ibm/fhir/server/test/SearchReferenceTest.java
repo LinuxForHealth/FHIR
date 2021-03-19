@@ -43,6 +43,8 @@ public class SearchReferenceTest extends FHIRServerTestBase {
     private String patientResourceIdWithPractitionerRoleReferenceTypeId;
     @SuppressWarnings("unused")
     private String patientWithLogicalReference;
+    @SuppressWarnings("unused")
+    private String patientWithLiteralAndLogicalReference;
 
     /*
      * creates the various test cases for a patient with a reference
@@ -115,6 +117,9 @@ public class SearchReferenceTest extends FHIRServerTestBase {
 
         // logical reference
         patientWithLogicalReference = createPatientWithReference("organization", null, Identifier.builder().system(Uri.of("https://an.example.com/OrgId")).value(string("3005")).build());
+
+        // literal and logical reference
+        patientWithLiteralAndLogicalReference = createPatientWithReference("organization", "Organization/3006", Identifier.builder().system(Uri.of("https://an.example.com/OrgId")).value(string("3007")).build());
     }
 
     @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
@@ -243,9 +248,8 @@ public class SearchReferenceTest extends FHIRServerTestBase {
 
     @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchWithRelativePatientUrlUsingTypeId() {
-        // We expect a match here, because 3003 will match Organization/3003 even though
-        // no resource type is given.
         WebTarget target = getWebTarget();
+
         Response response =
                 target.path("Patient").queryParam("organization", "Organization/3003").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -343,9 +347,8 @@ public class SearchReferenceTest extends FHIRServerTestBase {
 
     @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchLogicalReferenceUsingId() {
-        // should find a match here because the search parameter only searches identifier of reference
+        // not expected to find a match here because the search parameter only searches identifier of reference
         WebTarget target = getWebTarget();
-
         Response response =
                 target.path("Patient").queryParam("organization:identifier", "3001").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -357,7 +360,6 @@ public class SearchReferenceTest extends FHIRServerTestBase {
     @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchLogicalReferenceWithIdentifier() {
         WebTarget target = getWebTarget();
-
         Response response =
                 target.path("Patient").queryParam("organization:identifier", "https://an.example.com/OrgId|3005").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -378,7 +380,6 @@ public class SearchReferenceTest extends FHIRServerTestBase {
     @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchLogicalReferenceWithIdentifierValue() {
         WebTarget target = getWebTarget();
-
         Response response =
                 target.path("Patient").queryParam("organization:identifier", "3005").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -394,5 +395,69 @@ public class SearchReferenceTest extends FHIRServerTestBase {
         assertNotNull(p);
         assertEquals("https://an.example.com/OrgId", p.getManagingOrganization().getIdentifier().getSystem().getValue());
         assertEquals("3005", p.getManagingOrganization().getIdentifier().getValue().getValue());
+    }
+
+    @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
+    public void testSearchLiteralRefForPatientWithLiteralAndLogicalRefs() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient").queryParam("organization", "Organization/3006").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+        Patient p = null;
+        for (Bundle.Entry entry : bundle.getEntry()) {
+            if (entry.getResource() != null && entry.getResource() instanceof Patient) {
+                p = (Patient) entry.getResource();
+            }
+        }
+        assertNotNull(p);
+        assertEquals("Organization/3006", p.getManagingOrganization().getReference().getValue());
+        assertEquals("https://an.example.com/OrgId", p.getManagingOrganization().getIdentifier().getSystem().getValue());
+        assertEquals("3007", p.getManagingOrganization().getIdentifier().getValue().getValue());
+    }
+
+    @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
+    public void testSearchLogicalRefForPatientWithLiteralAndLogicalRefs() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient").queryParam("organization:identifier", "https://an.example.com/OrgId|3007").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+        Patient p = null;
+        for (Bundle.Entry entry : bundle.getEntry()) {
+            if (entry.getResource() != null && entry.getResource() instanceof Patient) {
+                p = (Patient) entry.getResource();
+            }
+        }
+        assertNotNull(p);
+        assertEquals("Organization/3006", p.getManagingOrganization().getReference().getValue());
+        assertEquals("https://an.example.com/OrgId", p.getManagingOrganization().getIdentifier().getSystem().getValue());
+        assertEquals("3007", p.getManagingOrganization().getIdentifier().getValue().getValue());
+    }
+
+    @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
+    public void testSearchLiteralAndLogicalRefsForPatientWithLiteralAndLogicalRefs() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient").queryParam("organization", "3006")
+                .queryParam("organization:identifier", "3007").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+        Patient p = null;
+        for (Bundle.Entry entry : bundle.getEntry()) {
+            if (entry.getResource() != null && entry.getResource() instanceof Patient) {
+                p = (Patient) entry.getResource();
+            }
+        }
+        assertNotNull(p);
+        assertEquals("Organization/3006", p.getManagingOrganization().getReference().getValue());
+        assertEquals("https://an.example.com/OrgId", p.getManagingOrganization().getIdentifier().getSystem().getValue());
+        assertEquals("3007", p.getManagingOrganization().getIdentifier().getValue().getValue());
     }
 }
