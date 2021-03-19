@@ -100,8 +100,9 @@ public class BulkDataExportUtil {
          * the full content type of application/fhir+ndjson as well as the abbreviated representations
          * application/ndjson and ndjson.
          */
-        Optional<Parameter> parameter =
-                parameters.getParameter().stream().filter(p -> OperationConstants.PARAM_OUTPUT_FORMAT.equals(p.getName().getValue())).findFirst();
+        Optional<Parameter> parameter = parameters.getParameter().stream()
+                .filter(p -> OperationConstants.PARAM_OUTPUT_FORMAT.equals(p.getName().getValue()))
+                .findFirst();
 
         String mediaType = FHIRMediaType.APPLICATION_NDJSON;
         if (parameter.isPresent() && parameter.get().getValue().is(com.ibm.fhir.model.type.String.class)) {

@@ -95,7 +95,7 @@ public class ExportOperation extends AbstractOperation {
             }
 
             // Early detection of potential issues.
-            Preflight preflight =  PreflightFactory.getInstance(operationContext, null, exportType);
+            Preflight preflight =  PreflightFactory.getInstance(operationContext, null, exportType, outputFormat.toString());
             preflight.preflight();
 
             response = BulkDataFactory.getInstance(operationContext)

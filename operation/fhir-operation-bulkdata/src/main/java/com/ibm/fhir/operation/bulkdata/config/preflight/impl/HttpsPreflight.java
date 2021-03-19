@@ -19,6 +19,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.type.code.IssueType;
@@ -27,7 +28,6 @@ import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
-import com.ibm.fhir.operation.bulkdata.util.CommonUtil;
 
 /**
  * Verifies the Export/Import is valid for Https
@@ -35,8 +35,8 @@ import com.ibm.fhir.operation.bulkdata.util.CommonUtil;
 public class HttpsPreflight extends NopPreflight {
     private static final BulkDataExportUtil export = new BulkDataExportUtil();
 
-    public HttpsPreflight(String source, String outcome, List<Input> inputs, OperationConstants.ExportType exportType) {
-        super(source, outcome, inputs, exportType);
+    public HttpsPreflight(String source, String outcome, List<Input> inputs, OperationConstants.ExportType exportType, String format) {
+        super(source, outcome, inputs, exportType, format);
     }
 
     @Override
@@ -46,6 +46,8 @@ public class HttpsPreflight extends NopPreflight {
         if (getInputs() == null) {
             throw export.buildOperationException("Export does not support 'https' destination", IssueType.INVALID);
         }
+
+        checkFormat();
 
         // We know this MUST be an $import + Check valid URL
         // It's already validated in BulkDataImportUtil
@@ -107,10 +109,16 @@ public class HttpsPreflight extends NopPreflight {
         }
     }
 
+    private void checkFormat() throws FHIROperationException {
+        if (!FHIRMediaType.APPLICATION_NDJSON.equals(getFormat())) {
+            throw util.buildExceptionWithIssue("Https: the requested storageProvider '" + getSource() +
+                    "' does not support format '" + getFormat() + "'", IssueType.INVALID);
+        }
+    }
+
     @Override
     public void checkStorageAllowed(StorageDetail storageDetail) throws FHIROperationException {
         if (storageDetail != null && !StorageType.HTTPS.value().equals(storageDetail.getType())){
-            CommonUtil util = new CommonUtil();
             throw util.buildExceptionWithIssue("Https: Configuration not set to import from storageDetail '" + getSource() + "'", IssueType.INVALID);
         }
     }
