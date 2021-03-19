@@ -51,12 +51,14 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.util.FHIRUtil;
@@ -67,6 +69,7 @@ public class SearchTest extends FHIRServerTestBase {
     private static final String PREFER_HEADER_RETURN_REPRESENTATION = "return=representation";
     private static final String PREFER_HEADER_NAME = "Prefer";
     private String patientId;
+    private String patientIdentifierValue;
     private String observationId;
     private Boolean compartmentSearchSupported = null;
     private String practitionerId;
@@ -147,12 +150,21 @@ public class SearchTest extends FHIRServerTestBase {
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreateOrganization" })
     public void testCreatePatient() throws Exception {
         WebTarget target = getWebTarget();
+        patientIdentifierValue = UUID.randomUUID().toString();
 
         // Build a new Patient and then call the 'create' API.
         Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
 
         patient = patient.toBuilder()
                 .gender(AdministrativeGender.MALE)
+                .identifier(Identifier.builder()
+                    .value(string(patientIdentifierValue))
+                    .system(uri("test"))
+                    .type(CodeableConcept.builder()
+                        .coding(Coding.builder().code(Code.of("typecodea")).system(Uri.of("typesystema")).build())
+                        .coding(Coding.builder().code(Code.of("typecodeb")).build())
+                        .build())
+                    .build())
                 .managingOrganization(Reference.builder()
                     .reference(com.ibm.fhir.model.type.String.of("Organization/" + organizationId + "/_history/1"))
                     .build())
@@ -432,6 +444,111 @@ public class SearchTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })
+    public void testSearchPatientWithIdentifierValueOnly() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient").queryParam("identifier", patientIdentifierValue)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })
+    public void testSearchPatientWithIdentifier() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient").queryParam("identifier", "test|"+ patientIdentifierValue)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })
+    public void testSearchPatientWithIdentifierNotFound() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient").queryParam("identifier", "typesystema|"+ patientIdentifierValue)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().isEmpty());
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })
+    public void testSearchPatientWithIdentifierOfTypeValueOnly() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient").queryParam("identifier:of-type", patientIdentifierValue)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })
+    public void testSearchPatientWithIdentifierOfTypeCodeAndValueOnly() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient").queryParam("identifier:of-type", "typecodeb|"+ patientIdentifierValue)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })
+    public void testSearchPatientWithIdentifierOfType() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient").queryParam("identifier:of-type", "typesystema|typecodea|"+ patientIdentifierValue)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })
+    public void testSearchPatientWithIdentifierOfTypeNotFound() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient").queryParam("identifier:of-type", "test|typecodeb|"+ patientIdentifierValue)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().isEmpty());
     }
 
     @Test(groups = { "server-search" })

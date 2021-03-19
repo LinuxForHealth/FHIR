@@ -21,6 +21,7 @@ import com.ibm.fhir.search.SearchConstants.Prefix;
 public class QueryParameterValue {
 
     private boolean hidden = false;
+    private boolean ofTypeModifier = false;
 
     private Prefix prefix = null;
 
@@ -151,6 +152,22 @@ public class QueryParameterValue {
     }
 
     /**
+     * Sets whether the value of an :of-type modifier.
+     * @return true or false
+     */
+    public boolean isOfTypeModifier() {
+        return ofTypeModifier;
+    }
+
+    /**
+     * Gets whether the value of an :of-type modifier.
+     * @param ofTypeModifier true if value of an :of-type modifier
+     */
+    public void setOfTypeModifier(boolean ofTypeModifier) {
+        this.ofTypeModifier = ofTypeModifier;
+    }
+
+    /**
      * Serialize the ParameterValue to a query parameter string
      */
     @Override
@@ -178,6 +195,7 @@ public class QueryParameterValue {
         delim = outputBuilder(returnString, delim, valueString);
         delim = outputBuilder(returnString, delim, valueDate);
 
+        // token search with :of-type modifier is handled as a composite search
         if (component != null && !component.isEmpty()) {
             String componentDelim = "";
             for (QueryParameter componentParam : component) {
@@ -190,7 +208,7 @@ public class QueryParameterValue {
                     throw new IllegalStateException("Components of a composite search parameter may only have a single value");
                 }
                 returnString.append(componentDelim).append(componentValues.get(0));
-                componentDelim = "$";
+                componentDelim = ofTypeModifier ? SearchConstants.PARAMETER_DELIMITER : SearchConstants.COMPOSITE_DELIMITER;
             }
         }
         return returnString.toString();

@@ -134,7 +134,7 @@ public class JDBCConstants {
         supportedModifiersMap.put(Type.STRING, Arrays.asList(Modifier.EXACT, Modifier.CONTAINS, Modifier.MISSING));
         supportedModifiersMap.put(Type.REFERENCE, Arrays.asList(Modifier.TYPE, Modifier.MISSING, Modifier.IDENTIFIER));
         supportedModifiersMap.put(Type.URI, Arrays.asList(Modifier.BELOW, Modifier.ABOVE, Modifier.MISSING));
-        supportedModifiersMap.put(Type.TOKEN, Arrays.asList(Modifier.MISSING, Modifier.NOT));
+        supportedModifiersMap.put(Type.TOKEN, Arrays.asList(Modifier.MISSING, Modifier.NOT, Modifier.OF_TYPE));
         supportedModifiersMap.put(Type.NUMBER, Arrays.asList(Modifier.MISSING));
         supportedModifiersMap.put(Type.DATE, Arrays.asList(Modifier.MISSING));
         supportedModifiersMap.put(Type.QUANTITY, Arrays.asList(Modifier.MISSING));

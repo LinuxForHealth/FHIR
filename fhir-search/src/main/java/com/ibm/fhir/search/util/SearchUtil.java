@@ -882,9 +882,15 @@ public class SearchUtil {
                     // Build list of processed query parameters
                     List<QueryParameter> curParameterList = new ArrayList<>();
                     for (String paramValueString : params) {
-                        QueryParameter parameter = new QueryParameter(type, parameterCode, modifier, modifierResourceTypeName);
                         List<QueryParameterValue> queryParameterValues =
-                                processQueryParameterValueString(resourceType, searchParameter, modifier, parameter.getModifierResourceTypeName(), paramValueString);
+                                processQueryParameterValueString(resourceType, searchParameter, modifier, modifierResourceTypeName, paramValueString);
+                        QueryParameter parameter;
+                        // Internally treat search with :of-type modifier as composite search
+                        if (Modifier.OF_TYPE.equals(modifier)) {
+                            parameter = new QueryParameter(Type.COMPOSITE, parameterCode + SearchConstants.OF_TYPE_MODIFIER_SUFFIX, null, null);
+                        } else {
+                            parameter = new QueryParameter(type, parameterCode, modifier, modifierResourceTypeName);
+                        }
                         parameter.getValues().addAll(queryParameterValues);
                         curParameterList.add(parameter);
                         parameters.add(parameter);
@@ -1238,12 +1244,10 @@ public class SearchUtil {
                     if (parts.length == 2) {
                         parameterValue.setValueSystem(unescapeSearchParm(parts[0]));
                         parameterValue.setValueCode(unescapeSearchParm(parts[1]));
-                    }
-                    else {
+                    } else {
                         parameterValue.setValueCode(unescapeSearchParm(v));
                     }
-                }
-                else {
+                } else {
                     String valueString = unescapeSearchParm(v);
                     valueString = extractReferenceValue(valueString);
                     parameterValue.setValueString(valueString);
@@ -1281,6 +1285,7 @@ public class SearchUtil {
             case TOKEN: {
                 // token
                 // [parameter]=[system]|[code]
+                // [parameter]:of-type=[system|code|value]
                 /*
                  * TODO: start enforcing this:
                  * "For token parameters on elements of type ContactPoint, uri, or boolean,
@@ -1288,6 +1293,33 @@ public class SearchUtil {
                  * [parameter]=[code] form is allowed
                  */
                 String[] parts = v.split(SearchConstants.BACKSLASH_NEGATIVE_LOOKBEHIND + "\\|");
+                if (Modifier.OF_TYPE.equals(modifier)) {
+                    // Convert :of-type into a composite search parameter
+                    final String ofTypeParmName = searchParameter.getCode().getValue() + SearchConstants.OF_TYPE_MODIFIER_SUFFIX;
+                    parameterValue.setOfTypeModifier(true);
+                    if (parts.length > 1 && parts.length < 4) {
+                        QueryParameterValue typeParameterValue = new QueryParameterValue();
+                        if (parts.length == 3) {
+                            typeParameterValue.setValueSystem(unescapeSearchParm(parts[0]));
+                        }
+                        typeParameterValue.setValueCode(unescapeSearchParm(parts[parts.length - 2]));
+                        QueryParameter typeParameter = new QueryParameter(Type.TOKEN, SearchUtil.makeCompositeSubCode(ofTypeParmName, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_TYPE),
+                            null, null, Collections.singletonList(typeParameterValue));
+                        parameterValue.addComponent(typeParameter);
+
+                        QueryParameterValue valueParameterValue = new QueryParameterValue();
+                        valueParameterValue.setValueCode(unescapeSearchParm(parts[parts.length - 1]));
+                        QueryParameter valueParameter = new QueryParameter(Type.TOKEN, SearchUtil.makeCompositeSubCode(ofTypeParmName, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE),
+                            null, null, Collections.singletonList(valueParameterValue));
+                        parameterValue.addComponent(valueParameter);
+                    } else {
+                        QueryParameterValue valueParameterValue = new QueryParameterValue();
+                        valueParameterValue.setValueCode(unescapeSearchParm(v));
+                        QueryParameter valueParameter = new QueryParameter(Type.TOKEN, SearchUtil.makeCompositeSubCode(ofTypeParmName, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE),
+                            null, null, Collections.singletonList(valueParameterValue));
+                        parameterValue.addComponent(valueParameter);
+                    }
+              } else
                 if (parts.length == 2) {
                     parameterValue.setValueSystem(unescapeSearchParm(parts[0]));
                     parameterValue.setValueCode(unescapeSearchParm(parts[1]));

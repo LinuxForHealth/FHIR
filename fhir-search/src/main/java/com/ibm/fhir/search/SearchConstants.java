@@ -131,6 +131,8 @@ public class SearchConstants {
 
     public static final String PARAMETER_DELIMITER = "|";
 
+    public static final String COMPOSITE_DELIMITER = "$";
+
     public static final char COLON_DELIMITER = ':';
 
     public static final String COLON_DELIMITER_STR = ":";
