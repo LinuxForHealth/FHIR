@@ -1432,7 +1432,7 @@ public class SearchUtil {
      * @return
      */
     public static boolean useStoredCompartmentParam() {
-        return FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_USE_STORED_COMPARTMENT_PARAM, false);
+        return FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_USE_STORED_COMPARTMENT_PARAM, true);
     }
 
     /**
@@ -1456,12 +1456,11 @@ public class SearchUtil {
                 // issue #1708. When enabled, use the ibm-internal-... compartment parameter. This
                 // results in faster queries because only a single parameter is used to represent the
                 // compartment membership.
+                CompartmentUtil.checkValidCompartmentAndResource(compartmentName, resourceType.getSimpleName());
                 inclusionCriteria = Collections.singletonList(CompartmentUtil.makeCompartmentParamName(compartmentName));
             } else {
-                // pre #1708 behavior, which is the default
-                inclusionCriteria =
-                        CompartmentUtil.getCompartmentResourceTypeInclusionCriteria(compartmentName,
-                                resourceType.getSimpleName());
+                // pre #1708 behavior
+                inclusionCriteria = CompartmentUtil.getCompartmentResourceTypeInclusionCriteria(compartmentName, resourceType.getSimpleName());
             }
 
             for (String criteria : inclusionCriteria) {
