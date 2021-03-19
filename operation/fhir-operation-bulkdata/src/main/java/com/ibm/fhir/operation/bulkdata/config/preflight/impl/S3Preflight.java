@@ -29,7 +29,6 @@ import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
-import com.ibm.fhir.operation.bulkdata.util.CommonUtil;
 
 /**
  * Checks the S3 Configuration.
@@ -38,8 +37,8 @@ public class S3Preflight extends NopPreflight {
 
     private static final BulkDataExportUtil export = new BulkDataExportUtil();
 
-    public S3Preflight(String source, String outcome, List<Input> inputs, OperationConstants.ExportType exportType) {
-        super(source, outcome, inputs, exportType);
+    public S3Preflight(String source, String outcome, List<Input> inputs, OperationConstants.ExportType exportType, String format) {
+        super(source, outcome, inputs, exportType, format);
     }
 
     @Override
@@ -152,7 +151,6 @@ public class S3Preflight extends NopPreflight {
     @Override
     public void checkStorageAllowed(StorageDetail storageDetail) throws FHIROperationException {
         if (storageDetail != null && !(StorageType.AWSS3.value().equals(storageDetail.getType()) || StorageType.IBMCOS.value().equals(storageDetail.getType()))){
-            CommonUtil util = new CommonUtil();
             throw util.buildExceptionWithIssue("S3: Configuration not set to import from storageDetail '" + getSource() + "'", IssueType.INVALID);
         }
     }
