@@ -185,6 +185,7 @@ public class FileProvider implements Provider {
         }
 
         chunkData.getBufferStream().writeTo(out);
+        chunkData.getBufferStream().reset();
 
         StringBuilder output = new StringBuilder();
         output.append(fhirResourceType);

@@ -103,7 +103,7 @@ public abstract class AbstractSearchCompartmentTest extends AbstractPLSearchTest
         assertCompartmentSearchReturnsSavedResource(PATIENT, PATIENT_ID, "string", "testString,otherString");
         assertCompartmentSearchReturnsSavedResource(PRACTITIONER, PRACTITIONER_ID, "string", "testString,otherString");
         assertCompartmentSearchDoesntReturnSavedResource(PATIENT, OTHER_ID, "string", "testString,otherString");
-        assertCompartmentSearchDoesntReturnSavedResource(DEVICE, PATIENT_ID, "string", "testString,otherString");
+        assertCompartmentSearchDoesntReturnSavedResource(RELATED_PERSON, PATIENT_ID, "string", "testString,otherString");
     }
 
     @Test
