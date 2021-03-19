@@ -261,7 +261,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
         // @formatter:on
     }
 
-    private void checkExportStatus(boolean isCheckPatient, boolean s3) throws Exception {
+    private void checkExportStatus(boolean isCheckPatient, boolean s3, List<String> types) throws Exception {
         Response response;
         do {
             response = doGet(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON, "default", "default");
@@ -284,10 +284,11 @@ public class ExportOperationTest extends FHIRServerTestBase {
         }
 
         assertTrue(body.contains("output"));
-        verifyUrl(body, s3);
+        verifyUrl(body, s3, types);
     }
 
-    public void verifyUrl(String body, boolean s3) throws Exception {
+    public void verifyUrl(String body, boolean s3, List<String> types) throws Exception {
+        List<String> tmpTypes = new ArrayList<>();
         try (ByteArrayInputStream bais = new ByteArrayInputStream(body.getBytes());
                 JsonReader jsonReader = JSON_READER_FACTORY.createReader(bais, StandardCharsets.UTF_8)) {
             JsonObject object = jsonReader.readObject();
@@ -299,14 +300,21 @@ public class ExportOperationTest extends FHIRServerTestBase {
                 String str = obj.getString("url");
                 assertNotNull(str);
                 assertTrue(str.contains(".ndjson"));
+                String resourceType = obj.getString("type");
+                tmpTypes.add(resourceType);
                 if (!s3) {
-                    String resourceType = obj.getString("type");
                     verifyFileLines(str, obj.getInt("count"), resourceType);
                 } else {
                     verifyS3Lines(str, obj.getInt("count"));
                 }
             }
         }
+        if (DEBUG) {
+            System.out.println("The list of resources is " + types);
+            System.out.println("The actual list of resources is " + tmpTypes);
+        }
+
+        assertTrue(types.stream().filter(t -> !tmpTypes.contains(t)).collect(Collectors.toList()).isEmpty());
     }
 
     public void verifyS3Lines(String workItem, int count) throws IOException {
@@ -345,12 +353,10 @@ public class ExportOperationTest extends FHIRServerTestBase {
             SSLContext sslContext = sslContextBuilder.build();
 
             return new SSLConnectionSocketFactory(sslContext, verifier);
-        }catch(NoSuchAlgorithmException|KeyStoreException|
-
-    KeyManagementException e)
-    {
-        log.warning("Default Algorithm for Http Client not found " + e.getMessage());
-    }return SSLConnectionSocketFactory.getSocketFactory();
+        }catch(NoSuchAlgorithmException|KeyStoreException|KeyManagementException e){
+            log.warning("Default Algorithm for Http Client not found " + e.getMessage());
+        }
+        return SSLConnectionSocketFactory.getSocketFactory();
     }
 
     public CloseableHttpClient getHttpClient() {
@@ -621,11 +627,12 @@ public class ExportOperationTest extends FHIRServerTestBase {
     @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" })
     public void testBaseExport() throws Exception {
         if (ON) {
+            List<String> types = Arrays.asList("Patient");
             Response response = doPost(
                     BASE_VALID_URL,
                     FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON,
                     Instant.of("2019-01-01T08:21:26.94-04:00"),
-                    Arrays.asList("Patient"),
+                    types,
                     null,
                     "default",
                     "default");
@@ -639,7 +646,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
-            checkExportStatus(false, false);
+            checkExportStatus(false, false, types);
         } else {
             System.out.println("Base Export Test Disabled, Skipping");
         }
@@ -679,12 +686,13 @@ public class ExportOperationTest extends FHIRServerTestBase {
     @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" }, enabled = true)
     public void testBaseExportToS3() throws Exception {
         if (ON) {
+            List<String> types = Arrays.asList("Patient");
             Response response = doPost(
                     BASE_VALID_URL,
                     FHIRMediaType.APPLICATION_FHIR_JSON,
                     FORMAT_NDJSON,
                     Instant.of("2019-01-01T08:21:26.94-04:00"),
-                    Arrays.asList("Patient"),
+                    types,
                     null,
                     "minio",
                     "minio");
@@ -698,7 +706,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
-            checkExportStatus(false, true);
+            checkExportStatus(false, true, types);
         } else {
             System.out.println("Base Export Test Disabled, Skipping");
         }
@@ -731,11 +739,12 @@ public class ExportOperationTest extends FHIRServerTestBase {
     @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" }, enabled = false)
     public void testBaseExportToParquet() throws Exception {
         if (ON) {
+            List<String> types = Arrays.asList("Patient");
             Response response = doPost(
                     BASE_VALID_URL,
                     FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_PARQUET,
                     Instant.of("2019-01-01T08:21:26.94-04:00"),
-                    Arrays.asList("Patient"),
+                    types,
                     null,
                     "default",
                     "default");
@@ -749,7 +758,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
-            checkExportStatus(false, false);
+            checkExportStatus(false, false, types);
         } else {
             System.out.println("Base Export Test Disabled, Skipping");
         }
@@ -758,11 +767,12 @@ public class ExportOperationTest extends FHIRServerTestBase {
     @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" })
     public void testPatientExport() throws Exception {
         if (ON) {
+            List<String> types = Arrays.asList("Observation,Condition,Patient");
             Response response = doPost(
                     PATIENT_VALID_URL,
                     FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON,
                     Instant.of("2019-01-01T08:21:26.94-04:00"),
-                    Arrays.asList("Observation,Condition,Patient"),
+                    types,
                     null,
                     "default",
                     "default");
@@ -776,7 +786,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
-            checkExportStatus(true, false);
+            checkExportStatus(true, false, types);
         } else {
             System.out.println("Patient Export Test Disabled, Skipping");
         }
@@ -785,11 +795,12 @@ public class ExportOperationTest extends FHIRServerTestBase {
     @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" })
     public void testPatientExportToS3() throws Exception {
         if (ON) {
+            List<String> types = Arrays.asList("Observation,Condition,Patient");
             Response response = doPost(
                     PATIENT_VALID_URL,
                     FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON,
                     Instant.of("2019-01-01T08:21:26.94-04:00"),
-                    Arrays.asList("Observation,Condition,Patient"),
+                    types,
                     null,
                     "minio",
                     "minio");
@@ -803,7 +814,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
-            checkExportStatus(true, true);
+            checkExportStatus(true, true, types);
         } else {
             System.out.println("Patient Export Test Disabled, Skipping");
         }
@@ -816,11 +827,12 @@ public class ExportOperationTest extends FHIRServerTestBase {
     @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" }, enabled = false)
     public void testPatientExportToParquet() throws Exception {
         if (ON) {
+            List<String> types = Arrays.asList("Observation,Condition,Patient");
             Response response = doPost(
                     PATIENT_VALID_URL,
                     FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_PARQUET,
                     Instant.of("2019-01-01T08:21:26.94-04:00"),
-                    Arrays.asList("Observation,Condition,Patient"),
+                    types,
                     null,
                     "default",
                     "default");
@@ -834,7 +846,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
-            checkExportStatus(true, false);
+            checkExportStatus(true, false, types);
         } else {
             System.out.println("Patient Export Test Disabled, Skipping");
         }
@@ -843,11 +855,12 @@ public class ExportOperationTest extends FHIRServerTestBase {
     @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" })
     public void testGroupExport() throws Exception {
         if (ON) {
+            List<String> types = Arrays.asList("Patient", "Group", "Condition", "Observation");
             Response response = doPost(
                     GROUP_VALID_URL.replace("?", savedGroupId2),
                     FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON,
                     Instant.of("2019-01-01T08:21:26.94-04:00"),
-                    Arrays.asList("Patient", "Group", "Condition", "Observation"),
+                    types,
                     null,
                     "default",
                     "default");
@@ -861,7 +874,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
-            checkGroupExportStatus(false);
+            checkGroupExportStatus(false, types);
         } else {
             System.out.println("Group Export Test Disabled, Skipping");
         }
@@ -870,11 +883,12 @@ public class ExportOperationTest extends FHIRServerTestBase {
     @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" })
     public void testGroupExportToS3() throws Exception {
         if (ON) {
+            List<String> types = Arrays.asList("Patient", "Group", "Condition", "Observation");
             Response response = doPost(
                     GROUP_VALID_URL.replace("?", savedGroupId2),
                     FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON,
                     Instant.of("2019-01-01T08:21:26.94-04:00"),
-                    Arrays.asList("Patient", "Group", "Condition", "Observation"),
+                    types,
                     null,
                     "minio",
                     "minio");
@@ -888,7 +902,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
-            checkGroupExportStatus(true);
+            checkGroupExportStatus(true, types);
         } else {
             System.out.println("Group Export Test Disabled, Skipping");
         }
@@ -901,6 +915,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
     @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" }, enabled = false)
     public void testGroupExportToParquet() throws Exception {
         if (ON) {
+            List<String> types = new ArrayList<>();
             Response response = doPost(
                     GROUP_VALID_URL.replace("?", savedGroupId2),
                     FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_PARQUET,
@@ -919,13 +934,13 @@ public class ExportOperationTest extends FHIRServerTestBase {
 
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
             exportStatusUrl = contentLocation;
-            checkGroupExportStatus(false);
+            checkGroupExportStatus(false, types);
         } else {
             System.out.println("Group Export Test Disabled, Skipping");
         }
     }
 
-    private void checkGroupExportStatus(boolean s3) throws Exception {
+    private void checkGroupExportStatus(boolean s3, List<String> types) throws Exception {
         Response response;
         do {
             response = doGet(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON, "default", "default");
@@ -942,6 +957,6 @@ public class ExportOperationTest extends FHIRServerTestBase {
         JsonObject jsonObject = JSON_READER_FACTORY.createReader(new StringReader(body)).readObject();
         assertTrue(jsonObject.containsKey("output"));
 
-        verifyUrl(body, s3);
+        verifyUrl(body, s3, types);
     }
 }
