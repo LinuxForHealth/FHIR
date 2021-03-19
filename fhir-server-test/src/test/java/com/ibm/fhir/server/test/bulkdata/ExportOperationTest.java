@@ -300,7 +300,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
                 String str = obj.getString("url");
                 assertNotNull(str);
                 assertTrue(str.contains(".ndjson"));
-                String resourceType = obj.getString("type");
+                String resourceType = obj.getString("type").trim();
                 tmpTypes.add(resourceType);
                 if (!s3) {
                     verifyFileLines(str, obj.getInt("count"), resourceType);
@@ -309,12 +309,21 @@ public class ExportOperationTest extends FHIRServerTestBase {
                 }
             }
         }
-        if (DEBUG) {
+        if (true) {
             System.out.println("The list of resources is " + types);
             System.out.println("The actual list of resources is " + tmpTypes);
         }
 
-        assertTrue(types.stream().filter(t -> !tmpTypes.contains(t)).collect(Collectors.toList()).isEmpty());
+        // Check the Types that we retrieved are the ones we requested.
+        for (String type : tmpTypes) {
+            System.out.println(type + " | " + types.contains(type));
+            assertTrue(types.contains(type));
+        }
+
+        // Check the actual types that we retrieved are the ones we requested.
+        for (String type : types) {
+            assertTrue(tmpTypes.contains(type));
+        }
     }
 
     public void verifyS3Lines(String workItem, int count) throws IOException {
@@ -767,7 +776,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
     @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" })
     public void testPatientExport() throws Exception {
         if (ON) {
-            List<String> types = Arrays.asList("Observation,Condition,Patient");
+            List<String> types = Arrays.asList("Observation", "Condition", "Patient");
             Response response = doPost(
                     PATIENT_VALID_URL,
                     FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON,
@@ -795,7 +804,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
     @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" })
     public void testPatientExportToS3() throws Exception {
         if (ON) {
-            List<String> types = Arrays.asList("Observation,Condition,Patient");
+            List<String> types = Arrays.asList("Observation", "Condition", "Patient");
             Response response = doPost(
                     PATIENT_VALID_URL,
                     FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON,
@@ -827,7 +836,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
     @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testGroup" }, enabled = false)
     public void testPatientExportToParquet() throws Exception {
         if (ON) {
-            List<String> types = Arrays.asList("Observation,Condition,Patient");
+            List<String> types = Arrays.asList("Observation", "Condition", "Patient");
             Response response = doPost(
                     PATIENT_VALID_URL,
                     FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_PARQUET,
