@@ -11,12 +11,12 @@
 
 # Site Settings
 locale                   : "en-US"
-title                    : "IBM FHIR Server - 1.0.1"
+title                    : "IBM FHIR Server"
 title_separator          : "-"
 name                     : &name "IBM" # &name is a YAML anchor which can be *referenced later
-description              : &description "FHIR Server Documents"
+description              : &description "IBM FHIR Server"
 url                      : "https://ibm.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
-baseurl                  : "/FHIR/cloudpak/1.0.1" # the subpath of your site, e.g. "/blog"
+baseurl                  : "/FHIR/cloudpak/" # the subpath of your site, e.g. "/blog"
 repository               : "FHIR"
 relative_permalinks      : false
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
