@@ -10,12 +10,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.batch.api.chunk.CheckpointAlgorithm;
+import javax.batch.operations.JobOperator;
+import javax.batch.runtime.BatchRuntime;
+import javax.batch.runtime.JobExecution;
+import javax.batch.runtime.context.JobContext;
 import javax.batch.runtime.context.StepContext;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
+import com.ibm.fhir.bulkdata.jbatch.context.BatchContextAdapter;
 import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
+import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
+import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
 
 /**
  * BulkData Export Custom CheckpointAlgorithm which considers COS size requirements while checkpointing.
@@ -26,7 +33,14 @@ public class ExportCheckpointAlgorithm implements CheckpointAlgorithm {
     private final static Logger logger = Logger.getLogger(ExportCheckpointAlgorithm.class.getName());
 
     @Inject
+    JobContext jobCtx;
+
+    @Inject
     StepContext stepCtx;
+
+    Boolean isFileExport;
+
+    ConfigurationAdapter config = ConfigurationFactory.getInstance();
 
     public ExportCheckpointAlgorithm() {
         // No Operation
@@ -39,6 +53,14 @@ public class ExportCheckpointAlgorithm implements CheckpointAlgorithm {
 
     @Override
     public void beginCheckpoint() {
+        if (isFileExport == null) {
+            JobOperator jobOperator = BatchRuntime.getJobOperator();
+            JobExecution jobExecution = jobOperator.getJobExecution(jobCtx.getExecutionId());
+            BatchContextAdapter contextAdapter = new BatchContextAdapter(jobExecution.getJobParameters());
+            BulkDataContext ctx = contextAdapter.getStepContextForSystemChunkWriter();
+            isFileExport = "file".equals(config.getStorageProviderType(ctx.getSource()));
+        }
+
         if (logger.isLoggable(Level.FINE)) {
             ExportTransientUserData chunkData = (ExportTransientUserData) stepCtx.getTransientUserData();
             if (chunkData != null) {
@@ -78,22 +100,25 @@ public class ExportCheckpointAlgorithm implements CheckpointAlgorithm {
             return false;
         }
 
-        long cosFileMaxResources = ConfigurationFactory.getInstance().getCoreCosObjectResourceCountThreshold();
-        long cosFileThresholdSize = ConfigurationFactory.getInstance().getCoreCosObjectSizeThreshold();
-        long cosMultiPartMinSize = ConfigurationFactory.getInstance().getCoreCosPartUploadTriggerSize();
+        long resourceCountThreshold = isFileExport ? config.getCoreFileResourceCountThreshold()
+                : config.getCoreCosObjectResourceCountThreshold();
+        long sizeThreshold = isFileExport ? config.getCoreFileSizeThreshold()
+                : config.getCoreCosObjectSizeThreshold();
+        long writeTrigger = isFileExport ? config.getCoreFileWriteTriggerSize()
+                : config.getCoreCosPartUploadTriggerSize();
 
-        // Stop writing to the current COS object
-        boolean overFileSizeThreshold = cosFileThresholdSize != 0 && chunkData.getBufferStream().size() >= cosFileThresholdSize;
-        boolean overMaxResourceCountThreshold = cosFileMaxResources != 0 && chunkData.getCurrentUploadResourceNum() >= cosFileMaxResources;
+        // Set to true if we have enough bytes to write a part
+        boolean readyToWrite = chunkData.getBufferStream().size() >= writeTrigger;
+
+        // Check if we should finish writing the current object/file
+        boolean overFileSizeThreshold = sizeThreshold != 0 && chunkData.getBufferStream().size() >= sizeThreshold;
+        boolean overMaxResourceCountThreshold = resourceCountThreshold != 0 && chunkData.getCurrentUploadResourceNum() >= resourceCountThreshold;
         boolean end = chunkData.getPageNum() >= chunkData.getLastPageNum();
         chunkData.setFinishCurrentUpload(overFileSizeThreshold || overMaxResourceCountThreshold || end);
 
-        // Indicates a multipart read.
-        boolean multiPartChunkMinimum = chunkData.getBufferStream().size() > cosMultiPartMinSize;
-
-        // At this point, there are two conditions that trigger a checkpoint:
-        // 1 - Multipart Chunk
-        // 2 - Or the end of a write
-        return multiPartChunkMinimum || chunkData.isFinishCurrentUpload();
+        // There are two conditions that trigger a checkpoint:
+        // 1 - We have enough bytes to start writing a part; or
+        // 2 - We're ready to finish writing the current object/file
+        return readyToWrite || chunkData.isFinishCurrentUpload();
     }
 }

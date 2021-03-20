@@ -273,6 +273,22 @@ public class ImportOperationTest extends FHIRServerTestBase {
         }
     }
 
+    @Test(groups = { TEST_GROUP_NAME })
+    public void testImportFromFileWithRelativePath() throws Exception {
+        if (ON) {
+            String path = BASE_VALID_URL;
+            String inputFormat = FORMAT;
+            String inputSource = "https://localhost:9443/source-fhir-server";
+            String resourceType = "Patient";
+            String url = "../../test-import.ndjson";
+
+            Response response = doPost(path, inputFormat, inputSource, resourceType, url, "default");
+            assertEquals(response.getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
+        } else {
+            System.out.println("Import Test Disabled, Skipping");
+        }
+    }
+
     @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testImport" })
     public void testImportCheckQuery() throws Exception {
         if (ON) {

@@ -6,7 +6,7 @@ date:  "2020-06-04 12:00:00 -0400"
 
 ## Overview
 
-The IBM FHIR Server Terminology module ([fhir-term](https://github.com/IBM/FHIR/tree/main/fhir-term)) provides a FHIR terminology service provider interface (SPI) and a default implementation that implements terminology services using `ConceptMap`, `ValueSet`, and `ConceptMap` resources that have been made available through the FHIR registry module ([fhir-registry](https://github.com/IBM/FHIR/tree/main/fhir-registry)).
+The IBM FHIR Server Terminology module ([fhir-term](https://github.com/IBM/FHIR/tree/main/fhir-term)) provides a FHIR terminology service provider interface (SPI) and a default implementation that implements terminology services using `CodeSystem`, `ValueSet`, and `ConceptMap` resources that have been made available through the FHIR registry module ([fhir-registry](https://github.com/IBM/FHIR/tree/main/fhir-registry)).
 
 ## FHIR Terminology Service Provider Interface (SPI)
 

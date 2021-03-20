@@ -10,6 +10,9 @@
             "serverRegistryResourceProviderEnabled": true,
             "disabledOperations": ""
         },
+        "search": {
+            "useStoredCompartmentParam": true
+        },
         "security": {
             "cors": true,
             "basic": {
@@ -146,6 +149,11 @@
                     "objectSizeThresholdMB": 200,
                     "objectResourceCountThreshold": 200000,
                     "useServerTruststore": true
+                },
+                "file" : { 
+                    "writeTriggerSizeMB": 1,
+                    "sizeThresholdMB": 200,
+                    "resourceCountThreshold": 200000
                 },
                 "pageSize": 100,
                 "batchIdEncryptionKey": "change-password",

@@ -325,18 +325,13 @@ public class AuthzPolicyEnforcementTest {
             assertEquals(2, searchContext.getSearchParameters().size());
             List<QueryParameter> searchParms = searchContext.getSearchParameters();
             QueryParameter compartmentSearchParm = searchParms.get(0);
-            int parmCount = 0;
-            while (compartmentSearchParm != null) {
-                parmCount++;
-                assertTrue((compartmentSearchParm.getCode().equals("performer") || compartmentSearchParm.getCode().equals("subject")));
-                assertEquals(Type.REFERENCE, compartmentSearchParm.getType());
-                assertTrue(compartmentSearchParm.isInclusionCriteria());
-                assertFalse(compartmentSearchParm.isChained());
-                assertEquals(1, compartmentSearchParm.getValues().size());
-                assertEquals("Patient/11111111-1111-1111-1111-111111111111", compartmentSearchParm.getValues().get(0).getValueString());
-                compartmentSearchParm = compartmentSearchParm.getNextParameter();
-            }
-            assertEquals(2, parmCount);
+            assertTrue("ibm-internal-Patient-Compartment".equals(compartmentSearchParm.getCode()));
+            assertEquals(Type.REFERENCE, compartmentSearchParm.getType());
+            assertTrue(compartmentSearchParm.isInclusionCriteria());
+            assertFalse(compartmentSearchParm.isChained());
+            assertEquals(1, compartmentSearchParm.getValues().size());
+            assertEquals("Patient/11111111-1111-1111-1111-111111111111", compartmentSearchParm.getValues().get(0).getValueString());
+            compartmentSearchParm = compartmentSearchParm.getNextParameter();
             assertEquals("status", searchParms.get(1).getCode());
             assertEquals("final", searchParms.get(1).getValues().get(0).getValueCode());
         } catch (FHIRPersistenceInterceptorException e) {
