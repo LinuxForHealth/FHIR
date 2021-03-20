@@ -64,4 +64,9 @@
             <package name="com.ibm.fhir.server.test.terminology" />
         </packages>
     </test>
+    <test name="OperationSpecificTests">
+        <packages>
+            <package name="com.ibm.fhir.server.test.operation" />
+        </packages>
+    </test>
 </suite>
