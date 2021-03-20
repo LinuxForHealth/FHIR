@@ -21,7 +21,7 @@ import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyMaster;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
-import com.ibm.fhir.schema.control.GetLogicalResourceIsDeletedNeedsMigration;
+import com.ibm.fhir.schema.control.GetXXXLogicalResourceNeedsMigration;
 
 /**
  * Unit test for the DerbyFhirDatabase utility
@@ -53,7 +53,7 @@ public class DerbyFhirDatabaseTest {
             try {
                 JdbcTarget tgt = new JdbcTarget(c);
                 DerbyAdapter adapter = new DerbyAdapter(tgt);
-                GetLogicalResourceIsDeletedNeedsMigration cmd = new GetLogicalResourceIsDeletedNeedsMigration("FHIRDATA", "Observation");
+                GetXXXLogicalResourceNeedsMigration cmd = new GetXXXLogicalResourceNeedsMigration("FHIRDATA", "Observation");
                 assertFalse(adapter.runStatement(cmd));
                 c.commit();
             } catch (Throwable t) {
