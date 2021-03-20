@@ -51,20 +51,20 @@ public class LookupOperation extends AbstractTermOperation {
         } catch(Exception e) {
             throw new FHIROperationException("An error occurred during the CodeSystem lookup operation", e);
         }
-
         if (outcome == null) {
-            IssueType issueType = IssueType.NOT_FOUND.toBuilder()
-                    .extension(Extension.builder()
+            throw new FHIROperationException("Coding not found")
+                .withIssue(OperationOutcome.Issue.builder()
+                    .severity(IssueSeverity.ERROR)
+                    .code(IssueType.NOT_FOUND.toBuilder()
+                        .extension(Extension.builder()
                             .url(FHIRRestHelper.EXTENSION_URL + "/not-found-detail")
-                            .value(Code.of("coding")).build()).build();
-
-            throw new FHIROperationException("Coding not found").withIssue(
-                    OperationOutcome.Issue.builder().severity(IssueSeverity.ERROR).code(issueType)
-                            .details(CodeableConcept.builder().text(string(String.format("Code '%s' in System '%s' not found."
-                                    , coding.getCode().getValue()
-                                    , coding.getSystem().getValue()
-                                ))).build())
-                            .build());
+                            .value(Code.of("coding"))
+                            .build())
+                        .build())
+                    .details(CodeableConcept.builder()
+                        .text(string(String.format("Code '%s' in System '%s' not found.", coding.getCode().getValue(), coding.getSystem().getValue())))
+                        .build())
+                    .build());
         }
         return outcome.toParameters();
     }
