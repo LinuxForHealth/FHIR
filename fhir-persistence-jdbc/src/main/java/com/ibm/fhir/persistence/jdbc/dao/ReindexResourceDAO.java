@@ -295,8 +295,8 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
         if (parameters != null) {
             JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao, getResourceReferenceDAO());
             // Check if this is multitenant
-            boolean mtId = this.getFlavor().isMultitenant();
-            try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, "FHIR_ADMIN", tablePrefix, mtId, logicalResourceId, 100,
+            boolean isMultitenant = this.getFlavor().isMultitenant();
+            try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, "FHIR_ADMIN", tablePrefix, isMultitenant, logicalResourceId, 100,
                 identityCache, getResourceReferenceDAO(), getTransactionData())) {
                 for (ExtractedParameterValue p: parameters) {
                     p.accept(pvd);
