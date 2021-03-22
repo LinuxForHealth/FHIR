@@ -690,7 +690,7 @@ public class BulkDataClient {
         // COMPLETED means no file exported.
         String exitStatus = response.getExitStatus();
         log.fine(exitStatus);
-        if (!"COMPLETED".equals(exitStatus) && !JobType.IMPORT.value().equals(response.getJobName())) {
+        if (!"COMPLETED".equals(exitStatus) && !JobType.IMPORT.value().equals(response.getJobXMLName())) {
             List<String> resourceTypeInfs = Arrays.asList(exitStatus.split("\\s*:\\s*"));
             List<PollingLocationResponse.Output> outputList = new ArrayList<>();
             for (String resourceTypeInf : resourceTypeInfs) {
@@ -727,7 +727,7 @@ public class BulkDataClient {
             result.setOutput(outputList);
         }
 
-        if (JobType.IMPORT.value().equals(response.getJobName())) {
+        if (JobType.IMPORT.value().equals(response.getJobXMLName())) {
             // Currently there is no output
             log.fine("Hit the case where we don't form output with counts");
             List<Input> inputs = response.getJobParameters().getInputs();
