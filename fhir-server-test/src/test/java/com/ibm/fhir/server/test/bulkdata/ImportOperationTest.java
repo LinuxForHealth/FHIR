@@ -12,6 +12,7 @@ import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -21,6 +22,10 @@ import java.util.Properties;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.json.JsonReaderFactory;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
@@ -86,6 +91,7 @@ curl -X DELETE 'https://localhost:9443/fhir-server/api/v4/$bulkdata-status?job=k
  * </pre>
  */
 public class ImportOperationTest extends FHIRServerTestBase {
+    private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
 
     // Test Specific
     public static final String TEST_GROUP_NAME = "import-operation";
@@ -196,13 +202,13 @@ public class ImportOperationTest extends FHIRServerTestBase {
         int status = 202;
         int totalTime = 0;
         Response response = null;
+        System.out.println("Started Checking");
         while (Response.Status.ACCEPTED.getStatusCode() == status) {
             response = doGet(statusUrl, FHIRMediaType.APPLICATION_FHIR_JSON);
             // 202 accept means the request is still under processing
             // 200 mean export is finished
             status = response.getStatus();
 
-            System.out.println(status);
             assertTrue(status == Response.Status.OK.getStatusCode() || status == Response.Status.ACCEPTED.getStatusCode());
 
             Thread.sleep(5000);
@@ -212,11 +218,12 @@ public class ImportOperationTest extends FHIRServerTestBase {
             }
         }
         assertEquals(status, Response.Status.OK.getStatusCode());
+        System.out.println("Finished Checking");
         return response;
     }
 
     @Test(groups = { TEST_GROUP_NAME })
-    public void testImport() throws Exception {
+    public void testImportFromFileDefault() throws Exception {
         if (ON) {
             String path = BASE_VALID_URL;
             String inputFormat = FORMAT;
@@ -233,15 +240,73 @@ public class ImportOperationTest extends FHIRServerTestBase {
             if (DEBUG) {
                 System.out.println("Content Location: " + contentLocation);
             }
-
             assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
 
             // Check eventual value
             response = polling(contentLocation);
             assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+            checkValidResponse(response);
+            checkOnFourResources();
         } else {
             System.out.println("Import Test Disabled, Skipping");
         }
+    }
+
+    /**
+     * {
+            "transactionTime": "2021-03-22T14:20:09.594Z",
+            "request": "$import",
+            "requiresAccessToken": false,
+            "output": [
+                {
+                    "type": "OperationOutcome",
+                    "url": "test-import.ndjson_oo_success.ndjson",
+                    "count": 4
+                }
+            ],
+            "error": [
+                {
+                    "type": "OperationOutcome",
+                    "url": "test-import.ndjson_oo_errors.ndjson",
+                    "count": 0
+                }
+            ]
+        }
+     * @param response
+     */
+    public void checkValidResponse(Response response) {
+        String body = response.readEntity(String.class);
+        try(JsonReader reader = JSON_READER_FACTORY.createReader(new ByteArrayInputStream(body.getBytes()))){
+            JsonObject obj = reader.readObject();
+            assertTrue(obj.containsKey("transactionTime"));
+            assertTrue(obj.containsKey("request"));
+            assertTrue(obj.containsKey("requiresAccessToken"));
+            assertTrue(obj.containsKey("output"));
+            assertTrue(obj.containsKey("error"));
+        } catch(Exception e) {
+            fail("Issue checking and validating", e);
+        }
+    }
+
+    public void checkOnFourResources() {
+        checkOnResource("72b0d93c-93d0-43d9-94a8-d5154ce07152");
+        checkOnResource("72b0d93c-93d0-43d9-94a8-d5154ce07153");
+        checkOnResource("72b0d93c-93d0-43d9-94a8-d5154ce07154");
+        checkOnResource("1772b6bb75a-fd1b2296-6666-4ac1-8b06-f3651eebcc0a");
+    }
+
+    /**
+     * verify that the resource exists and there is at least one
+     * @param id
+     */
+    public void checkOnResource(String id) {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient").queryParam("_id", id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
     }
 
     @Test(groups = { TEST_GROUP_NAME })
@@ -268,6 +333,7 @@ public class ImportOperationTest extends FHIRServerTestBase {
             // Check eventual value
             response = polling(contentLocation);
             assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+            checkValidResponse(response);
         } else {
             System.out.println("Import Test Disabled, Skipping");
         }
