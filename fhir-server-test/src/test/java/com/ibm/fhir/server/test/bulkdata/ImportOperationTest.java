@@ -196,13 +196,13 @@ public class ImportOperationTest extends FHIRServerTestBase {
         int status = 202;
         int totalTime = 0;
         Response response = null;
+        System.out.println("Started Checking");
         while (Response.Status.ACCEPTED.getStatusCode() == status) {
             response = doGet(statusUrl, FHIRMediaType.APPLICATION_FHIR_JSON);
             // 202 accept means the request is still under processing
             // 200 mean export is finished
             status = response.getStatus();
 
-            System.out.println(status);
             assertTrue(status == Response.Status.OK.getStatusCode() || status == Response.Status.ACCEPTED.getStatusCode());
 
             Thread.sleep(5000);
@@ -212,11 +212,12 @@ public class ImportOperationTest extends FHIRServerTestBase {
             }
         }
         assertEquals(status, Response.Status.OK.getStatusCode());
+        System.out.println("Finished Checking");
         return response;
     }
 
     @Test(groups = { TEST_GROUP_NAME })
-    public void testImport() throws Exception {
+    public void testImportFromFileDefault() throws Exception {
         if (ON) {
             String path = BASE_VALID_URL;
             String inputFormat = FORMAT;
@@ -239,9 +240,32 @@ public class ImportOperationTest extends FHIRServerTestBase {
             // Check eventual value
             response = polling(contentLocation);
             assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+
+            checkOnFourResources();
         } else {
             System.out.println("Import Test Disabled, Skipping");
         }
+    }
+
+    public void checkOnFourResources() {
+        checkOnResource("72b0d93c-93d0-43d9-94a8-d5154ce07152");
+        checkOnResource("72b0d93c-93d0-43d9-94a8-d5154ce07153");
+        checkOnResource("72b0d93c-93d0-43d9-94a8-d5154ce07154");
+        checkOnResource("1772b6bb75a-fd1b2296-6666-4ac1-8b06-f3651eebcc0a");
+    }
+
+    /**
+     * verify that the resource exists and there is at least one
+     * @param id
+     */
+    public void checkOnResource(String id) {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient").queryParam("_id", id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
     }
 
     @Test(groups = { TEST_GROUP_NAME })
