@@ -90,18 +90,21 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         this.timeLimit = timeLimit;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Set<Concept> closure(CodeSystem codeSystem, Code code) {
         Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
 
         Set<Concept> concepts = new LinkedHashSet<>();
-        concepts.add(getConcept(codeSystem, code, false, false));
 
-        GraphTraversal<Vertex, Vertex> g = whereCodeSystem(hasCode(vertices(), code.getValue(), isCaseSensitive(codeSystem)), codeSystem)
-                .repeat(__.in(FHIRTermGraph.IS_A)
-                    .simplePath()
-                    .dedup())
-                .emit()
+        boolean caseSensitive = isCaseSensitive(codeSystem);
+
+        GraphTraversal<Vertex, Vertex> g = whereCodeSystem(hasCode(vertices(), code.getValue(), caseSensitive), codeSystem)
+                .union(__.identity(), whereCodeSystem(hasCode(vertices(), code.getValue(), caseSensitive), codeSystem)
+                    .repeat(__.in(FHIRTermGraph.IS_A)
+                        .simplePath()
+                        .dedup())
+                    .emit())
                 .timeLimit(timeLimit);
         TimeLimitStep<?> timeLimitStep = getTimeLimitStep(g);
 
