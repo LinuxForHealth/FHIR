@@ -36,7 +36,8 @@ public class PreflightFactory {
      * @param exportType
      * @return
      */
-    public static Preflight getInstance(FHIROperationContext operationContext, List<Input> inputs, OperationConstants.ExportType exportType) {
+    public static Preflight getInstance(FHIROperationContext operationContext, List<Input> inputs,
+            OperationConstants.ExportType exportType, String format) {
         // Get the Source
         OperationContextAdapter adapter = new OperationContextAdapter(operationContext);
         String source = adapter.getStorageProvider();
@@ -44,20 +45,20 @@ public class PreflightFactory {
 
         ConfigurationAdapter config = ConfigurationFactory.getInstance();
 
-        Preflight preflight = new NopPreflight(source, outcome, inputs, exportType);
+        Preflight preflight = new NopPreflight(source, outcome, inputs, exportType, format);
         if (!config.legacy()) {
             StorageType storageType = config.getStorageProviderStorageType(source);
 
             switch (storageType) {
             case HTTPS:
-                preflight = new HttpsPreflight(source, outcome, inputs, exportType);
+                preflight = new HttpsPreflight(source, outcome, inputs, exportType, format);
                 break;
             case FILE:
-                preflight = new FilePreflight(source, outcome, inputs, exportType);
+                preflight = new FilePreflight(source, outcome, inputs, exportType, format);
                 break;
             case AWSS3:
             case IBMCOS:
-                preflight = new S3Preflight(source, outcome, inputs, exportType);
+                preflight = new S3Preflight(source, outcome, inputs, exportType, format);
                 break;
             }
         }

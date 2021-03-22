@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.operation.bulkdata.OperationConstants;
@@ -19,17 +20,14 @@ import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
-import com.ibm.fhir.operation.bulkdata.util.CommonUtil;
 
 /**
  * Preflight is a health check prior to executing the calls on BulkData.
  */
 public class FilePreflight extends NopPreflight {
 
-    private CommonUtil util = new CommonUtil();
-
-    public FilePreflight(String source, String outcome, List<Input> inputs, OperationConstants.ExportType exportType) {
-        super(source, outcome, inputs, exportType);
+    public FilePreflight(String source, String outcome, List<Input> inputs, OperationConstants.ExportType exportType, String format) {
+        super(source, outcome, inputs, exportType, format);
     }
 
     @Override
@@ -38,6 +36,7 @@ public class FilePreflight extends NopPreflight {
         ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
         String base = adapter.getBaseFileLocation(getSource());
         checkFile(base);
+        checkFormat();
         if (adapter.shouldStorageProviderCollectOperationOutcomes(getSource())) {
             checkFile(adapter.getBaseFileLocation(getOutcome()));
         }
@@ -75,11 +74,18 @@ public class FilePreflight extends NopPreflight {
         }
     }
 
+    private void checkFormat() throws FHIROperationException {
+        if (!FHIRMediaType.APPLICATION_NDJSON.equals(getFormat())) {
+            throw util.buildExceptionWithIssue("File: the requested storageProvider '" + getSource() +
+                    "' does not support format '" + getFormat() + "'", IssueType.INVALID);
+        }
+    }
+
     @Override
     public void checkStorageAllowed(StorageDetail storageDetail) throws FHIROperationException {
         if (storageDetail != null && !StorageType.FILE.value().equals(storageDetail.getType())){
-            CommonUtil util = new CommonUtil();
-            throw util.buildExceptionWithIssue("File: Configuration not set to import from storageDetail '" + getSource() + "'", IssueType.INVALID);
+            throw util.buildExceptionWithIssue("File: Configuration not set to import from storageDetail '" +
+                    getSource() + "'", IssueType.INVALID);
         }
     }
 }
