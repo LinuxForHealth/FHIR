@@ -83,7 +83,9 @@ public class FileProvider implements Provider {
                 if (br == null) {
                     br = Files.newBufferedReader(Paths.get(getFilePath(workItem)));
                 }
-                for (int i = 0; i <= numOfLinesToSkip; i++) {
+                // Imports must only skip lines if the size is higher, not equal to
+                // otherwise we start skipping the last line to skip.
+                for (int i = 0; i < numOfLinesToSkip; i++) {
                     line++;
                     br.readLine(); // We know the file has at least this number.
                 }

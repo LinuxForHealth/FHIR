@@ -677,9 +677,6 @@ public class BulkDataClient {
 
         String request = response.getJobParameters().getIncomingUrl();
         log.fine(response.getJobName());
-        if ("bulkimportchunkjob".equals(response.getJobName())) {
-            request = "$import";
-        }
         result.setRequest(request);
         result.setRequiresAccessToken(false);
 
@@ -730,7 +727,7 @@ public class BulkDataClient {
             result.setOutput(outputList);
         }
 
-        if (request.contains("/$import")) {
+        if ("bulkimportchunkjob".equals(response.getJobName())) {
             // Currently there is no output
             log.fine("Hit the case where we don't form output with counts");
             List<Input> inputs = response.getJobParameters().getInputs();
