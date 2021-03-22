@@ -1297,7 +1297,10 @@ public class SearchUtil {
                     // Convert :of-type into a composite search parameter
                     final String ofTypeParmName = searchParameter.getCode().getValue() + SearchConstants.OF_TYPE_MODIFIER_SUFFIX;
                     parameterValue.setOfTypeModifier(true);
-                    if (parts.length > 1 && parts.length < 4) {
+                    if (parts.length < 2) {
+                        String msg = "Search parameter '" + searchParameter.getCode().getValue() + "' with modifier ':" + modifier.value() + "' requires at least a code and value";
+                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                    } else if (parts.length < 4) {
                         QueryParameterValue typeParameterValue = new QueryParameterValue();
                         if (parts.length == 3) {
                             typeParameterValue.setValueSystem(unescapeSearchParm(parts[0]));
