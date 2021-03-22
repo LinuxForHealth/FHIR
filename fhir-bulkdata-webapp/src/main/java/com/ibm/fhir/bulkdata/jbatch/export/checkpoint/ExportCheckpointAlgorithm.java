@@ -66,6 +66,7 @@ public class ExportCheckpointAlgorithm implements CheckpointAlgorithm {
             if (chunkData != null) {
                 logger.fine("begin checkpoint [" +
                         "page " + chunkData.getPageNum() + " of " + chunkData.getLastPageNum() + ", " +
+                        "uploadCount=" + chunkData.getUploadCount() + ", " +
                         "bufferSize=" + chunkData.getBufferStream().size() + ", " +
                         "uploadPart=" + chunkData.getPartNum() + ", " +
                         "currentUploadSize=" + chunkData.getCurrentUploadSize() + ", " +
@@ -84,6 +85,7 @@ public class ExportCheckpointAlgorithm implements CheckpointAlgorithm {
             } else {
                 logger.fine("end checkpoint [" +
                         "page " + chunkData.getPageNum() + " of " + chunkData.getLastPageNum() + ", " +
+                        "uploadCount=" + chunkData.getUploadCount() + ", " +
                         "bufferSize=" + chunkData.getBufferStream().size() + ", " +
                         "uploadPart=" + chunkData.getPartNum() + ", " +
                         "currentUploadSize=" + chunkData.getCurrentUploadSize() + ", " +
@@ -111,10 +113,21 @@ public class ExportCheckpointAlgorithm implements CheckpointAlgorithm {
         boolean readyToWrite = chunkData.getBufferStream().size() >= writeTrigger;
 
         // Check if we should finish writing the current object/file
-        boolean overFileSizeThreshold = sizeThreshold != 0 && chunkData.getBufferStream().size() >= sizeThreshold;
-        boolean overMaxResourceCountThreshold = resourceCountThreshold != 0 && chunkData.getCurrentUploadResourceNum() >= resourceCountThreshold;
+        boolean overSizeThreshold = sizeThreshold != 0 && chunkData.getCurrentUploadSize() >= sizeThreshold;
+        boolean overResourceCountThreshold = resourceCountThreshold != 0 && chunkData.getCurrentUploadResourceNum() >= resourceCountThreshold;
         boolean end = chunkData.getPageNum() >= chunkData.getLastPageNum();
-        chunkData.setFinishCurrentUpload(overFileSizeThreshold || overMaxResourceCountThreshold || end);
+        chunkData.setFinishCurrentUpload(overSizeThreshold || overResourceCountThreshold || end);
+
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("isReadyToCheckpoint [" +
+                    "readyToWrite=" + readyToWrite + " (" + chunkData.getBufferStream().size() + " >= " + writeTrigger + "), " +
+                    "overSizeThreshold=" + overSizeThreshold +
+                            " (" + chunkData.getCurrentUploadSize() + " >= " + sizeThreshold + "), " +
+                    "overResourceCountThreshold=" + overResourceCountThreshold +
+                            " (" + chunkData.getCurrentUploadResourceNum() + " >= " + resourceCountThreshold + "), " +
+                    "end=" + end + " (" + chunkData.getPageNum() + " >= " + chunkData.getLastPageNum() + ")" +
+                    "]");
+        }
 
         // There are two conditions that trigger a checkpoint:
         // 1 - We have enough bytes to start writing a part; or
