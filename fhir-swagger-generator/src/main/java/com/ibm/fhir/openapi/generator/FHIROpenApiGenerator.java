@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2020
+ * (C) Copyright IBM Corp. 2018, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -1173,21 +1173,23 @@ public class FHIROpenApiGenerator {
             Set<Class<?>> choiceElementTypes = ModelSupport.getChoiceElementTypes(modelClass, elementName);
             ElementDefinition elementDefinition = getElementDefinition(structureDefinition, modelClass, elementName + "[x]");
             String description = elementDefinition.getDefinition().getValue();
+            Integer min = elementDefinition.getMin() != null ? elementDefinition.getMin().getValue() : null;
             for (Class<?> choiceType : choiceElementTypes) {
                 if (isApplicableForClass(choiceType, modelClass)) {
                     String choiceElementName = ModelSupport.getChoiceElementName(elementName, choiceType);
-                    generateProperty(structureDefinition, modelClass, field, properties, choiceElementName, choiceType, many, description);
+                    generateProperty(structureDefinition, modelClass, field, properties, choiceElementName, choiceType, many, description, min);
                 }
             }
         } else {
             ElementDefinition elementDefinition = getElementDefinition(structureDefinition, modelClass, elementName);
             String description = elementDefinition.getDefinition().getValue();
-            generateProperty(structureDefinition, modelClass, field, properties, elementName, (Class<?>)fieldType, many, description);
+            Integer min = elementDefinition.getMin() != null ? elementDefinition.getMin().getValue() : null;
+            generateProperty(structureDefinition, modelClass, field, properties, elementName, (Class<?>)fieldType, many, description, min);
         }
     }
 
     private static void generateProperty(StructureDefinition structureDefinition, Class<?> modelClass, Field field,
-            JsonObjectBuilder properties, String elementName, Class<?> fieldClass, boolean many, String description)
+            JsonObjectBuilder properties, String elementName, Class<?> fieldClass, boolean many, String description, Integer min)
             throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
 
         JsonObjectBuilder property = factory.createObjectBuilder();
@@ -1247,7 +1249,7 @@ public class FHIROpenApiGenerator {
             property.add("format", "int32");
         } else if (com.ibm.fhir.model.type.Base64Binary.class.equals(fieldClass)) {
             property.add("type", "string");
-            property.add("pattern","(\\s*([0-9a-zA-Z\\+\\=]){4}\\s*)+");
+            property.add("pattern","(\\s*([0-9a-zA-Z\\+/=]){4}\\s*)+");
         } else if (String.class.equals(fieldClass)) {
             property.add("type", "string");
             if ("id".equals(elementName)) {
@@ -1289,6 +1291,9 @@ public class FHIROpenApiGenerator {
             JsonObjectBuilder wrapper = factory.createObjectBuilder();
             wrapper.add("type", "array");
             wrapper.add("items", property);
+            if (min != null && min > 0) {
+                wrapper.add("minItems", min.intValue());
+            }
             if (example != null) {
                 wrapper.add("example", example);
             }
