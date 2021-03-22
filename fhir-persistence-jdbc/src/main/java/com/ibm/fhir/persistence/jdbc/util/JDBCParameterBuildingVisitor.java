@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -56,6 +56,7 @@ import com.ibm.fhir.persistence.jdbc.dto.ReferenceParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.util.type.NumberParmBehaviorUtil;
+import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.date.DateTimeHandler;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.util.ReferenceUtil;
@@ -608,10 +609,20 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         try {
             final String baseUrl = ReferenceUtil.getBaseUrl(null);
             ReferenceValue refValue = ReferenceUtil.createReferenceValueFrom(reference, baseUrl);
-            if (refValue.getType() != ReferenceType.INVALID && refValue.getType() != ReferenceType.DISPLAY_ONLY) {
+            if (refValue.getType() != ReferenceType.LOGICAL && refValue.getType() != ReferenceType.INVALID && refValue.getType() != ReferenceType.DISPLAY_ONLY) {
                 ReferenceParmVal p = new ReferenceParmVal();
                 p.setRefValue(refValue);
                 p.setName(searchParamCode);
+                result.add(p);
+            }
+            Identifier identifier = reference.getIdentifier();
+            if (identifier != null && identifier.getValue() != null) {
+                TokenParmVal p = new TokenParmVal();
+                p.setName(searchParamCode + SearchConstants.IDENTIFIER_MODIFIER_SUFFIX);
+                if (identifier.getSystem() != null) {
+                    p.setValueSystem(identifier.getSystem().getValue());
+                }
+                p.setValueCode(identifier.getValue().getValue());
                 result.add(p);
             }
         } catch (FHIRSearchException x) {

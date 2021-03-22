@@ -97,6 +97,9 @@ public class SearchConstants {
     public static final String BASE_SYSTEM_EXT_URL = "http://ibm.com/fhir/extension/";
     public static final String IMPLICIT_SYSTEM_EXT_URL = BASE_SYSTEM_EXT_URL + "implicit-system";
 
+    // Extracted search parameter suffix for :identifier modifier
+    public static final String IDENTIFIER_MODIFIER_SUFFIX = ":identifier";
+    
     // set as unmodifiable
     public static final Set<String> SEARCH_RESULT_PARAMETER_NAMES =
             Collections.unmodifiableSet(new HashSet<>(Arrays.asList(SORT, COUNT, PAGE, INCLUDE, REVINCLUDE, ELEMENTS, SUMMARY, TOTAL)));
