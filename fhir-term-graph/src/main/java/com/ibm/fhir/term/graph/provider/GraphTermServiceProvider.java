@@ -248,10 +248,10 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
             case IS_NOT_A:
                 // not descendants or self
                 if ("concept".equals(property.getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-                    g = whereCodeSystem(g.not(__.repeat(__.out(FHIRTermGraph.IS_A).simplePath())
+                    g = whereCodeSystem(g.not(__.repeat(__.out(FHIRTermGraph.IS_A))
                             .until(hasCode(value.getValue(), caseSensitive)))
-                            .not(hasCode(value.getValue(), caseSensitive)), codeSystem)
-                            .hasLabel("Concept");
+                            .not(hasCode(value.getValue(), caseSensitive))
+                            .hasLabel("Concept"), codeSystem);
                 }
                 break;
             case NOT_IN:

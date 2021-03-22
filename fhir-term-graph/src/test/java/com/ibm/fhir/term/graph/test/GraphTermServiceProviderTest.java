@@ -546,6 +546,29 @@ public class GraphTermServiceProviderTest {
     }
 
     @Test
+    public void testGetConceptsWithIsAFilterAndIsNotAFilter() {
+        Set<Concept> concepts = provider.getConcepts(codeSystem, Arrays.asList(
+            Filter.builder()
+                .property(Code.of("concept"))
+                .op(FilterOperator.IS_A)
+                .value(string("d"))
+                .build(),
+            Filter.builder()
+                .property(Code.of("concept"))
+                .op(FilterOperator.IS_NOT_A)
+                .value(string("r"))
+                .build()));
+
+        List<String> actual = concepts.stream()
+                .map(concept -> concept.getCode().getValue())
+                .collect(Collectors.toList());
+
+        List<String> expected = Arrays.asList("d", "q");
+
+        Assert.assertEquals(actual, expected);
+    }
+
+    @Test
     public void testGetConceptsWithIsAFilterAndDateTimePropertyEqualsFilter() {
         Set<Concept> concepts = provider.getConcepts(codeSystem, Arrays.asList(
             Filter.builder()
@@ -564,6 +587,29 @@ public class GraphTermServiceProviderTest {
                 .collect(Collectors.toList());
 
         List<String> expected = Arrays.asList("k");
+
+        Assert.assertEquals(actual, expected);
+    }
+
+    @Test
+    public void testGetConceptsWithIsAFilterAndNotExistsFilter() {
+        Set<Concept> concepts = provider.getConcepts(codeSystem, Arrays.asList(
+            Filter.builder()
+                .property(Code.of("concept"))
+                .op(FilterOperator.IS_A)
+                .value(string("a"))
+                .build(),
+            Filter.builder()
+                .property(Code.of("stringProperty"))
+                .op(FilterOperator.EXISTS)
+                .value(string("false"))
+                .build()));
+
+        Set<String> actual = concepts.stream()
+                .map(concept -> concept.getCode().getValue())
+                .collect(Collectors.toSet());
+
+        Set<String> expected = new HashSet<>(Arrays.asList("g", "h", "i", "j", "k"));
 
         Assert.assertEquals(actual, expected);
     }
