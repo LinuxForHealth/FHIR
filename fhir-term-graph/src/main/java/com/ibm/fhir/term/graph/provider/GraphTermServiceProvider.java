@@ -150,6 +150,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
 
         boolean caseSensitive = isCaseSensitive(codeSystem);
 
+        boolean first = true;
         for (Filter filter : filters) {
             Code property = filter.getProperty();
             com.ibm.fhir.model.type.String value = filter.getValue();
@@ -175,16 +176,24 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
                         g = whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem).out(FHIRTermGraph.IS_A);
                     } else {
                         Element element = toElement(value, type);
-                        g = whereCodeSystem(g.has(getPropertyKey(type), element.is(DateTime.class) ? toLong(element.as(DateTime.class)) : toObject(element)).in("property_"), codeSystem);
+                        if (first) {
+                            g = whereCodeSystem(g.has(getPropertyKey(type), element.is(DateTime.class) ? toLong(element.as(DateTime.class)) : toObject(element)).in("property_"), codeSystem);
+                        } else {
+                            g = whereCodeSystem(g.where(__.out("property_").has(getPropertyKey(type), element.is(DateTime.class) ? toLong(element.as(DateTime.class)) : toObject(element))), codeSystem);
+                        }
                     }
                 }
                 break;
             case EXISTS:
                 if (hasCodeSystemProperty(codeSystem, property) && convertsToBoolean(value)) {
                     if (Boolean.valueOf(value.getValue())) {
-                        g = whereCodeSystem(g.has("code", property.getValue()).in("property_"), codeSystem);
+                        if (first) {
+                            g = whereCodeSystem(g.has("code", property.getValue()).in("property_"), codeSystem);
+                        } else {
+                            g = whereCodeSystem(g.where(__.out("property_").has("code", property.getValue())), codeSystem);
+                        }
                     } else {
-                        g = whereCodeSystem(g.not(__.out("property_").has("code", property.getValue())), codeSystem);
+                        g = whereCodeSystem(g.not(__.out("property_").has("code", property.getValue())).hasLabel("Concept"), codeSystem);
                     }
                 }
                 break;
@@ -211,10 +220,17 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
                                 .collect(Collectors.toSet()))), codeSystem);
                         }
                     } else {
-                        g = whereCodeSystem(g.has(getPropertyKey(type), P.within(Arrays.stream(value.getValue().split(","))
-                            .map(v -> toElement(v, type))
-                            .map(e -> e.is(DateTime.class) ? toLong(e.as(DateTime.class)) : toObject(e))
-                            .collect(Collectors.toSet()))).in("property_"), codeSystem);
+                        if (first) {
+                            g = whereCodeSystem(g.has(getPropertyKey(type), P.within(Arrays.stream(value.getValue().split(","))
+                                .map(v -> toElement(v, type))
+                                .map(e -> e.is(DateTime.class) ? toLong(e.as(DateTime.class)) : toObject(e))
+                                .collect(Collectors.toSet()))).in("property_"), codeSystem);
+                        } else {
+                            g = whereCodeSystem(g.where(__.out("property_").has(getPropertyKey(type), P.within(Arrays.stream(value.getValue().split(","))
+                                .map(v -> toElement(v, type))
+                                .map(e -> e.is(DateTime.class) ? toLong(e.as(DateTime.class)) : toObject(e))
+                                .collect(Collectors.toSet())))), codeSystem);
+                        }
                     }
                 }
                 break;
@@ -234,7 +250,8 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
                 if ("concept".equals(property.getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
                     g = whereCodeSystem(g.not(__.repeat(__.out(FHIRTermGraph.IS_A).simplePath())
                             .until(hasCode(value.getValue(), caseSensitive)))
-                            .not(hasCode(value.getValue(), caseSensitive)), codeSystem);
+                            .not(hasCode(value.getValue(), caseSensitive)), codeSystem)
+                            .hasLabel("Concept");
                 }
                 break;
             case NOT_IN:
@@ -249,24 +266,34 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
                                 .collect(Collectors.toSet()))), codeSystem);
                         }
                     } else {
-                        g = whereCodeSystem(g.has(getPropertyKey(type), P.without(Arrays.stream(value.getValue().split(","))
-                            .map(v -> toElement(v, type))
-                            .map(e -> e.is(DateTime.class) ? toLong(e.as(DateTime.class)) : toObject(e))
-                            .collect(Collectors.toSet()))).in("property_"), codeSystem);
+                        if (first) {
+                            g = whereCodeSystem(g.has(getPropertyKey(type), P.without(Arrays.stream(value.getValue().split(","))
+                                .map(v -> toElement(v, type))
+                                .map(e -> e.is(DateTime.class) ? toLong(e.as(DateTime.class)) : toObject(e))
+                                .collect(Collectors.toSet()))).in("property_"), codeSystem);
+                        } else {
+                            g = whereCodeSystem(g.where(__.out("property_").has(getPropertyKey(type), P.without(Arrays.stream(value.getValue().split(","))
+                                .map(v -> toElement(v, type))
+                                .map(e -> e.is(DateTime.class) ? toLong(e.as(DateTime.class)) : toObject(e))
+                                .collect(Collectors.toSet())))), codeSystem);
+                        }
                     }
                 }
                 break;
             case REGEX:
                 if (hasCodeSystemProperty(codeSystem, property) && (PropertyType.CODE.equals(type) || PropertyType.STRING.equals(type))) {
-                    g = whereCodeSystem(g.has(getPropertyKey(type), Text.textRegex(value.getValue())).in("property_"), codeSystem);
+                    if (first) {
+                        g = whereCodeSystem(g.has(getPropertyKey(type), Text.textRegex(value.getValue())).in("property_"), codeSystem);
+                    } else {
+                        g = whereCodeSystem(g.where(__.out("property_").has(getPropertyKey(type), Text.textRegex(value.getValue()))), codeSystem);
+                    }
                 }
                 break;
-            default:
-                break;
             }
+            first = false;
         }
 
-        g = g.hasLabel("Concept").timeLimit(timeLimit);
+        g = g.timeLimit(timeLimit);
         TimeLimitStep<?> timeLimitStep = getTimeLimitStep(g);
 
         g.elementMap().toStream().forEach(elementMap -> concepts.add(createConcept(elementMap)));

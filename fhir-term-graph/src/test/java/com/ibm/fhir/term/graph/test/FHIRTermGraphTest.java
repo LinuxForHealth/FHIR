@@ -131,6 +131,8 @@ public class FHIRTermGraphTest {
 
         System.out.println("");
 
+        g.V().not(__.out("property_").has("code", "someCode")).hasLabel("Concept").elementMap().toStream().forEach(System.out::println);
+
         graph.close();
     }
 }

@@ -179,6 +179,27 @@ public class GraphTermServiceProviderTest {
     }
 
     @Test
+    public void testGetConceptsWithMultipleChildEqualsFilter() {
+        Set<Concept> concepts = provider.getConcepts(codeSystem, Arrays.asList(
+            Filter.builder()
+                .property(Code.of("child"))
+                .op(FilterOperator.EQUALS)
+                .value(string("g"))
+                .build(),
+            Filter.builder()
+                .property(Code.of("child"))
+                .op(FilterOperator.EQUALS)
+                .value(string("h"))
+                .build()));
+
+        List<String> actual = concepts.stream()
+                .map(concept -> concept.getCode().getValue())
+                .collect(Collectors.toList());
+
+        Assert.assertEquals(actual, Collections.emptyList());
+    }
+
+    @Test
     public void testGetConceptsWithBooleanPropertyEqualsFilter() {
         Filter filter = Filter.builder()
                 .property(Code.of("booleanProperty"))
@@ -497,6 +518,75 @@ public class GraphTermServiceProviderTest {
                 .collect(Collectors.toList());
 
         List<String> expected = Arrays.asList("d", "q", "r", "s");
+
+        Assert.assertEquals(actual, expected);
+    }
+
+    @Test
+    public void testGetConceptsWithMulitpleIsAFilters() {
+        Set<Concept> concepts = provider.getConcepts(codeSystem, Arrays.asList(
+            Filter.builder()
+                .property(Code.of("concept"))
+                .op(FilterOperator.IS_A)
+                .value(string("d"))
+                .build(),
+            Filter.builder()
+                .property(Code.of("concept"))
+                .op(FilterOperator.IS_A)
+                .value(string("r"))
+                .build()));
+
+        List<String> actual = concepts.stream()
+                .map(concept -> concept.getCode().getValue())
+                .collect(Collectors.toList());
+
+        List<String> expected = Arrays.asList("r", "s");
+
+        Assert.assertEquals(actual, expected);
+    }
+
+    @Test
+    public void testGetConceptsWithIsAFilterAndDateTimePropertyEqualsFilter() {
+        Set<Concept> concepts = provider.getConcepts(codeSystem, Arrays.asList(
+            Filter.builder()
+                .property(Code.of("concept"))
+                .op(FilterOperator.IS_A)
+                .value(string("a"))
+                .build(),
+            Filter.builder()
+                .property(Code.of("dateTimeProperty"))
+                .op(FilterOperator.EQUALS)
+                .value(string("2021-01-01T00:00:00.000Z"))
+                .build()));
+
+        List<String> actual = concepts.stream()
+                .map(concept -> concept.getCode().getValue())
+                .collect(Collectors.toList());
+
+        List<String> expected = Arrays.asList("k");
+
+        Assert.assertEquals(actual, expected);
+    }
+
+    @Test
+    public void testGetConceptsWithIsAFilterAndConceptInFilter() {
+        Set<Concept> concepts = provider.getConcepts(codeSystem, Arrays.asList(
+            Filter.builder()
+                .property(Code.of("concept"))
+                .op(FilterOperator.IS_A)
+                .value(string("d"))
+                .build(),
+            Filter.builder()
+                .property(Code.of("concept"))
+                .op(FilterOperator.IN)
+                .value(string("q,s"))
+                .build()));
+
+        List<String> actual = concepts.stream()
+                .map(concept -> concept.getCode().getValue())
+                .collect(Collectors.toList());
+
+        List<String> expected = Arrays.asList("q", "s");
 
         Assert.assertEquals(actual, expected);
     }
