@@ -355,7 +355,7 @@ public class ImportOperationTest extends FHIRServerTestBase {
         }
     }
 
-    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testImport" })
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = { "testImportFromFileDefault" })
     public void testImportCheckQuery() throws Exception {
         if (ON) {
             WebTarget target = getWebTarget();
