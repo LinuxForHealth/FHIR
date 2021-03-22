@@ -54,8 +54,8 @@ public class BulkAuditLogger {
 
     public boolean shouldLog() {
         // Wraps common code for logging
-        if (log.isLoggable(Level.FINE)) {
-            log.fine("Bulk Data Audit Log is '" + svc.isEnabled() + "'");
+        if (log.isLoggable(Level.FINER)) {
+            log.finer("Bulk Data Audit Log is '" + svc.isEnabled() + "'");
         }
         return svc.isEnabled();
     }

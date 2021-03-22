@@ -159,6 +159,12 @@ public class FileProvider implements Provider {
         if (!FHIRMediaType.APPLICATION_NDJSON.equals(mediaType)) {
             throw new UnsupportedOperationException("FileProvider does not support writing files of type " + mediaType);
         }
+        if (chunkData.getBufferStream().size() == 0) {
+            // Early exit condition:  nothing to write so just set the latWrittenPageNum and return
+            chunkData.setLastWrittenPageNum(chunkData.getPageNum());
+            return;
+        }
+
         if (out == null) {
             this.fileName = exportPathPrefix + File.separator + fhirResourceType + "_" + chunkData.getUploadCount() + ".ndjson";
             String base = configuration.getBaseFileLocation(source);
@@ -197,8 +203,15 @@ public class FileProvider implements Provider {
         if (chunkData.isFinishCurrentUpload()) {
             out.close();
             out = null;
+            chunkData.setPartNum(1);
+            chunkData.setCurrentUploadResourceNum(0);
+            chunkData.setCurrentUploadSize(0);
+            chunkData.setFinishCurrentUpload(false);
             chunkData.setUploadCount(chunkData.getUploadCount() + 1);
-            chunkData.getBufferStream().reset();
+        } else {
+            chunkData.setPartNum(chunkData.getPartNum() + 1);
         }
+
+        chunkData.setLastWrittenPageNum(chunkData.getPageNum());
     }
 }
