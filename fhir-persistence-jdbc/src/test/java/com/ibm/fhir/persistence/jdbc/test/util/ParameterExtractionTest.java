@@ -56,6 +56,7 @@ import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceProcessorException;
+import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.NumberParmVal;
@@ -65,6 +66,7 @@ import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.util.JDBCParameterBuildingVisitor;
 import com.ibm.fhir.search.SearchConstants;
+import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * Tests all valid combinations of search paramter types and data types
@@ -113,7 +115,7 @@ public class ParameterExtractionTest {
 
     @Test
     public void testBoolean() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(tokenSearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, tokenSearchParam);
         com.ibm.fhir.model.type.Boolean.TRUE.accept(parameterBuilder);
         List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
@@ -133,13 +135,13 @@ public class ParameterExtractionTest {
         Canonical canonical = Canonical.of(SAMPLE_URI);
         List<ExtractedParameterValue> params;
 
-        parameterBuilder = new JDBCParameterBuildingVisitor(referenceSearchParam);
+        parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, referenceSearchParam);
         canonical.accept(parameterBuilder);
         params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
         assertEquals(((StringParmVal) params.get(0)).getValueString(), SAMPLE_URI);
 
-        parameterBuilder = new JDBCParameterBuildingVisitor(uriSearchParam);
+        parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, uriSearchParam);
         canonical.accept(parameterBuilder);
         params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
@@ -154,7 +156,7 @@ public class ParameterExtractionTest {
 
     @Test
     public void testCode() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(tokenSearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, tokenSearchParam);
         Code.of(SAMPLE_STRING).accept(parameterBuilder);
         List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
@@ -168,7 +170,7 @@ public class ParameterExtractionTest {
 
     @Test
     public void testDate() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(dateSearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, dateSearchParam);
         Date.of("2016").accept(parameterBuilder);
         List<ExtractedParameterValue> params = parameterBuilder.getResult();
         for (ExtractedParameterValue param : params) {
@@ -185,7 +187,7 @@ public class ParameterExtractionTest {
 
     @Test
     public void testDateTime() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(dateSearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, dateSearchParam);
         DateTime.of("2016-01-01T10:10:10.1+04:00").accept(parameterBuilder);
         List<ExtractedParameterValue> params = parameterBuilder.getResult();
         for (ExtractedParameterValue param : params) {
@@ -200,7 +202,7 @@ public class ParameterExtractionTest {
 
     @Test
     public void testDecimal() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(numberSearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, numberSearchParam);
         Decimal.of(99.99).accept(parameterBuilder);
         List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
@@ -216,7 +218,7 @@ public class ParameterExtractionTest {
 
     @Test
     public void testId() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(tokenSearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, tokenSearchParam);
         Id.of("x").accept(parameterBuilder);
         List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
@@ -230,7 +232,7 @@ public class ParameterExtractionTest {
 
     @Test
     public void testInstant() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(dateSearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, dateSearchParam);
         Instant now = Instant.now(ZoneOffset.UTC);
         now.accept(parameterBuilder);
         List<ExtractedParameterValue> params = parameterBuilder.getResult();
@@ -245,7 +247,7 @@ public class ParameterExtractionTest {
 
     @Test
     public void testInteger() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(numberSearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, numberSearchParam);
         Integer.of(13).accept(parameterBuilder);
         List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
@@ -263,13 +265,13 @@ public class ParameterExtractionTest {
         com.ibm.fhir.model.type.String stringVal = string(SAMPLE_STRING);
         List<ExtractedParameterValue> params;
 
-        parameterBuilder = new JDBCParameterBuildingVisitor(stringSearchParam);
+        parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, stringSearchParam);
         stringVal.accept(parameterBuilder);
         params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
         assertEquals(((StringParmVal) params.get(0)).getValueString(), SAMPLE_STRING);
 
-        parameterBuilder = new JDBCParameterBuildingVisitor(tokenSearchParam);
+        parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, tokenSearchParam);
         stringVal.accept(parameterBuilder);
         params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
@@ -288,13 +290,13 @@ public class ParameterExtractionTest {
         Uri uri = Uri.of(SAMPLE_URI);
         List<ExtractedParameterValue> params;
 
-        parameterBuilder = new JDBCParameterBuildingVisitor(referenceSearchParam);
+        parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, referenceSearchParam);
         uri.accept(parameterBuilder);
         params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
         assertEquals(((TokenParmVal) params.get(0)).getValueCode(), SAMPLE_URI);
 
-        parameterBuilder = new JDBCParameterBuildingVisitor(uriSearchParam);
+        parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, uriSearchParam);
         uri.accept(parameterBuilder);
         params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
@@ -308,7 +310,7 @@ public class ParameterExtractionTest {
     }
 
     private void assertNullValueReturnsNoParameters(SearchParameter sp, Element.Builder builder) {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(sp);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, sp);
         builder.extension(SAMPLE_EXTENSION).build().accept(parameterBuilder);
         List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 0, "Number of extracted parameters");
@@ -317,7 +319,7 @@ public class ParameterExtractionTest {
 
     @Test
     public void testAddress() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(stringSearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, stringSearchParam);
         Address.builder()
                .line(string("4025 S. Miami Blvd."))                    //0
                .city(string("Durham"))                                 //1
@@ -342,7 +344,7 @@ public class ParameterExtractionTest {
 
     @Test
     public void testAge() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(quantitySearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, quantitySearchParam);
         Age.builder()
            .value(Decimal.of(1))
            .system(Uri.of(UNITSOFMEASURE))
@@ -365,7 +367,7 @@ public class ParameterExtractionTest {
 
     @Test
     public void testCodeableConcept() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(tokenSearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, tokenSearchParam);
         CodeableConcept.builder()
                        .coding(Coding.builder().code(Code.of("a")).system(Uri.of(SAMPLE_URI)).build())
                        .coding(Coding.builder().code(Code.of("b")).system(Uri.of(SAMPLE_URI)).build())
@@ -389,7 +391,7 @@ public class ParameterExtractionTest {
 
     @Test
     public void testCoding() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(tokenSearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, tokenSearchParam);
         Coding.builder()
               .code(Code.of(SAMPLE_STRING))
               .system(Uri.of(SAMPLE_URI))
@@ -408,7 +410,7 @@ public class ParameterExtractionTest {
 
     @Test
     public void testContactPoint() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(tokenSearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, tokenSearchParam);
         ContactPoint.builder()
                     .system(ContactPointSystem.PHONE)
                     .value(string("5558675309"))
@@ -426,7 +428,7 @@ public class ParameterExtractionTest {
 
     @Test
     public void testDuration() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(quantitySearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, quantitySearchParam);
         Duration.builder()
                 .value(Decimal.of(1))
                 .system(Uri.of(UNITSOFMEASURE))
@@ -447,7 +449,7 @@ public class ParameterExtractionTest {
 
     @Test
     public void testHumanName() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(stringSearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, stringSearchParam);
         HumanName.builder()
                  .family(string("Simpson"))  //0
                  .given(string("Nick"))      //1
@@ -472,16 +474,47 @@ public class ParameterExtractionTest {
 
     @Test
     public void testIdentifier() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(tokenSearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, tokenSearchParam);
         Identifier.builder()
+                  .type(CodeableConcept.builder()
+                      .coding(Coding.builder().code(Code.of("codea")).system(Uri.of("systema")).build())
+                      .coding(Coding.builder().code(Code.of("codeb")).build())
+                      .build())
                   .system(Uri.of(SAMPLE_URI))
                   .value(string("abc123"))
                   .build()
                   .accept(parameterBuilder);
         List<ExtractedParameterValue> params = parameterBuilder.getResult();
-        assertEquals(params.size(), 1, "Number of extracted parameters");
+        assertEquals(params.size(), 3, "Number of extracted parameters");
         assertEquals(((TokenParmVal) params.get(0)).getValueSystem(), SAMPLE_URI);
         assertEquals(((TokenParmVal) params.get(0)).getValueCode(), "abc123");
+
+        // Check composite parameters extracted for :of-type modifier
+        String compositeCode = SEARCH_PARAM_CODE_VALUE + SearchConstants.OF_TYPE_MODIFIER_SUFFIX;
+
+        CompositeParmVal cParmVal = (CompositeParmVal) params.get(1);
+        assertEquals(cParmVal.getName(), compositeCode);
+        assertEquals(cParmVal.getComponent().size(), 2, "Number of extracted components");
+        TokenParmVal tokenParmVal = (TokenParmVal) cParmVal.getComponent().get(0);
+        assertEquals(tokenParmVal.getName(), SearchUtil.makeCompositeSubCode(compositeCode, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_TYPE));
+        assertEquals(tokenParmVal.getValueSystem(), "systema");
+        assertEquals(tokenParmVal.getValueCode(), "codea");
+        tokenParmVal = (TokenParmVal) cParmVal.getComponent().get(1);
+        assertEquals(tokenParmVal.getName(), SearchUtil.makeCompositeSubCode(compositeCode, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE));
+        assertEquals(tokenParmVal.getValueSystem(), TokenParmVal.DEFAULT_TOKEN_SYSTEM);
+        assertEquals(tokenParmVal.getValueCode(), "abc123");
+
+        cParmVal = (CompositeParmVal) params.get(2);
+        assertEquals(cParmVal.getName(), compositeCode);
+        assertEquals(cParmVal.getComponent().size(), 2, "Number of extracted components");
+        tokenParmVal = (TokenParmVal) cParmVal.getComponent().get(0);
+        assertEquals(tokenParmVal.getName(), SearchUtil.makeCompositeSubCode(compositeCode, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_TYPE));
+        assertEquals(tokenParmVal.getValueSystem(), TokenParmVal.DEFAULT_TOKEN_SYSTEM);
+        assertEquals(tokenParmVal.getValueCode(), "codeb");
+        tokenParmVal = (TokenParmVal) cParmVal.getComponent().get(1);
+        assertEquals(tokenParmVal.getName(), SearchUtil.makeCompositeSubCode(compositeCode, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE));
+        assertEquals(tokenParmVal.getValueSystem(), TokenParmVal.DEFAULT_TOKEN_SYSTEM);
+        assertEquals(tokenParmVal.getValueCode(), "abc123");
     }
 
     @Test
@@ -491,7 +524,7 @@ public class ParameterExtractionTest {
 
     @Test
     public void testMoney() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(quantitySearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, quantitySearchParam);
         Money.builder()
              .currency(Code.of("USD"))
              .value(Decimal.of(100))
@@ -510,7 +543,7 @@ public class ParameterExtractionTest {
 
     @Test
     public void testPeriod() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(dateSearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, dateSearchParam);
         Period.builder()
               .start(DateTime.of(SAMPLE_DATE_START))
               .end(DateTime.of(SAMPLE_DATE_END))
@@ -524,7 +557,7 @@ public class ParameterExtractionTest {
 
     @Test
     public void testPeriod_nullStart() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(dateSearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, dateSearchParam);
         Period.builder()
               .end(DateTime.of(SAMPLE_DATE_END))
               .build()
@@ -536,7 +569,7 @@ public class ParameterExtractionTest {
 
     @Test
     public void testPeriod_nullEnd() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(dateSearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, dateSearchParam);
         Period.builder()
               .start(DateTime.of(SAMPLE_DATE_START))
               .build()
@@ -553,7 +586,7 @@ public class ParameterExtractionTest {
 
     @Test
     public void testQuantity() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(quantitySearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, quantitySearchParam);
         Quantity.builder()
                 .value(Decimal.of(1))
                 .system(Uri.of(UNITSOFMEASURE))
@@ -574,7 +607,7 @@ public class ParameterExtractionTest {
 
     @Test
     public void testRange() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(quantitySearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, quantitySearchParam);
         Range range = Range.builder()
                            .low(SimpleQuantity.builder()
                                               .code(Code.of(SAMPLE_UNIT))
@@ -601,7 +634,7 @@ public class ParameterExtractionTest {
 
     @Test
     public void testRange_nullHigh() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(quantitySearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, quantitySearchParam);
         Range range = Range.builder()
                            .low(SimpleQuantity.builder()
                                               .code(Code.of(SAMPLE_UNIT))
@@ -622,7 +655,7 @@ public class ParameterExtractionTest {
 
     @Test
     public void testRange_nullLow() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(quantitySearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, quantitySearchParam);
         Range range = Range.builder()
                            .high(SimpleQuantity.builder()
                                               .code(Code.of(SAMPLE_UNIT))
@@ -648,7 +681,7 @@ public class ParameterExtractionTest {
 
     @Test
     public void testReference() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(referenceSearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, referenceSearchParam);
         Reference.builder()
                  .reference(string(SAMPLE_REF))
                  .identifier(Identifier.builder()
@@ -674,7 +707,7 @@ public class ParameterExtractionTest {
 
     @Test
     public void testTimingBounds() throws FHIRPersistenceProcessorException {
-        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(dateSearchParam);
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, dateSearchParam);
         Period period = Period.builder()
                               .start(DateTime.of(SAMPLE_DATE_START))
                               .end(DateTime.of(SAMPLE_DATE_END))
@@ -698,7 +731,7 @@ public class ParameterExtractionTest {
     // Timing doesn't currently extract from "events"
 //    @Test
 //    public void testTimingEvents() throws FHIRPersistenceProcessorException {
-//        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(dateSearchParam);
+//        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, dateSearchParam);
 //        Timing.builder()
 //              .event(DateTime.of(SAMPLE_DATE_START))
 //              .event(DateTime.of(SAMPLE_DATE_END))
