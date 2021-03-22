@@ -180,13 +180,14 @@ public class FhirResourceTableGroup {
         // things sensible.
         Table tbl = Table.builder(schemaName, tableName)
                 .setTenantColumnName(MT_ID)
-                .setVersion(FhirSchemaVersion.V0011.vid()) // for is_deleted and last_updated support
+                .setVersion(FhirSchemaVersion.V0012.vid()) // V0011: is_deleted and last_updated, V0012: version_id
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
                 .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
                 .addBigIntColumn(CURRENT_RESOURCE_ID, true)
                 .addCharColumn(IS_DELETED, 1, false, "'X'")
                 .addTimestampColumn(LAST_UPDATED, true) // nullable has to match the migration add column
+                .addIntColumn(VERSION_ID, true) // nullable has to match the migration add column
                 .addPrimaryKey(tableName + "_PK", LOGICAL_RESOURCE_ID)
                 .addForeignKeyConstraint("FK_" + tableName + "_LRID", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
                 .setTablespace(fhirTablespace)
@@ -210,9 +211,10 @@ public class FhirResourceTableGroup {
                         statements.add(new DropTable(schemaName, prefix + "_TOKEN_VALUES"));
                     }
 
-                    if (priorVersion < FhirSchemaVersion.V0011.vid()) {
+                    if (priorVersion < FhirSchemaVersion.V0012.vid()) {
                         addLogicalResourcesMigration(statements, tableName, priorVersion);
                     }
+
                     return statements;
                 })
                 .build(model);
@@ -234,11 +236,14 @@ public class FhirResourceTableGroup {
     }
 
     /**
-     * For the V0010 schema, IS_DELETED is added to each xxx_LOGICAL_RESOURCES. This
-     * migration step also includes populating. Note that we don't attempt to perform
-     * the data migration here because migration for Db2 multi-tenant schemas requires
-     * iterating over each tenant. The data migration step is therefore left as an
-     * operation to be applied by the schema tool.
+     * V0010: IS_DELETED is added to each xxx_LOGICAL_RESOURCES.
+     * V0011: LAST_UPDATED is added to each xxx_LOGICAL_RESOURCES.
+     * V0012: VERSION_ID is added to each xxx_LOGICAL_RESOURCES.
+     *
+     * Note that we don't attempt to perform the data migration here because
+     * migration for Db2 multi-tenant schemas requires iterating over each
+     * tenant. The data migration step is therefore left as an operation to
+     * be applied by the schema tool.
      * @param statements
      * @param tableName
      */
@@ -258,6 +263,12 @@ public class FhirResourceTableGroup {
             // Add the LAST_UPDATED column if needed. We have to allow null because
             // no default value is appropriate
             builder.addTimestampColumn(LAST_UPDATED, true);
+        }
+
+        if (priorVersion < FhirSchemaVersion.V0012.vid()) {
+            // Add the VERSION_ID column if needed. We have to allow null because
+            // no default value is appropriate
+            builder.addIntColumn(VERSION_ID, true);
         }
 
         List<ColumnBase> columns = builder.buildColumns();

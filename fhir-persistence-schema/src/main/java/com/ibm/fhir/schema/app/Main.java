@@ -72,12 +72,12 @@ import com.ibm.fhir.schema.control.DisableForeignKey;
 import com.ibm.fhir.schema.control.EnableForeignKey;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
-import com.ibm.fhir.schema.control.GetLogicalResourceIsDeletedNeedsMigration;
 import com.ibm.fhir.schema.control.GetResourceChangeLogEmpty;
 import com.ibm.fhir.schema.control.GetResourceTypeList;
 import com.ibm.fhir.schema.control.GetTenantInfo;
 import com.ibm.fhir.schema.control.GetTenantList;
-import com.ibm.fhir.schema.control.InitializeLogicalIdIsDeleted;
+import com.ibm.fhir.schema.control.GetXXXLogicalResourceNeedsMigration;
+import com.ibm.fhir.schema.control.InitializeLogicalResourceDenorms;
 import com.ibm.fhir.schema.control.JavaBatchSchemaGenerator;
 import com.ibm.fhir.schema.control.OAuthSchemaGenerator;
 import com.ibm.fhir.schema.control.PopulateParameterNames;
@@ -1570,11 +1570,11 @@ public class Main {
                     SetTenantIdDb2 setTenantId = new SetTenantIdDb2(schema.getAdminSchemaName(), ti.getTenantId());
                     adapter.runStatement(setTenantId);
 
-                    GetLogicalResourceIsDeletedNeedsMigration needsMigrating = new GetLogicalResourceIsDeletedNeedsMigration(schema.getSchemaName(), resourceTypeName);
+                    GetXXXLogicalResourceNeedsMigration needsMigrating = new GetXXXLogicalResourceNeedsMigration(schema.getSchemaName(), resourceTypeName);
                     if (adapter.runStatement(needsMigrating)) {
                         logger.info("V0010 Migration: Updating " + resourceTypeName + "_LOGICAL_RESOURCES.IS_DELETED "
                                 + "for tenant '" + ti.getTenantName() + "', schema '" + ti.getTenantSchema() + "'");
-                        InitializeLogicalIdIsDeleted cmd = new InitializeLogicalIdIsDeleted(schema.getSchemaName(), resourceTypeName);
+                        InitializeLogicalResourceDenorms cmd = new InitializeLogicalResourceDenorms(schema.getSchemaName(), resourceTypeName);
                         adapter.runStatement(cmd);
                     }
                 } catch (DataAccessException x) {
@@ -1601,10 +1601,10 @@ public class Main {
                     // which have not yet had their data migrated. The migration can't be
                     // done as part of the schema change because some tables need a REORG which
                     // has to be done after the transaction in which the alter table was performed.
-                    GetLogicalResourceIsDeletedNeedsMigration needsMigrating = new GetLogicalResourceIsDeletedNeedsMigration(schema.getSchemaName(), resourceTypeName);
+                    GetXXXLogicalResourceNeedsMigration needsMigrating = new GetXXXLogicalResourceNeedsMigration(schema.getSchemaName(), resourceTypeName);
                     if (adapter.runStatement(needsMigrating)) {
-                        logger.info("V0010 Migration: Updating " + resourceTypeName + "_LOGICAL_RESOURCES.IS_DELETED in schema " + schema.getSchemaName());
-                        InitializeLogicalIdIsDeleted cmd = new InitializeLogicalIdIsDeleted(schema.getSchemaName(), resourceTypeName);
+                        logger.info("V0010-V0012 Migration: Updating " + resourceTypeName + "_LOGICAL_RESOURCES denormalized columns in schema " + schema.getSchemaName());
+                        InitializeLogicalResourceDenorms cmd = new InitializeLogicalResourceDenorms(schema.getSchemaName(), resourceTypeName);
                         adapter.runStatement(cmd);
                     }
                 } catch (DataAccessException x) {
