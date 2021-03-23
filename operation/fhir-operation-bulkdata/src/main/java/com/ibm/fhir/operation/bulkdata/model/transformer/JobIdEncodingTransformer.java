@@ -52,7 +52,7 @@ public class JobIdEncodingTransformer {
     }
 
     /*
-     * gets the server-wide specific encryption key.
+     * gets the tenant specific encryption key.
      * @return
      */
     private SecretKeySpec getJobIdEncryptionKey() {
