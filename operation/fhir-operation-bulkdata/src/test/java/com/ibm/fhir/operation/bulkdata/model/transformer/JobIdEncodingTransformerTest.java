@@ -53,7 +53,7 @@ public class JobIdEncodingTransformerTest {
     @Test
     public void testTransformerRoundTrip() throws Exception {
         // Using the legacy implementation for the configuration the encode/decode uses change-password
-        final JobIdEncodingTransformer transformer = new JobIdEncodingTransformer();
+        final JobIdEncodingTransformer transformer = JobIdEncodingTransformer.getInstance();
 
         String jobId = transformer.decodeJobId("1");
         assertNotNull(jobId);
@@ -65,7 +65,7 @@ public class JobIdEncodingTransformerTest {
         for (int i = 0; i < 2000; i++) {
             jobId = String.valueOf(i);
 
-            String encodedJobId = transformer.endcodeJobId(jobId);
+            String encodedJobId = transformer.encodeJobId(jobId);
             assertNotNull(encodedJobId);
             assertFalse(encodedJobId.equals(jobId));
             assertFalse(encodedJobId.startsWith("/"));

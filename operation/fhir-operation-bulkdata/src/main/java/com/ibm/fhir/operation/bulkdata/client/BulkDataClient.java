@@ -78,8 +78,6 @@ public class BulkDataClient {
 
     private static final HttpWrapper wrapper = new HttpWrapper();
 
-    private static final JobIdEncodingTransformer transformer = new JobIdEncodingTransformer();
-
     private static final BulkDataExportUtil export = new BulkDataExportUtil();
 
     // @formatter:off
@@ -270,7 +268,7 @@ public class BulkDataClient {
         }
         cli.close();
 
-        return baseUri + "/$bulkdata-status?job=" + transformer.endcodeJobId(jobId);
+        return baseUri + "/$bulkdata-status?job=" + JobIdEncodingTransformer.getInstance().encodeJobId(jobId);
     }
 
     /**
@@ -829,7 +827,7 @@ public class BulkDataClient {
         }
         cli.close();
 
-        return baseUri + "/$bulkdata-status?job=" + transformer.endcodeJobId(jobId);
+        return baseUri + "/$bulkdata-status?job=" + JobIdEncodingTransformer.getInstance().encodeJobId(jobId);
     }
 
     /**

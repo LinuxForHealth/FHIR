@@ -75,7 +75,6 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     private static final int coreFileResourceCountThreshold = defaultCoreFileResourceCountThreshold();
     private static final int coreFileWriteTriggerSize = defaultCoreFileWriteTriggerSize();
     private static final long coreFileSizeThreshold = defaultCoreFileSizeThreshold();
-    private static final String coreBatchIdEncryptionKey = defaultCoreBatchIdEncryptionKey();
     private static final int coreMaxParititions = defaultCoreMaxParititions();
     private static final int inputLimits = defaultInputLimits();
 
@@ -95,10 +94,6 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
 
     @Override
     public String getCoreBatchIdEncryptionKey() {
-        return coreBatchIdEncryptionKey;
-    }
-
-    private static final String defaultCoreBatchIdEncryptionKey() {
         return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/batchIdEncryptionKey", null);
     }
 
