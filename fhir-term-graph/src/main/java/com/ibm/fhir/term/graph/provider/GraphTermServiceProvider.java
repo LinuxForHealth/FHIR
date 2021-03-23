@@ -302,8 +302,8 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
             return "parent".equals(property.getValue()) ?
                 applyParentEqualsFilter(codeSystem, filter, first, g) :
                 "child".equals(property.getValue()) ?
-                        applyChildEqualsFilter(codeSystem, filter, first, g) :
-                        applyPropertyEqualsFilter(codeSystem, filter, first, g);
+                    applyChildEqualsFilter(codeSystem, filter, first, g) :
+                    applyPropertyEqualsFilter(codeSystem, filter, first, g);
         }
         return filterNotApplied(filter, g);
     }
