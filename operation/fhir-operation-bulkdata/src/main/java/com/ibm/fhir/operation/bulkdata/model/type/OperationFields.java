@@ -30,7 +30,7 @@ public final class OperationFields {
     public static final String FHIR_SEARCH_TO_DATE = "fhir.search.todate";
     public static final String FHIR_SEARCH_TYPE_FILTERS = "fhir.typeFilters";
     public static final String FHIR_EXPORT_FORMAT = "fhir.exportFormat";
-    public static final String FHIR_RESOURCE_TYPE = "fhir.resourcetype";
+    public static final String FHIR_RESOURCE_TYPES = "fhir.resourcetype";
     public static final String FHIR_SEARCH_PATIENT_GROUP_ID = "fhir.search.patientgroupid";
 
     /**

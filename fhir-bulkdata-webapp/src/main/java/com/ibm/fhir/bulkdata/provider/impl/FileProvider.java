@@ -24,9 +24,9 @@ import com.ibm.fhir.bulkdata.dto.ReadResultDTO;
 import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
 import com.ibm.fhir.bulkdata.jbatch.load.data.ImportTransientUserData;
 import com.ibm.fhir.bulkdata.provider.Provider;
+import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
-import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.Resource;
@@ -40,9 +40,6 @@ public class FileProvider implements Provider {
 
     private static final Logger logger = Logger.getLogger(FileProvider.class.getName());
 
-    private static final long MAX_RES = ConfigurationFactory.getInstance().getCoreCosObjectResourceCountThreshold();
-    private static final long MAX_BUFFER = ConfigurationFactory.getInstance().getCoreCosObjectSizeThreshold();
-
     private String source = null;
     private long parseFailures = 0l;
     @SuppressWarnings("unused")
@@ -50,11 +47,9 @@ public class FileProvider implements Provider {
     private List<Resource> resources = new ArrayList<>();
     private String fhirResourceType = null;
     private String fileName = null;
-    private int total = 0;
-    private String cosBucketPathPrefix = null;
+    private String exportPathPrefix = null;
 
     private ExportTransientUserData chunkData = null;
-    private long bSize = 0;
 
     private OutputStream out = null;
     private BufferedReader br = null;
@@ -88,7 +83,9 @@ public class FileProvider implements Provider {
                 if (br == null) {
                     br = Files.newBufferedReader(Paths.get(getFilePath(workItem)));
                 }
-                for (int i = 0; i <= numOfLinesToSkip; i++) {
+                // Imports must only skip lines if the size is higher, not equal to
+                // otherwise we start skipping the last line to skip.
+                for (int i = 0; i < numOfLinesToSkip; i++) {
                     line++;
                     br.readLine(); // We know the file has at least this number.
                 }
@@ -139,16 +136,17 @@ public class FileProvider implements Provider {
     }
 
     @Override
-    public void registerTransient(long executionId, ExportTransientUserData transientUserData, String cosBucketPathPrefix, String fhirResourceType,
-        boolean isExportPublic) throws Exception {
+    public void registerTransient(long executionId, ExportTransientUserData transientUserData, String exportPathPrefix, String fhirResourceType,
+            boolean isExportPublic) throws Exception {
         if (transientUserData == null) {
-            logger.warning("registerTransient: chunkData is null, this should never happen!");
-            throw new Exception("registerTransient: chunkData is null, this should never happen!");
+            String msg = "registerTransient: chunkData is null, this should never happen!";
+            logger.warning(msg);
+            throw new Exception(msg);
         }
 
         this.chunkData = transientUserData;
         this.fhirResourceType = fhirResourceType;
-        this.cosBucketPathPrefix = cosBucketPathPrefix;
+        this.exportPathPrefix = exportPathPrefix;
     }
 
     @Override
@@ -160,11 +158,30 @@ public class FileProvider implements Provider {
 
     @Override
     public void writeResources(String mediaType, List<ReadResultDTO> dtos) throws Exception {
+        if (!FHIRMediaType.APPLICATION_NDJSON.equals(mediaType)) {
+            throw new UnsupportedOperationException("FileProvider does not support writing files of type " + mediaType);
+        }
+        if (chunkData.getBufferStream().size() == 0) {
+            // Early exit condition:  nothing to write so just set the latWrittenPageNum and return
+            chunkData.setLastWrittenPageNum(chunkData.getPageNum());
+            return;
+        }
+
         if (out == null) {
-            this.fileName = cosBucketPathPrefix + "_" + fhirResourceType + "_" + chunkData.getUploadCount() + ".ndjson";
+            this.fileName = exportPathPrefix + File.separator + fhirResourceType + "_" + chunkData.getUploadCount() + ".ndjson";
             String base = configuration.getBaseFileLocation(source);
 
-            String fn = base + "/" + fileName;
+            String folder = base + File.separator + exportPathPrefix + File.separator;
+            Path folderPath = Paths.get(folder);
+            try {
+                Files.createDirectories(folderPath);
+            } catch(IOException ioe) {
+                if (!Files.exists(folderPath)) {
+                    throw ioe;
+                }
+            }
+
+            String fn = base + File.separator + fileName;
             Path p1 = Paths.get(fn);
             try {
                 // This is a trap. Be sure to mark CREATE and APPEND.
@@ -173,35 +190,30 @@ public class FileProvider implements Provider {
                 logger.warning("Error creating a file '" + fn + "'");
                 throw e;
             }
-            bSize = 0;
         }
 
-        for (ReadResultDTO dto : dtos) {
-            total += dto.size();
-            bSize += dto.size();
-            for (Resource r : dto.getResources()) {
-                FHIRGenerator.generator(Format.JSON).generate(r, out);
-                out.write(configuration.getEndOfFileDelimiter(source));
-            }
+        chunkData.getBufferStream().writeTo(out);
+        chunkData.getBufferStream().reset();
 
-            // This replaces the existing numbers each time.
-            chunkData.setCurrentUploadResourceNum(total);
-            StringBuilder output = new StringBuilder();
-            output.append(fhirResourceType);
-            output.append('[');
-            output.append(total);
-            output.append(']');
+        StringBuilder output = new StringBuilder();
+        output.append(fhirResourceType);
+        output.append('[');
+        output.append(chunkData.getCurrentUploadResourceNum());
+        output.append(']');
+        chunkData.setResourceTypeSummary(output.toString());
 
-            chunkData.setResourceTypeSummary(output.toString());
-        }
-
-        if (chunkData.isFinishCurrentUpload() && (bSize > MAX_RES
-                || chunkData.getBufferStream().size() > MAX_BUFFER)) {
+        if (chunkData.isFinishCurrentUpload()) {
             out.close();
             out = null;
+            chunkData.setPartNum(1);
+            chunkData.setCurrentUploadResourceNum(0);
+            chunkData.setCurrentUploadSize(0);
+            chunkData.setFinishCurrentUpload(false);
             chunkData.setUploadCount(chunkData.getUploadCount() + 1);
-            chunkData.getBufferStream().reset();
-            bSize = 0;
+        } else {
+            chunkData.setPartNum(chunkData.getPartNum() + 1);
         }
+
+        chunkData.setLastWrittenPageNum(chunkData.getPageNum());
     }
 }

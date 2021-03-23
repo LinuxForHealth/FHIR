@@ -78,7 +78,7 @@ public class ImportOperation extends AbstractOperation {
         // Parameter: storageDetail
         StorageDetail storageDetail = util.retrieveStorageDetails();
 
-        Preflight preflight =  PreflightFactory.getInstance(operationContext, inputs, null);
+        Preflight preflight =  PreflightFactory.getInstance(operationContext, inputs, null, inputFormat);
         preflight.checkStorageAllowed(storageDetail);
         preflight.preflight();
         return BulkDataFactory.getInstance(operationContext)

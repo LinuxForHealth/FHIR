@@ -108,42 +108,42 @@ public abstract class AbstractCompartmentTest extends AbstractPersistenceTest {
 
     @Test
     public void testPatientCompartment() throws Exception {
-        List<Resource> results = runQueryTest("Patient", savedPatient.getId(),
+        List<Resource> results = runCompartmentQueryTest("Patient", savedPatient.getId(),
                                     Observation.class, "_id", savedObservation.getId());
         assertEquals(1, results.size());
     }
 
     @Test
     public void testPatientCompartmentViaLogicalId() throws Exception {
-        List<Resource> results = runQueryTest("Patient", savedPatient.getId(),
+        List<Resource> results = runCompartmentQueryTest("Patient", savedPatient.getId(),
                                     Observation.class, "_id", savedObservation2.getId());
         assertEquals(0, results.size());
     }
 
     @Test
     public void testDeviceCompartment() throws Exception {
-        List<Resource> results = runQueryTest("Device", savedDevice.getId(),
+        List<Resource> results = runCompartmentQueryTest("Device", savedDevice.getId(),
                                     Observation.class, "_id", savedObservation.getId());
         assertEquals(1, results.size());
     }
 
     @Test
     public void testEncounterCompartment() throws Exception {
-        List<Resource> results = runQueryTest("Encounter", savedEncounter.getId(),
+        List<Resource> results = runCompartmentQueryTest("Encounter", savedEncounter.getId(),
                                     Observation.class, "_id", savedObservation.getId());
         assertEquals(1, results.size());
     }
 
     @Test
     public void testPractitionerCompartment() throws Exception {
-        List<Resource> results = runQueryTest("Practitioner", savedPractitioner.getId(),
+        List<Resource> results = runCompartmentQueryTest("Practitioner", savedPractitioner.getId(),
                                     Observation.class, "_id", savedObservation.getId());
         assertEquals(1, results.size());
     }
 
     @Test
     public void testRelatedPersonCompartment() throws Exception {
-        List<Resource> results = runQueryTest("RelatedPerson", savedRelatedPerson.getId(),
+        List<Resource> results = runCompartmentQueryTest("RelatedPerson", savedRelatedPerson.getId(),
                                     Observation.class, "_id", savedObservation.getId());
         assertEquals(1, results.size());
     }

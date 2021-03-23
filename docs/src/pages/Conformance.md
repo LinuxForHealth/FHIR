@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2021-03-12 12:00:00 -0400
+date:   2021-03-22 12:00:00 -0400
 permalink: /conformance/
 ---
 
@@ -162,19 +162,19 @@ FHIR search modifiers are described at https://www.hl7.org/fhir/R4/search.html#m
 
 |FHIR Search Parameter Type|Supported Modifiers|"Default" search behavior when no Modifier or Prefix is present|
 |--------------------------|-------------------|---------------------------------------------------------------|
-|String                    |`:exact`,`:contains`,`:missing` |"starts with" search that is case-insensitive and accent-insensitive|
-|Reference                 |`:[type]`,`:missing`            |exact match search and targets are implicitly added|
-|URI                       |`:below`,`:above`,`:missing`    |exact match search|
-|Token                     |`:missing`,`:not`               |exact match search|
-|Number                    |`:missing`                      |implicit range search (see http://hl7.org/fhir/R4/search.html#number)|
-|Date                      |`:missing`                      |implicit range search (see https://www.hl7.org/fhir/search.html#date)|
-|Quantity                  |`:missing`                      |implicit range search (see http://hl7.org/fhir/R4/search.html#quantity)|
-|Composite                 |`:missing`                      |processes each parameter component according to its type|
-|Special (near)            | none                           |searches a bounding area according to the value of the `fhirServer/search/useBoundingRadius` property|
+|String                    |`:exact`,`:contains`,`:missing`    |"starts with" search that is case-insensitive and accent-insensitive|
+|Reference                 |`:[type]`,`:missing`,`:identifier` |exact match search and targets are implicitly added|
+|URI                       |`:below`,`:above`,`:missing`       |exact match search|
+|Token                     |`:missing`,`:not`,`:of-type`       |exact match search|
+|Number                    |`:missing`                         |implicit range search (see http://hl7.org/fhir/R4/search.html#number)|
+|Date                      |`:missing`                         |implicit range search (see https://www.hl7.org/fhir/search.html#date)|
+|Quantity                  |`:missing`                         |implicit range search (see http://hl7.org/fhir/R4/search.html#quantity)|
+|Composite                 |`:missing`                         |processes each parameter component according to its type|
+|Special (near)            | none                              |searches a bounding area according to the value of the `fhirServer/search/useBoundingRadius` property|
 
-Due to performance implications, the `:exact` modifier should be used for String searches where possible.
+Due to performance implications, the `:exact` modifier should be used for String search parameters when possible.
 
-The `:text`, `:above`, `:below`, `:in`, `:not-in`, and `:of-type` modifiers are not supported in this version of the IBM FHIR server and use of these modifiers will result in an HTTP 400 error with an OperationOutcome that describes the failure.
+The `:text` modifier, as well as the `:above`, `:below`, `:in`, and `:not-in` modifiers for Token search parameters, are not yet supported by the IBM FHIR server. Use of these modifiers will result in an HTTP 400 error with an OperationOutcome that describes the failure.
 
 ### Search prefixes
 FHIR search prefixes are described at https://www.hl7.org/fhir/R4/search.html#prefix.

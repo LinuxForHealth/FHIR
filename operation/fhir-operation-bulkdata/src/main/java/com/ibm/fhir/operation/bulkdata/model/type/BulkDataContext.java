@@ -60,7 +60,7 @@ public class BulkDataContext {
     String cosBucketPathPrefix;
 
     // BatchProperty(name = OperationFields.FHIR_RESOURCETYPES)
-    String fhirResourceType;
+    String fhirResourceTypes;
 
     // BatchProperty(name = OperationFields.EXPORT_FHIR_SEARCH_PATIENTGROUPID)
     String groupId;
@@ -310,18 +310,18 @@ public class BulkDataContext {
     }
 
     /**
-     * @return the fhirResourceType
+     * @return the comma-delimited list of FHIR resource types that were requested for export
      */
-    public String getFhirResourceType() {
-        return fhirResourceType;
+    public String getFhirResourceTypes() {
+        return fhirResourceTypes;
     }
 
     /**
      * @param fhirResourceType
-     *            the fhirResourceType to set
+     *            the comma-delimited list of FHIR resource types that were requested for export
      */
-    public void setFhirResourceType(String fhirResourceType) {
-        this.fhirResourceType = fhirResourceType;
+    public void setFhirResourceTypes(String fhirResourceType) {
+        this.fhirResourceTypes = fhirResourceType;
     }
 
     /**
@@ -346,7 +346,7 @@ public class BulkDataContext {
                 + ", partitionResourceType=" + partitionResourceType + ", users=" + users + ", dataSourcesInfo=" + dataSourcesInfo + ", fhirSearchPageSize="
                 + fhirSearchPageSize + ", fhirTypeFilters=" + fhirTypeFilters + ", fhirSearchToDate=" + fhirSearchToDate + ", fhirSearchFromDate="
                 + fhirSearchFromDate + ", fhirExportFormat=" + fhirExportFormat + ", cosBucketPathPrefix=" + cosBucketPathPrefix + ", fhirResourceType="
-                + fhirResourceType + ", groupId=" + groupId + "]";
+                + fhirResourceTypes + ", groupId=" + groupId + "]";
     }
 
 }

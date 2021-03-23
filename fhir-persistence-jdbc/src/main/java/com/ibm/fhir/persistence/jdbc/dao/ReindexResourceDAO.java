@@ -293,9 +293,10 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
         deleteFromParameterTable(connection, tablePrefix + "_quantity_values", logicalResourceId);
 
         if (parameters != null) {
-            boolean mt = getFlavor().isMultitenant();
             JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao, getResourceReferenceDAO());
-            try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, null, tablePrefix, mt, logicalResourceId, 100,
+            // Check if this is multitenant
+            boolean isMultitenant = this.getFlavor().isMultitenant();
+            try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, "FHIR_ADMIN", tablePrefix, isMultitenant, logicalResourceId, 100,
                 identityCache, getResourceReferenceDAO(), getTransactionData())) {
                 for (ExtractedParameterValue p: parameters) {
                     p.accept(pvd);
@@ -317,10 +318,14 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
      */
     protected void deleteFromParameterTable(Connection conn, String tableName, long logicalResourceId) throws SQLException {
         final String DML = "DELETE FROM " + tableName + " WHERE logical_resource_id = ?";
+
         try (PreparedStatement stmt = conn.prepareStatement(DML)) {
             // bind parameters
             stmt.setLong(1, logicalResourceId);
-            stmt.executeUpdate();
+            int deleted = stmt.executeUpdate();
+            if (logger.isLoggable(Level.FINEST)) {
+                logger.finest("Deleted from [" + tableName + "] deleted [" + deleted + "] for logicalResourceId [" + logicalResourceId + "]");
+            }
         } catch (SQLException x) {
             logger.log(Level.SEVERE, DML, x);
             throw translator.translate(x);

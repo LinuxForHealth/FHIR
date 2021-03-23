@@ -12,7 +12,11 @@ import static org.testng.AssertJUnit.assertFalse;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.testng.annotations.Test;
 
@@ -34,7 +38,7 @@ public abstract class AbstractSearchCompartmentTest extends AbstractPLSearchTest
     private static final String PRACTITIONER = "Practitioner";
     private static final String PRACTITIONER_ID = "abc";
 
-    private static final String DEVICE = "Device";
+    private static final String RELATED_PERSON = "RelatedPerson";
     private static final String OTHER_ID = "xyz";
 
     @Override
@@ -66,7 +70,7 @@ public abstract class AbstractSearchCompartmentTest extends AbstractPLSearchTest
         assertCompartmentSearchReturnsSavedResource(PATIENT, PATIENT_ID, "integer", "12");
         assertCompartmentSearchReturnsSavedResource(PRACTITIONER, PRACTITIONER_ID, "integer", "12");
         assertCompartmentSearchDoesntReturnSavedResource(PATIENT, OTHER_ID, "integer", "12");
-        assertCompartmentSearchDoesntReturnSavedResource(DEVICE, PATIENT_ID, "integer", "12");
+        assertCompartmentSearchDoesntReturnSavedResource(RELATED_PERSON, PATIENT_ID, "integer", "12");
     }
 
     @Test
@@ -74,7 +78,7 @@ public abstract class AbstractSearchCompartmentTest extends AbstractPLSearchTest
         assertCompartmentSearchReturnsSavedResource(PATIENT, PATIENT_ID, "Quantity", "25|http://unitsofmeasure.org|s");
         assertCompartmentSearchReturnsSavedResource(PRACTITIONER, PRACTITIONER_ID, "Quantity", "25|http://unitsofmeasure.org|s");
         assertCompartmentSearchDoesntReturnSavedResource(PATIENT, OTHER_ID, "Quantity", "25|http://unitsofmeasure.org|s");
-        assertCompartmentSearchDoesntReturnSavedResource(DEVICE, PATIENT_ID, "Quantity", "25|http://unitsofmeasure.org|s");
+        assertCompartmentSearchDoesntReturnSavedResource(RELATED_PERSON, PATIENT_ID, "Quantity", "25|http://unitsofmeasure.org|s");
     }
 
     @Test
@@ -83,7 +87,7 @@ public abstract class AbstractSearchCompartmentTest extends AbstractPLSearchTest
         assertCompartmentSearchReturnsSavedResource(PATIENT, PATIENT_ID, "Reference", "Patient/123");
         assertCompartmentSearchReturnsSavedResource(PRACTITIONER, PRACTITIONER_ID, "Reference", "Patient/123");
         assertCompartmentSearchDoesntReturnSavedResource(PATIENT, OTHER_ID, "Reference", "Patient/123");
-        assertCompartmentSearchDoesntReturnSavedResource(DEVICE, PATIENT_ID, "Reference", "Patient/123");
+        assertCompartmentSearchDoesntReturnSavedResource(RELATED_PERSON, PATIENT_ID, "Reference", "Patient/123");
     }
 
     @Test
@@ -91,7 +95,15 @@ public abstract class AbstractSearchCompartmentTest extends AbstractPLSearchTest
         assertCompartmentSearchReturnsSavedResource(PATIENT, PATIENT_ID, "string", "testString");
         assertCompartmentSearchReturnsSavedResource(PRACTITIONER, PRACTITIONER_ID, "string", "testString");
         assertCompartmentSearchDoesntReturnSavedResource(PATIENT, OTHER_ID, "string", "testString");
-        assertCompartmentSearchDoesntReturnSavedResource(DEVICE, PATIENT_ID, "string", "testString");
+        assertCompartmentSearchDoesntReturnSavedResource(RELATED_PERSON, PATIENT_ID, "string", "testString");
+    }
+
+    @Test
+    public void testSearchPatientCompartment_relativeReference_string_or() throws Exception {
+        assertCompartmentSearchReturnsSavedResource(PATIENT, PATIENT_ID, "string", "testString,otherString");
+        assertCompartmentSearchReturnsSavedResource(PRACTITIONER, PRACTITIONER_ID, "string", "testString,otherString");
+        assertCompartmentSearchDoesntReturnSavedResource(PATIENT, OTHER_ID, "string", "testString,otherString");
+        assertCompartmentSearchDoesntReturnSavedResource(RELATED_PERSON, PATIENT_ID, "string", "testString,otherString");
     }
 
     @Test
@@ -99,7 +111,7 @@ public abstract class AbstractSearchCompartmentTest extends AbstractPLSearchTest
         assertCompartmentSearchReturnsSavedResource(PATIENT, PATIENT_ID, "CodeableConcept", "http://example.org/codesystem|code");
         assertCompartmentSearchReturnsSavedResource(PRACTITIONER, PRACTITIONER_ID, "CodeableConcept", "http://example.org/codesystem|code");
         assertCompartmentSearchDoesntReturnSavedResource(PATIENT, OTHER_ID, "CodeableConcept", "http://example.org/codesystem|code");
-        assertCompartmentSearchDoesntReturnSavedResource(DEVICE, PATIENT_ID, "CodeableConcept", "http://example.org/codesystem|code");
+        assertCompartmentSearchDoesntReturnSavedResource(RELATED_PERSON, PATIENT_ID, "CodeableConcept", "http://example.org/codesystem|code");
     }
 
     @Test
@@ -107,7 +119,7 @@ public abstract class AbstractSearchCompartmentTest extends AbstractPLSearchTest
         assertCompartmentSearchReturnsSavedResource(PATIENT, PATIENT_ID, "uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
         assertCompartmentSearchReturnsSavedResource(PRACTITIONER, PRACTITIONER_ID, "uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
         assertCompartmentSearchDoesntReturnSavedResource(PATIENT, OTHER_ID, "uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
-        assertCompartmentSearchDoesntReturnSavedResource(DEVICE, PATIENT_ID, "uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
+        assertCompartmentSearchDoesntReturnSavedResource(RELATED_PERSON, PATIENT_ID, "uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
     }
 
     @Test
@@ -115,7 +127,7 @@ public abstract class AbstractSearchCompartmentTest extends AbstractPLSearchTest
         assertCompartmentSearchReturnsComposition(PATIENT, PATIENT_ID, "subject:Basic.integer", "12");
         assertCompartmentSearchReturnsComposition(PRACTITIONER, PRACTITIONER_ID, "subject:Basic.integer", "12");
         assertCompartmentSearchDoesntReturnComposition(PATIENT, OTHER_ID, "subject:Basic.integer", "12");
-        assertCompartmentSearchDoesntReturnComposition(DEVICE, PATIENT_ID, "subject:Basic.integer", "12");
+        assertCompartmentSearchDoesntReturnComposition(RELATED_PERSON, PATIENT_ID, "subject:Basic.integer", "12");
     }
 
     @Test
@@ -123,7 +135,7 @@ public abstract class AbstractSearchCompartmentTest extends AbstractPLSearchTest
         assertCompartmentSearchReturnsComposition(PATIENT, PATIENT_ID, "subject:Basic.Quantity", "25|http://unitsofmeasure.org|s");
         assertCompartmentSearchReturnsComposition(PRACTITIONER, PRACTITIONER_ID, "subject:Basic.Quantity", "25|http://unitsofmeasure.org|s");
         assertCompartmentSearchDoesntReturnComposition(PATIENT, OTHER_ID, "subject:Basic.Quantity", "25|http://unitsofmeasure.org|s");
-        assertCompartmentSearchDoesntReturnComposition(DEVICE, PATIENT_ID, "subject:Basic.Quantity", "25|http://unitsofmeasure.org|s");
+        assertCompartmentSearchDoesntReturnComposition(RELATED_PERSON, PATIENT_ID, "subject:Basic.Quantity", "25|http://unitsofmeasure.org|s");
     }
 
     @Test
@@ -132,7 +144,7 @@ public abstract class AbstractSearchCompartmentTest extends AbstractPLSearchTest
         assertCompartmentSearchReturnsComposition(PATIENT, PATIENT_ID, "subject:Basic.Reference", "Patient/123");
         assertCompartmentSearchReturnsComposition(PRACTITIONER, PRACTITIONER_ID, "subject:Basic.Reference", "Patient/123");
         assertCompartmentSearchDoesntReturnComposition(PATIENT, OTHER_ID, "subject:Basic.Reference", "Patient/123");
-        assertCompartmentSearchDoesntReturnComposition(DEVICE, PATIENT_ID, "subject:Basic.Reference", "Patient/123");
+        assertCompartmentSearchDoesntReturnComposition(RELATED_PERSON, PATIENT_ID, "subject:Basic.Reference", "Patient/123");
     }
 
     @Test
@@ -140,7 +152,7 @@ public abstract class AbstractSearchCompartmentTest extends AbstractPLSearchTest
         assertCompartmentSearchReturnsComposition(PATIENT, PATIENT_ID, "subject:Basic.string", "testString");
         assertCompartmentSearchReturnsComposition(PRACTITIONER, PRACTITIONER_ID, "subject:Basic.string", "testString");
         assertCompartmentSearchDoesntReturnComposition(PATIENT, OTHER_ID, "subject:Basic.string", "testString");
-        assertCompartmentSearchDoesntReturnComposition(DEVICE, PATIENT_ID, "subject:Basic.string", "testString");
+        assertCompartmentSearchDoesntReturnComposition(RELATED_PERSON, PATIENT_ID, "subject:Basic.string", "testString");
     }
 
     @Test
@@ -148,7 +160,7 @@ public abstract class AbstractSearchCompartmentTest extends AbstractPLSearchTest
         assertCompartmentSearchReturnsComposition(PATIENT, PATIENT_ID, "subject:Basic.CodeableConcept", "http://example.org/codesystem|code");
         assertCompartmentSearchReturnsComposition(PRACTITIONER, PRACTITIONER_ID, "subject:Basic.CodeableConcept", "http://example.org/codesystem|code");
         assertCompartmentSearchDoesntReturnComposition(PATIENT, OTHER_ID, "subject:Basic.CodeableConcept", "http://example.org/codesystem|code");
-        assertCompartmentSearchDoesntReturnComposition(DEVICE, PATIENT_ID, "subject:Basic.CodeableConcept", "http://example.org/codesystem|code");
+        assertCompartmentSearchDoesntReturnComposition(RELATED_PERSON, PATIENT_ID, "subject:Basic.CodeableConcept", "http://example.org/codesystem|code");
     }
 
     @Test
@@ -156,7 +168,7 @@ public abstract class AbstractSearchCompartmentTest extends AbstractPLSearchTest
         assertCompartmentSearchReturnsComposition(PATIENT, PATIENT_ID, "subject:Basic.uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
         assertCompartmentSearchReturnsComposition(PRACTITIONER, PRACTITIONER_ID, "subject:Basic.uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
         assertCompartmentSearchDoesntReturnComposition(PATIENT, OTHER_ID, "subject:Basic.uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
-        assertCompartmentSearchDoesntReturnComposition(DEVICE, PATIENT_ID, "subject:Basic.uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
+        assertCompartmentSearchDoesntReturnComposition(RELATED_PERSON, PATIENT_ID, "subject:Basic.uri", "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7");
     }
 
 
@@ -190,8 +202,48 @@ public abstract class AbstractSearchCompartmentTest extends AbstractPLSearchTest
      */
     protected boolean compartmentSearchReturnsResource(String compartmentType, String compartmentId,
             String searchParamCode, String queryValue, Resource expectedResource) throws Exception {
-        List<? extends Resource> resources = runQueryTest(compartmentType, compartmentId,
+        List<? extends Resource> resources = runCompartmentQueryTest(compartmentType, compartmentId,
                 expectedResource.getClass(), searchParamCode, queryValue, Integer.MAX_VALUE);
+        assertNotNull(resources);
+        return isResourceInResponse(expectedResource, resources);
+    }
+
+    @Test
+    public void testSearchPatientCompartment_relativeReference_multiCompartment_string() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<>(1);
+        queryParms.put("string", Collections.singletonList("testString"));
+        assertTrue("Expected resource was not returned from the search",
+            multiCompartmentSearchReturnsResource(PATIENT, Arrays.asList(new String[]{PATIENT_ID, OTHER_ID}),
+                    queryParms, savedResource));
+        assertTrue("Expected resource was not returned from the search",
+            multiCompartmentSearchReturnsResource(PATIENT, Arrays.asList(new String[]{OTHER_ID, PATIENT_ID}),
+                    queryParms, savedResource));
+        assertFalse("Unexpected resource was returned from the search",
+            multiCompartmentSearchReturnsResource(PATIENT, Arrays.asList(new String[]{PRACTITIONER_ID, OTHER_ID}),
+                    queryParms, savedResource));
+
+        queryParms.clear();
+        queryParms.put("subject:Basic.string", Collections.singletonList("testString"));
+        assertTrue("Expected resource was not returned from the search",
+            multiCompartmentSearchReturnsResource(PATIENT, Arrays.asList(new String[]{PATIENT_ID, OTHER_ID}),
+                    queryParms, composition));
+        assertTrue("Expected resource was not returned from the search",
+            multiCompartmentSearchReturnsResource(PATIENT, Arrays.asList(new String[]{OTHER_ID, PATIENT_ID}),
+                    queryParms, composition));
+        assertFalse("Unexpected resource was returned from the search",
+            multiCompartmentSearchReturnsResource(PATIENT, Arrays.asList(new String[]{PRACTITIONER_ID, OTHER_ID}),
+                    queryParms, composition));
+    }
+
+    /**
+     * Executes the compartment query and returns whether the expected resource was in the result set
+     * @throws Exception
+     */
+    protected boolean multiCompartmentSearchReturnsResource(String compartmentType, List<String> compartmentIds,
+            Map<String, List<String>> queryParms, Resource expectedResource) throws Exception {
+
+        List<? extends Resource> resources = runCompartmentQueryTest(compartmentType, compartmentIds,
+                expectedResource.getClass(), queryParms, Integer.MAX_VALUE);
         assertNotNull(resources);
         return isResourceInResponse(expectedResource, resources);
     }

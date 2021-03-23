@@ -20,8 +20,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.CommunicationRequest;
 import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.resource.Device;
@@ -38,6 +40,8 @@ import com.ibm.fhir.search.util.SearchUtil;
  * class.
  */
 public class CompartmentParseQueryParmsTest extends BaseSearchTest {
+    private static final String INTERNAL_PATIENT_COMPARTMENT_PARAM = "ibm-internal-Patient-Compartment";
+    private static final String INTERNAL_RELATEDPERSON_COMPARTMENT_PARAM = "ibm-internal-RelatedPerson-Compartment";
 
     /**
      * This method tests parsing compartment related query parms, passing an invalid compartment.
@@ -58,11 +62,12 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
     }
 
     /**
-     * This method tests parsing compartment related query parms. Based on the compartment and resource type, a single
-     * inclusion criterion is expectedExceptions to be returned by SearchUtil.parseQueryParameters().
+     * This method tests parsing compartment related query parms.
+     * Based on the compartment and resource type, two inclusion criteria are expected.
      */
-    @Test
-    public void testSingleInclusionCriteria() throws Exception {
+    @Test(dataProvider = "config")
+    public void testTwoInclusionCriteria(boolean useStoredCompartmentParam) throws Exception {
+        FHIRRequestContext.get().setTenantId(useStoredCompartmentParam ? "default" : "tenant2");
         Map<String, List<String>> queryParameters = new HashMap<>();
         String compartmentName = "Patient";
         String compartmentLogicalId = "11";
@@ -73,22 +78,24 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
         assertNotNull(context.getSearchParameters());
         assertEquals(1, context.getSearchParameters().size());
         QueryParameter parm1 = context.getSearchParameters().get(0);
-        assertEquals("patient", parm1.getCode());
+        assertEquals(useStoredCompartmentParam ? INTERNAL_PATIENT_COMPARTMENT_PARAM : "patient", parm1.getCode());
 
-        /*
-         * The compartment > Resource is { "code" : "Condition", "param" : ["patient", "asserter"] },
-         */
-        QueryParameter p = parm1;
-        String out = "";
-        while (p != null) {
-            out += (" -> " + p.getCode());
-            p = p.getNextParameter();
+        if (!useStoredCompartmentParam) {
+            /*
+             * The compartment > Resource is { "code" : "Condition", "param" : ["patient", "asserter"] },
+             */
+            QueryParameter p = parm1;
+            String out = "";
+            while (p != null) {
+                out += (" -> " + p.getCode());
+                p = p.getNextParameter();
+            }
+            if (DEBUG) {
+                System.out.println(out);
+            }
+            assertNotNull(parm1.getNextParameter());
+            assertEquals(" -> patient -> asserter", out);
         }
-        if (DEBUG) {
-            System.out.println(out);
-        }
-        assertNotNull(parm1.getNextParameter());
-        assertEquals(" -> patient -> asserter", out);
 
         assertEquals(Type.REFERENCE, parm1.getType());
         assertEquals(1, parm1.getValues().size());
@@ -96,11 +103,12 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
     }
 
     /**
-     * This method tests parsing compartment related query parms. Based on the compartment and resource type, multiple
-     * inclusion criteria is expectedExceptions to be returned by SearchUtil.parseQueryParameters().
+     * This method tests parsing compartment related query parms.
+     * Based on the compartment and resource type, three inclusion criteria are expected.
      */
-    @Test
-    public void testMultiInclusionCriteria() throws Exception {
+    @Test(dataProvider = "config")
+    public void testThreeInclusionCriteria(boolean useStoredCompartmentParam) throws Exception {
+        FHIRRequestContext.get().setTenantId(useStoredCompartmentParam ? "default" : "tenant2");
         Map<String, List<String>> queryParameters = new HashMap<>();
         String compartmentName = "RelatedPerson";
         String compartmentLogicalId = "22";
@@ -115,7 +123,8 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
         int parmCount = 0;
         while (searchParm != null) {
             parmCount++;
-            assertTrue((searchParm.getCode().equals("recipient") || searchParm.getCode().equals("requester") || searchParm.getCode().equals("sender")));
+            assertTrue(useStoredCompartmentParam ? searchParm.getCode().equals(INTERNAL_RELATEDPERSON_COMPARTMENT_PARAM)
+                    : (searchParm.getCode().equals("recipient") || searchParm.getCode().equals("requester") || searchParm.getCode().equals("sender")));
             assertEquals(Type.REFERENCE, searchParm.getType());
             assertTrue(searchParm.isInclusionCriteria());
             assertFalse(searchParm.isChained());
@@ -123,7 +132,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
             assertEquals(compartmentName + "/" + compartmentLogicalId, searchParm.getValues().get(0).getValueString());
             searchParm = searchParm.getNextParameter();
         }
-        assertEquals(3, parmCount);
+        assertEquals(parmCount, useStoredCompartmentParam ? 1 : 3);
     }
 
     /**
@@ -131,8 +140,9 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
      * Based on the compartment and resource type, multiple inclusion criteria is expectedExceptions to be returned by
      * SearchUtil.parseQueryParameters().
      */
-    @Test
-    public void testCompartmentWithQueryParms() throws Exception {
+    @Test(dataProvider = "config")
+    public void testCompartmentWithQueryParms(boolean useStoredCompartmentParam) throws Exception {
+        FHIRRequestContext.get().setTenantId(useStoredCompartmentParam ? "default" : "tenant2");
         Map<String, List<String>> queryParameters = new HashMap<>();
         String compartmentName = "Patient";
         String compartmentLogicalId = "33";
@@ -147,14 +157,15 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
 
         assertNotNull(context);
         assertNotNull(context.getSearchParameters());
-        assertEquals(3, context.getSearchParameters().size());
+        assertEquals(context.getSearchParameters().size(), 3);
 
         // Validate compartment related search parms.
         QueryParameter searchParm = context.getSearchParameters().get(0);
         int parmCount = 0;
         while (searchParm != null) {
             parmCount++;
-            assertTrue((searchParm.getCode().equals("performer") || searchParm.getCode().equals("subject")));
+            assertTrue(useStoredCompartmentParam ? searchParm.getCode().equals(INTERNAL_PATIENT_COMPARTMENT_PARAM)
+                    : (searchParm.getCode().equals("performer") || searchParm.getCode().equals("subject")));
             assertEquals(Type.REFERENCE, searchParm.getType());
             assertTrue(searchParm.isInclusionCriteria());
             assertFalse(searchParm.isChained());
@@ -162,14 +173,14 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
             assertEquals(compartmentName + "/" + compartmentLogicalId, searchParm.getValues().get(0).getValueString());
             searchParm = searchParm.getNextParameter();
         }
-        assertEquals(2, parmCount);
+        assertEquals(parmCount, useStoredCompartmentParam ? 1 : 2);
 
         // Validate non-compartment related search parms.
         for (int i = 1; i < 3; i++) {
             searchParm = context.getSearchParameters().get(i);
             assertTrue((searchParm.getCode().equals("category") || searchParm.getCode().equals("value-quantity")));
             assertNotNull(searchParm.getValues());
-            assertEquals(1, searchParm.getValues().size());
+            assertEquals(searchParm.getValues().size(), 1);
         }
 
         String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + compartmentName + "/" + compartmentLogicalId + "/"
@@ -182,8 +193,9 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
      * This method tests parsing compartment related query parms which are not valid. In lenient mode, this is
      * expectedExceptions to ignore the query parameter. In strict mode (lenient=false) this should throw an exception.
      */
-    @Test
-    public void testCompartmentWithFakeQueryParm() throws Exception {
+    @Test(dataProvider = "config")
+    public void testCompartmentWithFakeQueryParm(boolean useStoredCompartmentParam) throws Exception {
+        FHIRRequestContext.get().setTenantId(useStoredCompartmentParam ? "default" : "tenant2");
         Map<String, List<String>> queryParameters = new HashMap<>();
         String compartmentName = "Patient";
         String compartmentLogicalId = "33";
@@ -202,7 +214,8 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
         int parmCount = 0;
         while (searchParm != null) {
             parmCount++;
-            assertTrue((searchParm.getCode().equals("performer") || searchParm.getCode().equals("subject")));
+            assertTrue(useStoredCompartmentParam ? searchParm.getCode().equals(INTERNAL_PATIENT_COMPARTMENT_PARAM)
+                    : (searchParm.getCode().equals("performer") || searchParm.getCode().equals("subject")));
             assertEquals(Type.REFERENCE, searchParm.getType());
             assertTrue(searchParm.isInclusionCriteria());
             assertFalse(searchParm.isChained());
@@ -210,7 +223,7 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
             assertEquals(compartmentName + "/" + compartmentLogicalId, searchParm.getValues().get(0).getValueString());
             searchParm = searchParm.getNextParameter();
         }
-        assertEquals(2, parmCount);
+        assertEquals(useStoredCompartmentParam ? 1 : 2, parmCount);
 
         String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + compartmentName + "/" + compartmentLogicalId + "/"
                 + resourceType.getSimpleName(), context);
@@ -229,8 +242,9 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
      * SearchUtil.parseQueryParameters() should ignore the null compartment related parms and successfully process the
      * non-compartment parms.
      */
-    @Test
-    public void testNoComparmentWithQueryParms() throws Exception {
+    @Test(dataProvider = "config")
+    public void testNoComparmentWithQueryParms(boolean useStoredCompartmentParam) throws Exception {
+        FHIRRequestContext.get().setTenantId(useStoredCompartmentParam ? "default" : "tenant2");
         Map<String, List<String>> queryParameters = new HashMap<>();
         Class<? extends Resource> resourceType = Observation.class;
 
@@ -267,4 +281,8 @@ public class CompartmentParseQueryParmsTest extends BaseSearchTest {
         }
     }
 
+    @DataProvider(name = "config")
+    public static Object[][] configSwitcher() {
+       return new Object[][] {{true}, {false}};
+    }
 }
