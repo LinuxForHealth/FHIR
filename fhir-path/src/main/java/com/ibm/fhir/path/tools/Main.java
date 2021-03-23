@@ -375,7 +375,7 @@ public final class Main {
 
         @Override
         public void visit(FHIRPathTimeValue value) {
-            this.value = value.time();
+            this.value = "" + value.time();
         }
 
         @Override

@@ -8,7 +8,7 @@ package com.ibm.fhir.path.tools;
 import org.testng.annotations.Test;
 
 /**
- *
+ * Tests the fhir-path-cli
  */
 public class MainTest {
     @Test
