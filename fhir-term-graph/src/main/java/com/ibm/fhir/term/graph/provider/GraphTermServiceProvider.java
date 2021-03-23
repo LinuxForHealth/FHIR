@@ -367,12 +367,6 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         Code property = filter.getProperty();
         com.ibm.fhir.model.type.String value = filter.getValue();
         if ("concept".equals(property.getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-            /*
-            // alternative from: https://groups.google.com/g/gremlin-users/c/hHlVRMl1JZs
-            return whereCodeSystem(g.not(__.until(hasCode(value.getValue(), caseSensitive))
-                .repeat((GraphTraversal) __.out(FHIRTermGraph.IS_A)))
-                .hasLabel("Concept"), codeSystem);
-            */
             return whereCodeSystem(g.not(__.repeat(__.out(FHIRTermGraph.IS_A))
                 .until(hasCode(value.getValue(), caseSensitive)))
                 .not(hasCode(value.getValue(), caseSensitive))
