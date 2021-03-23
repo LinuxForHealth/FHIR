@@ -551,7 +551,11 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
     }
 
     private GraphTraversal<Vertex, Vertex> filterNotApplied(Filter filter, GraphTraversal<Vertex, Vertex> g) {
-        log.log(Level.WARNING, String.format("Filter not applied - property: %s, op: %s, value: %s", filter.getProperty().getValue(), filter.getOp().getValue(), filter.getValue().getValue()));
+        log.log(Level.WARNING,
+            String.format("Filter not applied (property: %s, op: %s, value: %s)",
+                filter.getProperty().getValue(),
+                filter.getOp().getValue(),
+                filter.getValue().getValue()));
         return g;
     }
 
