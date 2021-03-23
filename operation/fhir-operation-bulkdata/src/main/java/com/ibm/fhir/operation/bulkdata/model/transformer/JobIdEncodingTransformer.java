@@ -47,7 +47,6 @@ public class JobIdEncodingTransformer {
         if (transformer == null) {
             transformer = new JobIdEncodingTransformer();
         }
-        // final SecretKeySpec BATCHJOBID_ENCRYPTION_KEY = getJobIdEncryptionKey();
         return transformer;
     }
 
