@@ -224,3 +224,43 @@ The IBM FHIR Server provides a basic implementation of the $validate operation t
 ## ValueSet membership checking (FHIRPath `memberOf` function)
 
 Coded elements (code, Coding, CodeableConcept data types), maybe have a binding element that specifies a ValueSet that that element is bound to. This means that the coded element must have a value that comes from that value set. The FHIR profile component will expand value sets according to the ValueSet [expansion algorithm](http://hl7.org/fhir/valueset.html#expansion) for ValueSets that include CodeSystem resources available via the FHIR registry component.
+
+# fhir-path-cli - command line execution of fhirpath over a FHIR Resource
+
+The fhir-path-cli enables commandline processing of a FHIR Path over a FHIR resource and outputs the results. 
+
+The options for the command line utility are:
+- `--path 'fhir-path'`
+- `--format ['json'|'xml']` Default is 'json'
+- `--type ['stdin'|'file'|'string']`
+- `--file path-to-file` The file that is accessible and read.
+- `--resource 'resource-payload'` The FHIR resource as a well formed string.
+- `--pretty` adds columns and start time and end time of the fhir path request
+- `--help`
+
+For instace, to run the fhir-path-cli on Bundle-2000002.json and extract the ids from the Bundle's resources.
+
+``` shell
+java -jar fhir-path-4.6.0-cli.jar --path entry.resource.id --type file --file Bundle-2000002.json --pretty
+```
+
+``` text
+FHIR Path Executed is: [entry.resource.id]
+Start Time [Tue Mar 23 09:20:29 EDT 2021]
+-------------------------------------------
+Count: [2]
+-------------------------------------------
+- Result (#) - Value                      -
+-------------------------------------------
+[1] 1
+[2] 1000001
+-------------------------------------------
+End Time [Tue Mar 23 09:20:29 EDT 2021]
+```
+
+Without the `--pretty` option, the results are: 
+
+```
+1
+1000001
+```
