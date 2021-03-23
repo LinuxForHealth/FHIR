@@ -97,7 +97,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
     @SuppressWarnings("unchecked")
     @Override
     public Set<Concept> closure(CodeSystem codeSystem, Code code) {
-        Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
+        checkArguments(codeSystem, code);
 
         Set<Concept> concepts = new LinkedHashSet<>();
 
@@ -121,13 +121,13 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
 
     @Override
     public Concept getConcept(CodeSystem codeSystem, Code code) {
-        Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
+        checkArguments(codeSystem, code);
         return getConcept(codeSystem, code, true, true);
     }
 
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem) {
-        Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
+        checkArgument(codeSystem);
 
         Set<Concept> concepts = new LinkedHashSet<>(getCount(codeSystem));
 
@@ -145,7 +145,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
 
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters) {
-        Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
+        checkArguments(codeSystem, filters);
 
         Set<Concept> concepts = new LinkedHashSet<>();
 
@@ -209,18 +209,19 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
 
     @Override
     public boolean hasConcept(CodeSystem codeSystem, Code code) {
+        checkArguments(codeSystem, code);
         return whereCodeSystem(hasCode(vertices(), code.getValue(), isCaseSensitive(codeSystem)), codeSystem).hasNext();
     }
 
     @Override
     public boolean isSupported(CodeSystem codeSystem) {
-        Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
+        checkArgument(codeSystem);
         return hasVersion(hasUrl(vertices(), codeSystem.getUrl()), codeSystem.getVersion()).hasNext();
     }
 
     @Override
     public boolean subsumes(CodeSystem codeSystem, Code codeA, Code codeB) {
-        Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
+        checkArguments(codeSystem, codeA, codeB);
 
         boolean caseSensitive = isCaseSensitive(codeSystem);
 
@@ -469,6 +470,32 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         return filterNotApplied(filter, g);
     }
 
+    private void checkArgument(Code code, String message) {
+        Objects.requireNonNull(code, message);
+        Objects.requireNonNull(code.getValue(), "Code.value");
+    }
+
+    private void checkArgument(CodeSystem codeSystem) {
+        Objects.requireNonNull(codeSystem, "codeSystem");
+        Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
+    }
+
+    private void checkArguments(CodeSystem codeSystem, Code code) {
+        checkArgument(codeSystem);
+        checkArgument(code, "code");
+    }
+
+    private void checkArguments(CodeSystem codeSystem, Code codeA, Code codeB) {
+        checkArgument(codeSystem);
+        checkArgument(codeA, "codeA");
+        checkArgument(codeB, "codeB");
+    }
+
+    private void checkArguments(CodeSystem codeSystem, List<Filter> filters) {
+        checkArgument(codeSystem);
+        Objects.requireNonNull(filters, "filters");
+    }
+
     private void checkTimeLimit(TimeLimitStep<?> timeLimitStep) {
         if (timeLimitStep.getTimedOut()) {
             throw new FHIRTermServiceException("Graph traversal timed out", Collections.singletonList(Issue.builder()
@@ -529,7 +556,6 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
     }
 
     private Concept getConcept(CodeSystem codeSystem, Code code, boolean includeDesignations, boolean includeProperties) {
-        Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
         return createConcept(
             codeSystem,
             code.getValue(),
@@ -551,7 +577,6 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
     }
 
     private List<Designation> getDesignations(CodeSystem codeSystem, String code) {
-        Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
         List<Designation> designations = new ArrayList<>();
         whereCodeSystem(hasCode(vertices(), code, isCaseSensitive(codeSystem)), codeSystem)
             .out("designation")
@@ -562,7 +587,6 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
     }
 
     private List<Property> getProperties(CodeSystem codeSystem, String code) {
-        Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
         List<Property> properties = new ArrayList<>();
         whereCodeSystem(hasCode(vertices(), code, isCaseSensitive(codeSystem)), codeSystem)
             .out("property_")
