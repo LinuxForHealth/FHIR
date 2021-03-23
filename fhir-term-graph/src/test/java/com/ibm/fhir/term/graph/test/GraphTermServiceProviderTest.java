@@ -196,7 +196,34 @@ public class GraphTermServiceProviderTest {
                 .map(concept -> concept.getCode().getValue())
                 .collect(Collectors.toList());
 
-        Assert.assertEquals(actual, Collections.emptyList());
+        // intersection
+        List<String> expected = Arrays.asList("a");
+
+        Assert.assertEquals(actual, expected);
+    }
+
+    @Test
+    public void testGetConceptsWithMultipleParentEqualsFilter() {
+        Set<Concept> concepts = provider.getConcepts(codeSystem, Arrays.asList(
+            Filter.builder()
+                .property(Code.of("parent"))
+                .op(FilterOperator.EQUALS)
+                .value(string("a"))
+                .build(),
+            Filter.builder()
+                .property(Code.of("parent"))
+                .op(FilterOperator.EQUALS)
+                .value(string("a"))
+                .build()));
+
+        Set<String> actual = concepts.stream()
+                .map(concept -> concept.getCode().getValue())
+                .collect(Collectors.toSet());
+
+        // intersection
+        Set<String> expected = new HashSet<>(Arrays.asList("g", "h", "i"));
+
+        Assert.assertEquals(actual, expected);
     }
 
     @Test

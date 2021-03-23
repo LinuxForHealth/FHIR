@@ -139,7 +139,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         return concepts;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters) {
         Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
@@ -171,9 +171,27 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
                 if ((("parent".equals(property.getValue()) || "child".equals(property.getValue())) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning()))
                         || (hasCodeSystemProperty(codeSystem, property) && !PropertyType.CODING.equals(type))) {
                     if ("parent".equals(property.getValue())) {
-                        g = whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem).in(FHIRTermGraph.IS_A);
+                        if (first) {
+                            g = whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem).in(FHIRTermGraph.IS_A);
+                        } else {
+                            // intersection with previous results
+                            g = (GraphTraversal) whereCodeSystem(hasCode(g.as("a").V(), value.getValue(), caseSensitive), codeSystem)
+                                    .in(FHIRTermGraph.IS_A)
+                                    .as("b")
+                                    .select("a")
+                                    .where("a", P.eq("b"));
+                        }
                     } else if ("child".equals(property.getValue())) {
-                        g = whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem).out(FHIRTermGraph.IS_A);
+                        if (first) {
+                            g = whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem).out(FHIRTermGraph.IS_A);
+                        } else {
+                            // intersection with previous results
+                            g = (GraphTraversal) whereCodeSystem(hasCode(g.as("a").V(), value.getValue(), caseSensitive), codeSystem)
+                                    .out(FHIRTermGraph.IS_A)
+                                    .as("b")
+                                    .select("a")
+                                    .where("a", P.eq("b"));
+                        }
                     } else {
                         Element element = toElement(value, type);
                         if (first) {
@@ -248,6 +266,12 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
             case IS_NOT_A:
                 // not descendants or self
                 if ("concept".equals(property.getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+                    /*
+                    // alternative
+                    g = whereCodeSystem(g.not(__.until(hasCode(value.getValue(), caseSensitive))
+                            .repeat((GraphTraversal) __.out(FHIRTermGraph.IS_A)))
+                            .hasLabel("Concept"), codeSystem);
+                    */
                     g = whereCodeSystem(g.not(__.repeat(__.out(FHIRTermGraph.IS_A))
                             .until(hasCode(value.getValue(), caseSensitive)))
                             .not(hasCode(value.getValue(), caseSensitive))
