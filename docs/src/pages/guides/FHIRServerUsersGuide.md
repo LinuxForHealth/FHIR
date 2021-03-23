@@ -2256,7 +2256,7 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/core/cos/requestTimeout`|N|N|
 |`fhirServer/bulkdata/core/cos/socketTimeout`|N|N|
 |`fhirServer/bulkdata/core/cos/useServerTruststore`|Y|Y|
-|`fhirServer/bulkdata/core/batchIdEncryptionKey`|N|N|
+|`fhirServer/bulkdata/core/batchIdEncryptionKey`|Y|N|
 |`fhirServer/bulkdata/core/pageSize`|Y|Y|
 |`fhirServer/bulkdata/core/maxPartitions`|Y|Y|
 |`fhirServer/bulkdata/core/maxInputs`|Y|Y|

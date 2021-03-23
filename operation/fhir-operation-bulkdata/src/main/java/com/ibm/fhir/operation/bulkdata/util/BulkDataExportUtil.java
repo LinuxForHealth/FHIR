@@ -38,8 +38,6 @@ import com.ibm.fhir.server.operation.spi.FHIROperationContext;
  * BulkData Util captures common methods
  */
 public class BulkDataExportUtil {
-
-    private static JobIdEncodingTransformer transformer = new JobIdEncodingTransformer();
     private static Set<String> RESOURCE_TYPES = ModelSupport.getResourceTypes(false).stream()
                                                     .map(m -> m.getSimpleName())
                                                     .collect(Collectors.toSet());
@@ -296,7 +294,7 @@ public class BulkDataExportUtil {
             for (Parameters.Parameter parameter : parameters.getParameter()) {
                 if (OperationConstants.PARAM_JOB.equals(parameter.getName().getValue())
                         && parameter.getValue() != null && parameter.getValue().is(com.ibm.fhir.model.type.String.class)) {
-                    String job = transformer.decodeJobId(parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue());
+                    String job = JobIdEncodingTransformer.getInstance().decodeJobId(parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue());
 
                     // The job is never going to be empty or null as STRING is never empty at this point.
                     if (job.contains("/") || job.contains("?")) {

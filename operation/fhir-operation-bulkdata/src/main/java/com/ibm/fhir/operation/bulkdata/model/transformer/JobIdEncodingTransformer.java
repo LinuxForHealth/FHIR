@@ -10,12 +10,15 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.Base64;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 
 /**
@@ -26,18 +29,33 @@ public class JobIdEncodingTransformer {
     private static final String CLASSNAME = JobIdEncodingTransformer.class.getName();
     private static final Logger logger = Logger.getLogger(CLASSNAME);
 
-    // Encryption key used for JavaBatch Job ID
-    private static final SecretKeySpec BATCHJOBID_ENCRYPTION_KEY =  getJobIdEncryptionKey();
+    // Tenant Encryption key used for JavaBatch Job ID
+    private static ConcurrentMap<String, SecretKeySpec> KEY_MAP = new ConcurrentHashMap<>();
 
-    public JobIdEncodingTransformer() {
+    private static JobIdEncodingTransformer transformer = null;
+
+    private JobIdEncodingTransformer() {
         // No Operation
+    }
+
+    /**
+     * get the instance
+     *
+     * @return
+     */
+    public static JobIdEncodingTransformer getInstance() {
+        if (transformer == null) {
+            transformer = new JobIdEncodingTransformer();
+        }
+        // final SecretKeySpec BATCHJOBID_ENCRYPTION_KEY = getJobIdEncryptionKey();
+        return transformer;
     }
 
     /*
      * gets the server-wide specific encryption key.
      * @return
      */
-    private static SecretKeySpec getJobIdEncryptionKey() {
+    private SecretKeySpec getJobIdEncryptionKey() {
         String encryptionKey = ConfigurationFactory.getInstance().getCoreBatchIdEncryptionKey();
         SecretKeySpec secretKey = null;
 
@@ -65,15 +83,17 @@ public class JobIdEncodingTransformer {
      * @param jobId
      * @return
      */
-    public String endcodeJobId(String jobId) {
+    public String encodeJobId(String jobId) {
+        String tenantId = FHIRRequestContext.get().getTenantId();
+        SecretKeySpec key = KEY_MAP.computeIfAbsent(tenantId, k -> getJobIdEncryptionKey());
         // Encrypt and UrlEncode the batch job id.
-        if (BATCHJOBID_ENCRYPTION_KEY == null) {
+        if (key == null) {
             return jobId;
         } else {
             try {
                 // Use light weight encryption without salt to simplify both the encryption/decryption and also config.
                 Cipher cp = Cipher.getInstance("AES/ECB/PKCS5Padding");
-                cp.init(Cipher.ENCRYPT_MODE, BATCHJOBID_ENCRYPTION_KEY);
+                cp.init(Cipher.ENCRYPT_MODE, key);
 
                 // Encrypt the job id, base64-encode it, and replace all `/` chars with the less problematic `_` char
                 String encodedJobId = Base64.getEncoder().withoutPadding().encodeToString(cp.doFinal(jobId.getBytes("UTF-8"))).replaceAll("/", "_");
@@ -88,20 +108,23 @@ public class JobIdEncodingTransformer {
     /**
      * decodes the job id.
      *
-     * @implNote note a Cipher is used here, however it is not used to encrypt sensitive information rather encode the jobId.
+     * @implNote note a Cipher is used here, however it is not used to encrypt sensitive information rather encode the
+     *           jobId.
      *
      * @param encodedJobId
      * @return
      */
     public String decodeJobId(String encodedJobId) {
+        String tenantId = FHIRRequestContext.get().getTenantId();
+        SecretKeySpec key = KEY_MAP.computeIfAbsent(tenantId, k -> getJobIdEncryptionKey());
         // Decrypt to get the batch job id.
-        if (BATCHJOBID_ENCRYPTION_KEY == null) {
+        if (key == null) {
             return encodedJobId;
         } else {
             try {
                 // Use light weight encryption without salt to simplify both the encryption/decryption and also config.
                 Cipher cp = Cipher.getInstance("AES/ECB/PKCS5PADDING");
-                cp.init(Cipher.DECRYPT_MODE, BATCHJOBID_ENCRYPTION_KEY);
+                cp.init(Cipher.DECRYPT_MODE, key);
                 // The encrypted job id has already been urldecoded by liberty runtime before reaching this function,
                 // so, we don't do urldecode here.)
                 return new String(cp.doFinal(Base64.getDecoder().decode(encodedJobId.replaceAll("_", "/"))), "UTF-8");
