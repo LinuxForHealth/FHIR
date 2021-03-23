@@ -15,6 +15,7 @@ import static com.ibm.fhir.term.util.CodeSystemSupport.hasCodeSystemProperty;
 import static com.ibm.fhir.term.util.CodeSystemSupport.isCaseSensitive;
 import static com.ibm.fhir.term.util.CodeSystemSupport.normalize;
 import static com.ibm.fhir.term.util.CodeSystemSupport.toElement;
+import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,7 +23,6 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
@@ -73,24 +73,24 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
     private final int timeLimit;
 
     public GraphTermServiceProvider(Configuration configuration) {
-        Objects.requireNonNull(configuration, "configuration");
+        requireNonNull(configuration, "configuration");
         graph = FHIRTermGraphFactory.open(configuration);
         timeLimit = DEFAULT_TIME_LIMIT;
     }
 
     public GraphTermServiceProvider(Configuration configuration, int timeLimit) {
-        Objects.requireNonNull(configuration, "configuration");
+        requireNonNull(configuration, "configuration");
         graph = FHIRTermGraphFactory.open(configuration);
         this.timeLimit = timeLimit;
     }
 
     public GraphTermServiceProvider(FHIRTermGraph graph) {
-        this.graph = Objects.requireNonNull(graph, "graph");
+        this.graph = requireNonNull(graph, "graph");
         timeLimit = DEFAULT_TIME_LIMIT;
     }
 
     public GraphTermServiceProvider(FHIRTermGraph graph, int timeLimit) {
-        this.graph = Objects.requireNonNull(graph, "graph");
+        this.graph = requireNonNull(graph, "graph");
         this.timeLimit = timeLimit;
     }
 
@@ -471,13 +471,23 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
     }
 
     private void checkArgument(Code code, String message) {
-        Objects.requireNonNull(code, message);
-        Objects.requireNonNull(code.getValue(), "Code.value");
+        requireNonNull(code, message);
+        requireNonNull(code.getValue(), "Code.value");
     }
 
     private void checkArgument(CodeSystem codeSystem) {
-        Objects.requireNonNull(codeSystem, "codeSystem");
-        Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
+        requireNonNull(codeSystem, "codeSystem");
+        requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
+    }
+
+    private void checkArgument(Filter filter) {
+        requireNonNull(filter, "filter");
+        requireNonNull(filter.getProperty(), "Filter.property");
+        requireNonNull(filter.getProperty().getValue(), "Filter.property.value");
+        requireNonNull(filter.getOp(), "Filter.op");
+        requireNonNull(filter.getOp().getValue(), "Filter.op.value");
+        requireNonNull(filter.getValue(), "Filter.value");
+        requireNonNull(filter.getValue().getValue(), "Filter.value.value");
     }
 
     private void checkArguments(CodeSystem codeSystem, Code code) {
@@ -493,7 +503,8 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
 
     private void checkArguments(CodeSystem codeSystem, List<Filter> filters) {
         checkArgument(codeSystem);
-        Objects.requireNonNull(filters, "filters");
+        requireNonNull(filters, "filters");
+        filters.forEach(filter -> checkArgument(filter));
     }
 
     private void checkTimeLimit(TimeLimitStep<?> timeLimitStep) {
