@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="197px" preserveAspectRatio="none" style="width:412px;height:197px;" version="1.1" viewBox="0 0 412 197" width="412px" zoomAndPan="magnify"><defs><filter height="300%" id="fuqevexte2inp" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[b03dc9354959613688589c9014c774ee]
+class com.ibm.fhir.bucket.api.ResourceBundleData--><a href="ResourceBundleData.html" target="_top" title="ResourceBundleData.html" xlink:actuate="onRequest" xlink:href="ResourceBundleData.html" xlink:show="new" xlink:title="ResourceBundleData.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fuqevexte2inp)" height="161.1797" id="com.ibm.fhir.bucket.api.ResourceBundleData" style="stroke: #A80036; stroke-width: 1.5;" width="394" x="7" y="7"/><ellipse cx="125.75" cy="25.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M128.7188,31.6094 Q128.1406,31.9063 127.5,32.0469 Q126.8594,32.2031 126.1563,32.2031 Q123.6563,32.2031 122.3281,30.5625 Q121.0156,28.9063 121.0156,25.7813 Q121.0156,22.6563 122.3281,21 Q123.6563,19.3438 126.1563,19.3438 Q126.8594,19.3438 127.5,19.5 Q128.1563,19.6563 128.7188,19.9531 L128.7188,22.6719 Q128.0938,22.0938 127.5,21.8281 Q126.9063,21.5469 126.2813,21.5469 Q124.9375,21.5469 124.25,22.625 Q123.5625,23.6875 123.5625,25.7813 Q123.5625,27.875 124.25,28.9531 Q124.9375,30.0156 126.2813,30.0156 Q126.9063,30.0156 127.5,29.75 Q128.0938,29.4688 128.7188,28.8906 L128.7188,31.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="148" x="146.25" y="24.9951">ResourceBundleData</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="113" x="163.75" y="37.5791">com.ibm.fhir.bucket.api</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="400" y1="44.9375" y2="44.9375"/><ellipse cx="18" cy="55.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="368" x="27" y="59.1479">ResourceBundleData(long, long, FileType, String, Date, Date, int)</text><ellipse cx="18" cy="68.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="117" x="27" y="71.9526">getObjectSize(): long</text><ellipse cx="18" cy="81.5469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="126" x="27" y="84.7573">getFileType(): FileType</text><ellipse cx="18" cy="94.3516" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="160" x="27" y="97.562">getResourceBundleId(): long</text><ellipse cx="18" cy="107.1563" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="96" x="27" y="110.3667">geteTag(): String</text><ellipse cx="18" cy="119.9609" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="131" x="27" y="123.1714">getLastModified(): Date</text><ellipse cx="18" cy="132.7656" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="210" x="27" y="135.9761">matches(long, String, Date): boolean</text><ellipse cx="18" cy="145.5703" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="131" x="27" y="148.7808">getScanTstamp(): Date</text><ellipse cx="18" cy="158.375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="91" x="27" y="161.5854">getVersion(): int</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="111" y="184.4619">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[34feddf3fdb9d11c1d351c7ba75b3fe5]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>ResourceBundleData\n<size:10>com.ibm.fhir.bucket.api" as com.ibm.fhir.bucket.api.ResourceBundleData [[ResourceBundleData.html]] {
+        +ResourceBundleData(long, long, FileType, String, Date, Date, int)
+        +getObjectSize(): long
+        +getFileType(): FileType
+        +getResourceBundleId(): long
+        +geteTag(): String
+        +getLastModified(): Date
+        +matches(long, String, Date): boolean
+        +getScanTstamp(): Date
+        +getVersion(): int
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.10+9
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

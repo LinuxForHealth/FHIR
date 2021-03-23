@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="146px" preserveAspectRatio="none" style="width:235px;height:146px;" version="1.1" viewBox="0 0 235 146" width="235px" zoomAndPan="magnify"><defs><filter height="300%" id="fyrcwuy7r3tpt" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[b8d6ba9e7c957744fb918b7f93be9afb]
+class com.ibm.fhir.bucket.persistence.ResourceRec--><a href="ResourceRec.html" target="_top" title="ResourceRec.html" xlink:actuate="onRequest" xlink:href="ResourceRec.html" xlink:show="new" xlink:title="ResourceRec.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fyrcwuy7r3tpt)" height="109.9609" id="com.ibm.fhir.bucket.persistence.ResourceRec" style="stroke: #A80036; stroke-width: 1.5;" width="217" x="7" y="7"/><ellipse cx="35.95" cy="25.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M38.9188,31.6094 Q38.3406,31.9063 37.7,32.0469 Q37.0594,32.2031 36.3563,32.2031 Q33.8563,32.2031 32.5281,30.5625 Q31.2156,28.9063 31.2156,25.7813 Q31.2156,22.6563 32.5281,21 Q33.8563,19.3438 36.3563,19.3438 Q37.0594,19.3438 37.7,19.5 Q38.3563,19.6563 38.9188,19.9531 L38.9188,22.6719 Q38.2938,22.0938 37.7,21.8281 Q37.1063,21.5469 36.4813,21.5469 Q35.1375,21.5469 34.45,22.625 Q33.7625,23.6875 33.7625,25.7813 Q33.7625,27.875 34.45,28.9531 Q35.1375,30.0156 36.4813,30.0156 Q37.1063,30.0156 37.7,29.75 Q38.2938,29.4688 38.9188,28.8906 L38.9188,31.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="94" x="83.05" y="24.9951">ResourceRec</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="154" x="53.05" y="37.5791">com.ibm.fhir.bucket.persistence</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="223" y1="44.9375" y2="44.9375"/><ellipse cx="18" cy="55.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="191" x="27" y="59.1479">ResourceRec(int, String, long, int)</text><ellipse cx="18" cy="68.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="138" x="27" y="71.9526">getResourceTypeId(): int</text><ellipse cx="18" cy="81.5469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="117" x="27" y="84.7573">getLogicalId(): String</text><ellipse cx="18" cy="94.3516" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="187" x="27" y="97.562">getResourceBundleLoadId(): long</text><ellipse cx="18" cy="107.1563" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="116" x="27" y="110.3667">getLineNumber(): int</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="22.5" y="133.2432">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[27de1c0483c0a9eaaf2d4357a3c86cdc]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>ResourceRec\n<size:10>com.ibm.fhir.bucket.persistence" as com.ibm.fhir.bucket.persistence.ResourceRec [[ResourceRec.html]] {
+        +ResourceRec(int, String, long, int)
+        +getResourceTypeId(): int
+        +getLogicalId(): String
+        +getResourceBundleLoadId(): long
+        +getLineNumber(): int
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.10+9
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

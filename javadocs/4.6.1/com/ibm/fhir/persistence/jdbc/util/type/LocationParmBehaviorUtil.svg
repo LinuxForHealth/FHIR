@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="133px" preserveAspectRatio="none" style="width:570px;height:133px;" version="1.1" viewBox="0 0 570 133" width="570px" zoomAndPan="magnify"><defs><filter height="300%" id="fkexexerwcshl" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[4a28d8e5b00b64578f1b8c90125dbc92]
+class com.ibm.fhir.persistence.jdbc.util.type.LocationParmBehaviorUtil--><a href="LocationParmBehaviorUtil.html" target="_top" title="LocationParmBehaviorUtil.html" xlink:actuate="onRequest" xlink:href="LocationParmBehaviorUtil.html" xlink:show="new" xlink:title="LocationParmBehaviorUtil.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fkexexerwcshl)" height="97.1563" id="com.ibm.fhir.persistence.jdbc.util.type.LocationParmBehaviorUtil" style="stroke: #A80036; stroke-width: 1.5;" width="552" x="7" y="7"/><ellipse cx="187.25" cy="25.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M190.2188,31.6094 Q189.6406,31.9063 189,32.0469 Q188.3594,32.2031 187.6563,32.2031 Q185.1563,32.2031 183.8281,30.5625 Q182.5156,28.9063 182.5156,25.7813 Q182.5156,22.6563 183.8281,21 Q185.1563,19.3438 187.6563,19.3438 Q188.3594,19.3438 189,19.5 Q189.6563,19.6563 190.2188,19.9531 L190.2188,22.6719 Q189.5938,22.0938 189,21.8281 Q188.4063,21.5469 187.7813,21.5469 Q186.4375,21.5469 185.75,22.625 Q185.0625,23.6875 185.0625,25.7813 Q185.0625,27.875 185.75,28.9531 Q186.4375,30.0156 187.7813,30.0156 Q188.4063,30.0156 189,29.75 Q189.5938,29.4688 190.2188,28.8906 L190.2188,31.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="174" x="212.25" y="24.9951">LocationParmBehaviorUtil</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="183" x="207.75" y="37.5791">com.ibm.fhir.persistence.jdbc.util.type</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="558" y1="44.9375" y2="44.9375"/><ellipse cx="18" cy="55.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="526" x="27" y="59.1479">buildLocationSearchQuery(String, StringBuilder, List&lt;Object&gt;, List&lt;Bounding&gt;, String): void</text><ellipse cx="18" cy="68.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="434" x="27" y="71.9526">buildQueryForBoundingMissing(String, StringBuilder, BoundingMissing): void</text><ellipse cx="18" cy="81.5469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="472" x="27" y="84.7573">buildQueryForBoundingBox(StringBuilder, List&lt;Object&gt;, BoundingBox, String): void</text><ellipse cx="18" cy="94.3516" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="464" x="27" y="97.562">buildQueryForBoundingRadius(StringBuilder, List&lt;Object&gt;, BoundingRadius): void</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="190" y="120.4385">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[ed84dd0c62f9666cac993e9eaeeb107f]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>LocationParmBehaviorUtil\n<size:10>com.ibm.fhir.persistence.jdbc.util.type" as com.ibm.fhir.persistence.jdbc.util.type.LocationParmBehaviorUtil [[LocationParmBehaviorUtil.html]] {
+        +buildLocationSearchQuery(String, StringBuilder, List<Object>, List<Bounding>, String): void
+        +buildQueryForBoundingMissing(String, StringBuilder, BoundingMissing): void
+        +buildQueryForBoundingBox(StringBuilder, List<Object>, BoundingBox, String): void
+        +buildQueryForBoundingRadius(StringBuilder, List<Object>, BoundingRadius): void
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.10+9
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

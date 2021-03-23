@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="108px" preserveAspectRatio="none" style="width:468px;height:108px;" version="1.1" viewBox="0 0 468 108" width="468px" zoomAndPan="magnify"><defs><filter height="300%" id="fm5r7wg0o8mn6" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[395b618ef7981b659a9a846567578795]
+class com.ibm.fhir.database.utils.derby.LockInfo--><a href="LockInfo.html" target="_top" title="LockInfo.html" xlink:actuate="onRequest" xlink:href="LockInfo.html" xlink:show="new" xlink:title="LockInfo.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fm5r7wg0o8mn6)" height="71.5469" id="com.ibm.fhir.database.utils.derby.LockInfo" style="stroke: #A80036; stroke-width: 1.5;" width="450" x="7" y="7"/><ellipse cx="146.75" cy="25.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M149.7188,31.6094 Q149.1406,31.9063 148.5,32.0469 Q147.8594,32.2031 147.1563,32.2031 Q144.6563,32.2031 143.3281,30.5625 Q142.0156,28.9063 142.0156,25.7813 Q142.0156,22.6563 143.3281,21 Q144.6563,19.3438 147.1563,19.3438 Q147.8594,19.3438 148.5,19.5 Q149.1563,19.6563 149.7188,19.9531 L149.7188,22.6719 Q149.0938,22.0938 148.5,21.8281 Q147.9063,21.5469 147.2813,21.5469 Q145.9375,21.5469 145.25,22.625 Q144.5625,23.6875 144.5625,25.7813 Q144.5625,27.875 145.25,28.9531 Q145.9375,30.0156 147.2813,30.0156 Q147.9063,30.0156 148.5,29.75 Q149.0938,29.4688 149.7188,28.8906 L149.7188,31.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="57" x="219.75" y="24.9951">LockInfo</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="162" x="167.25" y="37.5791">com.ibm.fhir.database.utils.derby</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="456" y1="44.9375" y2="44.9375"/><ellipse cx="18" cy="55.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="424" x="27" y="59.1479">LockInfo(String, String, String, String, String, String, String, String, String)</text><ellipse cx="18" cy="68.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="90" x="27" y="71.9526">header(): String</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="139" y="94.8291">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[f83c101302bc108a403605b4bb803d64]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>LockInfo\n<size:10>com.ibm.fhir.database.utils.derby" as com.ibm.fhir.database.utils.derby.LockInfo [[LockInfo.html]] {
+        +LockInfo(String, String, String, String, String, String, String, String, String)
+        {static} +header(): String
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.10+9
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>
