@@ -25,6 +25,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import org.apache.commons.configuration.Configuration;
@@ -62,6 +64,8 @@ import com.ibm.fhir.term.util.CodeSystemSupport;
  * Graph-based implementation of the {@link FHIRTermServiceProvider} interface using {@link FHIRTermGraph}
  */
 public class GraphTermServiceProvider implements FHIRTermServiceProvider {
+    private static final Logger log = Logger.getLogger(GraphTermServiceProvider.class.getName());
+
     public static final int DEFAULT_TIME_LIMIT = 90000;   // 90 seconds
     private static final int DEFAULT_COUNT = 1000;
 
@@ -100,12 +104,12 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         boolean caseSensitive = isCaseSensitive(codeSystem);
 
         GraphTraversal<Vertex, Vertex> g = whereCodeSystem(hasCode(vertices(), code.getValue(), caseSensitive), codeSystem)
-                .union(__.identity(), whereCodeSystem(hasCode(vertices(), code.getValue(), caseSensitive), codeSystem)
-                    .repeat(__.in(FHIRTermGraph.IS_A)
-                        .simplePath()
-                        .dedup())
-                    .emit())
-                .timeLimit(timeLimit);
+            .union(__.identity(), whereCodeSystem(hasCode(vertices(), code.getValue(), caseSensitive), codeSystem)
+                .repeat(__.in(FHIRTermGraph.IS_A)
+                    .simplePath()
+                    .dedup())
+                .emit())
+            .timeLimit(timeLimit);
         TimeLimitStep<?> timeLimitStep = getTimeLimitStep(g);
 
         g.elementMap().toStream().forEach(elementMap -> concepts.add(createConcept(elementMap)));
@@ -128,8 +132,8 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         Set<Concept> concepts = new LinkedHashSet<>(getCount(codeSystem));
 
         GraphTraversal<Vertex, Vertex> g = hasVersion(hasUrl(vertices(), codeSystem.getUrl()), codeSystem.getVersion())
-                .out("concept")
-                .timeLimit(timeLimit);
+            .out("concept")
+            .timeLimit(timeLimit);
         TimeLimitStep<?> timeLimitStep = getTimeLimitStep(g);
 
         g.elementMap().toStream().forEach(elementMap -> concepts.add(createConcept(elementMap)));
@@ -139,7 +143,6 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         return concepts;
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters) {
         Objects.requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
@@ -148,170 +151,39 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
 
         GraphTraversal<Vertex, Vertex> g = vertices();
 
-        boolean caseSensitive = isCaseSensitive(codeSystem);
-
         boolean first = true;
         for (Filter filter : filters) {
-            Code property = filter.getProperty();
-            com.ibm.fhir.model.type.String value = filter.getValue();
-            PropertyType type = getCodeSystemPropertyType(codeSystem, property);
-
             switch (filter.getOp().getValueAsEnumConstant()) {
             case DESCENDENT_OF:
                 // descendants
-                if ("concept".equals(property.getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-                    g = whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem)
-                            .repeat(__.in(FHIRTermGraph.IS_A)
-                                .simplePath()
-                                .dedup())
-                            .emit();
-                }
+                g = applyDescendentOfFilter(codeSystem, filter, g);
                 break;
             case EQUALS:
-                if ((("parent".equals(property.getValue()) || "child".equals(property.getValue())) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning()))
-                        || (hasCodeSystemProperty(codeSystem, property) && !PropertyType.CODING.equals(type))) {
-                    if ("parent".equals(property.getValue())) {
-                        if (first) {
-                            g = whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem).in(FHIRTermGraph.IS_A);
-                        } else {
-                            // intersection with previous results
-                            g = (GraphTraversal) whereCodeSystem(hasCode(g.as("a").V(), value.getValue(), caseSensitive), codeSystem)
-                                    .in(FHIRTermGraph.IS_A)
-                                    .as("b")
-                                    .select("a")
-                                    .where("a", P.eq("b"));
-                        }
-                    } else if ("child".equals(property.getValue())) {
-                        if (first) {
-                            g = whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem).out(FHIRTermGraph.IS_A);
-                        } else {
-                            // intersection with previous results
-                            g = (GraphTraversal) whereCodeSystem(hasCode(g.as("a").V(), value.getValue(), caseSensitive), codeSystem)
-                                    .out(FHIRTermGraph.IS_A)
-                                    .as("b")
-                                    .select("a")
-                                    .where("a", P.eq("b"));
-                        }
-                    } else {
-                        Element element = toElement(value, type);
-                        if (first) {
-                            g = whereCodeSystem(g.has(getPropertyKey(type), element.is(DateTime.class) ? toLong(element.as(DateTime.class)) : toObject(element)).in("property_"), codeSystem);
-                        } else {
-                            g = whereCodeSystem(g.where(__.out("property_").has(getPropertyKey(type), element.is(DateTime.class) ? toLong(element.as(DateTime.class)) : toObject(element))), codeSystem);
-                        }
-                    }
-                }
+                g = applyEqualsFilter(codeSystem, filter, first, g);
                 break;
             case EXISTS:
-                if (hasCodeSystemProperty(codeSystem, property) && convertsToBoolean(value)) {
-                    if (Boolean.valueOf(value.getValue())) {
-                        if (first) {
-                            g = whereCodeSystem(g.has("code", property.getValue()).in("property_"), codeSystem);
-                        } else {
-                            g = whereCodeSystem(g.where(__.out("property_").has("code", property.getValue())), codeSystem);
-                        }
-                    } else {
-                        g = whereCodeSystem(g.not(__.out("property_").has("code", property.getValue())).hasLabel("Concept"), codeSystem);
-                    }
-                }
+                g = applyExistsFilter(codeSystem, filter, first, g);
                 break;
             case GENERALIZES:
                 // ancestors and self
-                if ("concept".equals(property.getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-                    g = whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem)
-                            .union(__.identity(), whereCodeSystem(hasCode(vertices(), value.getValue(), caseSensitive), codeSystem)
-                                .repeat(__.out(FHIRTermGraph.IS_A)
-                                    .simplePath()
-                                    .dedup())
-                                .emit());
-                }
+                g = applyGeneralizesFilter(codeSystem, filter, g);
                 break;
             case IN:
-                if ("concept".equals(property.getValue()) || hasCodeSystemProperty(codeSystem, property)) {
-                    if ("concept".equals(property.getValue())) {
-                        if (caseSensitive) {
-                            g = whereCodeSystem(g.has("code", P.within(Arrays.stream(value.getValue().split(","))
-                                .collect(Collectors.toSet()))), codeSystem);
-                        } else {
-                            g = whereCodeSystem(g.has("codeLowerCase", P.within(Arrays.stream(value.getValue().split(","))
-                                .map(CodeSystemSupport::normalize)
-                                .collect(Collectors.toSet()))), codeSystem);
-                        }
-                    } else {
-                        if (first) {
-                            g = whereCodeSystem(g.has(getPropertyKey(type), P.within(Arrays.stream(value.getValue().split(","))
-                                .map(v -> toElement(v, type))
-                                .map(e -> e.is(DateTime.class) ? toLong(e.as(DateTime.class)) : toObject(e))
-                                .collect(Collectors.toSet()))).in("property_"), codeSystem);
-                        } else {
-                            g = whereCodeSystem(g.where(__.out("property_").has(getPropertyKey(type), P.within(Arrays.stream(value.getValue().split(","))
-                                .map(v -> toElement(v, type))
-                                .map(e -> e.is(DateTime.class) ? toLong(e.as(DateTime.class)) : toObject(e))
-                                .collect(Collectors.toSet())))), codeSystem);
-                        }
-                    }
-                }
+                g = applyInFilter(codeSystem, filter, first, g);
                 break;
             case IS_A:
                 // descendants and self
-                if ("concept".equals(property.getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-                    g = whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem)
-                            .union(__.identity(), whereCodeSystem(hasCode(vertices(), value.getValue(), caseSensitive), codeSystem)
-                                .repeat(__.in(FHIRTermGraph.IS_A)
-                                    .simplePath()
-                                    .dedup())
-                                .emit());
-                }
+                g = applyIsAFilter(codeSystem, filter, g);
                 break;
             case IS_NOT_A:
                 // not descendants or self
-                if ("concept".equals(property.getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-                    /*
-                    // alternative
-                    g = whereCodeSystem(g.not(__.until(hasCode(value.getValue(), caseSensitive))
-                            .repeat((GraphTraversal) __.out(FHIRTermGraph.IS_A)))
-                            .hasLabel("Concept"), codeSystem);
-                    */
-                    g = whereCodeSystem(g.not(__.repeat(__.out(FHIRTermGraph.IS_A))
-                            .until(hasCode(value.getValue(), caseSensitive)))
-                            .not(hasCode(value.getValue(), caseSensitive))
-                            .hasLabel("Concept"), codeSystem);
-                }
+                g = applyIsNotAFilter(codeSystem, filter, g);
                 break;
             case NOT_IN:
-                if ("concept".equals(property.getValue()) || hasCodeSystemProperty(codeSystem, property)) {
-                    if ("concept".equals(property.getValue())) {
-                        if (caseSensitive) {
-                            g = whereCodeSystem(g.has("code", P.without(Arrays.stream(value.getValue().split(","))
-                                .collect(Collectors.toSet()))), codeSystem);
-                        } else {
-                            g = whereCodeSystem(g.has("codeLowerCase", P.without(Arrays.stream(value.getValue().split(","))
-                                .map(CodeSystemSupport::normalize)
-                                .collect(Collectors.toSet()))), codeSystem);
-                        }
-                    } else {
-                        if (first) {
-                            g = whereCodeSystem(g.has(getPropertyKey(type), P.without(Arrays.stream(value.getValue().split(","))
-                                .map(v -> toElement(v, type))
-                                .map(e -> e.is(DateTime.class) ? toLong(e.as(DateTime.class)) : toObject(e))
-                                .collect(Collectors.toSet()))).in("property_"), codeSystem);
-                        } else {
-                            g = whereCodeSystem(g.where(__.out("property_").has(getPropertyKey(type), P.without(Arrays.stream(value.getValue().split(","))
-                                .map(v -> toElement(v, type))
-                                .map(e -> e.is(DateTime.class) ? toLong(e.as(DateTime.class)) : toObject(e))
-                                .collect(Collectors.toSet())))), codeSystem);
-                        }
-                    }
-                }
+                g = applyNotInFilter(codeSystem, filter, first, g);
                 break;
             case REGEX:
-                if (hasCodeSystemProperty(codeSystem, property) && (PropertyType.CODE.equals(type) || PropertyType.STRING.equals(type))) {
-                    if (first) {
-                        g = whereCodeSystem(g.has(getPropertyKey(type), Text.textRegex(value.getValue())).in("property_"), codeSystem);
-                    } else {
-                        g = whereCodeSystem(g.where(__.out("property_").has(getPropertyKey(type), Text.textRegex(value.getValue()))), codeSystem);
-                    }
-                }
+                g = applyRegexFilter(codeSystem, filter, first, g);
                 break;
             }
             first = false;
@@ -357,10 +229,10 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         }
 
         GraphTraversal<Vertex, Vertex> g = whereCodeSystem(hasCode(vertices(), codeA.getValue(), caseSensitive), codeSystem)
-                .repeat(__.in(FHIRTermGraph.IS_A)
-                    .simplePath())
-                .until(hasCode(codeB.getValue(), caseSensitive))
-                .timeLimit(timeLimit);
+            .repeat(__.in(FHIRTermGraph.IS_A)
+                .simplePath())
+            .until(hasCode(codeB.getValue(), caseSensitive))
+            .timeLimit(timeLimit);
         TimeLimitStep<?> timeLimitStep = getTimeLimitStep(g);
 
         boolean subsumes = g.hasNext();
@@ -368,6 +240,233 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         checkTimeLimit(timeLimitStep);
 
         return subsumes;
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private GraphTraversal<Vertex, Vertex> applyChildEqualsFilter(CodeSystem codeSystem, Filter filter, boolean first, GraphTraversal<Vertex, Vertex> g) {
+        boolean caseSensitive = isCaseSensitive(codeSystem);
+        com.ibm.fhir.model.type.String value = filter.getValue();
+        return first ?
+            whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem)
+                .out(FHIRTermGraph.IS_A) :
+            // intersection with previous results
+            (GraphTraversal) whereCodeSystem(hasCode(g.as("a").V(), value.getValue(), caseSensitive), codeSystem)
+                .out(FHIRTermGraph.IS_A)
+                .as("b")
+                .select("a")
+                .where("a", P.eq("b"));
+    }
+
+    private GraphTraversal<Vertex, Vertex> applyConceptInFilter(CodeSystem codeSystem, Filter filter, boolean first, GraphTraversal<Vertex, Vertex> g) {
+        boolean caseSensitive = isCaseSensitive(codeSystem);
+        com.ibm.fhir.model.type.String value = filter.getValue();
+        return caseSensitive ?
+            whereCodeSystem(g.has("code", P.within(Arrays.stream(value.getValue().split(","))
+                .collect(Collectors.toSet()))), codeSystem) :
+            whereCodeSystem(g.has("codeLowerCase", P.within(Arrays.stream(value.getValue().split(","))
+                .map(CodeSystemSupport::normalize)
+                .collect(Collectors.toSet()))), codeSystem);
+    }
+
+    private GraphTraversal<Vertex, Vertex> applyConceptNotInFilter(CodeSystem codeSystem, Filter filter, boolean first, GraphTraversal<Vertex, Vertex> g) {
+        boolean caseSensitive = isCaseSensitive(codeSystem);
+        com.ibm.fhir.model.type.String value = filter.getValue();
+        return caseSensitive ?
+            whereCodeSystem(g.has("code", P.without(Arrays.stream(value.getValue().split(","))
+                .collect(Collectors.toSet()))), codeSystem) :
+            whereCodeSystem(g.has("codeLowerCase", P.without(Arrays.stream(value.getValue().split(","))
+                .map(CodeSystemSupport::normalize)
+                .collect(Collectors.toSet()))), codeSystem);
+    }
+
+    private GraphTraversal<Vertex, Vertex> applyDescendentOfFilter(CodeSystem codeSystem, Filter filter, GraphTraversal<Vertex, Vertex> g) {
+        boolean caseSensitive = isCaseSensitive(codeSystem);
+        Code property = filter.getProperty();
+        com.ibm.fhir.model.type.String value = filter.getValue();
+        if ("concept".equals(property.getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+            return whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem)
+                .repeat(__.in(FHIRTermGraph.IS_A)
+                    .simplePath()
+                    .dedup())
+                .emit();
+        }
+        return filterNotApplied(filter, g);
+    }
+
+    private GraphTraversal<Vertex, Vertex> applyEqualsFilter(CodeSystem codeSystem, Filter filter, boolean first, GraphTraversal<Vertex, Vertex> g) {
+        Code property = filter.getProperty();
+        PropertyType type = getCodeSystemPropertyType(codeSystem, property);
+        if ((("parent".equals(property.getValue()) || "child".equals(property.getValue())) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning()))
+                || (hasCodeSystemProperty(codeSystem, property) && !PropertyType.CODING.equals(type))) {
+            return "parent".equals(property.getValue()) ?
+                applyParentEqualsFilter(codeSystem, filter, first, g) :
+                "child".equals(property.getValue()) ?
+                        applyChildEqualsFilter(codeSystem, filter, first, g) :
+                        applyPropertyEqualsFilter(codeSystem, filter, first, g);
+        }
+        return filterNotApplied(filter, g);
+    }
+
+    private GraphTraversal<Vertex, Vertex> applyExistsFilter(CodeSystem codeSystem, Filter filter, boolean first, GraphTraversal<Vertex, Vertex> g) {
+        Code property = filter.getProperty();
+        com.ibm.fhir.model.type.String value = filter.getValue();
+        if (hasCodeSystemProperty(codeSystem, property) && convertsToBoolean(value)) {
+            return Boolean.valueOf(value.getValue()) ?
+                applyPropertyExistsFilter(codeSystem, filter, first, g) :
+                // not exists
+                applyPropertyNotExistsFilter(codeSystem, filter, g);
+        }
+        return filterNotApplied(filter, g);
+    }
+
+    @SuppressWarnings("unchecked")
+    private GraphTraversal<Vertex, Vertex> applyGeneralizesFilter(CodeSystem codeSystem, Filter filter, GraphTraversal<Vertex, Vertex> g) {
+        boolean caseSensitive = isCaseSensitive(codeSystem);
+        Code property = filter.getProperty();
+        com.ibm.fhir.model.type.String value = filter.getValue();
+        if ("concept".equals(property.getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+            return whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem)
+                .union(__.identity(), whereCodeSystem(hasCode(vertices(), value.getValue(), caseSensitive), codeSystem)
+                    .repeat(__.out(FHIRTermGraph.IS_A)
+                        .simplePath()
+                        .dedup())
+                    .emit());
+        }
+        return filterNotApplied(filter, g);
+    }
+
+    private GraphTraversal<Vertex, Vertex> applyInFilter(CodeSystem codeSystem, Filter filter, boolean first, GraphTraversal<Vertex, Vertex> g) {
+        Code property = filter.getProperty();
+        if ("concept".equals(property.getValue()) || hasCodeSystemProperty(codeSystem, property)) {
+            return "concept".equals(property.getValue()) ?
+                applyConceptInFilter(codeSystem, filter, first, g) :
+                applyPropertyInFilter(codeSystem, filter, first, g);
+        }
+        return filterNotApplied(filter, g);
+    }
+
+    @SuppressWarnings("unchecked")
+    private GraphTraversal<Vertex, Vertex> applyIsAFilter(CodeSystem codeSystem, Filter filter, GraphTraversal<Vertex, Vertex> g) {
+        boolean caseSensitive = isCaseSensitive(codeSystem);
+        Code property = filter.getProperty();
+        com.ibm.fhir.model.type.String value = filter.getValue();
+        if ("concept".equals(property.getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+            return whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem)
+                .union(__.identity(), whereCodeSystem(hasCode(vertices(), value.getValue(), caseSensitive), codeSystem)
+                    .repeat(__.in(FHIRTermGraph.IS_A)
+                        .simplePath()
+                        .dedup())
+                    .emit());
+        }
+        return filterNotApplied(filter, g);
+    }
+
+    private GraphTraversal<Vertex, Vertex> applyIsNotAFilter(CodeSystem codeSystem, Filter filter, GraphTraversal<Vertex, Vertex> g) {
+        boolean caseSensitive = isCaseSensitive(codeSystem);
+        Code property = filter.getProperty();
+        com.ibm.fhir.model.type.String value = filter.getValue();
+        if ("concept".equals(property.getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+            /*
+            // alternative from: https://groups.google.com/g/gremlin-users/c/hHlVRMl1JZs
+            return whereCodeSystem(g.not(__.until(hasCode(value.getValue(), caseSensitive))
+                .repeat((GraphTraversal) __.out(FHIRTermGraph.IS_A)))
+                .hasLabel("Concept"), codeSystem);
+            */
+            return whereCodeSystem(g.not(__.repeat(__.out(FHIRTermGraph.IS_A))
+                .until(hasCode(value.getValue(), caseSensitive)))
+                .not(hasCode(value.getValue(), caseSensitive))
+                .hasLabel("Concept"), codeSystem);
+        }
+        return filterNotApplied(filter, g);
+    }
+
+    private GraphTraversal<Vertex, Vertex> applyNotInFilter(CodeSystem codeSystem, Filter filter, boolean first, GraphTraversal<Vertex, Vertex> g) {
+        Code property = filter.getProperty();
+        if ("concept".equals(property.getValue()) || hasCodeSystemProperty(codeSystem, property)) {
+            return "concept".equals(property.getValue()) ?
+                applyConceptNotInFilter(codeSystem, filter, first, g) :
+                applyPropertyNotInFilter(codeSystem, filter, first, g);
+        }
+        return filterNotApplied(filter, g);
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private GraphTraversal<Vertex, Vertex> applyParentEqualsFilter(CodeSystem codeSystem, Filter filter, boolean first, GraphTraversal<Vertex, Vertex> g) {
+        boolean caseSensitive = isCaseSensitive(codeSystem);
+        com.ibm.fhir.model.type.String value = filter.getValue();
+        return first ?
+            whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem)
+                .in(FHIRTermGraph.IS_A) :
+            // intersection with previous results
+            (GraphTraversal) whereCodeSystem(hasCode(g.as("a").V(), value.getValue(), caseSensitive), codeSystem)
+                .in(FHIRTermGraph.IS_A)
+                .as("b")
+                .select("a")
+                .where("a", P.eq("b"));
+    }
+
+    private GraphTraversal<Vertex, Vertex> applyPropertyEqualsFilter(CodeSystem codeSystem, Filter filter, boolean first, GraphTraversal<Vertex, Vertex> g) {
+        Code property = filter.getProperty();
+        com.ibm.fhir.model.type.String value = filter.getValue();
+        PropertyType type = getCodeSystemPropertyType(codeSystem, property);
+        Element element = toElement(value, type);
+        return first ?
+            whereCodeSystem(g.has(getPropertyKey(type), element.is(DateTime.class) ? toLong(element.as(DateTime.class)) : toObject(element))
+                .in("property_"), codeSystem) :
+            whereCodeSystem(g.where(__.out("property_").has(getPropertyKey(type), element.is(DateTime.class) ? toLong(element.as(DateTime.class)) : toObject(element))), codeSystem);
+    }
+
+    private GraphTraversal<Vertex, Vertex> applyPropertyExistsFilter(CodeSystem codeSystem, Filter filter, boolean first, GraphTraversal<Vertex, Vertex> g) {
+        Code property = filter.getProperty();
+        return first ?
+            whereCodeSystem(g.has("code", property.getValue()).in("property_"), codeSystem) :
+            whereCodeSystem(g.where(__.out("property_").has("code", property.getValue())), codeSystem);
+    }
+
+    private GraphTraversal<Vertex, Vertex> applyPropertyInFilter(CodeSystem codeSystem, Filter filter, boolean first, GraphTraversal<Vertex, Vertex> g) {
+        Code property = filter.getProperty();
+        com.ibm.fhir.model.type.String value = filter.getValue();
+        PropertyType type = getCodeSystemPropertyType(codeSystem, property);
+        return first ?
+            whereCodeSystem(g.has(getPropertyKey(type), P.within(Arrays.stream(value.getValue().split(","))
+                .map(v -> toElement(v, type))
+                .map(e -> e.is(DateTime.class) ? toLong(e.as(DateTime.class)) : toObject(e))
+                .collect(Collectors.toSet()))).in("property_"), codeSystem) :
+            whereCodeSystem(g.where(__.out("property_").has(getPropertyKey(type), P.within(Arrays.stream(value.getValue().split(","))
+                .map(v -> toElement(v, type))
+                .map(e -> e.is(DateTime.class) ? toLong(e.as(DateTime.class)) : toObject(e))
+                .collect(Collectors.toSet())))), codeSystem);
+    }
+
+    private GraphTraversal<Vertex, Vertex> applyPropertyNotExistsFilter(CodeSystem codeSystem, Filter filter, GraphTraversal<Vertex, Vertex> g) {
+        return whereCodeSystem(g.not(__.out("property_").has("code", filter.getProperty().getValue())).hasLabel("Concept"), codeSystem);
+    }
+
+    private GraphTraversal<Vertex, Vertex> applyPropertyNotInFilter(CodeSystem codeSystem, Filter filter, boolean first, GraphTraversal<Vertex, Vertex> g) {
+        Code property = filter.getProperty();
+        com.ibm.fhir.model.type.String value = filter.getValue();
+        PropertyType type = getCodeSystemPropertyType(codeSystem, property);
+        return first ?
+            whereCodeSystem(g.has(getPropertyKey(type), P.without(Arrays.stream(value.getValue().split(","))
+                .map(v -> toElement(v, type))
+                .map(e -> e.is(DateTime.class) ? toLong(e.as(DateTime.class)) : toObject(e))
+                .collect(Collectors.toSet()))).in("property_"), codeSystem) :
+            whereCodeSystem(g.where(__.out("property_").has(getPropertyKey(type), P.without(Arrays.stream(value.getValue().split(","))
+                .map(v -> toElement(v, type))
+                .map(e -> e.is(DateTime.class) ? toLong(e.as(DateTime.class)) : toObject(e))
+                .collect(Collectors.toSet())))), codeSystem);
+    }
+
+    private GraphTraversal<Vertex, Vertex> applyRegexFilter(CodeSystem codeSystem, Filter filter, boolean first, GraphTraversal<Vertex, Vertex> g) {
+        Code property = filter.getProperty();
+        com.ibm.fhir.model.type.String value = filter.getValue();
+        PropertyType type = getCodeSystemPropertyType(codeSystem, property);
+        if (hasCodeSystemProperty(codeSystem, property) && (PropertyType.CODE.equals(type) || PropertyType.STRING.equals(type))) {
+            return first ?
+                whereCodeSystem(g.has(getPropertyKey(type), Text.textRegex(value.getValue())).in("property_"), codeSystem) :
+                whereCodeSystem(g.where(__.out("property_").has(getPropertyKey(type), Text.textRegex(value.getValue()))), codeSystem);
+        }
+        return filterNotApplied(filter, g);
     }
 
     private void checkTimeLimit(TimeLimitStep<?> timeLimitStep) {
@@ -395,11 +494,11 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
 
     private Concept createConcept(Map<Object, Object> elementMap, List<Designation> designations, List<Property> properties) {
         return Concept.builder()
-                .code(Code.of((String) elementMap.get("code")))
-                .display(string((String) elementMap.get("display")))
-                .designation(designations)
-                .property(properties)
-                .build();
+            .code(Code.of((String) elementMap.get("code")))
+            .display(string((String) elementMap.get("display")))
+            .designation(designations)
+            .property(properties)
+            .build();
     }
 
     private Designation createDesignation(Map<Object, Object> elementMap, String designationUseSystem) {
@@ -419,9 +518,14 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
 
     private Property createProperty(Map<Object, Object> elementMap) {
         return Property.builder()
-                .code(Code.of((String) elementMap.get("code")))
-                .value(getValue(elementMap))
-                .build();
+            .code(Code.of((String) elementMap.get("code")))
+            .value(getValue(elementMap))
+            .build();
+    }
+
+    private GraphTraversal<Vertex, Vertex> filterNotApplied(Filter filter, GraphTraversal<Vertex, Vertex> g) {
+        log.log(Level.WARNING, String.format("Filter not applied - property: %s, op: %s, value: %s", filter.getProperty().getValue(), filter.getOp().getValue(), filter.getValue().getValue()));
+        return g;
     }
 
     private Concept getConcept(CodeSystem codeSystem, Code code, boolean includeDesignations, boolean includeProperties) {
@@ -438,8 +542,8 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
 
     private int getCount(CodeSystem codeSystem) {
         Optional<Map<Object, Object>> optional = hasVersion(hasUrl(vertices(), codeSystem.getUrl()), codeSystem.getVersion())
-                .elementMap("count")
-                .tryNext();
+            .elementMap("count")
+            .tryNext();
         if (optional.isPresent()) {
             return (Integer) optional.get().get("count");
         }
