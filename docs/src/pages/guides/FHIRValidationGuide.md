@@ -265,7 +265,7 @@ Without the `--pretty` option, the results are:
 1000001
 ```
 
-For instace, to run the fhir-path-cli using a string.
+For instance, to run the fhir-path-cli using a string.
 
 ``` shell
 java -jar fhir-path-4.6.0-cli.jar --path 'text.status.value' --type string --resource '{

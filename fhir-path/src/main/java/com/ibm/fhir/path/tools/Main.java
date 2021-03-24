@@ -48,9 +48,11 @@ import com.ibm.fhir.path.visitor.FHIRPathNodeVisitor;
  * a FHIR Path is executed over it, and the output is put out to the screen.
  *
  * The types of entry points are:
- * a file
- * a string (raw command line arg); or
- * stdin (so we can pipe to it)
+ * <ul>
+ * <li>a file
+ * <li>a string (raw command line arg); or
+ * <li>stdin (so we can pipe to it)
+ * </ul>
  *
  * @implNote the manifest.mf is specifically designed to pickup lib/
  *           if implementation guides need to be picked up, please use that local folder.
