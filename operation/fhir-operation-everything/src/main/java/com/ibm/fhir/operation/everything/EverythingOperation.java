@@ -168,7 +168,6 @@ public class EverythingOperation extends AbstractOperation {
             patient = (Patient) resourceHelper.doRead(PATIENT, logicalId, false, false, null, null);
         } catch (FHIRPersistenceResourceDeletedException fde) {
             FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Patient with ID '" + logicalId + "' does not exist.", IssueType.NOT_FOUND);
-            LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
             throw exceptionWithIssue;
         } catch (Exception e) {
             FHIROperationException exceptionWithIssue = buildExceptionWithIssue("An unexpected error occurred while reading patient '" + logicalId + "'", IssueType.EXCEPTION);
@@ -177,7 +176,6 @@ public class EverythingOperation extends AbstractOperation {
         }
         if (patient == null) {
             FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Patient with ID '" + logicalId + "' does not exist.", IssueType.NOT_FOUND);
-            LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
             throw exceptionWithIssue;
         }
 
@@ -189,7 +187,7 @@ public class EverythingOperation extends AbstractOperation {
         // Initial list obtained from the github issue: https://github.com/IBM/FHIR/issues/1044#issuecomment-769788097
         // Otherwise the search throws an exception. We create a params map with and without and use as needed
         MultivaluedMap<String, String> queryParameters = parseQueryParameters(parameters);
-        MultivaluedMap<String, String> queryParametersWithoutDates = new MultivaluedHashMap<>(queryParameters);
+        MultivaluedMap<String, String> queryParametersWithoutDates = new MultivaluedHashMap<String,String>(queryParameters);
         boolean startOrEndProvided = queryParametersWithoutDates.remove(DATE_QUERY_PARAMETER) != null;
 
         List<String> resourceTypesOverride = getOverridenIncludedResourceTypes(parameters);
