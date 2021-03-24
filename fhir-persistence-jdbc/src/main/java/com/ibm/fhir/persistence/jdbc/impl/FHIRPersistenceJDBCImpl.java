@@ -822,6 +822,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         //   _include and _revinclude search.
         // - Iteration 2 and above processes only against resources returned by the previous iteration. Note
         //   that we currently have a max of only one iteration.
+        //
         for (int i=0; i<=SearchConstants.MAX_INCLUSION_ITERATIONS; ++i) {
             // Get the map of resourceTypes for current iteration level
             Map<String, Set<String>> resourceTypeMap = queryResultMap.get(i);
