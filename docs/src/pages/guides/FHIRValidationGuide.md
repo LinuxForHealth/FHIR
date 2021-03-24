@@ -232,7 +232,6 @@ The fhir-path-cli enables commandline processing of a FHIR Path over a FHIR reso
 The options for the command line utility are:
 - `--path 'fhir-path'`
 - `--format ['json'|'xml']` Default is 'json'
-- `--type ['stdin'|'file'|'string']`
 - `--file path-to-file` The file that is accessible and read.
 - `--resource 'resource-payload'` The FHIR resource as a well formed string.
 - `--pretty` adds columns and start time and end time of the fhir path request
@@ -241,7 +240,7 @@ The options for the command line utility are:
 For instace, to run the fhir-path-cli on Bundle-2000002.json and extract the ids from the Bundle's resources (as stored in the file).
 
 ``` shell
-java -jar fhir-path-4.6.0-cli.jar --path entry.resource.id --type file --file Bundle-2000002.json --pretty
+java -jar fhir-path-4.6.0-cli.jar --path entry.resource.id --file Bundle-2000002.json --pretty
 ```
 
 ``` text
@@ -268,7 +267,7 @@ Without the `--pretty` option, the results are:
 For instance, to run the fhir-path-cli using a string.
 
 ``` shell
-java -jar fhir-path-4.6.0-cli.jar --path 'text.status.value' --type string --resource '{
+java -jar fhir-path-4.6.0-cli.jar --path 'text.status.value' --resource '{
   "resourceType": "Patient",
   "id": "pat1",
   "text": {
