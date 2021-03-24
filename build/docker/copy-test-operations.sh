@@ -19,6 +19,5 @@ mkdir -p $USERLIB
 echo "Copying test artifacts to install location..."
 find ${WORKSPACE}/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -exec cp -f {} ${USERLIB} \;
 cp -pr ${WORKSPACE}/operation/fhir-operation-test/target/fhir-operation-*-tests.jar ${USERLIB}
-cp -pr ${WORKSPACE}/operation/fhir-operation-everything/target/fhir-operation-*.jar ${USERLIB}
 
 echo "Finished copying test operations."
