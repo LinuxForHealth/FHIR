@@ -35,8 +35,7 @@ public class QuerySegmentAggregatorFactory {
         QuerySegmentAggregator qsa;
         
         if (searchContext.hasIncludeParameters() || searchContext.hasRevIncludeParameters()) {
-            qsa = new InclusionQuerySegmentAggregator(resourceType, offset, pageSize, parameterDao, resourceDao, 
-                                                      searchContext.getIncludeParameters(), searchContext.getRevIncludeParameters(), queryHints, identityCache);
+            qsa = new InclusionQuerySegmentAggregator(resourceType, offset, pageSize, parameterDao, resourceDao, queryHints, identityCache);
         }
         else if (searchContext.hasSortParameters()) {
             qsa = new SortedQuerySegmentAggregator(resourceType, offset, pageSize, parameterDao, resourceDao, searchContext.getSortParameters(), queryHints);
