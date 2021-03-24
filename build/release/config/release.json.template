@@ -1,0 +1,27 @@
+{
+    "CI": true,
+    "JAVA_HOME": "/opt/hostedtoolcache/AdoptOpenJDK/1.0.0-ga-11-jdk-hotspot-linux-x64-normal-latest/x64",
+    "git": {
+        "GITHUB_ACTOR": "",
+        "GITHUB_TOKEN": "",
+        "GITHUB_REPOSITORY": ""
+    },
+    "dockerhub":{
+    "DOCKERHUB_USERNAME": "",
+    "DOCKERHUB_TOKEN": ""
+    },
+    "sonatype": {
+        "OSSRH_USERNAME": "",
+        "OSSRH_PASSWORD": "",
+        "GPG_KEYNAME": "",
+        "GPG_PASSPHRASE": ""
+    }
+    "modules": [
+        {
+            "module": "",
+            "version": ""
+            "skip": true
+        }
+    ]
+
+}

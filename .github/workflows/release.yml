@@ -17,8 +17,6 @@ jobs:
         java: [ 'openjdk11' ]
       fail-fast: false
     steps:
-    - name: Setup Graphviz environment
-      uses: ts-graphviz/setup-graphviz@v1
     - name: Grab the Main Branch
       uses: actions/checkout@v2.3.3
       with:
@@ -28,38 +26,28 @@ jobs:
       uses: joschi/setup-jdk@v2.3.0
       with:
         java-version: ${{ matrix.java }}
-    - name: Build and Release for Git Tag
+    - name: Prep
       env:
         BASE: origin/${{ github['base_ref'] }}
         GITHUB_TOKEN: ${{ secrets.DOCS_SITE_TOKEN }}
         GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
         GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
-        BINTRAY_USERNAME: ${{ secrets.BINTRAY_USERNAME }}
-        BINTRAY_PASSWORD: ${{ secrets.BINTRAY_PASSWORD }}
-        CODECOV_RUNME: ${{ secrets.CODECOV_RUNME }}
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-        CI: true
-        JAVA_HOME: /opt/hostedtoolcache/AdoptOpenJDK/1.0.0-ga-11-jdk-hotspot-linux-x64-normal-latest/x64/
       run: |
-        bash build/release/bootstrap-env.sh
-        . ./build/release/bootstrap.env
-        bash build/release/version.sh
-        bash build/release/clean.sh
+        bash build/release/prep.sh
+    - name: Build
+      run: |
         bash build/release/build.sh
-        bash build/release/code-coverage.sh
-        # only covers unit tests (not server integration tests)
-        # bash build/release/ibm-java-regression.sh
+    - name: Package Artifacts
+      run: |
+        bash build/release/package.sh
+    - name: Release
+      run: |
         bash build/release/release.sh
-        bash build/release/docker-push.sh
-        bash build/release/sync-maven-central.sh
-        bash build/release/release-commit-details.sh
-        bash build/release/diagnostics.sh
     - name: Gather error logs
       if: failure()
       run: |
-        . ./build/release/bootstrap.env
         bash build/release/diagnostics.sh
     - name: Upload logs
       if: always()
@@ -71,5 +59,7 @@ jobs:
       if: success()
       uses: actions/upload-artifact@v2.2.0
       with:
-        name: fhir-server-distribution
-        path: fhir-install/target/fhir-server-distribution.zip
+        name: release-${{ github.tag }}
+        path: |
+          build/.cache/
+        if-no-files-found: ignore

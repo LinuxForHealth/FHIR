@@ -13,7 +13,9 @@ Note: The Docker image [ibmcom/ibm-fhir-schematool](https://hub.docker.com/r/ibm
 More information on installing and running the server is available in the User Guide at https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide.
 
 ### Building on top of the IBM FHIR Server Modules
-Each of the IBM FHIR Server modules are published to a public Maven repository on [JFrog Bintray](https://bintray.com/ibm-watson-health/ibm-fhir-server-releases).
+Each of the IBM FHIR Server modules are published to Maven Central [repo](https://repo1.maven.org/maven2/com/ibm/fhir/)
+
+For Version 4.6.1 and earlier, each of the IBM FHIR Server modules are published to public Maven repository on [JFrog Bintray](https://bintray.com/ibm-watson-health/ibm-fhir-server-releases).
 
 To use the artifacts from a Maven project:
 1. Add the repository to your pom.xml:

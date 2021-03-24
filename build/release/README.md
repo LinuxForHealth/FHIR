@@ -1,5 +1,6 @@
-# 
-The build process supports Travis and GitHub Actions. 
+#  Build and Tag Release
+
+The build process supports GitHub Actions. 
 
 The build executes in with the following types:
 - SNAPSHOT (skips the version change phase)
@@ -32,23 +33,4 @@ The archive contains the following:
 
 The jacoco-aggregate shows the cross-project unit test code coverage, and NOT the integration tests. 
 
-### CodeCov.io
-The IBM project is at https://codecov.io/gh/IBM/FHIR  As of right now it does not have authorization for the details from IBM/FHIR. 
-
-In order to submit the files to codecov.io, a Personal Access token must be added on https://github.com/IBM/FHIR/settings/secrets as CODECOV_TOKEN .  The token in place right now is invalid. 
-
-Also add CODECOV_RUNME secret, and set anything as the value. If this secret is passed as a non-empty string, the codecov.io 
-runs.  To stop it running, remove the secret.
-
-To generate the jacoco.xml file locally, run the following: 
-```
-mvn -f fhir-examples clean install 
-PROFILES_ARR=(model-all-tests)
-PROFILES_ARR+=(validation-all-tests)
-PROFILES_ARR+=(search-all-tests)
-PROFILES_ARR+=(jdbc-all-tests)
-PROFILES_ARR+=(aggregate-report)
-PROFILES=$(IFS=, ; echo "${PROFILES_ARR[*]}")
-mvn -P${PROFILES} -f fhir-parent test jacoco:report
-mvn -Paggregate-report,${PROFILES} -f fhir-parent jacoco:report-aggregate
-```
+Sonatype max size is 1024M
