@@ -2,7 +2,7 @@
 layout: post
 title: FHIR Validation Guide
 description: FHIR Validation Guide
-date:   2021-01-11 10:25:00 -0400
+date:   2021-03-24
 permalink: /FHIRValidationGuide/
 ---
 
