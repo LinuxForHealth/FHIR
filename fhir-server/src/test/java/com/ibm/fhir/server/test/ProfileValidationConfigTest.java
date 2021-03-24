@@ -67,7 +67,7 @@ public class ProfileValidationConfigTest {
     void setup() throws FHIRException {
         FHIRConfiguration.setConfigHome("src/test/resources");
         FHIRRequestContext.get().setTenantId("profileValidationConfigTest");
-        FHIRRegistry.getInstance().register(new MockRegistryResourceProvider());
+        FHIRRegistry.getInstance().addProvider(new MockRegistryResourceProvider());
         persistence = new MockPersistenceImpl();
         helper = new FHIRRestHelper(persistence);
     }
