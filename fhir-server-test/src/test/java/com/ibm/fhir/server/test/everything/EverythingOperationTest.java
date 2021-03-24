@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang3.SerializationUtils;
@@ -35,6 +36,7 @@ import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.resource.Organization;
+import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.code.BundleType;
@@ -274,6 +276,47 @@ public class EverythingOperationTest extends FHIRServerTestBase {
             return;
         }
         Response response = getWebTarget().path("Patient/some-unknown-id/$everything").request().get(Response.class);
+        assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
+    }
+
+    @Test(groups = { "fhir-operation" })
+    public void testCreateAndDeletePatientVerifyDelete() throws Exception {
+        if (SKIP) {
+            logger.warning("Skipping integration test for $everything");
+            return;
+        }
+        WebTarget target = getWebTarget();
+
+        // Build a new Patient and then call the 'create' API.
+        Patient ptnt = TestUtil.readLocalResource("Patient_JohnDoe.json");
+        Entity<Patient> entity =
+                Entity.entity(ptnt, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response =
+                target.path("Patient").request()
+                .header("X-FHIR-TENANT-ID", "default")
+                .header("X-FHIR-DSID", "default")
+                .post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the patient's logical id value.
+        String id = getLocationLogicalId(response);
+
+        // Next, call the 'read' API to retrieve the new patient and verify it.
+        response = target.path("Patient/" + id).request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "default")
+                .header("X-FHIR-DSID", "default")
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Patient responsePatient = response.readEntity(Patient.class);
+        TestUtil.assertResourceEquals(ptnt, responsePatient);
+
+        response = getWebTarget().path("Patient/" + id).request().delete();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+
+        response = getWebTarget().path("Patient/" + id).request().get(Response.class);
+        assertResponse(response, Response.Status.GONE.getStatusCode());
+
+        response = getWebTarget().path("Patient/" + id + "/$everything").request().get(Response.class);
         assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
     }
 
