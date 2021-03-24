@@ -13,12 +13,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Properties;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -66,8 +63,6 @@ public final class Main {
     private static final String PROP_FILE = "FILE";
     private static final String PROP_FORMAT = "FORMAT";
 
-    private static final Set<String> TYPES = new HashSet<>(Arrays.asList("file", "stdin", "string"));
-
     private Boolean pretty = Boolean.FALSE;
     private Boolean help = Boolean.FALSE;
 
@@ -85,7 +80,7 @@ public final class Main {
      * @param args
      */
     protected void determineTypeAndSetProperties(String[] args) {
-        String type = null;
+        String type = "stdin";
         for (int i = 0; i < args.length; i++) {
             if ("--help".equals(args[i]) || "-?".equals(args[i])) {
                 help();
@@ -113,16 +108,8 @@ public final class Main {
                                 && !"json".equals(format))) {
                     throw new IllegalArgumentException("format must be 'json' or 'xml'");
                 }
-            } else if ("--type".equals(args[i])) {
-                checkIsThereMore(i, args.length, "type");
-                i++;
-                type = args[i].toLowerCase();
-                props.put(PROP_TYPE, type);
-
-                if (type == null || type.isEmpty()) {
-                    throw new IllegalArgumentException("type must not be empty");
-                }
             } else if ("--resource".equals(args[i])) {
+                type = "string";
                 checkIsThereMore(i, args.length, "resource");
                 i++;
                 String resource = args[i];
@@ -131,6 +118,7 @@ public final class Main {
                 }
                 props.put(PROP_RESOURCE, resource);
             } else if ("--file".equals(args[i])) {
+                type = "file";
                 checkIsThereMore(i, args.length, "resource");
                 i++;
                 String file = args[i];
@@ -156,6 +144,7 @@ public final class Main {
             }
         }
 
+
         if (props.size() == 0) {
             throw new IllegalArgumentException("Invalid parameters were set for the fhir path client");
         } else if (props.size() <= 2) {
@@ -163,11 +152,7 @@ public final class Main {
         }
 
         // Check the type
-        if (type == null) {
-            throw new IllegalArgumentException("No type specified");
-        } else if (!TYPES.contains(type.toLowerCase())) {
-            throw new IllegalArgumentException("improper type specified");
-        }
+        props.put(PROP_TYPE, type);
 
         // Only for the stdin do we need process into a String
         if ("stdin".equals(type)) {
@@ -176,7 +161,7 @@ public final class Main {
                 String body = lines.collect(Collectors.joining("\n"));
                 props.put(PROP_RESOURCE, body);
             } catch (Exception e) {
-                throw new IllegalArgumentException("Unable to read the resource from stdins");
+                throw new IllegalArgumentException("Unable to read the resource from stdin");
             }
         }
     }
@@ -282,7 +267,6 @@ public final class Main {
     public void help() {
         System.err.println("--path 'fhir-path'");
         System.err.println("--format ['json'|'xml'] . Default is 'json'");
-        System.err.println("--type ['stdin'|'file'|'string']");
         // --file only
         System.err.println("--file path-to-file . The file that is accessible and read.");
         // --resource only

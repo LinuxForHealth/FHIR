@@ -58,18 +58,6 @@ public class MainTest {
     }
 
     @Test(expectedExceptions= {IllegalArgumentException.class})
-    public void testTypeWithBadEmpty() {
-        String[] args = {"--type", ""};
-        Main.main(args);
-    }
-
-    @Test(expectedExceptions= {IllegalArgumentException.class})
-    public void testTypeWithBadValue() {
-        String[] args = {"--type", "badbadbad"};
-        Main.main(args);
-    }
-
-    @Test(expectedExceptions= {IllegalArgumentException.class})
     public void testFileWithBadEmpty() {
         String[] args = {"--file", ""};
         Main.main(args);
@@ -150,70 +138,70 @@ public class MainTest {
     @Test(expectedExceptions= {})
     public void testFileValid() {
         String[] args = {"--file", "../fhir-examples/src/main/resources/json/profiles/fhir-ig-davinci-pdex/Bundle-2000002.json",
-                "--type", "file", "--path", "entry.resource.id"};
+                "--path", "entry.resource.id"};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {})
     public void testFileValidWithPretty() {
         String[] args = {"--file", "../fhir-examples/src/main/resources/json/profiles/fhir-ig-davinci-pdex/Bundle-2000002.json",
-                "--type", "file", "--path", "entry.resource.id", "--pretty"};
+                "--path", "entry.resource.id", "--pretty"};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {})
     public void testFileValidWithResource() {
         String[] args = {"--file", "../fhir-examples/src/main/resources/json/profiles/fhir-ig-davinci-pdex/Bundle-2000002.json",
-                "--type", "file", "--path", "entry.resource"};
+                "--path", "entry.resource"};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {java.lang.IllegalArgumentException.class})
     public void testFileInvalidWithResourceBadFhirPathLang() {
         String[] args = {"--file", "../fhir-examples/src/main/resources/json/profiles/fhir-ig-davinci-pdex/Bundle-2000002.json",
-                "--type", "file", "--path", ".entry.resourcex"};
+                "--path", ".entry.resourcex"};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {})
     public void testFileWithResourceBadPath() {
         String[] args = {"--file", "../fhir-examples/src/main/resources/json/profiles/fhir-ig-davinci-pdex/Bundle-2000002.json",
-                "--type", "file", "--path", "entry.resourcex"};
+                "--path", "entry.resourcex"};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {})
     public void testFileWithResourceTimestamp() {
         String[] args = {"--file", "../fhir-examples/src/main/resources/json/profiles/fhir-ig-davinci-pdex/Bundle-2000002.json",
-                "--type", "file", "--path", "entry.timestamp"};
+                "--path", "entry.timestamp"};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {})
     public void testFileWithResourceQuantity() {
         String[] args = {"--file", "../fhir-examples/src/main/resources/json/profiles/fhir-ig-davinci-pdex/Bundle-2000002.json",
-                "--type", "file", "--path", "entry.resource.quantity"};
+                "--path", "entry.resource.quantity"};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {})
     public void testFileWithPatientResourceBoolean() {
         String[] args = {"--file", "../fhir-examples//src/main/resources/json/profiles/fhir-ig-davinci-pdex/Patient-1.json",
-                "--type", "file", "--path", "active"};
+                "--path", "active"};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {})
     public void testFileWithPatientResourceDateTime() {
         String[] args = {"--file", "../fhir-examples//src/main/resources/json/profiles/fhir-ig-davinci-pdex/Patient-1.json",
-                "--type", "file", "--path", "meta.lastUpdated.value"};
+                "--path", "meta.lastUpdated.value"};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {})
     public void testFileWithPatientResourceDate() {
         String[] args = {"--file", "../fhir-examples//src/main/resources/json/profiles/fhir-ig-davinci-pdex/Patient-1.json",
-                "--type", "file", "--path", "birthDate.value"};
+                "--path", "birthDate.value"};
         Main.main(args);
     }
 }
