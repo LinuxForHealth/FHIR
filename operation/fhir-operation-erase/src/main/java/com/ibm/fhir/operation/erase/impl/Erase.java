@@ -17,8 +17,6 @@ public interface Erase {
 
     public void checkAllowedMethod(Object method) throws FHIROperationException;
 
-    public void authorize(Object securityContext, Object jwt) throws FHIROperationException;
-
     public void checkPatientId() throws FHIROperationException;
 
     public void exists() throws FHIROperationException;
