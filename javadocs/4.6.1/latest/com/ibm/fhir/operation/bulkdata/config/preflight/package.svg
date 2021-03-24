@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="197px" preserveAspectRatio="none" style="width:839px;height:197px;" version="1.1" viewBox="0 0 839 197" width="839px" zoomAndPan="magnify"><defs><filter height="300%" id="f1a9d09i9xbtnh" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[bd24fea6f5a4a7f1d3d8edd3b0a2ecaa]
+cluster com.ibm.fhir.operation.bulkdata.config.preflight--><polygon fill="#FFFFFF" filter="url(#f1a9d09i9xbtnh)" points="22,24,405,24,412,46.2969,817,46.2969,817,149,22,149,22,24" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="22" x2="412" y1="46.2969" y2="46.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="377" x="26" y="38.9951">com.ibm.fhir.operation.bulkdata.config.preflight</text><!--MD5=[c1bf9fda372d3ba6dea24dafa9f8847d]
+class com.ibm.fhir.operation.bulkdata.config.preflight.PreflightFactory--><a href="PreflightFactory.html" target="_top" title="PreflightFactory.html" xlink:actuate="onRequest" xlink:href="PreflightFactory.html" xlink:show="new" xlink:title="PreflightFactory.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1a9d09i9xbtnh)" height="60.8047" id="com.ibm.fhir.operation.bulkdata.config.preflight.PreflightFactory" style="stroke: #A80036; stroke-width: 1.5;" width="465" x="335.5" y="65.5"/><ellipse cx="514.75" cy="81.5" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M517.7188,87.1406 Q517.1406,87.4375 516.5,87.5781 Q515.8594,87.7344 515.1563,87.7344 Q512.6563,87.7344 511.3281,86.0938 Q510.0156,84.4375 510.0156,81.3125 Q510.0156,78.1875 511.3281,76.5313 Q512.6563,74.875 515.1563,74.875 Q515.8594,74.875 516.5,75.0313 Q517.1563,75.1875 517.7188,75.4844 L517.7188,78.2031 Q517.0938,77.625 516.5,77.3594 Q515.9063,77.0781 515.2813,77.0781 Q513.9375,77.0781 513.25,78.1563 Q512.5625,79.2188 512.5625,81.3125 Q512.5625,83.4063 513.25,84.4844 Q513.9375,85.5469 515.2813,85.5469 Q515.9063,85.5469 516.5,85.2813 Q517.0938,85 517.7188,84.4219 L517.7188,87.1406 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="98" x="535.25" y="85.6543">PreflightFactory</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="336.5" x2="799.5" y1="97.5" y2="97.5"/><line style="stroke: #A80036; stroke-width: 1.5;" x1="336.5" x2="799.5" y1="105.5" y2="105.5"/><ellipse cx="346.5" cy="116.5" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="439" x="355.5" y="119.7104">getInstance(FHIROperationContext, List&lt;Input&gt;, ExportType, String): Preflight</text></a><!--MD5=[e01392bcc863984975b4cd4cd2904ef4]
+class com.ibm.fhir.operation.bulkdata.config.preflight.Preflight--><a href="Preflight.html" target="_top" title="Preflight.html" xlink:actuate="onRequest" xlink:href="Preflight.html" xlink:show="new" xlink:title="Preflight.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1a9d09i9xbtnh)" height="73.6094" id="com.ibm.fhir.operation.bulkdata.config.preflight.Preflight" style="stroke: #A80036; stroke-width: 1.5;" width="262" x="38" y="59"/><ellipse cx="139.25" cy="75" fill="#B4A7E5" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M135.1719,70.7656 L135.1719,68.6094 L142.5625,68.6094 L142.5625,70.7656 L140.0938,70.7656 L140.0938,78.8438 L142.5625,78.8438 L142.5625,81 L135.1719,81 L135.1719,78.8438 L137.6406,78.8438 L137.6406,70.7656 L135.1719,70.7656 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="51" x="159.75" y="79.1543">Preflight</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="39" x2="299" y1="91" y2="91"/><line style="stroke: #A80036; stroke-width: 1.5;" x1="39" x2="299" y1="99" y2="99"/><ellipse cx="49" cy="110" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="87" x="58" y="113.2104">preflight(): void</text><ellipse cx="49" cy="122.8047" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="236" x="58" y="126.0151">checkStorageAllowed(StorageDetail): void</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="332.5" y="184.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[cd360f2a61049bd16310bbeb64d5a545]
+@startuml
+    namespace com.ibm.fhir.operation.bulkdata.config.preflight {
+
+        class PreflightFactory [[PreflightFactory.html]] {
+            {static} +getInstance(FHIROperationContext, List<Input>, ExportType, String): Preflight
+        }
+
+        interface Preflight [[Preflight.html]] {
+            {abstract} +preflight(): void
+            {abstract} +checkStorageAllowed(StorageDetail): void
+        }
+
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.10+9
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

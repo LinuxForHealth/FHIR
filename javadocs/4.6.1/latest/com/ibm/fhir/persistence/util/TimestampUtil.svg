@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="121px" preserveAspectRatio="none" style="width:204px;height:121px;" version="1.1" viewBox="0 0 204 121" width="204px" zoomAndPan="magnify"><defs><filter height="300%" id="f1xuc49kfgktqb" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[13171ada7b986ac45ebb78f96dee9454]
+class com.ibm.fhir.persistence.util.TimestampUtil--><a href="TimestampUtil.html" target="_top" title="TimestampUtil.html" xlink:actuate="onRequest" xlink:href="TimestampUtil.html" xlink:show="new" xlink:title="TimestampUtil.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1xuc49kfgktqb)" height="84.3516" id="com.ibm.fhir.persistence.util.TimestampUtil" style="stroke: #A80036; stroke-width: 1.5;" width="184" x="7" y="7"/><ellipse cx="29.2" cy="25.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M32.1688,31.6094 Q31.5906,31.9063 30.95,32.0469 Q30.3094,32.2031 29.6063,32.2031 Q27.1063,32.2031 25.7781,30.5625 Q24.4656,28.9063 24.4656,25.7813 Q24.4656,22.6563 25.7781,21 Q27.1063,19.3438 29.6063,19.3438 Q30.3094,19.3438 30.95,19.5 Q31.6063,19.6563 32.1688,19.9531 L32.1688,22.6719 Q31.5438,22.0938 30.95,21.8281 Q30.3563,21.5469 29.7313,21.5469 Q28.3875,21.5469 27.7,22.625 Q27.0125,23.6875 27.0125,25.7813 Q27.0125,27.875 27.7,28.9531 Q28.3875,30.0156 29.7313,30.0156 Q30.3563,30.0156 30.95,29.75 Q31.5438,29.4688 32.1688,28.8906 L32.1688,31.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="98" x="63.8" y="24.9951">TimestampUtil</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="136" x="44.8" y="37.5791">com.ibm.fhir.persistence.util</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="190" y1="44.9375" y2="44.9375"/><ellipse cx="18" cy="55.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="134" x="27" y="59.1479">create(): TimestampUtil</text><ellipse cx="18" cy="68.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="158" x="27" y="71.9526">getTimestamp(String): Date</text><ellipse cx="18" cy="81.5469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="114" x="27" y="84.7573">format(Date): String</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="6" y="107.6338">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[a362b61c847314ecd5a260512a84dc29]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>TimestampUtil\n<size:10>com.ibm.fhir.persistence.util" as com.ibm.fhir.persistence.util.TimestampUtil [[TimestampUtil.html]] {
+        {static} +create(): TimestampUtil
+        +getTimestamp(String): Date
+        +format(Date): String
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.10+9
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="312px" preserveAspectRatio="none" style="width:280px;height:312px;" version="1.1" viewBox="0 0 280 312" width="280px" zoomAndPan="magnify"><defs><filter height="300%" id="f18djx631j5uqv" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[853b6bc2860131dbe59692e53c4373c5]
+cluster com.ibm.fhir.schema.patch--><polygon fill="#FFFFFF" filter="url(#f18djx631j5uqv)" points="22,24,241,24,248,46.2969,258,46.2969,258,264,22,264,22,24" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="22" x2="248" y1="46.2969" y2="46.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="213" x="26" y="38.9951">com.ibm.fhir.schema.patch</text><!--MD5=[8b514a24b9520cc81dfeca92bc0019bb]
+class com.ibm.fhir.schema.patch.Main--><a href="Main.html" target="_top" title="Main.html" xlink:actuate="onRequest" xlink:href="Main.html" xlink:show="new" xlink:title="Main.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f18djx631j5uqv)" height="188.8516" id="com.ibm.fhir.schema.patch.Main" style="stroke: #A80036; stroke-width: 1.5;" width="204" x="38" y="59"/><ellipse cx="121.25" cy="75" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M124.2188,80.6406 Q123.6406,80.9375 123,81.0781 Q122.3594,81.2344 121.6563,81.2344 Q119.1563,81.2344 117.8281,79.5938 Q116.5156,77.9375 116.5156,74.8125 Q116.5156,71.6875 117.8281,70.0313 Q119.1563,68.375 121.6563,68.375 Q122.3594,68.375 123,68.5313 Q123.6563,68.6875 124.2188,68.9844 L124.2188,71.7031 Q123.5938,71.125 123,70.8594 Q122.4063,70.5781 121.7813,70.5781 Q120.4375,70.5781 119.75,71.6563 Q119.0625,72.7188 119.0625,74.8125 Q119.0625,76.9063 119.75,77.9844 Q120.4375,79.0469 121.7813,79.0469 Q122.4063,79.0469 123,78.7813 Q123.5938,78.5 124.2188,77.9219 L124.2188,80.6406 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="29" x="141.75" y="79.1543">Main</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="39" x2="241" y1="91" y2="91"/><ellipse cx="49" cy="102" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="161" x="58" y="105.2104">ADMIN_SCHEMANAME: String</text><ellipse cx="49" cy="114.8047" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="155" x="58" y="118.0151">DATA_SCHEMANAME: String</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="39" x2="241" y1="124.6094" y2="124.6094"/><polygon fill="#FFFF44" points="49,130.6094,53,134.6094,49,138.6094,45,134.6094" style="stroke: #B38D22; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="178" x="58" y="138.8198">createConnection(): Connection</text><polygon fill="#FFFF44" points="49,143.4141,53,147.4141,49,151.4141,45,147.4141" style="stroke: #B38D22; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="116" x="58" y="151.6245">patchSchema(): void</text><polygon fill="#FFFF44" points="49,156.2188,53,160.2188,49,164.2188,45,160.2188" style="stroke: #B38D22; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="140" x="58" y="164.4292">parseArgs(String[]): void</text><ellipse cx="49" cy="174.0234" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="164" x="58" y="177.2339">loadPropertyFile(String): void</text><ellipse cx="49" cy="186.8281" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="142" x="58" y="190.0386">addProperty(String): void</text><polygon fill="#FFFF44" points="49,194.6328,53,198.6328,49,202.6328,45,198.6328" style="stroke: #B38D22; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="85" x="58" y="202.8433">process(): void</text><polygon fill="#FFFF44" points="49,207.4375,53,211.4375,49,215.4375,45,211.4375" style="stroke: #B38D22; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="105" x="58" y="215.6479">getExitStatus(): int</text><polygon fill="#FFFF44" points="49,220.2422,53,224.2422,49,228.2422,45,224.2422" style="stroke: #B38D22; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="158" x="58" y="228.4526">logStatusMessage(int): void</text><ellipse cx="49" cy="238.0469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="109" x="58" y="241.2573">main(String[]): void</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="53" y="299.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[9b1e6fdc2db6a598f60712a70546fea6]
+@startuml
+    namespace com.ibm.fhir.schema.patch {
+
+        class Main [[Main.html]] {
+            {static} +ADMIN_SCHEMANAME: String
+            {static} +DATA_SCHEMANAME: String
+            #createConnection(): Connection
+            #patchSchema(): void
+            #parseArgs(String[]): void
+            +loadPropertyFile(String): void
+            +addProperty(String): void
+            #process(): void
+            #getExitStatus(): int
+            #logStatusMessage(int): void
+            {static} +main(String[]): void
+        }
+
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.10+9
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

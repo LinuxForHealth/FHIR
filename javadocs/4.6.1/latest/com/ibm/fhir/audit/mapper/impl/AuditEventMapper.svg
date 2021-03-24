@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="268px" preserveAspectRatio="none" style="width:211px;height:268px;" version="1.1" viewBox="0 0 211 268" width="211px" zoomAndPan="magnify"><defs><filter height="300%" id="f1rq3lfjvh3g71" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[e1970ce0a1de2ecd09f62a2ededccf94]
+class com.ibm.fhir.audit.mapper.impl.AuditEventMapper--><a href="AuditEventMapper.html" target="_top" title="AuditEventMapper.html" xlink:actuate="onRequest" xlink:href="AuditEventMapper.html" xlink:show="new" xlink:title="AuditEventMapper.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1rq3lfjvh3g71)" height="84.3516" id="com.ibm.fhir.audit.mapper.impl.AuditEventMapper" style="stroke: #A80036; stroke-width: 1.5;" width="186" x="7" y="152"/><ellipse cx="22.9" cy="170.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M25.8688,176.6094 Q25.2906,176.9063 24.65,177.0469 Q24.0094,177.2031 23.3063,177.2031 Q20.8063,177.2031 19.4781,175.5625 Q18.1656,173.9063 18.1656,170.7813 Q18.1656,167.6563 19.4781,166 Q20.8063,164.3438 23.3063,164.3438 Q24.0094,164.3438 24.65,164.5 Q25.3063,164.6563 25.8688,164.9531 L25.8688,167.6719 Q25.2438,167.0938 24.65,166.8281 Q24.0563,166.5469 23.4313,166.5469 Q22.0875,166.5469 21.4,167.625 Q20.7125,168.6875 20.7125,170.7813 Q20.7125,172.875 21.4,173.9531 Q22.0875,175.0156 23.4313,175.0156 Q24.0563,175.0156 24.65,174.75 Q25.2438,174.4688 25.8688,173.8906 L25.8688,176.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="126" x="50.1" y="169.9951">AuditEventMapper</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="152" x="37.1" y="182.5791">com.ibm.fhir.audit.mapper.impl</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="192" y1="189.9375" y2="189.9375"/><ellipse cx="18" cy="200.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="158" x="27" y="204.1479">init(PropertyGroup): Mapper</text><ellipse cx="18" cy="213.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="160" x="27" y="216.9526">map(AuditLogEntry): Mapper</text><ellipse cx="18" cy="226.5469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="97" x="27" y="229.7573">serialize(): String</text></a><!--MD5=[52f3ddc1223de553c802e8d78620140c]
+class com.ibm.fhir.audit.mapper.Mapper--><a href="../Mapper.html" target="_top" title="../Mapper.html" xlink:actuate="onRequest" xlink:href="../Mapper.html" xlink:show="new" xlink:title="../Mapper.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1rq3lfjvh3g71)" height="84.3516" id="com.ibm.fhir.audit.mapper.Mapper" style="stroke: #A80036; stroke-width: 1.5;" width="188" x="6" y="8"/><ellipse cx="31.35" cy="26.9688" fill="#B4A7E5" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M27.2719,22.7344 L27.2719,20.5781 L34.6625,20.5781 L34.6625,22.7344 L32.1938,22.7344 L32.1938,30.8125 L34.6625,30.8125 L34.6625,32.9688 L27.2719,32.9688 L27.2719,30.8125 L29.7406,30.8125 L29.7406,22.7344 L27.2719,22.7344 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="52" x="88.15" y="25.9951">Mapper</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="133" x="47.65" y="38.5791">com.ibm.fhir.audit.mapper</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="193" y1="45.9375" y2="45.9375"/><ellipse cx="17" cy="56.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="159" x="26" y="60.1479">init(PropertyGroup): Mapper</text><ellipse cx="17" cy="69.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="162" x="26" y="72.9526">map(AuditLogEntry): Mapper</text><ellipse cx="17" cy="82.5469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="96" x="26" y="85.7573">serialize(): String</text></a><!--MD5=[6ae3740784bd2eee112c6a294c673026]
+reverse link com.ibm.fhir.audit.mapper.Mapper to com.ibm.fhir.audit.mapper.impl.AuditEventMapper--><path d="M100,112.26 C100,125.52 100,139.24 100,151.53 " fill="none" id="com.ibm.fhir.audit.mapper.Mapper&lt;-com.ibm.fhir.audit.mapper.impl.AuditEventMapper" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="none" points="93,112.07,100,92.07,107,112.07,93,112.07" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="13" y="255.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[7bd5524bed94d2fd662c4653b19c4644]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>AuditEventMapper\n<size:10>com.ibm.fhir.audit.mapper.impl" as com.ibm.fhir.audit.mapper.impl.AuditEventMapper [[AuditEventMapper.html]] {
+        +init(PropertyGroup): Mapper
+        +map(AuditLogEntry): Mapper
+        +serialize(): String
+    }
+
+    interface "<size:14>Mapper\n<size:10>com.ibm.fhir.audit.mapper" as com.ibm.fhir.audit.mapper.Mapper [[../Mapper.html]] {
+        {abstract} +init(PropertyGroup): Mapper
+        {abstract} +map(AuditLogEntry): Mapper
+        {abstract} +serialize(): String
+    }
+
+    com.ibm.fhir.audit.mapper.Mapper <|.. com.ibm.fhir.audit.mapper.impl.AuditEventMapper
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.10+9
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

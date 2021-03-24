@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="159px" preserveAspectRatio="none" style="width:440px;height:159px;" version="1.1" viewBox="0 0 440 159" width="440px" zoomAndPan="magnify"><defs><filter height="300%" id="fgz5jdb4a0mxa" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[7394bd9cf95fae6ca8c336b28e55ca9a]
+class com.ibm.fhir.database.utils.model.IndexDef--><a href="IndexDef.html" target="_top" title="IndexDef.html" xlink:actuate="onRequest" xlink:href="IndexDef.html" xlink:show="new" xlink:title="IndexDef.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fgz5jdb4a0mxa)" height="122.7656" id="com.ibm.fhir.database.utils.model.IndexDef" style="stroke: #A80036; stroke-width: 1.5;" width="422" x="7" y="7"/><ellipse cx="131.75" cy="25.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M134.7188,31.6094 Q134.1406,31.9063 133.5,32.0469 Q132.8594,32.2031 132.1563,32.2031 Q129.6563,32.2031 128.3281,30.5625 Q127.0156,28.9063 127.0156,25.7813 Q127.0156,22.6563 128.3281,21 Q129.6563,19.3438 132.1563,19.3438 Q132.8594,19.3438 133.5,19.5 Q134.1563,19.6563 134.7188,19.9531 L134.7188,22.6719 Q134.0938,22.0938 133.5,21.8281 Q132.9063,21.5469 132.2813,21.5469 Q130.9375,21.5469 130.25,22.625 Q129.5625,23.6875 129.5625,25.7813 Q129.5625,27.875 130.25,28.9531 Q130.9375,30.0156 132.2813,30.0156 Q132.9063,30.0156 133.5,29.75 Q134.0938,29.4688 134.7188,28.8906 L134.7188,31.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="61" x="203.75" y="24.9951">IndexDef</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="164" x="152.25" y="37.5791">com.ibm.fhir.database.utils.model</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="428" y1="44.9375" y2="44.9375"/><ellipse cx="18" cy="55.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="334" x="27" y="59.1479">IndexDef(String, Collection&lt;OrderedColumnDef&gt;, boolean)</text><ellipse cx="18" cy="68.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="396" x="27" y="71.9526">IndexDef(String, Collection&lt;OrderedColumnDef&gt;, Collection&lt;String&gt;)</text><ellipse cx="18" cy="81.5469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="110" x="27" y="84.7573">isUnique(): boolean</text><ellipse cx="18" cy="94.3516" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="296" x="27" y="97.562">apply(String, String, String, IDatabaseAdapter): void</text><ellipse cx="18" cy="107.1563" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="208" x="27" y="110.3667">drop(String, IDatabaseAdapter): void</text><ellipse cx="18" cy="119.9609" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="356" x="27" y="123.1714">createStatement(String, String, String): CreateIndexStatement</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="125" y="146.0479">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[2fa0d87e53b21227bb7c35b3bea7c9e7]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>IndexDef\n<size:10>com.ibm.fhir.database.utils.model" as com.ibm.fhir.database.utils.model.IndexDef [[IndexDef.html]] {
+        +IndexDef(String, Collection<OrderedColumnDef>, boolean)
+        +IndexDef(String, Collection<OrderedColumnDef>, Collection<String>)
+        +isUnique(): boolean
+        +apply(String, String, String, IDatabaseAdapter): void
+        +drop(String, IDatabaseAdapter): void
+        +createStatement(String, String, String): CreateIndexStatement
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.10+9
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

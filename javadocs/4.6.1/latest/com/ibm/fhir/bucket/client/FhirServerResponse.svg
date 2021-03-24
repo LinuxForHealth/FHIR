@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="236px" preserveAspectRatio="none" style="width:276px;height:236px;" version="1.1" viewBox="0 0 276 236" width="276px" zoomAndPan="magnify"><defs><filter height="300%" id="f1wdfim7sc0ea2" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[8740f58317189cc00e00fb3b84cf54fb]
+class com.ibm.fhir.bucket.client.FhirServerResponse--><a href="FhirServerResponse.html" target="_top" title="FhirServerResponse.html" xlink:actuate="onRequest" xlink:href="FhirServerResponse.html" xlink:show="new" xlink:title="FhirServerResponse.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#f1wdfim7sc0ea2)" height="199.5938" id="com.ibm.fhir.bucket.client.FhirServerResponse" style="stroke: #A80036; stroke-width: 1.5;" width="258" x="7" y="7"/><ellipse cx="61.75" cy="25.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M64.7188,31.6094 Q64.1406,31.9063 63.5,32.0469 Q62.8594,32.2031 62.1563,32.2031 Q59.6563,32.2031 58.3281,30.5625 Q57.0156,28.9063 57.0156,25.7813 Q57.0156,22.6563 58.3281,21 Q59.6563,19.3438 62.1563,19.3438 Q62.8594,19.3438 63.5,19.5 Q64.1563,19.6563 64.7188,19.9531 L64.7188,22.6719 Q64.0938,22.0938 63.5,21.8281 Q62.9063,21.5469 62.2813,21.5469 Q60.9375,21.5469 60.25,22.625 Q59.5625,23.6875 59.5625,25.7813 Q59.5625,27.875 60.25,28.9531 Q60.9375,30.0156 62.2813,30.0156 Q62.9063,30.0156 63.5,29.75 Q64.0938,29.4688 64.7188,28.8906 L64.7188,31.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="140" x="82.25" y="24.9951">FhirServerResponse</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="124" x="90.25" y="37.5791">com.ibm.fhir.bucket.client</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="264" y1="44.9375" y2="44.9375"/><ellipse cx="18" cy="55.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="114" x="27" y="59.1479">getStatusCode(): int</text><ellipse cx="18" cy="68.7422" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="137" x="27" y="71.9526">setStatusCode(int): void</text><ellipse cx="18" cy="81.5469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="156" x="27" y="84.7573">getStatusMessage(): String</text><ellipse cx="18" cy="94.3516" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="179" x="27" y="97.562">setStatusMessage(String): void</text><ellipse cx="18" cy="107.1563" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="156" x="27" y="110.3667">getLocationHeader(): String</text><ellipse cx="18" cy="119.9609" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="179" x="27" y="123.1714">setLocationHeader(String): void</text><ellipse cx="18" cy="132.7656" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="140" x="27" y="135.9761">getResource(): Resource</text><ellipse cx="18" cy="145.5703" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="163" x="27" y="148.7808">setResource(Resource): void</text><ellipse cx="18" cy="158.375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="132" x="27" y="161.5854">getResponseTime(): int</text><ellipse cx="18" cy="171.1797" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="155" x="27" y="174.3901">setResponseTime(int): void</text><ellipse cx="18" cy="183.9844" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="209" x="27" y="187.1948">getOperationalOutcomeText(): String</text><ellipse cx="18" cy="196.7891" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="232" x="27" y="199.9995">setOperationalOutcomeText(String): void</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="43" y="222.876">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[a6b88e628025f16fa4c7270e72ae2047]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>FhirServerResponse\n<size:10>com.ibm.fhir.bucket.client" as com.ibm.fhir.bucket.client.FhirServerResponse [[FhirServerResponse.html]] {
+        +getStatusCode(): int
+        +setStatusCode(int): void
+        +getStatusMessage(): String
+        +setStatusMessage(String): void
+        +getLocationHeader(): String
+        +setLocationHeader(String): void
+        +getResource(): Resource
+        +setResource(Resource): void
+        +getResponseTime(): int
+        +setResponseTime(int): void
+        +getOperationalOutcomeText(): String
+        +setOperationalOutcomeText(String): void
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.10+9
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

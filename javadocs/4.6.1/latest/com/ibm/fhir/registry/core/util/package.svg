@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="184px" preserveAspectRatio="none" style="width:295px;height:184px;" version="1.1" viewBox="0 0 295 184" width="295px" zoomAndPan="magnify"><defs><filter height="300%" id="fuciywyd48bym" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[9df640ff1391067ac4e8969b0632b8b7]
+cluster com.ibm.fhir.registry.core.util--><polygon fill="#FFFFFF" filter="url(#fuciywyd48bym)" points="22,24,263,24,270,46.2969,273,46.2969,273,136,22,136,22,24" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="22" x2="270" y1="46.2969" y2="46.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="235" x="26" y="38.9951">com.ibm.fhir.registry.core.util</text><!--MD5=[9df688c4abe13ef20257da062e8b7006]
+class com.ibm.fhir.registry.core.util.IndexGenerator--><a href="IndexGenerator.html" target="_top" title="IndexGenerator.html" xlink:actuate="onRequest" xlink:href="IndexGenerator.html" xlink:show="new" xlink:title="IndexGenerator.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fuciywyd48bym)" height="60.8047" id="com.ibm.fhir.registry.core.util.IndexGenerator" style="stroke: #A80036; stroke-width: 1.5;" width="135" x="79.5" y="59"/><ellipse cx="97.2" cy="75" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M100.1688,80.6406 Q99.5906,80.9375 98.95,81.0781 Q98.3094,81.2344 97.6063,81.2344 Q95.1063,81.2344 93.7781,79.5938 Q92.4656,77.9375 92.4656,74.8125 Q92.4656,71.6875 93.7781,70.0313 Q95.1063,68.375 97.6063,68.375 Q98.3094,68.375 98.95,68.5313 Q99.6063,68.6875 100.1688,68.9844 L100.1688,71.7031 Q99.5438,71.125 98.95,70.8594 Q98.3563,70.5781 97.7313,70.5781 Q96.3875,70.5781 95.7,71.6563 Q95.0125,72.7188 95.0125,74.8125 Q95.0125,76.9063 95.7,77.9844 Q96.3875,79.0469 97.7313,79.0469 Q98.3563,79.0469 98.95,78.7813 Q99.5438,78.5 100.1688,77.9219 L100.1688,80.6406 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="97" x="111.8" y="79.1543">IndexGenerator</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="80.5" x2="213.5" y1="91" y2="91"/><line style="stroke: #A80036; stroke-width: 1.5;" x1="80.5" x2="213.5" y1="99" y2="99"/><ellipse cx="90.5" cy="110" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="109" x="99.5" y="113.2104">main(String[]): void</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="60.5" y="171.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[091394024ada5dccf28a9726898547f5]
+@startuml
+    namespace com.ibm.fhir.registry.core.util {
+
+        class IndexGenerator [[IndexGenerator.html]] {
+            {static} +main(String[]): void
+        }
+
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.10+9
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

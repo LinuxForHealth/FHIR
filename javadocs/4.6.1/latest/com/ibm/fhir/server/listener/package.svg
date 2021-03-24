@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="358px" preserveAspectRatio="none" style="width:358px;height:358px;" version="1.1" viewBox="0 0 358 358" width="358px" zoomAndPan="magnify"><defs><filter height="300%" id="fyw8kb327wcnk" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[948f047aae70cc49048c31b0b994c4ef]
+cluster com.ibm.fhir.server.listener--><polygon fill="#FFFFFF" filter="url(#fyw8kb327wcnk)" points="24,173,250,173,257,195.2969,334,195.2969,334,310,24,310,24,173" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="24" x2="257" y1="195.2969" y2="195.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="220" x="28" y="187.9951">com.ibm.fhir.server.listener</text><!--MD5=[b7f519f18bfe0072d1de1e41192b22d6]
+cluster javax.servlet--><polygon fill="#FFFFFF" filter="url(#fyw8kb327wcnk)" points="22,24,128,24,135,46.2969,336,46.2969,336,149,22,149,22,24" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="22" x2="135" y1="46.2969" y2="46.2969"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="100" x="26" y="38.9951">javax.servlet</text><!--MD5=[1893194b2395d5159f271f8c673ad265]
+class com.ibm.fhir.server.listener.FHIRServletContextListener--><a href="FHIRServletContextListener.html" target="_top" title="FHIRServletContextListener.html" xlink:actuate="onRequest" xlink:href="FHIRServletContextListener.html" xlink:show="new" xlink:title="FHIRServletContextListener.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fyw8kb327wcnk)" height="86.4141" id="com.ibm.fhir.server.listener.FHIRServletContextListener" style="stroke: #A80036; stroke-width: 1.5;" width="278" x="40" y="208"/><ellipse cx="90.75" cy="224" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M93.7188,229.6406 Q93.1406,229.9375 92.5,230.0781 Q91.8594,230.2344 91.1563,230.2344 Q88.6563,230.2344 87.3281,228.5938 Q86.0156,226.9375 86.0156,223.8125 Q86.0156,220.6875 87.3281,219.0313 Q88.6563,217.375 91.1563,217.375 Q91.8594,217.375 92.5,217.5313 Q93.1563,217.6875 93.7188,217.9844 L93.7188,220.7031 Q93.0938,220.125 92.5,219.8594 Q91.9063,219.5781 91.2813,219.5781 Q89.9375,219.5781 89.25,220.6563 Q88.5625,221.7188 88.5625,223.8125 Q88.5625,225.9063 89.25,226.9844 Q89.9375,228.0469 91.2813,228.0469 Q91.9063,228.0469 92.5,227.7813 Q93.0938,227.5 93.7188,226.9219 L93.7188,229.6406 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="168" x="111.25" y="228.1543">FHIRServletContextListener</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="41" x2="317" y1="240" y2="240"/><ellipse cx="51" cy="251" fill="none" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="208" x="60" y="254.2104">FHIR_SERVER_INIT_COMPLETE: String</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="41" x2="317" y1="260.8047" y2="260.8047"/><ellipse cx="51" cy="271.8047" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="246" x="60" y="275.0151">contextInitialized(ServletContextEvent): void</text><ellipse cx="51" cy="284.6094" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="252" x="60" y="287.8198">contextDestroyed(ServletContextEvent): void</text></a><!--MD5=[f45dfa88339300e09296feec928ee186]
+class javax.servlet.ServletContextListener--><rect fill="#FEFECE" filter="url(#fyw8kb327wcnk)" height="73.6094" id="javax.servlet.ServletContextListener" style="stroke: #A80036; stroke-width: 1.5;" width="282" x="38" y="59"/><ellipse cx="103.75" cy="75" fill="#B4A7E5" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M99.6719,70.7656 L99.6719,68.6094 L107.0625,68.6094 L107.0625,70.7656 L104.5938,70.7656 L104.5938,78.8438 L107.0625,78.8438 L107.0625,81 L99.6719,81 L99.6719,78.8438 L102.1406,78.8438 L102.1406,70.7656 L99.6719,70.7656 Z "/><text fill="#000000" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="142" x="124.25" y="79.1543">ServletContextListener</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="39" x2="319" y1="91" y2="91"/><line style="stroke: #A80036; stroke-width: 1.5;" x1="39" x2="319" y1="99" y2="99"/><ellipse cx="49" cy="110" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="251" x="58" y="113.2104">contextInitialized(ServletContextEvent): void</text><ellipse cx="49" cy="122.8047" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="256" x="58" y="126.0151">contextDestroyed(ServletContextEvent): void</text><!--MD5=[3d5b07a84599cfe4b72c5f4260e2a2dc]
+reverse link javax.servlet.ServletContextListener to com.ibm.fhir.server.listener.FHIRServletContextListener--><path d="M179,153.38 C179,171.37 179,190.96 179,207.77 " fill="none" id="javax.servlet.ServletContextListener&lt;-com.ibm.fhir.server.listener.FHIRServletContextListener" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="none" points="172,153.26,179,133.26,186,153.26,172,153.26" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="92" y="345.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[7e1a31d69a8c53d5a533b28738a809bd]
+@startuml
+    namespace com.ibm.fhir.server.listener {
+
+        class FHIRServletContextListener [[FHIRServletContextListener.html]] {
+            {static} +FHIR_SERVER_INIT_COMPLETE: String
+            +contextInitialized(ServletContextEvent): void
+            +contextDestroyed(ServletContextEvent): void
+        }
+
+        javax.servlet.ServletContextListener <|.. FHIRServletContextListener
+    }
+
+    namespace javax.servlet {
+        interface ServletContextListener {
+            {abstract} +contextInitialized(ServletContextEvent): void
+            {abstract} +contextDestroyed(ServletContextEvent): void
+        }
+    }
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.10+9
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>

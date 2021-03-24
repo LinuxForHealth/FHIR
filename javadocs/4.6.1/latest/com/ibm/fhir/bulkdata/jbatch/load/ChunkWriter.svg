@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="264px" preserveAspectRatio="none" style="width:216px;height:264px;" version="1.1" viewBox="0 0 216 264" width="216px" zoomAndPan="magnify"><defs><filter height="300%" id="fuby6bacm4j8n" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[46be64cbd6fb24476720547c7afba25b]
+class com.ibm.fhir.bulkdata.jbatch.load.ChunkWriter--><a href="ChunkWriter.html" target="_top" title="ChunkWriter.html" xlink:actuate="onRequest" xlink:href="ChunkWriter.html" xlink:show="new" xlink:title="ChunkWriter.html" xlink:type="simple"><rect fill="#FEFECE" filter="url(#fuby6bacm4j8n)" height="105.1563" id="com.ibm.fhir.bulkdata.jbatch.load.ChunkWriter" style="stroke: #A80036; stroke-width: 1.5;" width="199" x="6" y="127"/><ellipse cx="24.15" cy="145.9688" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M27.1188,151.6094 Q26.5406,151.9063 25.9,152.0469 Q25.2594,152.2031 24.5563,152.2031 Q22.0563,152.2031 20.7281,150.5625 Q19.4156,148.9063 19.4156,145.7813 Q19.4156,142.6563 20.7281,141 Q22.0563,139.3438 24.5563,139.3438 Q25.2594,139.3438 25.9,139.5 Q26.5563,139.6563 27.1188,139.9531 L27.1188,142.6719 Q26.4938,142.0938 25.9,141.8281 Q25.3063,141.5469 24.6813,141.5469 Q23.3375,141.5469 22.65,142.625 Q21.9625,143.6875 21.9625,145.7813 Q21.9625,147.875 22.65,148.9531 Q23.3375,150.0156 24.6813,150.0156 Q25.3063,150.0156 25.9,149.75 Q26.4938,149.4688 27.1188,148.8906 L27.1188,151.6094 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="85" x="76.35" y="144.9951">ChunkWriter</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="160" x="38.85" y="157.5791">com.ibm.fhir.bulkdata.jbatch.load</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="204" y1="164.9375" y2="164.9375"/><polygon fill="none" points="17,171.9375,13,177.9375,21,177.9375" style="stroke: #1963A0; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="120" x="26" y="179.1479">stepCtx: StepContext</text><polygon fill="none" points="17,184.7422,13,190.7422,21,190.7422" style="stroke: #1963A0; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="103" x="26" y="191.9526">jobCtx: JobContext</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7" x2="204" y1="198.5469" y2="198.5469"/><ellipse cx="17" cy="209.5469" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="132" x="26" y="212.7573">open(Serializable): void</text><ellipse cx="17" cy="222.3516" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="173" x="26" y="225.562">writeItems(List&lt;Object&gt;): void</text></a><!--MD5=[facca438f42939cbf10d84b0b1038a9b]
+class javax.batch.api.chunk.AbstractItemWriter--><rect fill="#FEFECE" filter="url(#fuby6bacm4j8n)" height="58.7422" id="javax.batch.api.chunk.AbstractItemWriter" style="stroke: #A80036; stroke-width: 1.5;" width="198" x="6.5" y="8"/><ellipse cx="38.15" cy="26.9688" fill="#A9DCDF" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M38.2594,22.3125 L37.1031,27.3906 L39.4313,27.3906 L38.2594,22.3125 Z M36.775,20.0781 L39.7594,20.0781 L43.1188,32.4688 L40.6656,32.4688 L39.9,29.4063 L36.6188,29.4063 L35.8688,32.4688 L33.4313,32.4688 L36.775,20.0781 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="129" x="55.85" y="25.9951">AbstractItemWriter</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="109" x="65.85" y="38.5791">javax.batch.api.chunk</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="7.5" x2="203.5" y1="45.9375" y2="45.9375"/><ellipse cx="17.5" cy="56.9375" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="172" x="26.5" y="60.1479">writeItems(List&lt;Object&gt;): void</text><!--MD5=[8b008947f1ce534925c4e930ff0c1bd6]
+reverse link javax.batch.api.chunk.AbstractItemWriter to com.ibm.fhir.bulkdata.jbatch.load.ChunkWriter--><path d="M105.5,87.38 C105.5,100.17 105.5,114.01 105.5,126.94 " fill="none" id="javax.batch.api.chunk.AbstractItemWriter&lt;-com.ibm.fhir.bulkdata.jbatch.load.ChunkWriter" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="98.5,87.17,105.5,67.17,112.5,87.17,98.5,87.17" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="186" x="18.5" y="251.2822">UMLDoclet 2.0.7, PlantUML 1.2019.12</text><!--MD5=[c1db4528790a8076b65480d1ba19593e]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>ChunkWriter\n<size:10>com.ibm.fhir.bulkdata.jbatch.load" as com.ibm.fhir.bulkdata.jbatch.load.ChunkWriter [[ChunkWriter.html]] {
+        ~stepCtx: StepContext
+        ~jobCtx: JobContext
+        +open(Serializable): void
+        +writeItems(List<Object>): void
+    }
+
+    abstract class "<size:14>AbstractItemWriter\n<size:10>javax.batch.api.chunk" as javax.batch.api.chunk.AbstractItemWriter {
+        {abstract} +writeItems(List<Object>): void
+    }
+
+    javax.batch.api.chunk.AbstractItemWriter <|- - com.ibm.fhir.bulkdata.jbatch.load.ChunkWriter
+
+    center footer UMLDoclet 2.0.7, PlantUML 1.2019.12
+@enduml
+
+PlantUML version 1.2019.12(Sun Nov 03 10:24:54 UTC 2019)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.10+9
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: null
+--></g></svg>
