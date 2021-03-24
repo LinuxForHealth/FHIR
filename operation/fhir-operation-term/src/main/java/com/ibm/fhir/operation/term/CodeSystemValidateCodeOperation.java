@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
 import com.ibm.fhir.term.spi.ValidationOutcome;
 import com.ibm.fhir.term.spi.ValidationParameters;
 
@@ -37,6 +38,11 @@ public class CodeSystemValidateCodeOperation extends AbstractTermOperation {
         try {
             CodeSystem codeSystem = getResource(operationContext, logicalId, parameters, resourceHelper, CodeSystem.class);
             Element codedElement = getCodedElement(parameters, "codeableConcept", "coding", "code", false);
+            if (codedElement.is(Coding.class) && codedElement.as(Coding.class).getSystem() == null) {
+                codedElement = codedElement.as(Coding.class).toBuilder()
+                        .system(codeSystem.getUrl())
+                        .build();
+            }
             validate(codeSystem, codedElement);
             ValidationOutcome outcome = codedElement.is(CodeableConcept.class) ?
                     service.validateCode(codeSystem, codedElement.as(CodeableConcept.class), ValidationParameters.from(parameters)) :
@@ -44,6 +50,8 @@ public class CodeSystemValidateCodeOperation extends AbstractTermOperation {
             return outcome.toParameters();
         } catch (FHIROperationException e) {
             throw e;
+        } catch (FHIRTermServiceException e) {
+            throw new FHIROperationException(e.getMessage(), e.getCause()).withIssue(e.getIssues());
         } catch (Exception e) {
             throw new FHIROperationException("An error occurred during the CodeSystem validate code operation", e);
         }

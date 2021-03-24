@@ -31,17 +31,17 @@ import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
 
 public class FHIRRegistryLatestVersionTest {
     static {
-        FHIRRegistry.getInstance().register(
+        FHIRRegistry.getInstance().addProvider(
             createRegistryResourceProvider(
                 createRegistryResource(createStructureDefinition("1.0.0")),
                 createRegistryResource(createStructureDefinition("2.0.0")),
                 createRegistryResource(createStructureDefinition("3.0.0"))));
-        FHIRRegistry.getInstance().register(
+        FHIRRegistry.getInstance().addProvider(
             createRegistryResourceProvider(
                 createRegistryResource(createStructureDefinition("4.0.0")),
                 createRegistryResource(createStructureDefinition("5.0.0")),
                 createRegistryResource(createStructureDefinition("6.0.0"))));
-        FHIRRegistry.getInstance().register(
+        FHIRRegistry.getInstance().addProvider(
             createRegistryResourceProvider(
                 createRegistryResource(createStructureDefinition("7.0.0")),
                 createRegistryResource(createStructureDefinition("8.0.0")),

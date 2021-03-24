@@ -141,7 +141,11 @@ public class Capabilities extends FHIRResource {
             return Response.ok().entity(capabilityStatement).cacheControl(cacheControl).build();
         } catch (IllegalArgumentException e) {
             FHIROperationException foe = buildRestException(ERROR_CONSTRUCTING, IssueType.EXCEPTION);
-            log.log(Level.SEVERE, ERROR_MSG, foe);
+            if (e.getCause() != null) {
+                log.log(Level.SEVERE, ERROR_MSG, e.getCause());
+            } else {
+                log.log(Level.SEVERE, ERROR_MSG, foe);
+            }
             return exceptionResponse(e, issueListToStatus(foe.getIssues()));
         } catch (Exception e) {
             log.log(Level.SEVERE, ERROR_MSG, e);

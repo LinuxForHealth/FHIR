@@ -7,6 +7,7 @@
 package com.ibm.fhir.registry.spi;
 
 import java.util.Collection;
+import java.util.Collections;
 
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
@@ -74,9 +75,9 @@ public interface FHIRRegistryResourceProvider {
      * Get the profiles for all of the resources.
      *
      * @return
-     *  the profile resources from this provider that constrain the resource types
+     *     the profile resources from this provider that constrain the resource types
      */
-    default Collection<FHIRRegistryResource> getProfileResources(){
-        throw new UnsupportedOperationException("The specific implementation does not support this feature");
+    default Collection<FHIRRegistryResource> getProfileResources() {
+        return Collections.emptyList();
     };
 }

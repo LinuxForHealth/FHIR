@@ -69,7 +69,7 @@ public class InteractionValidationConfigTest {
     @BeforeClass
     void setup() throws FHIRException {
         FHIRConfiguration.setConfigHome("src/test/resources");
-        FHIRRegistry.getInstance().register(new MockRegistryResourceProvider());
+        FHIRRegistry.getInstance().addProvider(new MockRegistryResourceProvider());
         persistence = new MockPersistenceImpl();
         helper = new FHIRRestHelper(persistence);
     }
