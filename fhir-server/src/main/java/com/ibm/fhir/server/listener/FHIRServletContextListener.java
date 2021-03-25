@@ -8,6 +8,9 @@ package com.ibm.fhir.server.listener;
 
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_CHECK_REFERENCE_TYPES;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_CONFIGURATION;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_ENABLED;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_TIME_LIMIT;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_CONNECTIONPROPS;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_TOPICNAME;
@@ -24,7 +27,9 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TRUSTSTORE_PW;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,6 +39,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import javax.websocket.server.ServerContainer;
 
+import org.apache.commons.configuration.MapConfiguration;
 import org.owasp.encoder.Encode;
 
 import com.ibm.fhir.config.FHIRConfiguration;
@@ -52,6 +58,8 @@ import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.operation.FHIROperationRegistry;
 import com.ibm.fhir.server.registry.ServerRegistryResourceProvider;
 import com.ibm.fhir.server.util.FHIROperationUtil;
+import com.ibm.fhir.term.graph.provider.GraphTermServiceProvider;
+import com.ibm.fhir.term.service.FHIRTermService;
 
 @WebListener("IBM FHIR Server Servlet Context Listener")
 public class FHIRServletContextListener implements ServletContextListener {
@@ -65,6 +73,8 @@ public class FHIRServletContextListener implements ServletContextListener {
     public static final String FHIR_SERVER_INIT_COMPLETE = "com.ibm.fhir.webappInitComplete";
     private static FHIRNotificationKafkaPublisher kafkaPublisher = null;
     private static FHIRNotificationNATSPublisher natsPublisher = null;
+
+    private GraphTermServiceProvider graphTermServiceProvider;
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
@@ -182,8 +192,23 @@ public class FHIRServletContextListener implements ServletContextListener {
             if (serverRegistryResourceProviderEnabled) {
                 log.info("Registering ServerRegistryResourceProvider...");
                 ServerRegistryResourceProvider provider = new ServerRegistryResourceProvider(persistenceHelper);
-                FHIRRegistry.getInstance().register(provider);
+                FHIRRegistry.getInstance().addProvider(provider);
                 FHIRPersistenceInterceptorMgr.getInstance().addInterceptor(provider);
+            }
+
+            Boolean graphTermServiceProviderEnabled = fhirConfig.getBooleanProperty(PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_ENABLED, Boolean.FALSE);
+            if (graphTermServiceProviderEnabled) {
+                log.info("Adding GraphTermServiceProvider...");
+                PropertyGroup propertyGroup = fhirConfig.getPropertyGroup(PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_CONFIGURATION);
+                if (propertyGroup == null) {
+                    log.log(Level.WARNING, "GraphTermServiceProvider configuration not found");
+                } else {
+                    Map<String, Object> map = new HashMap<>();
+                    propertyGroup.getProperties().stream().forEach(entry -> map.put(entry.getName(), entry.getValue()));
+                    int timeLimit = fhirConfig.getIntProperty(PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_TIME_LIMIT, GraphTermServiceProvider.DEFAULT_TIME_LIMIT);
+                    graphTermServiceProvider = new GraphTermServiceProvider(new MapConfiguration(map), timeLimit);
+                    FHIRTermService.getInstance().addProvider(graphTermServiceProvider);
+                }
             }
 
             // Finally, set our "initComplete" flag to true.
@@ -218,6 +243,10 @@ public class FHIRServletContextListener implements ServletContextListener {
             if (natsPublisher != null) {
                 natsPublisher.shutdown();
                 natsPublisher = null;
+            }
+
+            if (graphTermServiceProvider != null) {
+                graphTermServiceProvider.getGraph().close();
             }
         } catch (Exception e) {
             // Ignore it

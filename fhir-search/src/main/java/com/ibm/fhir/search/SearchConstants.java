@@ -97,6 +97,14 @@ public class SearchConstants {
     public static final String BASE_SYSTEM_EXT_URL = "http://ibm.com/fhir/extension/";
     public static final String IMPLICIT_SYSTEM_EXT_URL = BASE_SYSTEM_EXT_URL + "implicit-system";
 
+    // Extracted search parameter suffix for :identifier modifier
+    public static final String IDENTIFIER_MODIFIER_SUFFIX = ":identifier";
+
+    // Extracted search parameter suffixes for :of-type modifier
+    public static final String OF_TYPE_MODIFIER_SUFFIX = ":of-type";
+    public static final String OF_TYPE_MODIFIER_COMPONENT_TYPE = "type";
+    public static final String OF_TYPE_MODIFIER_COMPONENT_VALUE = "value";
+
     // set as unmodifiable
     public static final Set<String> SEARCH_RESULT_PARAMETER_NAMES =
             Collections.unmodifiableSet(new HashSet<>(Arrays.asList(SORT, COUNT, PAGE, INCLUDE, REVINCLUDE, ELEMENTS, SUMMARY, TOTAL)));
@@ -122,6 +130,8 @@ public class SearchConstants {
     public static final String CHAINED_PARAMETER_CHARACTER = ".";
 
     public static final String PARAMETER_DELIMITER = "|";
+
+    public static final String COMPOSITE_DELIMITER = "$";
 
     public static final char COLON_DELIMITER = ':';
 

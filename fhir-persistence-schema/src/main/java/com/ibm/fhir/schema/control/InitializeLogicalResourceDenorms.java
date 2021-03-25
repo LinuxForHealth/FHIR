@@ -27,8 +27,8 @@ import com.ibm.fhir.database.utils.version.SchemaConstants;
  * Note that for this to work for the multi-tenant (Db2) schema,
  * the SV_TENANT_ID needs to be set first.
  */
-public class InitializeLogicalIdIsDeleted implements IDatabaseStatement {
-    private static final Logger logger = Logger.getLogger(InitializeLogicalIdIsDeleted.class.getName());
+public class InitializeLogicalResourceDenorms implements IDatabaseStatement {
+    private static final Logger logger = Logger.getLogger(InitializeLogicalResourceDenorms.class.getName());
     private final String schemaName;
     private final String resourceTypeName;
 
@@ -38,7 +38,7 @@ public class InitializeLogicalIdIsDeleted implements IDatabaseStatement {
      * @param schemaName
      * @param tableName
      */
-    public InitializeLogicalIdIsDeleted(String schemaName, String resourceTypeName) {
+    public InitializeLogicalResourceDenorms(String schemaName, String resourceTypeName) {
         this.schemaName = schemaName;
         this.resourceTypeName = resourceTypeName;
     }
@@ -48,7 +48,7 @@ public class InitializeLogicalIdIsDeleted implements IDatabaseStatement {
         if (translator.getType() == DbType.DERBY) {
             runForDerby(translator, c);
         } else {
-            runCorrelatedUpdated(translator, c);
+            runCorrelatedUpdate(translator, c);
         }
     }
 
@@ -58,14 +58,14 @@ public class InitializeLogicalIdIsDeleted implements IDatabaseStatement {
      * @param translator
      * @param c
      */
-    private void runCorrelatedUpdated(IDatabaseTranslator translator, Connection c) {
+    private void runCorrelatedUpdate(IDatabaseTranslator translator, Connection c) {
         final String lrTable = DataDefinitionUtil.getQualifiedName(schemaName, resourceTypeName + "_LOGICAL_RESOURCES");
         final String rTable = DataDefinitionUtil.getQualifiedName(schemaName, resourceTypeName + "_RESOURCES");
 
         // Correlated update to grab the IS_DELETED and LAST_UPDATED values from xxx_RESOURCES and use them to
         // set xxx_LOGICAL_RESOURCES.IS_DELETED and LAST_UPDATED for the current_resource_id.
         final String DML = "UPDATE " + lrTable + " lr "
-                + " SET (is_deleted, last_updated) = (SELECT r.is_deleted, r.last_updated FROM " + rTable + " r WHERE r.resource_id = lr.current_resource_id)"
+                + " SET (is_deleted, last_updated, version_id) = (SELECT r.is_deleted, r.last_updated, r.version_id FROM " + rTable + " r WHERE r.resource_id = lr.current_resource_id)"
                 ;
 
         try (PreparedStatement ps = c.prepareStatement(DML)) {
@@ -86,13 +86,13 @@ public class InitializeLogicalIdIsDeleted implements IDatabaseStatement {
         final String rTable = DataDefinitionUtil.getQualifiedName(schemaName, resourceTypeName + "_RESOURCES");
         // Fetch the is_deleted and last_updated statement from the current version of each resource...
         final String select = ""
-                + "SELECT lr.logical_resource_id, r.is_deleted, r.last_updated "
+                + "SELECT lr.logical_resource_id, r.is_deleted, r.last_updated, r.version_id "
                 + "  FROM " + rTable  + "  r, "
                 + "       " + lrTable + " lr  "
                 + " WHERE lr.current_resource_id = r.resource_id";
 
         // ...and use it to set the new column values in the corresponding XXX_LOGICAL_RESOURCES table
-        final String update = "UPDATE " + lrTable + " SET is_deleted = ?, last_updated = ? WHERE logical_resource_id = ?";
+        final String update = "UPDATE " + lrTable + " SET is_deleted = ?, last_updated = ?, version_id = ? WHERE logical_resource_id = ?";
 
         try (Statement selectStatement = c.createStatement();
              PreparedStatement updateStatement = c.prepareStatement(update)) {
@@ -103,17 +103,20 @@ public class InitializeLogicalIdIsDeleted implements IDatabaseStatement {
                 long logicalResourceId = rs.getLong(1);
                 String isDeleted = rs.getString(2);
                 Timestamp lastUpdated = rs.getTimestamp(3, SchemaConstants.UTC);
+                int versionId = rs.getInt(4);
 
                 if (logger.isLoggable(Level.FINEST)) {
                     // log the update in a form which is useful for debugging
                     logger.finest("UPDATE " + lrTable
                         + " SET   is_deleted = '" + isDeleted + "'"
                         + ",    last_updated = '" + lastUpdated.toString() + "'"
+                        + ",      version_id = " + versionId
                         + " WHERE logical_resource_id = " + logicalResourceId);
                 }
                 updateStatement.setString(1, isDeleted);
                 updateStatement.setTimestamp(2, lastUpdated, SchemaConstants.UTC);
                 updateStatement.setLong(3, logicalResourceId);
+                updateStatement.setInt(4, versionId);
                 updateStatement.addBatch();
 
                 if (++batchCount == 500) {

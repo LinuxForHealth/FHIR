@@ -72,8 +72,8 @@ BEGIN
     THEN
       -- we created the logical resource and therefore we already own the lock. So now we can
       -- safely create the corresponding record in the resource-type-specific logical_resources table
-      EXECUTE 'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_logical_resources (logical_resource_id, logical_id, is_deleted, last_updated) '
-      || '     VALUES ($1, $2, $3, $4)' USING v_logical_resource_id, p_logical_id, p_is_deleted, p_last_updated;
+      EXECUTE 'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_logical_resources (logical_resource_id, logical_id, is_deleted, last_updated, version_id) '
+      || '     VALUES ($1, $2, $3, $4, 1)' USING v_logical_resource_id, p_logical_id, p_is_deleted, p_last_updated;
       v_new_resource := 1;
     ELSE
       v_logical_resource_id := t_logical_resource_id;
@@ -171,8 +171,8 @@ BEGIN
   THEN
     -- only update the logical resource if the resource we are adding supercedes the
     -- the current resource. mt_id isn't needed here...implied via permission
-    EXECUTE 'UPDATE ' || v_schema_name || '.' || p_resource_type || '_logical_resources SET current_resource_id = $1, is_deleted = $2, last_updated = $3 WHERE logical_resource_id = $4'
-      USING v_resource_id, p_is_deleted, p_last_updated, v_logical_resource_id;
+    EXECUTE 'UPDATE ' || v_schema_name || '.' || p_resource_type || '_logical_resources SET current_resource_id = $1, is_deleted = $2, last_updated = $3, version_id = $4 WHERE logical_resource_id = $5'
+      USING v_resource_id, p_is_deleted, p_last_updated, v_insert_version, v_logical_resource_id;
   END IF;
 
   

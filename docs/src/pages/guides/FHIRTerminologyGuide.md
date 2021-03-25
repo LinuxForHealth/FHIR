@@ -1,7 +1,7 @@
 ---
 slug:  "/FHIR/guides/FHIRTerminologyGuide/"
 title: "FHIR Terminology Guide"
-date:  "2020-06-04 12:00:00 -0400"
+date:  "2021-03-11"
 ---
 
 ## Overview
@@ -10,23 +10,37 @@ The IBM FHIR Server Terminology module ([fhir-term](https://github.com/IBM/FHIR/
 
 ## FHIR Terminology Service Provider Interface (SPI)
 
-The FHIR Terminology Service Provider interface provides a mechanism for implementers to provide terminology capabilities via the Java ServiceLoader. The interface includes method signatures for `expand`, `lookup`, `subsumes`, `closure`, `validateCode` (CodeSystem) and `validateCode` (ValueSet). Here is an excerpt (for brevity) of the SPI:
+The FHIR Terminology Service Provider interface provides a mechanism for implementers to provide terminology capabilities via the Java ServiceLoader. The interface includes method signatures for `closure`, `getConcept`, `getConcepts`, `hasConcept`, `isSupported` and `subsumes`:
 
 ```java
 public interface FHIRTermServiceProvider {
-    boolean isExpandable(ValueSet valueSet);
-    ValueSet expand(ValueSet valueSet, ExpansionParameters parameters);
-    LookupOutcome lookup(Coding coding, LookupParameters parameters);
-    ConceptSubsumptionOutcome subsumes(Coding codingA, Coding codingB);
-    Set<Concept> closure(Coding coding);
-    ValidationOutcome validateCode(CodeSystem codeSystem, Coding coding, ValidationParameters parameters);
-    ValidationOutcome validateCode(CodeSystem codeSystem, CodeableConcept codeableConcept, ValidationParameters parameters);
-    ValidationOutcome validateCode(ValueSet valueSet, Coding coding, ValidationParameters parameters);
-    ValidationOutcome validateCode(ValueSet valueSet, CodeableConcept codeableConcept, ValidationParameters parameters);
-    TranslationOutcome translate(ConceptMap conceptMap, Coding coding, TranslationParameters parameters);
-    TranslationOutcome translate(ConceptMap conceptMap, CodeableConcept codeableConcept, TranslationParameters parameters);
+    Set<Concept> closure(CodeSystem codeSystem, Code code);
+    Concept getConcept(CodeSystem codeSystem, Code code);
+    Set<Concept> getConcepts(CodeSystem codeSystem);
+    Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters);
+    boolean hasConcept(CodeSystem codeSystem, Code code);
+    boolean isSupported(CodeSystem codeSystem);
+    boolean subsumes(CodeSystem codeSystem, Code codeA, Code codeB);
 }
+```
 
+## Default Terminology Service Provider Implementation
+
+The default implementation of `FHIRTermServiceProvider` ([DefaultTermServiceProvider](https://github.com/IBM/FHIR/blob/main/fhir-term/src/main/java/com/ibm/fhir/term/service/provider/DefaultTermServiceProvider.java)) leverages terminology resources (`CodeSystem`, `ValueSet`, and `ConceptMap`) that have been made available through the FHIR registry module ([fhir-registry](https://github.com/IBM/FHIR/tree/main/fhir-registry)). It supports `CodeSystem` resources with *complete* content (`CodeSystem.content = 'complete'`) and `ValueSet` resources that reference `CodeSystem` resources that have complete content.
+
+## FHIR Terminology Service Singleton facade
+
+The FHIR Terminology Service Singleton facade ([FHIRTermService](https://github.com/IBM/FHIR/blob/main/fhir-term/src/main/java/com/ibm/fhir/term/service/FHIRTermService.java)) loads a list of `FHIRTermServiceProvider` instances from the ServiceLoader and includes an instance of the `DefaultTermServiceProvider`. Client code (Java) that requires terminology capabilities should access them via the `FHIRTermService` singleton facade. Here is an example:
+
+```java
+ValueSet valueSet = ValueSetSupport.getValueSet("http://ibm.com/fhir/ValueSet/vs1");
+Coding coding = Coding.builder()
+        .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
+        .version(string("1.0.0"))
+        .code(Code.of("a")
+        .display(string("concept a")
+        .build();
+ValidationOutcome outcome = FHIRTermService.getInstance().validateCode(valueSet, coding);
 ```
 
 The `expand `, `lookup`, `validateCode` (CodeSystem), `validateCode` (ValueSet), and `translate` methods support the passing of optional parameters (e.g. `ExpansionParameters`, `LookupParameters`, etc.). Many of the methods also return an "outcome" object. These "parameter" and "outcome" objects are modeled after the input/output parameters specified in the terminology operations from the FHIR Terminology module: [http://hl7.org/fhir/terminology-module.html](http://hl7.org/fhir/terminology-module.html).
@@ -47,24 +61,7 @@ Parameters parameters = outcome.toParameters();
 
 This bridge to/from the `Parameters` resource enables implementers to build both native implementations of the SPI and implementations that access an existing external terminology service.
 
-## Default Terminology Service Provider Implementation
-
-The default implementation of `FHIRTermServiceProvider` ([DefaultTermServiceProvider](https://github.com/IBM/FHIR/blob/main/fhir-term/src/main/java/com/ibm/fhir/term/service/provider/DefaultTermServiceProvider.java)) leverages terminology resources (`CodeSystem`, `ValueSet`, and `ConceptMap`) that have been made available through the FHIR registry module ([fhir-registry](https://github.com/IBM/FHIR/tree/main/fhir-registry)). It supports `CodeSystem` resources with *complete* content (`CodeSystem.content = 'complete'`) and `ValueSet` resources that reference `CodeSystem` resources that have complete content. The default implementation does not support for optional parameters (e.g. `ExpansionParameters`, `TranslationParameters`, `ValidationParameters`, etc.).
-
-## FHIR Terminology Service Singleton facade
-
-The FHIR Terminology Service Singleton facade ([FHIRTermService](https://github.com/IBM/FHIR/blob/main/fhir-term/src/main/java/com/ibm/fhir/term/service/FHIRTermService.java)) loads a `FHIRTermServiceProvider` from the ServiceLoader, if one exists. Otherwise, it will instantiate a `DefaultTermServiceProvider`. Other FHIR server components and user code (Java) that requires terminology capabilities should access them via the `FHIRTermService` singleton facade. Here is an example:
-
-```java
-ValueSet valueSet = ValueSetSupport.getValueSet("http://ibm.com/fhir/ValueSet/vs1");
-Coding coding = Coding.builder()
-        .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs1"))
-        .version(string("1.0.0"))
-        .code(Code.of("a")
-        .display(string("concept a")
-        .build();
-ValidationOutcome outcome = FHIRTermService.getInstance().validateCode(valueSet, coding);
-```
+NOTE: The current implementation does not support for optional parameters (e.g. `ExpansionParameters`, `TranslationParameters`, `ValidationParameters`, etc.).
 
 ## FHIR Server Terminology Extended Operations
 
@@ -99,3 +96,26 @@ Collection<FHIRPathNode> result = evaluator.evaluate("%terminologies.validateCod
 ```
 
 Additionally, the FHIRPath functions `subsumedBy` and `subsumes` have been implemented per: [http://hl7.org/fhir/fhirpath.html#functions](http://hl7.org/fhir/fhirpath.html#functions)
+
+## Graph Terminology Service Provider Implementation (experimental)
+
+The FHIR term graph module [fhir-term-graph](https://github.com/IBM/FHIR/tree/main/fhir-term-graph) provides an implementation of `FHIRTermServiceProvider` that is backed by a graph database ([JanusGraph](https://janusgraph.org)). The module also contains term graph loaders for SNOMED-CT Release Format 2 (RF2) files (SnomedTermGraphLoader), UMLS Rich Release Format (RRF) files (UMLSTermGraphLoader), and FHIR CodeSystem resources (CodeSystemTermGraphLoader). The GraphTermServiceProvider can be enabled through the `fhir-server-config.json` file per the configuration properties specified in the [FHIR Server User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#51-configuration-properties-reference). Example configuration:
+
+``` json
+        "term": {
+            "graphTermServiceProvider": {
+                "enabled": true,
+                "timeLimit": 30000,
+                "configuration": {
+                    "storage.backend": "cql",
+                    "storage.hostname": "127.0.0.1",
+                    "index.search.backend": "elasticsearch",
+                    "index.search.hostname": "127.0.0.1:9200",
+                    "storage.read-only": true,
+                    "query.batch": true,
+                    "query.batch-property-prefetch": true,
+                    "query.fast-property": true
+                }
+            }
+        }
+```

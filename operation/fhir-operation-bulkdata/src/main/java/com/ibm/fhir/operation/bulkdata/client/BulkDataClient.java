@@ -78,8 +78,6 @@ public class BulkDataClient {
 
     private static final HttpWrapper wrapper = new HttpWrapper();
 
-    private static final JobIdEncodingTransformer transformer = new JobIdEncodingTransformer();
-
     private static final BulkDataExportUtil export = new BulkDataExportUtil();
 
     // @formatter:off
@@ -270,7 +268,7 @@ public class BulkDataClient {
         }
         cli.close();
 
-        return baseUri + "/$bulkdata-status?job=" + transformer.endcodeJobId(jobId);
+        return baseUri + "/$bulkdata-status?job=" + JobIdEncodingTransformer.getInstance().encodeJobId(jobId);
     }
 
     /**
@@ -677,9 +675,6 @@ public class BulkDataClient {
 
         String request = response.getJobParameters().getIncomingUrl();
         log.fine(response.getJobName());
-        if ("bulkimportchunkjob".equals(response.getJobName())) {
-            request = "$import";
-        }
         result.setRequest(request);
         result.setRequiresAccessToken(false);
 
@@ -692,8 +687,8 @@ public class BulkDataClient {
         // e.g, Patient[1000,1000,200]:Observation[1000,1000,200],
         // COMPLETED means no file exported.
         String exitStatus = response.getExitStatus();
-        log.fine(exitStatus);
-        if (!"COMPLETED".equals(exitStatus) && request.contains("$export")) {
+        log.fine(response.getJobXMLName() + " " + exitStatus);
+        if (!"COMPLETED".equals(exitStatus) && !"bulkimportchunkjob".equals(response.getJobName())) {
             List<String> resourceTypeInfs = Arrays.asList(exitStatus.split("\\s*:\\s*"));
             List<PollingLocationResponse.Output> outputList = new ArrayList<>();
             for (String resourceTypeInf : resourceTypeInfs) {
@@ -730,7 +725,7 @@ public class BulkDataClient {
             result.setOutput(outputList);
         }
 
-        if (request.contains("/$import")) {
+        if ("bulkimportchunkjob".equals(response.getJobName())) {
             // Currently there is no output
             log.fine("Hit the case where we don't form output with counts");
             List<Input> inputs = response.getJobParameters().getInputs();
@@ -832,7 +827,7 @@ public class BulkDataClient {
         }
         cli.close();
 
-        return baseUri + "/$bulkdata-status?job=" + transformer.endcodeJobId(jobId);
+        return baseUri + "/$bulkdata-status?job=" + JobIdEncodingTransformer.getInstance().encodeJobId(jobId);
     }
 
     /**

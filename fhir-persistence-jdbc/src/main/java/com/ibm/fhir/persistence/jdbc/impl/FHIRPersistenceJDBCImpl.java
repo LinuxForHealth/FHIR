@@ -1409,7 +1409,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                             // Of course, that would require adding extension-search-params to the Registry which would require the Registry to be tenant-aware.
 //                            SearchParameter compSP = FHIRRegistry.getInstance().getResource(component.getDefinition().getValue(), SearchParameter.class);
                             SearchParameter compSP = SearchUtil.getSearchParameter(p.getResourceType(), component.getDefinition());
-                            JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(compSP);
+                            JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(p.getResourceType(), compSP);
                             FHIRPathNode node = nodes.iterator().next();
                             if (nodes.size() > 1 ) {
                                 // TODO: support component expressions that result in multiple nodes
@@ -1455,7 +1455,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                     ExtractedParameterValue componentParam = parameters.get(0);
                                     // override the component parameter name with the composite parameter name
                                     componentParam.setName(SearchUtil.makeCompositeSubCode(code, componentParam.getName()));
-                                    componentParam.setResourceType(p.getResourceType());
                                     componentParam.setBase(p.getBase());
                                     p.addComponent(componentParam);
                                 } else if (node.isSystemValue()){
@@ -1498,7 +1497,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                         }
                     }
                 } else { // ! SearchParamType.COMPOSITE.equals(sp.getType())
-                    JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(sp);
+                    JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(fhirResource.getClass().getSimpleName(), sp);
 
                     for (FHIRPathNode value : values) {
 
@@ -1542,7 +1541,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     // retrieve the list of parameters built from all the FHIRPathElementNode values
                     List<ExtractedParameterValue> parameters = parameterBuilder.getResult();
                     for (ExtractedParameterValue p : parameters) {
-                        p.setResourceType(fhirResource.getClass().getSimpleName());
                         allParameters.add(p);
                         if (log.isLoggable(Level.FINE)) {
                             log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");

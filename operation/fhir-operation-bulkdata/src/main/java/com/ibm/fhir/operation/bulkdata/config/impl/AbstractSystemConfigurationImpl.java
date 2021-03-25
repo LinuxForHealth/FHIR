@@ -75,7 +75,6 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     private static final int coreFileResourceCountThreshold = defaultCoreFileResourceCountThreshold();
     private static final int coreFileWriteTriggerSize = defaultCoreFileWriteTriggerSize();
     private static final long coreFileSizeThreshold = defaultCoreFileSizeThreshold();
-    private static final String coreBatchIdEncryptionKey = defaultCoreBatchIdEncryptionKey();
     private static final int coreMaxParititions = defaultCoreMaxParititions();
     private static final int inputLimits = defaultInputLimits();
 
@@ -95,10 +94,6 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
 
     @Override
     public String getCoreBatchIdEncryptionKey() {
-        return coreBatchIdEncryptionKey;
-    }
-
-    private static final String defaultCoreBatchIdEncryptionKey() {
         return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/batchIdEncryptionKey", null);
     }
 
@@ -173,7 +168,7 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     }
 
     private static final int defaultCoreFileWriteTriggerSize() {
-        return 1024 * 1024 * FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/cos/partUploadTriggerSizeMB", DEFAULT_FILE_WRITE_TRIGGER_SIZE_MB);
+        return 1024 * 1024 * FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/file/writeTriggerSizeMB", DEFAULT_FILE_WRITE_TRIGGER_SIZE_MB);
     }
 
     @Override
@@ -182,7 +177,7 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     }
 
     private static final long defaultCoreFileSizeThreshold() {
-        final String PATH = "fhirServer/bulkdata/core/cos/objectSizeThresholdMB";
+        final String PATH = "fhirServer/bulkdata/core/file/sizeThresholdMB";
         return 1024l * 1024l * FHIRConfigHelper.getIntProperty(PATH, DEFAULT_FILE_MAX_SIZE_MB);
     }
 
@@ -192,7 +187,7 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     }
 
     private static final int defaultCoreFileResourceCountThreshold() {
-        final String PATH = "fhirServer/bulkdata/core/cos/objectResourceCountThreshold";
+        final String PATH = "fhirServer/bulkdata/core/file/resourceCountThreshold";
         return FHIRConfigHelper.getIntProperty(PATH, DEFAULT_FILE_MAX_RESOURCE_COUNT);
     }
 

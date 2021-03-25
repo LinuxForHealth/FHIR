@@ -9,14 +9,12 @@ package com.ibm.fhir.term.util;
 import static com.ibm.fhir.core.util.LRUCache.createLRUCache;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.term.util.CodeSystemSupport.getCodeSystem;
-import static com.ibm.fhir.term.util.CodeSystemSupport.getConceptPropertyValue;
-import static com.ibm.fhir.term.util.CodeSystemSupport.hasCodeSystemProperty;
-import static com.ibm.fhir.term.util.CodeSystemSupport.hasConceptProperty;
 import static com.ibm.fhir.term.util.CodeSystemSupport.isCaseSensitive;
+import static com.ibm.fhir.term.util.CodeSystemSupport.normalize;
 
 import java.time.ZoneOffset;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -26,8 +24,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
@@ -35,22 +31,16 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.resource.ValueSet.Compose;
 import com.ibm.fhir.model.resource.ValueSet.Compose.Include;
-import com.ibm.fhir.model.resource.ValueSet.Compose.Include.Filter;
 import com.ibm.fhir.model.resource.ValueSet.Expansion;
-import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
-import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.DateTime;
-import com.ibm.fhir.model.type.Decimal;
-import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
-import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
-import com.ibm.fhir.model.type.code.FilterOperator;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.term.service.FHIRTermService;
 
 /**
@@ -86,8 +76,36 @@ public final class ValueSetSupport {
         return valueSet;
     }
 
-    public static boolean isExpanded(ValueSet valueSet) {
-        return valueSet != null && valueSet.getExpansion() != null;
+    /**
+     * Get a list containing {@link ValueSet.Expansion.Contains} instances where all structural
+     * hierarchies have been flattened.
+     *
+     * @param expansion
+     *     the expansion containing the list of Contains instances to flatten
+     * @return
+     *     flattened list of Contains instances for the given expansion
+     */
+    public static List<Expansion.Contains> getContains(Expansion expansion) {
+        if (expansion == null) {
+            return Collections.emptyList();
+        }
+        List<Expansion.Contains> result = (expansion.getTotal() != null) ? new ArrayList<>(expansion.getTotal().getValue()) : new ArrayList<>();
+        for (Expansion.Contains contains : expansion.getContains()) {
+            result.addAll(getContains(contains));
+        }
+        return result;
+    }
+
+    /**
+     * Get the value set associated with the given url from the FHIR registry.
+     *
+     * @param url
+     *     the url of the value set
+     * @return
+     *     the value set associated with the given input parameter, or null if no such value set exists
+     */
+    public static ValueSet getValueSet(java.lang.String url) {
+        return FHIRRegistry.getInstance().getResource(url, ValueSet.class);
     }
 
     public static boolean isExpandable(ValueSet valueSet) {
@@ -123,115 +141,16 @@ public final class ValueSetSupport {
         return true;
     }
 
-    private static Set<java.lang.String> getCodeSystemReferences(List<Include> includesAndExcludes) {
-        return includesAndExcludes.stream()
-                .filter(includeOrExclude -> includeOrExclude.getConcept().isEmpty())
-                .map(ValueSetSupport::getCodeSystemReference)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
+    public static boolean isExpanded(ValueSet valueSet) {
+        return valueSet != null && valueSet.getExpansion() != null;
     }
 
-    private static java.lang.String getCodeSystemReference(Include includeOrExclude) {
-        if (includeOrExclude.getSystem() != null && includeOrExclude.getSystem().getValue() != null) {
-            StringBuilder sb = new StringBuilder(includeOrExclude.getSystem().getValue());
-            if (includeOrExclude.getVersion() != null && includeOrExclude.getVersion().getValue() != null) {
-                sb.append("|").append(includeOrExclude.getVersion().getValue());
-            }
-            return sb.toString();
-        }
-        return null;
+    public static boolean validateCode(ValueSet valueSet, Code code) {
+        return validateCode(getCodeSetMap(valueSet), code);
     }
 
-    private static Set<java.lang.String> getValueSetReferences(List<Include> includesAndExcludes) {
-        return includesAndExcludes.stream()
-                .map(includeOrExclude -> includeOrExclude.getValueSet())
-                .flatMap(List::stream)
-                .map(canonical -> canonical.getValue())
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
-    }
-
-    /**
-     * Get a set containing {@link ValueSet.Expansion.Contains} instances where all structural
-     * hierarchies have been flattened.
-     *
-     * @param expansion
-     *     the expansion containing the list of Contains instances to flatten
-     * @return
-     *     flattened set of Contains instances for the given expansion
-     */
-    public static Set<Expansion.Contains> getContains(Expansion expansion) {
-        if (expansion == null) {
-            return Collections.emptySet();
-        }
-        Set<Expansion.Contains> result = (expansion.getTotal() != null) ? new LinkedHashSet<>(expansion.getTotal().getValue()) : new LinkedHashSet<>();
-        for (Expansion.Contains contains : expansion.getContains()) {
-            result.addAll(getContains(contains));
-        }
-        return result;
-    }
-
-    /**
-     * Get the value set associated with the given url from the FHIR registry.
-     *
-     * @param url
-     *     the url of the value set
-     * @return
-     *     the value set associated with the given input parameter, or null if no such value set exists
-     */
-    public static ValueSet getValueSet(java.lang.String url) {
-        return FHIRRegistry.getInstance().getResource(url, ValueSet.class);
-    }
-
-    private static boolean accept(List<ConceptFilter> conceptFilters, Concept concept) {
-        for (ConceptFilter conceptFilter : conceptFilters) {
-            if (!conceptFilter.accept(concept)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private static List<ConceptFilter> buildConceptFilters(CodeSystem codeSystem, List<Filter> filters) {
-        List<ConceptFilter> conceptFilters = new ArrayList<>(filters.size());
-        for (Filter filter : filters) {
-            ConceptFilter conceptFilter = null;
-            switch (FilterOperator.ValueSet.from(filter.getOp().getValue())) {
-            case DESCENDENT_OF:
-                conceptFilter = createDescendentOfFilter(codeSystem, filter);
-                break;
-            case EQUALS:
-                conceptFilter = createEqualsFilter(codeSystem, filter);
-                break;
-            case EXISTS:
-                conceptFilter = createExistsFilter(codeSystem, filter);
-                break;
-            case GENERALIZES:
-                conceptFilter = createGeneralizesFilter(codeSystem, filter);
-                break;
-            case IN:
-                conceptFilter = createInFilter(codeSystem, filter);
-                break;
-            case IS_A:
-                conceptFilter = createIsAFilter(codeSystem, filter);
-                break;
-            case IS_NOT_A:
-                conceptFilter = createIsNotAFilter(codeSystem, filter);
-                break;
-            case NOT_IN:
-                conceptFilter = createNotInFilter(codeSystem, filter);
-                break;
-            case REGEX:
-                conceptFilter = createRegexFilter(codeSystem, filter);
-                break;
-            }
-            if (conceptFilter != null) {
-                conceptFilters.add(conceptFilter);
-            } else {
-                log.log(Level.WARNING, java.lang.String.format("Unable to create concept filter from property: %s, op: %s, value: %s", filter.getProperty().getValue(), filter.getOp().getValue(), filter.getValue().getValue()));
-            }
-        }
-        return conceptFilters;
+    public static boolean validateCode(ValueSet valueSet, Coding coding) {
+        return validateCode(getCodeSetMap(valueSet), coding);
     }
 
     private static Contains buildContains(Uri system, String version, Code code, String display) {
@@ -251,118 +170,33 @@ public final class ValueSetSupport {
         return null;
     }
 
-    private static Code code(String value) {
-        return Code.of(value.getValue());
-    }
-
-    private static Element convert(String value, Class<?> targetType) {
-        if (Code.class.equals(targetType)) {
-            return Code.of(value.getValue());
-        }
-        if (Integer.class.equals(targetType)) {
-            return Integer.of(value.getValue());
-        }
-        if (Boolean.class.equals(targetType)) {
-            return Boolean.of(value.getValue());
-        }
-        if (DateTime.class.equals(targetType)) {
-            return DateTime.of(value.getValue());
-        }
-        if (Decimal.class.equals(targetType)) {
-            return Decimal.of(value.getValue());
-        }
-        return value;
-    }
-
-    private static boolean convertsToBoolean(String value) {
-        return "true".equals(value.getValue()) || "false".equals(value.getValue());
-    }
-
-    private static ConceptFilter createDescendentOfFilter(CodeSystem codeSystem, Filter filter) {
-        if ("concept".equals(filter.getProperty().getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-            Concept concept = FHIRTermService.getInstance().findConcept(codeSystem, code(filter.getValue()));
-            if (concept != null) {
-                return new DescendentOfFilter(codeSystem, concept);
+    private static Map<java.lang.String, Set<java.lang.String>> computeCodeSetMap(ValueSet valueSet) {
+        try {
+            ValueSet expanded = expand(valueSet);
+            if (expanded == null || expanded.getExpansion() == null) {
+                return Collections.emptyMap();
             }
-        }
-        return null;
-    }
-
-    private static ConceptFilter createEqualsFilter(CodeSystem codeSystem, Filter filter) {
-        Code property = filter.getProperty();
-        if ("parent".equals(property.getValue()) ||
-                "child".equals(property.getValue()) ||
-                hasCodeSystemProperty(codeSystem, property)) {
-            return new EqualsFilter(codeSystem, property, filter.getValue());
-        }
-        return null;
-    }
-
-    private static ConceptFilter createExistsFilter(CodeSystem codeSystem, Filter filter) {
-        Code property = filter.getProperty();
-        String value = filter.getValue();
-        if (hasCodeSystemProperty(codeSystem, property) && convertsToBoolean(value)) {
-            return new ExistsFilter(property, toBoolean(value));
-        }
-        return null;
-    }
-
-    private static ConceptFilter createGeneralizesFilter(CodeSystem codeSystem, Filter filter) {
-        if ("concept".equals(filter.getProperty().getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-            Concept concept = FHIRTermService.getInstance().findConcept(codeSystem, code(filter.getValue()));
-            if (concept != null) {
-                return new GeneralizesFilter(codeSystem, concept);
+            Map<java.lang.String, Set<java.lang.String>> codeSetMap = new LinkedHashMap<>();
+            Expansion expansion = expanded.getExpansion();
+            for (Expansion.Contains contains : getContains(expansion)) {
+                java.lang.String system = (contains.getSystem() != null) ? contains.getSystem().getValue() : null;
+                java.lang.String version = (contains.getVersion() != null && contains.getVersion().getValue() != null) ? contains.getVersion().getValue() : VERSION_UNKNOWN;
+                java.lang.String code = (contains.getCode() != null) ? contains.getCode().getValue() : null;
+                if (system != null && code != null) {
+                    java.lang.String url = !VERSION_UNKNOWN.equals(version) ? system + "|" + version : system;
+                    if (!isCaseSensitive(url)) {
+                        code = normalize(code);
+                    }
+                    codeSetMap.computeIfAbsent(system + "|" + version, k -> new LinkedHashSet<>()).add(code);
+                }
             }
+            return codeSetMap;
+        } catch (Exception e) {
+            java.lang.String url = (valueSet.getUrl() != null) ? valueSet.getUrl().getValue() : "<no url>";
+            java.lang.String version = (valueSet.getVersion() != null) ? valueSet.getVersion().getValue() : "<no version>";
+            log.log(Level.WARNING, java.lang.String.format("Unable to expand value set with url: %s and version: %s", url, version), e);
         }
-        return null;
-    }
-
-    private static ConceptFilter createInFilter(CodeSystem codeSystem, Filter filter) {
-        Code property = filter.getProperty();
-        if ("concept".equals(property.getValue()) || hasCodeSystemProperty(codeSystem, property)) {
-             return new InFilter(property, Arrays.asList(filter.getValue().getValue().split(",")).stream()
-                 .map(Code::of)
-                 .collect(Collectors.toSet()));
-        }
-        return null;
-    }
-
-    private static ConceptFilter createIsAFilter(CodeSystem codeSystem, Filter filter) {
-        if ("concept".equals(filter.getProperty().getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-            Concept concept = FHIRTermService.getInstance().findConcept(codeSystem, code(filter.getValue()));
-            if (concept != null) {
-                return new IsAFilter(codeSystem, concept);
-            }
-        }
-        return null;
-    }
-
-    private static ConceptFilter createIsNotAFilter(CodeSystem codeSystem, Filter filter) {
-        if ("concept".equals(filter.getProperty().getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-            Concept concept = FHIRTermService.getInstance().findConcept(codeSystem, code(filter.getValue()));
-            if (concept != null) {
-                return new IsNotAFilter(codeSystem, concept);
-            }
-        }
-        return null;
-    }
-
-    private static ConceptFilter createNotInFilter(CodeSystem codeSystem, Filter filter) {
-        Code property = filter.getProperty();
-        if ("concept".equals(property.getValue()) || hasCodeSystemProperty(codeSystem, property)) {
-             return new NotInFilter(property, Arrays.asList(filter.getValue().getValue().split(",")).stream()
-                 .map(Code::of)
-                 .collect(Collectors.toSet()));
-        }
-        return null;
-    }
-
-    private static ConceptFilter createRegexFilter(CodeSystem codeSystem, Filter filter) {
-        Code property = filter.getProperty();
-        if (hasCodeSystemProperty(codeSystem, property)) {
-            return new RegexFilter(property, filter.getValue());
-        }
-        return null;
+        return Collections.emptyMap();
     }
 
     private static Set<Contains> expand(Compose compose) {
@@ -394,7 +228,7 @@ public final class ValueSetSupport {
             return Collections.emptySet();
         }
 
-        Set<Contains> systemContains = new LinkedHashSet<>();
+        Set<Contains> codeSystemContains = new LinkedHashSet<>();
         if (includeOrExclude.getSystem() != null) {
             Uri system = includeOrExclude.getSystem();
             String version = (includeOrExclude.getVersion() != null) ?
@@ -403,7 +237,7 @@ public final class ValueSetSupport {
                 for (Include.Concept concept : includeOrExclude.getConcept()) {
                     Code code = (concept.getCode() != null) ? concept.getCode() : null;
                     if (code != null) {
-                        systemContains.add(buildContains(system, version, code, concept.getDisplay()));
+                        codeSystemContains.add(buildContains(system, version, code, concept.getDisplay()));
                     }
                 }
             } else {
@@ -411,15 +245,12 @@ public final class ValueSetSupport {
                 if (version != null) {
                     url = url + "|" + version.getValue();
                 }
-                if (hasResource(url, CodeSystem.class)) {
-                    CodeSystem codeSystem = getCodeSystem(url);
-                    List<ConceptFilter> conceptFilters = buildConceptFilters(codeSystem, includeOrExclude.getFilter());
-                    for (Concept concept : FHIRTermService.getInstance().getConcepts(codeSystem)) {
-                        if (accept(conceptFilters, concept)) {
-                            Contains contains = buildContains(system, version, concept);
-                            if (contains != null) {
-                                systemContains.add(contains);
-                            }
+                CodeSystem codeSystem = getCodeSystem(url);
+                if (codeSystem != null) {
+                    for (Concept concept : FHIRTermService.getInstance().getConcepts(codeSystem, includeOrExclude.getFilter())) {
+                        Contains contains = buildContains(system, version, concept);
+                        if (contains != null) {
+                            codeSystemContains.add(contains);
                         }
                     }
                 }
@@ -434,20 +265,52 @@ public final class ValueSetSupport {
             }
         }
 
-        if (!systemContains.isEmpty() && !valueSetContains.isEmpty()) {
-            Set<Contains> intersection = new LinkedHashSet<>(systemContains);
+        if (!codeSystemContains.isEmpty() && !valueSetContains.isEmpty()) {
+            Set<Contains> intersection = new LinkedHashSet<>(codeSystemContains);
             intersection.retainAll(valueSetContains);
             return intersection;
         }
 
-        return !systemContains.isEmpty() ? systemContains : valueSetContains;
+        return !codeSystemContains.isEmpty() ? codeSystemContains : valueSetContains;
     }
 
-    private static Set<Expansion.Contains> getContains(Expansion.Contains contains) {
-        if (contains == null) {
-            return Collections.emptySet();
+    private static Map<java.lang.String, Set<java.lang.String>> getCodeSetMap(ValueSet valueSet) {
+        if (valueSet.getUrl() == null || valueSet.getVersion() == null) {
+            return computeCodeSetMap(valueSet);
         }
-        Set<Expansion.Contains> result = new LinkedHashSet<>();
+        java.lang.String url = valueSet.getUrl().getValue() + "|" + valueSet.getVersion().getValue();
+        return CODE_SET_MAP_CACHE.computeIfAbsent(url, k -> computeCodeSetMap(valueSet));
+    }
+
+    private static java.lang.String getCodeSystemReference(Include includeOrExclude) {
+        if (includeOrExclude.getSystem() != null && includeOrExclude.getSystem().getValue() != null) {
+            StringBuilder sb = new StringBuilder(includeOrExclude.getSystem().getValue());
+            if (includeOrExclude.getVersion() != null && includeOrExclude.getVersion().getValue() != null) {
+                sb.append("|").append(includeOrExclude.getVersion().getValue());
+            }
+            return sb.toString();
+        }
+        return null;
+    }
+
+    private static Set<java.lang.String> getCodeSystemReferences(List<Include> includesAndExcludes) {
+        Set<java.lang.String> codeSystemReferences = new LinkedHashSet<>();
+        for (Include includeOrExclude : includesAndExcludes) {
+            if (includeOrExclude.getConcept().isEmpty()) {
+                java.lang.String codeSystemReference = getCodeSystemReference(includeOrExclude);
+                if (codeSystemReference != null) {
+                    codeSystemReferences.add(codeSystemReference);
+                }
+            }
+        }
+        return codeSystemReferences;
+    }
+
+    private static List<Expansion.Contains> getContains(Expansion.Contains contains) {
+        if (contains == null) {
+            return Collections.emptyList();
+        }
+        List<Expansion.Contains> result = new ArrayList<>();
         result.add(contains);
         for (Expansion.Contains c : contains.getContains()) {
             result.addAll(getContains(c));
@@ -457,245 +320,43 @@ public final class ValueSetSupport {
 
     private static String getLatestVersion(Uri system) {
         java.lang.String version = FHIRRegistry.getInstance().getLatestVersion(system.getValue(), CodeSystem.class);
-        return (version != null) ? string(version) : null;
+        return (version != null && !FHIRRegistryResource.NO_VERSION.toString().equals(version)) ? string(version) : null;
+    }
+
+    private static Set<java.lang.String> getValueSetReferences(List<Include> includesAndExcludes) {
+        Set<java.lang.String> valueSetReferences = new LinkedHashSet<>();
+        for (Include includeOrExclude : includesAndExcludes) {
+            for (Canonical canonical : includeOrExclude.getValueSet()) {
+                if (canonical.getValue() != null) {
+                    valueSetReferences.add(canonical.getValue());
+                }
+            }
+        }
+        return valueSetReferences;
     }
 
     private static boolean hasResource(java.lang.String url, Class<? extends Resource> resourceType) {
         return FHIRRegistry.getInstance().hasResource(url, resourceType);
     }
 
-    private static Boolean toBoolean(String value) {
-        return "true".equals(value.getValue()) ? Boolean.TRUE : Boolean.FALSE;
-    }
-
-    private interface ConceptFilter {
-        boolean accept(Concept concept);
-    }
-
-    private static class DescendentOfFilter extends IsAFilter {
-        public DescendentOfFilter(CodeSystem codeSystem, Concept concept) {
-            super(codeSystem, concept);
+    private static List<Expansion.Contains> unwrap(Collection<Contains> wrapped) {
+        List<Expansion.Contains> unwrapped = new ArrayList<>(wrapped.size());
+        for (Contains contains : wrapped) {
+            unwrapped.add(unwrap(contains));
         }
-
-        @Override
-        public boolean accept(Concept concept) {
-            return !this.concept.equals(concept) && super.accept(concept);
-        }
-    }
-
-    private static class EqualsFilter implements ConceptFilter {
-        private final Code property;
-        private final String value;
-        private final Set<Concept> children;
-        private final Concept child;
-
-        public EqualsFilter(CodeSystem codeSystem, Code property, String value) {
-            this.property = property;
-            this.value = value;
-            children = new LinkedHashSet<>();
-            if ("parent".equals(property.getValue())) {
-                Concept parent = FHIRTermService.getInstance().findConcept(codeSystem, code(value));
-                if (parent != null) {
-                    children.addAll(parent.getConcept());
-                }
-            }
-            this.child = "child".equals(property.getValue()) ? FHIRTermService.getInstance().findConcept(codeSystem, code(value)) : null;
-        }
-
-        @Override
-        public boolean accept(Concept concept) {
-            if ("parent".equals(property.getValue())) {
-                return children.contains(concept);
-            }
-            if ("child".equals(property.getValue())) {
-                return concept.getConcept().contains(child);
-            }
-            if (hasConceptProperty(concept, property)) {
-                Element value = getConceptPropertyValue(concept, property);
-                if (value != null && !value.is(CodeableConcept.class)) {
-                    return value.equals(convert(this.value, value.getClass()));
-                }
-            }
-            return false;
-        }
-    }
-
-    private static class ExistsFilter implements ConceptFilter {
-        private Code property;
-        private Boolean value;
-
-        public ExistsFilter(Code property, Boolean value) {
-            this.property = property;
-            this.value = value;
-        }
-
-        @Override
-        public boolean accept(Concept concept) {
-            return Boolean.TRUE.equals(value) ?
-                    hasConceptProperty(concept, property) :
-                        !hasConceptProperty(concept, property);
-        }
-    }
-
-    private static class GeneralizesFilter implements ConceptFilter {
-        private final CodeSystem codeSystem;
-        private final Concept concept;
-
-        public GeneralizesFilter(CodeSystem codeSystem, Concept concept) {
-            this.codeSystem = codeSystem;
-            this.concept = concept;
-        }
-
-        @Override
-        public boolean accept(Concept concept) {
-            return (FHIRTermService.getInstance().findConcept(codeSystem, concept, this.concept.getCode()) != null);
-        }
-    }
-
-    private static class InFilter implements ConceptFilter {
-        protected final Code property;
-        protected final Set<Code> set;
-
-        public InFilter(Code property, Set<Code> set) {
-            this.property = property;
-            this.set = set;
-        }
-
-        @Override
-        public boolean accept(Concept concept) {
-            return "concept".equals(property.getValue()) ?
-                    set.contains(concept.getCode()) :
-                        set.contains(getConceptPropertyValue(concept, property));
-        }
-    }
-
-    private static class IsAFilter implements ConceptFilter {
-        protected final CodeSystem codeSystem;
-        protected final Concept concept;
-
-        public IsAFilter(CodeSystem codeSystem, Concept concept) {
-            this.codeSystem = codeSystem;
-            this.concept = concept;
-        }
-
-        @Override
-        public boolean accept(Concept concept) {
-            return (FHIRTermService.getInstance().findConcept(codeSystem, this.concept, concept.getCode()) != null);
-        }
-    }
-
-    private static class IsNotAFilter extends IsAFilter {
-        public IsNotAFilter(CodeSystem codeSystem, Concept concept) {
-            super(codeSystem, concept);
-        }
-
-        @Override
-        public boolean accept(Concept concept) {
-            return !super.accept(concept);
-        }
-    }
-
-    private static class NotInFilter extends InFilter {
-        public NotInFilter(Code property, Set<Code> set) {
-            super(property, set);
-        }
-
-        @Override
-        public boolean accept(Concept concept) {
-            return !super.accept(concept);
-        }
-    }
-
-    private static class RegexFilter implements ConceptFilter {
-        private final Code property;
-        private final Pattern pattern;
-
-        public RegexFilter(Code property, String value) {
-            this.property = property;
-            this.pattern = Pattern.compile(value.getValue());
-        }
-
-        @Override
-        public boolean accept(Concept concept) {
-            if (hasConceptProperty(concept, property)) {
-                Element value = getConceptPropertyValue(concept, property);
-                if (value.is(String.class)) {
-                    return pattern.matcher(value.as(String.class).getValue()).matches();
-                }
-            }
-            return false;
-        }
-    }
-
-    private static Contains wrap(Expansion.Contains contains) {
-        return new Contains(contains);
+        return unwrapped;
     }
 
     private static Expansion.Contains unwrap(Contains contains) {
         return contains.getContains();
     }
 
-    private static Set<Contains> wrap(Set<Expansion.Contains> unwrapped) {
-        return unwrapped.stream()
-            .map(ValueSetSupport::wrap)
-            .collect(Collectors.toCollection(LinkedHashSet::new));
-    }
-
-    private static Set<Expansion.Contains> unwrap(Set<Contains> wrapped) {
-        return wrapped.stream()
-            .map(ValueSetSupport::unwrap)
-            .collect(Collectors.toCollection(LinkedHashSet::new));
-    }
-
-    private static class Contains {
-        private final Expansion.Contains contains;
-        private final int hashCode;
-
-        public Contains(Expansion.Contains contains) {
-            this.contains = contains;
-            hashCode = Objects.hash(contains.getSystem(), contains.getVersion(), contains.getCode());
-        }
-
-        public Expansion.Contains getContains() {
-            return contains;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null) {
-                return false;
-            }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            Contains other = (Contains) obj;
-            return Objects.equals(contains.getSystem(), other.contains.getSystem()) &&
-                    Objects.equals(contains.getVersion(), other.contains.getVersion()) &&
-                    Objects.equals(contains.getCode(), other.contains.getCode());
-        }
-
-        @Override
-        public int hashCode() {
-            return hashCode;
-        }
-    }
-
-    public static boolean validateCode(ValueSet valueSet, Code code) {
-        return validateCode(getCodeSetMap(valueSet), code);
-    }
-
-    public static boolean validateCode(ValueSet valueSet, Coding coding) {
-        return validateCode(getCodeSetMap(valueSet), coding);
-    }
-
     private static boolean validateCode(Map<java.lang.String, Set<java.lang.String>> codeSetMap, Code code) {
-        java.lang.String codeString = (code != null) ? code.getValue() : null;
-        if (codeString != null) {
+        java.lang.String codeValue = (code != null) ? code.getValue() : null;
+        if (codeValue != null) {
+            java.lang.String normalizedCodeValue = normalize(codeValue);
             for (Set<java.lang.String> codeSet : codeSetMap.values()) {
-                if (codeSet.contains(codeString) || codeSet.contains(codeString.toLowerCase())) {
+                if (codeSet.contains(codeValue) || codeSet.contains(normalizedCodeValue)) {
                     return true;
                 }
             }
@@ -741,7 +402,7 @@ public final class ValueSetSupport {
         }
         java.lang.String url = (version != null) ? system + "|" + version : system;
         if (!isCaseSensitive(url)) {
-            code = code.toLowerCase();
+            code = normalize(code);
         }
         if (version != null) {
             Set<java.lang.String> codeSet = codeSetMap.get(system + "|" + version);
@@ -766,40 +427,51 @@ public final class ValueSetSupport {
         return false;
     }
 
-    private static Map<java.lang.String, Set<java.lang.String>> getCodeSetMap(ValueSet valueSet) {
-        if (valueSet.getUrl() == null || valueSet.getVersion() == null) {
-            return computeCodeSetMap(valueSet);
+    private static List<Contains> wrap(Collection<Expansion.Contains> unwrapped) {
+        List<Contains> wrapped = new ArrayList<>(unwrapped.size());
+        for (Expansion.Contains contains : unwrapped) {
+            wrapped.add(wrap(contains));
         }
-        java.lang.String url = valueSet.getUrl().getValue() + "|" + valueSet.getVersion().getValue();
-        return CODE_SET_MAP_CACHE.computeIfAbsent(url, k -> computeCodeSetMap(valueSet));
+        return wrapped;
     }
 
-    private static Map<java.lang.String, Set<java.lang.String>> computeCodeSetMap(ValueSet valueSet) {
-        try {
-            ValueSet expanded = expand(valueSet);
-            if (expanded == null || expanded.getExpansion() == null) {
-                return Collections.emptyMap();
-            }
-            Map<java.lang.String, Set<java.lang.String>> codeSetMap = new LinkedHashMap<>();
-            Expansion expansion = expanded.getExpansion();
-            for (Expansion.Contains contains : getContains(expansion)) {
-                java.lang.String system = (contains.getSystem() != null) ? contains.getSystem().getValue() : null;
-                java.lang.String version = (contains.getVersion() != null && contains.getVersion().getValue() != null) ? contains.getVersion().getValue() : VERSION_UNKNOWN;
-                java.lang.String code = (contains.getCode() != null) ? contains.getCode().getValue() : null;
-                if (system != null && code != null) {
-                    java.lang.String url = !VERSION_UNKNOWN.equals(version) ? system + "|" + version : system;
-                    if (!isCaseSensitive(url)) {
-                        code = code.toLowerCase();
-                    }
-                    codeSetMap.computeIfAbsent(system + "|" + version, k -> new LinkedHashSet<>()).add(code);
-                }
-            }
-            return codeSetMap;
-        } catch (Exception e) {
-            java.lang.String url = (valueSet.getUrl() != null) ? valueSet.getUrl().getValue() : "<no url>";
-            java.lang.String version = (valueSet.getVersion() != null) ? valueSet.getVersion().getValue() : "<no version>";
-            log.log(Level.WARNING, java.lang.String.format("Unable to expand value set with url: %s and version: %s", url, version), e);
+    private static Contains wrap(Expansion.Contains contains) {
+        return new Contains(contains);
+    }
+
+    private static class Contains {
+        private final Expansion.Contains contains;
+        private final int hashCode;
+
+        public Contains(Expansion.Contains contains) {
+            this.contains = contains;
+            hashCode = Objects.hash(contains.getSystem(), contains.getVersion(), contains.getCode());
         }
-        return Collections.emptyMap();
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            Contains other = (Contains) obj;
+            return Objects.equals(contains.getSystem(), other.contains.getSystem()) &&
+                    Objects.equals(contains.getVersion(), other.contains.getVersion()) &&
+                    Objects.equals(contains.getCode(), other.contains.getCode());
+        }
+
+        public Expansion.Contains getContains() {
+            return contains;
+        }
+
+        @Override
+        public int hashCode() {
+            return hashCode;
+        }
     }
 }

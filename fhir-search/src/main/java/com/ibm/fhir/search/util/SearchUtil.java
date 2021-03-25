@@ -882,9 +882,15 @@ public class SearchUtil {
                     // Build list of processed query parameters
                     List<QueryParameter> curParameterList = new ArrayList<>();
                     for (String paramValueString : params) {
-                        QueryParameter parameter = new QueryParameter(type, parameterCode, modifier, modifierResourceTypeName);
                         List<QueryParameterValue> queryParameterValues =
-                                processQueryParameterValueString(resourceType, searchParameter, modifier, parameter.getModifierResourceTypeName(), paramValueString);
+                                processQueryParameterValueString(resourceType, searchParameter, modifier, modifierResourceTypeName, paramValueString);
+                        QueryParameter parameter;
+                        // Internally treat search with :of-type modifier as composite search
+                        if (Modifier.OF_TYPE.equals(modifier)) {
+                            parameter = new QueryParameter(Type.COMPOSITE, parameterCode + SearchConstants.OF_TYPE_MODIFIER_SUFFIX, null, null);
+                        } else {
+                            parameter = new QueryParameter(type, parameterCode, modifier, modifierResourceTypeName);
+                        }
                         parameter.getValues().addAll(queryParameterValues);
                         curParameterList.add(parameter);
                         parameters.add(parameter);
@@ -1232,9 +1238,20 @@ public class SearchUtil {
                 // [parameter]=[base]/[type]/[id] - absolute local reference
                 // [parameter]=[id] - relativel local reference
                 // [parameter]=[literal|version#fragment] - canonical url - currently not supported
-                String valueString = unescapeSearchParm(v);
-                valueString = extractReferenceValue(valueString);
-                parameterValue.setValueString(valueString);
+                // [parameter]:identifier=[system|code] - token search of identifier field
+                if (Modifier.IDENTIFIER.equals(modifier)) {
+                    String[] parts = v.split(SearchConstants.BACKSLASH_NEGATIVE_LOOKBEHIND + "\\|");
+                    if (parts.length == 2) {
+                        parameterValue.setValueSystem(unescapeSearchParm(parts[0]));
+                        parameterValue.setValueCode(unescapeSearchParm(parts[1]));
+                    } else {
+                        parameterValue.setValueCode(unescapeSearchParm(v));
+                    }
+                } else {
+                    String valueString = unescapeSearchParm(v);
+                    valueString = extractReferenceValue(valueString);
+                    parameterValue.setValueString(valueString);
+                }
                 break;
             }
             case QUANTITY: {
@@ -1268,6 +1285,7 @@ public class SearchUtil {
             case TOKEN: {
                 // token
                 // [parameter]=[system]|[code]
+                // [parameter]:of-type=[system|code|value]
                 /*
                  * TODO: start enforcing this:
                  * "For token parameters on elements of type ContactPoint, uri, or boolean,
@@ -1275,6 +1293,36 @@ public class SearchUtil {
                  * [parameter]=[code] form is allowed
                  */
                 String[] parts = v.split(SearchConstants.BACKSLASH_NEGATIVE_LOOKBEHIND + "\\|");
+                if (Modifier.OF_TYPE.equals(modifier)) {
+                    // Convert :of-type into a composite search parameter
+                    final String ofTypeParmName = searchParameter.getCode().getValue() + SearchConstants.OF_TYPE_MODIFIER_SUFFIX;
+                    parameterValue.setOfTypeModifier(true);
+                    if (parts.length < 2) {
+                        String msg = "Search parameter '" + searchParameter.getCode().getValue() + "' with modifier ':" + modifier.value() + "' requires at least a code and value";
+                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                    } else if (parts.length < 4) {
+                        QueryParameterValue typeParameterValue = new QueryParameterValue();
+                        if (parts.length == 3) {
+                            typeParameterValue.setValueSystem(unescapeSearchParm(parts[0]));
+                        }
+                        typeParameterValue.setValueCode(unescapeSearchParm(parts[parts.length - 2]));
+                        QueryParameter typeParameter = new QueryParameter(Type.TOKEN, SearchUtil.makeCompositeSubCode(ofTypeParmName, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_TYPE),
+                            null, null, Collections.singletonList(typeParameterValue));
+                        parameterValue.addComponent(typeParameter);
+
+                        QueryParameterValue valueParameterValue = new QueryParameterValue();
+                        valueParameterValue.setValueCode(unescapeSearchParm(parts[parts.length - 1]));
+                        QueryParameter valueParameter = new QueryParameter(Type.TOKEN, SearchUtil.makeCompositeSubCode(ofTypeParmName, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE),
+                            null, null, Collections.singletonList(valueParameterValue));
+                        parameterValue.addComponent(valueParameter);
+                    } else {
+                        QueryParameterValue valueParameterValue = new QueryParameterValue();
+                        valueParameterValue.setValueCode(unescapeSearchParm(v));
+                        QueryParameter valueParameter = new QueryParameter(Type.TOKEN, SearchUtil.makeCompositeSubCode(ofTypeParmName, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE),
+                            null, null, Collections.singletonList(valueParameterValue));
+                        parameterValue.addComponent(valueParameter);
+                    }
+              } else
                 if (parts.length == 2) {
                     parameterValue.setValueSystem(unescapeSearchParm(parts[0]));
                     parameterValue.setValueCode(unescapeSearchParm(parts[1]));
@@ -1432,7 +1480,7 @@ public class SearchUtil {
      * @return
      */
     public static boolean useStoredCompartmentParam() {
-        return FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_USE_STORED_COMPARTMENT_PARAM, false);
+        return FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_USE_STORED_COMPARTMENT_PARAM, true);
     }
 
     /**
@@ -1444,9 +1492,32 @@ public class SearchUtil {
     public static FHIRSearchContext parseCompartmentQueryParameters(String compartmentName, String compartmentLogicalId,
             Class<?> resourceType, Map<String, List<String>> queryParameters, boolean lenient) throws Exception {
 
+        List<String> compartmentLogicalIds = Collections.singletonList(compartmentLogicalId);
+        QueryParameter inclusionCriteria = buildInclusionCriteria(compartmentName, compartmentLogicalIds, resourceType.getSimpleName());
+        FHIRSearchContext context = parseQueryParameters(resourceType, queryParameters, lenient);
+
+        // Add the inclusion criteria to the front of the search parameter list
+        if (inclusionCriteria != null) {
+            context.getSearchParameters().add(0, inclusionCriteria);
+        }
+
+        return context;
+    }
+
+    /**
+     * Build a query parameter to encapsulate the inclusion criteria for a compartment query
+     *
+     * @param compartmentName
+     * @param compartmentLogicalIds
+     * @param resourceType
+     * @return
+     * @throws FHIRSearchException
+     */
+    public static QueryParameter buildInclusionCriteria(String compartmentName, List<String> compartmentLogicalIds, String resourceType)
+            throws FHIRSearchException {
         QueryParameter rootParameter = null;
 
-        if (compartmentName != null && compartmentLogicalId != null) {
+        if (compartmentName != null && compartmentLogicalIds != null && !compartmentLogicalIds.isEmpty()) {
             // The inclusion criteria are represented as a chain of parameters, each with a value of the
             // compartmentLogicalId.
             // The query parsers will OR these parameters to achieve the compartment search.
@@ -1456,19 +1527,21 @@ public class SearchUtil {
                 // issue #1708. When enabled, use the ibm-internal-... compartment parameter. This
                 // results in faster queries because only a single parameter is used to represent the
                 // compartment membership.
+                CompartmentUtil.checkValidCompartmentAndResource(compartmentName, resourceType);
                 inclusionCriteria = Collections.singletonList(CompartmentUtil.makeCompartmentParamName(compartmentName));
             } else {
-                // pre #1708 behavior, which is the default
-                inclusionCriteria =
-                        CompartmentUtil.getCompartmentResourceTypeInclusionCriteria(compartmentName,
-                                resourceType.getSimpleName());
+                // pre #1708 behavior
+                inclusionCriteria = CompartmentUtil.getCompartmentResourceTypeInclusionCriteria(compartmentName, resourceType);
             }
 
             for (String criteria : inclusionCriteria) {
                 QueryParameter parameter  = new QueryParameter(Type.REFERENCE, criteria, null, null, true);
-                QueryParameterValue value = new QueryParameterValue();
-                value.setValueString(compartmentName + "/" + compartmentLogicalId);
-                parameter.getValues().add(value);
+                for (String compartmentLogicalId : compartmentLogicalIds) {
+                    QueryParameterValue value = new QueryParameterValue();
+                    value.setValueString(compartmentName + "/" + compartmentLogicalId);
+                    parameter.getValues().add(value);
+                }
+
                 if (rootParameter == null) {
                     rootParameter = parameter;
                 } else {
@@ -1480,15 +1553,7 @@ public class SearchUtil {
                 }
             }
         }
-
-        FHIRSearchContext context = parseQueryParameters(resourceType, queryParameters, lenient);
-
-        // Add the inclusion criteria search parameters to the front of the search parameter list
-        if (rootParameter != null) {
-            context.getSearchParameters().add(0, rootParameter);
-        }
-
-        return context;
+        return rootParameter;
     }
 
     private static SearchConstants.Prefix getPrefix(String s) throws FHIRSearchException {

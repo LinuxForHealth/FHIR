@@ -1953,6 +1953,9 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/capabilityStatementCacheTimeout`|integer|The number of minutes that a tenant's CapabilityStatement is cached for the metadata endpoint. |
 |`fhirServer/core/extendedCodeableConceptValidation`|boolean|A boolean flag which indicates whether extended validation is performed by the server during object construction for code, Coding, CodeableConcept, Quantity, Uri, and String elements which have required bindings to value sets.|
 |`fhirServer/core/disabledOperations`|string|A comma-separated list of operations which are not allowed to run on the IBM FHIR Server, for example, `validate,import`. Note, do not include the dollar sign `$`|
+|`fhirServer/term/graphTermServiceProvider/enabled`|boolean|Indicates whether the graph term service provider should be used by the FHIR term service to access code system content|
+|`fhirServer/term/graphTermServiceProvider/timeLimit`|integer|Graph traversal time limit (in milliseconds)|
+|`fhirServer/term/graphTermServiceProvider/configuration`|object (name/value pairs)|A JSON object that contains the name/value pairs used to configure the graph database behind the graph term service provider see: [https://docs.janusgraph.org/basics/configuration-reference/](https://docs.janusgraph.org/basics/configuration-reference/)|
 |`fhirServer/resources/open`|boolean|Whether resources that are not explicitly listed in the configuration should be supported by the FHIR Server REST layer. When open is set to `false`, only the resources listed in fhir-server-config.json are supported.|
 |`fhirServer/resources/Resource/interactions`|string list|A list of strings that represent the RESTful interactions (create, read, vread, update, patch, delete, history, and/or search) supported for resource types. Omitting this property is equivalent to supporting all FHIR interactions for the supported resources. An empty list, `[]`, can be used to indicate that no REST methods are supported. This property can be overridden for specific resource types via the `fhirServer/resources/<resourceType>/interactions` property.|
 |`fhirServer/resources/Resource/searchParameters`|object|The set of search parameters to support for all supported resource types. Omitting this property is equivalent to supporting all search parameters in the server's registry that apply to resource type "Resource" (all resources). An empty object, `{}`, can be used to indicate that no global search parameters are supported.|
@@ -2076,6 +2079,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/conditionalDeleteMaxNumber`|10|
 |`fhirServer/core/capabilityStatementCacheTimeout`|60|
 |`fhirServer/core/extendedCodeableConceptValidation`|true|
+|`fhirServer/term/graphTermServiceProvider/enabled`|false|
+|`fhirServer/term/graphTermServiceProvider/timeLimit`|90000|
 |`fhirServer/resources/open`|true|
 |`fhirServer/resources/Resource/interactions`|null (all interactions supported)|
 |`fhirServer/resources/Resource/searchParameters`|null (all global search parameters supported)|
@@ -2185,6 +2190,9 @@ must restart the server for that change to take effect.
 |`fhirServer/core/capabilityStatementCacheTimeout`|Y|Y|
 |`fhirServer/core/extendedCodeableConceptValidation`|N|N|
 |`fhirServer/core/disabledOperations`|N|N|
+|`fhirServer/term/graphTermServiceProvider/enabled`|N|N|
+|`fhirServer/term/graphTermServiceProvider/timeLimit`|N|N|
+|`fhirServer/term/graphTermServiceProvider/configuration`|N|N|
 |`fhirServer/resources/open`|Y|Y|
 |`fhirServer/resources/Resource/interactions`|Y|Y|
 |`fhirServer/resources/Resource/searchParameters`|Y|Y|
@@ -2256,7 +2264,7 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/core/cos/requestTimeout`|N|N|
 |`fhirServer/bulkdata/core/cos/socketTimeout`|N|N|
 |`fhirServer/bulkdata/core/cos/useServerTruststore`|Y|Y|
-|`fhirServer/bulkdata/core/batchIdEncryptionKey`|N|N|
+|`fhirServer/bulkdata/core/batchIdEncryptionKey`|Y|N|
 |`fhirServer/bulkdata/core/pageSize`|Y|Y|
 |`fhirServer/bulkdata/core/maxPartitions`|Y|Y|
 |`fhirServer/bulkdata/core/maxInputs`|Y|Y|

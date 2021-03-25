@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,8 +18,6 @@ import com.ibm.fhir.registry.resource.FHIRRegistryResource;
  */
 public class PackageRegistryResource extends FHIRRegistryResource {
     protected final String path;
-
-    protected volatile Resource resource;
 
     public PackageRegistryResource(
             Class<? extends Resource> resourceType,

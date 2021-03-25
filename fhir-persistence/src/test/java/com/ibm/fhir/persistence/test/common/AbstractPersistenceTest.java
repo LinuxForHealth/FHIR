@@ -32,7 +32,9 @@ import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.search.context.FHIRSearchContext;
+import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
@@ -196,16 +198,32 @@ public abstract class AbstractPersistenceTest {
         }
     }
 
-    protected List<Resource> runQueryTest(String compartmentName, String compartmentLogicalId, Class<? extends Resource> resourceType, String parmName, String parmValue) throws Exception {
-        return runQueryTest(compartmentName, compartmentLogicalId, resourceType, parmName, parmValue, null);
+    protected List<Resource> runCompartmentQueryTest(String compartmentName, String compartmentLogicalId, Class<? extends Resource> resourceType, String parmName, String parmValue) throws Exception {
+        return runCompartmentQueryTest(compartmentName, compartmentLogicalId, resourceType, parmName, parmValue, null);
     }
 
-    protected List<Resource> runQueryTest(String compartmentName, String compartmentLogicalId, Class<? extends Resource> resourceType, String parmName, String parmValue, Integer maxPageSize) throws Exception {
+    protected List<Resource> runCompartmentQueryTest(String compartmentName, String compartmentLogicalId, Class<? extends Resource> resourceType, String parmName, String parmValue, Integer maxPageSize) throws Exception {
         Map<String, List<String>> queryParms = new HashMap<>(1);
         if (parmName != null && parmValue != null) {
             queryParms.put(parmName, Collections.singletonList(parmValue));
         }
         FHIRSearchContext searchContext = SearchUtil.parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParms);
+
+        return executeCompartmentQuery(resourceType, maxPageSize, searchContext);
+    }
+
+    protected List<Resource> runCompartmentQueryTest(String compartmentName, List<String> compartmentLogicalIds, Class<? extends Resource> resourceType, Map<String, List<String>> queryParms, Integer maxPageSize) throws Exception {
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParms);
+        QueryParameter inclusionCriteria = SearchUtil.buildInclusionCriteria(compartmentName, compartmentLogicalIds, resourceType.getSimpleName());
+        if (inclusionCriteria != null) {
+            searchContext.getSearchParameters().add(0, inclusionCriteria);
+        }
+
+        return executeCompartmentQuery(resourceType, maxPageSize, searchContext);
+    }
+
+    private List<Resource> executeCompartmentQuery(Class<? extends Resource> resourceType, Integer maxPageSize, FHIRSearchContext searchContext)
+            throws FHIRPersistenceException {
         if (maxPageSize != null) {
             searchContext.setPageSize(maxPageSize);
         }
