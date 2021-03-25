@@ -136,6 +136,7 @@ public class FHIROpenApiGenerator {
     private static boolean includeDeleteOperation = true;
     public static final String TYPEPACKAGENAME = "com.ibm.fhir.model.type";
     public static final String RESOURCEPACKAGENAME = "com.ibm.fhir.model.resource";
+    public static final String APPLICATION_FORM = "application/x-www-form-urlencoded";
 
     public static void main(String[] args) throws Exception {
         File file = new File(OUTDIR);
@@ -561,6 +562,16 @@ public class FHIROpenApiGenerator {
         }
 
         path = factory.createObjectBuilder();
+        // FHIR search (via POST) operation
+        if (filter.acceptOperation(modelClass, "search")) {
+            generateSearchViaPostPathItem(modelClass, path);
+        }
+        pathObject = path.build();
+        if (!pathObject.isEmpty()) {
+            paths.add("/" + modelClass.getSimpleName() + "/_search", pathObject);
+        }
+
+        path = factory.createObjectBuilder();
         // FHIR vread operation
         if (filter.acceptOperation(modelClass, "vread")) {
             generateVreadPathItem(modelClass, path);
@@ -864,6 +875,78 @@ public class FHIROpenApiGenerator {
                 parameter.add("schema", schema);
             }
             parameters.add(parameter);
+        }
+    }
+
+    private static void generateSearchViaPostPathItem(Class<?> modelClass, JsonObjectBuilder path) throws Exception {
+        JsonObjectBuilder post = factory.createObjectBuilder();
+
+        JsonArrayBuilder tags = factory.createArrayBuilder();
+        tags.add(modelClass.getSimpleName());
+
+        post.add("tags", tags);
+        post.add("summary", "Search for " + modelClass.getSimpleName() + " resources");
+        post.add("operationId", "searchViaPost" + modelClass.getSimpleName());
+
+        JsonArrayBuilder parameters = factory.createArrayBuilder();
+        generateSearchParameters(modelClass, parameters);
+        post.add("parameters", parameters);
+
+        JsonObjectBuilder requestBody = factory.createObjectBuilder();
+
+        /**
+         * "content": { "application/x-www-form-urlencoded": { "schema": { "type": "object" } } }
+         */
+        JsonObjectBuilder content = factory.createObjectBuilder();
+        JsonObjectBuilder contentType = factory.createObjectBuilder();
+        JsonObjectBuilder schema = factory.createObjectBuilder();
+        JsonObjectBuilder formParameters = factory.createObjectBuilder();
+        schema.add("type", "object");
+        generateSearchFormParameters(modelClass, formParameters);
+        schema.add("properties", formParameters);
+        contentType.add("schema", schema);
+        content.add(APPLICATION_FORM, contentType);
+
+        requestBody.add("content", content);
+        post.add("requestBody", requestBody);
+
+        JsonObjectBuilder responses = factory.createObjectBuilder();
+
+        JsonObjectBuilder response = factory.createObjectBuilder();
+        response.add("description", "Search " + modelClass.getSimpleName() + " operation successful");
+
+        /**
+         * "content": { "application/fhir+json": { "schema": { "$ref":
+         * "#/components/schemas/Bundle" } } }
+         */
+        content = factory.createObjectBuilder();
+        contentType = factory.createObjectBuilder();
+        schema = factory.createObjectBuilder();
+        schema.add("$ref", "#/components/schemas/Bundle");
+        contentType.add("schema", schema);
+        content.add(FHIRMediaType.APPLICATION_FHIR_JSON, contentType);
+
+        response.add("content", content);
+        responses.add("200", response);
+        post.add("responses", responses);
+
+        path.add("post", post);
+    }
+
+    private static void generateSearchFormParameters(Class<?> modelClass, JsonObjectBuilder parameters) throws Exception {
+        List<SearchParameter> searchParameters = new ArrayList<SearchParameter>(
+                SearchUtil.getApplicableSearchParameters(modelClass.getSimpleName()));
+        for (SearchParameter searchParameter : searchParameters) {
+            String name = searchParameter.getName().getValue();
+
+            JsonObjectBuilder propertyValues = factory.createObjectBuilder();
+            /**
+             * "<name>": { "type": "string" }
+             */
+            propertyValues.add("type", "string");
+            propertyValues.add("description", searchParameter.getDescription().getValue());
+
+            parameters.add(name, propertyValues);
         }
     }
 

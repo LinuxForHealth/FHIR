@@ -5,7 +5,7 @@
 
     <groupId>com.ibm.fhir</groupId>
     <artifactId>fhir-parent</artifactId>
-    <version>4.6.0-SNAPSHOT</version>
+    <version>4.7.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>IBM FHIR Server</name>
 
@@ -34,8 +34,8 @@
         <fhir-persistence-jdbc.index>MINIMAL_JSON</fhir-persistence-jdbc.index>
         <fhir-server-test.index>MINIMAL_JSON</fhir-server-test.index>
         <java.version>1.8</java.version>
-        <fhir-examples.version>4.6.0-SNAPSHOT</fhir-examples.version>
-        <fhir-tools.version>4.6.0-SNAPSHOT</fhir-tools.version>
+        <fhir-examples.version>4.7.0-SNAPSHOT</fhir-examples.version>
+        <fhir-tools.version>4.7.0-SNAPSHOT</fhir-tools.version>
         <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
     </properties>
 
@@ -47,6 +47,7 @@
         <module>../fhir-model</module>
         <module>../fhir-registry</module>
         <module>../fhir-term</module>
+        <module>../fhir-term-graph</module>
         <module>../fhir-path</module>
         <module>../fhir-profile</module>
         <module>../fhir-validation</module>
@@ -91,7 +92,7 @@
         <module>../fhir-install</module>
     </modules>
 
-    <!-- This section "enforces" that we're using consistent versions of 
+    <!-- This section "enforces" that we're using consistent versions of
         artifacts within our modules -->
     <dependencyManagement>
         <dependencies>
@@ -162,7 +163,7 @@
             </dependency>
             <dependency>
                 <groupId>jakarta.websocket</groupId>
-                <artifactId>jakarta.websocket-api</artifactId>  
+                <artifactId>jakarta.websocket-api</artifactId>
                 <version>1.1.2</version>
             </dependency>
             <dependency>
@@ -439,6 +440,36 @@
                 <artifactId>commons-text</artifactId>
                 <version>1.9</version>
             </dependency>
+            <dependency>
+                <groupId>org.janusgraph</groupId>
+                <artifactId>janusgraph-core</artifactId>
+                <version>0.5.3</version>
+            </dependency>
+            <dependency>
+                <groupId>org.janusgraph</groupId>
+                <artifactId>janusgraph-berkeleyje</artifactId>
+                <version>0.5.3</version>
+            </dependency>
+            <dependency>
+                <groupId>org.janusgraph</groupId>
+                <artifactId>janusgraph-cql</artifactId>
+                <version>0.5.3</version>
+            </dependency>
+            <dependency>
+                <groupId>org.janusgraph</groupId>
+                <artifactId>janusgraph-lucene</artifactId>
+                <version>0.5.3</version>
+            </dependency>
+            <dependency>
+                <groupId>org.janusgraph</groupId>
+                <artifactId>janusgraph-es</artifactId>
+                <version>0.5.3</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tinkerpop</groupId>
+                <artifactId>gremlin-driver</artifactId>
+                <version>3.4.6</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -487,10 +518,10 @@
                 <plugin>
                     <artifactId>maven-war-plugin</artifactId>
                     <version>${my.maven.war.plugin}</version>
-                    <!-- Upgraded maven-war-plugin to avoid 'An illegal reflective 
-                        access operation' in OpenJDK 11 The dependency 'xstream.converters.collections.TreeMapConverter' 
-                        used an out-of-date approach. This comment is left here to allow others to 
-                        find the reason for the change, and in case another library introduces a 
+                    <!-- Upgraded maven-war-plugin to avoid 'An illegal reflective
+                        access operation' in OpenJDK 11 The dependency 'xstream.converters.collections.TreeMapConverter'
+                        used an out-of-date approach. This comment is left here to allow others to
+                        find the reason for the change, and in case another library introduces a
                         similar issue in the code base. -->
                     <configuration>
                         <failOnMissingWebXml>false</failOnMissingWebXml>
@@ -649,13 +680,13 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <!-- 3.0.1 is the highest version we support as 3.1.0 
+                    <!-- 3.0.1 is the highest version we support as 3.1.0
                         changes the ability to aggregate multi-module projects. It's not possible -->
                     <version>3.0.1</version>
                     <configuration>
                         <!-- speed up the build -->
                         <isOffline>true</isOffline>
-                        <!-- no matter the JDK running the javadoc, it's 
+                        <!-- no matter the JDK running the javadoc, it's
                             important this be at the minimum level we support, which is 8. -->
                         <source>8</source>
                         <!-- we don't need package -->
@@ -686,7 +717,7 @@
                         <windowtitle>IBM FHIR Server</windowtitle>
                         <doctitle>${project.name} ${project.version}</doctitle>
                         <additionalOptions>
-                            <!-- makes the frames visible, disabled and going 
+                            <!-- makes the frames visible, disabled and going
                                 away eventually -->
                             <additionalOption>--frames</additionalOption>
                             <!-- Fixes the undefined redirect in search -->
@@ -753,7 +784,7 @@
             <properties>
                 <my.maven.war.plugin>2.6</my.maven.war.plugin>
                 <my.maven.jar.plugin>2.6</my.maven.jar.plugin>
-                <!-- m2e plugin was deactivated and has unintended side effects. 
+                <!-- m2e plugin was deactivated and has unintended side effects.
                     these settings are left here for historic purposes. <m2e.wtp.activation>false</m2e.wtp.activation> -->
                 <m2e.jaxrs.activation>false</m2e.jaxrs.activation>
                 <m2e.jpa.activation>false</m2e.jpa.activation>
@@ -851,7 +882,7 @@
         </profile>
         <profile>
             <id>deploy-version-rc</id>
-            <!-- This profile enables automation to change version and DEPLOY 
+            <!-- This profile enables automation to change version and DEPLOY
                 rc to bintray: mvn clean -Drc=1 -Pdeploy-version-rc -f fhir-tools/pom.xml -->
             <properties>
                 <!-- the version to be set -->
@@ -886,8 +917,8 @@
         </profile>
         <profile>
             <id>deploy-version-release</id>
-            <!-- This profile enables automation to change version and DEPLOY 
-                release to bintray. There are one input values. mvn clean -Drc=1 -Pdeploy-version-release 
+            <!-- This profile enables automation to change version and DEPLOY
+                release to bintray. There are one input values. mvn clean -Drc=1 -Pdeploy-version-release
                 -f fhir-tools/pom.xml -->
             <properties>
                 <!-- the version to be set -->
@@ -922,7 +953,7 @@
         </profile>
         <profile>
             <id>deploy-bintray</id>
-            <!-- This profile enables automation DEPLOY to bintray. There 
+            <!-- This profile enables automation DEPLOY to bintray. There
                 are three input values. mvn clean install deploy -Pdeploy-bintray -f fhir-tools/pom.xml -->
             <properties>
                 <!-- switch to 1 to publish automatically -Dpublish=1 -->
@@ -936,7 +967,7 @@
             <build>
                 <plugins>
                     <plugin>
-                        <!-- Do not move this up to top level as it'll cause 
+                        <!-- Do not move this up to top level as it'll cause
                             a conflict with m2e restrictions on v2.6 -->
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-jar-plugin</artifactId>
@@ -970,7 +1001,7 @@
         </profile>
         <profile>
             <id>validate-javadoc</id>
-            <!-- validate is an optimized javadoc:javadoc goal for processing 
+            <!-- validate is an optimized javadoc:javadoc goal for processing
                 only -->
             <build>
                 <plugins>
@@ -1029,7 +1060,7 @@
                 <configuration>
                     <!-- speed up the build -->
                     <isOffline>true</isOffline>
-                    <!-- no matter the JDK running the javadoc, it's important 
+                    <!-- no matter the JDK running the javadoc, it's important
                         this be at the minimum level we support, which is 8. -->
                     <source>8</source>
                     <!-- we don't need package -->
@@ -1060,7 +1091,7 @@
                     <windowtitle>IBM FHIR Server</windowtitle>
                     <doctitle>${project.name} ${project.version}</doctitle>
                     <additionalOptions>
-                        <!-- makes the frames visible, disabled and going 
+                        <!-- makes the frames visible, disabled and going
                             away eventually -->
                         <additionalOption>--frames</additionalOption>
                         <!-- Fixes the undefined redirect in search -->

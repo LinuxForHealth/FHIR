@@ -1,25 +1,37 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.registry.resource;
 
+import static com.ibm.fhir.registry.util.FHIRRegistryUtil.requireDefinitionalResourceType;
+
 import java.util.Objects;
+import java.util.logging.Logger;
 
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.resource.SearchParameter;
+import com.ibm.fhir.model.resource.StructureDefinition;
+import com.ibm.fhir.registry.util.FHIRRegistryUtil;
 
 /**
- * An abstract base class that contains the metadata for a definitional resource (e.g. StructureDefinition)
+ * A base class that contains the metadata for a definitional resource (e.g. StructureDefinition)
  */
-public abstract class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
+public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
+    private static final Logger log = Logger.getLogger(FHIRRegistryResource.class.getName());
+
+    public static final Version NO_VERSION = Version.from("<no version>");
+
     protected final Class<? extends Resource> resourceType;
     protected final String id;
     protected final String url;
     protected final Version version;
     protected final String kind;
     protected final String type;
+
+    protected volatile Resource resource;
 
     public FHIRRegistryResource(
             Class<? extends Resource> resourceType,
@@ -34,6 +46,18 @@ public abstract class FHIRRegistryResource implements Comparable<FHIRRegistryRes
         this.version = Objects.requireNonNull(version);
         this.kind = kind;
         this.type = type;
+    }
+
+    public FHIRRegistryResource(
+            Class<? extends Resource> resourceType,
+            String id,
+            String url,
+            Version version,
+            String kind,
+            String type,
+            Resource resource) {
+        this(resourceType, id, url, version, kind, type);
+        this.resource = resource;
     }
 
     public Class<? extends Resource> getResourceType() {
@@ -60,7 +84,9 @@ public abstract class FHIRRegistryResource implements Comparable<FHIRRegistryRes
         return type;
     }
 
-    public abstract Resource getResource();
+    public Resource getResource() {
+        return resource;
+    }
 
     public <T extends FHIRRegistryResource> boolean is(Class<T> registryResourceType) {
         return registryResourceType.isInstance(this);
@@ -201,5 +227,33 @@ public abstract class FHIRRegistryResource implements Comparable<FHIRRegistryRes
                 return result;
             }
         }
+    }
+
+    public static FHIRRegistryResource from(Resource resource) {
+        Objects.requireNonNull(resource, "resource");
+
+        Class<? extends Resource> resourceType = resource.getClass();
+        requireDefinitionalResourceType(resourceType);
+
+        String id = resource.getId();
+        String url = FHIRRegistryUtil.getUrl(resource);
+        String version = FHIRRegistryUtil.getVersion(resource);
+        if (url == null) {
+            log.warning(String.format("Could not create FHIRRegistryResource from Resource with resourceType: %s, id: %s, url: %s, and version: %s", resourceType.getSimpleName(), id, url, version));
+            return null;
+        }
+
+        String kind = null;
+        String type = null;
+        if (resource instanceof StructureDefinition) {
+            StructureDefinition structureDefinition = (StructureDefinition) resource;
+            kind = structureDefinition.getKind().getValue();
+            type = structureDefinition.getType().getValue();
+        } else if (resource instanceof SearchParameter) {
+            SearchParameter searchParameter = (SearchParameter) resource;
+            type = searchParameter.getType().getValue();
+        }
+
+        return new FHIRRegistryResource(resourceType, id, url, (version != null) ? Version.from(version) : FHIRRegistryResource.NO_VERSION, kind, type, resource);
     }
 }

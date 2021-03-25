@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
 import com.ibm.fhir.term.spi.ExpansionParameters;
 
 public class ExpandOperation extends AbstractTermOperation {
@@ -43,6 +44,8 @@ public class ExpandOperation extends AbstractTermOperation {
             return getOutputParameters(expanded);
         } catch (FHIROperationException e) {
             throw e;
+        } catch (FHIRTermServiceException e) {
+            throw new FHIROperationException(e.getMessage(), e.getCause()).withIssue(e.getIssues());
         } catch (Exception e) {
             throw new FHIROperationException("An error occurred during the ValueSet expand operation", e);
         }

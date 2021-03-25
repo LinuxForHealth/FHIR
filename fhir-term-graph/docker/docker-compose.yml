@@ -1,0 +1,33 @@
+version: "3"
+
+services:
+  cassandra:
+    image: cassandra:3.11.0
+    container_name: fhir-cassandra
+    ports:
+      - "9042:9042"
+      - "9160:9160"
+    networks:
+      - fhir-network
+
+  elasticsearch:
+    image: elasticsearch:7.6.2
+    container_name: fhir-elasticsearch
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "http.host=0.0.0.0"
+      - "network.host=0.0.0.0"
+      - "transport.host=127.0.0.1"
+      - "cluster.name=docker-cluster"
+      - "xpack.security.enabled=false"
+      - "discovery.zen.minimum_master_nodes=1"
+    ports:
+      - "9200:9200"
+    networks:
+      - fhir-network
+
+networks:
+  fhir-network:
+volumes:
+  fhir-default-data:
+
