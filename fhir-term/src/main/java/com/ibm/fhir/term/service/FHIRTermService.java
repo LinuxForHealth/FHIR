@@ -405,7 +405,8 @@ public class FHIRTermService {
                 FHIRTermServiceProvider provider = findProvider(codeSystem);
                 if (provider.hasConcept(codeSystem, codeA) && provider.hasConcept(codeSystem, codeB)) {
                     if (provider.subsumes(codeSystem, codeA, codeB)) {
-                        return codeA.equals(codeB) ? ConceptSubsumptionOutcome.EQUIVALENT : ConceptSubsumptionOutcome.SUBSUMES;
+                        return (codeA.equals(codeB) || (!CodeSystemSupport.isCaseSensitive(codeSystem) && normalize(codeA.getValue()).equals(normalize(codeB.getValue())))) ?
+                                ConceptSubsumptionOutcome.EQUIVALENT : ConceptSubsumptionOutcome.SUBSUMES;
                     }
                     return provider.subsumes(codeSystem, codeB, codeA) ? ConceptSubsumptionOutcome.SUBSUMED_BY : ConceptSubsumptionOutcome.NOT_SUBSUMED;
                 }
