@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,6 +10,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.MaturityLevel;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.builder.AbstractBuilder;
 import com.ibm.fhir.model.type.Code;
@@ -21,7 +22,10 @@ import com.ibm.fhir.model.visitor.AbstractVisitable;
 
 /**
  * This is the base resource type for everything.
+ * 
+ * <p>Maturity level: FMM5 (Trial Use)
  */
+@MaturityLevel(5)
 @Constraint(
     id = "resource-0",
     level = "Warning",

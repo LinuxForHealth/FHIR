@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.MaturityLevel;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
@@ -29,7 +30,10 @@ import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Describe the undesirable effects of the medicinal product.
+ * 
+ * <p>Maturity level: FMM0 (Draft)
  */
+@MaturityLevel(0)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductUndesirableEffect extends DomainResource {
     @Summary

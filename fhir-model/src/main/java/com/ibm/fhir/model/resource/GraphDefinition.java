@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.MaturityLevel;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -45,7 +46,10 @@ import com.ibm.fhir.model.visitor.Visitor;
 /**
  * A formal computable definition of a graph of resources - that is, a coherent set of resources that form a graph by 
  * following references. The Graph Definition resource defines a set and makes rules about the set.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@MaturityLevel(1)
 @Constraint(
     id = "gdf-0",
     level = "Warning",

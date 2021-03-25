@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.MaturityLevel;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -49,7 +50,10 @@ import com.ibm.fhir.model.visitor.Visitor;
  * The ChargeItemDefinition resource provides the properties that apply to the (billing) codes necessary to calculate 
  * costs and prices. The properties may differ largely depending on type and realm, therefore this resource gives only a 
  * rough structure and requires profiling for each type of billing code system.
+ * 
+ * <p>Maturity level: FMM0 (Draft)
  */
+@MaturityLevel(0)
 @Constraint(
     id = "cid-0",
     level = "Warning",

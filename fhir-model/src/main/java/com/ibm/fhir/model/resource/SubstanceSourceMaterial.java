@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.MaturityLevel;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
@@ -37,7 +38,10 @@ import com.ibm.fhir.model.visitor.Visitor;
  * fraction information will be captured at the Substance information level and additional information for herbal 
  * extracts will be captured at the Specified Substance Group 1 information level. See for further explanation the 
  * Substance Class: Structurally Diverse and the herbal annex.
+ * 
+ * <p>Maturity level: FMM0 (Draft)
  */
+@MaturityLevel(0)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SubstanceSourceMaterial extends DomainResource {
     @Summary

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.MaturityLevel;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -42,7 +43,10 @@ import com.ibm.fhir.model.visitor.Visitor;
 /**
  * The MeasureReport resource contains the results of the calculation of a measure; and optionally a reference to the 
  * resources involved in that calculation.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@MaturityLevel(2)
 @Constraint(
     id = "mrp-1",
     level = "Rule",

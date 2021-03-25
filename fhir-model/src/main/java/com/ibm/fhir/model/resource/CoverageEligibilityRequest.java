@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.MaturityLevel;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -47,7 +48,10 @@ import com.ibm.fhir.model.visitor.Visitor;
  * The CoverageEligibilityRequest provides patient and insurance coverage information to an insurer for them to respond, 
  * in the form of an CoverageEligibilityResponse, with information regarding whether the stated coverage is valid and in-
  * force and optionally to provide the insurance details of the policy.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@MaturityLevel(2)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CoverageEligibilityRequest extends DomainResource {
     private final List<Identifier> identifier;

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.MaturityLevel;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -43,7 +44,10 @@ import com.ibm.fhir.model.visitor.Visitor;
  * The header for a message exchange that is either requesting or responding to an action. The reference(s) that are the 
  * subject of the action as well as other information related to the action are typically transmitted in a bundle in 
  * which the MessageHeader resource instance is the first resource in the bundle.
+ * 
+ * <p>Maturity level: FMM4 (Trial Use)
  */
+@MaturityLevel(4)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MessageHeader extends DomainResource {
     @Summary

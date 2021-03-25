@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.MaturityLevel;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -44,7 +45,10 @@ import com.ibm.fhir.model.visitor.Visitor;
  * a clinical consultation / encounter, but this varies greatly depending on the clinical workflow. This resource is 
  * called "ClinicalImpression" rather than "ClinicalAssessment" to avoid confusion with the recording of assessment tools 
  * such as Apgar score.
+ * 
+ * <p>Maturity level: FMM0 (Draft)
  */
+@MaturityLevel(0)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ClinicalImpression extends DomainResource {
     @Summary

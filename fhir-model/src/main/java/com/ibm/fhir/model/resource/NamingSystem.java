@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.MaturityLevel;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -42,7 +43,10 @@ import com.ibm.fhir.model.visitor.Visitor;
 /**
  * A curated namespace that issues unique symbols within that namespace for the identification of concepts, people, 
  * devices, etc. Represents a "System" used within the Identifier and Coding data types.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@MaturityLevel(1)
 @Constraint(
     id = "nsd-0",
     level = "Warning",

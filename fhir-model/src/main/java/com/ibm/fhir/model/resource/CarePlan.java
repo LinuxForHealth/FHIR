@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.MaturityLevel;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -49,7 +50,10 @@ import com.ibm.fhir.model.visitor.Visitor;
 /**
  * Describes the intention of how one or more practitioners intend to deliver care for a particular patient, group or 
  * community for a period of time, possibly limited to care for a specific condition or set of conditions.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@MaturityLevel(2)
 @Constraint(
     id = "cpl-3",
     level = "Rule",
