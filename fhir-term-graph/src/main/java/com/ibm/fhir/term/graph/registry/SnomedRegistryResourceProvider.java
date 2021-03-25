@@ -59,11 +59,11 @@ public class SnomedRegistryResourceProvider implements FHIRRegistryResourceProvi
             if (SNOMED_IMPLICIT_VALUE_SET_PREFIX.equals(url)) {
                 return SNOMED_ALL_CONCEPTS_IMPLICIT_VALUE_SET_REGISTRY_RESOURCE;
             } else {
-                String[] tokens = url.split("=");
+                String[] tokens = url.split("=isa\\/");
                 if (tokens.length == 2) {
                     String sctid = tokens[1];
                     ValidationOutcome outcome = FHIRTermService.getInstance().validateCode(SNOMED_CODE_SYSTEM, Code.of(sctid), null);
-                    if (outcome == null || (Boolean.FALSE.equals(outcome.getResult()))) {
+                    if (outcome == null || Boolean.FALSE.equals(outcome.getResult())) {
                         log.log(Level.WARNING, "Code: " + sctid + " is invalid or SNOMED CT is not supported");
                         return null;
                     }
@@ -121,7 +121,7 @@ public class SnomedRegistryResourceProvider implements FHIRRegistryResourceProvi
                     .status(NarrativeStatus.GENERATED)
                     .div(Xhtml.from("All SNOMED CT concepts subsumed by " + sctid))
                     .build())
-                .url(Uri.of(SNOMED_IMPLICIT_VALUE_SET_PREFIX + "=" + sctid))
+                .url(Uri.of(SNOMED_IMPLICIT_VALUE_SET_PREFIX + "=isa/" + sctid))
                 .name(string("SNOMED CT Concept " + sctid + " and descendants"))
                 .description(Markdown.of("All SNOMED CT concepts for " + sctid))
                 .copyright(Markdown.of(SNOMED_COPYRIGHT))
