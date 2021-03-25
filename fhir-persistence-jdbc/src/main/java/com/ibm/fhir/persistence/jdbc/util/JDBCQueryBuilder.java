@@ -86,6 +86,7 @@ import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.location.NearLocationHandler;
 import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.location.util.LocationUtil;
+import com.ibm.fhir.search.parameters.InclusionParameter;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.util.SearchUtil;
@@ -1907,6 +1908,34 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
         log.exiting(CLASSNAME, METHODNAME);
         return queryData;
+    }
+
+    /**
+     * Builds a query that returns included resources.
+     *
+     * @param resourceType
+     *                      - The type of resource being searched for.
+     * @param searchContext
+     *                      - The search context containing the search parameters.
+     * @return String - A count query SQL string
+     * @throws Exception
+     */
+    public SqlQueryData buildIncludeQuery(Class<?> resourceType, FHIRSearchContext searchContext,
+        InclusionParameter inclusionParm, Set<String> ids, String inclusionType) throws Exception {
+        final String METHODNAME = "buildIncludeQuery";
+        log.entering(CLASSNAME, METHODNAME);
+
+        SqlQueryData query = null;
+        InclusionQuerySegmentAggregator helper =
+                (InclusionQuerySegmentAggregator) QuerySegmentAggregatorFactory.buildQuerySegmentAggregator(resourceType, 0,
+                    SearchConstants.MAX_PAGE_SIZE + 1, this.parameterDao, this.resourceDao, searchContext, this.queryHints, this.identityCache);
+
+        if (helper != null) {
+            query = helper.buildIncludeQuery(inclusionParm, ids, inclusionType);
+        }
+
+        log.exiting(CLASSNAME, METHODNAME);
+        return query;
     }
 
 }

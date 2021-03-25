@@ -161,6 +161,9 @@ public class UriBuilder {
         for (InclusionParameter param : context.getIncludeParameters()) {
             queryString.append(SearchConstants.AND_CHAR);
             queryString.append(SearchConstants.INCLUDE);
+            if (param.getModifier() != null) {
+                queryString.append(SearchConstants.COLON_DELIMITER).append(param.getModifier().value());
+            }
             queryString.append(SearchConstants.EQUALS_CHAR);
             appendInclusionParamValue(param);
         }
@@ -188,6 +191,9 @@ public class UriBuilder {
         for (InclusionParameter param : context.getRevIncludeParameters()) {
             queryString.append(SearchConstants.AND_CHAR);
             queryString.append(SearchConstants.REVINCLUDE);
+            if (param.getModifier() != null) {
+                queryString.append(SearchConstants.COLON_DELIMITER).append(param.getModifier().value());
+            }
             queryString.append(SearchConstants.EQUALS_CHAR);
             appendInclusionParamValue(param);
         }

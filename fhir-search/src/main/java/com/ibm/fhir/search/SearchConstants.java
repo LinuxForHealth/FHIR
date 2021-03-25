@@ -64,6 +64,11 @@ public class SearchConstants {
     // In the future, we might want to make this value configurable.
     public static final int MAX_PAGE_SIZE = 1000;
 
+    // This constant represents the maximum number of iterations to perform
+    // for iterative _include and _revinclude parameters.
+    // In the future, we might want to make this value configurable.
+    public static final int MAX_INCLUSION_ITERATIONS = 1;
+
     // _sort
     public static final String SORT = "_sort";
 
@@ -262,7 +267,8 @@ public class SearchConstants {
         NOT_IN("not-in"),
         TYPE("[type]"),
         OF_TYPE("of-type"),
-        IDENTIFIER("identifier");
+        IDENTIFIER("identifier"),
+        ITERATE("iterate");
 
         private String value = null;
 
