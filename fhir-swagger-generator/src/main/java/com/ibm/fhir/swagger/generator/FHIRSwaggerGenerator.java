@@ -82,6 +82,7 @@ public class FHIRSwaggerGenerator {
     private static boolean includeDeleteOperation = true;
     public static final String TYPEPACKAGENAME = "com.ibm.fhir.model.type";
     public static final String RESOURCEPACKAGENAME = "com.ibm.fhir.model.resource";
+    public static final String APPLICATION_FORM = "application/x-www-form-urlencoded";
 
     public static void main(String[] args) throws Exception {
         File file = new File(OUTDIR);
@@ -355,6 +356,16 @@ public class FHIRSwaggerGenerator {
         JsonObject pathObject = path.build();
         if (!pathObject.isEmpty()) {
             paths.add("/" + modelClass.getSimpleName(), pathObject);
+        }
+
+        path = factory.createObjectBuilder();
+        // FHIR search (via POST) operation
+        if (filter.acceptOperation(modelClass, "search")) {
+            generateSearchViaPostPathItem(modelClass, path);
+        }
+        pathObject = path.build();
+        if (!pathObject.isEmpty()) {
+            paths.add("/" + modelClass.getSimpleName() + "/_search", pathObject);
         }
 
         path = factory.createObjectBuilder();
@@ -640,6 +651,58 @@ public class FHIRSwaggerGenerator {
                 parameter.add("type", "string");
                 parameter.add("required", false);
             }
+            parameters.add(parameter);
+        }
+    }
+
+    private static void generateSearchViaPostPathItem(Class<?> modelClass, JsonObjectBuilder path) throws Exception {
+        JsonObjectBuilder post = factory.createObjectBuilder();
+
+        JsonArrayBuilder tags = factory.createArrayBuilder();
+        tags.add(modelClass.getSimpleName());
+
+        post.add("tags", tags);
+        post.add("summary", "Search for " + modelClass.getSimpleName() + " resources");
+        post.add("operationId", "searchViaPost" + modelClass.getSimpleName());
+
+        JsonArrayBuilder consumes = factory.createArrayBuilder();
+        consumes.add(APPLICATION_FORM);
+        post.add("consumes", consumes);
+
+        JsonArrayBuilder produces = factory.createArrayBuilder();
+        produces.add(FHIRMediaType.APPLICATION_FHIR_JSON);
+        post.add("produces", produces);
+
+        JsonArrayBuilder parameters = factory.createArrayBuilder();
+        generateSearchParameters(modelClass, parameters);
+        generateSearchFormParameters(modelClass, parameters);
+        post.add("parameters", parameters);
+
+        JsonObjectBuilder schema = factory.createObjectBuilder();
+        JsonObjectBuilder responses = factory.createObjectBuilder();
+        JsonObjectBuilder response = factory.createObjectBuilder();
+        response.add("description", "Search " + modelClass.getSimpleName() + " operation successful");
+
+        schema = factory.createObjectBuilder();
+        schema.add("$ref", "#/definitions/Bundle");
+
+        response.add("schema", schema);
+        responses.add("200", response);
+        post.add("responses", responses);
+
+        path.add("post", post);
+    }
+
+    private static void generateSearchFormParameters(Class<?> modelClass, JsonArrayBuilder parameters) throws Exception {
+        List<SearchParameter> searchParameters = new ArrayList<SearchParameter>(
+                SearchUtil.getApplicableSearchParameters(modelClass.getSimpleName()));
+        for (SearchParameter searchParameter : searchParameters) {
+            JsonObjectBuilder parameter = factory.createObjectBuilder();
+            String name = searchParameter.getName().getValue();
+            parameter.add("name", name);
+            parameter.add("description", searchParameter.getDescription().getValue());
+            parameter.add("in", "formData");
+            parameter.add("type", "string");
             parameters.add(parameter);
         }
     }
