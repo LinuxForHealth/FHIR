@@ -18,22 +18,14 @@ This document outlines the design and acceptance criteria for the fhir-operation
 
 **HTTP Response Codes**
 
+- 200 OK - The resource is permamently deleted.
 - 400 BAD_REQUEST - The request is malformed.
+- 401 NOT_AUTHENTICATED - The users is not authenticated.
+- 403 NOT_AUTHORIZED - The user is not an administrator in the FHIR_ADMIN group.
 - 404 NOT_FOUND - The resource is not found.
-- 410 GONE - The resource is permamently deleted.
 - 500 INTERNAL SERVER ERROR - Failed to process the request.
 
 **Examples**
-
-### GET
-
-```
-curl --location --request GET 'https://localhost:9443/fhir-server/api/v4/Patient/1785fb0759b-1452d2e5-f568-442e-9841-3dc3940af5bc/$erase?patient=patient-id-is-this-id&reason=My%20Reason%20for%20removing%20this%20resource' \
---header 'Content-Type: application/fhir+json' \
---header 'Authorization: Basic ...'
-```
-
-Response Code: 410
 
 ### POST
 
@@ -56,12 +48,53 @@ curl --location --request POST 'https://test.fhirexample.com/fhir-server/api/v4/
 }'
 ```
 
-Response Code: 410
+#### Response - All Done
+
+Response Code: 200
+Response Body: Return Operation Outcome telling the person that it is confirmed to be deleted.
+
+```
+{
+    "resourceType": "OperationOutcome",
+    "issue": [
+        {
+            "severity": "information",
+            "code": "informational",
+            "details": {
+                "text": "Resource 'Patient/1785fb0759b-1452d2e5-f568-442e-9841-3dc3940af5bc' and corresponding versions are erased"
+            }
+        }
+    ]
+}
+```
+
+#### Response - Almost All Done
+
+Response Code: 200 
+Response Body: Return Operation Outcome telling the person that we almost hit a limit while deleting. (TRANSACTION TIMEOUT - > Commit, Rollback, Lock)
+- May need mitigation, and extend the timeout and manual cleanup
+
+```
+{
+    "resourceType": "OperationOutcome",
+    "issue": [
+        {
+            "severity": "warning",
+            "code": "warning",
+            "details": {
+                "text": "Resource 'Patient/1785fb0759b-1452d2e5-f568-442e-9841-3dc3940af5bc' deleted up to version '4', more remain"
+            }
+        }
+    ]
+}
+```
+
+Note, we do not support GET.
 
 **Server Invariants**
 
 1. For Resources where the latest resource is deleted, Search is not possible.
-2. For Resources updated inflight
+2. For Resources updated inflight, the operation may fail due to locking, and the client is expected to retry.
 3. Operations `$history` use custom change tables which do not include Patient data.
 
 **Implementation Considerations**
@@ -77,6 +110,12 @@ The following are out-of-scope:
 1. Version specific deletes, however, constructing certain Bundle types results in non-deterministic results. This was deemed to be too error prone.
 2. No Version specific reindexing.
 3. Included Resources are not deleted and are implementor choice to remove - for instance, a patient with a provenance, only the patient is deleted.
+4. The downstream caches are not erased - e.g. Private Http Caches.
+
+**Business Logic Considerations**
+
+The following should be considered:
+1. If you are looking up the Patient ID via MRN using Search, then Patient resource should be deleted last.
 
 # Acceptance Criteria
 
@@ -165,4 +204,15 @@ The following are the acceptance criteria for the `$erase` operation.
     - AND READ does not return a Resource
     - AND an Audit Record created
     - AND no History is accessible
+
+## Acceptance Criteria 7: Operation from Bundle (Batch)
+
+*Everything is independent*
+
+## Acceptance Criteria 8: Operation from Bundle (Transaction)
+
+*Everything complete or Everything fails*
+
+
+## Acceptance Criteria 9: Lots of Versions on the Same Resource and a Small Transaction Timeout
 
