@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.MaturityLevel;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Base64Binary;
@@ -25,7 +26,10 @@ import com.ibm.fhir.model.visitor.Visitor;
 /**
  * A resource that represents the data of a single raw artifact as digital content accessible in its native format. A 
  * Binary resource can contain any content, whether text, image, pdf, zip archive, etc.
+ * 
+ * <p>Maturity level: FMM5 (Trial Use)
  */
+@MaturityLevel(5)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Binary extends Resource {
     @Summary

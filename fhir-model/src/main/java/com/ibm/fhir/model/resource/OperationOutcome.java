@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.MaturityLevel;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -33,7 +34,10 @@ import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A collection of error, warning, or information messages that result from a system action.
+ * 
+ * <p>Maturity level: FMM5 (Trial Use)
  */
+@MaturityLevel(5)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class OperationOutcome extends DomainResource {
     @Summary

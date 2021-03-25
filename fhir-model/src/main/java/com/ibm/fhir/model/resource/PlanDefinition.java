@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.MaturityLevel;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -67,7 +68,10 @@ import com.ibm.fhir.model.visitor.Visitor;
  * This resource allows for the definition of various types of plans as a sharable, consumable, and executable artifact. 
  * The resource is general enough to support the description of a broad range of clinical artifacts such as clinical 
  * decision support rules, order sets and protocols.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@MaturityLevel(2)
 @Constraint(
     id = "pdf-0",
     level = "Warning",

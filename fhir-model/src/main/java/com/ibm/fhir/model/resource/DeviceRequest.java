@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.MaturityLevel;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -47,7 +48,10 @@ import com.ibm.fhir.model.visitor.Visitor;
 /**
  * Represents a request for a patient to employ a medical device. The device may be an implantable device, or an external 
  * assistive device, such as a walker.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@MaturityLevel(1)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DeviceRequest extends DomainResource {
     @Summary

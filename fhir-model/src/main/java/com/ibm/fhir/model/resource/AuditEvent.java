@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.MaturityLevel;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -45,7 +46,10 @@ import com.ibm.fhir.model.visitor.Visitor;
 /**
  * A record of an event made for purposes of maintaining a security log. Typical uses include detection of intrusion 
  * attempts and monitoring for inappropriate usage.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@MaturityLevel(3)
 @Constraint(
     id = "sev-1",
     level = "Rule",

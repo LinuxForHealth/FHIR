@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.MaturityLevel;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -48,7 +49,10 @@ import com.ibm.fhir.model.visitor.Visitor;
 /**
  * A definition of a FHIR structure. This resource is used to describe the underlying resources, data types defined in 
  * FHIR, and also for describing extensions and constraints on resources and data types.
+ * 
+ * <p>Maturity level: FMM5 (Trial Use)
  */
+@MaturityLevel(5)
 @Constraint(
     id = "sdf-0",
     level = "Warning",

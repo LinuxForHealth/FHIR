@@ -913,11 +913,19 @@ public class CodeGenerator {
                 }
             }
 
-            List<String> javadocLines = new ArrayList<>(Arrays.asList(getElementDefinition(structureDefinition, path).getString("definition").split(System.lineSeparator())));
+            List<String> javadocLines = new ArrayList<>(Arrays.asList(
+                    getElementDefinition(structureDefinition, path).getString("definition").split(System.lineSeparator())));
             if (isDateTime(structureDefinition)) {
                 javadocLines.addAll(Arrays.asList("", "If seconds are specified, fractions of seconds may be specified up to nanosecond precision (9 digits). However, any fractions of seconds specified to greater than microsecond precision (6 digits) will be truncated to microsecond precision when stored."));
             } else if (isInstant(structureDefinition) || isTime(structureDefinition)) {
                 javadocLines.addAll(Arrays.asList("", "Fractions of seconds may be specified up to nanosecond precision (9 digits). However, any fractions of seconds specified to greater than microsecond precision (6 digits) will be truncated to microsecond precision when stored."));
+            }
+            if (!nested && hasMaturityLevel(structureDefinition)) {
+                String maturityLevel = getMaturityLevel(structureDefinition);
+                if (maturityLevel != null) {
+                    String maturityClass = getMaturityClass(maturityLevel);
+                    javadocLines.addAll(Arrays.asList("", "Maturity level: FMM" + maturityLevel + " (" + maturityClass + ")"));
+                }
             }
             cb.javadoc(javadocLines);
 
@@ -949,6 +957,9 @@ public class CodeGenerator {
             }
 
             if (!nested) {
+                if (hasMaturityLevel(structureDefinition)) {
+                    cb.annotation("MaturityLevel", getMaturityLevel(structureDefinition));
+                }
                 generateConstraintAnnotations(structureDefinition, cb, className);
                 generateBindingAnnotation(structureDefinition, cb, className, structureDefinition.getJsonObject("snapshot").getJsonArray("element").getJsonObject(0));
                 cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
@@ -1311,6 +1322,28 @@ public class CodeGenerator {
                 cb.newLine();
             }
         }
+    }
+
+    private String getMaturityClass(String maturityLevel) {
+        String maturityClass = null;
+        switch (maturityLevel) {
+        case "0": {
+            maturityClass="Draft";
+            break;
+        }
+        case "1":
+        case "2":
+        case "3":
+        case "4":
+        case "5": {
+            maturityClass="Trial Use";
+            break;
+        }
+        case "6": {
+            maturityClass="Normative";
+        }
+        }
+        return maturityClass;
     }
 
     /**
@@ -1919,6 +1952,10 @@ public class CodeGenerator {
 
         if (hasConstraints(structureDefinition) || hasExtensibleOrPreferredBindings(structureDefinition)) {
             imports.add("com.ibm.fhir.model.annotation.Constraint");
+        }
+
+        if (hasMaturityLevel(structureDefinition)) {
+            imports.add("com.ibm.fhir.model.annotation.MaturityLevel");
         }
 
         imports.add("javax.annotation.Generated");
@@ -4042,6 +4079,36 @@ public class CodeGenerator {
                 "integer".equals(type) ||
                 "code".equals(type) ||
                 "uri".equals(type);
+    }
+
+    /**
+     * @param structureDefinition a StructureDefinition for a FHIR resource or element
+     * @return whether the
+     */
+    private boolean hasMaturityLevel(JsonObject structureDefinition) {
+        for (JsonValue extension : structureDefinition.getOrDefault("extension", JsonArray.EMPTY_JSON_ARRAY).asJsonArray()) {
+            if (extension.asJsonObject().getString("url").endsWith("structuredefinition-fmm")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param structureDefinition a StructureDefinition for a FHIR resource or element
+     * @return the maturity level of the resource or element, or null if it has none
+     * @see <a href="https://confluence.hl7.org/display/FHIR/FHIR+Maturity+Model">https://confluence.hl7.org/display/FHIR/FHIR+Maturity+Model</a>
+     */
+    private String getMaturityLevel(JsonObject structureDefinition) {
+        for (JsonValue extension : structureDefinition.getOrDefault("extension", JsonArray.EMPTY_JSON_ARRAY).asJsonArray()) {
+            if (extension.asJsonObject().getString("url").endsWith("structuredefinition-fmm")) {
+                int valueInteger = extension.asJsonObject().getInt("valueInteger", -1);
+                if (valueInteger != -1) {
+                    return Integer.toString(valueInteger);
+                }
+            }
+        }
+        return null;
     }
 
     private boolean isAbstract(JsonObject structureDefinition) {

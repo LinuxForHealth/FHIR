@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.MaturityLevel;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -44,7 +45,10 @@ import com.ibm.fhir.model.visitor.Visitor;
  * A reference to a document of any kind for any purpose. Provides metadata about the document so that the document can 
  * be discovered and managed. The scope of a document is any seralized object with a mime-type, so includes formal 
  * patient centric documents (CDA), cliical notes, scanned paper, and non-patient specific documents like policy text.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@MaturityLevel(3)
 @Constraint(
     id = "documentReference-0",
     level = "Warning",
