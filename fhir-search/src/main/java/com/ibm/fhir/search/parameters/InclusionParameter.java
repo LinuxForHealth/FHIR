@@ -116,7 +116,7 @@ public class InclusionParameter {
     @Override
     public String toString() {
         return "InclusionParameter [joinResourceType=" + joinResourceType + ", searchParameter=" + searchParameter + ", searchParameterTargetType="
-                + searchParameterTargetType + ", modifier=" + modifier.toString() + ", userSpecifiedTargetType=" + userSpecifiedTargetType + "]";
+                + searchParameterTargetType + ", modifier=" + modifier + ", userSpecifiedTargetType=" + userSpecifiedTargetType + "]";
     }
 
 }
