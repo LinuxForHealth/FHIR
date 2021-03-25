@@ -785,17 +785,20 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response =
                 target.path("Patient")
+                .queryParam("_total", "none")
                 .queryParam("_tag", tag)
                 .queryParam("_revinclude", "Procedure:patient")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
+        final int expectedMatchCount = 3;
 
         assertNotNull(bundle);
+        assertNull(bundle.getTotal());
         assertEquals(7, bundle.getEntry().size());
         List<String> matchResourceIds = new ArrayList<>();
-        for (int i=0; i<bundle.getTotal().getValue(); ++i) {
+        for (int i=0; i<expectedMatchCount; ++i) {
             matchResourceIds.add(bundle.getEntry().get(i).getResource().getId());
             assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(i).getSearch().getMode());
         }
@@ -803,7 +806,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         assertTrue(matchResourceIds.contains(patient2Id));
         assertTrue(matchResourceIds.contains(patient3Id));
         List<String> includeResourceIds = new ArrayList<>();
-        for (int i=bundle.getTotal().getValue(); i<bundle.getEntry().size(); ++i) {
+        for (int i=expectedMatchCount; i<bundle.getEntry().size(); ++i) {
             includeResourceIds.add(bundle.getEntry().get(i).getResource().getId());
             assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(i).getSearch().getMode());
         }
@@ -891,6 +894,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response =
                 target.path("Patient")
+                .queryParam("_total", "none")
                 .queryParam("_tag", tag)
                 .queryParam("_id", patient1Id)
                 .queryParam("_revinclude:iterate", "Patient:link")

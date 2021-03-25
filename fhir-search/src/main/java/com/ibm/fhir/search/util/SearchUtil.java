@@ -757,12 +757,6 @@ public class SearchUtil {
                 throw SearchExceptionUtil.buildNewInvalidSearchException(
                         "_sort search result parameter not supported with _include or _revinclude.");
             }
-            // Make sure _total is not present with _include and/or _revinclude.
-            // TODO: do we really need to forbid this?
-            if (queryParameters.containsKey(SearchConstants.TOTAL)) {
-                throw SearchExceptionUtil.buildNewInvalidSearchException(
-                        "_total search result parameter not supported with _include or _revinclude.");
-            }
             // Because _include and _revinclude searches all require certain resource type modifier in
             // search parameter, so we just don't support it.
             if (Resource.class.equals(resourceType)) {
@@ -926,7 +920,7 @@ public class SearchUtil {
         try {
             // Check for valid search parameter combinations
             checkSearchParameterCombinations(resourceType, parameters);
-            
+
             // Check include resource type mismatches for :iterate parameters
             if (!context.getIncludeParameters().isEmpty() || !context.getRevIncludeParameters().isEmpty()) {
                 checkInclusionIterateParameters(resourceType.getSimpleName(), context, lenient);
@@ -1583,7 +1577,7 @@ public class SearchUtil {
 
     /**
      * Determine if the parameter is a search result parameter.
-     * 
+     *
      * @param name - the parameter name
      * @return true if the parameter is a search result parameter, false otherwise
      */
@@ -2244,7 +2238,7 @@ public class SearchUtil {
                 }
                 searchParametersMap = Collections.singletonMap(searchParameterName, searchParm);
             }
-            
+
             List<InclusionParameter> inclusionParameters = new ArrayList<>();
             for (SearchParameter searchParameter : searchParametersMap.values()) {
                 inclusionParameters.addAll(buildInclusionParameters(resourceType, joinResourceType,
@@ -2323,7 +2317,7 @@ public class SearchUtil {
      * @param inclusionKeyword the inclusion keyword (_include or _revinclude)
      * @param lenient the validation level
      * @return a list of InclusionParameter objects
-     * @throws FHIRSearchException 
+     * @throws FHIRSearchException
      */
     private static List<InclusionParameter> buildInclusionParameters(Class<?> resourceType, String joinResourceType,
         SearchParameter searchParm, String searchParameterTargetType, Modifier modifier, String inclusionKeyword,
@@ -2581,10 +2575,10 @@ public class SearchUtil {
         result.append(subParameterCode);
         return result.toString();
     }
-    
+
     /**
      * Check if the list of search parameters contains either _include or _revinclude.
-     * 
+     *
      * @param searchParameterCodes the set of search parameters to check
      * @return true if either _include or _revinclude found, false otherwise
      */
@@ -2604,7 +2598,7 @@ public class SearchUtil {
      * Check if _include or _revinclude parameters with the :iterate modifier reference invalid resource types.
      * If in strict mode, throw a FHIRSearchException. If in lenient mode, log the invalid parameters and
      * remove those parameters from the search context.
-     * 
+     *
      * @param resourceType the search resource type
      * @param context the search context
      * @param lenient flag indicating lenient or strict mode
@@ -2640,7 +2634,7 @@ public class SearchUtil {
                 validTargetResourceTypesForRevInclude.add(p.getJoinResourceType());
             });
         }
-        
+
         // Get the :iterate inclusion parameters that reference invalid resource types.
         // If in lenient mode, or if multiple added because no target type was specified,
         // log and remove. If in strict mode, or if only one valid target type, throw an exception.
@@ -2678,7 +2672,7 @@ public class SearchUtil {
         } catch (RuntimeException e) {
             throw SearchExceptionUtil.buildNewInvalidSearchException(e.getMessage());
         }
-        
+
         // Remove invalid inclusion parameters
         context.getIncludeParameters().removeAll(invalidIncludeParameters);
         context.getRevIncludeParameters().removeAll(invalidRevIncludeParameters);
