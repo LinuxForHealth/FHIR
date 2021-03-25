@@ -8,11 +8,9 @@ package com.ibm.fhir.server.operation.spi;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 
 import javax.ws.rs.core.SecurityContext;
-
-import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationDefinition;
@@ -283,24 +281,9 @@ public abstract class AbstractOperation implements FHIROperation {
      */
     public void authorize(String operation, FHIROperationContext operationContext) throws FHIROperationException {
         Object securityContext = operationContext.getProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT);
-        Object jwt = operationContext.getProperty(FHIROperationContext.PROPNAME_JWT);
 
         boolean authorize = false;
-
-        if (jwt != null && jwt instanceof JsonWebToken) {
-            JsonWebToken jwtObj = (JsonWebToken) jwt;
-            Set<String> groups = jwtObj.getGroups();
-            if (groups != null) {
-                for (String group : groups) {
-                    if ("FHIROperationAdmin".equals(group)) {
-                        authorize = true;
-                        return;
-                    }
-                }
-            }
-        }
-
-        if (!authorize && securityContext != null && securityContext instanceof SecurityContext) {
+        if (securityContext != null && securityContext instanceof SecurityContext) {
             SecurityContext ctx = (SecurityContext) securityContext;
             authorize = ctx.isUserInRole("FHIROperationAdmin");
         }
