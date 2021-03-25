@@ -75,7 +75,7 @@ public class SnomedRegistryResourceProviderTest {
 
     @Test
     public void testGetSubsumedByImplicitValueSet() {
-        ValueSet valueSet = FHIRRegistry.getInstance().getResource("http://snomed.info/sct?fhir_vs=195967001", ValueSet.class);
+        ValueSet valueSet = FHIRRegistry.getInstance().getResource("http://snomed.info/sct?fhir_vs=isa/195967001", ValueSet.class);
         Assert.assertNotNull(valueSet);
     }
 
