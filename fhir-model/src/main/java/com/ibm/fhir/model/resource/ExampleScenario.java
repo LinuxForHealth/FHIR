@@ -16,7 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
-import com.ibm.fhir.model.annotation.MaturityLevel;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -38,15 +38,19 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ExampleScenarioActorType;
 import com.ibm.fhir.model.type.code.FHIRResourceType;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Example of workflow instance.
  * 
- * <p>Maturity level: FMM0 (Draft)
+ * <p>Maturity level: FMM0 (Trial Use)
  */
-@MaturityLevel(0)
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "esc-0",
     level = "Warning",

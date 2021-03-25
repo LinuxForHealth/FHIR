@@ -15,7 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
-import com.ibm.fhir.model.annotation.MaturityLevel;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -31,15 +31,19 @@ import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * The regulatory authorization of a medicinal product.
  * 
- * <p>Maturity level: FMM0 (Draft)
+ * <p>Maturity level: FMM0 (Trial Use)
  */
-@MaturityLevel(0)
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductAuthorization extends DomainResource {
     @Summary

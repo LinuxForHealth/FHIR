@@ -16,7 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
-import com.ibm.fhir.model.annotation.MaturityLevel;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -38,6 +38,7 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.CapabilityStatementKind;
 import com.ibm.fhir.model.type.code.CodeSearchSupport;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -45,9 +46,12 @@ import com.ibm.fhir.model.visitor.Visitor;
  * A TerminologyCapabilities resource documents a set of capabilities (behaviors) of a FHIR Terminology Server that may 
  * be used as a statement of actual server functionality or a statement of required or desired server implementation.
  * 
- * <p>Maturity level: FMM0 (Draft)
+ * <p>Maturity level: FMM0 (Trial Use)
  */
-@MaturityLevel(0)
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "tcp-0",
     level = "Warning",

@@ -14,7 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
-import com.ibm.fhir.model.annotation.MaturityLevel;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -27,6 +27,7 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -34,9 +35,12 @@ import com.ibm.fhir.model.visitor.Visitor;
  * Nucleic acids are defined by three distinct elements: the base, sugar and linkage. Individual substance/moiety IDs 
  * will be created for each of these elements. The nucleotide sequence will be always entered in the 5’-3’ direction.
  * 
- * <p>Maturity level: FMM0 (Draft)
+ * <p>Maturity level: FMM0 (Trial Use)
  */
-@MaturityLevel(0)
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SubstanceNucleicAcid extends DomainResource {
     @Summary

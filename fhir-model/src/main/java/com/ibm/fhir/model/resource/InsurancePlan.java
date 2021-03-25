@@ -16,7 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
-import com.ibm.fhir.model.annotation.MaturityLevel;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -39,15 +39,19 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Details of a Health Insurance product/plan provided by an organization.
  * 
- * <p>Maturity level: FMM0 (Draft)
+ * <p>Maturity level: FMM0 (Trial Use)
  */
-@MaturityLevel(0)
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "ipn-1",
     level = "Rule",

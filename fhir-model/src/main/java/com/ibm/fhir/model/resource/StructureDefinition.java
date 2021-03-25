@@ -16,7 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
-import com.ibm.fhir.model.annotation.MaturityLevel;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -41,6 +41,7 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ExtensionContextType;
 import com.ibm.fhir.model.type.code.FHIRVersion;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.StructureDefinitionKind;
 import com.ibm.fhir.model.type.code.TypeDerivationRule;
 import com.ibm.fhir.model.util.ValidationSupport;
@@ -50,9 +51,12 @@ import com.ibm.fhir.model.visitor.Visitor;
  * A definition of a FHIR structure. This resource is used to describe the underlying resources, data types defined in 
  * FHIR, and also for describing extensions and constraints on resources and data types.
  * 
- * <p>Maturity level: FMM5 (Trial Use)
+ * <p>Maturity level: FMM5 (Normative)
  */
-@MaturityLevel(5)
+@Maturity(
+    level = 5,
+    status = StandardsStatus.ValueSet.NORMATIVE
+)
 @Constraint(
     id = "sdf-0",
     level = "Warning",

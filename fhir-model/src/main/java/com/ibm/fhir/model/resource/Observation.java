@@ -17,7 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
-import com.ibm.fhir.model.annotation.MaturityLevel;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -47,15 +47,19 @@ import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ObservationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Measurements and simple assertions made about a patient, device or other subject.
  * 
- * <p>Maturity level: FMM5 (Trial Use)
+ * <p>Maturity level: FMM5 (Normative)
  */
-@MaturityLevel(5)
+@Maturity(
+    level = 5,
+    status = StandardsStatus.ValueSet.NORMATIVE
+)
 @Constraint(
     id = "obs-3",
     level = "Rule",

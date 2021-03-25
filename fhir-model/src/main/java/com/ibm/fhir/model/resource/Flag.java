@@ -15,7 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
-import com.ibm.fhir.model.annotation.MaturityLevel;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -30,6 +30,7 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.FlagStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -38,7 +39,10 @@ import com.ibm.fhir.model.visitor.Visitor;
  * 
  * <p>Maturity level: FMM1 (Trial Use)
  */
-@MaturityLevel(1)
+@Maturity(
+    level = 1,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Flag extends DomainResource {
     @Summary

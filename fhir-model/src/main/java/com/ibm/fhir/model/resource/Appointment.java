@@ -16,7 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
-import com.ibm.fhir.model.annotation.MaturityLevel;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -39,6 +39,7 @@ import com.ibm.fhir.model.type.code.AppointmentStatus;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ParticipantRequired;
 import com.ibm.fhir.model.type.code.ParticipationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -48,7 +49,10 @@ import com.ibm.fhir.model.visitor.Visitor;
  * 
  * <p>Maturity level: FMM3 (Trial Use)
  */
-@MaturityLevel(3)
+@Maturity(
+    level = 3,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "app-1",
     level = "Rule",

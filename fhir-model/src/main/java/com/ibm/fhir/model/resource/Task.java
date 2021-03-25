@@ -17,7 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
-import com.ibm.fhir.model.annotation.MaturityLevel;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -76,6 +76,7 @@ import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.Uuid;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.TaskIntent;
 import com.ibm.fhir.model.type.code.TaskPriority;
 import com.ibm.fhir.model.type.code.TaskStatus;
@@ -87,7 +88,10 @@ import com.ibm.fhir.model.visitor.Visitor;
  * 
  * <p>Maturity level: FMM2 (Trial Use)
  */
-@MaturityLevel(2)
+@Maturity(
+    level = 2,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "inv-1",
     level = "Rule",

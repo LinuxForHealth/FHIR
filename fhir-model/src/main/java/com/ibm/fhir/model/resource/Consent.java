@@ -17,7 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
-import com.ibm.fhir.model.annotation.MaturityLevel;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -40,6 +40,7 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ConsentDataMeaning;
 import com.ibm.fhir.model.type.code.ConsentProvisionType;
 import com.ibm.fhir.model.type.code.ConsentState;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -49,7 +50,10 @@ import com.ibm.fhir.model.visitor.Visitor;
  * 
  * <p>Maturity level: FMM2 (Trial Use)
  */
-@MaturityLevel(2)
+@Maturity(
+    level = 2,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "ppc-1",
     level = "Rule",

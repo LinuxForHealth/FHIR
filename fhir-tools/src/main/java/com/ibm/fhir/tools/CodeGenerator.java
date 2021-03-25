@@ -264,6 +264,7 @@ public class CodeGenerator {
         generateModelClassesFile(basePath);
         generateCodeSubtypeClass("ConceptSubsumptionOutcome", "http://hl7.org/fhir/ValueSet/concept-subsumption-outcome", basePath);
         generateCodeSubtypeClass("DataAbsentReason", "http://hl7.org/fhir/ValueSet/data-absent-reason", basePath);
+        generateCodeSubtypeClass("StandardsStatus", "http://hl7.org/fhir/ValueSet/standards-status", basePath);
     }
 
     private void generateModelClassesFile(String basePath) {
@@ -920,11 +921,16 @@ public class CodeGenerator {
             } else if (isInstant(structureDefinition) || isTime(structureDefinition)) {
                 javadocLines.addAll(Arrays.asList("", "Fractions of seconds may be specified up to nanosecond precision (9 digits). However, any fractions of seconds specified to greater than microsecond precision (6 digits) will be truncated to microsecond precision when stored."));
             }
-            if (!nested && hasMaturityLevel(structureDefinition)) {
+            if (!nested && hasMaturityLevel(structureDefinition) && hasMaturityLevel(structureDefinition)) {
                 String maturityLevel = getMaturityLevel(structureDefinition);
+                String standardsStatus = getStandardsStatus(structureDefinition);
+                if ("trial-use".equals(standardsStatus)) {
+                    standardsStatus = "Trial Use";
+                } else if ("normative".equals(standardsStatus)) {
+                    standardsStatus = "Normative";
+                }
                 if (maturityLevel != null) {
-                    String maturityClass = getMaturityClass(maturityLevel);
-                    javadocLines.addAll(Arrays.asList("", "Maturity level: FMM" + maturityLevel + " (" + maturityClass + ")"));
+                    javadocLines.addAll(Arrays.asList("", "Maturity level: FMM" + maturityLevel + " (" + standardsStatus + ")"));
                 }
             }
             cb.javadoc(javadocLines);
@@ -957,8 +963,11 @@ public class CodeGenerator {
             }
 
             if (!nested) {
-                if (hasMaturityLevel(structureDefinition)) {
-                    cb.annotation("MaturityLevel", getMaturityLevel(structureDefinition));
+                if (hasMaturityLevel(structureDefinition) && hasStandardsStatus(structureDefinition)) {
+                    Map<String, String> vals = new HashMap<>();
+                    vals.put("level", getMaturityLevel(structureDefinition));
+                    vals.put("status", "StandardsStatus.ValueSet." + getStandardsStatus(structureDefinition).toUpperCase().replace("-", "_"));
+                    cb.annotation("Maturity", vals);
                 }
                 generateConstraintAnnotations(structureDefinition, cb, className);
                 generateBindingAnnotation(structureDefinition, cb, className, structureDefinition.getJsonObject("snapshot").getJsonArray("element").getJsonObject(0));
@@ -1322,28 +1331,6 @@ public class CodeGenerator {
                 cb.newLine();
             }
         }
-    }
-
-    private String getMaturityClass(String maturityLevel) {
-        String maturityClass = null;
-        switch (maturityLevel) {
-        case "0": {
-            maturityClass="Draft";
-            break;
-        }
-        case "1":
-        case "2":
-        case "3":
-        case "4":
-        case "5": {
-            maturityClass="Trial Use";
-            break;
-        }
-        case "6": {
-            maturityClass="Normative";
-        }
-        }
-        return maturityClass;
     }
 
     /**
@@ -1954,8 +1941,9 @@ public class CodeGenerator {
             imports.add("com.ibm.fhir.model.annotation.Constraint");
         }
 
-        if (hasMaturityLevel(structureDefinition)) {
-            imports.add("com.ibm.fhir.model.annotation.MaturityLevel");
+        if (hasMaturityLevel(structureDefinition) && hasStandardsStatus(structureDefinition)) {
+            imports.add("com.ibm.fhir.model.annotation.Maturity");
+            imports.add("com.ibm.fhir.model.type.code.StandardsStatus");
         }
 
         imports.add("javax.annotation.Generated");
@@ -4083,7 +4071,7 @@ public class CodeGenerator {
 
     /**
      * @param structureDefinition a StructureDefinition for a FHIR resource or element
-     * @return whether the
+     * @return whether the resource or element has a FHIR Maturity Model (fmm) extension
      */
     private boolean hasMaturityLevel(JsonObject structureDefinition) {
         for (JsonValue extension : structureDefinition.getOrDefault("extension", JsonArray.EMPTY_JSON_ARRAY).asJsonArray()) {
@@ -4105,6 +4093,36 @@ public class CodeGenerator {
                 int valueInteger = extension.asJsonObject().getInt("valueInteger", -1);
                 if (valueInteger != -1) {
                     return Integer.toString(valueInteger);
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param structureDefinition a StructureDefinition for a FHIR resource or element
+     * @return whether the resource or element has a FHIR Maturity Model (fmm) extension
+     */
+    private boolean hasStandardsStatus(JsonObject structureDefinition) {
+        for (JsonValue extension : structureDefinition.getOrDefault("extension", JsonArray.EMPTY_JSON_ARRAY).asJsonArray()) {
+            if (extension.asJsonObject().getString("url").endsWith("structuredefinition-standards-status")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param structureDefinition a StructureDefinition for a FHIR resource or element
+     * @return the maturity level of the resource or element, or null if it has none
+     * @see <a href="https://confluence.hl7.org/display/FHIR/FHIR+Maturity+Model">https://confluence.hl7.org/display/FHIR/FHIR+Maturity+Model</a>
+     */
+    private String getStandardsStatus(JsonObject structureDefinition) {
+        for (JsonValue extension : structureDefinition.getOrDefault("extension", JsonArray.EMPTY_JSON_ARRAY).asJsonArray()) {
+            if (extension.asJsonObject().getString("url").endsWith("structuredefinition-standards-status")) {
+                String valueCode = extension.asJsonObject().getString("valueCode");
+                if (valueCode != null) {
+                    return valueCode;
                 }
             }
         }
