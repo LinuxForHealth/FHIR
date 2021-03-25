@@ -21,7 +21,7 @@ public class InclusionParameter {
     private boolean userSpecifiedTargetType;
 
     public InclusionParameter(String joinRt, String searchParm, String searchParmTargetType, Modifier modifier,
-        boolean userSpecifiedTargetType) {
+            boolean userSpecifiedTargetType) {
         super();
         this.joinResourceType = joinRt;
         this.searchParameter = searchParm;
@@ -63,7 +63,7 @@ public class InclusionParameter {
         result = prime * result + ((searchParameter == null) ? 0 : searchParameter.hashCode());
         result = prime * result + ((searchParameterTargetType == null) ? 0 : searchParameterTargetType.hashCode());
         result = prime * result + ((modifier == null) ? 0 : modifier.hashCode());
-        result = prime * result + (userSpecifiedTargetType ? 1 : 0);
+        result = prime * result + Boolean.hashCode(userSpecifiedTargetType);
         return result;
     }
 

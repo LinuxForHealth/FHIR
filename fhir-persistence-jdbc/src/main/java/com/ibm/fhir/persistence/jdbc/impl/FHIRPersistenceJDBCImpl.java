@@ -821,7 +821,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         // - Iteration 1 processes against resources returned by primary search or by non-iterative
         //   _include and _revinclude search.
         // - Iteration 2 and above processes only against resources returned by the previous iteration. Note
-        //   that we currently have a max of only one iteration.
+        //   that we currently have a max of only one iteration (not including special iteration 0).
         //
         for (int i=0; i<=SearchConstants.MAX_INCLUSION_ITERATIONS; ++i) {
             // Get the map of resourceTypes for current iteration level
@@ -921,7 +921,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         List<com.ibm.fhir.persistence.jdbc.dto.Resource> includeDTOs =
                 resourceDao.search(includeQuery).stream().filter(r -> !allResourceIds.contains(r.getId())).collect(Collectors.toList());
         
-        // Add query result to map
+        // Add query result to map.
+        // The logical resource IDs are pulled from the returned DTOs and saved in a
+        // map of resource type to logical resource IDs. This map is then saved in a
+        // map of iteration # to resource type map.
+        // On subsequent iterations, _include and _revinclude parameters which target
+        // this resource type will use the associated logical resource IDs in their queries.
         if (!includeDTOs.isEmpty()) {
             Set<String> logicalResourceIds = includeDTOs.stream()
                     .map(r -> Long.toString(r.getLogicalResourceId())).collect(Collectors.toSet());

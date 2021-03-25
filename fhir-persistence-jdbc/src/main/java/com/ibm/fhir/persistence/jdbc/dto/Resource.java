@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017,2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,7 +21,7 @@ public class Resource {
     private long id;
     
     /**
-     *  This is the <resourceType>_RESOURCES.LOGICAL_RESOURCE_ID column. It is only
+     *  This is the <resourceType>_LOGICAL_RESOURCES.LOGICAL_RESOURCE_ID column. It is only
      *  set when this DTO is used to read table data. It is not set when the DTO is
      *  used to insert/update.
      */

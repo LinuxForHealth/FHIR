@@ -148,7 +148,7 @@ The `_include` and `_revinclude` parameters can be used to return resources rela
 
 The `:iterate` modifier is supported for the `_include` and `_revinclude` parameters. The number of iterations is limited to 1. This means the iteration depth will be limited to one level beyond the depth of the resources being iterated against, whether primary search resources or included resources. One exception to this is the case where an iterative `_include` or `_revinclude` is specified that will return the same resource type as the primary search resource type (for example `.../Patient?_include:iterate=Patient:link:Patient`). In this case, the iteration depth will be limited to a maximum of two levels beyond the primary search resource type.
 
-The `_sort` and `_total` parameters cannot be used in combination with the `_include` or `_revinclude` parameter.
+The `_sort` and `_total` parameters cannot be used in combination with the `_include` or `_revinclude` parameters.
 
 The `_contained` and `_containedType` parameters are not supported at this time.
 

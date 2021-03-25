@@ -1581,6 +1581,12 @@ public class SearchUtil {
         return returnPrefix;
     }
 
+    /**
+     * Determine if the parameter is a search result parameter.
+     * 
+     * @param name - the parameter name
+     * @return true if the parameter is a search result parameter, false otherwise
+     */
     public static boolean isSearchResultParameter(String name) {
         return (SearchConstants.SEARCH_RESULT_PARAMETER_NAMES.contains(name) ||
                 name.startsWith(SearchConstants.INCLUDE + SearchConstants.COLON_DELIMITER_STR) ||
@@ -1901,7 +1907,7 @@ public class SearchUtil {
      * </pre>
      * @formatter:on
      * See the FHIR specification for details:
-     * <a href="https://www.hl7.org/fhir/search.html#has</a>
+     * <a href="https://www.hl7.org/fhir/search.html#has"</a>
      *
      * @param resourceType
      *     Search type.
@@ -2578,7 +2584,7 @@ public class SearchUtil {
     
     /**
      * Check if the list of search parameters contains either _include or _revinclude.
-     * .
+     * 
      * @param searchParameterCodes the set of search parameters to check
      * @return true if either _include or _revinclude found, false otherwise
      */
