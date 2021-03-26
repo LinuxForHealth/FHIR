@@ -50,7 +50,7 @@ public class InclusionParameter {
         return Modifier.ITERATE.equals(modifier);
     }
 
-    
+
     public boolean isUserSpecifiedTargetType() {
         return userSpecifiedTargetType;
     }
