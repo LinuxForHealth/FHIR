@@ -12,8 +12,8 @@ import java.util.stream.Stream;
 import com.ibm.fhir.path.visitor.FHIRPathNodeVisitor;
 
 /**
- * In FHIRPath, data are represented as a tree of labeled nodes, where each node may optionally carry a
- * primitive value and have child nodes. Nodes need not have a unique label, and leaf nodes must carry a child system value.
+ * In FHIRPath, data are represented as a tree of labeled nodes, where each node may optionally have a
+ * system child value and child nodes. Nodes need not have a unique label, and leaf nodes must have a child system value.
  */
 public interface FHIRPathNode extends Comparable<FHIRPathNode> {
     /**
