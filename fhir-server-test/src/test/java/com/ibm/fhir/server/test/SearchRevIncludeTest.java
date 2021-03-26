@@ -904,6 +904,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
+        assertNull(bundle.getTotal());
         assertEquals(3, bundle.getEntry().size());
         assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
         assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
