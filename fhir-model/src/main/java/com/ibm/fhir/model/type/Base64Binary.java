@@ -51,6 +51,26 @@ public class Base64Binary extends Element {
         return super.hasChildren();
     }
 
+    /**
+     * Factory method for creating Base64Binary objects from a byte array of the Base64 string
+     * 
+     * @param value
+     *     The byte array of the previously encoded base64 content
+     */
+    public static Base64Binary of(byte[] value) {
+        return Base64Binary.builder().value(value).build();
+    }
+
+    /**
+     * Factory method for creating Base64Binary objects from a Base64 encoded value.
+     * 
+     * @param value
+     *     The Base64 encoded string
+     */
+    public static Base64Binary of(java.lang.String value) {
+        return Base64Binary.builder().value(value).build();
+    }
+
     @Override
     public void accept(java.lang.String elementName, int elementIndex, Visitor visitor) {
         if (visitor.preVisit(this)) {
@@ -164,10 +184,10 @@ public class Base64Binary extends Element {
         }
 
         /**
-         * The actual value
+         * The byte array of the Base64 encoded string
          * 
          * @param value
-         *     Primitive value for base64Binary
+         *     The byte array of the Base64 encoded string
          * 
          * @return
          *     A reference to this Builder instance
@@ -177,11 +197,20 @@ public class Base64Binary extends Element {
             return this;
         }
 
+        /**
+         * The base64 encoded value.
+         * 
+         * @param value
+         *     The base64 encoded string
+         * @return
+         *     A reference to this Builder instance
+         */
         public Builder value(java.lang.String value) {
             Objects.requireNonNull(value);
             java.lang.String valueNoWhitespace = value.replaceAll("\\s", "");
             ValidationSupport.validateBase64EncodedString(valueNoWhitespace);
-            this.value = Base64.getDecoder().decode(valueNoWhitespace);
+            Base64.getDecoder().decode(valueNoWhitespace);
+            this.value = valueNoWhitespace.getBytes();
             return this;
         }
 
