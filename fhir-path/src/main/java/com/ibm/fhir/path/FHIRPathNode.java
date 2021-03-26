@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,7 +13,7 @@ import com.ibm.fhir.path.visitor.FHIRPathNodeVisitor;
 
 /**
  * In FHIRPath, data are represented as a tree of labeled nodes, where each node may optionally carry a
- * primitive value and have child nodes. Nodes need not have a unique label, and leaf nodes must carry a primitive value.
+ * primitive value and have child nodes. Nodes need not have a unique label, and leaf nodes must carry a child system value.
  */
 public interface FHIRPathNode extends Comparable<FHIRPathNode> {
     /**
@@ -45,18 +45,18 @@ public interface FHIRPathNode extends Comparable<FHIRPathNode> {
     FHIRPathType type();
 
     /**
-     * Indicates whether this FHIRPathNode carries a primitive value
+     * Indicates whether this FHIRPathNode has a child system value
      *
      * @return
-     *     true if this FHIRPathNode carries a primitive value, otherwise false
+     *     true if this FHIRPathNode has a child system value, otherwise false
      */
     boolean hasValue();
 
     /**
-     * The primitive value that this FHIRPathNode is carrying
+     * The child system value of this FHIRPathNode
      *
      * @return
-     *     the primitive value that this FHIRPathNode is carrying if exists, otherwise null
+     *     the child system value of this FHIRPathNode, otherwise null
      */
     FHIRPathSystemValue getValue();
 
@@ -257,10 +257,10 @@ public interface FHIRPathNode extends Comparable<FHIRPathNode> {
         Builder path(String path);
 
         /**
-         * The primitive value of the FHIRPathNode
+         * The child system value of the FHIRPathNode
          *
          * @param name
-         *     the primitive value of the FHIRPathNode
+         *     the child system value of the FHIRPathNode
          * @return
          *     A reference to this builder instance
          */
