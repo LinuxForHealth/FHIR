@@ -1,12 +1,11 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.path;
 
-import java.util.Collection;
 import java.util.Objects;
 
 import com.ibm.fhir.path.visitor.FHIRPathNodeVisitor;
@@ -14,55 +13,55 @@ import com.ibm.fhir.path.visitor.FHIRPathNodeVisitor;
 /**
  * A {@link FHIRPathSystemValue} node that wraps a {@link Boolean} value
  */
-public class FHIRPathBooleanValue extends FHIRPathAbstractNode implements FHIRPathSystemValue {
+public class FHIRPathBooleanValue extends FHIRPathAbstractSystemValue {
     public static final FHIRPathBooleanValue TRUE = FHIRPathBooleanValue.booleanValue(true);
     public static final FHIRPathBooleanValue FALSE = FHIRPathBooleanValue.booleanValue(false);
-    
+
     private final Boolean _boolean;
-    
+
     protected FHIRPathBooleanValue(Builder builder) {
         super(builder);
         _boolean = Objects.requireNonNull(builder._boolean);
     }
-    
+
     @Override
     public boolean isBooleanValue() {
         return true;
     }
-    
+
     /**
      * The boolean value wrapped by this FHIRPathBooleanValue node
-     * 
+     *
      * @return
      *     the boolean value wrapped by this FHIRPathBooleanValue node
      */
     public Boolean _boolean() {
         return _boolean;
     }
-    
+
     /**
      * Indicates whether the boolean value wrapped by this FHIRPathBooleanValue node is true
-     * 
+     *
      * @return
      *     true if the boolean value wrapped by this FHIRPathBooleanValue node is true, otherwise false
      */
     public boolean isTrue() {
         return Boolean.TRUE.equals(_boolean);
     }
-    
+
     /**
      * Indicates whether the boolean value wrapped by this FHIRPathBooleanValue node is false
-     * 
+     *
      * @return
      *     true if the boolean value wrapped by this FHIRPathBooleanValue node is false, otherwise false
      */
     public boolean isFalse() {
         return Boolean.FALSE.equals(_boolean);
     }
-    
+
     /**
      * Static factory method for creating FHIRPathBooleanValue instances from a {@link Boolean} value
-     * 
+     *
      * @param _boolean
      *    the {@link Boolean} value
      * @return
@@ -71,10 +70,10 @@ public class FHIRPathBooleanValue extends FHIRPathAbstractNode implements FHIRPa
     public static FHIRPathBooleanValue booleanValue(Boolean _boolean) {
         return FHIRPathBooleanValue.builder(_boolean).build();
     }
-    
+
     /**
      * Static factory method for creating named FHIRPathBooleanValue instances from a {@link Boolean} value
-     * 
+     *
      * @param name
      *    the name
      * @param _boolean
@@ -85,15 +84,15 @@ public class FHIRPathBooleanValue extends FHIRPathAbstractNode implements FHIRPa
     public static FHIRPathBooleanValue booleanValue(String name, Boolean _boolean) {
         return FHIRPathBooleanValue.builder(_boolean).name(name).build();
     }
-    
+
     @Override
     public Builder toBuilder() {
         return new Builder(type, _boolean);
     }
-    
+
     /**
      * Static factory method for creating builder instances from a {@link Boolean} value
-     * 
+     *
      * @param _boolean
      *     the boolean value
      * @return
@@ -102,43 +101,28 @@ public class FHIRPathBooleanValue extends FHIRPathAbstractNode implements FHIRPa
     public static Builder builder(Boolean _boolean) {
         return new Builder(FHIRPathType.SYSTEM_BOOLEAN, _boolean);
     }
-    
-    public static class Builder extends FHIRPathAbstractNode.Builder {
+
+    public static class Builder extends FHIRPathAbstractSystemValue.Builder {
         private final Boolean _boolean;
-        
+
         private Builder(FHIRPathType type, Boolean _boolean) {
             super(type);
             this._boolean = _boolean;
         }
-        
+
         @Override
         public Builder name(String name) {
             return (Builder) super.name(name);
         }
-        
+
         @Override
         public Builder path(String path) {
             return (Builder) super.path(path);
         }
-        
-        @Override
-        public Builder value(FHIRPathSystemValue value) {
-            return this;
-        }
-        
-        @Override
-        public Builder children(FHIRPathNode... children) {
-            return this;
-        }
-        
-        @Override
-        public Builder children(Collection<FHIRPathNode> children) {
-            return this;
-        }
-        
+
         /**
          * Build a FHIRPathBooleanValue instance using this builder
-         * 
+         *
          * @return
          *     a new FHIRPathBooleanValue instance
          */
@@ -147,22 +131,22 @@ public class FHIRPathBooleanValue extends FHIRPathAbstractNode implements FHIRPa
             return new FHIRPathBooleanValue(this);
         }
     }
-    
+
     /**
      * Perform a logical OR operation between this FHIRPathBooleanValue and the parameter
-     * 
+     *
      * @param value
      *     the right operand
      * @return
      *     the result of the logical OR operation
      */
     public FHIRPathBooleanValue or(FHIRPathBooleanValue value) {
-        return (_boolean || value._boolean) ? TRUE : FALSE; 
+        return (_boolean || value._boolean) ? TRUE : FALSE;
     }
-    
+
     /**
      * Perform a logical XOR operation between this FHIRPathBooleanValue and the parameter
-     * 
+     *
      * @param value
      *     the right operand
      * @return
@@ -171,10 +155,10 @@ public class FHIRPathBooleanValue extends FHIRPathAbstractNode implements FHIRPa
     public FHIRPathBooleanValue xor(FHIRPathBooleanValue value) {
         return ((_boolean || value._boolean()) && !(_boolean && value._boolean())) ? TRUE : FALSE;
     }
-    
+
     /**
      * Perform a logical AND operation between this FHIRPathBooleanValue and the parameter
-     * 
+     *
      * @param value
      *     the right operand
      * @return
@@ -183,10 +167,10 @@ public class FHIRPathBooleanValue extends FHIRPathAbstractNode implements FHIRPa
     public FHIRPathBooleanValue and(FHIRPathBooleanValue value) {
         return (_boolean && value._boolean()) ? TRUE : FALSE;
     }
-    
+
     /**
      * Perform a logical IMPLIES operation between this FHIRPathBooleanValue and the parameter
-     * 
+     *
      * @param value
      *     the right operand
      * @return
@@ -195,10 +179,10 @@ public class FHIRPathBooleanValue extends FHIRPathAbstractNode implements FHIRPa
     public FHIRPathBooleanValue implies(FHIRPathBooleanValue value) {
         return (!_boolean || value._boolean()) ? TRUE : FALSE;
     }
-    
+
     /**
      * Perform a logical NOT operation on this FHIRPathBooleanValue
-     * 
+     *
      * @param value
      *     the right operand
      * @return
@@ -207,10 +191,10 @@ public class FHIRPathBooleanValue extends FHIRPathAbstractNode implements FHIRPa
     public FHIRPathBooleanValue not() {
         return _boolean ? FALSE : TRUE;
     }
-    
+
     /**
      * Indicates whether this FHIRPathBooleanValue is comparable to the parameter
-     * 
+     *
      * @param
      *     the other {@link FHIRPathNode}
      * @return
@@ -218,13 +202,13 @@ public class FHIRPathBooleanValue extends FHIRPathAbstractNode implements FHIRPa
      */
     @Override
     public boolean isComparableTo(FHIRPathNode other) {
-        return other instanceof FHIRPathBooleanValue || 
+        return other instanceof FHIRPathBooleanValue ||
                 other.getValue() instanceof FHIRPathBooleanValue;
     }
-    
+
     /**
      * Compare the boolean value wrapped by this FHIRPathBooleanValue node to the parameter
-     * 
+     *
      * @param other
      *     the other {@link FHIRPathNode}
      * @return
@@ -241,10 +225,10 @@ public class FHIRPathBooleanValue extends FHIRPathAbstractNode implements FHIRPa
         }
         return _boolean.compareTo(((FHIRPathBooleanValue) other.getValue())._boolean());
     }
-    
+
     /**
      * Indicates whether the boolean value wrapped by this FHIRPathBooleanValue node is equal the parameter (or its primitive value)
-     * 
+     *
      * @param obj
      *     the other {@link Object}
      * @return
@@ -270,17 +254,17 @@ public class FHIRPathBooleanValue extends FHIRPathAbstractNode implements FHIRPa
         }
         return false;
     }
-    
+
     @Override
     public int hashCode() {
         return Objects.hashCode(_boolean);
     }
-    
+
     @Override
     public String toString() {
         return _boolean ? "true" : "false";
     }
-    
+
     @Override
     public void accept(FHIRPathNodeVisitor visitor) {
         visitor.visit(this);
