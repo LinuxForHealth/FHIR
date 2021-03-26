@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2021-03-25 12:00:00 -0400
+date:   2021-03-26 12:00:00 -0400
 permalink: /conformance/
 ---
 
@@ -147,8 +147,6 @@ The `_count` parameter can be used to request up to 1000 resources matching the 
 The `_include` and `_revinclude` parameters can be used to return resources related to the primary search results, in order to reduce the overall network delay of repeated retrievals of related resources. The number of `_include` or `_revinclude` resources returned for a single page of primary search results will be limited to 1000. If the number of included resources to be returned exceeds 1000, the search will fail. For example, if the primary search result is one resource and the number of included resources is 1000, the search will succeed. However, if the primary search result is one resource and the number of included resources is 1001, the search will fail. It is possible that an included resource could be referenced by more than one primary search result. Duplicate included resources will be removed before search results are returned, so a resource will not appear in the search results more than once. A resource is considered a duplicate if a primary resource or another included resource with the same logical ID and version already exists in the search results.
 
 The `:iterate` modifier is supported for the `_include` and `_revinclude` parameters. The number of iterations is limited to 1. This means the iteration depth will be limited to one level beyond the depth of the resources being iterated against, whether primary search resources or included resources. One exception to this is the case where an iterative `_include` or `_revinclude` is specified that will return the same resource type as the primary search resource type (for example `.../Patient?_include:iterate=Patient:link:Patient`). In this case, the iteration depth will be limited to a maximum of two levels beyond the primary search resource type.
-
-The `_sort` parameter cannot be used in combination with the `_include` or `_revinclude` parameters.
 
 The `_contained` and `_containedType` parameters are not supported at this time.
 

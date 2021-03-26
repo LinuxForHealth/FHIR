@@ -524,20 +524,6 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "server-search-revinclude" })
-    public void testSearchRevIncludeWithSortError() {
-        WebTarget target = getWebTarget();
-        Response response =
-                target.path("Patient")
-                .queryParam("_revinclude", "Procedure:patient")
-                .queryParam("_sort", "active")
-                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .get();
-        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class),
-                "_sort search result parameter not supported with _include or _revinclude.");
-    }
-
-    @Test(groups = { "server-search-revinclude" })
     public void testSearchRevIncludeWithSystemSearchError() {
         WebTarget target = getWebTarget();
         Response response =
@@ -1009,4 +995,68 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         assertTrue(includeResourceIds.contains(encounter1Id));
     }
 
+    @Test(groups = { "server-search-include" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure4", "testCreateProcedure5", "testCreatePatient3"})
+    public void testSearchRevIncludeWithSort() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient")
+                .queryParam("_tag", tag)
+                .queryParam("_revinclude", "Procedure:patient")
+                .queryParam("_sort", "birthdate")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(7, bundle.getEntry().size());
+        assertEquals(patient3Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
+        assertEquals(patient2Id, bundle.getEntry().get(1).getResource().getId());
+        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(1).getSearch().getMode());
+        assertEquals(patient1Id, bundle.getEntry().get(2).getResource().getId());
+        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(2).getSearch().getMode());
+        List<String> resourceIds = new ArrayList<>();
+        for (int i=3; i<bundle.getEntry().size(); ++i) {
+            resourceIds.add(bundle.getEntry().get(i).getResource().getId());
+            assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(i).getSearch().getMode());
+        }
+        assertTrue(resourceIds.contains(procedure1Id));
+        assertTrue(resourceIds.contains(procedure2Id));
+        assertTrue(resourceIds.contains(procedure4Id));
+        assertTrue(resourceIds.contains(procedure5Id));
+    }
+
+    @Test(groups = { "server-search-include" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure4", "testCreateProcedure5", "testCreatePatient3"})
+    public void testSearchRevIncludeWithSortDesc() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient")
+                .queryParam("_tag", tag)
+                .queryParam("_revinclude", "Procedure:patient")
+                .queryParam("_sort", "-birthdate")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(7, bundle.getEntry().size());
+        assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
+        assertEquals(patient2Id, bundle.getEntry().get(1).getResource().getId());
+        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(1).getSearch().getMode());
+        assertEquals(patient3Id, bundle.getEntry().get(2).getResource().getId());
+        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(2).getSearch().getMode());
+        List<String> resourceIds = new ArrayList<>();
+        for (int i=3; i<bundle.getEntry().size(); ++i) {
+            resourceIds.add(bundle.getEntry().get(i).getResource().getId());
+            assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(i).getSearch().getMode());
+        }
+        assertTrue(resourceIds.contains(procedure1Id));
+        assertTrue(resourceIds.contains(procedure2Id));
+        assertTrue(resourceIds.contains(procedure4Id));
+        assertTrue(resourceIds.contains(procedure5Id));
+    }
 }
