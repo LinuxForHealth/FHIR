@@ -10,22 +10,26 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
-import com.ibm.fhir.model.annotation.MaturityLevel;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.builder.AbstractBuilder;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.AbstractVisitable;
 
 /**
  * This is the base resource type for everything.
  * 
- * <p>Maturity level: FMM5 (Trial Use)
+ * <p>Maturity level: FMM5 (Normative)
  */
-@MaturityLevel(5)
+@Maturity(
+    level = 5,
+    status = StandardsStatus.ValueSet.NORMATIVE
+)
 @Constraint(
     id = "resource-0",
     level = "Warning",

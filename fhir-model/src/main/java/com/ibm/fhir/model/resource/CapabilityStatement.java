@@ -16,7 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
-import com.ibm.fhir.model.annotation.MaturityLevel;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -51,6 +51,7 @@ import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.ResourceVersionPolicy;
 import com.ibm.fhir.model.type.code.RestfulCapabilityMode;
 import com.ibm.fhir.model.type.code.SearchParamType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.SystemRestfulInteraction;
 import com.ibm.fhir.model.type.code.TypeRestfulInteraction;
 import com.ibm.fhir.model.util.ValidationSupport;
@@ -61,9 +62,12 @@ import com.ibm.fhir.model.visitor.Visitor;
  * that may be used as a statement of actual server functionality or a statement of required or desired server 
  * implementation.
  * 
- * <p>Maturity level: FMM5 (Trial Use)
+ * <p>Maturity level: FMM5 (Normative)
  */
-@MaturityLevel(5)
+@Maturity(
+    level = 5,
+    status = StandardsStatus.ValueSet.NORMATIVE
+)
 @Constraint(
     id = "cpb-0",
     level = "Warning",
