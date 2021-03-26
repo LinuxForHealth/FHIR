@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,13 +23,5 @@ public class MockTransactionAdapter implements FHIRPersistenceTransaction {
 
     @Override
     public void setRollbackOnly() throws FHIRPersistenceException {
-    }
-
-    @Override
-    public void commit() throws FHIRPersistenceException {
-    }
-
-    @Override
-    public void rollback() throws FHIRPersistenceException {
     }
 }
