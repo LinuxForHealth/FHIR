@@ -82,12 +82,11 @@ public class Base64BinaryTest {
 
     @Test
     public void testBase64BinaryValidOfBytes() throws Exception {
-        String encoded = Base64.getEncoder().encodeToString("on-fhir-server".getBytes());
-        Base64Binary base64Binary = Base64Binary.of(encoded.getBytes());
+        Base64Binary base64Binary = Base64Binary.of("on-fhir-server".getBytes());
         Assert.assertNotNull(base64Binary);
         byte[] bytes = base64Binary.getValue();
-        String decodedString = new String(Base64.getDecoder().decode(bytes));
-        assertEquals(decodedString, "on-fhir-server");
+        String str = new String(bytes);
+        assertEquals(str, "on-fhir-server");
     }
 
     @Test
@@ -97,8 +96,7 @@ public class Base64BinaryTest {
         Assert.assertNotNull(base64Binary);
 
         byte[] bytes = base64Binary.getValue();
-        String decodedString = new String(Base64.getDecoder().decode(bytes));
-
-        assertEquals(decodedString, "on-fhir-server");
+        String str = new String(bytes);
+        assertEquals(str, "on-fhir-server");
     }
 }

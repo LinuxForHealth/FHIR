@@ -52,7 +52,7 @@ public class Base64Binary extends Element {
     }
 
     /**
-     * Factory method for creating Base64Binary objects from a byte array of the Base64 string
+     * Factory method for creating Base64Binary objects from a byte array; this array should be the actual value.
      * 
      * @param value
      *     The byte array of the previously encoded base64 content
@@ -184,10 +184,10 @@ public class Base64Binary extends Element {
         }
 
         /**
-         * The byte array of the Base64 encoded string
+         * The byte array of the actual value
          * 
          * @param value
-         *     The byte array of the Base64 encoded string
+         *     The byte array of the actual value
          * 
          * @return
          *     A reference to this Builder instance
@@ -209,8 +209,7 @@ public class Base64Binary extends Element {
             Objects.requireNonNull(value);
             java.lang.String valueNoWhitespace = value.replaceAll("\\s", "");
             ValidationSupport.validateBase64EncodedString(valueNoWhitespace);
-            Base64.getDecoder().decode(valueNoWhitespace);
-            this.value = valueNoWhitespace.getBytes();
+            this.value = Base64.getDecoder().decode(valueNoWhitespace);
             return this;
         }
 

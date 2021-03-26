@@ -645,8 +645,7 @@ public class CodeGenerator {
                 .invoke("Objects.requireNonNull", args("value"))
                 .assign("java.lang.String valueNoWhitespace", "value.replaceAll(\"\\\\s\", \"\")")
                 .invoke("ValidationSupport.validateBase64EncodedString", args("valueNoWhitespace"))
-                .invoke("Base64.getDecoder().decode", args("valueNoWhitespace"))
-                .assign("this.value", "valueNoWhitespace.getBytes()")
+                .assign("this.value", "Base64.getDecoder().decode(valueNoWhitespace)")
                 ._return("this")
             .end().newLine();
         }
@@ -776,7 +775,7 @@ public class CodeGenerator {
         cb.javadocStart();
 
         if (isBase64Binary(structureDefinition) && "value".equals(fieldName)) {
-            cb.javadoc("The byte array of the Base64 encoded string");
+            cb.javadoc("The byte array of the actual value");
         } else {
             cb.javadoc(Arrays.asList(definition.split(System.lineSeparator())), false, false, true);
         }
@@ -856,7 +855,7 @@ public class CodeGenerator {
         }
 
         if (isBase64Binary(structureDefinition) && "value".equals(fieldName)) {
-            cb.javadocParam(fieldName,"The byte array of the Base64 encoded string");
+            cb.javadocParam(fieldName,"The byte array of the actual value");
         } else {
             String _short = elementDefinition.getString("short");
             cb.javadocParam(fieldName, _short);
@@ -1883,7 +1882,7 @@ public class CodeGenerator {
 
         if (isBase64Binary(structureDefinition)) {
             cb.javadocStart()
-                .javadoc("Factory method for creating Base64Binary objects from a byte array of the Base64 string")
+                .javadoc("Factory method for creating Base64Binary objects from a byte array; this array should be the actual value.")
                 .javadoc("")
                 .javadocParam("value", "The byte array of the previously encoded base64 content")
                 .javadocEnd();
