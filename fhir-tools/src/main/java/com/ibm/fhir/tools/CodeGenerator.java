@@ -634,6 +634,13 @@ public class CodeGenerator {
         }
 
         if (isBase64Binary(structureDefinition)) {
+            cb.javadocStart()
+                .javadoc("The base64 encoded value.")
+                .javadoc("")
+                .javadocParam("value", "The base64 encoded string")
+                .javadocReturn("A reference to this Builder instance")
+                .javadocEnd();
+
             cb.method(mods("public"), "Builder", "value", params("java.lang.String value"))
                 .invoke("Objects.requireNonNull", args("value"))
                 .assign("java.lang.String valueNoWhitespace", "value.replaceAll(\"\\\\s\", \"\")")
@@ -766,7 +773,12 @@ public class CodeGenerator {
     private void generateBuilderMethodJavadoc(JsonObject structureDefinition, JsonObject elementDefinition, String fieldName, String paramType, CodeBuilder cb) {
         String definition = elementDefinition.getString("definition");
         cb.javadocStart();
-        cb.javadoc(Arrays.asList(definition.split(System.lineSeparator())), false, false, true);
+
+        if (isBase64Binary(structureDefinition) && "value".equals(fieldName)) {
+            cb.javadoc("The byte array of the actual value");
+        } else {
+            cb.javadoc(Arrays.asList(definition.split(System.lineSeparator())), false, false, true);
+        }
 
         switch (paramType) {
         case "single":
@@ -842,9 +854,12 @@ public class CodeGenerator {
             }
         }
 
-        String _short = elementDefinition.getString("short");
-        cb.javadocParam(fieldName, _short);
-
+        if (isBase64Binary(structureDefinition) && "value".equals(fieldName)) {
+            cb.javadocParam(fieldName,"The byte array of the actual value");
+        } else {
+            String _short = elementDefinition.getString("short");
+            cb.javadocParam(fieldName, _short);
+        }
         cb.javadoc("");
 
         cb.javadocReturn("A reference to this Builder instance");
@@ -1861,6 +1876,26 @@ public class CodeGenerator {
 
         if (isString(structureDefinition) || isStringSubtype(structureDefinition)) {
             cb.method(mods("public", "static"), "String", "string", params("java.lang.String value"))
+                ._return(className + ".builder().value(value).build()")
+            .end().newLine();
+        }
+
+        if (isBase64Binary(structureDefinition)) {
+            cb.javadocStart()
+                .javadoc("Factory method for creating Base64Binary objects from a byte array; this array should be the actual value.")
+                .javadoc("")
+                .javadocParam("value", "The byte array of the previously encoded base64 content")
+                .javadocEnd();
+            cb.method(mods("public", "static"), "Base64Binary", "of", params("byte[] value"))
+                ._return(className + ".builder().value(value).build()")
+            .end().newLine();
+
+            cb.javadocStart()
+                .javadoc("Factory method for creating Base64Binary objects from a Base64 encoded value.")
+                .javadoc("")
+                .javadocParam("value", "The Base64 encoded string")
+                .javadocEnd();
+            cb.method(mods("public", "static"), "Base64Binary", "of", params("java.lang.String value"))
                 ._return(className + ".builder().value(value).build()")
             .end().newLine();
         }
