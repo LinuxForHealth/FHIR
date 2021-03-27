@@ -30,9 +30,9 @@ public class URLSupportTest {
     @Test
     public void testGetPathSegments() {
         String url = "http://ibm.com/fhir/ValueSet/generalizes?system=http://ibm.com/fhir/CodeSystem/cs5&code=r";
-        List<String> pathSegments = getPathSegments(url);
+        List<String> actual = getPathSegments(url);
         List<String> expected = Arrays.asList("fhir", "ValueSet", "generalizes");
-        Assert.assertEquals(pathSegments, expected);
+        Assert.assertEquals(actual, expected);
     }
 
     @Test

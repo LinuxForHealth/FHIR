@@ -41,11 +41,11 @@ public abstract class ImplicitValueSetRegistryResourceProvider implements FHIRRe
 
     @Override
     public Collection<FHIRRegistryResource> getRegistryResources() {
-        return IMPLICIT_VALUE_SET_REGISTRY_RESOURCE_CACHE.values();
+        return Collections.emptyList();
     }
     @Override
     public Collection<FHIRRegistryResource> getRegistryResources(Class<? extends Resource> resourceType) {
-        return ValueSet.class.equals(resourceType) ? IMPLICIT_VALUE_SET_REGISTRY_RESOURCE_CACHE.values() : Collections.emptyList();
+        return Collections.emptyList();
     }
 
     @Override
