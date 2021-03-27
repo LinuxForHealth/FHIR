@@ -742,6 +742,17 @@ public final class CodeSystemSupport {
         }
     }
 
+    private static class NotInFilter extends InFilter {
+        public NotInFilter(Code property, Set<Code> set) {
+            super(property, set);
+        }
+
+        @Override
+        public boolean accept(Concept concept) {
+            return !super.accept(concept);
+        }
+    }
+
     private static class RegexFilter implements ConceptFilter {
         private final Code property;
         private final Pattern pattern;
@@ -760,17 +771,6 @@ public final class CodeSystemSupport {
                 }
             }
             return false;
-        }
-    }
-
-    static class NotInFilter extends InFilter {
-        public NotInFilter(Code property, Set<Code> set) {
-            super(property, set);
-        }
-
-        @Override
-        public boolean accept(Concept concept) {
-            return !super.accept(concept);
         }
     }
 }
