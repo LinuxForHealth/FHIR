@@ -40,13 +40,13 @@ import com.ibm.fhir.term.spi.ValidationOutcome;
 public class SnomedRegistryResourceProvider extends ImplicitValueSetRegistryResourceProvider {
     private static final Logger log = Logger.getLogger(SnomedRegistryResourceProvider.class.getName());
 
+    public static final CodeSystem SNOMED_CODE_SYSTEM = loadCodeSystem();
+
     private static final String SNOMED_URL = "http://snomed.info/sct";
     private static final String SNOMED_IMPLICIT_VALUE_SET_PREFIX = SNOMED_URL + "?fhir_vs";
     private static final String SNOMED_COPYRIGHT = "This value set includes content from SNOMED CT, which is copyright © 2002+ International Health Terminology Standards Development Organisation (SNOMED International), and distributed by agreement between SNOMED International and HL7. Implementer use of SNOMED CT is not covered by this agreement";
-
-    public static final CodeSystem SNOMED_CODE_SYSTEM = loadCodeSystem();
     private static final FHIRRegistryResource SNOMED_CODE_SYSTEM_REGISTRY_RESOURCE = FHIRRegistryResource.from(SNOMED_CODE_SYSTEM);
-    private static final ValueSet ALL_CONCEPTS_IMPLICIT_VALUE_SET = buildAllConceptsImplicitValueSet();
+    private static final ValueSet SNOMED_ALL_CONCEPTS_IMPLICIT_VALUE_SET = buildAllConceptsImplicitValueSet();
 
     @Override
     public FHIRRegistryResource getRegistryResource(Class<? extends Resource> resourceType, String url, String version) {
@@ -110,7 +110,7 @@ public class SnomedRegistryResourceProvider extends ImplicitValueSetRegistryReso
     @Override
     protected ValueSet buildImplicitValueSet(String url) {
         if (SNOMED_IMPLICIT_VALUE_SET_PREFIX.equals(url)) {
-            return ALL_CONCEPTS_IMPLICIT_VALUE_SET;
+            return SNOMED_ALL_CONCEPTS_IMPLICIT_VALUE_SET;
         }
         Map<String, List<String>> queryParameters = getQueryParameters(url);
         String value = getFirst(queryParameters, "fhir_vs");
