@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.ValueSet.Compose.Include;
+import com.ibm.fhir.model.resource.ValueSet.Compose.Include.Filter;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.DateTime;
@@ -37,6 +38,7 @@ import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
 import com.ibm.fhir.model.type.code.FilterOperator;
 import com.ibm.fhir.model.type.code.PropertyType;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.term.service.FHIRTermService;
 
 /**
  * A utility class for FHIR code systems
@@ -46,6 +48,8 @@ public final class CodeSystemSupport {
 
     private static final Map<java.lang.String, java.lang.Boolean> CASE_SENSITIVITY_CACHE = createLRUCache(2048);
     private static final Pattern IN_COMBINING_DIACRITICAL_MARKS_PATTERN = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+    private static final Map<java.lang.String, Set<java.lang.String>> ANCESTORS_AND_SELF_CACHE = createLRUCache(128);
+    private static final Map<java.lang.String, Set<java.lang.String>> DESCENDANTS_AND_SELF_CACHE = createLRUCache(128);
 
     private CodeSystemSupport() { }
 
@@ -108,78 +112,8 @@ public final class CodeSystemSupport {
         return result;
     }
 
-    /**
-     * Determine whether a code system filter with the specified property code and filter operator exists
-     * in the provided code system.
-     *
-     * @param codeSystem
-     *     the code system
-     * @param code
-     *     the property code
-     * @param operator
-     *     the filter operator
-     * @return
-     *     true if the code system filter exists, false otherwise
-     */
-    public static boolean hasCodeSystemFilter(CodeSystem codeSystem, Code code, FilterOperator operator) {
-        return getCodeSystemFilter(codeSystem, code, operator) != null;
-    }
-
-    /**
-     * Determine whether a code system property with the specified code exists in the
-     * provided code system.
-     *
-     * @param codeSystem
-     *     the code system
-     * @param code
-     *     the property code
-     * @return
-     *     true if the code system property exists, false otherwise
-     */
-    public static boolean hasCodeSystemProperty(CodeSystem codeSystem, Code code) {
-        return getCodeSystemProperty(codeSystem, code) != null;
-    }
-
-    /**
-     * Determine whether a concept property with the specified code exists on the
-     * provided concept.
-     *
-     * @param concept
-     *     the concept
-     * @param code
-     *     the property code
-     * @return
-     *     true if the concept property exists, false otherwise
-     */
-    public static boolean hasConceptProperty(Concept concept, Code code) {
-        return getConceptProperty(concept, code) != null;
-    }
-
-    /**
-     * Indicates whether the code system is case sensitive
-     *
-     * @param codeSystem
-     *     the code system
-     * @return
-     *     true if the code system is case sensitive, false otherwise
-     */
-    public static boolean isCaseSensitive(CodeSystem codeSystem) {
-        if (codeSystem != null && codeSystem.getCaseSensitive() != null) {
-            return java.lang.Boolean.TRUE.equals(codeSystem.getCaseSensitive().getValue());
-        }
-        return false;
-    }
-
-    /**
-     * Indicates whether the code system with the given url is case sensitive
-     *
-     * @param url
-     *     the url
-     * @return
-     *     true if the code system with the given is case sensitive, false otherwise
-     */
-    public static boolean isCaseSensitive(java.lang.String url) {
-        return CASE_SENSITIVITY_CACHE.computeIfAbsent(url, k -> isCaseSensitive(getCodeSystem(url)));
+    public static Set<java.lang.String> getAncestorsAndSelf(CodeSystem codeSystem, Code code) {
+        return ANCESTORS_AND_SELF_CACHE.computeIfAbsent(code.getValue(), k -> computeAncestorsAndSelf(codeSystem, code));
     }
 
     /**
@@ -346,6 +280,84 @@ public final class CodeSystemSupport {
         return concepts;
     }
 
+    public static Set<java.lang.String> getDescendantsAndSelf(CodeSystem codeSystem, Code code) {
+        return DESCENDANTS_AND_SELF_CACHE.computeIfAbsent(code.getValue(), k -> computeDescendantsAndSelf(codeSystem, code));
+    }
+
+    /**
+     * Determine whether a code system filter with the specified property code and filter operator exists
+     * in the provided code system.
+     *
+     * @param codeSystem
+     *     the code system
+     * @param code
+     *     the property code
+     * @param operator
+     *     the filter operator
+     * @return
+     *     true if the code system filter exists, false otherwise
+     */
+    public static boolean hasCodeSystemFilter(CodeSystem codeSystem, Code code, FilterOperator operator) {
+        return getCodeSystemFilter(codeSystem, code, operator) != null;
+    }
+
+    /**
+     * Determine whether a code system property with the specified code exists in the
+     * provided code system.
+     *
+     * @param codeSystem
+     *     the code system
+     * @param code
+     *     the property code
+     * @return
+     *     true if the code system property exists, false otherwise
+     */
+    public static boolean hasCodeSystemProperty(CodeSystem codeSystem, Code code) {
+        return getCodeSystemProperty(codeSystem, code) != null;
+    }
+
+    /**
+     * Determine whether a concept property with the specified code exists on the
+     * provided concept.
+     *
+     * @param concept
+     *     the concept
+     * @param code
+     *     the property code
+     * @return
+     *     true if the concept property exists, false otherwise
+     */
+    public static boolean hasConceptProperty(Concept concept, Code code) {
+        return getConceptProperty(concept, code) != null;
+    }
+
+    /**
+     * Indicates whether the code system is case sensitive
+     *
+     * @param codeSystem
+     *     the code system
+     * @return
+     *     true if the code system is case sensitive, false otherwise
+     */
+    public static boolean isCaseSensitive(CodeSystem codeSystem) {
+        if (codeSystem != null && codeSystem.getCaseSensitive() != null) {
+            return java.lang.Boolean.TRUE.equals(codeSystem.getCaseSensitive().getValue());
+        }
+        return false;
+    }
+
+    /**
+     * Indicates whether the code system with the given url is case sensitive
+     *
+     * @param url
+     *     the url
+     * @return
+     *     true if the code system with the given is case sensitive, false otherwise
+     */
+    public static boolean isCaseSensitive(java.lang.String url) {
+        return CASE_SENSITIVITY_CACHE.computeIfAbsent(url, k -> isCaseSensitive(getCodeSystem(url)));
+    }
+
     /**
      * Normalize the string by making it case and accent insensitive.
      *
@@ -374,36 +386,6 @@ public final class CodeSystemSupport {
     }
 
     /**
-     * Convert the given FHIR string value to an Element value based on the provided property type.
-     *
-     * @param value
-     *     the FHIR string value
-     * @param type
-     *     the property type
-     * @return
-     *     the Element value equivalent of the given FHIR string based on the provided property type,
-     *     or null if the type isn't supported
-     */
-    public static Element toElement(String value, PropertyType type) {
-        switch (type.getValueAsEnumConstant()) {
-        case BOOLEAN:
-            return Boolean.of(value.getValue());
-        case CODE:
-            return Code.of(value.getValue());
-        case DATE_TIME:
-            return DateTime.of(value.getValue());
-        case DECIMAL:
-            return Decimal.of(value.getValue());
-        case INTEGER:
-            return Integer.of(value.getValue());
-        case STRING:
-            return value;
-        default:
-            return null;
-        }
-    }
-
-    /**
      * Convert the given Java string value to an Element based on the provided property type.
      *
      * @param value
@@ -428,6 +410,36 @@ public final class CodeSystemSupport {
             return Integer.of(value);
         case STRING:
             return string(value);
+        default:
+            return null;
+        }
+    }
+
+    /**
+     * Convert the given FHIR string value to an Element value based on the provided property type.
+     *
+     * @param value
+     *     the FHIR string value
+     * @param type
+     *     the property type
+     * @return
+     *     the Element value equivalent of the given FHIR string based on the provided property type,
+     *     or null if the type isn't supported
+     */
+    public static Element toElement(String value, PropertyType type) {
+        switch (type.getValueAsEnumConstant()) {
+        case BOOLEAN:
+            return Boolean.of(value.getValue());
+        case CODE:
+            return Code.of(value.getValue());
+        case DATE_TIME:
+            return DateTime.of(value.getValue());
+        case DECIMAL:
+            return Decimal.of(value.getValue());
+        case INTEGER:
+            return Integer.of(value.getValue());
+        case STRING:
+            return value;
         default:
             return null;
         }
@@ -486,6 +498,32 @@ public final class CodeSystemSupport {
 
     private static Code code(String value) {
         return Code.of(value.getValue());
+    }
+
+    private static Set<java.lang.String> computeAncestorsAndSelf(CodeSystem codeSystem, Code code) {
+        Set<Concept> concepts = FHIRTermService.getInstance().getConcepts(codeSystem, Collections.singletonList(Filter.builder()
+            .property(Code.of("concept"))
+            .op(FilterOperator.GENERALIZES)
+            .value(code)
+            .build()));
+        Set<java.lang.String> ancestorsAndSelf = new LinkedHashSet<>(concepts.size());
+        for (Concept concept : concepts) {
+            ancestorsAndSelf.add(concept.getCode().getValue());
+        }
+        return ancestorsAndSelf;
+    }
+
+    private static Set<java.lang.String> computeDescendantsAndSelf(CodeSystem codeSystem, Code code) {
+        Set<Concept> concepts = FHIRTermService.getInstance().getConcepts(codeSystem, Collections.singletonList(Filter.builder()
+            .property(Code.of("concept"))
+            .op(FilterOperator.IS_A)
+            .value(code)
+            .build()));
+        Set<java.lang.String> descendantsAndSelf = new LinkedHashSet<>(concepts.size());
+        for (Concept concept : concepts) {
+            descendantsAndSelf.add(concept.getCode().getValue());
+        }
+        return descendantsAndSelf;
     }
 
     private static ConceptFilter createDescendentOfFilter(CodeSystem codeSystem, Include.Filter filter) {
@@ -704,17 +742,6 @@ public final class CodeSystemSupport {
         }
     }
 
-    static class NotInFilter extends InFilter {
-        public NotInFilter(Code property, Set<Code> set) {
-            super(property, set);
-        }
-
-        @Override
-        public boolean accept(Concept concept) {
-            return !super.accept(concept);
-        }
-    }
-
     private static class RegexFilter implements ConceptFilter {
         private final Code property;
         private final Pattern pattern;
@@ -733,6 +760,17 @@ public final class CodeSystemSupport {
                 }
             }
             return false;
+        }
+    }
+
+    static class NotInFilter extends InFilter {
+        public NotInFilter(Code property, Set<Code> set) {
+            super(property, set);
+        }
+
+        @Override
+        public boolean accept(Concept concept) {
+            return !super.accept(concept);
         }
     }
 }
