@@ -189,6 +189,10 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
             first = false;
         }
 
+        if (filters.isEmpty()) {
+            g = g.hasLabel("Concept");
+        }
+
         g = g.timeLimit(timeLimit);
         TimeLimitStep<?> timeLimitStep = getTimeLimitStep(g);
 
