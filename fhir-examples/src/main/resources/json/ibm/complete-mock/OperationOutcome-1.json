@@ -1,27 +1,27 @@
 {
     "resourceType": "OperationOutcome",
     "meta": {
-        "versionId": "q63JAUPuUM",
-        "lastUpdated": "2020-11-04T11:22:40.494613-05:00",
-        "source": "lwnaIGbKJn",
+        "versionId": "d3jBXNyEWG",
+        "lastUpdated": "2021-03-29T10:11:59.095289-04:00",
+        "source": "wsVLh5XU1L",
         "profile": [
-            "XGQPxL1j9k"
+            "Up6G1ATDok"
         ],
         "security": [
             {
-                "system": "sPgaKWp0jQ",
-                "version": "wZHLBfjatw",
-                "code": "DMQqy4R3E8",
-                "display": "mmxOeLn3hG",
+                "system": "xcGDhnSfol",
+                "version": "cjXSsqRMjV",
+                "code": "cNWZsRYkou",
+                "display": "jlhwgBxFqH",
                 "userSelected": true
             }
         ],
         "tag": [
             {
-                "system": "MtLYCBYPWS",
-                "version": "8Ak7HZQrke",
-                "code": "0DRWc7UuJB",
-                "display": "6NXvm6cEoG",
+                "system": "BW4BFNglhl",
+                "version": "xnVVMrVZi5",
+                "code": "jSN85yhGLf",
+                "display": "muWBZ1iZYv",
                 "userSelected": true
             },
             {
@@ -29,34 +29,34 @@
             }
         ]
     },
-    "implicitRules": "siFyYo720q",
+    "implicitRules": "rZEW9gAK5O",
     "language": "en-US",
     "text": {
-        "status": "generated",
+        "status": "empty",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
     },
     "issue": [
         {
-            "severity": "fatal",
-            "code": "required",
+            "severity": "information",
+            "code": "conflict",
             "details": {
                 "coding": [
                     {
-                        "system": "YAwo1XN_fv",
-                        "version": "9ycWn1vQBR",
-                        "code": "Y4ci7ASL_1",
-                        "display": "lq_CJ5bq6Z",
+                        "system": "_XQgDDaAc0",
+                        "version": "2gZLBOYbd5",
+                        "code": "D6lqny8luF",
+                        "display": "VgL2Z_0fQD",
                         "userSelected": true
                     }
                 ],
-                "text": "aWHd4ZkhaW"
+                "text": "wSzPYjx882"
             },
-            "diagnostics": "yew1JE2w0X",
+            "diagnostics": "0CbllLTti0",
             "location": [
-                "ZDqBVS3Xgx"
+                "6vcjBnuJbF"
             ],
             "expression": [
-                "yYfbNaNi8V"
+                "cDQDo1f0hh"
             ]
         }
     ]

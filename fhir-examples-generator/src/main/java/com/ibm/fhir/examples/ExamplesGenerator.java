@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import com.ibm.fhir.examples.tracker.ResourceTracker;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.resource.Resource;
@@ -21,6 +22,8 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.util.ModelSupport;
 
 public class ExamplesGenerator {
+    private ResourceTracker tracker = new ResourceTracker();
+
     DataCreatorBase minimalDataCreator;
     DataCreatorBase completeAbsentDataCreator;
     DataCreatorBase completeMockDataCreator;
@@ -37,6 +40,7 @@ public class ExamplesGenerator {
         for (Class<?> type : ModelSupport.getResourceTypes(false)) {
             generate(basePath, ModelSupport.getTypeName(type));
         }
+        tracker.print(System.out, basePath.toAbsolutePath().toString());
     }
 
     private void generate(Path basePath, String resourceName) {
@@ -58,19 +62,23 @@ public class ExamplesGenerator {
             resource = tag(resource, tag);
 
             Path jsonPath = basePath.resolve(Paths.get("json", tag, resourceName + "-" + i + ".json"));
-            Files.createDirectories(jsonPath.getParent());
-            try (BufferedWriter writer = Files.newBufferedWriter(jsonPath)) {
-                json.generate(resource, writer);
-            } catch (Exception e) {
-                throw new Error(e);
+            if (tracker.shouldWriteResourceExample(json, jsonPath, resource)) {
+                Files.createDirectories(jsonPath.getParent());
+                try (BufferedWriter writer = Files.newBufferedWriter(jsonPath)) {
+                    json.generate(resource, writer);
+                } catch (Exception e) {
+                    throw new Error(e);
+                }
             }
 
             Path xmlPath = basePath.resolve(Paths.get("xml", tag, resourceName + "-" + i + ".xml"));
-            Files.createDirectories(xmlPath.getParent());
-            try (BufferedWriter writer = Files.newBufferedWriter(xmlPath)) {
-                xml.generate(resource, writer);
-            } catch (Exception e) {
-                throw new Error(e);
+            if (tracker.shouldWriteResourceExample(xml, xmlPath, resource)) {
+                Files.createDirectories(xmlPath.getParent());
+                try (BufferedWriter writer = Files.newBufferedWriter(xmlPath)) {
+                    xml.generate(resource, writer);
+                } catch (Exception e) {
+                    throw new Error(e);
+                }
             }
         }
     }

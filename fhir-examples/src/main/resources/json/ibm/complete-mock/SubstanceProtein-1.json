@@ -1,27 +1,27 @@
 {
     "resourceType": "SubstanceProtein",
     "meta": {
-        "versionId": "HU7ik50nFi",
-        "lastUpdated": "2020-11-04T11:22:50.555083-05:00",
-        "source": "hG47_6s0mA",
+        "versionId": "yyCKDKCmFV",
+        "lastUpdated": "2021-03-29T10:11:58.285405-04:00",
+        "source": "lsmKeOGKbQ",
         "profile": [
-            "cPubEBSmxh"
+            "6y1kYDzuPY"
         ],
         "security": [
             {
-                "system": "NElKJW2T_V",
-                "version": "sPOoYyl8Q8",
-                "code": "SORV2YXP6o",
-                "display": "qoD3O6XO7o",
+                "system": "XuK08hvOer",
+                "version": "lmgOujT4Du",
+                "code": "R2agOADAEX",
+                "display": "Y5zTHZMZ7t",
                 "userSelected": true
             }
         ],
         "tag": [
             {
-                "system": "thZEO79g1D",
-                "version": "1UibHVTwX1",
-                "code": "1wiRkOoDlp",
-                "display": "BKfjIPOGtE",
+                "system": "FqDkoVvnAU",
+                "version": "aQzWWKVsQ6",
+                "code": "fmUX1EXAuv",
+                "display": "CabkcxUPl8",
                 "userSelected": true
             },
             {
@@ -29,87 +29,87 @@
             }
         ]
     },
-    "implicitRules": "s_5NptJe5Y",
+    "implicitRules": "s46TD91riX",
     "language": "en-US",
     "text": {
-        "status": "empty",
+        "status": "extensions",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
     },
     "sequenceType": {
         "coding": [
             {
-                "system": "2V1xKzNFKJ",
-                "version": "TN2J3G46Gj",
-                "code": "T736Gs9KO8",
-                "display": "uGkJUbe2Io",
+                "system": "wpurxZ5d_d",
+                "version": "Qac3hMQXvD",
+                "code": "pz5aqOmS2X",
+                "display": "DxpCLcpaWF",
                 "userSelected": true
             }
         ],
-        "text": "EQIrOexjC_"
+        "text": "1Gb9IZGaL7"
     },
-    "numberOfSubunits": 138220812,
+    "numberOfSubunits": 1778059468,
     "disulfideLinkage": [
-        "CVzjJlycCh"
+        "3yW2MBEfWp"
     ],
     "subunit": [
         {
-            "subunit": 1625876440,
-            "sequence": "le_h_1LX2c",
-            "length": 375122707,
+            "subunit": 328783661,
+            "sequence": "zMsnzKqUgq",
+            "length": 553004184,
             "sequenceAttachment": {
-                "contentType": "7XkdprA7Pv",
+                "contentType": "jkN6EANXb0",
                 "language": "en-US",
-                "data": "JipuGGU=",
-                "url": "UlRZEdf_Q9",
-                "size": 672778111,
-                "hash": "PFkxPQA=",
-                "title": "EpAdppf7ta",
-                "creation": "2020-11-04T11:22:50.558278-05:00"
+                "data": "M0Zbb04=",
+                "url": "2ZjqTGCac_",
+                "size": 96522834,
+                "hash": "OQdccBI=",
+                "title": "dUkPM972Vn",
+                "creation": "2021-03-29T10:11:58.292307-04:00"
             },
             "nTerminalModificationId": {
-                "use": "usual",
-                "type": {
-                    "coding": [
-                        {
-                            "system": "w7i496ymAl",
-                            "version": "T8_UvTi_r9",
-                            "code": "8peSFIu3Nz",
-                            "display": "FAWNYAXhWe",
-                            "userSelected": true
-                        }
-                    ],
-                    "text": "3teUQ0VOin"
-                },
-                "system": "5W27oix0mD",
-                "value": "XR8Xw2U07U",
-                "period": {
-                    "start": "2020-11-04T11:22:50.5592-05:00",
-                    "end": "2020-11-04T11:22:50.559508-05:00"
-                }
-            },
-            "nTerminalModification": "ysx4gGxsCc",
-            "cTerminalModificationId": {
                 "use": "official",
                 "type": {
                     "coding": [
                         {
-                            "system": "OkoafvhKr_",
-                            "version": "5aPKeZtjhk",
-                            "code": "40G__wSzVA",
-                            "display": "L1BqjQYB42",
+                            "system": "Pc2XRAN46C",
+                            "version": "RVdVv_sK_Q",
+                            "code": "t3FcF_ZQfq",
+                            "display": "uF1JnONiWR",
                             "userSelected": true
                         }
                     ],
-                    "text": "vwnOAM05JQ"
+                    "text": "kTpL1L26fb"
                 },
-                "system": "Oo3KjG7fPu",
-                "value": "SOoA9Cf1T6",
+                "system": "V8w33ZTg2w",
+                "value": "P3QuObZet7",
                 "period": {
-                    "start": "2020-11-04T11:22:50.56092-05:00",
-                    "end": "2020-11-04T11:22:50.561184-05:00"
+                    "start": "2021-03-29T10:11:58.293811-04:00",
+                    "end": "2021-03-29T10:11:58.294053-04:00"
                 }
             },
-            "cTerminalModification": "85xz9gCvjK"
+            "nTerminalModification": "zmjZVUiQ7m",
+            "cTerminalModificationId": {
+                "use": "old",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "2Y9wxEH4bA",
+                            "version": "MRlm61RncI",
+                            "code": "miSxgbhouS",
+                            "display": "_BISiBdMBU",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "xxUBxXtCgg"
+                },
+                "system": "j7ixP26Hx6",
+                "value": "L05VOhlJbI",
+                "period": {
+                    "start": "2021-03-29T10:11:58.295443-04:00",
+                    "end": "2021-03-29T10:11:58.295761-04:00"
+                }
+            },
+            "cTerminalModification": "I79uSWHNp4"
         }
     ]
 }

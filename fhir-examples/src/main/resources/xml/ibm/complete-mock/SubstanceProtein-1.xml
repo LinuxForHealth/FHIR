@@ -1,98 +1,98 @@
 <SubstanceProtein xmlns="http://hl7.org/fhir">
   <meta>
-    <versionId value="HU7ik50nFi"/>
-    <lastUpdated value="2020-11-04T11:22:50.555083-05:00"/>
-    <source value="hG47_6s0mA"/>
-    <profile value="cPubEBSmxh"/>
+    <versionId value="yyCKDKCmFV"/>
+    <lastUpdated value="2021-03-29T10:11:58.285405-04:00"/>
+    <source value="lsmKeOGKbQ"/>
+    <profile value="6y1kYDzuPY"/>
     <security>
-      <system value="NElKJW2T_V"/>
-      <version value="sPOoYyl8Q8"/>
-      <code value="SORV2YXP6o"/>
-      <display value="qoD3O6XO7o"/>
+      <system value="XuK08hvOer"/>
+      <version value="lmgOujT4Du"/>
+      <code value="R2agOADAEX"/>
+      <display value="Y5zTHZMZ7t"/>
       <userSelected value="true"/>
     </security>
     <tag>
-      <system value="thZEO79g1D"/>
-      <version value="1UibHVTwX1"/>
-      <code value="1wiRkOoDlp"/>
-      <display value="BKfjIPOGtE"/>
+      <system value="FqDkoVvnAU"/>
+      <version value="aQzWWKVsQ6"/>
+      <code value="fmUX1EXAuv"/>
+      <display value="CabkcxUPl8"/>
       <userSelected value="true"/>
     </tag>
     <tag>
       <code value="ibm/complete-mock"/>
     </tag>
   </meta>
-  <implicitRules value="s_5NptJe5Y"/>
+  <implicitRules value="s46TD91riX"/>
   <language value="en-US"/>
   <text>
-    <status value="empty"/>
+    <status value="extensions"/>
     <div xmlns="http://www.w3.org/1999/xhtml"></div>
   </text>
   <sequenceType>
     <coding>
-      <system value="2V1xKzNFKJ"/>
-      <version value="TN2J3G46Gj"/>
-      <code value="T736Gs9KO8"/>
-      <display value="uGkJUbe2Io"/>
+      <system value="wpurxZ5d_d"/>
+      <version value="Qac3hMQXvD"/>
+      <code value="pz5aqOmS2X"/>
+      <display value="DxpCLcpaWF"/>
       <userSelected value="true"/>
     </coding>
-    <text value="EQIrOexjC_"/>
+    <text value="1Gb9IZGaL7"/>
   </sequenceType>
-  <numberOfSubunits value="138220812"/>
-  <disulfideLinkage value="CVzjJlycCh"/>
+  <numberOfSubunits value="1778059468"/>
+  <disulfideLinkage value="3yW2MBEfWp"/>
   <subunit>
-    <subunit value="1625876440"/>
-    <sequence value="le_h_1LX2c"/>
-    <length value="375122707"/>
+    <subunit value="328783661"/>
+    <sequence value="zMsnzKqUgq"/>
+    <length value="553004184"/>
     <sequenceAttachment>
-      <contentType value="7XkdprA7Pv"/>
+      <contentType value="jkN6EANXb0"/>
       <language value="en-US"/>
-      <data value="JipuGGU="/>
-      <url value="UlRZEdf_Q9"/>
-      <size value="672778111"/>
-      <hash value="PFkxPQA="/>
-      <title value="EpAdppf7ta"/>
-      <creation value="2020-11-04T11:22:50.558278-05:00"/>
+      <data value="M0Zbb04="/>
+      <url value="2ZjqTGCac_"/>
+      <size value="96522834"/>
+      <hash value="OQdccBI="/>
+      <title value="dUkPM972Vn"/>
+      <creation value="2021-03-29T10:11:58.292307-04:00"/>
     </sequenceAttachment>
     <nTerminalModificationId>
-      <use value="usual"/>
-      <type>
-        <coding>
-          <system value="w7i496ymAl"/>
-          <version value="T8_UvTi_r9"/>
-          <code value="8peSFIu3Nz"/>
-          <display value="FAWNYAXhWe"/>
-          <userSelected value="true"/>
-        </coding>
-        <text value="3teUQ0VOin"/>
-      </type>
-      <system value="5W27oix0mD"/>
-      <value value="XR8Xw2U07U"/>
-      <period>
-        <start value="2020-11-04T11:22:50.5592-05:00"/>
-        <end value="2020-11-04T11:22:50.559508-05:00"/>
-      </period>
-    </nTerminalModificationId>
-    <nTerminalModification value="ysx4gGxsCc"/>
-    <cTerminalModificationId>
       <use value="official"/>
       <type>
         <coding>
-          <system value="OkoafvhKr_"/>
-          <version value="5aPKeZtjhk"/>
-          <code value="40G__wSzVA"/>
-          <display value="L1BqjQYB42"/>
+          <system value="Pc2XRAN46C"/>
+          <version value="RVdVv_sK_Q"/>
+          <code value="t3FcF_ZQfq"/>
+          <display value="uF1JnONiWR"/>
           <userSelected value="true"/>
         </coding>
-        <text value="vwnOAM05JQ"/>
+        <text value="kTpL1L26fb"/>
       </type>
-      <system value="Oo3KjG7fPu"/>
-      <value value="SOoA9Cf1T6"/>
+      <system value="V8w33ZTg2w"/>
+      <value value="P3QuObZet7"/>
       <period>
-        <start value="2020-11-04T11:22:50.56092-05:00"/>
-        <end value="2020-11-04T11:22:50.561184-05:00"/>
+        <start value="2021-03-29T10:11:58.293811-04:00"/>
+        <end value="2021-03-29T10:11:58.294053-04:00"/>
+      </period>
+    </nTerminalModificationId>
+    <nTerminalModification value="zmjZVUiQ7m"/>
+    <cTerminalModificationId>
+      <use value="old"/>
+      <type>
+        <coding>
+          <system value="2Y9wxEH4bA"/>
+          <version value="MRlm61RncI"/>
+          <code value="miSxgbhouS"/>
+          <display value="_BISiBdMBU"/>
+          <userSelected value="true"/>
+        </coding>
+        <text value="xxUBxXtCgg"/>
+      </type>
+      <system value="j7ixP26Hx6"/>
+      <value value="L05VOhlJbI"/>
+      <period>
+        <start value="2021-03-29T10:11:58.295443-04:00"/>
+        <end value="2021-03-29T10:11:58.295761-04:00"/>
       </period>
     </cTerminalModificationId>
-    <cTerminalModification value="85xz9gCvjK"/>
+    <cTerminalModification value="I79uSWHNp4"/>
   </subunit>
 </SubstanceProtein>

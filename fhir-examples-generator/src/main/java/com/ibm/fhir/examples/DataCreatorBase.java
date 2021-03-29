@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -52,6 +52,7 @@ public abstract class DataCreatorBase {
      * Compute the maximum number of allowed types across all choice elements of a resource;
      * useful for knowing how many examples would be needed in order to cover all the variants.
      * @param resourceName
+     * @param minimal indicates the treatment of the choice elements
      * @return
      * @throws ClassNotFoundException
      */

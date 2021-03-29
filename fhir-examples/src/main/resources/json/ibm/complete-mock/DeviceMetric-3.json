@@ -1,27 +1,27 @@
 {
     "resourceType": "DeviceMetric",
     "meta": {
-        "versionId": "hmCdM80FeM",
-        "lastUpdated": "2020-11-04T11:22:56.778761-05:00",
-        "source": "66lML_OrS9",
+        "versionId": "nVb0NktGti",
+        "lastUpdated": "2021-03-29T10:12:06.509177-04:00",
+        "source": "bled9A8pGn",
         "profile": [
-            "yYVfVZEocw"
+            "9Ha1C_tOqR"
         ],
         "security": [
             {
-                "system": "wpTQQtm6iT",
-                "version": "LhOUAVgWGV",
-                "code": "GsHHeddcB8",
-                "display": "aFcIbXYx1c",
+                "system": "pzDMu3RJ7p",
+                "version": "JQTJbpwa2K",
+                "code": "7i9y8C6vCM",
+                "display": "wiO1D35QjA",
                 "userSelected": true
             }
         ],
         "tag": [
             {
-                "system": "j9Rf40foWR",
-                "version": "cYpSIGMOsi",
-                "code": "0tTJvxX64_",
-                "display": "DHrqrGhSId",
+                "system": "OuBWJUcNzY",
+                "version": "DduiVASeXA",
+                "code": "TyGuuz_8QG",
+                "display": "kqKRBoakw0",
                 "userSelected": true
             },
             {
@@ -29,158 +29,158 @@
             }
         ]
     },
-    "implicitRules": "w5scBh0EL3",
+    "implicitRules": "t1WxkAi3DR",
     "language": "en-US",
     "text": {
-        "status": "additional",
+        "status": "extensions",
         "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
     },
     "identifier": [
         {
-            "use": "old",
+            "use": "official",
             "type": {
                 "coding": [
                     {
-                        "system": "rNix6OwT0F",
-                        "version": "AFvzFtHocD",
-                        "code": "VlmIBgjwGv",
-                        "display": "3lIcBCVG2J",
+                        "system": "nCNjB3sU4d",
+                        "version": "LEDinjsRVI",
+                        "code": "NC0qvzO1pZ",
+                        "display": "cfarVSWHpn",
                         "userSelected": true
                     }
                 ],
-                "text": "3W0MV6pabZ"
+                "text": "CidgMttfd9"
             },
-            "system": "1t1YQ6QumP",
-            "value": "6bxspCBe22",
+            "system": "X1TB7UwSbL",
+            "value": "aKpj6KmcTX",
             "period": {
-                "start": "2020-11-04T11:22:56.781015-05:00",
-                "end": "2020-11-04T11:22:56.781184-05:00"
+                "start": "2021-03-29T10:12:06.511919-04:00",
+                "end": "2021-03-29T10:12:06.512097-04:00"
             }
         }
     ],
     "type": {
         "coding": [
             {
-                "system": "Wq3Ico8riO",
-                "version": "kRZJAbofKR",
-                "code": "dHRme_hbz2",
-                "display": "TdDQdDRthm",
+                "system": "Daid3coKB0",
+                "version": "qRV8Nnoq3Y",
+                "code": "NoygdLEGtQ",
+                "display": "eBkAFqooxu",
                 "userSelected": true
             }
         ],
-        "text": "dDXaIYL3Qt"
+        "text": "cEYngTIt2C"
     },
     "unit": {
         "coding": [
             {
-                "system": "cJmGLplvZ9",
-                "version": "NaUpa190iM",
-                "code": "wJo2CT3uQV",
-                "display": "gIANMKvCVs",
+                "system": "pWjYS0A0LF",
+                "version": "8CRIBSB5By",
+                "code": "Li_MKhqzlX",
+                "display": "j5M05DkWSb",
                 "userSelected": true
             }
         ],
-        "text": "L5D_8XXzqF"
+        "text": "VHZb6Gmtak"
     },
     "source": {
-        "reference": "Device/LBKMk97ZU0",
+        "reference": "Device/2LNUzDrrdE",
+        "type": "Device",
+        "identifier": {
+            "use": "temp",
+            "type": {
+                "coding": [
+                    {
+                        "system": "tEaEElvaY1",
+                        "version": "Y5qUnOgIIg",
+                        "code": "hMXz3mazml",
+                        "display": "ZeFKH54lcL",
+                        "userSelected": true
+                    }
+                ],
+                "text": "MEIyBkKlSU"
+            },
+            "system": "o8p9RVkO0q",
+            "value": "8QJ70AwNjA",
+            "period": {
+                "start": "2021-03-29T10:12:06.514175-04:00",
+                "end": "2021-03-29T10:12:06.51437-04:00"
+            }
+        },
+        "display": "QZ8Tsu9SmT"
+    },
+    "parent": {
+        "reference": "Device/BMLByrDSDd",
         "type": "Device",
         "identifier": {
             "use": "usual",
             "type": {
                 "coding": [
                     {
-                        "system": "_7Zm79T5Np",
-                        "version": "XOLfebGRgK",
-                        "code": "up1CLL4giO",
-                        "display": "A2HQXGGghM",
+                        "system": "M1tI8PX2pk",
+                        "version": "FBFSdGOfWz",
+                        "code": "30n2jgdkVt",
+                        "display": "9rzVXaIyAL",
                         "userSelected": true
                     }
                 ],
-                "text": "fLd3O18NI_"
+                "text": "hVYSClBqtN"
             },
-            "system": "DHcomlzOQg",
-            "value": "19j2WEXW4x",
+            "system": "RR4q6MPAxd",
+            "value": "rJEWDlxde7",
             "period": {
-                "start": "2020-11-04T11:22:56.782703-05:00",
-                "end": "2020-11-04T11:22:56.78284-05:00"
+                "start": "2021-03-29T10:12:06.515407-04:00",
+                "end": "2021-03-29T10:12:06.515635-04:00"
             }
         },
-        "display": "xKrxno8Uy9"
+        "display": "aJoJUUGi2o"
     },
-    "parent": {
-        "reference": "Device/17LD7tVjJM",
-        "type": "Device",
-        "identifier": {
-            "use": "secondary",
-            "type": {
-                "coding": [
-                    {
-                        "system": "Yj8hKnSaYk",
-                        "version": "6YonZPgQkH",
-                        "code": "lyWtTcefjQ",
-                        "display": "3BYT7085CX",
-                        "userSelected": true
-                    }
-                ],
-                "text": "ipoU4DqkbA"
-            },
-            "system": "X95kBYhuY7",
-            "value": "v1fxfDpuey",
-            "period": {
-                "start": "2020-11-04T11:22:56.783669-05:00",
-                "end": "2020-11-04T11:22:56.783804-05:00"
-            }
-        },
-        "display": "pxdvHLd1bJ"
-    },
-    "operationalStatus": "standby",
-    "color": "black",
-    "category": "calculation",
+    "operationalStatus": "entered-in-error",
+    "color": "yellow",
+    "category": "unspecified",
     "measurementPeriod": {
         "event": [
-            "2020-11-04T11:22:56.784058-05:00"
+            "2021-03-29T10:12:06.51596-04:00"
         ],
         "repeat": {
             "boundsPeriod": {
-                "start": "2020-11-04T11:22:56.784216-05:00",
-                "end": "2020-11-04T11:22:56.784348-05:00"
+                "start": "2021-03-29T10:12:06.51616-04:00",
+                "end": "2021-03-29T10:12:06.516312-04:00"
             },
-            "count": 1768826691,
-            "countMax": 923998737,
-            "duration": 0.0712926755815835588858675464507541619241237640380859375,
-            "durationMax": 0.258603190503320867765779667024617083370685577392578125,
-            "durationUnit": "h",
-            "frequency": 256454550,
-            "frequencyMax": 1178587250,
-            "period": 0.796076891786929419225771198398433625698089599609375,
-            "periodMax": 0.95566494315400241088553912049974314868450164794921875,
+            "count": 1131407865,
+            "countMax": 995482745,
+            "duration": 0.8333605469130167531233155386871658265590667724609375,
+            "durationMax": 0.1306862900696106333242596519994549453258514404296875,
+            "durationUnit": "wk",
+            "frequency": 1490228729,
+            "frequencyMax": 298365498,
+            "period": 0.11145447900743808700152470692046335898339748382568359375,
+            "periodMax": 0.846411321839022345869807395501993596553802490234375,
             "periodUnit": "s",
             "dayOfWeek": [
-                "mon"
+                "tue"
             ],
             "when": [
-                "HS"
+                "MORN"
             ]
         },
         "code": {
             "coding": [
                 {
-                    "system": "dMmm2HbEES",
-                    "version": "A2Z2tFj3gw",
-                    "code": "FqMhdqWi3b",
-                    "display": "r58c1Pofj2",
+                    "system": "Nj7AdAsh06",
+                    "version": "cfXipWjNPf",
+                    "code": "NOIKgvKk6x",
+                    "display": "90wPinvXpT",
                     "userSelected": true
                 }
             ],
-            "text": "miIT6kDu49"
+            "text": "L64W0oqzcS"
         }
     },
     "calibration": [
         {
-            "type": "unspecified",
-            "state": "not-calibrated",
-            "time": "2020-11-04T11:22:56.786086-05:00"
+            "type": "offset",
+            "state": "calibration-required",
+            "time": "2021-03-29T10:12:06.518306-04:00"
         }
     ]
 }
