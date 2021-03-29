@@ -5,7 +5,7 @@
 # ----------------------------------------------------------------------------
 # Stage: Base
 
-FROM openliberty/open-liberty:21.0.0.1-full-java8-openj9-ubi as base
+FROM openliberty/open-liberty:21.0.0.3-full-java8-openj9-ubi as base
 
 ENV LICENSE accept
 
@@ -25,7 +25,7 @@ USER 1001
 # ----------------------------------------------------------------------------
 # Stage: Runnable
 
-FROM openliberty/open-liberty:21.0.0.1-full-java8-openj9-ubi
+FROM openliberty/open-liberty:21.0.0.3-full-java8-openj9-ubi
 
 ARG FHIR_VERSION=4.6.0
 
