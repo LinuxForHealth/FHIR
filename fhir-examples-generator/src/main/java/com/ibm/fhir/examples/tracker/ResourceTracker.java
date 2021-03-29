@@ -56,6 +56,7 @@ public class ResourceTracker {
         boolean result = false;
         if (!DIGESTMAP.containsKey(hash)) {
             DIGESTMAP.put(hash, Arrays.asList(path.toFile().getAbsoluteFile().toString()));
+            result = true;
         } else {
             List<String> files = DIGESTMAP.get(hash);
             List<String> fs = new ArrayList<>();

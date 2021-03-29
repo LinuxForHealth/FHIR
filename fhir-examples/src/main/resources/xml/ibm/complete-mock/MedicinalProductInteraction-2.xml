@@ -1,108 +1,108 @@
 <MedicinalProductInteraction xmlns="http://hl7.org/fhir">
   <meta>
-    <versionId value="il9Y-Cz9sG"/>
-    <lastUpdated value="2021-03-29T10:12:06.535447-04:00"/>
-    <source value="YexSXwdNHg"/>
-    <profile value="hPSIP_pO15"/>
+    <versionId value="TXbtaUi9yu"/>
+    <lastUpdated value="2021-03-29T14:45:16.624445-04:00"/>
+    <source value="mjPjmBKrmk"/>
+    <profile value="xgtuC8imSg"/>
     <security>
-      <system value="NNngRiABtY"/>
-      <version value="U3SrInGV1C"/>
-      <code value="nAycwZ8IUr"/>
-      <display value="xpSqcZA6dp"/>
+      <system value="_y0KEbMEGy"/>
+      <version value="5dGylQJgrq"/>
+      <code value="X8ipT5NSu7"/>
+      <display value="tFpl1w39ua"/>
       <userSelected value="true"/>
     </security>
     <tag>
-      <system value="DmfZYzDkQn"/>
-      <version value="e76KljHBum"/>
-      <code value="Q6u8_lLhKq"/>
-      <display value="b347aHYrM6"/>
+      <system value="psnt_pBnhu"/>
+      <version value="9F_GHvmyTx"/>
+      <code value="u8VqKC3T2K"/>
+      <display value="lYajM4vjAp"/>
       <userSelected value="true"/>
     </tag>
     <tag>
       <code value="ibm/complete-mock"/>
     </tag>
   </meta>
-  <implicitRules value="AHmZHvMF3u"/>
+  <implicitRules value="_snM1QHagn"/>
   <language value="en-US"/>
   <text>
-    <status value="empty"/>
+    <status value="generated"/>
     <div xmlns="http://www.w3.org/1999/xhtml"></div>
   </text>
   <subject>
-    <reference value="MedicinalProduct/oXy17jh4EJ"/>
+    <reference value="MedicinalProduct/9twhmrnw8m"/>
     <type value="MedicinalProduct"/>
     <identifier>
-      <use value="old"/>
+      <use value="official"/>
       <type>
         <coding>
-          <system value="7m8hSocdop"/>
-          <version value="NceVgYf9oP"/>
-          <code value="d7NNOhXbHR"/>
-          <display value="fDZenjscYE"/>
+          <system value="huERhRxvUr"/>
+          <version value="g827sWbH2q"/>
+          <code value="_fUKwtBneZ"/>
+          <display value="aGTnTub6PZ"/>
           <userSelected value="true"/>
         </coding>
-        <text value="IAQ3iiqz6Z"/>
+        <text value="N14wi2we13"/>
       </type>
-      <system value="ANeoFR7uQ_"/>
-      <value value="rX_uKo7njz"/>
+      <system value="m7wPoNVqC6"/>
+      <value value="U56mry_Wye"/>
       <period>
-        <start value="2021-03-29T10:12:06.537998-04:00"/>
-        <end value="2021-03-29T10:12:06.538168-04:00"/>
+        <start value="2021-03-29T14:45:16.627375-04:00"/>
+        <end value="2021-03-29T14:45:16.627558-04:00"/>
       </period>
     </identifier>
-    <display value="waH3API7Ko"/>
+    <display value="xaoqAlMko0"/>
   </subject>
-  <description value="mfwDixe0sb"/>
+  <description value="3Fe2o0FxPE"/>
   <interactant>
     <itemCodeableConcept>
       <coding>
-        <system value="RbzsVWBJe9"/>
-        <version value="eKIogmWmrI"/>
-        <code value="z5lBEv3ptE"/>
-        <display value="y4jzJYC0Dd"/>
+        <system value="_S7o1hC0Tl"/>
+        <version value="Yq13AADbah"/>
+        <code value="ex3RptOmd_"/>
+        <display value="ApSZJIbgRg"/>
         <userSelected value="true"/>
       </coding>
-      <text value="9OhDRXDQw1"/>
+      <text value="xy6qzVBt64"/>
     </itemCodeableConcept>
   </interactant>
   <type>
     <coding>
-      <system value="DyKh2_2s7Y"/>
-      <version value="cK5qxVdDle"/>
-      <code value="tAbBnV5IZX"/>
-      <display value="oecs23gNwo"/>
+      <system value="wh2mbhIlDp"/>
+      <version value="cV081IjFIV"/>
+      <code value="Oid4FcphfL"/>
+      <display value="3h1yfZpxre"/>
       <userSelected value="true"/>
     </coding>
-    <text value="96b0yqtZvL"/>
+    <text value="DQmhMVoPI7"/>
   </type>
   <effect>
     <coding>
-      <system value="91AbMkjVzR"/>
-      <version value="V5vW5uezRs"/>
-      <code value="2n2AMdnp05"/>
-      <display value="l0AyT9l1tW"/>
+      <system value="c_OVBD70sR"/>
+      <version value="l9RoeEAnx9"/>
+      <code value="xDlKrBymAV"/>
+      <display value="wYhsVpBG4T"/>
       <userSelected value="true"/>
     </coding>
-    <text value="RCXh3rd_yj"/>
+    <text value="zK8rTnT0Cf"/>
   </effect>
   <incidence>
     <coding>
-      <system value="1vwNVwq8_P"/>
-      <version value="E7p7hVSDoe"/>
-      <code value="2MMVoLB1LI"/>
-      <display value="agC422zP5Z"/>
+      <system value="YTC8dhWTbN"/>
+      <version value="p3cGNlYJgS"/>
+      <code value="NqLLow7rr4"/>
+      <display value="44H9mOBO8B"/>
       <userSelected value="true"/>
     </coding>
-    <text value="5NHAzsN1zc"/>
+    <text value="29wTvCaDf5"/>
   </incidence>
   <management>
     <coding>
-      <system value="pdEnUmPleu"/>
-      <version value="4T7WTA6Exk"/>
-      <code value="knJXowVatj"/>
-      <display value="LofUhhEHpF"/>
+      <system value="wUALPGvkFj"/>
+      <version value="yX_ezaRoIZ"/>
+      <code value="66nRa3jQET"/>
+      <display value="_lQRmWnGAJ"/>
       <userSelected value="true"/>
     </coding>
-    <text value="reIn3j9ygq"/>
+    <text value="9I69HYSZNV"/>
   </management>
 </MedicinalProductInteraction>
