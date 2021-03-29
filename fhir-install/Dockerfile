@@ -27,7 +27,7 @@ USER 1001
 
 FROM openliberty/open-liberty:21.0.0.3-full-java8-openj9-ubi
 
-ARG FHIR_VERSION=4.6.0
+ARG FHIR_VERSION=4.7.0-SNAPSHOT
 
 # The following labels are required: 
 LABEL name='IBM FHIR Server'
