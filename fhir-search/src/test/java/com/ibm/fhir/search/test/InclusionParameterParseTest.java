@@ -348,6 +348,37 @@ public class InclusionParameterParseTest extends BaseSearchTest {
         assertTrue(selfUri.contains(queryString));
     }
 
+    @Test(expectedExceptions = FHIRSearchException.class)
+    public void testIncludeRevIncludeSummaryText() throws Exception {
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        Class<Patient> resourceType = Patient.class;
+
+        queryParameters.put("_include", Collections.singletonList("Patient:general-practitioner:Practitioner"));
+        queryParameters.put("_revinclude", Collections.singletonList("Patient:link:Patient"));
+        queryParameters.put("_summary", Collections.singletonList("text"));
+        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+    }
+
+    @Test
+    public void testIncludeRevIncludeSummaryText_lenient() throws Exception {
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        FHIRSearchContext searchContext;
+        Class<Patient> resourceType = Patient.class;
+        String queryString = "&_summary=text";
+
+        queryParameters.put("_include", Collections.singletonList("Patient:general-practitioner:Practitioner"));
+        queryParameters.put("_revinclude", Collections.singletonList("Patient:link:Patient"));
+        queryParameters.put("_summary", Collections.singletonList("text"));
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters, true);
+        assertNotNull(searchContext);
+
+        assertFalse(searchContext.hasIncludeParameters());
+        assertFalse(searchContext.hasRevIncludeParameters());
+
+        String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/Patient", searchContext);
+        assertTrue(selfUri.contains(queryString));
+    }
+
     @Test
     public void testRevIncludeWithSort() throws Exception {
         Map<String, List<String>> queryParameters = new HashMap<>();

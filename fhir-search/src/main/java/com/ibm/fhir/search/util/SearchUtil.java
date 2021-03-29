@@ -790,11 +790,6 @@ public class SearchUtil {
 
                 if (isSearchResultParameter(name)) {
                     parseSearchResultParameter(resourceType, context, name, params, lenient);
-                    // _include and _revinclude parameters cannot be mixed with _summary=text
-                    if (SummaryValueSet.TEXT.equals(context.getSummaryParameter())) {
-                        context.getIncludeParameters().clear();
-                        context.getRevIncludeParameters().clear();
-                    }
                 } else if (isGeneralParameter(name) ) {
                     // we'll handle it somewhere else, so just ignore it here
                 } else if (isReverseChainedParameter(name)) {
@@ -911,7 +906,14 @@ public class SearchUtil {
 
             // Check include resource type mismatches for :iterate parameters
             if (!context.getIncludeParameters().isEmpty() || !context.getRevIncludeParameters().isEmpty()) {
-                checkInclusionIterateParameters(resourceType.getSimpleName(), context, lenient);
+                // _include and _revinclude parameters cannot be mixed with _summary=text
+                if (SummaryValueSet.TEXT.equals(context.getSummaryParameter())) {
+                    manageException("_include and _revinclude are not supported with '_summary=text'", lenient);
+                    context.getIncludeParameters().clear();
+                    context.getRevIncludeParameters().clear();
+                } else {
+                    checkInclusionIterateParameters(resourceType.getSimpleName(), context, lenient);
+                }
             }
 
         } catch (FHIRSearchException se) {

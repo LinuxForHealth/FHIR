@@ -1369,9 +1369,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     /**
      * This method takes the passed list of sorted Resource ids, acquires the ResourceDTO corresponding to each id,
      * and returns those ResourceDTOs in a List, sorted according to the input sorted ids.
+     * @param resourceDao - The resource DAO.
      * @param resourceType - The type of Resource that each id in the passed list represents.
      * @param sortedIdList - A list of Resource ids representing the proper sort order for the list of Resources to be returned.
-     * @param elements - An optional list of element names to include in the resources. If null, filtering will be skipped.
      * @return List<com.ibm.fhir.persistence.jdbc.dto.Resource> - A list of ResourcesDTOs of the passed resourceType,
      * sorted according the order of ids in the passed sortedIdList.
      * @throws FHIRPersistenceException
@@ -1415,6 +1415,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     /**
      * Returns a List of Resource DTOs corresponding to the passed list of Resource IDs.
+     * @param resourceDao - The resource DAO.
      * @param resourceType The type of resource being queried.
      * @param sortedIdList A sorted list of Resource IDs.
      * @return List - A list of ResourceDTOs
