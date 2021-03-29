@@ -749,20 +749,10 @@ public class SearchUtil {
             }
         }
 
-        // Check for unsupported uses of _include/_revinclude
-        if (containsInclusionParameter(queryParameters.keySet())) {
-            // Make sure _sort is not present with _include and/or _revinclude.
-            // TODO: do we really need to forbid this?
-            if (queryParameters.containsKey(SearchConstants.SORT)) {
-                throw SearchExceptionUtil.buildNewInvalidSearchException(
-                        "_sort search result parameter not supported with _include or _revinclude.");
-            }
-            // Because _include and _revinclude searches all require certain resource type modifier in
-            // search parameter, so we just don't support it.
-            if (Resource.class.equals(resourceType)) {
-                throw SearchExceptionUtil.buildNewInvalidSearchException(
-                        "system search not supported with _include or _revinclude.");
-            }
+        // _include and _revinclude searches requires specific resource type modifier in
+        // search parameter, so we don't support system search with them.
+        if (containsInclusionParameter(queryParameters.keySet()) && Resource.class.equals(resourceType)) {
+            throw SearchExceptionUtil.buildNewInvalidSearchException("system search not supported with _include or _revinclude.");
         }
 
         // Check for unsupported uses of _type
@@ -800,13 +790,6 @@ public class SearchUtil {
 
                 if (isSearchResultParameter(name)) {
                     parseSearchResultParameter(resourceType, context, name, params, lenient);
-                    // _include and _revinclude parameters cannot be mixed with _summary=text
-                    // TODO: this will fire on each search result parameter; maybe move this above to where we handle _sort + _include/_revinclude?
-                    if (context.getSummaryParameter() != null
-                            && context.getSummaryParameter().equals(SummaryValueSet.TEXT)) {
-                        context.getIncludeParameters().clear();
-                        context.getRevIncludeParameters().clear();
-                    }
                 } else if (isGeneralParameter(name) ) {
                     // we'll handle it somewhere else, so just ignore it here
                 } else if (isReverseChainedParameter(name)) {
@@ -923,7 +906,14 @@ public class SearchUtil {
 
             // Check include resource type mismatches for :iterate parameters
             if (!context.getIncludeParameters().isEmpty() || !context.getRevIncludeParameters().isEmpty()) {
-                checkInclusionIterateParameters(resourceType.getSimpleName(), context, lenient);
+                // _include and _revinclude parameters cannot be mixed with _summary=text
+                if (SummaryValueSet.TEXT.equals(context.getSummaryParameter())) {
+                    manageException("_include and _revinclude are not supported with '_summary=text'", lenient);
+                    context.getIncludeParameters().clear();
+                    context.getRevIncludeParameters().clear();
+                } else {
+                    checkInclusionIterateParameters(resourceType.getSimpleName(), context, lenient);
+                }
             }
 
         } catch (FHIRSearchException se) {

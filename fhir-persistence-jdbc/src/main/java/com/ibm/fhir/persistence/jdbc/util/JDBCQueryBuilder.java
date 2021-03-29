@@ -245,7 +245,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
         helper =
                 QuerySegmentAggregatorFactory.buildQuerySegmentAggregator(resourceType, offset, pageSize,
-                        this.parameterDao, this.resourceDao, searchContext, this.queryHints, this.identityCache);
+                        this.parameterDao, this.resourceDao, searchContext, false, this.queryHints, this.identityCache);
 
         // Special logic for handling LocationPosition queries. These queries have interdependencies between
         // a couple of related input query parameters
@@ -1928,7 +1928,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         SqlQueryData query = null;
         InclusionQuerySegmentAggregator helper =
                 (InclusionQuerySegmentAggregator) QuerySegmentAggregatorFactory.buildQuerySegmentAggregator(resourceType, 0,
-                    SearchConstants.MAX_PAGE_SIZE + 1, this.parameterDao, this.resourceDao, searchContext, this.queryHints, this.identityCache);
+                    SearchConstants.MAX_PAGE_SIZE + 1, this.parameterDao, this.resourceDao, searchContext, true, this.queryHints, this.identityCache);
 
         if (helper != null) {
             query = helper.buildIncludeQuery(inclusionParm, ids, inclusionType);

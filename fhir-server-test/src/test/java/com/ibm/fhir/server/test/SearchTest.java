@@ -1262,12 +1262,10 @@ public class SearchTest extends FHIRServerTestBase {
                 .header("X-FHIR-TENANT-ID", tenantName)
                 .header("X-FHIR-DSID", dataStoreId)
                 .get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle bundle = response.readEntity(Bundle.class);
-        assertNotNull(bundle);
-        assertTrue(bundle.getEntry().size() == 1);
+        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class),
+                "_include and _revinclude are not supported with '_summary=text'");
     }
-
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreateObservation" })
     public void testSearchPatientWithObservationRevIncluded_summary_text() {
@@ -1280,12 +1278,10 @@ public class SearchTest extends FHIRServerTestBase {
                 .header("X-FHIR-TENANT-ID", tenantName)
                 .header("X-FHIR-DSID", dataStoreId)
                 .get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle bundle = response.readEntity(Bundle.class);
-        assertNotNull(bundle);
-        assertTrue(bundle.getEntry().size() == 1);
+        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class),
+                "_include and _revinclude are not supported with '_summary=text'");
     }
-
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreateObservation" })
     public void testSearchPatientWithObservationRevIncluded_summary_invalid_strict() {
