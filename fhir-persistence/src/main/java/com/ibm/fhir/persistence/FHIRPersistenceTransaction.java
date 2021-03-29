@@ -24,7 +24,7 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
  *           }
  */
 public interface FHIRPersistenceTransaction {
-    
+
     /**
      * Does the underlying implementation actually support transactions? A persistence
      * layer must always return a FHIRPersistenceTransaction even if it doesn't support
@@ -55,23 +55,4 @@ public interface FHIRPersistenceTransaction {
      * @throws FHIRPersistenceException
      */
     void setRollbackOnly() throws FHIRPersistenceException;
-    
-
-    /**
-     * Commit the transaction (if we started it).
-     * Use {@link #end()} instead.
-     * @throws FHIRPersistenceException
-     */
-    @Deprecated
-    default void commit() throws FHIRPersistenceException { end(); }
-
-    /**
-     * Request rollback. Will only perform the rollback if this
-     * instance actually started the transaction
-     * Use {@link #setRollbackOnly()} and {@link #end()} instead.
-     * @throws FHIRPersistenceException
-     */
-    @Deprecated
-    default void rollback() throws FHIRPersistenceException { setRollbackOnly(); end(); }
-
 }
