@@ -466,4 +466,10 @@ public interface ConfigurationAdapter {
      * @return
      */
     int getImportInflyRateNumberOfFhirResources(String provider);
+
+    /**
+     * the expiry time of the generated presigned urls.
+     * @return
+     */
+    int getPresignedUrlExpiry();
 }

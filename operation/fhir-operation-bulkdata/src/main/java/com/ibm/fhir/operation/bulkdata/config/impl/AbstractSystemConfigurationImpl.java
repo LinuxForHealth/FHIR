@@ -317,4 +317,10 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     public int getImportInflyRateNumberOfFhirResources(String provider) {
         return IMPORT_INFLY_RATE_NUMOFFHIRRESOURCES;
     }
+
+    @Override
+    public int getPresignedUrlExpiry() {
+        int pageSize = FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/cos/presignedExpiry", 86400);
+        return Math.max(1, pageSize);
+    }
 }
