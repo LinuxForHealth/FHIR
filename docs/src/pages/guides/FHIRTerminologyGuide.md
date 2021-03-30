@@ -1,7 +1,7 @@
 ---
 slug:  "/FHIR/guides/FHIRTerminologyGuide/"
 title: "FHIR Terminology Guide"
-date:  "2021-03-11"
+date:  "2021-03-30"
 ---
 
 ## Overview
@@ -65,7 +65,7 @@ NOTE: The current implementation does not support for optional parameters (e.g. 
 
 ## FHIR Server Terminology Extended Operations
 
-The FHIR terminology operations module ([fhir-operation-term](https://github.com/IBM/FHIR/tree/main/fhir-operation-term)) connects the FHIR Server REST layer to the FHIR terminology module via the operations framework. This module implements the terminology operations as defined in the FHIR terminology service specification [http://hl7.org/fhir/terminology-service.html](http://hl7.org/fhir/terminology-service.html). One exception is the `$closure` operation. The `$closure` operation is experimental and does not support versioning or replay. This means that the `$closure` operation will always return the set of closure table entries for the given input concepts and does not store client state.
+The FHIR terminology operations module ([fhir-operation-term](https://github.com/IBM/FHIR/tree/main/operation/fhir-operation-term)) connects the FHIR Server REST layer to the FHIR terminology module via the operations framework. This module implements the terminology operations as defined in the FHIR terminology service specification [http://hl7.org/fhir/terminology-service.html](http://hl7.org/fhir/terminology-service.html). One exception is the `$closure` operation. The `$closure` operation is experimental and does not support versioning or replay. This means that the `$closure` operation will always return the set of closure table entries for the given input concepts and does not store client state.
 
 ## FHIRPath Terminology Functions
 
