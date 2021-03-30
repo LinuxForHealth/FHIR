@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.term.service.exception;
+package com.ibm.fhir.term.exception;
 
 import java.util.Collections;
 import java.util.List;
@@ -12,18 +12,13 @@ import java.util.Objects;
 
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 
-public class FHIRTermServiceException extends RuntimeException {
+public class FHIRTermException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     protected final List<Issue> issues;
 
-    public FHIRTermServiceException(String message, List<Issue> issues) {
+    public FHIRTermException(String message, List<Issue> issues) {
         super(message);
-        this.issues = Collections.unmodifiableList(Objects.requireNonNull(issues, "issues"));
-    }
-
-    public FHIRTermServiceException(String message, Throwable cause, List<Issue> issues) {
-        super(message, cause);
         this.issues = Collections.unmodifiableList(Objects.requireNonNull(issues, "issues"));
     }
 
