@@ -25,6 +25,7 @@ public class VerifyMain {
     public static void main(String[] args) throws IOException {
         for(Index index : Index.values()) {
             List<String> lines = new ArrayList<>();
+            List<String> errorLines = new ArrayList<>();
             try(Reader reader = ExamplesUtil.indexReader(index);
                     BufferedReader br = new BufferedReader(reader)){
                 String r = br.readLine();
@@ -37,6 +38,7 @@ public class VerifyMain {
                         lines.add(r);
                     } else {
                         error++;
+                        errorLines.add(r);
                     }
                     r = br.readLine();
                 }
@@ -47,6 +49,7 @@ public class VerifyMain {
                     System.out.println(lines.stream().filter(m -> m != null).collect(Collectors.joining("\n")));
                     System.out.println("-------");
                     System.out.println("Error: " + error);
+                    System.out.println(errorLines.stream().filter(m -> m != null).collect(Collectors.joining("\n")));
                     System.out.println("-------");
                 }
             }

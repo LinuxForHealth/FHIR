@@ -886,11 +886,11 @@
         </extension>
       </coding>
     </type>
-    <valueOid>
+    <valueUuid>
       <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
         <valueCode value="unknown"/>
       </extension>
-    </valueOid>
+    </valueUuid>
   </input>
   <output>
     <type>
@@ -900,10 +900,10 @@
         </extension>
       </coding>
     </type>
-    <valueOid>
+    <valueUuid>
       <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
         <valueCode value="unknown"/>
       </extension>
-    </valueOid>
+    </valueUuid>
   </output>
 </Task>

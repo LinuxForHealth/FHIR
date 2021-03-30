@@ -50,10 +50,10 @@
         <valueCode value="unknown"/>
       </extension>
     </name>
-    <valueInteger>
+    <valueOid>
       <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
         <valueCode value="unknown"/>
       </extension>
-    </valueInteger>
+    </valueOid>
   </parameter>
 </Parameters>

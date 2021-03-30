@@ -330,11 +330,11 @@
           <valueCode value="unknown"/>
         </extension>
       </operator>
-      <answerDecimal>
+      <answerDateTime>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
         </extension>
-      </answerDecimal>
+      </answerDateTime>
     </enableWhen>
     <enableBehavior>
       <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">

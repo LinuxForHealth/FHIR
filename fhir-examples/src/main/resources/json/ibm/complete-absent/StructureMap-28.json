@@ -572,31 +572,13 @@
                                     }
                                 ]
                             },
-                            "defaultValueAnnotation": {
-                                "_authorString": {
-                                    "extension": [
-                                        {
-                                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                                            "valueCode": "unknown"
-                                        }
-                                    ]
-                                },
-                                "_time": {
-                                    "extension": [
-                                        {
-                                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                                            "valueCode": "unknown"
-                                        }
-                                    ]
-                                },
-                                "_text": {
-                                    "extension": [
-                                        {
-                                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                                            "valueCode": "unknown"
-                                        }
-                                    ]
-                                }
+                            "_defaultValueDecimal": {
+                                "extension": [
+                                    {
+                                        "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                                        "valueCode": "unknown"
+                                    }
+                                ]
                             },
                             "_element": {
                                 "extension": [

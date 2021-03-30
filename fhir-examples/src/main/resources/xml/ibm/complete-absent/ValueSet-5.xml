@@ -387,11 +387,11 @@
           <valueCode value="unknown"/>
         </extension>
       </name>
-      <valueBoolean>
+      <valueString>
         <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
           <valueCode value="unknown"/>
         </extension>
-      </valueBoolean>
+      </valueString>
     </parameter>
     <contains>
       <system>

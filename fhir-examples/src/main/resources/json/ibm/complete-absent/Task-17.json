@@ -1403,13 +1403,23 @@
                     }
                 ]
             },
-            "_valueUnsignedInt": {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                        "valueCode": "unknown"
-                    }
-                ]
+            "valueAge": {
+                "_comparator": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                        }
+                    ]
+                },
+                "_unit": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                        }
+                    ]
+                }
             }
         }
     ],
@@ -1427,13 +1437,23 @@
                     }
                 ]
             },
-            "_valueUnsignedInt": {
-                "extension": [
-                    {
-                        "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
-                        "valueCode": "unknown"
-                    }
-                ]
+            "valueAge": {
+                "_comparator": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                        }
+                    ]
+                },
+                "_unit": {
+                    "extension": [
+                        {
+                            "url": "http://hl7.org/fhir/StructureDefinition/data-absent-reason",
+                            "valueCode": "unknown"
+                        }
+                    ]
+                }
             }
         }
     ]

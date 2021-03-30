@@ -57,25 +57,29 @@ public class ExamplesGenerator {
     private void generateResource(String resourceName, DataCreatorBase creator, Path basePath, String tag) throws Exception {
         int maxChoiceCount = creator.getMaxChoiceCount(resourceName);
 
+        int curIdxJson = 1;
+        int curIdxXml = 1;
         for (int i = 1; i <= maxChoiceCount; i++) {
             Resource resource = creator.createResource(resourceName, i);
             resource = tag(resource, tag);
 
-            Path jsonPath = basePath.resolve(Paths.get("json", tag, resourceName + "-" + i + ".json"));
+            Path jsonPath = basePath.resolve(Paths.get("json", tag, resourceName + "-" + curIdxJson + ".json"));
             if (tracker.shouldWriteResourceExample(json, jsonPath, resource)) {
                 Files.createDirectories(jsonPath.getParent());
                 try (BufferedWriter writer = Files.newBufferedWriter(jsonPath)) {
                     json.generate(resource, writer);
+                    curIdxJson++;
                 } catch (Exception e) {
                     throw new Error(e);
                 }
             }
 
-            Path xmlPath = basePath.resolve(Paths.get("xml", tag, resourceName + "-" + i + ".xml"));
+            Path xmlPath = basePath.resolve(Paths.get("xml", tag, resourceName + "-" + curIdxXml + ".xml"));
             if (tracker.shouldWriteResourceExample(xml, xmlPath, resource)) {
                 Files.createDirectories(xmlPath.getParent());
                 try (BufferedWriter writer = Files.newBufferedWriter(xmlPath)) {
                     xml.generate(resource, writer);
+                    curIdxXml++;
                 } catch (Exception e) {
                     throw new Error(e);
                 }

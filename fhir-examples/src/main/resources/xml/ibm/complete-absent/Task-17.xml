@@ -886,11 +886,18 @@
         </extension>
       </coding>
     </type>
-    <valueUnsignedInt>
-      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-        <valueCode value="unknown"/>
-      </extension>
-    </valueUnsignedInt>
+    <valueAge>
+      <comparator>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
+      </comparator>
+      <unit>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
+      </unit>
+    </valueAge>
   </input>
   <output>
     <type>
@@ -900,10 +907,17 @@
         </extension>
       </coding>
     </type>
-    <valueUnsignedInt>
-      <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-        <valueCode value="unknown"/>
-      </extension>
-    </valueUnsignedInt>
+    <valueAge>
+      <comparator>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
+      </comparator>
+      <unit>
+        <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
+          <valueCode value="unknown"/>
+        </extension>
+      </unit>
+    </valueAge>
   </output>
 </Task>

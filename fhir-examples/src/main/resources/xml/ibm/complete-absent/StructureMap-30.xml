@@ -348,65 +348,38 @@
             <valueCode value="unknown"/>
           </extension>
         </type>
-        <defaultValueAddress>
-          <use>
+        <defaultValueMeta>
+          <versionId>
             <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
               <valueCode value="unknown"/>
             </extension>
-          </use>
-          <type>
+          </versionId>
+          <lastUpdated>
             <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
               <valueCode value="unknown"/>
             </extension>
-          </type>
-          <text>
+          </lastUpdated>
+          <source>
             <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
               <valueCode value="unknown"/>
             </extension>
-          </text>
-          <line>
+          </source>
+          <profile>
             <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
               <valueCode value="unknown"/>
             </extension>
-          </line>
-          <city>
+          </profile>
+          <security>
             <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
               <valueCode value="unknown"/>
             </extension>
-          </city>
-          <district>
+          </security>
+          <tag>
             <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
               <valueCode value="unknown"/>
             </extension>
-          </district>
-          <state>
-            <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-              <valueCode value="unknown"/>
-            </extension>
-          </state>
-          <postalCode>
-            <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-              <valueCode value="unknown"/>
-            </extension>
-          </postalCode>
-          <country>
-            <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-              <valueCode value="unknown"/>
-            </extension>
-          </country>
-          <period>
-            <start>
-              <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                <valueCode value="unknown"/>
-              </extension>
-            </start>
-            <end>
-              <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
-                <valueCode value="unknown"/>
-              </extension>
-            </end>
-          </period>
-        </defaultValueAddress>
+          </tag>
+        </defaultValueMeta>
         <element>
           <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
             <valueCode value="unknown"/>

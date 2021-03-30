@@ -886,11 +886,11 @@
         </extension>
       </coding>
     </type>
-    <valueBase64Binary>
+    <valueMarkdown>
       <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
         <valueCode value="unknown"/>
       </extension>
-    </valueBase64Binary>
+    </valueMarkdown>
   </input>
   <output>
     <type>
@@ -900,10 +900,10 @@
         </extension>
       </coding>
     </type>
-    <valueBase64Binary>
+    <valueMarkdown>
       <extension url="http://hl7.org/fhir/StructureDefinition/data-absent-reason">
         <valueCode value="unknown"/>
       </extension>
-    </valueBase64Binary>
+    </valueMarkdown>
   </output>
 </Task>
