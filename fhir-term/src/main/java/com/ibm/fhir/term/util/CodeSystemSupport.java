@@ -352,7 +352,7 @@ public final class CodeSystemSupport {
      */
     public static boolean isCaseSensitive(CodeSystem codeSystem) {
         if (codeSystem != null) {
-            return Boolean.TRUE.equals(codeSystem.getCaseSensitive());
+            return java.lang.Boolean.TRUE.equals(codeSystem.getCaseSensitive().getValue());
         }
         return false;
     }
@@ -457,7 +457,7 @@ public final class CodeSystemSupport {
     }
 
     /**
-     * Convert the {@link DateTime} value to a Long value that is compatible with the graph schema.
+     * Convert the {@link DateTime} value to a Long value.
      *
      * @param dateTime
      *     the dateTime value
@@ -486,7 +486,7 @@ public final class CodeSystemSupport {
     }
 
     /**
-     * Convert the given element value to an object value that is compatible with the graph schema.
+     * Convert the given element value to an object value.
      *
      * @param value
      *     the element value
