@@ -43,8 +43,8 @@
         <module>../fhir-core</module>
         <module>../fhir-database-utils</module>
         <module>../fhir-config</module>
-        <module>../fhir-audit</module>
         <module>../fhir-model</module>
+        <module>../fhir-audit</module>
         <module>../fhir-registry</module>
         <module>../fhir-term</module>
         <module>../fhir-term-graph</module>
@@ -700,18 +700,6 @@
                         <additionalparam>-Xdoclint:none
                             -Djava.awt.headless=true</additionalparam>
                         <detectLinks>true</detectLinks>
-                        <docletArtifact>
-                            <groupId>nl.talsmasoftware</groupId>
-                            <artifactId>umldoclet</artifactId>
-                            <version>2.0.7</version>
-                        </docletArtifact>
-                        <!-- opted to not include the UML diagram as the build slows down significantly -->
-                        <!--doclet>nl.talsmasoftware.umldoclet.UMLDoclet</doclet-->
-                        <additionalparam>
-                            -umlSkipStandardDoclet true
-                            -umlLogLevel INFO
-                            -umlImageFormat svg
-                        </additionalparam>
                         <!-- control display -->
                         <author>false</author>
                         <windowtitle>IBM FHIR Server</windowtitle>
@@ -732,6 +720,16 @@
                         <nodeprecated>true</nodeprecated>
                         <nodeprecatedlist>true</nodeprecatedlist>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>3.2.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>3.0.0</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -883,7 +881,7 @@
         <profile>
             <id>deploy-version-rc</id>
             <!-- This profile enables automation to change version and DEPLOY
-                rc to bintray: mvn clean -Drc=1 -Pdeploy-version-rc -f fhir-tools/pom.xml -->
+                rc to mvn clean -Drc=1 -Pdeploy-version-rc -f fhir-tools/pom.xml -->
             <properties>
                 <!-- the version to be set -->
                 <rc>1</rc>
@@ -918,7 +916,7 @@
         <profile>
             <id>deploy-version-release</id>
             <!-- This profile enables automation to change version and DEPLOY
-                release to bintray. There are one input values. mvn clean -Drc=1 -Pdeploy-version-release
+                release to Maven Central. There are one input values. mvn clean -Drc=1 -Pdeploy-version-release
                 -f fhir-tools/pom.xml -->
             <properties>
                 <!-- the version to be set -->
@@ -1069,17 +1067,6 @@
                     <additionalparam>-Xdoclint:none
                         -Djava.awt.headless=true</additionalparam>
                     <detectLinks>true</detectLinks>
-                    <docletArtifact>
-                        <groupId>nl.talsmasoftware</groupId>
-                        <artifactId>umldoclet</artifactId>
-                        <version>2.0.7</version>
-                    </docletArtifact>
-                    <doclet>nl.talsmasoftware.umldoclet.UMLDoclet</doclet>
-                    <additionalparam>
-                        -umlSkipStandardDoclet true
-                        -umlLogLevel INFO
-                        -umlImageFormat svg
-                    </additionalparam>
                     <!-- control display -->
                     <author>false</author>
                     <windowtitle>IBM FHIR Server</windowtitle>

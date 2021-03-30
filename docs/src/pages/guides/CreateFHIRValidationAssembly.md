@@ -15,8 +15,7 @@ Navigate to https://github.com/IBM/FHIR
 
 Open a terminal window 
 
-Clone to a local working directory 
-`git clone git@github.com:IBM/FHIR.git`
+Clone to a local working directory - `git clone git@github.com:IBM/FHIR.git`
 
 If you need to work off a specific tag release, please use `git checkout TAGVERSION` where TAGVERSION is the release you are interested in.  For instance, `git checkout 4.1.0` for the 4.1.0 release. You must update the pom.xml versions to the release tag version. 
 
@@ -59,8 +58,8 @@ This file contains:
  
 
 ``` shell
-14:05:17-paulbastide@pauls-mbp:~/git/wffh$ unzip -l ./tmp-fhir4/FHIR/fhir-validation/target/fhir-validation-distribution.zip
-Archive:  ./tmp-fhir4/FHIR/fhir-validation/target/fhir-validation-distribution.zip
+$ unzip -l ./fhir-validation/target/fhir-validation-distribution.zip
+Archive:  fhir-validation/target/fhir-validation-distribution.zip
   Length      Date    Time    Name
 ---------  ---------- -----   ----
         0  10-18-2019 10:40   fhir-validation-dist/
@@ -100,7 +99,7 @@ If you chose to add the user defined profile, you must pass in the name of the d
 You should see `[INFO] BUILD SUCCESS`, and the assembly is ready.
 
 # Download Dependencies
-- FHIR [Download from BinTray](https://dl.bintray.com/ibm-watson-health/ibm-fhir-server-snapshots/com/ibm/fhir)
+- FHIR [Download from Maven.org](https://repo1.maven.org/maven2/com/ibm/fhir)
 - Antlr [Antlr](https://repo1.maven.org/maven2/org/antlr/antlr4-runtime/4.5.3/)
 - Json https://repo1.maven.org/maven2/jakarta/json/jakarta.json-api/1.1.5/
 - Annotations https://repo1.maven.org/maven2/jakarta/annotation/jakarta.annotation-api/

@@ -15,21 +15,13 @@ More information on installing and running the server is available in the User G
 ### Building on top of the IBM FHIR Server Modules
 Each of the IBM FHIR Server modules are published to Maven Central [repo](https://repo1.maven.org/maven2/com/ibm/fhir/)
 
-For Version 4.6.1 and earlier, each of the IBM FHIR Server modules are published to public Maven repository on [JFrog Bintray](https://bintray.com/ibm-watson-health/ibm-fhir-server-releases).
+For Version 4.6.1 and earlier, each of the IBM FHIR Server modules are published as an archive of the repository.
+
+After Version 4.6.1, you may declare the dependency without a repository as it points to [Maven Central] [https://repo1.maven.org/maven2/com/ibm/fhir]
 
 To use the artifacts from a Maven project:
-1. Add the repository to your pom.xml:
 
-    ```
-    <repositories>
-        <repository>
-            <id>ibm-fhir</id>
-            <url>https://dl.bintray.com/ibm-watson-health/ibm-fhir-server-releases</url>
-        </repository>
-        ...
-    ```
-
-2. Declare the dependencies:
+1. Declare the dependencies:
 
     For example, to use our visitable, thread-safe FHIR R4 object model (including our high-performance parsers and generators), declare a dependency on the `fhir-model` module:
     ```
@@ -40,6 +32,17 @@ To use the artifacts from a Maven project:
           <artifactId>fhir-model</artifactId>
           <version>${fhir.version}</version>
         </dependency>
+        ...
+    ```
+
+Note, if you are using a local repository or private host, you must add the repository to your pom.xml:
+
+    ```
+    <repositories>
+        <repository>
+            <id>ibm-fhir</id>
+            <url>https://myhost.com/ibm-fhir-server-releases</url>
+        </repository>
         ...
     ```
 

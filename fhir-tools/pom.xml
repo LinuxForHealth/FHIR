@@ -329,17 +329,6 @@
                             <doclint>none</doclint>
                             <additionalparam>-Xdoclint:none -Djava.awt.headless=true</additionalparam>
                             <detectLinks>true</detectLinks>
-                            <docletArtifact>
-                                <groupId>nl.talsmasoftware</groupId>
-                                <artifactId>umldoclet</artifactId>
-                                <version>2.0.7</version>
-                            </docletArtifact>
-                            <doclet>nl.talsmasoftware.umldoclet.UMLDoclet</doclet>
-                            <additionalparam>
-                                -umlSkipStandardDoclet true
-                                -umlLogLevel INFO
-                                -umlImageFormat svg
-                            </additionalparam>
                             <!-- control display -->
                             <author>false</author>
                             <windowtitle>IBM FHIR Server</windowtitle>
@@ -352,7 +341,7 @@
                                 <additionalOption>--no-module-directories</additionalOption>
                             </additionalOptions>
                             <header><![CDATA[<a href="/FHIR" class="bx--header__name" target="_parent"><span>IBM</span>&nbsp;FHIR®&nbsp;Server</a>]]></header>
-                            <bottom><![CDATA[Copyright 2019, 2020. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
+                            <bottom><![CDATA[Copyright 2019, 2021. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
                             <author>false</author>
                             <stylesheetfile>${project.build.directory}/../../fhir-parent/src/javadocs/stylesheet.css</stylesheetfile>
                             <!-- skips the three entries -->
@@ -377,7 +366,7 @@
         <profile>
             <id>deploy-version-rc</id>
             <!-- This profile enables automation to change version and DEPLOY
-                rc to bintray. There are one input values. mvn clean -Drc=1 -Pdeploy-version-rc
+                rc. There are one input values. mvn clean -Drc=1 -Pdeploy-version-rc
                 -f fhir-tools/pom.xml -->
             <properties>
                 <!-- the version to be set -->
@@ -414,7 +403,7 @@
         <profile>
             <id>deploy-version-release</id>
             <!-- This profile enables automation to change version and DEPLOY
-                release to bintray. There are one input values. mvn clean -Drc=1 -Pdeploy-version-release
+                release. There are one input values. mvn clean -Drc=1 -Pdeploy-version-release
                 -f fhir-tools/pom.xml -->
             <properties>
                 <!-- the version to be set -->
@@ -448,16 +437,16 @@
             </build>
         </profile>
         <profile>
-            <id>deploy-bintray</id>
-            <!-- This profile enables automation DEPLOY to bintray. There
-                are three input values. mvn clean install deploy -Pdeploy-bintray -f fhir-tools/pom.xml -->
+            <id>deploy-to-mc</id>
+            <!-- This profile enables automation DEPLOY to deploy. There
+                are three input values. mvn clean install deploy -Pdeploy-to-mc -f fhir-tools/pom.xml -->
             <properties>
                 <!-- switch to 1 to publish automatically -Dpublish=1 -->
                 <publish>0</publish>
                 <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
-                <bintray.repo>ibm-fhir-server-snapshots</bintray.repo>
-                <bintray.org>ibm-watson-health</bintray.org>
-                <bintray.package>fhir-tools</bintray.package>
+                <deploy.repo>ibm-fhir-server-snapshots</deploy.repo>
+                <deploy.org>ibm-watson-health</deploy.org>
+                <deploy.package>fhir-tools</deploy.package>
             </properties>
 
             <build>
@@ -486,15 +475,6 @@
                     </plugin>
                 </plugins>
             </build>
-
-            <distributionManagement>
-                <repository>
-                    <id>bintray-ibm-watson-health-ibm-fhir-server-snapshots</id>
-                    <name>ibm-watson-health-ibm-fhir-server-snapshots</name>
-                    <url>https://api.bintray.com/maven/${bintray.org}/${bintray.repo}/fhir-tools/;publish=0</url>
-                </repository>
-            </distributionManagement>
-
         </profile>
     </profiles>
 </project>

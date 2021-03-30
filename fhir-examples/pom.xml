@@ -17,9 +17,11 @@
     <build>
         <plugins>
             <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.1.0</version>
                 <configuration>
                     <skip>true</skip>
                 </configuration>
@@ -27,7 +29,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>xml-maven-plugin</artifactId>
-                <version>1.0.2</version>
                 <configuration>
                     <skip>true</skip>
                 </configuration>
@@ -35,6 +36,20 @@
         </plugins>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.2.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>3.1.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>xml-maven-plugin</artifactId>
+                    <version>1.0.2</version>
+                </plugin>
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>versions-maven-plugin</artifactId>
@@ -126,8 +141,8 @@
                             <!-- speed up the build -->
                             <isOffline>true</isOffline>
                             <!-- no matter the JDK running the javadoc, it's 
-                                important this be at the minimum level we support, which is 8. -->
-                            <source>8</source>
+                                important this be at the minimum level we support, which is 11. -->
+                            <source>11</source>
                             <!-- we don't need package -->
                             <show>package</show>
                             <!-- verbose if you are debugging -->
@@ -140,10 +155,6 @@
                             <additionalparam>-Xdoclint:none
                                 -Djava.awt.headless=true</additionalparam>
                             <detectLinks>true</detectLinks>
-                            <!--docletArtifact> <groupId>nl.talsmasoftware</groupId> 
-                                <artifactId>umldoclet</artifactId> <version>2.0.7</version> </docletArtifact> 
-                                <doclet>nl.talsmasoftware.umldoclet.UMLDoclet</doclet> <additionalparam> 
-                                -umlSkipStandardDoclet true -umlLogLevel INFO -umlImageFormat svg </additionalparam -->
                             <!-- control display -->
                             <author>false</author>
                             <windowtitle>IBM FHIR Server</windowtitle>
@@ -179,7 +190,7 @@
             </build>
         </profile>
         <profile>
-            <id>build-artifact</id>
+            <id>build-and-sign-artifact</id>
             <build>
                 <plugins>
                     <plugin>
@@ -187,7 +198,7 @@
                             a conflict with m2e restrictions on v2.6 -->
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-jar-plugin</artifactId>
-                        <version>3.1.2</version>
+                        <version>3.2.0</version>
                         <configuration>
                             <archive>
                                 <index>true</index>
@@ -204,6 +215,11 @@
                                 </manifestEntries>
                             </archive>
                         </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>3.8.1</version>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
@@ -227,14 +243,23 @@
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
-                                <configuration>
-                                    <passphrase></passphrase>
-                                </configuration>
                             </execution>
                         </executions>
+                        <configuration>
+                            <defaultKeyring>false</defaultKeyring>
+                            <gpgArguments>
+                                <gpgArgument>--batch</gpgArgument>
+                                <gpgArgument>--yes</gpgArgument>
+                                <gpgArgument>--no-tty</gpgArgument>
+                            </gpgArguments>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
+            <properties>
+                <gpg.keyname>${env.FHIR_GPG_KEYNAME}</gpg.keyname>
+                <gpg.passphrase>${env.FHIR_GPG_PASSPHRASE}</gpg.passphrase>
+            </properties>
         </profile>
         <profile>
             <id>deploy-to-sonatype</id>

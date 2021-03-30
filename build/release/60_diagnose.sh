@@ -8,6 +8,8 @@ set -eu -o pipefail
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
+echo "::group::Preparing the Build"
+
 # gather diagnostics and relevant files
 
 # Store the current directory to reset to
@@ -35,4 +37,5 @@ diagnostic_details > diagnostic_details.log
 # or '-or -iname surefire-reports -or -iname jacoco.exec'
 tar -czf release-test-coverage-and-logs.tgz $(find . -iname diagnostic_details.log -or -iname jacoco-aggregate -or -iname release-commit-details.txt)
 
+echo "::endgroup::"
 # EOF

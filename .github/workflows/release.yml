@@ -11,7 +11,7 @@ on:
 
 jobs:
   release-on-push:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
         java: [ 'openjdk11' ]
@@ -45,6 +45,15 @@ jobs:
     - name: Release
       run: |
         bash build/release/release.sh
+    - name: Push To Quay
+      id: push-to-quay
+      uses: redhat-actions/push-to-registry@v2
+      with:
+        image: ${{ steps.build-image.outputs.image }}
+        tags: ${{ steps.build-image.outputs.tags }}
+        registry: ${{ secrets.QUAY_REPO }}
+        username: ${{ secrets.QUAY_USERNAME }}
+        password: ${{ secrets.QUAY_TOKEN }}
     - name: Gather error logs
       if: failure()
       run: |
