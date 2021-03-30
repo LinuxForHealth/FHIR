@@ -10,7 +10,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.examples.Index;
-import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.visitor.CopyingVisitor;
@@ -21,7 +20,7 @@ import com.ibm.fhir.model.visitor.CopyingVisitor;
  */
 public class R4ExamplesTest {
     private R4ExamplesDriver driver;
-    
+
     @BeforeClass
     public void setup() {
 //        FHIRModelConfig.setCheckReferenceTypes(false);
@@ -35,7 +34,7 @@ public class R4ExamplesTest {
             + ".index", Index.ALL_JSON.name());
         driver.processIndex(Index.valueOf(index));
     }
-    
+
     @Test
     public void copyTest() throws Exception {
         driver.setProcessor(new CopyProcessor(new CopyingVisitor<Resource>()));
@@ -43,7 +42,7 @@ public class R4ExamplesTest {
             + ".index", Index.ALL_JSON.name());
         driver.processIndex(Index.valueOf(index));
     }
-    
+
     /**
      * Main method only used for driving ad-hoc testing
      * @throws Exception
