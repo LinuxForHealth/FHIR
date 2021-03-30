@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2020
+ * (C) Copyright IBM Corp. 2018, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,6 +9,8 @@ package com.ibm.fhir.operation.healthcheck;
 import java.io.InputStream;
 import java.util.List;
 
+import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
@@ -26,7 +28,7 @@ import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 import com.ibm.fhir.server.util.FHIROperationUtil;
 
 public class HealthcheckOperation extends AbstractOperation {
-    
+
     public HealthcheckOperation() {
         super();
     }
@@ -50,11 +52,16 @@ public class HealthcheckOperation extends AbstractOperation {
 
             FHIRPersistenceTransaction tx = resourceHelper.getTransaction();
             tx.begin();
-            
+
             try {
                 OperationOutcome operationOutcome = pl.getHealth();
                 checkOperationOutcome(operationOutcome);
-                return FHIROperationUtil.getOutputParameters(operationOutcome);
+
+                if (FHIRRequestContext.get().getReturnPreference() == HTTPReturnPreference.OPERATION_OUTCOME) {
+                    return FHIROperationUtil.getOutputParameters(operationOutcome);
+                } else {
+                    return null;
+                }
             } catch (Throwable t) {
                 tx.setRollbackOnly();
                 throw t;
