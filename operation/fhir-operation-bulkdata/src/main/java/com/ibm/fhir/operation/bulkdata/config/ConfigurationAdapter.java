@@ -216,13 +216,11 @@ public interface ConfigurationAdapter {
     String getCoreIamEndpoint();
 
     /**
-     * get the tx for the fast endpoint
-     *
-     * @implNote System value.
+     * get the tx for the fast chunk read during an sexport
      *
      * @return
      */
-    int getCoreFastTxTimeout();
+    long getCoreFastMaxReadTimeout();
 
     /**
      * gets the StorageProvider type which aligns with the StorageType

@@ -265,8 +265,8 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     }
 
     @Override
-    public int getCoreFastTxTimeout() {
-        return FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/fastTxTimeout", MAX_PARTITIONPROCESSING_THREADNUMBER);
+    public long getCoreFastMaxReadTimeout() {
+        return Long.parseLong(FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/maxChunkReadTime", "90000"));
     }
 
     @Override

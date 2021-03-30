@@ -159,6 +159,7 @@
                 "batchIdEncryptionKey": "change-password",
                 "maxPartitions": 3, 
                 "maxInputs": 5,
+                "maxChunkReadTime": "90000",
                 "systemExportImpl": "fast"
             },
             "storageProviders": {
