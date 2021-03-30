@@ -351,7 +351,7 @@ public final class CodeSystemSupport {
      *     true if the code system is case sensitive, false otherwise
      */
     public static boolean isCaseSensitive(CodeSystem codeSystem) {
-        if (codeSystem != null) {
+        if (codeSystem != null && codeSystem.getCaseSensitive() != null) {
             return java.lang.Boolean.TRUE.equals(codeSystem.getCaseSensitive().getValue());
         }
         return false;
