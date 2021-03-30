@@ -139,9 +139,8 @@ public class ResourcePayloadReader extends AbstractItemReader {
 
     private static final char NDJSON_LINE_SEPARATOR = '\n';
 
-    // Assume for now we have a transaction timeout of 120s, but need to give the upload some time to work
-    // TODO configuration
-    private long txTimeoutMillis = 90000L;
+    // We need to give the upload some time to work
+    private long txTimeoutMillis = ConfigurationFactory.getInstance().getCoreFastMaxReadTimeout();
 
     // The nanoTime after which we want to stop processing to avoid a Liberty transaction timeout
     private long txEndTime;

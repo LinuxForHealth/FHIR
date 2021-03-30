@@ -216,13 +216,11 @@ public interface ConfigurationAdapter {
     String getCoreIamEndpoint();
 
     /**
-     * get the tx for the fast endpoint
-     *
-     * @implNote System value.
+     * get the number ms to read payloads from the persistence layer before stopping to checkpoint
      *
      * @return
      */
-    int getCoreFastTxTimeout();
+    long getCoreFastMaxReadTimeout();
 
     /**
      * gets the StorageProvider type which aligns with the StorageType
@@ -468,4 +466,10 @@ public interface ConfigurationAdapter {
      * @return
      */
     int getImportInflyRateNumberOfFhirResources(String provider);
+
+    /**
+     * the expiry time of the generated presigned urls.
+     * @return
+     */
+    int getPresignedUrlExpiry();
 }

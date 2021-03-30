@@ -2032,6 +2032,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/cos/requestTimeout`|number|The request timeout in second for the COS client|
 |`fhirServer/bulkdata/core/cos/socketTimeout`|number|The socket timeout in second for the COS client|
 |`fhirServer/bulkdata/core/cos/useServerTruststore`|boolean|If the COS Client should use the IBM FHIR Server's TrustStore to access S3/IBMCOS service |
+|`fhirServer/bulkdata/core/cos/presignedExpiry`|number|The time in seconds of the presigned download URL; must be using HMAC auth|
 |`fhirServer/bulkdata/core/file/writeTriggerSizeMB`|number|The size, in megabytes, at which to write the buffer to file.|
 |`fhirServer/bulkdata/core/file/sizeThresholdMB`|number|The size, in megabytes, at which to finish writing a given file. Use `0` to indicate that all resources of a given type should be written to a single file.|
 |`fhirServer/bulkdata/core/file/resourceCountThreshold`|number|The number of resources at which to finish writing a given file. The actual number of resources written to a single file may be slightly above this number, dependent on the configured page size. Use `0` to indicate that there is no limit to the number of resources to be written to a single file.|
@@ -2040,7 +2041,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/maxPartitions`|number| The maximum number of simultaneous partitions that are processed per Export and Import |
 |`fhirServer/bulkdata/core/maxInputs`|number| The number of inputs allowed for $import |
 |`fhirServer/bulkdata/core/iamEndpoint`|string| Override the system's IAM endpoint |
-|`fhirServer/bulkdata/core/fastTxTimeout`|number| Time timeout for the fast implementations transaction |
+|`fhirServer/bulkdata/core/maxChunkReadTime`|string| Max time in milliseconds to read during a bulkdata export without type filters. The time should be three quarters of the transactionManager timeout (often the FHIR_TRANSACTION_MANAGER_TIMEOUT value). Note, this value is a string representation of a long value.|
 |`fhirServer/bulkdata/storageProviders/<source>/type`|string|The type of storageProvider aws-s3, ibm-cos, file, https |
 |`fhirServer/bulkdata/storageProviders/<source>/bucketName`|string| Object store bucket name |
 |`fhirServer/bulkdata/storageProviders/<source>/location`|string|Object store location |
@@ -2152,11 +2153,12 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/cos/requestTimeout`|120|
 |`fhirServer/bulkdata/core/cos/socketTimeout`|120|
 |`fhirServer/bulkdata/core/cos/useServerTruststore`|false|
+|`fhirServer/bulkdata/core/cos/presignedExpiry`|86400|
 |`fhirServer/bulkdata/core/pageSize`|1000|
 |`fhirServer/bulkdata/core/maxPartitions`|5|
 |`fhirServer/bulkdata/core/maxInputs`|5|
 |`fhirServer/bulkdata/core/iamEndpoint`|https://iam.cloud.ibm.com/oidc/token|
-|`fhirServer/bulkdata/core/fastTxTimeout`|90000|
+|`fhirServer/bulkdata/core/maxChunkReadTime`|90000|
 |`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/exportPublic`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/enableParquet`|false|
@@ -2264,6 +2266,7 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/core/cos/requestTimeout`|N|N|
 |`fhirServer/bulkdata/core/cos/socketTimeout`|N|N|
 |`fhirServer/bulkdata/core/cos/useServerTruststore`|Y|Y|
+|`fhirServer/bulkdata/core/cos/presignedExpiry`|Y|Y|
 |`fhirServer/bulkdata/core/batchIdEncryptionKey`|Y|N|
 |`fhirServer/bulkdata/core/pageSize`|Y|Y|
 |`fhirServer/bulkdata/core/maxPartitions`|Y|Y|
