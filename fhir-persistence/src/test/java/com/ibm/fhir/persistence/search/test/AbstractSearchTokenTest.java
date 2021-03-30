@@ -176,14 +176,14 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchToken_code_in() throws Exception {
-        assertSearchReturnsSavedResource("code:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+        assertSearchDoesntReturnSavedResource("code:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
         assertSearchDoesntReturnSavedResource("missing-code:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
         assertSearchDoesntReturnSavedResource("code:in", "http://hl7.org/fhir/ValueSet/observation-category");
     }
 
     @Test
     public void testSearchToken_code_not_in() throws Exception {
-        assertSearchDoesntReturnSavedResource("code:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+        assertSearchReturnsSavedResource("code:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
         assertSearchReturnsSavedResource("missing-code:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
         assertSearchReturnsSavedResource("code:not-in", "http://hl7.org/fhir/ValueSet/observation-category");
     }
@@ -382,13 +382,13 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchToken_Coding_NoSystem_in() throws Exception {
-        assertSearchReturnsSavedResource("Coding-noSystem:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+        assertSearchDoesntReturnSavedResource("Coding-noSystem:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
         assertSearchDoesntReturnSavedResource("Coding-noSystem:in", "http://hl7.org/fhir/ValueSet/observation-category");
     }
 
     @Test
     public void testSearchToken_Coding_NoSystem_not_in() throws Exception {
-        assertSearchDoesntReturnSavedResource("Coding-noSystem:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+        assertSearchReturnsSavedResource("Coding-noSystem:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
         assertSearchReturnsSavedResource("Coding-noSystem:not-in", "http://hl7.org/fhir/ValueSet/observation-category");
     }
 
@@ -478,13 +478,13 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchToken_Identifier_NoSystem_in() throws Exception {
-        assertSearchReturnsSavedResource("Identifier-noSystem:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+        assertSearchDoesntReturnSavedResource("Identifier-noSystem:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
         assertSearchDoesntReturnSavedResource("Identifier-noSystem:in", "http://hl7.org/fhir/ValueSet/observation-category");
     }
 
     @Test
     public void testSearchToken_Identifier_NoSystem_not_in() throws Exception {
-        assertSearchDoesntReturnSavedResource("Identifier-noSystem:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+        assertSearchReturnsSavedResource("Identifier-noSystem:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
         assertSearchReturnsSavedResource("Identifier-noSystem:not-in", "http://hl7.org/fhir/ValueSet/observation-category");
     }
 

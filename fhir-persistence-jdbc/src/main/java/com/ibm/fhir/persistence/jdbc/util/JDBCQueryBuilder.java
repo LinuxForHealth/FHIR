@@ -66,7 +66,6 @@ import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
-import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.connection.QueryHints;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
@@ -1962,8 +1961,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         log.entering(CLASSNAME, METHODNAME, parameterValue);
 
         String tokenValuePredicateString = parameterTableAlias + DOT + TOKEN_VALUE + IN + LEFT_PAREN;
-        String codeSystemIdPredicateString = parameterTableAlias + DOT + CODE_SYSTEM_ID + IN + LEFT_PAREN;
-        String defaultCodeSystemId = nullCheck(identityCache.getCodeSystemId(JDBCConstants.DEFAULT_TOKEN_SYSTEM));
+        String codeSystemIdPredicateString = parameterTableAlias + DOT + CODE_SYSTEM_ID + EQ;
         boolean codeSystemProcessed = false;
 
         // Note: validation that the value set exists and is expandable was done when the
@@ -1983,16 +1981,16 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     whereClauseSegment.append(OR);
                 }
                 
+                // TODO: investigate if we can use COMMON_TOKEN_VALUES support
+                
                 // <parameterTableAlias>.TOKEN_VALUE IN (...)
                 whereClauseSegment.append(tokenValuePredicateString)
                     .append("'").append(String.join("','", codes)).append("'")
                     .append(RIGHT_PAREN);
 
-                // AND <parameterTableAlias>.CODE_SYSTEM_ID IN ({n}, {default-code-system-id})
+                // AND <parameterTableAlias>.CODE_SYSTEM_ID = {n}
                 whereClauseSegment.append(AND).append(codeSystemIdPredicateString)
-                    .append(nullCheck(identityCache.getCodeSystemId(codeSetUrl)))
-                    .append(COMMA).append(defaultCodeSystemId)
-                    .append(RIGHT_PAREN);
+                    .append(nullCheck(identityCache.getCodeSystemId(codeSetUrl)));
                 
                 codeSystemProcessed = true;
             }
