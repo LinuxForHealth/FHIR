@@ -601,7 +601,7 @@ public class QuerySegmentAggregator {
                                     .replaceAll(AS + PARAMETER_TABLE_ALIAS, AS + paramTableAlias)
                                     .replaceAll(PARAMETER_TABLE_NAME_PLACEHOLDER, valuesTable);
 
-                            if (Modifier.NOT.equals(param.getModifier())) {
+                            if (Modifier.NOT.equals(param.getModifier()) || Modifier.NOT_IN.equals(param.getModifier())) {
                                 // Not exists against a standard parameter table
                                 //   NOT EXISTS (SELECT 1 FROM Observation_TOKEN_VALUES AS param0
                                 //                     WHERE param0.PARAMETER_NAME_ID=1191 AND param0.TOKEN_VALUE = :p1

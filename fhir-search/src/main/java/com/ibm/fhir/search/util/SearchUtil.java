@@ -37,6 +37,7 @@ import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.SearchParameter.Component;
+import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Reference;
@@ -73,6 +74,7 @@ import com.ibm.fhir.search.reference.value.CompartmentReference;
 import com.ibm.fhir.search.sort.Sort;
 import com.ibm.fhir.search.uri.UriBuilder;
 import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
+import com.ibm.fhir.term.util.ValueSetSupport;
 
 /**
  * Search Utility<br>
@@ -1293,7 +1295,8 @@ public class SearchUtil {
                     final String ofTypeParmName = searchParameter.getCode().getValue() + SearchConstants.OF_TYPE_MODIFIER_SUFFIX;
                     parameterValue.setOfTypeModifier(true);
                     if (parts.length < 2) {
-                        String msg = "Search parameter '" + searchParameter.getCode().getValue() + "' with modifier ':" + modifier.value() + "' requires at least a code and value";
+                        String msg = "Search parameter '" + searchParameter.getCode().getValue() + "' with modifier ':" + modifier.value() +
+                                "' requires at least a code and value";
                         throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
                     } else if (parts.length < 4) {
                         QueryParameterValue typeParameterValue = new QueryParameterValue();
@@ -1301,24 +1304,39 @@ public class SearchUtil {
                             typeParameterValue.setValueSystem(unescapeSearchParm(parts[0]));
                         }
                         typeParameterValue.setValueCode(unescapeSearchParm(parts[parts.length - 2]));
-                        QueryParameter typeParameter = new QueryParameter(Type.TOKEN, SearchUtil.makeCompositeSubCode(ofTypeParmName, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_TYPE),
-                            null, null, Collections.singletonList(typeParameterValue));
+                        QueryParameter typeParameter = new QueryParameter(Type.TOKEN, SearchUtil.makeCompositeSubCode(ofTypeParmName,
+                            SearchConstants.OF_TYPE_MODIFIER_COMPONENT_TYPE), null, null, Collections.singletonList(typeParameterValue));
                         parameterValue.addComponent(typeParameter);
 
                         QueryParameterValue valueParameterValue = new QueryParameterValue();
                         valueParameterValue.setValueCode(unescapeSearchParm(parts[parts.length - 1]));
-                        QueryParameter valueParameter = new QueryParameter(Type.TOKEN, SearchUtil.makeCompositeSubCode(ofTypeParmName, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE),
-                            null, null, Collections.singletonList(valueParameterValue));
+                        QueryParameter valueParameter = new QueryParameter(Type.TOKEN, SearchUtil.makeCompositeSubCode(ofTypeParmName,
+                            SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE), null, null, Collections.singletonList(valueParameterValue));
                         parameterValue.addComponent(valueParameter);
                     } else {
                         QueryParameterValue valueParameterValue = new QueryParameterValue();
                         valueParameterValue.setValueCode(unescapeSearchParm(v));
-                        QueryParameter valueParameter = new QueryParameter(Type.TOKEN, SearchUtil.makeCompositeSubCode(ofTypeParmName, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE),
-                            null, null, Collections.singletonList(valueParameterValue));
+                        QueryParameter valueParameter = new QueryParameter(Type.TOKEN, SearchUtil.makeCompositeSubCode(ofTypeParmName,
+                            SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE), null, null, Collections.singletonList(valueParameterValue));
                         parameterValue.addComponent(valueParameter);
                     }
-              } else
-                if (parts.length == 2) {
+                } else if (Modifier.IN.equals(modifier) || Modifier.NOT_IN.equals(modifier)) {
+                    // Validate that the parameter value is a ValueSet URL that points to a registered ValueSet that is
+                    // expanded.
+                    ValueSet valueSet = ValueSetSupport.getValueSet(v);
+                    if (valueSet == null) {
+                        String msg = "ValueSet '" + v + "' specified for search parameter '" + searchParameter.getCode().getValue() +
+                                "' with modifier ':" + modifier.value() + "' could not be found";
+                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                    }
+//                    ValueSetSupport.expand(valueSet);
+                    if (!ValueSetSupport.isExpandable(valueSet)) {
+                        String msg = "ValueSet '" + v + "' specified for search parameter '" + searchParameter.getCode().getValue() +
+                                "' with modifier ':" + modifier.value() + "' is not expandable";
+                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                    }
+                    parameterValue.setValueCode(unescapeSearchParm(v));
+                } else if (parts.length == 2) {
                     parameterValue.setValueSystem(unescapeSearchParm(parts[0]));
                     parameterValue.setValueCode(unescapeSearchParm(parts[1]));
                 } else {

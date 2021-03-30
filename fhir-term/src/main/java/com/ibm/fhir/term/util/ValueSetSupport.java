@@ -274,7 +274,7 @@ public final class ValueSetSupport {
         return !codeSystemContains.isEmpty() ? codeSystemContains : valueSetContains;
     }
 
-    private static Map<java.lang.String, Set<java.lang.String>> getCodeSetMap(ValueSet valueSet) {
+    public static Map<java.lang.String, Set<java.lang.String>> getCodeSetMap(ValueSet valueSet) {
         if (valueSet.getUrl() == null || valueSet.getVersion() == null) {
             return computeCodeSetMap(valueSet);
         }
