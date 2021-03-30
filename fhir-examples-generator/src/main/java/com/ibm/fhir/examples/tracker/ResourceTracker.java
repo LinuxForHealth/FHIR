@@ -36,6 +36,7 @@ public class ResourceTracker {
     /**
      * should write the resource?
      * @param generator
+     * @param tag
      * @param path
      * @param r
      * @return
@@ -43,7 +44,7 @@ public class ResourceTracker {
      * @throws NoSuchAlgorithmException
      * @throws IOException
      */
-    public boolean shouldWriteResourceExample(FHIRGenerator generator, Path path, Resource r) throws FHIRGeneratorException, NoSuchAlgorithmException, IOException {
+    public boolean shouldWriteResourceExample(FHIRGenerator generator, String tag, Path path, Resource r) throws FHIRGeneratorException, NoSuchAlgorithmException, IOException {
         final MessageDigest sha256 = MessageDigest.getInstance("SHA-256");
 
         byte[] digest = null;
@@ -52,7 +53,7 @@ public class ResourceTracker {
             digest = sha256.digest(out.toByteArray());
         }
 
-        String hash = translate(digest);
+        String hash = tag + "|" + translate(digest);
         boolean result = false;
         if (!DIGESTMAP.containsKey(hash)) {
             DIGESTMAP.put(hash, Arrays.asList(path.toFile().getAbsoluteFile().toString()));

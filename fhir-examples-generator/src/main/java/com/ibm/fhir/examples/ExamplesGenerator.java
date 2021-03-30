@@ -64,7 +64,7 @@ public class ExamplesGenerator {
             resource = tag(resource, tag);
 
             Path jsonPath = basePath.resolve(Paths.get("json", tag, resourceName + "-" + curIdxJson + ".json"));
-            if (tracker.shouldWriteResourceExample(json, jsonPath, resource)) {
+            if (tracker.shouldWriteResourceExample(json, tag, jsonPath, resource)) {
                 Files.createDirectories(jsonPath.getParent());
                 try (BufferedWriter writer = Files.newBufferedWriter(jsonPath)) {
                     json.generate(resource, writer);
@@ -75,7 +75,7 @@ public class ExamplesGenerator {
             }
 
             Path xmlPath = basePath.resolve(Paths.get("xml", tag, resourceName + "-" + curIdxXml + ".xml"));
-            if (tracker.shouldWriteResourceExample(xml, xmlPath, resource)) {
+            if (tracker.shouldWriteResourceExample(xml, tag, xmlPath, resource)) {
                 Files.createDirectories(xmlPath.getParent());
                 try (BufferedWriter writer = Files.newBufferedWriter(xmlPath)) {
                     xml.generate(resource, writer);
