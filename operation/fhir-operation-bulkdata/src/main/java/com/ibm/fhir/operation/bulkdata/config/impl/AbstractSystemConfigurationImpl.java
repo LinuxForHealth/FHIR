@@ -320,7 +320,7 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
 
     @Override
     public int getPresignedUrlExpiry() {
-        int pageSize = FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/cos/presignedExpiry", 86400);
-        return Math.max(1, pageSize);
+        int expirySeconds = FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/cos/presignedExpiry", 86400);
+        return Math.max(1, expirySeconds);
     }
 }

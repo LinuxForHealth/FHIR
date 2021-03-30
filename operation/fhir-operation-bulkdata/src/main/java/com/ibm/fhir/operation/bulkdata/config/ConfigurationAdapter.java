@@ -216,7 +216,7 @@ public interface ConfigurationAdapter {
     String getCoreIamEndpoint();
 
     /**
-     * get the tx for the fast chunk read during an sexport
+     * get the number ms to read payloads from the persistence layer before stopping to checkpoint
      *
      * @return
      */
