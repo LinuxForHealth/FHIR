@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -35,6 +36,7 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.MedicationStatementStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -54,7 +56,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * or missing or less precise. As stated earlier, the medication statement information may come from the patient's 
  * memory, from a prescription bottle or from a list of medications the patient, clinician or other party maintains. 
  * Medication administration is more formal and is not missing detailed information.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "medicationStatement-0",
     level = "Warning",

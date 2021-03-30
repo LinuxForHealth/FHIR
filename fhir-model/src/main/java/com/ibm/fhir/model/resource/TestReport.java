@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -32,6 +33,7 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.TestReportActionResult;
 import com.ibm.fhir.model.type.code.TestReportParticipantType;
 import com.ibm.fhir.model.type.code.TestReportResult;
@@ -41,7 +43,13 @@ import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A summary of information based on the results of executing a TestScript.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "inv-1",
     level = "Rule",

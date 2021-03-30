@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -38,13 +39,20 @@ import com.ibm.fhir.model.type.code.AppointmentStatus;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ParticipantRequired;
 import com.ibm.fhir.model.type.code.ParticipationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A booking of a healthcare event among patient(s), practitioner(s), related person(s) and/or device(s) for a specific 
  * date/time. This may result in one or more Encounter(s).
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "app-1",
     level = "Rule",

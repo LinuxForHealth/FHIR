@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -43,6 +44,7 @@ import com.ibm.fhir.model.type.code.AssertionResponseTypes;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.FHIRDefinedType;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.TestScriptRequestMethodCode;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -50,7 +52,13 @@ import com.ibm.fhir.model.visitor.Visitor;
 /**
  * A structured set of tests against a FHIR server or client implementation to determine compliance against the FHIR 
  * specification.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "tst-0",
     level = "Warning",

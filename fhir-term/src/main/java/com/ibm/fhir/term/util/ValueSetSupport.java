@@ -352,10 +352,11 @@ public final class ValueSetSupport {
     }
 
     private static boolean validateCode(Map<java.lang.String, Set<java.lang.String>> codeSetMap, Code code) {
-        java.lang.String codeString = (code != null) ? code.getValue() : null;
-        if (codeString != null) {
+        java.lang.String codeValue = (code != null) ? code.getValue() : null;
+        if (codeValue != null) {
+            java.lang.String normalizedCodeValue = normalize(codeValue);
             for (Set<java.lang.String> codeSet : codeSetMap.values()) {
-                if (codeSet.contains(codeString) || codeSet.contains(codeString.toLowerCase())) {
+                if (codeSet.contains(codeValue) || codeSet.contains(normalizedCodeValue)) {
                     return true;
                 }
             }

@@ -55,6 +55,7 @@ import com.ibm.fhir.model.type.code.SearchEntryMode;
 public class SearchIncludeTest extends FHIRServerTestBase {
     private String patient1Id;
     private String patient2Id;
+    private String patient3Id;
     private String practitioner1Id;
     private String organization1Id;
     private String procedure1Id;
@@ -183,6 +184,40 @@ public class SearchIncludeTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "server-search-include" }, dependsOnMethods = {"testCreatePatient2"})
+    public void testCreatePatient3() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new Patient and then call the 'create' API.
+        Patient patient = TestUtil.getMinimalResource(ResourceType.PATIENT, Format.JSON);
+        patient = patient.toBuilder()
+                .gender(AdministrativeGender.UNKNOWN)
+                .name(HumanName.builder()
+                    .given(of("3" + tag))
+                    .build())
+                .meta(Meta.builder()
+                    .tag(Coding.builder()
+                        .code(Code.of(tag))
+                        .build())
+                    .build())
+                .generalPractitioner(Reference.builder().reference(of("Practitioner/" + practitioner1Id)).build())
+                .managingOrganization(Reference.builder().reference(of("Organization/" + organization1Id)).build())
+                .link(Link.builder().type(LinkType.REFER).other(Reference.builder().reference(of("Patient/" + patient2Id)).build()).build())
+                .birthDate(Date.of(now.minus(2, ChronoUnit.DAYS).toString().substring(0,10)))
+                .build();
+
+        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Patient").request().post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the patient's logical id value.
+        patient3Id = getLocationLogicalId(response);
+
+        // Next, call the 'read' API to retrieve the new patient and verify it.
+        response = target.path("Patient/" + patient3Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+    }
+
+    @Test(groups = { "server-search-include" }, dependsOnMethods = {"testCreatePatient2"})
     public void testCreateProcedure1() throws Exception {
         WebTarget target = getWebTarget();
 
@@ -287,6 +322,15 @@ public class SearchIncludeTest extends FHIRServerTestBase {
     }
 
     @AfterClass
+    public void testDeletePatient3() {
+        WebTarget target = getWebTarget();
+        if (patient3Id != null) {
+            Response response   = target.path("Patient/" + patient3Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
+            assertResponse(response, Response.Status.OK.getStatusCode());
+        }
+    }
+
+    @AfterClass
     public void testDeleteProcedure1() {
         WebTarget target = getWebTarget();
         if (procedure1Id != null) {
@@ -329,20 +373,6 @@ public class SearchIncludeTest extends FHIRServerTestBase {
             Response response   = target.path("Practitioner/" + practitioner1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
             assertResponse(response, Response.Status.OK.getStatusCode());
         }
-    }
-
-    @Test(groups = { "server-search-include" })
-    public void testSearchIncludeWithSortError() {
-        WebTarget target = getWebTarget();
-        Response response =
-                target.path("Patient")
-                .queryParam("_include", "Patient:link")
-                .queryParam("_sort", "active")
-                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .get();
-        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class),
-                "_sort search result parameter not supported with _include or _revinclude.");
     }
 
     @Test(groups = { "server-search-include" })
@@ -569,17 +599,20 @@ public class SearchIncludeTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response =
                 target.path("Procedure")
+                .queryParam("_total", "none")
                 .queryParam("date", now.toString())
                 .queryParam("_include", "Procedure:patient")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
+        final int expectedMatchCount = 3;
 
         assertNotNull(bundle);
+        assertNull(bundle.getTotal());
         assertEquals(4, bundle.getEntry().size());
         List<String> matchResourceIds = new ArrayList<>();
-        for (int i=0; i<bundle.getTotal().getValue(); ++i) {
+        for (int i=0; i<expectedMatchCount; ++i) {
             matchResourceIds.add(bundle.getEntry().get(i).getResource().getId());
             assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(i).getSearch().getMode());
         }
@@ -587,7 +620,7 @@ public class SearchIncludeTest extends FHIRServerTestBase {
         assertTrue(matchResourceIds.contains(procedure2Id));
         assertTrue(matchResourceIds.contains(procedure3Id));
         List<String> includeResourceIds = new ArrayList<>();
-        for (int i=bundle.getTotal().getValue(); i<bundle.getEntry().size(); ++i) {
+        for (int i=expectedMatchCount; i<bundle.getEntry().size(); ++i) {
             includeResourceIds.add(bundle.getEntry().get(i).getResource().getId());
             assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(i).getSearch().getMode());
         }
@@ -674,4 +707,185 @@ public class SearchIncludeTest extends FHIRServerTestBase {
         assertTrue(resourceIds.contains(procedure3Id));
     }
 
+    @Test(groups = { "server-search-include" }, dependsOnMethods = {"testCreatePatient3"})
+    public void testSearchIncludeIteratePrimaryType() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient")
+                .queryParam("_total", "none")
+                .queryParam("_tag", tag)
+                .queryParam("name", "3" + tag)
+                .queryParam("_include:iterate", "Patient:link")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertNull(bundle.getTotal());
+        assertEquals(3, bundle.getEntry().size());
+        assertEquals(patient3Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
+        List<String> resourceIds = new ArrayList<>();
+        for (int i=1; i<bundle.getEntry().size(); ++i) {
+            resourceIds.add(bundle.getEntry().get(i).getResource().getId());
+            assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(i).getSearch().getMode());
+        }
+        assertTrue(resourceIds.contains(patient2Id));
+        assertTrue(resourceIds.contains(patient1Id));
+    }
+
+    @Test(groups = { "server-search-include" }, dependsOnMethods = {"testCreateProcedure3"})
+    public void testSearchIncludeIterateIncludeType() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Procedure")
+                .queryParam("date", now.toString())
+                .queryParam("_include", "Procedure:patient")
+                .queryParam("_include:iterate", "Patient:organization")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(5, bundle.getEntry().size());
+        List<String> matchResourceIds = new ArrayList<>();
+        for (int i=0; i<bundle.getTotal().getValue(); ++i) {
+            matchResourceIds.add(bundle.getEntry().get(i).getResource().getId());
+            assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(i).getSearch().getMode());
+        }
+        assertTrue(matchResourceIds.contains(procedure1Id));
+        assertTrue(matchResourceIds.contains(procedure2Id));
+        assertTrue(matchResourceIds.contains(procedure3Id));
+        List<String> includeResourceIds = new ArrayList<>();
+        for (int i=bundle.getTotal().getValue(); i<bundle.getEntry().size(); ++i) {
+            includeResourceIds.add(bundle.getEntry().get(i).getResource().getId());
+            assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(i).getSearch().getMode());
+        }
+        assertTrue(includeResourceIds.contains(patient2Id));
+        assertTrue(includeResourceIds.contains(organization1Id));
+    }
+
+    @Test(groups = { "server-search-include" }, dependsOnMethods = {"testCreateProcedure3"})
+    public void testSearchIncludeIteratePrimaryAndIncludeType() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Procedure")
+                .queryParam("instantiates-uri", "3" + tag)
+                .queryParam("_include", "Procedure:patient")
+                .queryParam("_include:iterate", "Patient:organization", "Procedure:part-of")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(4, bundle.getEntry().size());
+        List<String> matchResourceIds = new ArrayList<>();
+        for (int i=0; i<bundle.getTotal().getValue(); ++i) {
+            matchResourceIds.add(bundle.getEntry().get(i).getResource().getId());
+            assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(i).getSearch().getMode());
+        }
+        assertTrue(matchResourceIds.contains(procedure3Id));
+        List<String> includeResourceIds = new ArrayList<>();
+        for (int i=bundle.getTotal().getValue(); i<bundle.getEntry().size(); ++i) {
+            includeResourceIds.add(bundle.getEntry().get(i).getResource().getId());
+            assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(i).getSearch().getMode());
+        }
+        assertTrue(includeResourceIds.contains(patient2Id));
+        assertTrue(includeResourceIds.contains(organization1Id));
+        assertTrue(includeResourceIds.contains(procedure2Id));
+    }
+
+    @Test(groups = { "server-search-include" }, dependsOnMethods = {"testCreateProcedure3"})
+    public void testSearchIncludeIterateRevIncludeType() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Practitioner")
+                .queryParam("name", "1" + tag)
+                .queryParam("_revinclude", "Patient:general-practitioner")
+                .queryParam("_include:iterate", "Patient:organization")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(4, bundle.getEntry().size());
+        List<String> matchResourceIds = new ArrayList<>();
+        for (int i=0; i<bundle.getTotal().getValue(); ++i) {
+            matchResourceIds.add(bundle.getEntry().get(i).getResource().getId());
+            assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(i).getSearch().getMode());
+        }
+        assertTrue(matchResourceIds.contains(practitioner1Id));
+        List<String> includeResourceIds = new ArrayList<>();
+        for (int i=bundle.getTotal().getValue(); i<bundle.getEntry().size(); ++i) {
+            includeResourceIds.add(bundle.getEntry().get(i).getResource().getId());
+            assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(i).getSearch().getMode());
+        }
+        assertTrue(includeResourceIds.contains(patient2Id));
+        assertTrue(includeResourceIds.contains(patient3Id));
+        assertTrue(includeResourceIds.contains(organization1Id));
+    }
+
+    @Test(groups = { "server-search-include" }, dependsOnMethods = {"testCreatePatient2", "testCreatePatient3"})
+    public void testSearchIncludeWithSort() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient")
+                .queryParam("_tag", tag)
+                .queryParam("gender", "female,unknown")
+                .queryParam("_include", "Patient:*")
+                .queryParam("_sort", "birthdate")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(5, bundle.getEntry().size());
+        assertEquals(patient3Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
+        assertEquals(patient2Id, bundle.getEntry().get(1).getResource().getId());
+        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(1).getSearch().getMode());
+        List<String> resourceIds = new ArrayList<>();
+        for (int i=2; i<bundle.getEntry().size(); ++i) {
+            resourceIds.add(bundle.getEntry().get(i).getResource().getId());
+            assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(i).getSearch().getMode());
+        }
+        assertTrue(resourceIds.contains(patient1Id));
+        assertTrue(resourceIds.contains(organization1Id));
+        assertTrue(resourceIds.contains(practitioner1Id));
+    }
+
+    @Test(groups = { "server-search-include" }, dependsOnMethods = {"testCreatePatient2", "testCreatePatient3"})
+    public void testSearchIncludeWithSortDesc() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient")
+                .queryParam("_tag", tag)
+                .queryParam("gender", "female,unknown")
+                .queryParam("_include", "Patient:*")
+                .queryParam("_sort", "-birthdate")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(5, bundle.getEntry().size());
+        assertEquals(patient2Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
+        assertEquals(patient3Id, bundle.getEntry().get(1).getResource().getId());
+        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(1).getSearch().getMode());
+        List<String> resourceIds = new ArrayList<>();
+        for (int i=2; i<bundle.getEntry().size(); ++i) {
+            resourceIds.add(bundle.getEntry().get(i).getResource().getId());
+            assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(i).getSearch().getMode());
+        }
+        assertTrue(resourceIds.contains(patient1Id));
+        assertTrue(resourceIds.contains(organization1Id));
+        assertTrue(resourceIds.contains(practitioner1Id));
+    }
 }

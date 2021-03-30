@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -42,6 +43,7 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.MedicationRequestIntent;
 import com.ibm.fhir.model.type.code.MedicationRequestPriority;
 import com.ibm.fhir.model.type.code.MedicationRequestStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -50,7 +52,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * patient. The resource is called "MedicationRequest" rather than "MedicationPrescription" or "MedicationOrder" to 
  * generalize the use across inpatient and outpatient settings, including care plans, etc., and to harmonize with 
  * workflow patterns.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicationRequest extends DomainResource {
     private final List<Identifier> identifier;

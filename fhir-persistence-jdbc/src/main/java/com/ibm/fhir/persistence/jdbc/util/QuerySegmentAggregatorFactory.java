@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018,2020
+ * (C) Copyright IBM Corp. 2018, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,20 +23,19 @@ public class QuerySegmentAggregatorFactory {
     private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
 
     /**
-     * Instantiates and returns a QuerySegmentAggregator instance based on the passed parameters.    
+     * Instantiates and returns a QuerySegmentAggregator instance based on the passed parameters.
      *
      */
-    public static QuerySegmentAggregator buildQuerySegmentAggregator(Class<?> resourceType, int offset, int pageSize, 
-                                    ParameterDAO parameterDao, ResourceDAO resourceDao, FHIRSearchContext searchContext, QueryHints queryHints,
-                                    JDBCIdentityCache identityCache) {
+    public static QuerySegmentAggregator buildQuerySegmentAggregator(Class<?> resourceType, int offset, int pageSize,
+                                    ParameterDAO parameterDao, ResourceDAO resourceDao, FHIRSearchContext searchContext,
+                                    boolean includeQuery, QueryHints queryHints, JDBCIdentityCache identityCache) {
         final String METHODNAME = "buildQuerySegmentAggregator";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         QuerySegmentAggregator qsa;
-        
-        if (searchContext.hasIncludeParameters() || searchContext.hasRevIncludeParameters()) {
-            qsa = new InclusionQuerySegmentAggregator(resourceType, offset, pageSize, parameterDao, resourceDao, 
-                                                      searchContext.getIncludeParameters(), searchContext.getRevIncludeParameters(), queryHints, identityCache);
+
+        if (includeQuery) {
+            qsa = new InclusionQuerySegmentAggregator(resourceType, offset, pageSize, parameterDao, resourceDao, queryHints, identityCache);
         }
         else if (searchContext.hasSortParameters()) {
             qsa = new SortedQuerySegmentAggregator(resourceType, offset, pageSize, parameterDao, resourceDao, searchContext.getSortParameters(), queryHints);
@@ -44,11 +43,11 @@ public class QuerySegmentAggregatorFactory {
         else {
             qsa = new QuerySegmentAggregator(resourceType, offset, pageSize, parameterDao, resourceDao, queryHints);
         }
-        
+
         if( Resource.class.equals(resourceType) && searchContext.getSearchResourceTypes()!= null) {
             qsa.setResourceTypes(searchContext.getSearchResourceTypes());
         }
-        
+
         log.exiting(CLASSNAME, METHODNAME);
         return qsa;
     }

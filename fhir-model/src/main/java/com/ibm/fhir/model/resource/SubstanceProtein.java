@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -26,6 +27,7 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -35,7 +37,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * recombinant and purified SubstanceProteins of defined sequence, whether the use is therapeutic or prophylactic. This 
  * set of elements will be used to describe albumins, coagulation factors, cytokines, growth factors, 
  * peptide/SubstanceProtein hormones, enzymes, toxins, toxoids, recombinant vaccines, and immunomodulators.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SubstanceProtein extends DomainResource {
     @Summary
