@@ -817,11 +817,9 @@ public final class CodeSystemSupport {
 
             if (hasConceptProperty(concept, property)) {
                 Element value = getConceptPropertyValue(concept, property);
-                if (value != null) {
-                    return this.value.equals(value.is(DateTime.class) ?
-                        toLong(value.as(DateTime.class)) :
-                        toObject(value));
-                }
+                return this.value.equals(value.is(DateTime.class) ?
+                    toLong(value.as(DateTime.class)) :
+                    toObject(value));
             }
 
             return false;
@@ -879,8 +877,8 @@ public final class CodeSystemSupport {
                     normalize(concept.getCode().getValue()));
             }
 
-            Element value = getConceptPropertyValue(concept, property);
-            if (value != null) {
+            if (hasConceptProperty(concept, property)) {
+                Element value = getConceptPropertyValue(concept, property);
                 return set.contains(value.is(DateTime.class) ?
                     toLong(value.as(DateTime.class)) :
                     toObject(value));
@@ -929,8 +927,8 @@ public final class CodeSystemSupport {
                     normalize(concept.getCode().getValue()));
             }
 
-            Element value = getConceptPropertyValue(concept, property);
-            if (value != null) {
+            if (hasConceptProperty(concept, property)) {
+                Element value = getConceptPropertyValue(concept, property);
                 return !set.contains(value.is(DateTime.class) ?
                     toLong(value.as(DateTime.class)) :
                     toObject(value));
