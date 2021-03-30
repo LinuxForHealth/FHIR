@@ -1322,14 +1322,13 @@ public class SearchUtil {
                     }
                 } else if (Modifier.IN.equals(modifier) || Modifier.NOT_IN.equals(modifier)) {
                     // Validate that the parameter value is a ValueSet URL that points to a registered ValueSet that is
-                    // expanded.
+                    // expandable.
                     ValueSet valueSet = ValueSetSupport.getValueSet(v);
                     if (valueSet == null) {
                         String msg = "ValueSet '" + v + "' specified for search parameter '" + searchParameter.getCode().getValue() +
                                 "' with modifier ':" + modifier.value() + "' could not be found";
                         throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
                     }
-//                    ValueSetSupport.expand(valueSet);
                     if (!ValueSetSupport.isExpandable(valueSet)) {
                         String msg = "ValueSet '" + v + "' specified for search parameter '" + searchParameter.getCode().getValue() +
                                 "' with modifier ':" + modifier.value() + "' is not expandable";
