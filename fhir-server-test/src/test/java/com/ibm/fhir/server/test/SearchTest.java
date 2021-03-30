@@ -104,10 +104,7 @@ public class SearchTest extends FHIRServerTestBase {
         // Build a new Organization and then call the 'create' API.
         Organization organization = TestUtil.getMinimalResource(ResourceType.ORGANIZATION, Format.JSON);
 
-        organization = organization.toBuilder()
-                .name(com.ibm.fhir.model.type.String.of("test"))
-                .type(CodeableConcept.builder().coding(Coding.builder().code(Code.of("dept")).build()).build())
-                .build();
+        organization = organization.toBuilder().name(com.ibm.fhir.model.type.String.of("test")).build();
         Entity<Organization> entity =
                 Entity.entity(organization, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response =
@@ -1973,22 +1970,6 @@ public class SearchTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() == 1);
         assertEquals(allergyIntoleranceId, bundle.getEntry().get(0).getResource().getId());
-    }
-
-    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateOrganization" })
-    public void testSearchOrganizationWithNoCodeSystemIn() {
-        WebTarget target = getWebTarget();
-        Response response = target.path("Organization")
-                .queryParam("_id", organizationId)
-                .queryParam("type:in", "http://hl7.org/fhir/ValueSet/organization-type")
-                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("X-FHIR-TENANT-ID", tenantName)
-                .header("X-FHIR-DSID", dataStoreId)
-                .get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle bundle = response.readEntity(Bundle.class);
-        assertNotNull(bundle);
-        assertTrue(bundle.getEntry().isEmpty());
     }
 
 }
