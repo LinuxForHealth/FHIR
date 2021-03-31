@@ -36,6 +36,7 @@ public class RegistryTermServiceProvider implements FHIRTermServiceProvider {
     public Concept getConcept(CodeSystem codeSystem, Code code) {
         Concept concept = CodeSystemSupport.findConcept(codeSystem, code);
         if (concept != null) {
+            // nested concepts are stripped for consistency with the other providers
             return concept.toBuilder()
                 .concept(Collections.emptyList())
                 .build();
@@ -45,6 +46,7 @@ public class RegistryTermServiceProvider implements FHIRTermServiceProvider {
 
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem) {
+        // nested concepts are stripped for consistency with the other providers
         return CodeSystemSupport.getConcepts(codeSystem).stream()
             .map(concept -> Concept.builder()
                 .code(concept.getCode())
@@ -56,6 +58,7 @@ public class RegistryTermServiceProvider implements FHIRTermServiceProvider {
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters) {
         try {
+            // nested concepts are stripped for consistency with the other providers
             return CodeSystemSupport.getConcepts(codeSystem, filters).stream()
                 .map(concept -> Concept.builder()
                     .code(concept.getCode())
