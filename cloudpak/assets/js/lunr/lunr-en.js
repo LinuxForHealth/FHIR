@@ -144,7 +144,7 @@ function searchResults(theSearchInput) {
             structure += '</div>'
           }
         });
-        structure += '<div class="ctaArea"><img alt="" role="presentation" src="https://pages.github.ibm.com/watson-health-fhir-server/cloudpak-website/assets/images/icons/next.svg" /></div>'
+        structure += '<div class="ctaArea"><img alt="" role="presentation" src="https://ibm.github.io/FHIR/cloudpak/assets/images/icons/next.svg" /></div>'
         structure += '</div>'
         structure += '</div>'
       }
