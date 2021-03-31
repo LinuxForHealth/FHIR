@@ -1889,4 +1889,87 @@ public class SearchTest extends FHIRServerTestBase {
         assertEquals(carePlanId, responseCarePlan.getId());
     }
 
+    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateAllergyIntolerance" })
+    public void testSearchAllergyIntoleranceWithClinicalStatusIn() {
+        WebTarget target = getWebTarget();
+        Response response = target.path("AllergyIntolerance")
+                .queryParam("_id", allergyIntoleranceId)
+                .queryParam("clinical-status:in", "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() == 1);
+        assertEquals(allergyIntoleranceId, bundle.getEntry().get(0).getResource().getId());
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateAllergyIntolerance" })
+    public void testSearchAllergyIntoleranceWithClinicalStatusNotIn() {
+        WebTarget target = getWebTarget();
+        Response response = target.path("AllergyIntolerance")
+                .queryParam("_id", allergyIntoleranceId)
+                .queryParam("clinical-status:not-in", "http://hl7.org/fhir/ValueSet/allergyintolerance-verification")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() == 1);
+        assertEquals(allergyIntoleranceId, bundle.getEntry().get(0).getResource().getId());
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateAllergyIntolerance" })
+    public void testSearchAllergyIntoleranceWithClinicalStatusInNotFound() {
+        WebTarget target = getWebTarget();
+        Response response = target.path("AllergyIntolerance")
+                .queryParam("_id", allergyIntoleranceId)
+                .queryParam("clinical-status:in", "http://hl7.org/fhir/ValueSet/allergyintolerance-verification")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().isEmpty());
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateAllergyIntolerance" })
+    public void testSearchAllergyIntoleranceWithClinicalStatusNotInNotFound() {
+        WebTarget target = getWebTarget();
+        Response response = target.path("AllergyIntolerance")
+                .queryParam("_id", allergyIntoleranceId)
+                .queryParam("clinical-status:not-in", "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().isEmpty());
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateAllergyIntolerance" })
+    public void testSearchAllergyIntoleranceWithImplicitCodeSystemIn() {
+        WebTarget target = getWebTarget();
+        Response response = target.path("AllergyIntolerance")
+                .queryParam("_id", allergyIntoleranceId)
+                .queryParam("category:in", "http://hl7.org/fhir/ValueSet/allergy-intolerance-category")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() == 1);
+        assertEquals(allergyIntoleranceId, bundle.getEntry().get(0).getResource().getId());
+    }
+
 }

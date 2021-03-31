@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2020
+ * (C) Copyright IBM Corp. 2017,2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import javax.transaction.TransactionSynchronizationRegistry;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
@@ -38,8 +39,6 @@ import com.ibm.fhir.persistence.jdbc.util.SqlParameterEncoder;
 public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
     private static final Logger log = Logger.getLogger(ParameterDAOImpl.class.getName());
     private static final String CLASSNAME = ParameterDAOImpl.class.getName();
-
-    public static final String DEFAULT_TOKEN_SYSTEM = "default-token-system";
 
     private Map<String, Integer> newParameterNameIds = new HashMap<>();
     private Map<String, Integer> newCodeSystemIds = new HashMap<>();
@@ -319,7 +318,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
 
         try {
             if (myCodeSystemName == null || myCodeSystemName.isEmpty()) {
-                myCodeSystemName = DEFAULT_TOKEN_SYSTEM;
+                myCodeSystemName = JDBCConstants.DEFAULT_TOKEN_SYSTEM;
             }
             codeSystemId = getCodeSystemIdFromCaches(myCodeSystemName);
 

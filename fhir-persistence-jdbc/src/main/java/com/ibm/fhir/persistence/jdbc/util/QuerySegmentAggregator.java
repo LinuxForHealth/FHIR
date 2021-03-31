@@ -601,12 +601,12 @@ public class QuerySegmentAggregator {
                                     .replaceAll(AS + PARAMETER_TABLE_ALIAS, AS + paramTableAlias)
                                     .replaceAll(PARAMETER_TABLE_NAME_PLACEHOLDER, valuesTable);
 
-                            if (Modifier.NOT.equals(param.getModifier())) {
+                            if (Modifier.NOT.equals(param.getModifier()) || Modifier.NOT_IN.equals(param.getModifier())) {
                                 // Not exists against a standard parameter table
                                 //   NOT EXISTS (SELECT 1 FROM Observation_TOKEN_VALUES AS param0
                                 //                     WHERE param0.PARAMETER_NAME_ID=1191 AND param0.TOKEN_VALUE = :p1
                                 //                     AND param0.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID)
-                                // If not the first param with a :missing or :not modifier, use AND instead of WHERE
+                                // If not the first param with a :missing, :not, or :not-in modifier, use AND instead of WHERE
                                 missingOrNotModifierWhereClause.append(missingOrNotModifierWhereClause.length() == 0 ? WHERE : AND)
                                             .append(" NOT EXISTS (SELECT 1 FROM ")
                                             .append(valuesTable)
@@ -643,7 +643,7 @@ public class QuerySegmentAggregator {
             } // end if SKIP_WHERE
         } // end for
 
-        // If there were any query parameters with :missing or :not modifier, append the missingOrNotModifierWhereClause
+        // If there were any query parameters with :missing, :not, or :not-in modifier, append the missingOrNotModifierWhereClause
         if (missingOrNotModifierWhereClause.length() > 0) {
             whereClause.append(missingOrNotModifierWhereClause.toString());
         }

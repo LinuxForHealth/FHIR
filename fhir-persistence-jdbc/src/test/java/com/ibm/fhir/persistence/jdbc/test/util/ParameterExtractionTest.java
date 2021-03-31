@@ -56,6 +56,7 @@ import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceProcessorException;
+import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
@@ -501,7 +502,7 @@ public class ParameterExtractionTest {
         assertEquals(tokenParmVal.getValueCode(), "codea");
         tokenParmVal = (TokenParmVal) cParmVal.getComponent().get(1);
         assertEquals(tokenParmVal.getName(), SearchUtil.makeCompositeSubCode(compositeCode, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE));
-        assertEquals(tokenParmVal.getValueSystem(), TokenParmVal.DEFAULT_TOKEN_SYSTEM);
+        assertEquals(tokenParmVal.getValueSystem(), JDBCConstants.DEFAULT_TOKEN_SYSTEM);
         assertEquals(tokenParmVal.getValueCode(), "abc123");
 
         cParmVal = (CompositeParmVal) params.get(2);
@@ -509,11 +510,11 @@ public class ParameterExtractionTest {
         assertEquals(cParmVal.getComponent().size(), 2, "Number of extracted components");
         tokenParmVal = (TokenParmVal) cParmVal.getComponent().get(0);
         assertEquals(tokenParmVal.getName(), SearchUtil.makeCompositeSubCode(compositeCode, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_TYPE));
-        assertEquals(tokenParmVal.getValueSystem(), TokenParmVal.DEFAULT_TOKEN_SYSTEM);
+        assertEquals(tokenParmVal.getValueSystem(), JDBCConstants.DEFAULT_TOKEN_SYSTEM);
         assertEquals(tokenParmVal.getValueCode(), "codeb");
         tokenParmVal = (TokenParmVal) cParmVal.getComponent().get(1);
         assertEquals(tokenParmVal.getName(), SearchUtil.makeCompositeSubCode(compositeCode, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE));
-        assertEquals(tokenParmVal.getValueSystem(), TokenParmVal.DEFAULT_TOKEN_SYSTEM);
+        assertEquals(tokenParmVal.getValueSystem(), JDBCConstants.DEFAULT_TOKEN_SYSTEM);
         assertEquals(tokenParmVal.getValueCode(), "abc123");
     }
 

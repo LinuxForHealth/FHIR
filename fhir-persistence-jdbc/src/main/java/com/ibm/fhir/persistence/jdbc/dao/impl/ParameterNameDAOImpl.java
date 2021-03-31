@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,8 +28,6 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
 public class ParameterNameDAOImpl implements ParameterNameDAO {
     private static final Logger log = Logger.getLogger(ParameterNameDAOImpl.class.getName());
     private static final String CLASSNAME = ParameterNameDAOImpl.class.getName();
-
-    public static final String DEFAULT_TOKEN_SYSTEM = "default-token-system";
 
     private static final String SQL_SELECT_ALL_SEARCH_PARAMETER_NAMES = "SELECT PARAMETER_NAME_ID, PARAMETER_NAME FROM PARAMETER_NAMES";
 

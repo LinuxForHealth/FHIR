@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
@@ -602,7 +603,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
             rec = new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, refResourceType, refLogicalId, refVersion, this.currentCompositeId, isSystemParam);
         } else {
             // stored as a token with the default system
-            rec = new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, TokenParmVal.DEFAULT_TOKEN_SYSTEM, refLogicalId, this.currentCompositeId, isSystemParam);
+            rec = new ResourceTokenValueRec(parameterNameId, resourceType, resourceTypeId, logicalResourceId, JDBCConstants.DEFAULT_TOKEN_SYSTEM, refLogicalId, this.currentCompositeId, isSystemParam);
         }
 
         if (this.transactionData != null) {

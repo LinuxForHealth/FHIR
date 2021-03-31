@@ -565,5 +565,53 @@
             "xpath": "f:Basic/f:extension[@url='http://example.org/missing-ContactPoint']/f:valueContactPoint",
             "xpathUsage": "normal"
         }
+    },{
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-text-status",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-text-status",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-text-status",
+            "name": "text-status",
+            "status": "active",
+            "description": "test param",
+            "code": "text-status",
+            "base": ["Basic"],
+            "type": "token",
+            "expression": "Basic.text.status",
+            "xpath": "f:Basic/f:text/f:status",
+            "xpathUsage": "normal"
+        }
+    },{
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Coding-validCodeAndSystem",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-Coding-validCodeAndSystem",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-Coding-validCodeAndSystem",
+            "name": "Coding-validCodeAndSystem",
+            "status": "active",
+            "description": "test param",
+            "code": "Coding-validCodeAndSystem",
+            "base": ["Basic"],
+            "type": "token",
+            "expression": "Basic.extension.where(url='http://example.org/Coding-validCodeAndSystem').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/Coding-validCodeAndSystem']/f:valueCoding",
+            "xpathUsage": "normal"
+        }
+    },{
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-CodeableConcept-validCodeAndSystem",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-CodeableConcept-validCodeAndSystem",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-CodeableConcept-validCodeAndSystem",
+            "name": "CodeableConcept-validCodeAndSystem",
+            "status": "active",
+            "description": "test param",
+            "code": "CodeableConcept-validCodeAndSystem",
+            "base": ["Basic"],
+            "type": "token",
+            "expression": "Basic.extension.where(url='http://example.org/CodeableConcept-validCodeAndSystem').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/CodeableConcept-validCodeAndSystem']/f:valueCodeableConcept",
+            "xpathUsage": "normal"
+        }
     }]
 }

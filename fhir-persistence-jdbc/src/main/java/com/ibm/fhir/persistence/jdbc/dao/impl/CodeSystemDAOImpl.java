@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,8 +27,6 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
 public class CodeSystemDAOImpl implements CodeSystemDAO {
     private static final Logger log = Logger.getLogger(CodeSystemDAOImpl.class.getName());
     private static final String CLASSNAME = CodeSystemDAOImpl.class.getName();
-
-    public static final String DEFAULT_TOKEN_SYSTEM = "default-token-system";
 
     private static final String SQL_CALL_ADD_CODE_SYSTEM_ID = "CALL %s.add_code_system(?, ?)";
 
