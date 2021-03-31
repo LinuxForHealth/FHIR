@@ -160,11 +160,11 @@ public final class Main {
 
         if (props.size() == 0) {
             throw new IllegalArgumentException("Invalid parameters were set for the fhir path client");
-        } else if (props.size() == 1) {
+        } else if (props.size() == 1 && !"stdin".equals(type)) {
             throw new IllegalArgumentException("Not enough parameters were set for the fhir path client");
         }
 
-        if (!props.contains(PROP_PATH)) {
+        if (!props.containsKey(PROP_PATH)) {
             throw new IllegalArgumentException("No path set");
         }
 
