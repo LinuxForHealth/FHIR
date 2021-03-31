@@ -65,6 +65,7 @@ public final class Main {
 
     private Boolean pretty = Boolean.FALSE;
     private Boolean help = Boolean.FALSE;
+    private Boolean error = Boolean.FALSE;
 
     private Resource r = null;
 
@@ -81,6 +82,11 @@ public final class Main {
      */
     protected void determineTypeAndSetProperties(String[] args) {
         String type = "stdin";
+        for (int i = 0; i < args.length; i++) {
+            if ("--print-error".equals(args[i])) {
+                error = Boolean.TRUE;
+            }
+        }
         for (int i = 0; i < args.length; i++) {
             if ("--help".equals(args[i]) || "-?".equals(args[i])) {
                 help();
@@ -139,7 +145,7 @@ public final class Main {
                 } catch (IOException e) {
                     throw new IllegalArgumentException("Unable to read the file", e);
                 }
-            } else {
+            } else if (!"--print-error".equals(args[i])) {
                 throw new IllegalArgumentException("Unable to recognize the parameter name");
             }
         }
@@ -147,7 +153,7 @@ public final class Main {
 
         if (props.size() == 0) {
             throw new IllegalArgumentException("Invalid parameters were set for the fhir path client");
-        } else if (props.size() <= 2) {
+        } else if (props.size() == 1) {
             throw new IllegalArgumentException("Not enough parameters were set for the fhir path client");
         }
 
@@ -177,6 +183,14 @@ public final class Main {
         if (i + 1 >= len) {
             throw new IllegalArgumentException("Missing a property value for '" + property + "'");
         }
+    }
+
+    /**
+     * print the error message.
+     * @return
+     */
+    public Boolean shouldPrintError() {
+        return error;
     }
 
     /**
@@ -230,9 +244,9 @@ public final class Main {
             } catch (FHIRPathException e) {
                 Throwable cause = e.getCause();
                 if (cause != null && cause instanceof org.antlr.v4.runtime.misc.ParseCancellationException) {
-                    throw new IllegalArgumentException("Check fhirpath expression [" + fhirPath + "]\n" + e.getMessage());
+                    throw new RuntimeException("Check fhirpath expression [" + fhirPath + "]\n" + e.getMessage());
                 }
-                throw new IllegalArgumentException("Exception with FHIR Path Node", e);
+                throw new RuntimeException("Exception with FHIR Path Node" , e);
             }
         }
     }
@@ -272,6 +286,7 @@ public final class Main {
         // --resource only
         System.err.println("--resource 'resource-payload'. The FHIR resource as a well formed string.");
         System.err.println("--pretty adds columns and start time and end time of the fhir path request");
+        System.err.println("--print-error print the stacktrace");
         System.err.println("--help");
     }
 
@@ -282,9 +297,19 @@ public final class Main {
      */
     public static void main(String[] args) {
         Main main = new Main();
-        main.determineTypeAndSetProperties(args);
-        main.verifyResource();
-        main.processFhirPath();
+        try {
+            main.determineTypeAndSetProperties(args);
+            main.verifyResource();
+            main.processFhirPath();
+        } catch (IllegalArgumentException e) {
+            System.err.println("Error: " + e.getMessage());
+            main.help();
+
+            if (main.shouldPrintError()) {
+                System.err.println();
+                throw e;
+            }
+        }
     }
 
     /**
