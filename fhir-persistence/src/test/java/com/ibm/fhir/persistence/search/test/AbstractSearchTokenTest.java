@@ -176,6 +176,7 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchToken_code_in() throws Exception {
+        assertSearchReturnsSavedResource("text-status:in", "http://hl7.org/fhir/ValueSet/narrative-status");
         assertSearchDoesntReturnSavedResource("code:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
         assertSearchDoesntReturnSavedResource("missing-code:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
         assertSearchDoesntReturnSavedResource("code:in", "http://hl7.org/fhir/ValueSet/observation-category");
@@ -183,6 +184,7 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchToken_code_not_in() throws Exception {
+        assertSearchDoesntReturnSavedResource("text-status:not-in", "http://hl7.org/fhir/ValueSet/narrative-status");
         assertSearchReturnsSavedResource("code:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
         assertSearchReturnsSavedResource("missing-code:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
         assertSearchReturnsSavedResource("code:not-in", "http://hl7.org/fhir/ValueSet/observation-category");
@@ -274,12 +276,14 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchToken_CodeableConcept_in() throws Exception {
+        assertSearchReturnsSavedResource("CodeableConcept-validCodeAndSystem:in", "http://hl7.org/fhir/ValueSet/basic-resource-type");
         assertSearchDoesntReturnSavedResource("CodeableConcept:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
         assertSearchDoesntReturnSavedResource("missing-CodeableConcept:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
     }
 
     @Test
     public void testSearchToken_CodeableConcept_not_in() throws Exception {
+        assertSearchDoesntReturnSavedResource("CodeableConcept-validCodeAndSystem:not-in", "http://hl7.org/fhir/ValueSet/basic-resource-type");
         assertSearchReturnsSavedResource("CodeableConcept:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
         assertSearchReturnsSavedResource("missing-CodeableConcept:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
     }
@@ -370,12 +374,14 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchToken_Coding_in() throws Exception {
+        assertSearchReturnsSavedResource("Coding-validCodeAndSystem:in", "http://hl7.org/fhir/ValueSet/basic-resource-type");
         assertSearchDoesntReturnSavedResource("Coding:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
         assertSearchDoesntReturnSavedResource("missing-Coding:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
     }
 
     @Test
     public void testSearchToken_Coding_not_in() throws Exception {
+        assertSearchDoesntReturnSavedResource("Coding-validCodeAndSystem:not-in", "http://hl7.org/fhir/ValueSet/basic-resource-type");
         assertSearchReturnsSavedResource("Coding:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
         assertSearchReturnsSavedResource("missing-Coding:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
     }

@@ -1,5 +1,9 @@
 {
   "resourceType": "Basic",
+  "text": {
+    "status": "extensions",
+    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+  },
   "code": {
     "text": "test"
   },
@@ -36,6 +40,13 @@
       }
     },
     {
+      "url": "http://example.org/Coding-validCodeAndSystem",
+      "valueCoding": {
+        "system": "http://terminology.hl7.org/CodeSystem/basic-resource-type",
+        "code": "diet"
+      }
+    },
+    {
       "url": "http://example.org/CodeableConcept",
       "valueCodeableConcept": {
         "coding": [{
@@ -53,6 +64,15 @@
         }, {
           "system": "http://example.org/codesystem",
           "code": "code"
+        }]
+      }
+    },
+    {
+      "url": "http://example.org/CodeableConcept-validCodeAndSystem",
+      "valueCodeableConcept": {
+        "coding": [{
+          "system": "http://terminology.hl7.org/CodeSystem/basic-resource-type",
+          "code": "diet"
         }]
       }
     },
