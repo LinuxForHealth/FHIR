@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.path.tools;
+package com.ibm.fhir.path.tool;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
