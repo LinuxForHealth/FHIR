@@ -10,10 +10,10 @@ The options for the command line utility are:
 - `--file path-to-file` The file that is accessible and read.
 - `--resource 'resource-payload'` The FHIR resource as a well formed string.
 - `--pretty` adds columns and start time and end time of the fhir path request
-- `--print-error` print the stacktrace
+- `--throw-error` print and throw the stacktrace
 - `--help`
 
-For instace, to run the fhir-path-cli on Bundle-2000002.json and extract the ids from the Bundle's resources (as stored in the file).
+For instance, to run the fhir-path-cli on Bundle-2000002.json and extract the ids from the Bundle's resources (as stored in the file).
 
 ``` shell
 java -jar fhir-path-*-cli.jar --path entry.resource.id --file Bundle-2000002.json --pretty

@@ -25,115 +25,121 @@ public class MainTest {
     }
     @Test(expectedExceptions= {IllegalArgumentException.class})
     public void testInvalidValue() {
-        String[] args = {"--invalid"};
+        String[] args = {"--invalid", "--throw-error"};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {IllegalArgumentException.class})
     public void testPathWithoutValue() {
-        String[] args = {"--path"};
+        String[] args = {"--path", "--throw-error"};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {IllegalArgumentException.class})
     public void testPathWithEmptyValue() {
-        String[] args = {"--path", ""};
+        String[] args = {"--path", "", "--throw-error"};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {IllegalArgumentException.class})
     public void testFormatWithoutValue() {
-        String[] args = {"--format"};
+        String[] args = {"--format", "--throw-error"};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {IllegalArgumentException.class})
     public void testFormatWithBadValueEmpty() {
-        String[] args = {"--format", ""};
+        String[] args = {"--format", "", "--throw-error"};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {IllegalArgumentException.class})
     public void testFormatWithBadValue() {
-        String[] args = {"--format", "badbadbad"};
+        String[] args = {"--format", "badbadbad", "--throw-error"};
         Main.main(args);
     }
 
-    @Test(expectedExceptions= {IllegalArgumentException.class})
+    @Test(expectedExceptions= {})
     public void testFileWithBadEmpty() {
         String[] args = {"--file", ""};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {IllegalArgumentException.class})
+    public void testFileWithBadEmptyWithThrowError() {
+        String[] args = {"--file", "", "--throw-error"};
+        Main.main(args);
+    }
+
+    @Test(expectedExceptions= {IllegalArgumentException.class})
     public void testFileWithBadValue() {
-        String[] args = {"--file", "badbadbad.json"};
+        String[] args = {"--file", "badbadbad.json", "--throw-error"};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {IllegalArgumentException.class})
     public void testResourceWithBadEmpty() {
-        String[] args = {"--resource", ""};
+        String[] args = {"--resource", "", "--throw-error"};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {IllegalArgumentException.class})
     public void testResourceWithBadValue() {
-        String[] args = {"--resource", "invalid"};
+        String[] args = {"--resource", "invalid", "--throw-error"};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {IllegalArgumentException.class})
     public void testPrettyAndNothingElse(){
-        String[] args = {"--pretty"};
+        String[] args = {"--pretty", "--throw-error"};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {IllegalArgumentException.class})
     public void testFileWithPrettyAndNothingElse(){
-        String[] args = {"--file", "../fhir-examples/src/main/resources/json/profiles/fhir-ig-davinci-pdex/Bundle-2000002.json"};
+        String[] args = {"--file", "../fhir-examples/src/main/resources/json/profiles/fhir-ig-davinci-pdex/Bundle-2000002.json", "--throw-error"};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {IllegalArgumentException.class})
     public void testTypeStdin() {
-        String[] args = {"--type", "stdin"};
+        String[] args = {"--type", "stdin", "--throw-error"};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {IllegalArgumentException.class})
     public void testTypeFile() {
-        String[] args = {"--type", "file"};
+        String[] args = {"--type", "file", "--throw-error"};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {IllegalArgumentException.class})
     public void testTypeResource() {
-        String[] args = {"--type", "resource"};
+        String[] args = {"--type", "resource", "--throw-error"};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {IllegalArgumentException.class})
     public void testTypeResourceAndFileTriggerAMissingType() {
-        String[] args = {"--resource", "resource", "--stdin"};
+        String[] args = {"--resource", "resource", "--stdin", "--throw-error"};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {IllegalArgumentException.class})
     public void testTypeResourceAndInvalidType() {
-        String[] args = {"--resource", "resource", "--type", "x"};
+        String[] args = {"--resource", "resource", "--type", "x", "--throw-error"};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {IllegalArgumentException.class})
     public void testTypeResourceAndNoType() {
-        String[] args = {"--resource", "resource", "--pretty"};
+        String[] args = {"--resource", "resource", "--pretty", "--throw-error"};
         Main.main(args);
     }
 
     @Test(expectedExceptions= {IllegalArgumentException.class})
     public void testStrict() {
-        String[] args = {"--rx"};
+        String[] args = {"--rx" , "--throw-error"};
         Main.main(args);
     }
 
@@ -158,10 +164,10 @@ public class MainTest {
         Main.main(args);
     }
 
-    @Test(expectedExceptions= {java.lang.IllegalArgumentException.class})
+    @Test(expectedExceptions= {java.lang.RuntimeException.class})
     public void testFileInvalidWithResourceBadFhirPathLang() {
         String[] args = {"--file", "../fhir-examples/src/main/resources/json/profiles/fhir-ig-davinci-pdex/Bundle-2000002.json",
-                "--path", ".entry.resourcex"};
+                "--path", ".entry.resourcex", "--throw-error"};
         Main.main(args);
     }
 

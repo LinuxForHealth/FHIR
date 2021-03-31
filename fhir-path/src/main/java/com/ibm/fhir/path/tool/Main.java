@@ -78,16 +78,23 @@ public final class Main {
     /**
      * processes the command line parameters into objects.
      *
-     * @param args
+     * @param argsInc
      */
-    protected void determineTypeAndSetProperties(String[] args) {
+    protected void determineTypeAndSetProperties(String[] argsInc) {
         String type = "stdin";
-        for (int i = 0; i < args.length; i++) {
-            if ("--print-error".equals(args[i])) {
+        // We check before processing anything else.
+        String[] args = new String[argsInc.length];
+        int idx = 0;
+        for (int i = 0; i < argsInc.length; i++) {
+            if ("--throw-error".equals(argsInc[i])) {
                 error = Boolean.TRUE;
+            } else {
+                args[idx]= argsInc[i];
+                idx++;
             }
         }
-        for (int i = 0; i < args.length; i++) {
+
+        for (int i = 0; i < idx; i++) {
             if ("--help".equals(args[i]) || "-?".equals(args[i])) {
                 help();
                 help = Boolean.TRUE;
@@ -95,7 +102,7 @@ public final class Main {
             } else if ("--pretty".equals(args[i])) {
                 this.pretty = Boolean.TRUE;
             } else if ("--path".equals(args[i])) {
-                checkIsThereMore(i, args.length, "path");
+                checkIsThereMore(i, idx, "path");
                 i++;
                 String path = args[i];
                 props.put(PROP_PATH, path);
@@ -104,7 +111,7 @@ public final class Main {
                     throw new IllegalArgumentException("path must not be empty");
                 }
             } else if ("--format".equals(args[i])) {
-                checkIsThereMore(i, args.length, "format");
+                checkIsThereMore(i, idx, "format");
                 i++;
                 String format = args[i].toLowerCase();
                 props.put(PROP_FORMAT, format);
@@ -116,7 +123,7 @@ public final class Main {
                 }
             } else if ("--resource".equals(args[i])) {
                 type = "string";
-                checkIsThereMore(i, args.length, "resource");
+                checkIsThereMore(i, idx, "resource");
                 i++;
                 String resource = args[i];
                 if (resource == null || resource.isEmpty()) {
@@ -125,7 +132,7 @@ public final class Main {
                 props.put(PROP_RESOURCE, resource);
             } else if ("--file".equals(args[i])) {
                 type = "file";
-                checkIsThereMore(i, args.length, "resource");
+                checkIsThereMore(i, idx, "resource");
                 i++;
                 String file = args[i];
                 props.put(PROP_FILE, file);
@@ -145,7 +152,7 @@ public final class Main {
                 } catch (IOException e) {
                     throw new IllegalArgumentException("Unable to read the file", e);
                 }
-            } else if (!"--print-error".equals(args[i])) {
+            } else if (!"--throw-error".equals(args[i])) {
                 throw new IllegalArgumentException("Unable to recognize the parameter name");
             }
         }
@@ -155,6 +162,10 @@ public final class Main {
             throw new IllegalArgumentException("Invalid parameters were set for the fhir path client");
         } else if (props.size() == 1) {
             throw new IllegalArgumentException("Not enough parameters were set for the fhir path client");
+        }
+
+        if (!props.contains(PROP_PATH)) {
+            throw new IllegalArgumentException("No path set");
         }
 
         // Check the type
@@ -286,7 +297,7 @@ public final class Main {
         // --resource only
         System.err.println("--resource 'resource-payload'. The FHIR resource as a well formed string.");
         System.err.println("--pretty adds columns and start time and end time of the fhir path request");
-        System.err.println("--print-error print the stacktrace");
+        System.err.println("--throw-error print the stacktrace");
         System.err.println("--help");
     }
 
