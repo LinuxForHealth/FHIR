@@ -55,7 +55,7 @@ public class Base64Binary extends Element {
      * Factory method for creating Base64Binary objects from a byte array; this array should be the actual value.
      * 
      * @param value
-     *     The byte array of the previously encoded base64 content
+     *     The byte array of to-be-encoded content
      */
     public static Base64Binary of(byte[] value) {
         return Base64Binary.builder().value(value).build();

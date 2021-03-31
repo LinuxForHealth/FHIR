@@ -1884,7 +1884,7 @@ public class CodeGenerator {
             cb.javadocStart()
                 .javadoc("Factory method for creating Base64Binary objects from a byte array; this array should be the actual value.")
                 .javadoc("")
-                .javadocParam("value", "The byte array of the previously encoded base64 content")
+                .javadocParam("value", "The byte array of to-be-encoded content")
                 .javadocEnd();
             cb.method(mods("public", "static"), "Base64Binary", "of", params("byte[] value"))
                 ._return(className + ".builder().value(value).build()")
