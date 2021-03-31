@@ -2,23 +2,23 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Home - IBM FHIR Server - 1.1.0</title>
-<meta name="description" content="">
+<!-- begin _includes/seo.html --><title>Upgrading - IBM FHIR Server - 1.1.0</title>
+<meta name="description" content="Upgrading IBM FHIR Server.">
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="IBM FHIR Server - 1.1.0">
-<meta property="og:url" content="https://ibm.github.io/FHIR/cloudpak/" />
-<meta property="og:title" content="Documentation | Home" />
-<meta property="og:description" content="" />
+<meta property="og:url" content="https://ibm.github.io/FHIR/cloudpak/installing/upgrading/" />
+<meta property="og:title" content="Documentation | Upgrading" />
+<meta property="og:description" content="Upgrading IBM FHIR Server." />
 
 <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="IBM Event Streams | Home" />
+<meta name="twitter:title" content="IBM Event Streams | Upgrading" />
 
 
 
 
-  <meta property="og:description" content="">
+  <meta property="og:description" content="Upgrading IBM FHIR Server.">
 
 
 
@@ -34,7 +34,7 @@
 
 
 
-<link rel="canonical" href="https://ibm.github.io/FHIR/cloudpak/">
+<link rel="canonical" href="https://ibm.github.io/FHIR/cloudpak/installing/upgrading/">
 
 
 
@@ -131,7 +131,7 @@
 
 
   
-  <body onload="urlChecker()" class="layout--splash">
+  <body onload="urlChecker()" class="layout--single">
 
     <!--[if lt IE 9]>
 <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
@@ -309,11 +309,11 @@
                     
 
 
-                    <li class="version" data-url="https://ibm.github.io/FHIR/cloudpak/" onclick="openVersion('https://ibm.github.io/FHIR/cloudpak/','1.1')">
+                    <li class="version" data-url="https://ibm.github.io/FHIR/cloudpak/installing/upgrading/" onclick="openVersion('https://ibm.github.io/FHIR/cloudpak/installing/upgrading/','1.1')">
 
                         <div class="pillContainer">
                           
-                          <a tabindex="-1" href="https://ibm.github.io/FHIR/cloudpak/" class="versionPill active">1.1</a>
+                          <a tabindex="-1" href="https://ibm.github.io/FHIR/cloudpak/installing/upgrading/" class="versionPill active">1.1</a>
                         </div>
                         <div class="activeContainer">
                             
@@ -339,11 +339,11 @@
                     
 
 
-                    <li class="version" data-url="https://ibm.github.io/FHIR/cloudpak/1.0/" onclick="openVersion('https://ibm.github.io/FHIR/cloudpak/1.0/','1.0')">
+                    <li class="version" data-url="https://ibm.github.io/FHIR/cloudpak/1.0/installing/upgrading/" onclick="openVersion('https://ibm.github.io/FHIR/cloudpak/1.0/installing/upgrading/','1.0')">
 
                         <div class="pillContainer">
                           
-                          <a tabindex="-1" href="https://ibm.github.io/FHIR/cloudpak/1.0/" class="versionPill inactive">1.0</a>
+                          <a tabindex="-1" href="https://ibm.github.io/FHIR/cloudpak/1.0/installing/upgrading/" class="versionPill inactive">1.0</a>
                         </div>
                         <div class="activeContainer">
                             
@@ -537,7 +537,7 @@
 
                     
 
-              <a href="/FHIR/cloudpak/installing/upgrading/" class="">Upgrading</a>
+              <a href="/FHIR/cloudpak/installing/upgrading/" class="active">Upgrading</a>
             </li>
           
             
@@ -713,86 +713,38 @@
   <div class="mainContent">
     
     <div id="pageContainer" class="page" itemscope itemtype="http://schema.org/CreativeWork">
-      <div class="page__inner-wrap splash latestVersion">
+      <div class="page__inner-wrap  latestVersion">
         
         <section class="page__content pageSpacing" itemprop="text">
           
-          <div class="content">
-            <div id="splashHeaderContent" class="splashHeaderContent">
-  <div id="homePanel" class="panel homepanel">
-    <div class="heroContainer pageSpacing">
-      <div class="intro">
-        
-          <img class="pictogramHero" src="https://ibm.github.io/FHIR/cloudpak/images/FHIRServer_dark_theme.png" />
-        
-        <h1 class="hero small">
-          Welcome to IBM FHIR® Server <a onclick="toggleDropdown('open');" href="#" aria-label="Change Version"
-            tabindex="0" class="versionPill">1.1</a> 
-        </h1>
-        <h1 class="hero">
-          Documentation
-        </h1>
-
-        
-          <p class="esIntro">IBM FHIR Server is capable of processing, validating, and storing healthcare data in an industry-standard format that 
-		    can be used for running search and other reporting capabilities. Built for the enterprise and offering cloud 
-			portability, it’s an integral component of a data integration pipeline.</p>
-
+          <header>
+            <h1 id="page-title" class="page__title" itemprop="headline">
+              Upgrading
+</h1>
+            
+          </header>
           
-        
+          <div class="content">
+            <h3 id="upgrading-from-ibm-fhir-server-operator-101">Upgrading from IBM FHIR Server operator 1.0.1</h3>
 
-      </div>
-    </div>
-    
-<!--      <div class="featuresHeroContainer pageSpacing">
-  <div class="featuresHeroContent">
-    <div class="featuresHeroCards">
-      
-    </div>
-  </div>
-</div>
+<p>Prior to upgrading, it is recommended to create a new configuration secret (see <a href="../creating/#1-define-ibm-fhir-server-configuration">Define IBM FHIR Server configuration</a> for details).</p>
 
-    
-  </div>
-  <div id="remotePanel" class="panel remotePanel pageSpacing">
-  
-  </div> -->
-  <div class='loading'> 
-    <p class='loadingText'>
-      Loading...
-    </p>
-  </div>
-</div>
+<p>The new configuration secret will have the following changes from the existing configuration secret used in IBM FHIR Server operator 1.0.1:</p>
 
-<div class="splashcontent">
-    <div class="section pageSpacing">
-      <div class="sectionContent">
-            <div class="title">
-              
-              <h2>How to get going</h2>
-            </div>
-            <div class="content">
-                <div class="splashGridContainer">
-                  
-                    
-                  
-                </div>
-            </div>
-      </div>
-    </div>
-    <div class="section pageSpacing">
-      <div class="sectionContent">
-              <div class="title">
-                <h2></h2>
-              </div>
-              <div class="content">
-                  <div class="splashGridContainer">
-                    
-                  </div>
-              </div>
-      </div>
-    </div>
-</div>
+<ul>
+  <li>The value for the IBM_FHIR_SERVER_CONFIG secret key must be updated with the following changes:
+    <ol>
+      <li>Remove <code class="language-plaintext highlighter-rouge">persistence/jdbc/enableProxyDatasource</code></li>
+      <li>Remove <code class="language-plaintext highlighter-rouge">persistence/jdbc/dataSourceJndiName</code></li>
+      <li>Remove <code class="language-plaintext highlighter-rouge">persistence/datasources/&lt;dsid&gt;/connectionProperties</code></li>
+    </ol>
+  </li>
+  <li>A new IBM_FHIR_SERVER_DATASOURCE secret key must be created.</li>
+</ul>
+
+<p>Until these secret keys are set, the IBM FHIR Server instance will not be functional.</p>
+
+<p>There is no rollback from the upgrade and changes to the schema.</p>
 
           </div>
 
@@ -801,6 +753,14 @@
         </section>
 
         <aside class="sidebar__right ">
+          
+          <div class="fixedSidebar">
+            <nav class="toc">
+              <ul class="toc__menu">
+  <li><a href="#upgrading-from-ibm-fhir-server-operator-101">Upgrading from IBM FHIR Server operator 1.0.1</a></li>
+</ul>
+            </nav>
+          </div>
           
         </aside>
 
@@ -811,18 +771,21 @@
           
   <nav class="pagination">
     
-      <div class="previous disabled">
+      <div class="previous" onclick="window.open('/FHIR/cloudpak/installing/limitations/','_self')">
         <div class="container">
-          
+          <a href="/FHIR/cloudpak/installing/limitations/" class="pagination--pager" title="Previous Item: Limitations
+">Previous</a>
+          <h2 class="titlePreview">Limitations
+</h2>
         </div>
       </div>
     
     
-      <div class="next" onclick="window.open('/FHIR/cloudpak/about/overview/','_self')">
+      <div class="next" onclick="window.open('/FHIR/cloudpak/installing/installing/','_self')">
         <div class="container">
-          <a href="/FHIR/cloudpak/about/overview/" class="pagination--pager" title="Next Item: Introduction
+          <a href="/FHIR/cloudpak/installing/installing/" class="pagination--pager" title="Next Item: Installing
 ">Next</a>
-          <h2 class="titlePreview">Introduction
+          <h2 class="titlePreview">Installing
 </h2>
         </div>
       </div>

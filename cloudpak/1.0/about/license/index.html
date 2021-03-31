@@ -2,23 +2,23 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Page Not Found - IBM FHIR Server - 1.1.0</title>
-<meta name="description" content="Page not found.">
+<!-- begin _includes/seo.html --><title>License - IBM FHIR Server - 1.1.0</title>
+<meta name="description" content="IBM FHIR Server License.">
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="IBM FHIR Server - 1.1.0">
-<meta property="og:url" content="https://ibm.github.io/FHIR/cloudpak/404.html" />
-<meta property="og:title" content="| Page Not Found" />
-<meta property="og:description" content="Page not found." />
+<meta property="og:url" content="https://ibm.github.io/FHIR/cloudpak/1.0/about/license/" />
+<meta property="og:title" content="Documentation | License" />
+<meta property="og:description" content="IBM FHIR Server License." />
 
 <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="IBM Event Streams | Page Not Found" />
+<meta name="twitter:title" content="IBM Event Streams | License" />
 
 
 
 
-  <meta property="og:description" content="Page not found.">
+  <meta property="og:description" content="IBM FHIR Server License.">
 
 
 
@@ -27,12 +27,14 @@
 
 
 
+  <meta property="article:published_time" content="2021-03-31T10:33:22-04:00">
 
 
 
 
 
-<link rel="canonical" href="https://ibm.github.io/FHIR/cloudpak/404.html">
+
+<link rel="canonical" href="https://ibm.github.io/FHIR/cloudpak/1.0/about/license/">
 
 
 
@@ -121,8 +123,6 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="/FHIR/cloudpak/assets/favicon.ico" >
     
-      <script src="/FHIR/cloudpak/assets/js/404.js"></script>
-    
     <base target="_parent">
 
   </head>
@@ -131,7 +131,7 @@
 
 
   
-  <body onload="" class="layout--single">
+  <body onload="urlChecker()" class="layout--single">
 
     <!--[if lt IE 9]>
 <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
@@ -188,7 +188,7 @@
 
 
                   
-                    <li class="masthead__menu-item " onclick="window.open('https://ibm.github.io/FHIR/cloudpak/','_self')">
+                    <li class="masthead__menu-item active" onclick="window.open('https://ibm.github.io/FHIR/cloudpak/','_self')">
                       <a href="https://ibm.github.io/FHIR/cloudpak/" >Documentation</a>
                     </li>
                   
@@ -264,173 +264,386 @@
           </svg>
         </div>
         <div id="mobileVersionShortcut" class="versionContainer" tabindex="0">
-          <a id="mobileVersionPillCurrent" class="versionPill"></a>
+          <a id="mobileVersionPillCurrent" class="versionPill">1.0</a>
         </div>
       </div>
     
   
 
 
+  <div id="sidebarMask" class="sidebarMask">
+
+  </div>
+  <div id="sidebar" class="sidebar sticky">
+      <div aria-label="Change Version" role="button" aria-expanded="false"
+      
+        id="versionDropdown"
+        tabindex="0"
+        class="versionsBar"
+       >
+          <div class="selectedVersion" id="selectedVersion">
+            <div class="versionContainer" >
+              
+                <a id="versionPillCurrent" class="versionPill">1.0</a>
+                <a class="versionChange">Change Version</a>
+              
+            </div>
+          </div>
+          
+
+
+          <div class="allVersions" id="allVersions">
+            <ul>
+
+                
+
+                        
+
+
+                    
+
+                    <!--  -->
+
+                    
+
+                    
+
+
+                    <li class="version" data-url="https://ibm.github.io/FHIR/cloudpak/about/license/" onclick="openVersion('https://ibm.github.io/FHIR/cloudpak/about/license/','1.1')">
+
+                        <div class="pillContainer">
+                          
+                          <a tabindex="-1" href="https://ibm.github.io/FHIR/cloudpak/about/license/" class="versionPill inactive">1.1</a>
+                        </div>
+                        <div class="activeContainer">
+                            
+                        </div>
+                        <div class="latest">
+                            Latest
+                        </div>
+                      </li>
+
+                
+
+                        
+
+
+                    
+
+                    <!--  -->
+
+                    
+
+                    
+
+
+                    <li class="version" data-url="https://ibm.github.io/FHIR/cloudpak/1.0/about/license/" onclick="openVersion('https://ibm.github.io/FHIR/cloudpak/1.0/about/license/','1.0')">
+
+                        <div class="pillContainer">
+                          
+                          <a tabindex="-1" href="https://ibm.github.io/FHIR/cloudpak/1.0/about/license/" class="versionPill active">1.0</a>
+                        </div>
+                        <div class="activeContainer">
+                            
+                            <img alt="" src="https://ibm.github.io/FHIR/cloudpak/images/checkbox.svg" />
+                            
+                        </div>
+                        <div class="latest">
+                            
+                        </div>
+                      </li>
+
+                
+
+            </ul>
+          </div>
+        </div>
+
+  
+    
+      
+      
+      
+    
+    
+      
+
+<nav class="nav__list">
+  
+  <ul class="nav__items">
+
+    
+      <li>
+        
+          <span class="nav__sub-title">About</span>
+        
+
+        
+        <ul>
+          
+            
+            
+
+            
+            
+
+
+      
+
+            
+
+            <li>
+
+
+          
+
+                    
+
+              <a href="/FHIR/cloudpak/1.0/about/overview/" class="">Introduction</a>
+            </li>
+          
+            
+            
+
+            
+            
+
+
+      
+
+            
+
+            <li>
+
+
+          
+
+                    
+
+              <a href="/FHIR/cloudpak/1.0/about/documentation/" class="">Documentation</a>
+            </li>
+          
+            
+            
+
+            
+            
+
+
+      
+
+            
+
+            <li>
+
+
+          
+
+                    
+
+              <a href="/FHIR/cloudpak/1.0/about/license/" class="active">License</a>
+            </li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Installing and upgrading</span>
+        
+
+        
+        <ul>
+          
+            
+            
+
+            
+            
+
+
+      
+
+            
+
+            <li>
+
+
+          
+
+                    
+
+              <a href="/FHIR/cloudpak/1.0/installing/prerequisites/" class="">Prerequisites</a>
+            </li>
+          
+            
+            
+
+            
+            
+
+
+      
+
+            
+
+            <li>
+
+
+          
+
+                    
+
+              <a href="/FHIR/cloudpak/1.0/installing/installing/" class="">Installing</a>
+            </li>
+          
+            
+            
+
+            
+            
+
+
+      
+
+            
+
+            <li>
+
+
+          
+
+                    
+
+              <a href="/FHIR/cloudpak/1.0/installing/air-gap-installation/" class="">Air Gap Installation</a>
+            </li>
+          
+            
+            
+
+            
+            
+
+
+      
+
+            
+
+            <li>
+
+
+          
+
+                    
+
+              <a href="/FHIR/cloudpak/1.0/installing/creating/" class="">Creating an IBM FHIR Server</a>
+            </li>
+          
+            
+            
+
+            
+            
+
+
+      
+
+            
+
+            <li>
+
+
+          
+
+                    
+
+              <a href="/FHIR/cloudpak/1.0/installing/tracking-license/" class="">Tracking License Usage</a>
+            </li>
+          
+        </ul>
+        
+      </li>
+    
+      <li>
+        
+          <span class="nav__sub-title">Security</span>
+        
+
+        
+        <ul>
+          
+            
+            
+
+            
+            
+
+
+      
+
+            
+
+            <li>
+
+
+          
+
+                    
+
+              <a href="/FHIR/cloudpak/1.0/security/security/" class="">Security</a>
+            </li>
+          
+            
+            
+
+            
+            
+
+
+      
+
+            
+
+            <li>
+
+
+          
+
+                    
+
+              <a href="/FHIR/cloudpak/1.0/security/security-context-constraints/" class="">SecurityContextConstraints Requirements</a>
+            </li>
+          
+        </ul>
+        
+      </li>
+    
+  </ul>
+</nav>
+    
+  
+  </div>
+
 
   <div class="mainContent">
     
     <div id="pageContainer" class="page" itemscope itemtype="http://schema.org/CreativeWork">
-      <div class="page__inner-wrap  ">
+      <div class="page__inner-wrap  latestVersion">
         
         <section class="page__content pageSpacing" itemprop="text">
           
           <header>
             <h1 id="page-title" class="page__title" itemprop="headline">
-              Page Not Found
+              License
 </h1>
             
           </header>
           
           <div class="content">
-            <p>Sorry, but the page you were trying to view does not exist.</p>
+            <p>The IBM FHIR Server is licensed under the Apache 2.0 license. Full license text is available at LICENSE.</p>
 
-<div id="otherVersions">
-
-</div>
-
-<script>
-var windowURL = window.location.href;
-var baseURL = "https://ibm.github.io/FHIR/cloudpak";
-
-var newURL = windowURL.replace(baseURL,"");
-
-
-  var patt = /(\/\d*[.]\d*[.]\d*)(.*)/g;
-  var theURL = newURL.match(patt);
-
-  var match = patt.exec(newURL);
-
-
-// console.log( match[1] );
-// console.log( match[2] );
-
-
-
-</script>
-
-<!-- For each collection, if second half of URL exists, render here -->
-<!-- NEED TP FIND A WAY TO GET MATCH[2] INTO JEKYLL -->
-
-<div id="siteURLS">
-    <div class="versionContainerURLs" data-version="1.0">
-        <h3>1.0</h3>
-        
-            <p>/1.0/</p>
-        
-            <p>/1.0/about/overview/</p>
-        
-            <p>/1.0/about/documentation/</p>
-        
-            <p>/1.0/about/license/</p>
-        
-            <p>/1.0/installing/prerequisites/</p>
-        
-            <p>/1.0/installing/installing/</p>
-        
-            <p>/1.0/installing/air-gap-installation/</p>
-        
-            <p>/1.0/installing/creating/</p>
-        
-            <p>/1.0/installing/tracking-license/</p>
-        
-            <p>/1.0/security/security/</p>
-        
-            <p>/1.0/security/security-context-constraints/</p>
-        
-    </div>
-</div>
-
-<div id="siteURLS">
-    <div class="versionContainerURLs" data-version="1.1">
-        <h3>1.1</h3>
-        
-            <p>/</p>
-        
-            <p>/about/overview/</p>
-        
-            <p>/about/whats-new/</p>
-        
-            <p>/about/documentation/</p>
-        
-            <p>/about/license/</p>
-        
-            <p>/installing/prerequisites/</p>
-        
-            <p>/installing/limitations/</p>
-        
-            <p>/installing/upgrading/</p>
-        
-            <p>/installing/installing/</p>
-        
-            <p>/installing/air-gap-installation/</p>
-        
-            <p>/installing/creating/</p>
-        
-            <p>/installing/tracking-license/</p>
-        
-            <p>/installing/uninstalling/</p>
-        
-            <p>/security/security/</p>
-        
-            <p>/security/security-context-constraints/</p>
-        
-    </div>
-</div>
-
-<div id="siteURLS">
-    <div class="versionContainerURLs" data-version="connectors">
-        <h3>connectors</h3>
-        
-    </div>
-</div>
-
-<div id="siteURLS">
-    <div class="versionContainerURLs" data-version="keyFeatures">
-        <h3>keyFeatures</h3>
-        
-    </div>
-</div>
-
-<div id="siteURLS">
-    <div class="versionContainerURLs" data-version="posts">
-        <h3>posts</h3>
-        
-    </div>
-</div>
-
-<div id="siteURLS">
-    <div class="versionContainerURLs" data-version="support">
-        <h3>support</h3>
-        
-            <p>/support/chatOnSlack/</p>
-        
-            <p>/support/giveUsFeedback/</p>
-        
-            <p>/support/ibmSupport/</p>
-        
-    </div>
-</div>
-
-<div id="siteURLS">
-    <div class="versionContainerURLs" data-version="tutorials">
-        <h3>tutorials</h3>
-        
-    </div>
-</div>
-
-<p><br /><br /><br /><br /><br /><br /><br /><br /></p>
-
-<!-- {&quot;layout&quot;=&gt;&quot;single&quot;, &quot;author_profile&quot;=&gt;false, &quot;title&quot;=&gt;&quot;Page Not Found&quot;, &quot;excerpt&quot;=&gt;&quot;Page not found.&quot;, &quot;sitemap&quot;=&gt;false, &quot;permalink&quot;=&gt;&quot;/404.html&quot;, &quot;sidebar&quot;=&gt;nil, &quot;content&quot;=&gt;&quot;Sorry, but the page you were trying to view does not exist.\n\n&lt;div id=\&quot;otherVersions\&quot;&gt;\n\n&lt;/div&gt;\n\n\n\n\n\n\n\n&lt;script&gt;\nvar windowURL = window.location.href;\nvar baseURL = \&quot;{{ site.url }}{{site.baseurl}}\&quot;;\n\nvar newURL = windowURL.replace(baseURL,\&quot;\&quot;);\n\n\n  var patt = /(\\/\\d*[.]\\d*[.]\\d*)(.*)/g;\n  var theURL = newURL.match(patt);\n\n  var match = patt.exec(newURL);\n\n\n// console.log( match[1] );\n// console.log( match[2] );\n\n\n\n&lt;/script&gt;\n\n\n&lt;!-- For each collection, if second half of URL exists, render here --&gt;\n&lt;!-- NEED TP FIND A WAY TO GET MATCH[2] INTO JEKYLL --&gt;\n{% for collection in site.collections %}\n\n  {% assign name = collection.label %}\n\n\n\n&lt;div id=\&quot;siteURLS\&quot;&gt;\n    &lt;div class=\&quot;versionContainerURLs\&quot; data-version=\&quot;{{ name }}\&quot;&gt;\n        &lt;h3&gt;{{ name }}&lt;/h3&gt;\n        {% for page in site[name] %}\n            &lt;p&gt;{{ page.url }}&lt;/p&gt;\n        {% endfor %}\n    &lt;/div&gt;\n&lt;/div&gt;\n\n\n\n\n{% endfor %}\n\n&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;\n\n&lt;!-- {{ page | inspect }} --&gt;\n\n\n&lt;script&gt;\n    urlAssistant(match[2], \&quot;{{ site.baseurl }}\&quot; );\n&lt;/script&gt;\n&quot;, &quot;dir&quot;=&gt;&quot;/&quot;, &quot;name&quot;=&gt;&quot;404.md&quot;, &quot;path&quot;=&gt;&quot;_pages/404.md&quot;, &quot;url&quot;=&gt;&quot;/404.html&quot;} -->
-
-<script>
-    urlAssistant(match[2], "/FHIR/cloudpak" );
-</script>
-
+<p>FHIR® is the registered trademark of HL7 and is used with the permission of HL7. Use of the FHIR trademark does not constitute endorsement of this product by HL7. IBM and the IBM logo are trademarks of International Business Machines Corporation, registered in many jurisdictions worldwide. Other product and service names might be trademarks of IBM or other companies. A current list of IBM trademarks is available on https://ibm.com/trademark.</p>
 
           </div>
 
@@ -440,11 +653,42 @@ var newURL = windowURL.replace(baseURL,"");
 
         <aside class="sidebar__right ">
           
+          <div class="fixedSidebar">
+            <nav class="toc">
+              
+            </nav>
+          </div>
+          
         </aside>
 
 
       </div>
       <div class="pageEnd">
+        
+          
+  <nav class="pagination">
+    
+      <div class="previous" onclick="window.open('/FHIR/cloudpak/1.0/about/documentation/','_self')">
+        <div class="container">
+          <a href="/FHIR/cloudpak/1.0/about/documentation/" class="pagination--pager" title="Previous Item: Documentation
+">Previous</a>
+          <h2 class="titlePreview">Documentation
+</h2>
+        </div>
+      </div>
+    
+    
+      <div class="next" onclick="window.open('/FHIR/cloudpak/1.0/installing/prerequisites/','_self')">
+        <div class="container">
+          <a href="/FHIR/cloudpak/1.0/installing/prerequisites/" class="pagination--pager" title="Next Item: Prerequisites
+">Next</a>
+          <h2 class="titlePreview">Prerequisites
+</h2>
+        </div>
+      </div>
+      
+  </nav>
+
         
       </div>
     </div>

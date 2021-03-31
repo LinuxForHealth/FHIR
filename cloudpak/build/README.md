@@ -1,2 +1,0 @@
-# IBM FHIR Server Docs
-

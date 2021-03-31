@@ -2,23 +2,23 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Home - IBM FHIR Server - 1.1.0</title>
-<meta name="description" content="">
+<!-- begin _includes/seo.html --><title>Uninstalling - IBM FHIR Server - 1.1.0</title>
+<meta name="description" content="Uninstalling IBM FHIR Server.">
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="IBM FHIR Server - 1.1.0">
-<meta property="og:url" content="https://ibm.github.io/FHIR/cloudpak/" />
-<meta property="og:title" content="Documentation | Home" />
-<meta property="og:description" content="" />
+<meta property="og:url" content="https://ibm.github.io/FHIR/cloudpak/installing/uninstalling/" />
+<meta property="og:title" content="Documentation | Uninstalling" />
+<meta property="og:description" content="Uninstalling IBM FHIR Server." />
 
 <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="IBM Event Streams | Home" />
+<meta name="twitter:title" content="IBM Event Streams | Uninstalling" />
 
 
 
 
-  <meta property="og:description" content="">
+  <meta property="og:description" content="Uninstalling IBM FHIR Server.">
 
 
 
@@ -34,7 +34,7 @@
 
 
 
-<link rel="canonical" href="https://ibm.github.io/FHIR/cloudpak/">
+<link rel="canonical" href="https://ibm.github.io/FHIR/cloudpak/installing/uninstalling/">
 
 
 
@@ -131,7 +131,7 @@
 
 
   
-  <body onload="urlChecker()" class="layout--splash">
+  <body onload="urlChecker()" class="layout--single">
 
     <!--[if lt IE 9]>
 <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
@@ -309,11 +309,11 @@
                     
 
 
-                    <li class="version" data-url="https://ibm.github.io/FHIR/cloudpak/" onclick="openVersion('https://ibm.github.io/FHIR/cloudpak/','1.1')">
+                    <li class="version" data-url="https://ibm.github.io/FHIR/cloudpak/installing/uninstalling/" onclick="openVersion('https://ibm.github.io/FHIR/cloudpak/installing/uninstalling/','1.1')">
 
                         <div class="pillContainer">
                           
-                          <a tabindex="-1" href="https://ibm.github.io/FHIR/cloudpak/" class="versionPill active">1.1</a>
+                          <a tabindex="-1" href="https://ibm.github.io/FHIR/cloudpak/installing/uninstalling/" class="versionPill active">1.1</a>
                         </div>
                         <div class="activeContainer">
                             
@@ -339,11 +339,11 @@
                     
 
 
-                    <li class="version" data-url="https://ibm.github.io/FHIR/cloudpak/1.0/" onclick="openVersion('https://ibm.github.io/FHIR/cloudpak/1.0/','1.0')">
+                    <li class="version" data-url="https://ibm.github.io/FHIR/cloudpak/1.0/installing/uninstalling/" onclick="openVersion('https://ibm.github.io/FHIR/cloudpak/1.0/installing/uninstalling/','1.0')">
 
                         <div class="pillContainer">
                           
-                          <a tabindex="-1" href="https://ibm.github.io/FHIR/cloudpak/1.0/" class="versionPill inactive">1.0</a>
+                          <a tabindex="-1" href="https://ibm.github.io/FHIR/cloudpak/1.0/installing/uninstalling/" class="versionPill inactive">1.0</a>
                         </div>
                         <div class="activeContainer">
                             
@@ -642,7 +642,7 @@
 
                     
 
-              <a href="/FHIR/cloudpak/installing/uninstalling/" class="">Uninstalling</a>
+              <a href="/FHIR/cloudpak/installing/uninstalling/" class="active">Uninstalling</a>
             </li>
           
         </ul>
@@ -713,86 +713,76 @@
   <div class="mainContent">
     
     <div id="pageContainer" class="page" itemscope itemtype="http://schema.org/CreativeWork">
-      <div class="page__inner-wrap splash latestVersion">
+      <div class="page__inner-wrap  latestVersion">
         
         <section class="page__content pageSpacing" itemprop="text">
           
-          <div class="content">
-            <div id="splashHeaderContent" class="splashHeaderContent">
-  <div id="homePanel" class="panel homepanel">
-    <div class="heroContainer pageSpacing">
-      <div class="intro">
-        
-          <img class="pictogramHero" src="https://ibm.github.io/FHIR/cloudpak/images/FHIRServer_dark_theme.png" />
-        
-        <h1 class="hero small">
-          Welcome to IBM FHIR® Server <a onclick="toggleDropdown('open');" href="#" aria-label="Change Version"
-            tabindex="0" class="versionPill">1.1</a> 
-        </h1>
-        <h1 class="hero">
-          Documentation
-        </h1>
-
-        
-          <p class="esIntro">IBM FHIR Server is capable of processing, validating, and storing healthcare data in an industry-standard format that 
-		    can be used for running search and other reporting capabilities. Built for the enterprise and offering cloud 
-			portability, it’s an integral component of a data integration pipeline.</p>
-
+          <header>
+            <h1 id="page-title" class="page__title" itemprop="headline">
+              Uninstalling
+</h1>
+            
+          </header>
           
-        
+          <div class="content">
+            <p>You can delete an IBM FHIR Server instance by using the OpenShift Container Platform web console. You can also uninstall the IBM FHIR Server operator and the catalog.</p>
 
-      </div>
-    </div>
-    
-<!--      <div class="featuresHeroContainer pageSpacing">
-  <div class="featuresHeroContent">
-    <div class="featuresHeroCards">
-      
-    </div>
-  </div>
-</div>
+<h2 id="deleting-an-ibm-fhir-server-instance">Deleting an IBM FHIR Server instance</h2>
 
-    
-  </div>
-  <div id="remotePanel" class="panel remotePanel pageSpacing">
-  
-  </div> -->
-  <div class='loading'> 
-    <p class='loadingText'>
-      Loading...
-    </p>
-  </div>
-</div>
+<ol>
+  <li>
+    <p>Log into the OpenShift Container Platform web console using your login credentials.</p>
+  </li>
+  <li>
+    <p>Change the Project to the namespace you want to work with.</p>
+  </li>
+  <li>
+    <p>Navigate to Installed Operators and click on the IBM FHIR Server operator.</p>
+  </li>
+  <li>
+    <p>Navigate to the IBM FHIR Server tab and click on the instance you want to delete.</p>
+  </li>
+  <li>
+    <p>Select Delete IBMFHIRServer from the Actions menu.</p>
+  </li>
+</ol>
 
-<div class="splashcontent">
-    <div class="section pageSpacing">
-      <div class="sectionContent">
-            <div class="title">
-              
-              <h2>How to get going</h2>
-            </div>
-            <div class="content">
-                <div class="splashGridContainer">
-                  
-                    
-                  
-                </div>
-            </div>
-      </div>
-    </div>
-    <div class="section pageSpacing">
-      <div class="sectionContent">
-              <div class="title">
-                <h2></h2>
-              </div>
-              <div class="content">
-                  <div class="splashGridContainer">
-                    
-                  </div>
-              </div>
-      </div>
-    </div>
-</div>
+<h2 id="uninstalling-the-operator">Uninstalling the Operator</h2>
+
+<ol>
+  <li>
+    <p>Log into the OpenShift Container Platform web console using your login credentials.</p>
+  </li>
+  <li>
+    <p>Change the Project to the namespace you want to work with.</p>
+  </li>
+  <li>
+    <p>Navigate to Installed Operators and click on the IBM FHIR Server operator.</p>
+  </li>
+  <li>
+    <p>Select Uninstall Operator from the Actions menu.</p>
+  </li>
+</ol>
+
+<h2 id="uninstalling-the-catalog">Uninstalling the catalog</h2>
+
+<p>The latest version of the IBM Operator Catalog includes the IBM FHIR Server Operator. If that catalog is installed, you may have skipped creating the ibm-fhir-server-operator-catalog CatalogSource resource, in which case, these instructions do not apply.</p>
+
+<ol>
+  <li>
+    <p>Log into the OpenShift Container Platform web console using your login credentials.</p>
+  </li>
+  <li>
+    <p>Navigate to Custom Resource Definitions and click on CatalogSource.</p>
+  </li>
+  <li>
+    <p>Navigate to the Instances tab and click on ibm-fhir-server-operator-catalog.</p>
+  </li>
+  <li>
+    <p>Select Delete CatalogSource from the Actions menu.</p>
+  </li>
+</ol>
+
 
           </div>
 
@@ -801,6 +791,16 @@
         </section>
 
         <aside class="sidebar__right ">
+          
+          <div class="fixedSidebar">
+            <nav class="toc">
+              <ul class="toc__menu">
+  <li><a href="#deleting-an-ibm-fhir-server-instance">Deleting an IBM FHIR Server instance</a></li>
+  <li><a href="#uninstalling-the-operator">Uninstalling the Operator</a></li>
+  <li><a href="#uninstalling-the-catalog">Uninstalling the catalog</a></li>
+</ul>
+            </nav>
+          </div>
           
         </aside>
 
@@ -811,18 +811,21 @@
           
   <nav class="pagination">
     
-      <div class="previous disabled">
+      <div class="previous" onclick="window.open('/FHIR/cloudpak/installing/tracking-license/','_self')">
         <div class="container">
-          
+          <a href="/FHIR/cloudpak/installing/tracking-license/" class="pagination--pager" title="Previous Item: Tracking License Usage
+">Previous</a>
+          <h2 class="titlePreview">Tracking License Usage
+</h2>
         </div>
       </div>
     
     
-      <div class="next" onclick="window.open('/FHIR/cloudpak/about/overview/','_self')">
+      <div class="next" onclick="window.open('/FHIR/cloudpak/security/security/','_self')">
         <div class="container">
-          <a href="/FHIR/cloudpak/about/overview/" class="pagination--pager" title="Next Item: Introduction
+          <a href="/FHIR/cloudpak/security/security/" class="pagination--pager" title="Next Item: Security
 ">Next</a>
-          <h2 class="titlePreview">Introduction
+          <h2 class="titlePreview">Security
 </h2>
         </div>
       </div>

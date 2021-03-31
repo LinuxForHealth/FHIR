@@ -2,23 +2,23 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Home - IBM FHIR Server - 1.1.0</title>
-<meta name="description" content="">
+<!-- begin _includes/seo.html --><title>SecurityContextConstraints Requirements - IBM FHIR Server - 1.1.0</title>
+<meta name="description" content="FHIR Server Documents">
 
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="IBM FHIR Server - 1.1.0">
-<meta property="og:url" content="https://ibm.github.io/FHIR/cloudpak/" />
-<meta property="og:title" content="Documentation | Home" />
-<meta property="og:description" content="" />
+<meta property="og:url" content="https://ibm.github.io/FHIR/cloudpak/1.0/security/security-context-constraints/" />
+<meta property="og:title" content="Documentation | SecurityContextConstraints Requirements" />
+<meta property="og:description" content="FHIR Server Documents" />
 
 <meta name="twitter:card" content="summary" />
-<meta name="twitter:title" content="IBM Event Streams | Home" />
+<meta name="twitter:title" content="IBM Event Streams | SecurityContextConstraints Requirements" />
 
 
 
 
-  <meta property="og:description" content="">
+  <meta property="og:description" content="FHIR Server Documents">
 
 
 
@@ -34,7 +34,7 @@
 
 
 
-<link rel="canonical" href="https://ibm.github.io/FHIR/cloudpak/">
+<link rel="canonical" href="https://ibm.github.io/FHIR/cloudpak/1.0/security/security-context-constraints/">
 
 
 
@@ -131,7 +131,7 @@
 
 
   
-  <body onload="urlChecker()" class="layout--splash">
+  <body onload="urlChecker()" class="layout--single">
 
     <!--[if lt IE 9]>
 <div class="notice--danger align-center" style="margin: 0;">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience.</div>
@@ -264,7 +264,7 @@
           </svg>
         </div>
         <div id="mobileVersionShortcut" class="versionContainer" tabindex="0">
-          <a id="mobileVersionPillCurrent" class="versionPill">1.1</a>
+          <a id="mobileVersionPillCurrent" class="versionPill">1.0</a>
         </div>
       </div>
     
@@ -284,7 +284,7 @@
           <div class="selectedVersion" id="selectedVersion">
             <div class="versionContainer" >
               
-                <a id="versionPillCurrent" class="versionPill">1.1</a>
+                <a id="versionPillCurrent" class="versionPill">1.0</a>
                 <a class="versionChange">Change Version</a>
               
             </div>
@@ -309,15 +309,13 @@
                     
 
 
-                    <li class="version" data-url="https://ibm.github.io/FHIR/cloudpak/" onclick="openVersion('https://ibm.github.io/FHIR/cloudpak/','1.1')">
+                    <li class="version" data-url="https://ibm.github.io/FHIR/cloudpak/security/security-context-constraints/" onclick="openVersion('https://ibm.github.io/FHIR/cloudpak/security/security-context-constraints/','1.1')">
 
                         <div class="pillContainer">
                           
-                          <a tabindex="-1" href="https://ibm.github.io/FHIR/cloudpak/" class="versionPill active">1.1</a>
+                          <a tabindex="-1" href="https://ibm.github.io/FHIR/cloudpak/security/security-context-constraints/" class="versionPill inactive">1.1</a>
                         </div>
                         <div class="activeContainer">
-                            
-                            <img alt="" src="https://ibm.github.io/FHIR/cloudpak/images/checkbox.svg" />
                             
                         </div>
                         <div class="latest">
@@ -339,13 +337,15 @@
                     
 
 
-                    <li class="version" data-url="https://ibm.github.io/FHIR/cloudpak/1.0/" onclick="openVersion('https://ibm.github.io/FHIR/cloudpak/1.0/','1.0')">
+                    <li class="version" data-url="https://ibm.github.io/FHIR/cloudpak/1.0/security/security-context-constraints/" onclick="openVersion('https://ibm.github.io/FHIR/cloudpak/1.0/security/security-context-constraints/','1.0')">
 
                         <div class="pillContainer">
                           
-                          <a tabindex="-1" href="https://ibm.github.io/FHIR/cloudpak/1.0/" class="versionPill inactive">1.0</a>
+                          <a tabindex="-1" href="https://ibm.github.io/FHIR/cloudpak/1.0/security/security-context-constraints/" class="versionPill active">1.0</a>
                         </div>
                         <div class="activeContainer">
+                            
+                            <img alt="" src="https://ibm.github.io/FHIR/cloudpak/images/checkbox.svg" />
                             
                         </div>
                         <div class="latest">
@@ -399,7 +399,7 @@
 
                     
 
-              <a href="/FHIR/cloudpak/about/overview/" class="">Introduction</a>
+              <a href="/FHIR/cloudpak/1.0/about/overview/" class="">Introduction</a>
             </li>
           
             
@@ -420,7 +420,7 @@
 
                     
 
-              <a href="/FHIR/cloudpak/about/whats-new/" class="">What's New</a>
+              <a href="/FHIR/cloudpak/1.0/about/documentation/" class="">Documentation</a>
             </li>
           
             
@@ -441,28 +441,7 @@
 
                     
 
-              <a href="/FHIR/cloudpak/about/documentation/" class="">Documentation</a>
-            </li>
-          
-            
-            
-
-            
-            
-
-
-      
-
-            
-
-            <li>
-
-
-          
-
-                    
-
-              <a href="/FHIR/cloudpak/about/license/" class="">License</a>
+              <a href="/FHIR/cloudpak/1.0/about/license/" class="">License</a>
             </li>
           
         </ul>
@@ -495,7 +474,7 @@
 
                     
 
-              <a href="/FHIR/cloudpak/installing/prerequisites/" class="">Prerequisites</a>
+              <a href="/FHIR/cloudpak/1.0/installing/prerequisites/" class="">Prerequisites</a>
             </li>
           
             
@@ -516,7 +495,7 @@
 
                     
 
-              <a href="/FHIR/cloudpak/installing/limitations/" class="">Limitations</a>
+              <a href="/FHIR/cloudpak/1.0/installing/installing/" class="">Installing</a>
             </li>
           
             
@@ -537,7 +516,7 @@
 
                     
 
-              <a href="/FHIR/cloudpak/installing/upgrading/" class="">Upgrading</a>
+              <a href="/FHIR/cloudpak/1.0/installing/air-gap-installation/" class="">Air Gap Installation</a>
             </li>
           
             
@@ -558,7 +537,7 @@
 
                     
 
-              <a href="/FHIR/cloudpak/installing/installing/" class="">Installing</a>
+              <a href="/FHIR/cloudpak/1.0/installing/creating/" class="">Creating an IBM FHIR Server</a>
             </li>
           
             
@@ -579,70 +558,7 @@
 
                     
 
-              <a href="/FHIR/cloudpak/installing/air-gap-installation/" class="">Air Gap Installation</a>
-            </li>
-          
-            
-            
-
-            
-            
-
-
-      
-
-            
-
-            <li>
-
-
-          
-
-                    
-
-              <a href="/FHIR/cloudpak/installing/creating/" class="">Creating an IBM FHIR Server</a>
-            </li>
-          
-            
-            
-
-            
-            
-
-
-      
-
-            
-
-            <li>
-
-
-          
-
-                    
-
-              <a href="/FHIR/cloudpak/installing/tracking-license/" class="">Tracking License Usage</a>
-            </li>
-          
-            
-            
-
-            
-            
-
-
-      
-
-            
-
-            <li>
-
-
-          
-
-                    
-
-              <a href="/FHIR/cloudpak/installing/uninstalling/" class="">Uninstalling</a>
+              <a href="/FHIR/cloudpak/1.0/installing/tracking-license/" class="">Tracking License Usage</a>
             </li>
           
         </ul>
@@ -675,7 +591,7 @@
 
                     
 
-              <a href="/FHIR/cloudpak/security/security/" class="">Security</a>
+              <a href="/FHIR/cloudpak/1.0/security/security/" class="">Security</a>
             </li>
           
             
@@ -696,7 +612,7 @@
 
                     
 
-              <a href="/FHIR/cloudpak/security/security-context-constraints/" class="">SecurityContextConstraints Requirements</a>
+              <a href="/FHIR/cloudpak/1.0/security/security-context-constraints/" class="active">SecurityContextConstraints Requirements</a>
             </li>
           
         </ul>
@@ -713,86 +629,87 @@
   <div class="mainContent">
     
     <div id="pageContainer" class="page" itemscope itemtype="http://schema.org/CreativeWork">
-      <div class="page__inner-wrap splash latestVersion">
+      <div class="page__inner-wrap  latestVersion">
         
         <section class="page__content pageSpacing" itemprop="text">
           
-          <div class="content">
-            <div id="splashHeaderContent" class="splashHeaderContent">
-  <div id="homePanel" class="panel homepanel">
-    <div class="heroContainer pageSpacing">
-      <div class="intro">
-        
-          <img class="pictogramHero" src="https://ibm.github.io/FHIR/cloudpak/images/FHIRServer_dark_theme.png" />
-        
-        <h1 class="hero small">
-          Welcome to IBM FHIR® Server <a onclick="toggleDropdown('open');" href="#" aria-label="Change Version"
-            tabindex="0" class="versionPill">1.1</a> 
-        </h1>
-        <h1 class="hero">
-          Documentation
-        </h1>
-
-        
-          <p class="esIntro">IBM FHIR Server is capable of processing, validating, and storing healthcare data in an industry-standard format that 
-		    can be used for running search and other reporting capabilities. Built for the enterprise and offering cloud 
-			portability, it’s an integral component of a data integration pipeline.</p>
-
+          <header>
+            <h1 id="page-title" class="page__title" itemprop="headline">
+              SecurityContextConstraints Requirements
+</h1>
+            
+          </header>
           
-        
+          <div class="content">
+            <p>By default, the IBM FHIR Server Operator uses the <code class="language-plaintext highlighter-rouge">restricted</code> SecurityContextConstraints resource.</p>
 
-      </div>
-    </div>
-    
-<!--      <div class="featuresHeroContainer pageSpacing">
-  <div class="featuresHeroContent">
-    <div class="featuresHeroCards">
-      
-    </div>
-  </div>
-</div>
+<p>If desired, the following custom SecurityContextConstraints resource can be applied and used instead.</p>
 
-    
-  </div>
-  <div id="remotePanel" class="panel remotePanel pageSpacing">
-  
-  </div> -->
-  <div class='loading'> 
-    <p class='loadingText'>
-      Loading...
-    </p>
-  </div>
-</div>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">apiVersion</span><span class="pi">:</span> <span class="s">security.openshift.io/v1</span>
+<span class="na">kind</span><span class="pi">:</span> <span class="s">SecurityContextConstraints</span>
+<span class="na">metadata</span><span class="pi">:</span>
+  <span class="na">name</span><span class="pi">:</span> <span class="s">ibm-fhir-server-operator-scc</span>
+  <span class="na">annotations</span><span class="pi">:</span>
+    <span class="s">kubernetes.io/description</span><span class="pi">:</span> <span class="s">ibm-fhir-server-operator-scc denies access to all</span>
+      <span class="s">host features and requires pods to be run with a UID, and SELinux context</span>
+      <span class="s">that are allocated to the namespace, enforces readOnlyRootFilesystem, and</span>
+      <span class="s">drops all capabilities.</span>
+<span class="na">allowHostDirVolumePlugin</span><span class="pi">:</span> <span class="no">false</span>
+<span class="na">allowHostIPC</span><span class="pi">:</span> <span class="no">false</span>
+<span class="na">allowHostNetwork</span><span class="pi">:</span> <span class="no">false</span>
+<span class="na">allowHostPID</span><span class="pi">:</span> <span class="no">false</span>
+<span class="na">allowHostPorts</span><span class="pi">:</span> <span class="no">false</span>
+<span class="na">allowPrivilegeEscalation</span><span class="pi">:</span> <span class="no">false</span>
+<span class="na">allowPrivilegedContainer</span><span class="pi">:</span> <span class="no">false</span>
+<span class="na">allowedCapabilities</span><span class="pi">:</span> <span class="pi">[]</span>
+<span class="na">defaultAddCapabilities</span><span class="pi">:</span> <span class="pi">[]</span>
+<span class="na">groups</span><span class="pi">:</span> <span class="pi">[]</span>
+<span class="na">fsGroup</span><span class="pi">:</span>
+  <span class="na">type</span><span class="pi">:</span> <span class="s">MustRunAs</span>
+<span class="na">priority</span><span class="pi">:</span> <span class="no">null</span>
+<span class="na">readOnlyRootFilesystem</span><span class="pi">:</span> <span class="no">true</span>
+<span class="na">requiredDropCapabilities</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">ALL</span>
+<span class="na">runAsUser</span><span class="pi">:</span>
+  <span class="na">type</span><span class="pi">:</span> <span class="s">MustRunAsRange</span>
+<span class="na">seLinuxContext</span><span class="pi">:</span>
+  <span class="na">type</span><span class="pi">:</span> <span class="s">MustRunAs</span>
+<span class="na">supplementalGroups</span><span class="pi">:</span>
+  <span class="na">type</span><span class="pi">:</span> <span class="s">RunAsAny</span>
+<span class="na">users</span><span class="pi">:</span> <span class="pi">[]</span>
+<span class="na">volumes</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">configMap</span>
+  <span class="pi">-</span> <span class="s">downwardAPI</span>
+  <span class="pi">-</span> <span class="s">emptyDir</span>
+  <span class="pi">-</span> <span class="s">persistentVolumeClaim</span>
+  <span class="pi">-</span> <span class="s">projected</span>
+  <span class="pi">-</span> <span class="s">secret</span>
+</code></pre></div></div>
 
-<div class="splashcontent">
-    <div class="section pageSpacing">
-      <div class="sectionContent">
-            <div class="title">
-              
-              <h2>How to get going</h2>
-            </div>
-            <div class="content">
-                <div class="splashGridContainer">
-                  
-                    
-                  
-                </div>
-            </div>
-      </div>
-    </div>
-    <div class="section pageSpacing">
-      <div class="sectionContent">
-              <div class="title">
-                <h2></h2>
-              </div>
-              <div class="content">
-                  <div class="splashGridContainer">
-                    
-                  </div>
-              </div>
-      </div>
-    </div>
-</div>
+<p>To cause the IBM FHIR Server Operator to use the custom SecurityContextConstraints resource.</p>
+
+<ol>
+  <li>
+    <p>Find the <code class="language-plaintext highlighter-rouge">ibm-fhir-server-operator-sa</code> ServiceAccount resource in the same namespace as the Operator.</p>
+  </li>
+  <li>
+    <p>Add the following to the rules in the ClusterRole resource that the ServiceAccount resource is bound to, and apply.</p>
+  </li>
+</ol>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="pi">-</span> <span class="na">apiGroups</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">security.openshift.io</span>
+  <span class="na">resourceNames</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">ibm-fhir-server-operator-scc</span>
+  <span class="na">resources</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">securitycontextconstraints</span>
+  <span class="na">verbs</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">use</span>
+</code></pre></div></div>
+
+<ul>
+  <li>The IBM FHIR Server Operator also creates custom ClusterRole, ClusterRoleBinding, Role, RoleBinding, SecurityContextConstraints, and ServiceAccount resources to ensure separation of duties.</li>
+</ul>
 
           </div>
 
@@ -801,6 +718,12 @@
         </section>
 
         <aside class="sidebar__right ">
+          
+          <div class="fixedSidebar">
+            <nav class="toc">
+              
+            </nav>
+          </div>
           
         </aside>
 
@@ -811,22 +734,22 @@
           
   <nav class="pagination">
     
-      <div class="previous disabled">
+      <div class="previous" onclick="window.open('/FHIR/cloudpak/1.0/security/security/','_self')">
+        <div class="container">
+          <a href="/FHIR/cloudpak/1.0/security/security/" class="pagination--pager" title="Previous Item: Security
+">Previous</a>
+          <h2 class="titlePreview">Security
+</h2>
+        </div>
+      </div>
+    
+    
+      <div class="next disabled">
         <div class="container">
           
         </div>
       </div>
     
-    
-      <div class="next" onclick="window.open('/FHIR/cloudpak/about/overview/','_self')">
-        <div class="container">
-          <a href="/FHIR/cloudpak/about/overview/" class="pagination--pager" title="Next Item: Introduction
-">Next</a>
-          <h2 class="titlePreview">Introduction
-</h2>
-        </div>
-      </div>
-      
   </nav>
 
         
