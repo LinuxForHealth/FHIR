@@ -226,7 +226,7 @@ OK         json/ibm/complete-absent/Parameters-22.json
 OK         json/ibm/complete-absent/Parameters-23.json
 OK         json/ibm/complete-absent/Parameters-24.json
 OK         json/ibm/complete-absent/Parameters-25.json
-OK         json/ibm/complete-absent/Parameters-26.json
+VALIDATION json/ibm/complete-absent/Parameters-26.json
 OK         json/ibm/complete-absent/Parameters-3.json
 OK         json/ibm/complete-absent/Parameters-4.json
 OK         json/ibm/complete-absent/Parameters-5.json
@@ -564,7 +564,7 @@ OK         json/ibm/complete-mock/MessageDefinition-2.json
 OK         json/ibm/complete-mock/MessageHeader-1.json
 OK         json/ibm/complete-mock/MessageHeader-2.json
 VALIDATION json/ibm/complete-mock/MolecularSequence-1.json
-OK         json/ibm/complete-mock/NamingSystem-1.json
+VALIDATION json/ibm/complete-mock/NamingSystem-1.json
 OK         json/ibm/complete-mock/NutritionOrder-1.json
 OK         json/ibm/complete-mock/NutritionOrder-2.json
 OK         json/ibm/complete-mock/Observation-1.json
@@ -975,7 +975,7 @@ OK         json/ibm/minimal/ResearchSubject-1.json
 OK         json/ibm/minimal/RiskAssessment-1.json
 OK         json/ibm/minimal/RiskEvidenceSynthesis-1.json
 OK         json/ibm/minimal/Schedule-1.json
-VALIDATION json/ibm/minimal/SearchParameter-1.json
+OK         json/ibm/minimal/SearchParameter-1.json
 OK         json/ibm/minimal/ServiceRequest-1.json
 OK         json/ibm/minimal/Slot-1.json
 OK         json/ibm/minimal/Specimen-1.json
