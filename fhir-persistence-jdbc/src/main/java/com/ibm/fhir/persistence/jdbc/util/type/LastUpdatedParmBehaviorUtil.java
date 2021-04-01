@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,7 +34,7 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
  * This utility encapsulates the logic specific to fhir-search related to date.
  * <br>
  * The derived table looks similar to the following SQL:
- * 
+ *
  * <pre>
  * (
  *       SELECT *
@@ -62,7 +62,7 @@ public class LastUpdatedParmBehaviorUtil {
     /**
      * builds the query parameters for the last updated
      * <br>
-     * 
+     *
      * @param fromClause
      * @param target
      * @param parameters
@@ -72,7 +72,7 @@ public class LastUpdatedParmBehaviorUtil {
         fromClause.append(LEFT_PAREN);
         fromClause.append(" SELECT * FROM ");
         fromClause.append(target);
-        fromClause.append("_RESOURCES IR WHERE ");
+        fromClause.append("_LOGICAL_RESOURCES IR WHERE ");
 
         boolean parmProcessed = false;
         for (QueryParameter queryParm : parameters) {
@@ -80,7 +80,7 @@ public class LastUpdatedParmBehaviorUtil {
             if (parmProcessed) {
                 fromClause.append(AND);
             } else {
-                // Signal to the downstream to treat any subsequent value as an AND condition 
+                // Signal to the downstream to treat any subsequent value as an AND condition
                 parmProcessed = true;
             }
             executeBehavior(fromClause, queryParm);
@@ -92,16 +92,16 @@ public class LastUpdatedParmBehaviorUtil {
 
     /**
      * generate for each
-     * 
+     *
      * @param fromClause
      * @param queryParm
      */
     public void executeBehavior(StringBuilder whereClause, QueryParameter queryParm) {
-        // Start the Clause 
+        // Start the Clause
         // Query: (
         whereClause.append(LEFT_PAREN);
 
-        // Initially we don't want to treat this as the second value. 
+        // Initially we don't want to treat this as the second value.
         boolean parmValueProcessed = false;
         for (QueryParameterValue value : queryParm.getValues()) {
             // If multiple values are present, we need to OR them together.
@@ -109,11 +109,11 @@ public class LastUpdatedParmBehaviorUtil {
                 // OR
                 whereClause.append(RIGHT_PAREN).append(OR).append(LEFT_PAREN);
             } else {
-                // Signal to the downstream to treat any subsequent value as an OR condition 
+                // Signal to the downstream to treat any subsequent value as an OR condition
                 parmValueProcessed = true;
             }
 
-            // Let's get the prefix. 
+            // Let's get the prefix.
             Prefix prefix = value.getPrefix();
             if (prefix == null) {
                 // Default to EQ
@@ -125,14 +125,14 @@ public class LastUpdatedParmBehaviorUtil {
             buildPredicates(whereClause, prefix, v, upperBound);
         }
 
-        // End the Clause started above, and closes the parameter expression. 
+        // End the Clause started above, and closes the parameter expression.
         // Query: )
         whereClause.append(RIGHT_PAREN);
     }
 
     /**
      * builds query elements based on prefix type.
-     * 
+     *
      * @param whereClauseSegment
      * @param prefix
      * @param value
@@ -184,20 +184,20 @@ public class LastUpdatedParmBehaviorUtil {
 
     /**
      * builds the common clause
-     * 
+     *
      * @param whereClauseSegment
      * @param operator
      * @param value
      */
     public void buildCommonClause(StringBuilder whereClauseSegment, String operator, Instant value) {
-        // Example: <code>LAST_UPDATED <= ?</code> 
+        // Example: <code>LAST_UPDATED <= ?</code>
         whereClauseSegment.append(LAST_UPDATED_COLUMN_NAME).append(operator).append(BIND_VAR);
         bindVariables.add(generateTimestamp(value));
     }
 
     /**
      * builds equals range
-     * 
+     *
      * @param whereClauseSegment
      * @param lowerBound
      * @param upperBound
@@ -226,7 +226,7 @@ public class LastUpdatedParmBehaviorUtil {
 
     /**
      * build not equals range clause
-     * 
+     *
      * @param whereClauseSegment
      * @param lowerBound
      * @param upperBound

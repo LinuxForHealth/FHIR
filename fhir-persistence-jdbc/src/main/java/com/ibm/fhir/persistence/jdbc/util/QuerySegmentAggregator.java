@@ -67,10 +67,10 @@ public class QuerySegmentAggregator {
     protected static final String SYSTEM_LEVEL_SELECT_ROOT =
             "SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID ";
     protected static final String SYSTEM_LEVEL_SUBSELECT_ROOT = SELECT_ROOT;
-    protected static final String SELECT_COUNT_ROOT = "SELECT COUNT(DISTINCT R.LOGICAL_RESOURCE_ID) ";
+    protected static final String SELECT_COUNT_ROOT = "SELECT COUNT(DISTINCT LR.LOGICAL_RESOURCE_ID) ";
     protected static final String SYSTEM_LEVEL_SELECT_COUNT_ROOT = "SELECT SUM(CNT) ";
     protected static final String SYSTEM_LEVEL_SUBSELECT_COUNT_ROOT = " SELECT COUNT(DISTINCT LR.LOGICAL_RESOURCE_ID) AS CNT ";
-    protected static final String WHERE_CLAUSE_ROOT = "WHERE R.IS_DELETED = 'N'";
+    protected static final String NOT_DELETED = " LR.IS_DELETED = 'N'";
 
     // Enables the SKIP_WHERE of WHERE clauses.
     public static final String ID = "_id";
@@ -362,6 +362,7 @@ public class QuerySegmentAggregator {
                 buildWhereClause(queryString, resourceTypeName); // technically the JOIN clause
                 queryString.append(RIGHT_PAREN).append(" AS LR ");
 
+                // TODO: join to logical resources instead
                 // JOIN to RESOURCES R
                 queryString.append(JOIN);
                 processFromClauseForLastUpdated(queryString, resourceTypeName);
@@ -416,10 +417,12 @@ public class QuerySegmentAggregator {
         fromClause.append(" LR ");
 
         // This is requires for the count queries here
-        fromClause.append(JOIN);
-        processFromClauseForLastUpdated(fromClause, simpleName);
-        fromClause.append(" R ON R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ")
-                .append(" AND R.IS_DELETED = 'N' ");
+        if (!queryParmLastUpdateds.isEmpty()) {
+            fromClause.append(JOIN);
+            processFromClauseForLastUpdated(fromClause, simpleName);
+            fromClause.append(" R ON R.RESOURCE_ID = LR.CURRENT_RESOURCE_ID ")
+                    .append(" AND R.IS_DELETED = 'N' ");
+        }
 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -470,7 +473,7 @@ public class QuerySegmentAggregator {
 
         if (!queryParamIds.isEmpty()) {
             // ID, then special handling.
-            fromClause.append("( SELECT LOGICAL_ID, LOGICAL_RESOURCE_ID, CURRENT_RESOURCE_ID FROM ");
+            fromClause.append("( SELECT LOGICAL_ID, LOGICAL_RESOURCE_ID, CURRENT_RESOURCE_ID, IS_DELETED FROM ");
             fromClause.append(target);
             fromClause.append("_LOGICAL_RESOURCES");
             fromClause.append(" ILR WHERE ILR.LOGICAL_ID IN ( ");
@@ -513,6 +516,7 @@ public class QuerySegmentAggregator {
             behaviorUtil.buildLastUpdatedDerivedTable(fromClause, target, queryParmLastUpdateds);
             lastUpdatedObjects.addAll(behaviorUtil.getBindVariables());
         } else {
+            // TODO: go to logical resources instead
             // Not _lastUpdated, then go to the default.
             fromClause.append(target);
             fromClause.append("_RESOURCES");
@@ -540,6 +544,8 @@ public class QuerySegmentAggregator {
     protected void buildWhereClause(StringBuilder whereClause, String overrideType) {
        final String METHODNAME = "buildWhereClause";
         log.entering(CLASSNAME, METHODNAME);
+
+        boolean whereWordAdded = false;
 
         // Override the Type is null, then use the default type here.
         if (overrideType == null) {
@@ -573,6 +579,7 @@ public class QuerySegmentAggregator {
                     if (missingOrNotModifierWhereClause.length() == 0) {
                         missingOrNotModifierWhereClause.append(querySegmentString);
                     } else {
+                        whereWordAdded = true;
                         // If not the first param with a :missing or :not modifier, replace the WHERE with an AND
                         missingOrNotModifierWhereClause.append(querySegmentString.replaceFirst(WHERE, AND));
                     }
@@ -633,19 +640,25 @@ public class QuerySegmentAggregator {
                                             .append(" AND LR.LOGICAL_RESOURCE_ID = ")
                                             .append(paramTableAlias)
                                             .append(".LOGICAL_RESOURCE_ID");
-                            }
-                        }
+                            } // end if/else for NOT / NOT-IN
+                        } // end if/else for isReverseChained
                     } else {
                         whereClause.append(querySegment.getQueryString()
                             .replaceAll(PARAMETER_TABLE_ALIAS + "_p", paramTableAlias + "_p"));
-                    }
-                }
+                        whereWordAdded = true;
+                    } // end if/else for COMPOSITE
+                } // end if/else for MISSING
             } // end if SKIP_WHERE
         } // end for
 
         // If there were any query parameters with :missing, :not, or :not-in modifier, append the missingOrNotModifierWhereClause
         if (missingOrNotModifierWhereClause.length() > 0) {
             whereClause.append(missingOrNotModifierWhereClause.toString());
+            whereWordAdded = true;
+        }
+
+        if (!SortedQuerySegmentAggregator.class.equals(this.getClass())) {
+            whereClause.append(whereWordAdded ? AND : WHERE).append(NOT_DELETED);
         }
 
         log.exiting(CLASSNAME, METHODNAME);

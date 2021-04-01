@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -31,6 +31,7 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
+import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.connection.QueryHints;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
@@ -48,7 +49,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
     private static final String CLASSNAME = SortedQuerySegmentAggregator.class.getName();
     private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
 
-    public static final String GROUP_BY = " GROUP BY R.RESOURCE_ID ";
+    public static final String GROUP_BY = " GROUP BY LR.CURRENT_RESOURCE_ID ";
     private static final String SORT_PARAMETER_ALIAS = "S";
 
     private List<SortParameter> sortParameters;
@@ -138,6 +139,9 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
             // Build LEFT OUTER JOIN clause
             sqlSortQuery.append(this.buildSortJoinClause());
 
+            // hacky!  what if there's a where clause added earlier!?
+            sqlSortQuery.append(JDBCConstants.WHERE).append(NOT_DELETED);
+
             // Build GROUP BY clause
             sqlSortQuery.append(GROUP_BY);
 
@@ -171,7 +175,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
         log.entering(CLASSNAME, METHODNAME);
 
         StringBuilder selectBuffer = new StringBuilder();
-        selectBuffer.append("SELECT R.RESOURCE_ID");
+        selectBuffer.append("SELECT LR.CURRENT_RESOURCE_ID");
 
         // Build MIN and/or MAX clauses
         for (int i = 0; i < this.sortParameters.size(); i++) {
@@ -219,7 +223,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
             expression.append(LEFT_PAREN);
 
             if (SearchConstants.LAST_UPDATED.equals(sortParm.getCode())) {
-                expression.append("R.LAST_UPDATED");
+                expression.append("LR.LAST_UPDATED");
             } else {
                 expression.append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append(DOT_CHAR);
                 expression.append(attributeName);
@@ -327,7 +331,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
                         .append(sortParameterNameId)
                         .append(AND)
                         .append(SORT_PARAMETER_ALIAS).append(sortParmIndex)
-                        .append(".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID")
+                        .append(".LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID")
                         .append(RIGHT_PAREN).append(SPACE);
 
                 sortParmIndex++;

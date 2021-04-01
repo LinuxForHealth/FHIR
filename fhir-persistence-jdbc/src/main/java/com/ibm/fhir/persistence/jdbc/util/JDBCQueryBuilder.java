@@ -244,9 +244,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         QuerySegmentAggregator helper;
         boolean isValidQuery = true;
 
-        helper =
-                QuerySegmentAggregatorFactory.buildQuerySegmentAggregator(resourceType, offset, pageSize,
-                        this.parameterDao, this.resourceDao, searchContext, false, this.queryHints, this.identityCache);
+        helper = QuerySegmentAggregatorFactory.buildQuerySegmentAggregator(resourceType, offset, pageSize,
+                this.parameterDao, this.resourceDao, searchContext, false, this.queryHints, this.identityCache);
 
         // Special logic for handling LocationPosition queries. These queries have interdependencies between
         // a couple of related input query parameters
@@ -1225,7 +1224,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 }
 
                 whereClauseSegment.append(LEFT_PAREN);
-                
+
                 if (Modifier.IN.equals(queryParm.getModifier()) || Modifier.NOT_IN.equals(queryParm.getModifier())) {
                     populateValueSetCodesSubSegment(whereClauseSegment, value.getValueCode(), tableAlias);
                 } else {
@@ -1260,7 +1259,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                         }
                     }
                 }
-                
+
                 whereClauseSegment.append(RIGHT_PAREN);
                 parmValueProcessed = true;
             }
@@ -1382,7 +1381,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             if (queryParm.getValues().size() > 1) {
                 // Build as WHERE clause using EXISTS
                 SqlQueryData compositeQueryData = populateCompositeSelectSubSegment(queryParm, resourceType, paramTableAlias, logicalResourceTableAlias);
-                joinSegment.append(" WHERE (EXISTS ").append(compositeQueryData.getQueryString()).append(RIGHT_PAREN);
+                joinSegment.append(WHERE).append("(EXISTS ").append(compositeQueryData.getQueryString()).append(RIGHT_PAREN);
                 bindVariables.addAll(compositeQueryData.getBindVariables());
             } else {
                 // Build as JOINS
@@ -1980,9 +1979,9 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 if (codeSystemProcessed) {
                     whereClauseSegment.append(OR);
                 }
-                
+
                 // TODO: investigate if we can use COMMON_TOKEN_VALUES support
-                
+
                 // <parameterTableAlias>.TOKEN_VALUE IN (...)
                 whereClauseSegment.append(tokenValuePredicateString)
                     .append("'").append(String.join("','", codes)).append("'")
@@ -1991,7 +1990,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 // AND <parameterTableAlias>.CODE_SYSTEM_ID = {n}
                 whereClauseSegment.append(AND).append(codeSystemIdPredicateString)
                     .append(nullCheck(identityCache.getCodeSystemId(codeSetUrl)));
-                
+
                 codeSystemProcessed = true;
             }
         }
