@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.term.graph.test;
 
-import static com.ibm.fhir.term.graph.util.FHIRTermGraphUtil.toObject;
+import static com.ibm.fhir.term.util.CodeSystemSupport.toObject;
 
 import java.util.stream.Stream;
 

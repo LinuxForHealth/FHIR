@@ -264,6 +264,7 @@ public class CodeGenerator {
         generateModelClassesFile(basePath);
         generateCodeSubtypeClass("ConceptSubsumptionOutcome", "http://hl7.org/fhir/ValueSet/concept-subsumption-outcome", basePath);
         generateCodeSubtypeClass("DataAbsentReason", "http://hl7.org/fhir/ValueSet/data-absent-reason", basePath);
+        generateCodeSubtypeClass("StandardsStatus", "http://hl7.org/fhir/ValueSet/standards-status", basePath);
     }
 
     private void generateModelClassesFile(String basePath) {
@@ -633,6 +634,13 @@ public class CodeGenerator {
         }
 
         if (isBase64Binary(structureDefinition)) {
+            cb.javadocStart()
+                .javadoc("The base64 encoded value.")
+                .javadoc("")
+                .javadocParam("value", "The base64 encoded string")
+                .javadocReturn("A reference to this Builder instance")
+                .javadocEnd();
+
             cb.method(mods("public"), "Builder", "value", params("java.lang.String value"))
                 .invoke("Objects.requireNonNull", args("value"))
                 .assign("java.lang.String valueNoWhitespace", "value.replaceAll(\"\\\\s\", \"\")")
@@ -765,7 +773,12 @@ public class CodeGenerator {
     private void generateBuilderMethodJavadoc(JsonObject structureDefinition, JsonObject elementDefinition, String fieldName, String paramType, CodeBuilder cb) {
         String definition = elementDefinition.getString("definition");
         cb.javadocStart();
-        cb.javadoc(Arrays.asList(definition.split(System.lineSeparator())), false, false, true);
+
+        if (isBase64Binary(structureDefinition) && "value".equals(fieldName)) {
+            cb.javadoc("The byte array of the actual value");
+        } else {
+            cb.javadoc(Arrays.asList(definition.split(System.lineSeparator())), false, false, true);
+        }
 
         switch (paramType) {
         case "single":
@@ -841,9 +854,12 @@ public class CodeGenerator {
             }
         }
 
-        String _short = elementDefinition.getString("short");
-        cb.javadocParam(fieldName, _short);
-
+        if (isBase64Binary(structureDefinition) && "value".equals(fieldName)) {
+            cb.javadocParam(fieldName,"The byte array of the actual value");
+        } else {
+            String _short = elementDefinition.getString("short");
+            cb.javadocParam(fieldName, _short);
+        }
         cb.javadoc("");
 
         cb.javadocReturn("A reference to this Builder instance");
@@ -913,11 +929,24 @@ public class CodeGenerator {
                 }
             }
 
-            List<String> javadocLines = new ArrayList<>(Arrays.asList(getElementDefinition(structureDefinition, path).getString("definition").split(System.lineSeparator())));
+            List<String> javadocLines = new ArrayList<>(Arrays.asList(
+                    getElementDefinition(structureDefinition, path).getString("definition").split(System.lineSeparator())));
             if (isDateTime(structureDefinition)) {
                 javadocLines.addAll(Arrays.asList("", "If seconds are specified, fractions of seconds may be specified up to nanosecond precision (9 digits). However, any fractions of seconds specified to greater than microsecond precision (6 digits) will be truncated to microsecond precision when stored."));
             } else if (isInstant(structureDefinition) || isTime(structureDefinition)) {
                 javadocLines.addAll(Arrays.asList("", "Fractions of seconds may be specified up to nanosecond precision (9 digits). However, any fractions of seconds specified to greater than microsecond precision (6 digits) will be truncated to microsecond precision when stored."));
+            }
+            if (!nested && hasMaturityLevel(structureDefinition) && hasMaturityLevel(structureDefinition)) {
+                String maturityLevel = getMaturityLevel(structureDefinition);
+                String standardsStatus = getStandardsStatus(structureDefinition);
+                if ("trial-use".equals(standardsStatus)) {
+                    standardsStatus = "Trial Use";
+                } else if ("normative".equals(standardsStatus)) {
+                    standardsStatus = "Normative";
+                }
+                if (maturityLevel != null) {
+                    javadocLines.addAll(Arrays.asList("", "Maturity level: FMM" + maturityLevel + " (" + standardsStatus + ")"));
+                }
             }
             cb.javadoc(javadocLines);
 
@@ -949,6 +978,12 @@ public class CodeGenerator {
             }
 
             if (!nested) {
+                if (hasMaturityLevel(structureDefinition) && hasStandardsStatus(structureDefinition)) {
+                    Map<String, String> vals = new HashMap<>();
+                    vals.put("level", getMaturityLevel(structureDefinition));
+                    vals.put("status", "StandardsStatus.ValueSet." + getStandardsStatus(structureDefinition).toUpperCase().replace("-", "_"));
+                    cb.annotation("Maturity", vals);
+                }
                 generateConstraintAnnotations(structureDefinition, cb, className);
                 generateBindingAnnotation(structureDefinition, cb, className, structureDefinition.getJsonObject("snapshot").getJsonArray("element").getJsonObject(0));
                 cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
@@ -1845,6 +1880,26 @@ public class CodeGenerator {
             .end().newLine();
         }
 
+        if (isBase64Binary(structureDefinition)) {
+            cb.javadocStart()
+                .javadoc("Factory method for creating Base64Binary objects from a byte array; this array should be the actual value.")
+                .javadoc("")
+                .javadocParam("value", "The byte array of to-be-encoded content")
+                .javadocEnd();
+            cb.method(mods("public", "static"), "Base64Binary", "of", params("byte[] value"))
+                ._return(className + ".builder().value(value).build()")
+            .end().newLine();
+
+            cb.javadocStart()
+                .javadoc("Factory method for creating Base64Binary objects from a Base64 encoded value.")
+                .javadoc("")
+                .javadocParam("value", "The Base64 encoded string")
+                .javadocEnd();
+            cb.method(mods("public", "static"), "Base64Binary", "of", params("java.lang.String value"))
+                ._return(className + ".builder().value(value).build()")
+            .end().newLine();
+        }
+
         if (isUri(structureDefinition) || isUriSubtype(structureDefinition)) {
             cb.method(mods("public", "static"), "Uri", "uri", params("java.lang.String value"))
                 ._return(className + ".builder().value(value).build()")
@@ -1919,6 +1974,11 @@ public class CodeGenerator {
 
         if (hasConstraints(structureDefinition) || hasExtensibleOrPreferredBindings(structureDefinition)) {
             imports.add("com.ibm.fhir.model.annotation.Constraint");
+        }
+
+        if (hasMaturityLevel(structureDefinition) && hasStandardsStatus(structureDefinition)) {
+            imports.add("com.ibm.fhir.model.annotation.Maturity");
+            imports.add("com.ibm.fhir.model.type.code.StandardsStatus");
         }
 
         imports.add("javax.annotation.Generated");
@@ -4042,6 +4102,66 @@ public class CodeGenerator {
                 "integer".equals(type) ||
                 "code".equals(type) ||
                 "uri".equals(type);
+    }
+
+    /**
+     * @param structureDefinition a StructureDefinition for a FHIR resource or element
+     * @return whether the resource or element has a FHIR Maturity Model (fmm) extension
+     */
+    private boolean hasMaturityLevel(JsonObject structureDefinition) {
+        for (JsonValue extension : structureDefinition.getOrDefault("extension", JsonArray.EMPTY_JSON_ARRAY).asJsonArray()) {
+            if (extension.asJsonObject().getString("url").endsWith("structuredefinition-fmm")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param structureDefinition a StructureDefinition for a FHIR resource or element
+     * @return the maturity level of the resource or element, or null if it has none
+     * @see <a href="https://confluence.hl7.org/display/FHIR/FHIR+Maturity+Model">https://confluence.hl7.org/display/FHIR/FHIR+Maturity+Model</a>
+     */
+    private String getMaturityLevel(JsonObject structureDefinition) {
+        for (JsonValue extension : structureDefinition.getOrDefault("extension", JsonArray.EMPTY_JSON_ARRAY).asJsonArray()) {
+            if (extension.asJsonObject().getString("url").endsWith("structuredefinition-fmm")) {
+                int valueInteger = extension.asJsonObject().getInt("valueInteger", -1);
+                if (valueInteger != -1) {
+                    return Integer.toString(valueInteger);
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param structureDefinition a StructureDefinition for a FHIR resource or element
+     * @return whether the resource or element has a FHIR Maturity Model (fmm) extension
+     */
+    private boolean hasStandardsStatus(JsonObject structureDefinition) {
+        for (JsonValue extension : structureDefinition.getOrDefault("extension", JsonArray.EMPTY_JSON_ARRAY).asJsonArray()) {
+            if (extension.asJsonObject().getString("url").endsWith("structuredefinition-standards-status")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @param structureDefinition a StructureDefinition for a FHIR resource or element
+     * @return the maturity level of the resource or element, or null if it has none
+     * @see <a href="https://confluence.hl7.org/display/FHIR/FHIR+Maturity+Model">https://confluence.hl7.org/display/FHIR/FHIR+Maturity+Model</a>
+     */
+    private String getStandardsStatus(JsonObject structureDefinition) {
+        for (JsonValue extension : structureDefinition.getOrDefault("extension", JsonArray.EMPTY_JSON_ARRAY).asJsonArray()) {
+            if (extension.asJsonObject().getString("url").endsWith("structuredefinition-standards-status")) {
+                String valueCode = extension.asJsonObject().getString("valueCode");
+                if (valueCode != null) {
+                    return valueCode;
+                }
+            }
+        }
+        return null;
     }
 
     private boolean isAbstract(JsonObject structureDefinition) {

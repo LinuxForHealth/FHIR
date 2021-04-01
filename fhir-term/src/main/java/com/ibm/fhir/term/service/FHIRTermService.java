@@ -403,14 +403,12 @@ public class FHIRTermService {
             CodeSystem codeSystem = CodeSystemSupport.getCodeSystem(url);
             if (codeSystem != null && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
                 FHIRTermServiceProvider provider = findProvider(codeSystem);
-                if (provider.hasConcept(codeSystem, codeA)) {
-                    boolean subsumes = provider.subsumes(codeSystem, codeA, codeB);
-                    if (subsumes) {
-                        return codeA.equals(codeB) ? ConceptSubsumptionOutcome.EQUIVALENT : ConceptSubsumptionOutcome.SUBSUMES;
+                if (provider.hasConcept(codeSystem, codeA) && provider.hasConcept(codeSystem, codeB)) {
+                    if (provider.subsumes(codeSystem, codeA, codeB)) {
+                        return (codeA.equals(codeB) || (!CodeSystemSupport.isCaseSensitive(codeSystem) && normalize(codeA.getValue()).equals(normalize(codeB.getValue())))) ?
+                                ConceptSubsumptionOutcome.EQUIVALENT : ConceptSubsumptionOutcome.SUBSUMES;
                     }
-                    if (provider.hasConcept(codeSystem, codeB)) {
-                        return provider.subsumes(codeSystem, codeB, codeA) ? ConceptSubsumptionOutcome.SUBSUMED_BY : ConceptSubsumptionOutcome.NOT_SUBSUMED;
-                    }
+                    return provider.subsumes(codeSystem, codeB, codeA) ? ConceptSubsumptionOutcome.SUBSUMED_BY : ConceptSubsumptionOutcome.NOT_SUBSUMED;
                 }
             }
         }

@@ -56,7 +56,7 @@ import com.ibm.fhir.search.util.SearchUtil;
  * Specification: Positional Searching for Location Resource</a>
  * <br>
  * Original LONG/LAT
- * 
+ *
  * <pre>
  *  "position": {
  *      "longitude": -83.6945691,
@@ -113,13 +113,13 @@ public class JDBCSearchNearTest {
             if (persistence.isTransactional()) {
                 persistence.getTransaction().begin();
             }
-            
+
             FHIRSearchContext ctx = SearchUtil.parseQueryParameters(Location.class, Collections.emptyMap(), true);
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(null, ctx);
             persistence.delete(persistenceContext, Location.class, savedResource.getId());
             if (persistence.isTransactional()) {
-                persistence.getTransaction().commit();
+                persistence.getTransaction().end();
             }
         }
         FHIRRequestContext.get().setTenantId("default");
@@ -162,7 +162,7 @@ public class JDBCSearchNearTest {
     @AfterMethod(alwaysRun = true)
     public void commitTrx() throws Exception {
         if (persistence != null && persistence.isTransactional()) {
-            persistence.getTransaction().commit();
+            persistence.getTransaction().end();
         }
     }
 

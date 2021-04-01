@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -36,6 +37,7 @@ import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ImagingStudyStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -44,7 +46,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * includes a set of Service-Object Pair Instances (SOP Instances - images or other data) acquired or produced in a 
  * common context. A series is of only one modality (e.g. X-ray, CT, MR, ultrasound), but a study may have multiple 
  * series of different modalities.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "imagingStudy-0",
     level = "Warning",

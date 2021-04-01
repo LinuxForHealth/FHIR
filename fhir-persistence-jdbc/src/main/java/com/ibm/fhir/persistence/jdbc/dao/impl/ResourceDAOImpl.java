@@ -259,6 +259,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                 resource.setDataStream(new InputOutputByteStream(payloadData, payloadData.length));
             }
             resource.setId(resultSet.getLong(IDX_RESOURCE_ID));
+            resource.setLogicalResourceId(resultSet.getLong(IDX_LOGICAL_RESOURCE_ID));
             resource.setLastUpdated(resultSet.getTimestamp(IDX_LAST_UPDATED));
             resource.setLogicalId(resultSet.getString(IDX_LOGICAL_ID));
             resource.setVersionId(resultSet.getInt(IDX_VERSION_ID));

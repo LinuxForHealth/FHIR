@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -42,13 +43,20 @@ import com.ibm.fhir.model.type.code.MessageHeaderResponseRequest;
 import com.ibm.fhir.model.type.code.MessageSignificanceCategory;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Defines the characteristics of a message that can be shared between systems, including the type of event that 
  * initiates the message, the content to be transmitted and what response(s), if any, are permitted.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "msd-0",
     level = "Warning",

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -39,6 +40,7 @@ import com.ibm.fhir.model.type.code.CompositionStatus;
 import com.ibm.fhir.model.type.code.DocumentConfidentiality;
 import com.ibm.fhir.model.type.code.DocumentRelationshipType;
 import com.ibm.fhir.model.type.code.SectionMode;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -49,7 +51,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * a Composition alone does not constitute a document. Rather, the Composition must be the first entry in a Bundle where 
  * Bundle.type=document, and any other resources referenced from Composition must be included as subsequent entries in 
  * the Bundle (for example Patient, Practitioner, Encounter, etc.).
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "cmp-1",
     level = "Rule",

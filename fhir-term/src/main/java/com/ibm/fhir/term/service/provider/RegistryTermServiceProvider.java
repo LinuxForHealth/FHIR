@@ -6,14 +6,19 @@
 
 package com.ibm.fhir.term.service.provider;
 
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.ValueSet.Compose.Include.Filter;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.code.CodeSystemContentMode;
+import com.ibm.fhir.term.exception.FHIRTermException;
+import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
 import com.ibm.fhir.term.util.CodeSystemSupport;
 
@@ -29,17 +34,37 @@ public class RegistryTermServiceProvider implements FHIRTermServiceProvider {
 
     @Override
     public Concept getConcept(CodeSystem codeSystem, Code code) {
-        return CodeSystemSupport.findConcept(codeSystem, code);
+        Concept concept = CodeSystemSupport.findConcept(codeSystem, code);
+        if (concept != null) {
+            return concept.toBuilder()
+                .concept(Collections.emptyList())
+                .build();
+        }
+        return null;
     }
 
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem) {
-        return CodeSystemSupport.getConcepts(codeSystem);
+        return CodeSystemSupport.getConcepts(codeSystem).stream()
+            .map(concept -> Concept.builder()
+                .code(concept.getCode())
+                .display(concept.getDisplay())
+                .build())
+            .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters) {
-        return CodeSystemSupport.getConcepts(codeSystem, filters);
+        try {
+            return CodeSystemSupport.getConcepts(codeSystem, filters).stream()
+                .map(concept -> Concept.builder()
+                    .code(concept.getCode())
+                    .display(concept.getDisplay())
+                    .build())
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+        } catch (FHIRTermException e) {
+            throw new FHIRTermServiceException(e.getMessage(), e, e.getIssues());
+        }
     }
 
     @Override

@@ -6,14 +6,13 @@
 
 package com.ibm.fhir.term.graph.registry;
 
-import static com.ibm.fhir.core.util.LRUCache.createLRUCache;
+import static com.ibm.fhir.core.util.URLSupport.getFirst;
+import static com.ibm.fhir.core.util.URLSupport.getQueryParameters;
 import static com.ibm.fhir.model.type.String.string;
 
 import java.io.InputStream;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.model.format.Format;
@@ -34,66 +33,27 @@ import com.ibm.fhir.model.type.code.FilterOperator;
 import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
-import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
+import com.ibm.fhir.term.registry.ImplicitValueSetRegistryResourceProvider;
 import com.ibm.fhir.term.service.FHIRTermService;
 import com.ibm.fhir.term.spi.ValidationOutcome;
 
-public class SnomedRegistryResourceProvider implements FHIRRegistryResourceProvider {
+public class SnomedRegistryResourceProvider extends ImplicitValueSetRegistryResourceProvider {
     private static final Logger log = Logger.getLogger(SnomedRegistryResourceProvider.class.getName());
+
+    public static final CodeSystem SNOMED_CODE_SYSTEM = loadCodeSystem();
 
     private static final String SNOMED_URL = "http://snomed.info/sct";
     private static final String SNOMED_IMPLICIT_VALUE_SET_PREFIX = SNOMED_URL + "?fhir_vs";
     private static final String SNOMED_COPYRIGHT = "This value set includes content from SNOMED CT, which is copyright © 2002+ International Health Terminology Standards Development Organisation (SNOMED International), and distributed by agreement between SNOMED International and HL7. Implementer use of SNOMED CT is not covered by this agreement";
-
-    public static final CodeSystem SNOMED_CODE_SYSTEM = loadCodeSystem();
     private static final FHIRRegistryResource SNOMED_CODE_SYSTEM_REGISTRY_RESOURCE = FHIRRegistryResource.from(SNOMED_CODE_SYSTEM);
-    private static final FHIRRegistryResource SNOMED_ALL_CONCEPTS_IMPLICIT_VALUE_SET_REGISTRY_RESOURCE = FHIRRegistryResource.from(buildAllConceptsImplicitValueSet());
-    private static final Map<String, FHIRRegistryResource> SNOMED_SUBSUMED_BY_IMPLICIT_VALUE_SET_REGISTRY_RESOURCE_CACHE = createLRUCache(128);
+    private static final ValueSet SNOMED_ALL_CONCEPTS_IMPLICIT_VALUE_SET = buildAllConceptsImplicitValueSet();
 
     @Override
     public FHIRRegistryResource getRegistryResource(Class<? extends Resource> resourceType, String url, String version) {
-        if (url == null) {
-            return null;
-        }
-        if (ValueSet.class.equals(resourceType) && url.startsWith(SNOMED_IMPLICIT_VALUE_SET_PREFIX)) {
-            if (SNOMED_IMPLICIT_VALUE_SET_PREFIX.equals(url)) {
-                return SNOMED_ALL_CONCEPTS_IMPLICIT_VALUE_SET_REGISTRY_RESOURCE;
-            } else {
-                String[] tokens = url.split("=isa\\/");
-                if (tokens.length == 2) {
-                    String sctid = tokens[1];
-                    ValidationOutcome outcome = FHIRTermService.getInstance().validateCode(SNOMED_CODE_SYSTEM, Code.of(sctid), null);
-                    if (outcome == null || Boolean.FALSE.equals(outcome.getResult())) {
-                        log.log(Level.WARNING, "Code: " + sctid + " is invalid or SNOMED CT is not supported");
-                        return null;
-                    }
-                    return SNOMED_SUBSUMED_BY_IMPLICIT_VALUE_SET_REGISTRY_RESOURCE_CACHE.computeIfAbsent(sctid, k -> FHIRRegistryResource.from(buildSubsumedByImplicitValueSet(sctid)));
-                }
-            }
-        } else if (CodeSystem.class.equals(resourceType) && SNOMED_URL.equals(url)) {
+        if (CodeSystem.class.equals(resourceType) && SNOMED_URL.equals(url)) {
             return SNOMED_CODE_SYSTEM_REGISTRY_RESOURCE;
         }
-        return null;
-    }
-
-    @Override
-    public Collection<FHIRRegistryResource> getRegistryResources(Class<? extends Resource> resourceType) {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public Collection<FHIRRegistryResource> getRegistryResources() {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public Collection<FHIRRegistryResource> getProfileResources(String type) {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public Collection<FHIRRegistryResource> getSearchParameterResources(String type) {
-        return Collections.emptyList();
+        return super.getRegistryResource(resourceType, url, version);
     }
 
     private static ValueSet buildAllConceptsImplicitValueSet() {
@@ -145,5 +105,34 @@ public class SnomedRegistryResourceProvider implements FHIRRegistryResourceProvi
         } catch (Exception e) {
             throw new Error(e);
         }
+    }
+
+    @Override
+    protected ValueSet buildImplicitValueSet(String url) {
+        if (SNOMED_IMPLICIT_VALUE_SET_PREFIX.equals(url)) {
+            return SNOMED_ALL_CONCEPTS_IMPLICIT_VALUE_SET;
+        }
+        Map<String, List<String>> queryParameters = getQueryParameters(url);
+        String value = getFirst(queryParameters, "fhir_vs");
+        if (value == null || value.isEmpty()) {
+            log.warning("The 'fhir_vs' parameter value is null or empty");
+            return null;
+        }
+        String[] tokens = value.split("/");
+        if (tokens.length == 2) {
+            String sctid = tokens[1];
+            ValidationOutcome outcome = FHIRTermService.getInstance().validateCode(SNOMED_CODE_SYSTEM, Code.of(sctid), null);
+            if (outcome == null || Boolean.FALSE.equals(outcome.getResult())) {
+                log.warning("The code '" + sctid + "' is invalid or SNOMED CT is not supported");
+                return null;
+            }
+            return buildSubsumedByImplicitValueSet(sctid);
+        }
+        return null;
+    }
+
+    @Override
+    protected boolean isSupported(String url) {
+        return (url != null && url.startsWith(SNOMED_IMPLICIT_VALUE_SET_PREFIX));
     }
 }

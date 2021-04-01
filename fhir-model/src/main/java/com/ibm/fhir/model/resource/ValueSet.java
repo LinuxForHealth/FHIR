@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -42,6 +43,7 @@ import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.FilterOperator;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -49,7 +51,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * A ValueSet resource instance specifies a set of codes drawn from one or more code systems, intended for use in a 
  * particular context. Value sets link between [CodeSystem](codesystem.html) definitions and their use in [coded elements]
  * (terminologies.html).
+ * 
+ * <p>Maturity level: FMM5 (Normative)
  */
+@Maturity(
+    level = 5,
+    status = StandardsStatus.ValueSet.NORMATIVE
+)
 @Constraint(
     id = "vsd-0",
     level = "Warning",

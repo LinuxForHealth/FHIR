@@ -265,8 +265,8 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     }
 
     @Override
-    public int getCoreFastTxTimeout() {
-        return FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/fastTxTimeout", MAX_PARTITIONPROCESSING_THREADNUMBER);
+    public long getCoreFastMaxReadTimeout() {
+        return Long.parseLong(FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/maxChunkReadTime", "90000"));
     }
 
     @Override
@@ -316,5 +316,11 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     @Override
     public int getImportInflyRateNumberOfFhirResources(String provider) {
         return IMPORT_INFLY_RATE_NUMOFFHIRRESOURCES;
+    }
+
+    @Override
+    public int getPresignedUrlExpiry() {
+        int expirySeconds = FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/cos/presignedExpiry", 86400);
+        return Math.max(1, expirySeconds);
     }
 }

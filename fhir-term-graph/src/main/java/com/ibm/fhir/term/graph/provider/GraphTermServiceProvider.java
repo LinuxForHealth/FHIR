@@ -7,14 +7,14 @@
 package com.ibm.fhir.term.graph.provider;
 
 import static com.ibm.fhir.model.type.String.string;
-import static com.ibm.fhir.term.graph.util.FHIRTermGraphUtil.toLong;
-import static com.ibm.fhir.term.graph.util.FHIRTermGraphUtil.toObject;
 import static com.ibm.fhir.term.util.CodeSystemSupport.convertsToBoolean;
 import static com.ibm.fhir.term.util.CodeSystemSupport.getCodeSystemPropertyType;
 import static com.ibm.fhir.term.util.CodeSystemSupport.hasCodeSystemProperty;
 import static com.ibm.fhir.term.util.CodeSystemSupport.isCaseSensitive;
 import static com.ibm.fhir.term.util.CodeSystemSupport.normalize;
 import static com.ibm.fhir.term.util.CodeSystemSupport.toElement;
+import static com.ibm.fhir.term.util.CodeSystemSupport.toLong;
+import static com.ibm.fhir.term.util.CodeSystemSupport.toObject;
 import static java.util.Objects.requireNonNull;
 
 import java.util.ArrayList;
@@ -25,8 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import org.apache.commons.configuration.Configuration;
@@ -51,6 +49,7 @@ import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
+import com.ibm.fhir.model.type.code.FilterOperator;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.PropertyType;
@@ -64,8 +63,6 @@ import com.ibm.fhir.term.util.CodeSystemSupport;
  * Graph-based implementation of the {@link FHIRTermServiceProvider} interface using {@link FHIRTermGraph}
  */
 public class GraphTermServiceProvider implements FHIRTermServiceProvider {
-    private static final Logger log = Logger.getLogger(GraphTermServiceProvider.class.getName());
-
     public static final int DEFAULT_TIME_LIMIT = 90000;   // 90 seconds
     private static final int DEFAULT_COUNT = 1000;
 
@@ -166,18 +163,18 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
                 break;
             case GENERALIZES:
                 // ancestors and self
-                g = applyGeneralizesFilter(codeSystem, filter, g);
+                g = applyGeneralizesFilter(codeSystem, filter, first, g);
                 break;
             case IN:
                 g = applyInFilter(codeSystem, filter, first, g);
                 break;
             case IS_A:
                 // descendants and self
-                g = applyIsAFilter(codeSystem, filter, g);
+                g = applyIsAFilter(codeSystem, filter, first, g);
                 break;
             case IS_NOT_A:
                 // not descendants or self
-                g = applyIsNotAFilter(codeSystem, filter, g);
+                g = applyIsNotAFilter(codeSystem, filter, first, g);
                 break;
             case NOT_IN:
                 g = applyNotInFilter(codeSystem, filter, first, g);
@@ -187,6 +184,10 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
                 break;
             }
             first = false;
+        }
+
+        if (filters.isEmpty()) {
+            g = g.hasLabel("Concept");
         }
 
         g = g.timeLimit(timeLimit);
@@ -291,7 +292,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
                     .dedup())
                 .emit();
         }
-        return filterNotApplied(filter, g);
+        throw filterNotApplied(filter);
     }
 
     private GraphTraversal<Vertex, Vertex> applyEqualsFilter(CodeSystem codeSystem, Filter filter, boolean first, GraphTraversal<Vertex, Vertex> g) {
@@ -305,7 +306,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
                     applyChildEqualsFilter(codeSystem, filter, first, g) :
                     applyPropertyEqualsFilter(codeSystem, filter, first, g);
         }
-        return filterNotApplied(filter, g);
+        throw filterNotApplied(filter);
     }
 
     private GraphTraversal<Vertex, Vertex> applyExistsFilter(CodeSystem codeSystem, Filter filter, boolean first, GraphTraversal<Vertex, Vertex> g) {
@@ -317,23 +318,32 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
                 // not exists
                 applyPropertyNotExistsFilter(codeSystem, filter, g);
         }
-        return filterNotApplied(filter, g);
+        throw filterNotApplied(filter);
     }
 
     @SuppressWarnings("unchecked")
-    private GraphTraversal<Vertex, Vertex> applyGeneralizesFilter(CodeSystem codeSystem, Filter filter, GraphTraversal<Vertex, Vertex> g) {
+    private GraphTraversal<Vertex, Vertex> applyGeneralizesFilter(CodeSystem codeSystem, Filter filter, boolean first, GraphTraversal<Vertex, Vertex> g) {
         boolean caseSensitive = isCaseSensitive(codeSystem);
         Code property = filter.getProperty();
         com.ibm.fhir.model.type.String value = filter.getValue();
-        if ("concept".equals(property.getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-            return whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem)
-                .union(__.identity(), whereCodeSystem(hasCode(vertices(), value.getValue(), caseSensitive), codeSystem)
-                    .repeat(__.out(FHIRTermGraph.IS_A)
-                        .simplePath()
-                        .dedup())
-                    .emit());
+        if ("concept".equals(property.getValue())) {
+            if (codeSystem.getHierarchyMeaning() == null) {
+                // hierarchy meaning is not defined
+                return applyConceptInFilter(codeSystem, Filter.builder()
+                    .property(property)
+                    .op(FilterOperator.IN)
+                    .value(value)
+                    .build(), first, g);
+            } else if (CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+                return whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem)
+                    .union(__.identity(), whereCodeSystem(hasCode(vertices(), value.getValue(), caseSensitive), codeSystem)
+                        .repeat(__.out(FHIRTermGraph.IS_A)
+                            .simplePath()
+                            .dedup())
+                        .emit());
+            }
         }
-        return filterNotApplied(filter, g);
+        throw filterNotApplied(filter);
     }
 
     private GraphTraversal<Vertex, Vertex> applyInFilter(CodeSystem codeSystem, Filter filter, boolean first, GraphTraversal<Vertex, Vertex> g) {
@@ -343,36 +353,54 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
                 applyConceptInFilter(codeSystem, filter, first, g) :
                 applyPropertyInFilter(codeSystem, filter, first, g);
         }
-        return filterNotApplied(filter, g);
+        throw filterNotApplied(filter);
     }
 
     @SuppressWarnings("unchecked")
-    private GraphTraversal<Vertex, Vertex> applyIsAFilter(CodeSystem codeSystem, Filter filter, GraphTraversal<Vertex, Vertex> g) {
+    private GraphTraversal<Vertex, Vertex> applyIsAFilter(CodeSystem codeSystem, Filter filter, boolean first, GraphTraversal<Vertex, Vertex> g) {
         boolean caseSensitive = isCaseSensitive(codeSystem);
         Code property = filter.getProperty();
         com.ibm.fhir.model.type.String value = filter.getValue();
-        if ("concept".equals(property.getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-            return whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem)
-                .union(__.identity(), whereCodeSystem(hasCode(vertices(), value.getValue(), caseSensitive), codeSystem)
-                    .repeat(__.in(FHIRTermGraph.IS_A)
-                        .simplePath()
-                        .dedup())
-                    .emit());
+        if ("concept".equals(property.getValue())) {
+            if (codeSystem.getHierarchyMeaning() == null) {
+                // hierarchy meaning is not defined
+                return applyConceptInFilter(codeSystem, Filter.builder()
+                    .property(property)
+                    .op(FilterOperator.IN)
+                    .value(value)
+                    .build(), first, g);
+            } else if (CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+                return whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem)
+                    .union(__.identity(), whereCodeSystem(hasCode(vertices(), value.getValue(), caseSensitive), codeSystem)
+                        .repeat(__.in(FHIRTermGraph.IS_A)
+                            .simplePath()
+                            .dedup())
+                        .emit());
+            }
         }
-        return filterNotApplied(filter, g);
+        throw filterNotApplied(filter);
     }
 
-    private GraphTraversal<Vertex, Vertex> applyIsNotAFilter(CodeSystem codeSystem, Filter filter, GraphTraversal<Vertex, Vertex> g) {
+    private GraphTraversal<Vertex, Vertex> applyIsNotAFilter(CodeSystem codeSystem, Filter filter, boolean first, GraphTraversal<Vertex, Vertex> g) {
         boolean caseSensitive = isCaseSensitive(codeSystem);
         Code property = filter.getProperty();
         com.ibm.fhir.model.type.String value = filter.getValue();
-        if ("concept".equals(property.getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-            return whereCodeSystem(g.not(__.repeat(__.out(FHIRTermGraph.IS_A))
-                .until(hasCode(value.getValue(), caseSensitive)))
-                .not(hasCode(value.getValue(), caseSensitive))
-                .hasLabel("Concept"), codeSystem);
+        if ("concept".equals(property.getValue())) {
+            if (codeSystem.getHierarchyMeaning() == null) {
+                // hierarchy meaning is not defined
+                return applyConceptNotInFilter(codeSystem, Filter.builder()
+                    .property(property)
+                    .op(FilterOperator.NOT_IN)
+                    .value(value)
+                    .build(), first, g);
+            } else if (CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+                return whereCodeSystem(g.not(__.repeat(__.out(FHIRTermGraph.IS_A))
+                    .until(hasCode(value.getValue(), caseSensitive)))
+                    .not(hasCode(value.getValue(), caseSensitive))
+                    .hasLabel("Concept"), codeSystem);
+            }
         }
-        return filterNotApplied(filter, g);
+        throw filterNotApplied(filter);
     }
 
     private GraphTraversal<Vertex, Vertex> applyNotInFilter(CodeSystem codeSystem, Filter filter, boolean first, GraphTraversal<Vertex, Vertex> g) {
@@ -382,7 +410,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
                 applyConceptNotInFilter(codeSystem, filter, first, g) :
                 applyPropertyNotInFilter(codeSystem, filter, first, g);
         }
-        return filterNotApplied(filter, g);
+        throw filterNotApplied(filter);
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
@@ -461,7 +489,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
                 whereCodeSystem(g.has(getPropertyKey(type), Text.textRegex(value.getValue())).in("property_"), codeSystem) :
                 whereCodeSystem(g.where(__.out("property_").has(getPropertyKey(type), Text.textRegex(value.getValue()))), codeSystem);
         }
-        return filterNotApplied(filter, g);
+        throw filterNotApplied(filter);
     }
 
     private void checkArgument(Code code, String message) {
@@ -555,13 +583,18 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
             .build();
     }
 
-    private GraphTraversal<Vertex, Vertex> filterNotApplied(Filter filter, GraphTraversal<Vertex, Vertex> g) {
-        log.log(Level.WARNING,
-            String.format("Filter not applied (property: %s, op: %s, value: %s)",
-                filter.getProperty().getValue(),
-                filter.getOp().getValue(),
-                filter.getValue().getValue()));
-        return g;
+    private FHIRTermServiceException filterNotApplied(Filter filter) {
+        String message = String.format("Filter not applied (property: %s, op: %s, value: %s)",
+            filter.getProperty().getValue(),
+            filter.getOp().getValue(),
+            filter.getValue().getValue());
+        throw new FHIRTermServiceException(message, Collections.singletonList(Issue.builder()
+            .severity(IssueSeverity.ERROR)
+            .code(IssueType.NOT_SUPPORTED)
+            .details(CodeableConcept.builder()
+                .text(string(message))
+                .build())
+            .build()));
     }
 
     private Concept getConcept(CodeSystem codeSystem, Code code, boolean includeDesignations, boolean includeProperties) {

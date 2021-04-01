@@ -148,7 +148,8 @@
                     "partUploadTriggerSizeMB": 10,
                     "objectSizeThresholdMB": 200,
                     "objectResourceCountThreshold": 200000,
-                    "useServerTruststore": true
+                    "useServerTruststore": true,
+                    "presignedExpiry": 86400
                 },
                 "file" : { 
                     "writeTriggerSizeMB": 1,
@@ -159,6 +160,7 @@
                 "batchIdEncryptionKey": "change-password",
                 "maxPartitions": 3, 
                 "maxInputs": 5,
+                "maxChunkReadTime": "90000",
                 "systemExportImpl": "fast"
             },
             "storageProviders": {

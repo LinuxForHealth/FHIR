@@ -230,7 +230,9 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
     }
 
     public static FHIRRegistryResource from(Resource resource) {
-        Objects.requireNonNull(resource, "resource");
+        if (resource == null) {
+            return null;
+        }
 
         Class<? extends Resource> resourceType = resource.getClass();
         requireDefinitionalResourceType(resourceType);

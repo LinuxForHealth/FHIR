@@ -86,9 +86,11 @@ import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.location.NearLocationHandler;
 import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.location.util.LocationUtil;
+import com.ibm.fhir.search.parameters.InclusionParameter;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.term.util.ValueSetSupport;
 
 /**
  * This is the JDBC implementation of a query builder for the IBM FHIR Server
@@ -244,7 +246,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
         helper =
                 QuerySegmentAggregatorFactory.buildQuerySegmentAggregator(resourceType, offset, pageSize,
-                        this.parameterDao, this.resourceDao, searchContext, this.queryHints, this.identityCache);
+                        this.parameterDao, this.resourceDao, searchContext, false, this.queryHints, this.identityCache);
 
         // Special logic for handling LocationPosition queries. These queries have interdependencies between
         // a couple of related input query parameters
@@ -1223,36 +1225,42 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 }
 
                 whereClauseSegment.append(LEFT_PAREN);
-                // Include code
-                whereClauseSegment.append(tableAlias + DOT).append(TOKEN_VALUE).append(operator).append(BIND_VAR);
-                bindVariables.add(SqlParameterEncoder.encode(value.getValueCode()));
+                
+                if (Modifier.IN.equals(queryParm.getModifier()) || Modifier.NOT_IN.equals(queryParm.getModifier())) {
+                    populateValueSetCodesSubSegment(whereClauseSegment, value.getValueCode(), tableAlias);
+                } else {
+                    // Include code
+                    whereClauseSegment.append(tableAlias + DOT).append(TOKEN_VALUE).append(operator).append(BIND_VAR);
+                    bindVariables.add(SqlParameterEncoder.encode(value.getValueCode()));
 
-                // Include system if present.
-                if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
-                    Long commonTokenValueId = null;
-                    if (NE.equals(operator)) {
-                        whereClauseSegment.append(OR);
-                    } else {
-                        whereClauseSegment.append(AND);
+                    // Include system if present.
+                    if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
+                        Long commonTokenValueId = null;
+                        if (NE.equals(operator)) {
+                            whereClauseSegment.append(OR);
+                        } else {
+                            whereClauseSegment.append(AND);
 
-                        // use #1929 optimization if we can
-                        commonTokenValueId = getCommonTokenValueId(value.getValueSystem(), value.getValueCode());
-                    }
+                            // use #1929 optimization if we can
+                            commonTokenValueId = getCommonTokenValueId(value.getValueSystem(), value.getValueCode());
+                        }
 
-                    if (commonTokenValueId != null) {
-                        // #1929 improves cardinality estimation
-                        // resulting in far better execution plans for many search queries. Because COMMON_TOKEN_VALUE_ID
-                        // is the primary key for the common_token_values table, we don't need the CODE_SYSTEM_ID = ? predicate.
-                        whereClauseSegment.append(tableAlias).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ)
+                        if (commonTokenValueId != null) {
+                            // #1929 improves cardinality estimation
+                            // resulting in far better execution plans for many search queries. Because COMMON_TOKEN_VALUE_ID
+                            // is the primary key for the common_token_values table, we don't need the CODE_SYSTEM_ID = ? predicate.
+                            whereClauseSegment.append(tableAlias).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ)
                             .append(commonTokenValueId);
-                    } else {
-                        // common token value not found so we can't use the optimization. Filter the code-system-id
-                        // instead, which ends up being the logical equivalent.
-                        Integer codeSystemId = identityCache.getCodeSystemId(value.getValueSystem());
-                        whereClauseSegment.append(tableAlias).append(DOT).append(CODE_SYSTEM_ID).append(operator)
-                        .append(nullCheck(codeSystemId));
+                        } else {
+                            // common token value not found so we can't use the optimization. Filter the code-system-id
+                            // instead, which ends up being the logical equivalent.
+                            Integer codeSystemId = identityCache.getCodeSystemId(value.getValueSystem());
+                            whereClauseSegment.append(tableAlias).append(DOT).append(CODE_SYSTEM_ID).append(operator)
+                            .append(nullCheck(codeSystemId));
+                        }
                     }
                 }
+                
                 whereClauseSegment.append(RIGHT_PAREN);
                 parmValueProcessed = true;
             }
@@ -1907,6 +1915,88 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
         log.exiting(CLASSNAME, METHODNAME);
         return queryData;
+    }
+
+    /**
+     * Builds a query that returns included resources.
+     *
+     * @param resourceType  - the type of resource being searched for.
+     * @param searchContext - the search context containing the search parameters.
+     * @param inclusionParm - the inclusion parameter for which the query is being built.
+     * @param ids           - the set of logical resource IDs the query will run against.
+     * @param inclusionType - either INCLUDE or REVINCLUDE.
+     * @return SqlQueryData the populated inclusion query
+     * @throws Exception
+     */
+    public SqlQueryData buildIncludeQuery(Class<?> resourceType, FHIRSearchContext searchContext,
+            InclusionParameter inclusionParm, Set<String> ids, String inclusionType) throws Exception {
+        final String METHODNAME = "buildIncludeQuery";
+        log.entering(CLASSNAME, METHODNAME);
+
+        SqlQueryData query = null;
+        InclusionQuerySegmentAggregator helper =
+                (InclusionQuerySegmentAggregator) QuerySegmentAggregatorFactory.buildQuerySegmentAggregator(resourceType, 0,
+                    SearchConstants.MAX_PAGE_SIZE + 1, this.parameterDao, this.resourceDao, searchContext, true, this.queryHints, this.identityCache);
+
+        if (helper != null) {
+            query = helper.buildIncludeQuery(inclusionParm, ids, inclusionType);
+        }
+
+        log.exiting(CLASSNAME, METHODNAME);
+        return query;
+    }
+
+    /**
+     * Populates an IN clause with value set codes for a token search parameter specifying the
+     * :in or :not-in modifier.
+     *
+     * @param whereClauseSegment  - the segment to which the sub-segment will be added
+     * @param parameterValue      - the search parameter value - a ValueSet URL
+     * @param parameterTableAlias - the alias for the parameter table e.g. CPx
+     * @throws FHIRPersistenceException
+     */
+    private void populateValueSetCodesSubSegment(StringBuilder whereClauseSegment, String parameterValue,
+            String parameterTableAlias) throws FHIRPersistenceException {
+        final String METHODNAME = "populateValueSetCodesSubSegment";
+        log.entering(CLASSNAME, METHODNAME, parameterValue);
+
+        String tokenValuePredicateString = parameterTableAlias + DOT + TOKEN_VALUE + IN + LEFT_PAREN;
+        String codeSystemIdPredicateString = parameterTableAlias + DOT + CODE_SYSTEM_ID + EQ;
+        boolean codeSystemProcessed = false;
+
+        // Note: validation that the value set exists and is expandable was done when the
+        // search parameter was parsed, so does not need to be done here.
+        Map<String, Set<String>> codeSetMap = ValueSetSupport.getCodeSetMap(ValueSetSupport.getValueSet(parameterValue));
+        for (String codeSetUrl : codeSetMap.keySet()) {
+            Set<String> codes = codeSetMap.get(codeSetUrl);
+            if (codes != null) {
+                // Strip version from canonical codeSet URL. We don't store version in TOKEN_VALUES
+                // table so will just ignore it.
+                int index = codeSetUrl.lastIndexOf("|");
+                if (index != -1) {
+                    codeSetUrl = codeSetUrl.substring(0, index);
+                }
+
+                if (codeSystemProcessed) {
+                    whereClauseSegment.append(OR);
+                }
+                
+                // TODO: investigate if we can use COMMON_TOKEN_VALUES support
+                
+                // <parameterTableAlias>.TOKEN_VALUE IN (...)
+                whereClauseSegment.append(tokenValuePredicateString)
+                    .append("'").append(String.join("','", codes)).append("'")
+                    .append(RIGHT_PAREN);
+
+                // AND <parameterTableAlias>.CODE_SYSTEM_ID = {n}
+                whereClauseSegment.append(AND).append(codeSystemIdPredicateString)
+                    .append(nullCheck(identityCache.getCodeSystemId(codeSetUrl)));
+                
+                codeSystemProcessed = true;
+            }
+        }
+
+        log.exiting(CLASSNAME, METHODNAME);
     }
 
 }

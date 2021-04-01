@@ -8,26 +8,37 @@ package com.ibm.fhir.term.util;
 
 import static com.ibm.fhir.core.util.LRUCache.createLRUCache;
 import static com.ibm.fhir.model.type.String.string;
+import static com.ibm.fhir.model.util.ModelSupport.FHIR_BOOLEAN;
+import static com.ibm.fhir.model.util.ModelSupport.FHIR_INTEGER;
+import static com.ibm.fhir.model.util.ModelSupport.FHIR_STRING;
 
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
+import java.time.LocalDate;
+import java.time.Year;
+import java.time.YearMonth;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.ValueSet.Compose.Include;
+import com.ibm.fhir.model.resource.ValueSet.Compose.Include.Filter;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Element;
@@ -35,17 +46,21 @@ import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
 import com.ibm.fhir.model.type.code.FilterOperator;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.PropertyType;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.term.exception.FHIRTermException;
+import com.ibm.fhir.term.service.FHIRTermService;
 
 /**
  * A utility class for FHIR code systems
  */
 public final class CodeSystemSupport {
-    private static final Logger log = Logger.getLogger(CodeSystemSupport.class.getName());
-
     private static final Map<java.lang.String, java.lang.Boolean> CASE_SENSITIVITY_CACHE = createLRUCache(2048);
     private static final Pattern IN_COMBINING_DIACRITICAL_MARKS_PATTERN = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+    private static final Map<java.lang.String, Set<java.lang.String>> ANCESTORS_AND_SELF_CACHE = createLRUCache(128);
+    private static final Map<java.lang.String, Set<java.lang.String>> DESCENDANTS_AND_SELF_CACHE = createLRUCache(128);
 
     private CodeSystemSupport() { }
 
@@ -108,78 +123,8 @@ public final class CodeSystemSupport {
         return result;
     }
 
-    /**
-     * Determine whether a code system filter with the specified property code and filter operator exists
-     * in the provided code system.
-     *
-     * @param codeSystem
-     *     the code system
-     * @param code
-     *     the property code
-     * @param operator
-     *     the filter operator
-     * @return
-     *     true if the code system filter exists, false otherwise
-     */
-    public static boolean hasCodeSystemFilter(CodeSystem codeSystem, Code code, FilterOperator operator) {
-        return getCodeSystemFilter(codeSystem, code, operator) != null;
-    }
-
-    /**
-     * Determine whether a code system property with the specified code exists in the
-     * provided code system.
-     *
-     * @param codeSystem
-     *     the code system
-     * @param code
-     *     the property code
-     * @return
-     *     true if the code system property exists, false otherwise
-     */
-    public static boolean hasCodeSystemProperty(CodeSystem codeSystem, Code code) {
-        return getCodeSystemProperty(codeSystem, code) != null;
-    }
-
-    /**
-     * Determine whether a concept property with the specified code exists on the
-     * provided concept.
-     *
-     * @param concept
-     *     the concept
-     * @param code
-     *     the property code
-     * @return
-     *     true if the concept property exists, false otherwise
-     */
-    public static boolean hasConceptProperty(Concept concept, Code code) {
-        return getConceptProperty(concept, code) != null;
-    }
-
-    /**
-     * Indicates whether the code system is case sensitive
-     *
-     * @param codeSystem
-     *     the code system
-     * @return
-     *     true if the code system is case sensitive, false otherwise
-     */
-    public static boolean isCaseSensitive(CodeSystem codeSystem) {
-        if (codeSystem != null && codeSystem.getCaseSensitive() != null) {
-            return java.lang.Boolean.TRUE.equals(codeSystem.getCaseSensitive().getValue());
-        }
-        return false;
-    }
-
-    /**
-     * Indicates whether the code system with the given url is case sensitive
-     *
-     * @param url
-     *     the url
-     * @return
-     *     true if the code system with the given is case sensitive, false otherwise
-     */
-    public static boolean isCaseSensitive(java.lang.String url) {
-        return CASE_SENSITIVITY_CACHE.computeIfAbsent(url, k -> isCaseSensitive(getCodeSystem(url)));
+    public static Set<java.lang.String> getAncestorsAndSelf(CodeSystem codeSystem, Code code) {
+        return ANCESTORS_AND_SELF_CACHE.computeIfAbsent(code.getValue(), k -> computeAncestorsAndSelf(codeSystem, code));
     }
 
     /**
@@ -346,6 +291,84 @@ public final class CodeSystemSupport {
         return concepts;
     }
 
+    public static Set<java.lang.String> getDescendantsAndSelf(CodeSystem codeSystem, Code code) {
+        return DESCENDANTS_AND_SELF_CACHE.computeIfAbsent(code.getValue(), k -> computeDescendantsAndSelf(codeSystem, code));
+    }
+
+    /**
+     * Determine whether a code system filter with the specified property code and filter operator exists
+     * in the provided code system.
+     *
+     * @param codeSystem
+     *     the code system
+     * @param code
+     *     the property code
+     * @param operator
+     *     the filter operator
+     * @return
+     *     true if the code system filter exists, false otherwise
+     */
+    public static boolean hasCodeSystemFilter(CodeSystem codeSystem, Code code, FilterOperator operator) {
+        return getCodeSystemFilter(codeSystem, code, operator) != null;
+    }
+
+    /**
+     * Determine whether a code system property with the specified code exists in the
+     * provided code system.
+     *
+     * @param codeSystem
+     *     the code system
+     * @param code
+     *     the property code
+     * @return
+     *     true if the code system property exists, false otherwise
+     */
+    public static boolean hasCodeSystemProperty(CodeSystem codeSystem, Code code) {
+        return getCodeSystemProperty(codeSystem, code) != null;
+    }
+
+    /**
+     * Determine whether a concept property with the specified code exists on the
+     * provided concept.
+     *
+     * @param concept
+     *     the concept
+     * @param code
+     *     the property code
+     * @return
+     *     true if the concept property exists, false otherwise
+     */
+    public static boolean hasConceptProperty(Concept concept, Code code) {
+        return getConceptProperty(concept, code) != null;
+    }
+
+    /**
+     * Indicates whether the code system is case sensitive
+     *
+     * @param codeSystem
+     *     the code system
+     * @return
+     *     true if the code system is case sensitive, false otherwise
+     */
+    public static boolean isCaseSensitive(CodeSystem codeSystem) {
+        if (codeSystem != null && codeSystem.getCaseSensitive() != null) {
+            return java.lang.Boolean.TRUE.equals(codeSystem.getCaseSensitive().getValue());
+        }
+        return false;
+    }
+
+    /**
+     * Indicates whether the code system with the given url is case sensitive
+     *
+     * @param url
+     *     the url
+     * @return
+     *     true if the code system with the given is case sensitive, false otherwise
+     */
+    public static boolean isCaseSensitive(java.lang.String url) {
+        return CASE_SENSITIVITY_CACHE.computeIfAbsent(url, k -> isCaseSensitive(getCodeSystem(url)));
+    }
+
     /**
      * Normalize the string by making it case and accent insensitive.
      *
@@ -371,6 +394,36 @@ public final class CodeSystemSupport {
      */
     public static Boolean toBoolean(String value) {
         return "true".equals(value.getValue()) ? Boolean.TRUE : Boolean.FALSE;
+    }
+
+    /**
+     * Convert the given Java string value to an Element based on the provided property type.
+     *
+     * @param value
+     *     the Java string value
+     * @param type
+     *     the property type
+     * @return
+     *     the Element value equivalent of the given Java string based on the provided property type,
+     *     or null if the type isn't supported
+     */
+    public static Element toElement(java.lang.String value, PropertyType type) {
+        switch (type.getValueAsEnumConstant()) {
+        case BOOLEAN:
+            return Boolean.of(value);
+        case CODE:
+            return Code.of(value);
+        case DATE_TIME:
+            return DateTime.of(value);
+        case DECIMAL:
+            return Decimal.of(value);
+        case INTEGER:
+            return Integer.of(value);
+        case STRING:
+            return string(value);
+        default:
+            return null;
+        }
     }
 
     /**
@@ -404,33 +457,62 @@ public final class CodeSystemSupport {
     }
 
     /**
-     * Convert the given Java string value to an Element based on the provided property type.
+     * Convert the {@link DateTime} value to a Long value.
+     *
+     * @param dateTime
+     *     the dateTime value
+     * @return
+     *     the Long equivalent value (milliseconds from the epoch)
+     */
+    public static Long toLong(DateTime dateTime) {
+        TemporalAccessor value = dateTime.getValue();
+        if (value instanceof ZonedDateTime) {
+            ZonedDateTime zonedDateTime = (ZonedDateTime) value;
+            return zonedDateTime.toInstant().toEpochMilli();
+        }
+        if (value instanceof LocalDate) {
+            LocalDate localDate = (LocalDate) value;
+            return localDate.atStartOfDay().atZone(ZoneOffset.UTC).toInstant().toEpochMilli();
+        }
+        if (value instanceof YearMonth) {
+            YearMonth yearMonth = (YearMonth) value;
+            return yearMonth.atDay(1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant().toEpochMilli();
+        }
+        if (value instanceof Year) {
+            Year year = (Year) value;
+            return year.atMonth(1).atDay(1).atStartOfDay().atZone(ZoneOffset.UTC).toInstant().toEpochMilli();
+        }
+        throw new IllegalArgumentException();
+    }
+
+    /**
+     * Convert the given element value to an object value.
      *
      * @param value
-     *     the Java string value
-     * @param type
-     *     the property type
+     *     the element value
      * @return
-     *     the Element value equivalent of the given Java string based on the provided property type,
-     *     or null if the type isn't supported
+     *     an object value that is compatible with the graph schema
      */
-    public static Element toElement(java.lang.String value, PropertyType type) {
-        switch (type.getValueAsEnumConstant()) {
-        case BOOLEAN:
-            return Boolean.of(value);
-        case CODE:
-            return Code.of(value);
-        case DATE_TIME:
-            return DateTime.of(value);
-        case DECIMAL:
-            return Decimal.of(value);
-        case INTEGER:
-            return Integer.of(value);
-        case STRING:
-            return string(value);
-        default:
-            return null;
+    public static Object toObject(Element value) {
+        if (value.is(FHIR_BOOLEAN)) {
+            return value.as(FHIR_BOOLEAN).getValue();
         }
+        if (value.is(Code.class)) {
+            return value.as(Code.class).getValue();
+        }
+        if (value.is(DateTime.class)) {
+            return DateTime.PARSER_FORMATTER.format(value.as(DateTime.class).getValue());
+        }
+        if (value.is(Decimal.class)) {
+            return value.as(Decimal.class).getValue().doubleValue();
+        }
+        if (value.is(FHIR_INTEGER)) {
+            return value.as(FHIR_INTEGER).getValue();
+        }
+        if (value.is(FHIR_STRING)) {
+            return value.as(FHIR_STRING).getValue();
+        }
+        throw new IllegalArgumentException();
     }
 
     private static boolean accept(List<ConceptFilter> conceptFilters, Concept concept) {
@@ -475,27 +557,56 @@ public final class CodeSystemSupport {
                 conceptFilter = createRegexFilter(codeSystem, filter);
                 break;
             }
-            if (conceptFilter != null) {
-                conceptFilters.add(conceptFilter);
-            } else {
-                log.log(Level.WARNING, java.lang.String.format("Unable to create concept filter from property: %s, op: %s, value: %s", filter.getProperty().getValue(), filter.getOp().getValue(), filter.getValue().getValue()));
-            }
+            conceptFilters.add(conceptFilter);
         }
         return conceptFilters;
+    }
+
+    private static FHIRTermException conceptFilterNotCreated(Class<? extends ConceptFilter> conceptFilterType, Filter filter) {
+        java.lang.String message = java.lang.String.format("%s not created (property: %s, op: %s, value: %s)",
+            conceptFilterType.getSimpleName(),
+            filter.getProperty().getValue(),
+            filter.getOp().getValue(),
+            filter.getValue().getValue());
+        throw new FHIRTermException(message, Collections.singletonList(Issue.builder()
+            .severity(IssueSeverity.ERROR)
+            .code(IssueType.NOT_SUPPORTED)
+            .details(CodeableConcept.builder()
+                .text(string(message))
+                .build())
+            .build()));
     }
 
     private static Code code(String value) {
         return Code.of(value.getValue());
     }
 
+    private static Set<java.lang.String> computeAncestorsAndSelf(CodeSystem codeSystem, Code code) {
+        Set<Concept> concepts = FHIRTermService.getInstance().getConcepts(codeSystem, Collections.singletonList(Filter.builder()
+            .property(Code.of("concept"))
+            .op(FilterOperator.GENERALIZES)
+            .value(code)
+            .build()));
+        return toSet(codeSystem, concepts);
+    }
+
+    private static Set<java.lang.String> computeDescendantsAndSelf(CodeSystem codeSystem, Code code) {
+        Set<Concept> concepts = FHIRTermService.getInstance().getConcepts(codeSystem, Collections.singletonList(Filter.builder()
+            .property(Code.of("concept"))
+            .op(FilterOperator.IS_A)
+            .value(code)
+            .build()));
+        return toSet(codeSystem, concepts);
+    }
+
     private static ConceptFilter createDescendentOfFilter(CodeSystem codeSystem, Include.Filter filter) {
         if ("concept".equals(filter.getProperty().getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
             Concept concept = findConcept(codeSystem, code(filter.getValue()));
             if (concept != null) {
-                return new DescendentOfFilter(concept);
+                return new DescendentOfFilter(codeSystem, concept);
             }
         }
-        return null;
+        throw conceptFilterNotCreated(DescendentOfFilter.class, filter);
     }
 
     private static ConceptFilter createEqualsFilter(CodeSystem codeSystem, Include.Filter filter) {
@@ -504,7 +615,7 @@ public final class CodeSystemSupport {
                 (hasCodeSystemProperty(codeSystem, property) && !PropertyType.CODING.equals(getCodeSystemPropertyType(codeSystem, property)))) {
             return new EqualsFilter(codeSystem, property, filter.getValue());
         }
-        return null;
+        throw conceptFilterNotCreated(EqualsFilter.class, filter);
     }
 
     private static ConceptFilter createExistsFilter(CodeSystem codeSystem, Include.Filter filter) {
@@ -513,57 +624,106 @@ public final class CodeSystemSupport {
         if (hasCodeSystemProperty(codeSystem, property) && convertsToBoolean(value)) {
             return new ExistsFilter(property, toBoolean(value));
         }
-        return null;
+        throw conceptFilterNotCreated(ExistsFilter.class, filter);
     }
 
     private static ConceptFilter createGeneralizesFilter(CodeSystem codeSystem, Include.Filter filter) {
-        if ("concept".equals(filter.getProperty().getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+        if ("concept".equals(filter.getProperty().getValue())) {
             Concept concept = findConcept(codeSystem, code(filter.getValue()));
             if (concept != null) {
-                return new GeneralizesFilter(concept);
+                if (codeSystem.getHierarchyMeaning() == null) {
+                    // hierarchy meaning is not defined
+                    return createInFilter(codeSystem, Filter.builder()
+                        .property(filter.getProperty())
+                        .op(FilterOperator.IN)
+                        .value(concept.getCode())
+                        .build());
+                } else if (CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+                    return new GeneralizesFilter(codeSystem, concept);
+                }
             }
         }
-        return null;
+        throw conceptFilterNotCreated(GeneralizesFilter.class, filter);
     }
 
     private static ConceptFilter createInFilter(CodeSystem codeSystem, Include.Filter filter) {
         Code property = filter.getProperty();
         if ("concept".equals(property.getValue()) || hasCodeSystemProperty(codeSystem, property)) {
-             return new InFilter(property, Arrays.asList(filter.getValue().getValue().split(",")).stream()
-                 .map(Code::of)
-                 .collect(Collectors.toSet()));
+            if ("concept".equals(property.getValue())) {
+                return isCaseSensitive(codeSystem) ?
+                    new InFilter(codeSystem, property, Arrays.asList(filter.getValue().getValue().split(",")).stream()
+                        .collect(Collectors.toSet())) :
+                    new InFilter(codeSystem, property, Arrays.asList(filter.getValue().getValue().split(",")).stream()
+                        .map(CodeSystemSupport::normalize)
+                        .collect(Collectors.toSet()));
+            } else {
+                PropertyType type = getCodeSystemPropertyType(codeSystem, property);
+                return new InFilter(codeSystem, property, Arrays.asList(filter.getValue().getValue().split(",")).stream()
+                    .map(s -> toElement(s, type))
+                    .map(e -> e.is(DateTime.class) ? toLong(e.as(DateTime.class)) : toObject(e))
+                    .collect(Collectors.toSet()));
+            }
         }
-        return null;
+        throw conceptFilterNotCreated(InFilter.class, filter);
     }
 
     private static ConceptFilter createIsAFilter(CodeSystem codeSystem, Include.Filter filter) {
-        if ("concept".equals(filter.getProperty().getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+        if ("concept".equals(filter.getProperty().getValue())) {
             Concept concept = findConcept(codeSystem, code(filter.getValue()));
             if (concept != null) {
-                return new IsAFilter(concept);
+                if (codeSystem.getHierarchyMeaning() == null) {
+                    // hierarchy meaning is not defined
+                    return createInFilter(codeSystem, Filter.builder()
+                        .property(filter.getProperty())
+                        .op(FilterOperator.IN)
+                        .value(concept.getCode())
+                        .build());
+                } else if (CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+                    return new IsAFilter(codeSystem, concept);
+                }
             }
         }
-        return null;
+        throw conceptFilterNotCreated(IsAFilter.class, filter);
     }
 
     private static ConceptFilter createIsNotAFilter(CodeSystem codeSystem, Include.Filter filter) {
-        if ("concept".equals(filter.getProperty().getValue()) && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+        if ("concept".equals(filter.getProperty().getValue())) {
             Concept concept = findConcept(codeSystem, code(filter.getValue()));
             if (concept != null) {
-                return new IsNotAFilter(concept);
+                if (codeSystem.getHierarchyMeaning() == null) {
+                    // hierarchy meaning is not defined
+                    return createNotInFilter(codeSystem, Filter.builder()
+                        .property(filter.getProperty())
+                        .op(FilterOperator.NOT_IN)
+                        .value(concept.getCode())
+                        .build());
+                } else if (CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+                    return new IsNotAFilter(codeSystem, concept);
+                }
             }
         }
-        return null;
+        throw conceptFilterNotCreated(IsNotAFilter.class, filter);
     }
 
     private static ConceptFilter createNotInFilter(CodeSystem codeSystem, Include.Filter filter) {
         Code property = filter.getProperty();
         if ("concept".equals(property.getValue()) || hasCodeSystemProperty(codeSystem, property)) {
-             return new NotInFilter(property, Arrays.asList(filter.getValue().getValue().split(",")).stream()
-                 .map(Code::of)
-                 .collect(Collectors.toSet()));
+            if ("concept".equals(property.getValue())) {
+                return isCaseSensitive(codeSystem) ?
+                    new NotInFilter(codeSystem, property, Arrays.asList(filter.getValue().getValue().split(",")).stream()
+                        .collect(Collectors.toSet())) :
+                    new NotInFilter(codeSystem, property, Arrays.asList(filter.getValue().getValue().split(",")).stream()
+                        .map(CodeSystemSupport::normalize)
+                        .collect(Collectors.toSet()));
+            } else {
+                PropertyType type = getCodeSystemPropertyType(codeSystem, property);
+                return new NotInFilter(codeSystem, property, Arrays.asList(filter.getValue().getValue().split(",")).stream()
+                    .map(s -> toElement(s, type))
+                    .map(e -> e.is(DateTime.class) ? toLong(e.as(DateTime.class)) : toObject(e))
+                    .collect(Collectors.toSet()));
+            }
         }
-        return null;
+        throw conceptFilterNotCreated(NotInFilter.class, filter);
     }
 
     private static ConceptFilter createRegexFilter(CodeSystem codeSystem, Include.Filter filter) {
@@ -572,7 +732,23 @@ public final class CodeSystemSupport {
         if (hasCodeSystemProperty(codeSystem, property) && (PropertyType.CODE.equals(type) || PropertyType.STRING.equals(type))) {
             return new RegexFilter(property, filter.getValue());
         }
-        return null;
+        throw conceptFilterNotCreated(RegexFilter.class, filter);
+    }
+
+    private static Set<java.lang.String> toSet(CodeSystem codeSystem, Collection<Concept> concepts) {
+        Set<java.lang.String> set = new LinkedHashSet<>(concepts.size());
+        for (Concept concept : concepts) {
+            set.add(isCaseSensitive(codeSystem) ?
+                concept.getCode().getValue() :
+                normalize(concept.getCode().getValue()));
+        }
+        return set;
+    }
+
+    private static java.lang.String toString(CodeSystem codeSystem, Concept concept) {
+        return isCaseSensitive(codeSystem) ?
+            concept.getCode().getValue() :
+            normalize(concept.getCode().getValue());
     }
 
     private interface ConceptFilter {
@@ -580,55 +756,72 @@ public final class CodeSystemSupport {
     }
 
     private static class DescendentOfFilter implements ConceptFilter {
-        private final Set<Concept> descendants;
+        private final CodeSystem codeSystem;
+        private final Set<java.lang.String> descendants;
 
-        public DescendentOfFilter(Concept concept) {
-            Set<Concept> descendants = getConcepts(concept);
-            descendants.remove(concept);
-            this.descendants = descendants;
+        public DescendentOfFilter(CodeSystem codeSystem, Concept concept) {
+            this.codeSystem = codeSystem;
+            Set<Concept> concepts = getConcepts(concept);
+            concepts.remove(concept);
+            this.descendants = toSet(codeSystem, concepts);
         }
 
         @Override
         public boolean accept(Concept concept) {
-            return descendants.contains(concept);
+            return descendants.contains(CodeSystemSupport.toString(codeSystem, concept));
         }
     }
 
     private static class EqualsFilter implements ConceptFilter {
+        private final CodeSystem codeSystem;
         private final PropertyType type;
         private final Code property;
-        private final String value;
-        private final Set<Concept> children;
-        private final Concept child;
+        private final Object value;
+        private final Set<java.lang.String> children;
+        private final java.lang.String child;
 
         public EqualsFilter(CodeSystem codeSystem, Code property, String value) {
-            this.type = getCodeSystemPropertyType(codeSystem, property);
+            this.codeSystem = codeSystem;
+            type = getCodeSystemPropertyType(codeSystem, property);
             this.property = property;
-            this.value = value;
+
+            if (hasCodeSystemProperty(codeSystem, property)) {
+                Element e = toElement(value.getValue(), type);
+                this.value = e.is(DateTime.class) ? toLong(e.as(DateTime.class)) : toObject(e);
+            } else {
+                this.value = null;
+            }
+
             children = new LinkedHashSet<>();
             if ("parent".equals(property.getValue())) {
                 Concept parent = findConcept(codeSystem, code(value));
                 if (parent != null) {
-                    children.addAll(parent.getConcept());
+                    children.addAll(toSet(codeSystem, parent.getConcept()));
                 }
             }
-            this.child = "child".equals(property.getValue()) ? findConcept(codeSystem, code(value)) : null;
+
+            this.child = "child".equals(property.getValue()) ?
+                CodeSystemSupport.toString(codeSystem, findConcept(codeSystem, code(value))) :
+                null;
         }
 
         @Override
         public boolean accept(Concept concept) {
             if ("parent".equals(property.getValue())) {
-                return children.contains(concept);
+                return children.contains(CodeSystemSupport.toString(codeSystem, concept));
             }
+
             if ("child".equals(property.getValue())) {
-                return concept.getConcept().contains(child);
+                return toSet(codeSystem, concept.getConcept()).contains(child);
             }
+
             if (hasConceptProperty(concept, property)) {
                 Element value = getConceptPropertyValue(concept, property);
-                if (value != null) {
-                    return value.equals(toElement(this.value, type));
-                }
+                return this.value.equals(value.is(DateTime.class) ?
+                    toLong(value.as(DateTime.class)) :
+                    toObject(value));
             }
+
             return false;
         }
     }
@@ -645,57 +838,74 @@ public final class CodeSystemSupport {
         @Override
         public boolean accept(Concept concept) {
             return Boolean.TRUE.equals(value) ?
-                    hasConceptProperty(concept, property) :
-                        !hasConceptProperty(concept, property);
+                hasConceptProperty(concept, property) :
+                !hasConceptProperty(concept, property);
         }
     }
 
     private static class GeneralizesFilter implements ConceptFilter {
-        private final Concept concept;
+        private final CodeSystem codeSystem;
+        private final java.lang.String concept;
 
-        public GeneralizesFilter(Concept concept) {
-            this.concept = concept;
+        public GeneralizesFilter(CodeSystem codeSystem, Concept concept) {
+            this.codeSystem = codeSystem;
+            this.concept = CodeSystemSupport.toString(codeSystem, concept);
         }
 
         @Override
         public boolean accept(Concept concept) {
-            return getConcepts(concept).contains(this.concept);
+            return toSet(codeSystem, getConcepts(concept)).contains(this.concept);
         }
     }
 
     private static class InFilter implements ConceptFilter {
+        protected final CodeSystem codeSystem;
         protected final Code property;
-        protected final Set<Code> set;
+        protected final Set<Object> set;
 
-        public InFilter(Code property, Set<Code> set) {
+        public InFilter(CodeSystem codeSystem, Code property, Set<Object> set) {
+            this.codeSystem = codeSystem;
             this.property = property;
             this.set = set;
         }
 
         @Override
         public boolean accept(Concept concept) {
-            return "concept".equals(property.getValue()) ?
-                    set.contains(concept.getCode()) :
-                        set.contains(getConceptPropertyValue(concept, property));
+            if ("concept".equals(property.getValue())) {
+                return set.contains(isCaseSensitive(codeSystem) ?
+                    concept.getCode().getValue() :
+                    normalize(concept.getCode().getValue()));
+            }
+
+            if (hasConceptProperty(concept, property)) {
+                Element value = getConceptPropertyValue(concept, property);
+                return set.contains(value.is(DateTime.class) ?
+                    toLong(value.as(DateTime.class)) :
+                    toObject(value));
+            }
+
+            return false;
         }
     }
 
     private static class IsAFilter implements ConceptFilter {
-        protected final Set<Concept> descendantsAndSelf;
+        private final CodeSystem codeSystem;
+        private final Set<java.lang.String> descendantsAndSelf;
 
-        public IsAFilter(Concept concept) {
-            descendantsAndSelf = getConcepts(concept);
+        public IsAFilter(CodeSystem codeSystem, Concept concept) {
+            this.codeSystem = codeSystem;
+            descendantsAndSelf = toSet(codeSystem, getConcepts(concept));
         }
 
         @Override
         public boolean accept(Concept concept) {
-            return descendantsAndSelf.contains(concept);
+            return descendantsAndSelf.contains(CodeSystemSupport.toString(codeSystem, concept));
         }
     }
 
     private static class IsNotAFilter extends IsAFilter {
-        public IsNotAFilter(Concept concept) {
-            super(concept);
+        public IsNotAFilter(CodeSystem codeSystem, Concept concept) {
+            super(codeSystem, concept);
         }
 
         @Override
@@ -704,14 +914,27 @@ public final class CodeSystemSupport {
         }
     }
 
-    static class NotInFilter extends InFilter {
-        public NotInFilter(Code property, Set<Code> set) {
-            super(property, set);
+    private static class NotInFilter extends InFilter {
+        public NotInFilter(CodeSystem codeSystem, Code property, Set<Object> set) {
+            super(codeSystem, property, set);
         }
 
         @Override
         public boolean accept(Concept concept) {
-            return !super.accept(concept);
+            if ("concept".equals(property.getValue())) {
+                return !set.contains(isCaseSensitive(codeSystem) ?
+                    concept.getCode().getValue() :
+                    normalize(concept.getCode().getValue()));
+            }
+
+            if (hasConceptProperty(concept, property)) {
+                Element value = getConceptPropertyValue(concept, property);
+                return !set.contains(value.is(DateTime.class) ?
+                    toLong(value.as(DateTime.class)) :
+                    toObject(value));
+            }
+
+            return false;
         }
     }
 

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -28,6 +29,7 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.SubscriptionChannelType;
 import com.ibm.fhir.model.type.code.SubscriptionStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
@@ -38,7 +40,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * subscription is registered with the server, the server checks every resource that is created or updated, and if the 
  * resource matches the given criteria, it sends a message on the defined "channel" so that another system can take an 
  * appropriate action.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Subscription extends DomainResource {
     @Summary

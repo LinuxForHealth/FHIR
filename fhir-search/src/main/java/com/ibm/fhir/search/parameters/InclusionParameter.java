@@ -1,10 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.search.parameters;
+
+import com.ibm.fhir.search.SearchConstants.Modifier;
 
 /**
  * Instances of this class encapsulate data elements related to the FHIR _include and _revinclude search result
@@ -15,12 +17,17 @@ public class InclusionParameter {
     private String joinResourceType;
     private String searchParameter;
     private String searchParameterTargetType;
+    private Modifier modifier;
+    private boolean userSpecifiedTargetType;
 
-    public InclusionParameter(String joinRt, String searchParm, String searchParmTargetType) {
+    public InclusionParameter(String joinRt, String searchParm, String searchParmTargetType, Modifier modifier,
+            boolean userSpecifiedTargetType) {
         super();
         this.joinResourceType = joinRt;
         this.searchParameter = searchParm;
         this.searchParameterTargetType = searchParmTargetType;
+        this.modifier = modifier;
+        this.userSpecifiedTargetType = userSpecifiedTargetType;
     }
 
     public String getJoinResourceType() {
@@ -35,6 +42,19 @@ public class InclusionParameter {
         return searchParameterTargetType;
     }
 
+    public Modifier getModifier() {
+        return modifier;
+    }
+
+    public boolean isIterate() {
+        return Modifier.ITERATE.equals(modifier);
+    }
+
+
+    public boolean isUserSpecifiedTargetType() {
+        return userSpecifiedTargetType;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -42,6 +62,8 @@ public class InclusionParameter {
         result = prime * result + ((joinResourceType == null) ? 0 : joinResourceType.hashCode());
         result = prime * result + ((searchParameter == null) ? 0 : searchParameter.hashCode());
         result = prime * result + ((searchParameterTargetType == null) ? 0 : searchParameterTargetType.hashCode());
+        result = prime * result + ((modifier == null) ? 0 : modifier.hashCode());
+        result = prime * result + Boolean.hashCode(userSpecifiedTargetType);
         return result;
     }
 
@@ -78,13 +100,23 @@ public class InclusionParameter {
         } else if (!searchParameterTargetType.equals(other.searchParameterTargetType)) {
             return false;
         }
+        if (modifier == null) {
+            if (other.modifier != null) {
+                return false;
+            }
+        } else if (!modifier.equals(other.modifier)) {
+            return false;
+        }
+        if (userSpecifiedTargetType != other.userSpecifiedTargetType) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
         return "InclusionParameter [joinResourceType=" + joinResourceType + ", searchParameter=" + searchParameter + ", searchParameterTargetType="
-                + searchParameterTargetType + "]";
+                + searchParameterTargetType + ", modifier=" + modifier + ", userSpecifiedTargetType=" + userSpecifiedTargetType + "]";
     }
 
 }

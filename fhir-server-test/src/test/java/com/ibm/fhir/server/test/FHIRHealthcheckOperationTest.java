@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,8 +22,18 @@ public class FHIRHealthcheckOperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         Response response = target.path("$healthcheck").request().get(Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
+    }
+
+    @Test
+    public void testHealthcheckLegacy() {
+        WebTarget target = getWebTarget();
+        Response response = target.path("$healthcheck")
+                .request()
+                .header("Prefer", "return=OperationOutcome")
+                .get(Response.class);
+        assertResponse(response, Response.Status.OK.getStatusCode());
         OperationOutcome operationOutcome = response.readEntity(OperationOutcome.class);
-        
+
         assertEquals(operationOutcome.getIssue().size(), 1);
         assertEquals(operationOutcome.getIssue().get(0).getSeverity(), IssueSeverity.INFORMATION);
     }
