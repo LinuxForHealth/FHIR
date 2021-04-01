@@ -24,6 +24,7 @@ import java.util.UUID;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Form;
 import javax.ws.rs.core.Response;
 
 import org.testng.annotations.Test;
@@ -833,6 +834,27 @@ public class SearchTest extends FHIRServerTestBase {
         // verify link does not include consecutive '&' characters
         assertTrue(bundle.getLink().size() >= 1);
         assertFalse(bundle.getLink().get(0).getUrl().getValue().contains("&&"));
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {
+            "testCreateObservation", "retrieveConfig" })
+    public void testSearchObservationWithPatientCompartmentViaPost() {
+        assertNotNull(compartmentSearchSupported);
+        if (!compartmentSearchSupported.booleanValue()) {
+            return;
+        }
+
+        WebTarget target = getWebTarget();
+        String targetUri = "Patient/" + patientId + "/Observation/_search";
+        Response response =
+                target.path(targetUri).request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .post(Entity.form(new Form()));
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreateObservation" })
