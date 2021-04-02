@@ -25,7 +25,7 @@
     </authorization-roles>
 
     <webApplication id="fhir-bulkdata-webapp" location="fhir-bulkdata-webapp.war" name="fhir-bulkdata-webapp">
-        <classloader privateLibraryRef="configResources,fhirUserLib"/>
+        <classloader privateLibraryRef="fhirUserLib"/>
         <application-bnd>
             <security-role id="users" name="FHIRUsers">
                 <group id="bulkUsersGroup" name="FHIRUsers"/>

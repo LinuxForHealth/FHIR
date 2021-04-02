@@ -6,7 +6,7 @@
 ###############################################################################
 
 # Sample usage:
-# build/derby-bootstrap.sh ~/path/to/wlp/usr/servers/fhir-server
+# build/derby-bootstrap.sh ~/path/to/wlp/usr/servers/defaultServer
 
 # The full path to the directory of this script, no matter where its called from
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
