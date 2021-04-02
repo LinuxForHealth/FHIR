@@ -27,7 +27,7 @@
 
 
 
-  <meta property="article:published_time" content="2021-03-31T12:00:41-04:00">
+  <meta property="article:published_time" content="2021-04-02T08:34:39-04:00">
 
 
 
@@ -874,6 +874,9 @@ See <a href="../installing">Installing</a> for instructions to install the IBM F
     <p>Log into the OpenShift Container Platform web console using your login credentials.</p>
   </li>
   <li>
+    <p>Change the Project to the namespace you want to work with.</p>
+  </li>
+  <li>
     <p>Navigate to Installed Operators and click on IBM FHIR Server.</p>
   </li>
   <li>
@@ -883,6 +886,9 @@ See <a href="../installing">Installing</a> for instructions to install the IBM F
     <p>Enter a name for the instance, and enter the name of the Secret resource containing the IBM FHIR Server configuration.</p>
   </li>
   <li>
+    <p>Set <code class="language-plaintext highlighter-rouge">License accept</code> to <code class="language-plaintext highlighter-rouge">true</code>.</p>
+  </li>
+  <li>
     <p>Click <code class="language-plaintext highlighter-rouge">Create</code>.</p>
   </li>
 </ol>
@@ -890,11 +896,15 @@ See <a href="../installing">Installing</a> for instructions to install the IBM F
 <h4 id="red-hat-openshift-container-platform-cli">Red Hat OpenShift Container Platform CLI</h4>
 
 <ol>
-  <li>Create an IBMFHIRServer resource in the target namespace by editing the namespace and secret name in the sample file, <code class="language-plaintext highlighter-rouge">files/fhirserver_v1beta1_ibmfhirserver.yaml</code>, and then apply the file.</li>
+  <li>Create an IBMFHIRServer resource in the target namespace by editing secret name and changing license accept to ‘true’ in the sample file, <code class="language-plaintext highlighter-rouge">files/fhirserver_v1beta1_ibmfhirserver.yaml</code>, and then apply the file.</li>
 </ol>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  $ oc apply -f files/fhirserver_v1beta1_ibmfhirserver.yaml
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  $ oc apply -f files/fhirserver_v1beta1_ibmfhirserver.yaml -n &lt;target-namespace&gt;
 </code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">&lt;target-namespace&gt;</code> is the target namespace.</li>
+</ul>
 
 <h4 id="ibm-cloud-pak-cli">IBM Cloud Pak CLI</h4>
 
@@ -915,6 +925,8 @@ See <a href="../installing">Installing</a> for instructions to install the IBM F
   <li><code class="language-plaintext highlighter-rouge">&lt;secret-name&gt;</code> is the name of the Secret resource containing the IBM FHIR Server configuration.</li>
 </ul>
 
+<p>Note, by running this action you accept the <a href="https://ibm.biz/ibm-fhir-server-license">license</a>.</p>
+
 <h3 id="3-accessing-ibm-fhir-server-instance">3. Accessing IBM FHIR Server instance</h3>
 
 <ol>
@@ -928,7 +940,7 @@ See <a href="../installing">Installing</a> for instructions to install the IBM F
   <li>
     <p><code class="language-plaintext highlighter-rouge">&lt;target-namespace&gt;</code> is the target namespace.</p>
 
-    <p>The READY value of “True” indicates the IBM FHIR Server instance is functional.</p>
+    <p>The READY value of “True” indicates the IBM FHIR Server instance is functional. The instance will not be functional if the license was not accepted.</p>
   </li>
 </ul>
 
@@ -966,6 +978,9 @@ See <a href="../installing">Installing</a> for instructions to install the IBM F
     <p>Log into the OpenShift Container Platform web console using your login credentials.</p>
   </li>
   <li>
+    <p>Change the Project to the namespace you want to work with.</p>
+  </li>
+  <li>
     <p>Navigate to Installed Operators and click on IBM FHIR Server.</p>
   </li>
   <li>
@@ -988,11 +1003,15 @@ See <a href="../installing">Installing</a> for instructions to install the IBM F
 <h4 id="red-hat-openshift-container-platform-cli-1">Red Hat OpenShift Container Platform CLI</h4>
 
 <ol>
-  <li>Update the IBMFHIRServer resource in the target namespace by editing the namespace and secret name in the sample file, <code class="language-plaintext highlighter-rouge">files/fhirserver_v1beta1_ibmfhirserver.yaml</code>, and then apply the file.</li>
+  <li>Update the IBMFHIRServer resource in the target namespace by editing secret name and changing license accept to ‘true’ in the sample file, <code class="language-plaintext highlighter-rouge">files/fhirserver_v1beta1_ibmfhirserver.yaml</code>, and then apply the file.</li>
 </ol>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  $ oc apply -f files/fhirserver_v1beta1_ibmfhirserver.yaml
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  $ oc apply -f files/fhirserver_v1beta1_ibmfhirserver.yaml -n &lt;target-namespace&gt;
 </code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">&lt;target-namespace&gt;</code> is the target namespace.</li>
+</ul>
 
 <h4 id="ibm-cloud-pak-cli-1">IBM Cloud Pak CLI</h4>
 
@@ -1012,6 +1031,8 @@ See <a href="../installing">Installing</a> for instructions to install the IBM F
   <li><code class="language-plaintext highlighter-rouge">&lt;target-namespace&gt;</code> is the target namespace.</li>
   <li><code class="language-plaintext highlighter-rouge">&lt;secret-name&gt;</code> is the name of the Secret resource containing the IBM FHIR Server configuration.</li>
 </ul>
+
+<p>Note, by running this action you accept the <a href="https://ibm.biz/ibm-fhir-server-license">license</a>.</p>
 
 <h2 id="scaling">Scaling</h2>
 
