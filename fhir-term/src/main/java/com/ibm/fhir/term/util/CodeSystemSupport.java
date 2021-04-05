@@ -628,19 +628,12 @@ public final class CodeSystemSupport {
     }
 
     private static ConceptFilter createGeneralizesFilter(CodeSystem codeSystem, Include.Filter filter) {
-        if ("concept".equals(filter.getProperty().getValue())) {
+        if ("concept".equals(filter.getProperty().getValue()) &&
+                (CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning()) ||
+                        codeSystem.getHierarchyMeaning() == null)) {
             Concept concept = findConcept(codeSystem, code(filter.getValue()));
             if (concept != null) {
-                if (codeSystem.getHierarchyMeaning() == null) {
-                    // hierarchy meaning is not defined
-                    return createInFilter(codeSystem, Filter.builder()
-                        .property(filter.getProperty())
-                        .op(FilterOperator.IN)
-                        .value(concept.getCode())
-                        .build());
-                } else if (CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-                    return new GeneralizesFilter(codeSystem, concept);
-                }
+                return new GeneralizesFilter(codeSystem, concept);
             }
         }
         throw conceptFilterNotCreated(GeneralizesFilter.class, filter);
@@ -668,38 +661,24 @@ public final class CodeSystemSupport {
     }
 
     private static ConceptFilter createIsAFilter(CodeSystem codeSystem, Include.Filter filter) {
-        if ("concept".equals(filter.getProperty().getValue())) {
+        if ("concept".equals(filter.getProperty().getValue()) &&
+                (CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning()) ||
+                        codeSystem.getHierarchyMeaning() == null)) {
             Concept concept = findConcept(codeSystem, code(filter.getValue()));
             if (concept != null) {
-                if (codeSystem.getHierarchyMeaning() == null) {
-                    // hierarchy meaning is not defined
-                    return createInFilter(codeSystem, Filter.builder()
-                        .property(filter.getProperty())
-                        .op(FilterOperator.IN)
-                        .value(concept.getCode())
-                        .build());
-                } else if (CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-                    return new IsAFilter(codeSystem, concept);
-                }
+                return new IsAFilter(codeSystem, concept);
             }
         }
         throw conceptFilterNotCreated(IsAFilter.class, filter);
     }
 
     private static ConceptFilter createIsNotAFilter(CodeSystem codeSystem, Include.Filter filter) {
-        if ("concept".equals(filter.getProperty().getValue())) {
+        if ("concept".equals(filter.getProperty().getValue()) &&
+                (CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning()) ||
+                        codeSystem.getHierarchyMeaning() == null)) {
             Concept concept = findConcept(codeSystem, code(filter.getValue()));
             if (concept != null) {
-                if (codeSystem.getHierarchyMeaning() == null) {
-                    // hierarchy meaning is not defined
-                    return createNotInFilter(codeSystem, Filter.builder()
-                        .property(filter.getProperty())
-                        .op(FilterOperator.NOT_IN)
-                        .value(concept.getCode())
-                        .build());
-                } else if (CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-                    return new IsNotAFilter(codeSystem, concept);
-                }
+                return new IsNotAFilter(codeSystem, concept);
             }
         }
         throw conceptFilterNotCreated(IsNotAFilter.class, filter);
