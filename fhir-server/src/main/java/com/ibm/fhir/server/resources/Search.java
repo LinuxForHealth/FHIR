@@ -111,7 +111,7 @@ public class Search extends FHIRResource {
     @Consumes("application/x-www-form-urlencoded")
     @Path("{compartment}/{compartmentId}/{type}/_search")
     public Response searchCompartmentPost(@PathParam("compartment") String compartment,
-        @PathParam("compartmentId") String compartmentId, @PathParam("type") String type) {
+            @PathParam("compartmentId") String compartmentId, @PathParam("type") String type) {
         return doSearchCompartment(compartment, compartmentId, type);
     }
 
