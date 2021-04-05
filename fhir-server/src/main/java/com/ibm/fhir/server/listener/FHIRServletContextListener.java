@@ -85,6 +85,7 @@ public class FHIRServletContextListener implements ServletContextListener {
             // Initialize our "initComplete" flag to false.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.FALSE);
 
+            FHIRConfiguration.setConfigHome(System.getenv("FHIR_CONFIG_HOME"));
             PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
             if (fhirConfig == null) {
                 throw new IllegalStateException("No FHIRConfiguration was found");

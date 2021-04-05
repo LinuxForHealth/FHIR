@@ -20,6 +20,8 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+import com.ibm.fhir.config.FHIRConfiguration;
+
 /**
  * This Servlet Context Listener provides a hook to the BatchRuntime.
  */
@@ -30,6 +32,9 @@ public class JobControlContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         log.info("Starting up the Bulk Data Web App");
+
+        FHIRConfiguration.setConfigHome(System.getenv("FHIR_CONFIG_HOME"));
+
         try {
             @SuppressWarnings("unused")
             Subject subject = Subject.getSubject(AccessController.getContext());

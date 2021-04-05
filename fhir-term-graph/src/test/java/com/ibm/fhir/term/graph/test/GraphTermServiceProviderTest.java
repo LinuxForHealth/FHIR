@@ -14,19 +14,14 @@ import com.ibm.fhir.term.graph.factory.FHIRTermGraphFactory;
 import com.ibm.fhir.term.graph.loader.FHIRTermGraphLoader;
 import com.ibm.fhir.term.graph.loader.impl.CodeSystemTermGraphLoader;
 import com.ibm.fhir.term.graph.provider.GraphTermServiceProvider;
-import com.ibm.fhir.term.graph.util.FHIRTermGraphUtil;
 import com.ibm.fhir.term.service.provider.test.FHIRTermServiceProviderTest;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
-
-import ch.qos.logback.classic.Level;
 
 public class GraphTermServiceProviderTest extends FHIRTermServiceProviderTest {
     private FHIRTermGraph graph = null;
 
     @Override
     public FHIRTermServiceProvider createProvider() throws Exception {
-        FHIRTermGraphUtil.setRootLoggerLevel(Level.INFO);
-
         graph = FHIRTermGraphFactory.open(new PropertiesConfiguration("conf/janusgraph-berkeleyje-lucene.properties"));
         graph.dropAllVertices();
 

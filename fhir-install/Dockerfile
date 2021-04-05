@@ -5,11 +5,12 @@
 # ----------------------------------------------------------------------------
 # Stage: Base
 
-FROM openliberty/open-liberty:21.0.0.3-full-java8-openj9-ubi as base
+FROM openliberty/open-liberty:21.0.0.3-kernel-slim-java8-openj9-ubi as base
 
 ENV LICENSE accept
 
 USER root
+
 RUN yum install -y unzip
 
 RUN mkdir -p /opt/ibm-fhir-server
@@ -18,14 +19,15 @@ COPY target/fhir-server-distribution.zip /tmp/
 RUN unzip -qq /tmp/fhir-server-distribution.zip -d /tmp && \
     /tmp/fhir-server-dist/install-fhir.sh /opt/ol/wlp && \
     mv /tmp/fhir-server-dist/tools /opt/ibm-fhir-server/tools
-COPY ./src/main/docker/ibm-fhir-server/bootstrap.sh /opt/ibm-fhir-server/
+COPY src/main/docker/ibm-fhir-server/bootstrap.properties /opt/ol/wlp/usr/servers/defaultServer/
+COPY src/main/docker/ibm-fhir-server/bootstrap.sh /opt/ibm-fhir-server/
 
 USER 1001
 
 # ----------------------------------------------------------------------------
 # Stage: Runnable
 
-FROM openliberty/open-liberty:21.0.0.3-full-java8-openj9-ubi
+FROM openliberty/open-liberty:21.0.0.3-kernel-slim-java8-openj9-ubi
 
 ARG FHIR_VERSION=4.7.0-SNAPSHOT
 
@@ -41,32 +43,20 @@ COPY --chown=1001:0 --from=base /opt/ibm-fhir-server /opt/ibm-fhir-server
 
 COPY target/LICENSE /licenses/
 
-ENV FHIR /opt/ol/wlp/usr/servers/fhir-server
+ENV FHIR_CONFIG_HOME=/opt/ol/wlp/usr/servers/defaultServer \
+    WLP_LOGGING_CONSOLE_SOURCE=message,trace,accessLog,ffdc,audit \
+    WLP_LOGGING_CONSOLE_LOGLEVEL=info \
+    WLP_LOGGING_CONSOLE_FORMAT=SIMPLE \
+    WLP_LOGGING_MESSAGE_SOURCE="" \
+    WLP_LOGGING_MESSAGE_FORMAT=JSON \
+    TRACE_FILE=stdout \
+    TRACE_FORMAT=BASIC
 
-# Set the working directory to the fhir-server liberty server
-WORKDIR ${FHIR}
+# Set the working directory to the liberty defaultServer
+WORKDIR ${FHIR_CONFIG_HOME}
 
-# Set the output directory so that output will appear under the working directory
-ENV WLP_OUTPUT_DIR=/opt/ol/wlp/usr/servers
-
-# Tell liberty not to worry about a keystore since we provide our own at a different path
-ENV KEYSTORE_REQUIRED "false"
-
-# Replace links to defaultServer with links to fhir-server and 
-# create the configDropins directories for the fhir-server
-USER root
-RUN chmod -R 755 /opt/ibm-fhir-server && \
-    ln -sfn ${FHIR} /output && \
-    ln -sfn ${FHIR} /config && \
-    rm -rf /opt/ol/wlp/output && \
-    rm -rf /opt/ol/wlp/usr/servers/defaultServer && \
-    mkdir -p /config/configDropins/defaults /config/configDropins/overrides && \
-    chown -R 1001:1001 /config/configDropins/ && \
-    yum update -y && \
-    yum clean all && \
-    rm -rf /var/cache/yum
-
-USER 1001
+RUN features.sh && \
+    VERBOSE=true configure.sh
 
 ENTRYPOINT ["/opt/ibm-fhir-server/bootstrap.sh"]
-CMD ["/opt/ol/wlp/bin/server", "run", "fhir-server"]
+CMD ["/opt/ol/wlp/bin/server", "run", "defaultServer"]
