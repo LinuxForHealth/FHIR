@@ -21,17 +21,12 @@ import com.ibm.fhir.term.graph.factory.FHIRTermGraphFactory;
 import com.ibm.fhir.term.graph.loader.FHIRTermGraphLoader;
 import com.ibm.fhir.term.graph.loader.impl.CodeSystemTermGraphLoader;
 import com.ibm.fhir.term.graph.provider.GraphTermServiceProvider;
-import com.ibm.fhir.term.graph.util.FHIRTermGraphUtil;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
 import com.ibm.fhir.term.util.CodeSystemSupport;
-
-import ch.qos.logback.classic.Level;
 
 public class CodeSystemTermGraphLoaderTest {
     @Test
     public void testCodeSystemTermGraphLoader() throws Exception {
-        FHIRTermGraphUtil.setRootLoggerLevel(Level.INFO);
-
         FHIRTermGraph graph = FHIRTermGraphFactory.open(new PropertiesConfiguration("conf/janusgraph-berkeleyje-lucene.properties"));
         graph.dropAllVertices();
 
