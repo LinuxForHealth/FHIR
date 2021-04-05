@@ -10,7 +10,6 @@ Executing $0 to deploy the fhir-server web application...
 "
 
 # Determine the location of this script.
-# basedir=`dirname "$0"`
 cd $(dirname $0); basedir="$(pwd)/"
 
 # Default liberty install location
