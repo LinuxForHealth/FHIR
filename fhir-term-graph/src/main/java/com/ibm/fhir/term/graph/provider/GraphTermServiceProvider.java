@@ -49,7 +49,6 @@ import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
-import com.ibm.fhir.model.type.code.FilterOperator;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.PropertyType;
@@ -326,22 +325,15 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         boolean caseSensitive = isCaseSensitive(codeSystem);
         Code property = filter.getProperty();
         com.ibm.fhir.model.type.String value = filter.getValue();
-        if ("concept".equals(property.getValue())) {
-            if (codeSystem.getHierarchyMeaning() == null) {
-                // hierarchy meaning is not defined
-                return applyConceptInFilter(codeSystem, Filter.builder()
-                    .property(property)
-                    .op(FilterOperator.IN)
-                    .value(value)
-                    .build(), first, g);
-            } else if (CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-                return whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem)
-                    .union(__.identity(), whereCodeSystem(hasCode(vertices(), value.getValue(), caseSensitive), codeSystem)
-                        .repeat(__.out(FHIRTermGraph.IS_A)
-                            .simplePath()
-                            .dedup())
-                        .emit());
-            }
+        if ("concept".equals(property.getValue()) &&
+                (CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning()) ||
+                        codeSystem.getHierarchyMeaning() == null)) {
+            return whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem)
+                .union(__.identity(), whereCodeSystem(hasCode(vertices(), value.getValue(), caseSensitive), codeSystem)
+                    .repeat(__.out(FHIRTermGraph.IS_A)
+                        .simplePath()
+                        .dedup())
+                    .emit());
         }
         throw filterNotApplied(filter);
     }
@@ -361,22 +353,15 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         boolean caseSensitive = isCaseSensitive(codeSystem);
         Code property = filter.getProperty();
         com.ibm.fhir.model.type.String value = filter.getValue();
-        if ("concept".equals(property.getValue())) {
-            if (codeSystem.getHierarchyMeaning() == null) {
-                // hierarchy meaning is not defined
-                return applyConceptInFilter(codeSystem, Filter.builder()
-                    .property(property)
-                    .op(FilterOperator.IN)
-                    .value(value)
-                    .build(), first, g);
-            } else if (CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-                return whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem)
-                    .union(__.identity(), whereCodeSystem(hasCode(vertices(), value.getValue(), caseSensitive), codeSystem)
-                        .repeat(__.in(FHIRTermGraph.IS_A)
-                            .simplePath()
-                            .dedup())
-                        .emit());
-            }
+        if ("concept".equals(property.getValue()) &&
+                (CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning()) ||
+                        codeSystem.getHierarchyMeaning() == null)) {
+            return whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem)
+                .union(__.identity(), whereCodeSystem(hasCode(vertices(), value.getValue(), caseSensitive), codeSystem)
+                    .repeat(__.in(FHIRTermGraph.IS_A)
+                        .simplePath()
+                        .dedup())
+                    .emit());
         }
         throw filterNotApplied(filter);
     }
@@ -385,20 +370,13 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         boolean caseSensitive = isCaseSensitive(codeSystem);
         Code property = filter.getProperty();
         com.ibm.fhir.model.type.String value = filter.getValue();
-        if ("concept".equals(property.getValue())) {
-            if (codeSystem.getHierarchyMeaning() == null) {
-                // hierarchy meaning is not defined
-                return applyConceptNotInFilter(codeSystem, Filter.builder()
-                    .property(property)
-                    .op(FilterOperator.NOT_IN)
-                    .value(value)
-                    .build(), first, g);
-            } else if (CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
-                return whereCodeSystem(g.not(__.repeat(__.out(FHIRTermGraph.IS_A))
-                    .until(hasCode(value.getValue(), caseSensitive)))
-                    .not(hasCode(value.getValue(), caseSensitive))
-                    .hasLabel("Concept"), codeSystem);
-            }
+        if ("concept".equals(property.getValue()) &&
+                (CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning()) ||
+                        codeSystem.getHierarchyMeaning() == null)) {
+            return whereCodeSystem(g.not(__.repeat(__.out(FHIRTermGraph.IS_A))
+                .until(hasCode(value.getValue(), caseSensitive)))
+                .not(hasCode(value.getValue(), caseSensitive))
+                .hasLabel("Concept"), codeSystem);
         }
         throw filterNotApplied(filter);
     }
