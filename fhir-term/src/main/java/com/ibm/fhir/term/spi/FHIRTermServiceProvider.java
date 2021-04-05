@@ -30,7 +30,7 @@ public interface FHIRTermServiceProvider {
 
     /**
      * Get the concept in the provided code system with the specified code.
-     * Consumers should not expect the returned Concept to contain nested concepts, even where
+     * Consumers should not expect the returned Concept to contain child concepts, even where
      * such concepts exist in the underlying CodeSystem.
      *
      * @param codeSystem
