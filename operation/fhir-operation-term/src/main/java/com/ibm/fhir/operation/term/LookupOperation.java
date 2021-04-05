@@ -62,7 +62,7 @@ public class LookupOperation extends AbstractTermOperation {
                             .build())
                         .build())
                     .details(CodeableConcept.builder()
-                        .text(string(String.format("Code '%s' in System '%s' not found.", coding.getCode().getValue(), coding.getSystem().getValue())))
+                        .text(string(String.format("Code '%s' not found in system '%s'", coding.getCode().getValue(), coding.getSystem().getValue())))
                         .build())
                     .build());
         }
