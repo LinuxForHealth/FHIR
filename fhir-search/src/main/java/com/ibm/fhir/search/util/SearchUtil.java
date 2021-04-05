@@ -1283,6 +1283,7 @@ public class SearchUtil {
                 // token
                 // [parameter]=[system]|[code]
                 // [parameter]:of-type=[system|code|value]
+                // [parameter]:text=code
                 /*
                  * TODO: start enforcing this:
                  * "For token parameters on elements of type ContactPoint, uri, or boolean,
@@ -1334,6 +1335,8 @@ public class SearchUtil {
                                 "' with modifier ':" + modifier.value() + "' is not expandable";
                         throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
                     }
+                    parameterValue.setValueCode(unescapeSearchParm(v));
+                } else if (Modifier.TEXT.equals(modifier)) {
                     parameterValue.setValueCode(unescapeSearchParm(v));
                 } else if (parts.length == 2) {
                     parameterValue.setValueSystem(unescapeSearchParm(parts[0]));
@@ -2102,18 +2105,18 @@ public class SearchUtil {
 
     /**
      * Normalizes a string to be used as a search parameter value. All accents and
-     * diacritics are removed. And then the
-     * string is transformed to lower case.
+     * diacritics are removed. Consecutive whitespace characters are replaced with
+     * a single space. And then the string is transformed to lower case.
      *
-     * @param value
-     * @return
+     * @param value the string to normalize
+     * @return the normalized string
      */
     public static String normalizeForSearch(String value) {
 
         String normalizedValue = null;
         if (value != null) {
             normalizedValue = Normalizer.normalize(value, Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
-            normalizedValue = normalizedValue.toLowerCase();
+            normalizedValue = normalizedValue.replaceAll("\\s+", " ").toLowerCase();
         }
 
         return normalizedValue;

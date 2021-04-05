@@ -110,6 +110,9 @@ public class SearchConstants {
     public static final String OF_TYPE_MODIFIER_COMPONENT_TYPE = "type";
     public static final String OF_TYPE_MODIFIER_COMPONENT_VALUE = "value";
 
+    // Extracted search parameter suffix for :text modifier
+    public static final String TEXT_MODIFIER_SUFFIX = ":text";
+
     // set as unmodifiable
     public static final Set<String> SEARCH_RESULT_PARAMETER_NAMES =
             Collections.unmodifiableSet(new HashSet<>(Arrays.asList(SORT, COUNT, PAGE, INCLUDE, REVINCLUDE, ELEMENTS, SUMMARY, TOTAL)));
