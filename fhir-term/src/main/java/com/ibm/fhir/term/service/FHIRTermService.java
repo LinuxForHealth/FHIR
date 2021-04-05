@@ -379,7 +379,7 @@ public class FHIRTermService {
      * @param codingB
      *     the coding "B"
      * @return
-     *     the outcome of the subsumption test
+     *     the outcome of the subsumption test, or null if the relationship could not be tested
      */
     public ConceptSubsumptionOutcome subsumes(Coding codingA, Coding codingB) {
         Uri systemA = codingA.getSystem();

@@ -30,6 +30,8 @@ public interface FHIRTermServiceProvider {
 
     /**
      * Get the concept in the provided code system with the specified code.
+     * Consumers should not expect the returned Concept to contain child concepts, even where
+     * such concepts exist in the underlying CodeSystem.
      *
      * @param codeSystem
      *     the code system
@@ -87,7 +89,8 @@ public interface FHIRTermServiceProvider {
     boolean isSupported(CodeSystem codeSystem);
 
     /**
-     * Find the concept in tree rooted by the provided concept that matches the specified code.
+     * Indicates whether the concept for {@code CodeA} subsumes the concept for {@code codeB}
+     * in the passed CodeSystem.
      *
      * @param codeSystem
      *     the code system
@@ -96,7 +99,8 @@ public interface FHIRTermServiceProvider {
      * @param codeB
      *     the code to match
      * @return
-     *     the code system concept that matches the specified code, or null if not such concept exists
+     *     true if the code system concept for {@code codeB} exists in the tree rooted by the concept for
+     *     {@code CodeA}, false otherwise
      */
     boolean subsumes(CodeSystem codeSystem, Code codeA, Code codeB);
 }
