@@ -191,6 +191,10 @@
         </profile>
         <profile>
             <id>build-and-sign-artifact</id>
+            <properties>
+                <gpg.keyname>${env.GPG_KEYNAME}</gpg.keyname>
+                <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -251,16 +255,16 @@
                                 <gpgArgument>--batch</gpgArgument>
                                 <gpgArgument>--yes</gpgArgument>
                                 <gpgArgument>--no-tty</gpgArgument>
+                                <gpgArgument>--lock-never</gpgArgument>
+                                <gpgArgument>--passphrase ${env.GPG_PASSPHRASE}</gpgArgument>
+                                <gpgArgument>--passphrase-repeat 0</gpgArgument>
                                 <gpgArgument>--pinentry-mode loopback</gpgArgument>
                             </gpgArguments>
+                            
                         </configuration>
                     </plugin>
                 </plugins>
             </build>
-            <properties>
-                <gpg.keyname>${env.FHIR_GPG_KEYNAME}</gpg.keyname>
-                <gpg.passphrase>${env.FHIR_GPG_PASSPHRASE}</gpg.passphrase>
-            </properties>
         </profile>
         <profile>
             <id>deploy-to-sonatype</id>
