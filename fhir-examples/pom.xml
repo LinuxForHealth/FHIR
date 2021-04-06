@@ -251,6 +251,7 @@
                                 <gpgArgument>--batch</gpgArgument>
                                 <gpgArgument>--yes</gpgArgument>
                                 <gpgArgument>--no-tty</gpgArgument>
+                                <gpgArgument>--pinentry-mode loopback</gpgArgument>
                             </gpgArguments>
                         </configuration>
                     </plugin>

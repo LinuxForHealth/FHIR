@@ -18,7 +18,7 @@ export GPG_TTY=$(tty)
 export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-examples").profiles | map(.) | join(",")' build/release/config/release.json)"
 mvn install source:jar source:test-jar \
         javadoc:jar -DadditionalJOption=-Xdoclint:none \
-        gpg:sign \
+        gpg:sign -Dgpg.passphrase="${FHIR_GPG_PASSPHRASE}" \
         -f fhir-examples -P "${BUILD_PROFILES}" -DskipTests
 
 # fhir-tools
