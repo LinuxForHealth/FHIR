@@ -58,6 +58,7 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-notification-kafka</artifactId>
             <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -105,6 +106,7 @@
                     <artifactId>jboss-rmi-api_1.0_spec</artifactId>
                 </exclusion>
             </exclusions>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.skyscreamer</groupId>
@@ -119,6 +121,7 @@
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.ibm.fhir</groupId>
@@ -130,6 +133,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-nop</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
