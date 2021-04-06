@@ -7,8 +7,10 @@
 package com.ibm.fhir.term.service.provider;
 
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -30,6 +32,16 @@ public class RegistryTermServiceProvider implements FHIRTermServiceProvider {
     public Set<Concept> closure(CodeSystem codeSystem, Code code) {
         Concept concept = CodeSystemSupport.findConcept(codeSystem, code);
         return CodeSystemSupport.getConcepts(concept);
+    }
+
+    @Override
+    public Map<Code, Set<Concept>> closure(CodeSystem codeSystem, Set<Code> codes) {
+        Map<Code, Set<Concept>> result = new LinkedHashMap<>();
+        for (Code code : codes) {
+            Set<Concept> closure = closure(codeSystem, code);
+            result.put(code, closure);
+        }
+        return result;
     }
 
     @Override

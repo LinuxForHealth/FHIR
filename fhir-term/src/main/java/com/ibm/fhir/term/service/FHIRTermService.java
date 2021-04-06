@@ -13,7 +13,10 @@ import static com.ibm.fhir.term.util.CodeSystemSupport.normalize;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.ServiceLoader;
 import java.util.Set;
@@ -57,6 +60,11 @@ public class FHIRTermService {
         @Override
         public Set<Concept> closure(CodeSystem codeSystem, Code code) {
             return Collections.emptySet();
+        }
+
+        @Override
+        public Map<Code, Set<Concept>> closure(CodeSystem codeSystem, Set<Code> codes) {
+            return Collections.emptyMap();
         }
 
         @Override
@@ -126,7 +134,9 @@ public class FHIRTermService {
         if (system != null && code != null) {
             java.lang.String url = (version != null) ? system.getValue() + "|" + version : system.getValue();
             CodeSystem codeSystem = CodeSystemSupport.getCodeSystem(url);
-            if (codeSystem != null && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+            if (codeSystem != null &&
+                    (CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning()) ||
+                            codeSystem.getHierarchyMeaning() == null)) {
                 FHIRTermServiceProvider provider = findProvider(codeSystem);
                 if (provider.hasConcept(codeSystem, code)) {
                     return provider.closure(codeSystem, code);
@@ -135,6 +145,80 @@ public class FHIRTermService {
         }
 
         return Collections.emptySet();
+    }
+
+    /**
+     * Generate a map containing the transitive closures for the code system concepts represented by the giving codings
+     *
+     * @param codings
+     *     the codings
+     * @return
+     *     a map of sets containing the transitive closures for the code system concepts represented by the given codings
+     */
+    public Map<Coding, Set<Concept>> closure(Set<Coding> codings) {
+        Map<Coding, Set<Concept>> result = new LinkedHashMap<>();
+
+        Map<CodeSystem, Set<Code>> codeSetMap = new LinkedHashMap<>();
+        Map<CodeSystem, Map<Code, Coding>> codingMapMap = new LinkedHashMap<>();
+
+        for (Coding coding : codings) {
+            Uri system = coding.getSystem();
+            java.lang.String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : null;
+            Code code = coding.getCode();
+
+            if (system == null || code == null) {
+                return Collections.emptyMap();
+            }
+
+            java.lang.String url = (version != null) ? system.getValue() + "|" + version : system.getValue();
+
+            CodeSystem codeSystem = CodeSystemSupport.getCodeSystem(url);
+
+            if (codeSystem == null ||
+                    (!CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning()) &&
+                            codeSystem.getHierarchyMeaning() != null)) {
+                return Collections.emptyMap();
+            }
+
+            codeSetMap.computeIfAbsent(codeSystem, k -> new LinkedHashSet<>()).add(code);
+            codingMapMap.computeIfAbsent(codeSystem, k -> new LinkedHashMap<>()).put(code, coding);
+        }
+
+        for (CodeSystem codeSystem : codeSetMap.keySet()) {
+            Set<Code> codes = codeSetMap.get(codeSystem);
+
+            FHIRTermServiceProvider provider = findProvider(codeSystem);
+            for (Code code : codes) {
+                if (!provider.hasConcept(codeSystem, code)) {
+                    return Collections.emptyMap();
+                }
+            }
+
+            Map<Code, Set<Concept>> closureMap = provider.closure(codeSystem, codes);
+
+            for (Code code : closureMap.keySet()) {
+                Coding coding = codingMapMap.get(codeSystem).get(code);
+                Set<Concept> closure = closureMap.get(code);
+                result.put(coding, closure);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Get a map of sets containing {@link CodeSystem.Concept} instances where all structural
+     * hierarchies have been flattened
+     *
+     * @param codeSystem
+     *     the code system
+     * @param codes
+     *     the set of roots of hierarchies containing the Concept instances to be flattened
+     * @return
+     *     a map containing flattened sets of Concept instances for the given trees
+     */
+    public Map<Code, Set<Concept>> closure(CodeSystem codeSystem, Set<Code> codes) {
+        return findProvider(codeSystem).closure(codeSystem, codes);
     }
 
     /**

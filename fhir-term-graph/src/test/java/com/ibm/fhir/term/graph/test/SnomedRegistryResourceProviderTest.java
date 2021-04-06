@@ -8,6 +8,7 @@ package com.ibm.fhir.term.graph.test;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.testng.Assert;
@@ -31,6 +32,11 @@ public class SnomedRegistryResourceProviderTest {
             @Override
             public Set<Concept> closure(CodeSystem codeSystem, Code code) {
                 return Collections.emptySet();
+            }
+
+            @Override
+            public Map<Code, Set<Concept>> closure(CodeSystem codeSystem, Set<Code> codes) {
+                return Collections.emptyMap();
             }
 
             @Override

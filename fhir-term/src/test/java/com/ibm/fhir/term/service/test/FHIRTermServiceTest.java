@@ -18,7 +18,9 @@ import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -188,7 +190,7 @@ public class FHIRTermServiceTest {
     }
 
     @Test
-    public void testClosure() throws Exception {
+    public void testClosure1() throws Exception {
         Coding coding = Coding.builder()
                 .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
                 .version(string("1.0.0"))
@@ -202,6 +204,34 @@ public class FHIRTermServiceTest {
                 .collect(Collectors.toList());
 
         assertEquals(actual, Arrays.asList("m", "p", "q", "r"));
+    }
+
+    @Test
+    public void testClosure2() throws Exception {
+        Coding coding1 = Coding.builder()
+                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .version(string("1.0.0"))
+                .code(Code.of("m"))
+                .build();
+
+        Coding coding2 = Coding.builder()
+                .system(Uri.of("http://ibm.com/fhir/CodeSystem/cs5"))
+                .version(string("1.0.0"))
+                .code(Code.of("n"))
+                .build();
+
+        Map<Coding, Set<Concept>> closure = FHIRTermService.getInstance().closure(new HashSet<>(Arrays.asList(coding1, coding2)));
+
+        Set<String> actual1 = closure.get(coding1).stream()
+                .map(contains -> contains.getCode().getValue())
+                .collect(Collectors.toSet());
+
+        Set<String> actual2 = closure.get(coding2).stream()
+                .map(contains -> contains.getCode().getValue())
+                .collect(Collectors.toSet());
+
+        assertEquals(actual1, new HashSet<>(Arrays.asList("m", "p", "q", "r")));
+        assertEquals(actual2, new HashSet<>(Arrays.asList("n", "s")));
     }
 
     @Test
