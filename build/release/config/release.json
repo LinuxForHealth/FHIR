@@ -2,27 +2,35 @@
     "maven": [
         {
             "comment": "Enables Retry to the Maven repositories",
-            "setting": "-Dmaven.wagon.http.retryHandler.count=3"
+            "setting": "-Dmaven.wagon.http.retryHandler.count=3",
+            "type": "maven"
         },
         {
             "comment": "Run with two cores",
-            "setting": "-T2c"
-        },
-        {
-            "comment": "Run with more memory",
-            "setting": "-Xms2G -Xmx1G"
+            "setting": "-T2c",
+            "type": "maven"
         },
         {
             "comment": "No transfer progress and colorless",
-            "setting": "-ntp -B"
+            "setting": "-ntp -B",
+            "type": "maven"
         },
         {
             "comment": "Point to settings file",
-            "setting": "-S build/release/config/settings.xml"
+            "setting": "-s build/release/config/settings.xml",
+            "type": "maven"
         },
         {
             "comment": "Set as Headless",
-            "setting": "-Djava.awt.headless=true "
+            "setting": "-Djava.awt.headless=true",
+            "type": "maven"
+        }
+    ],
+    "maven-jvm": [
+        {
+            "comment": "Run with more memory",
+            "setting": "-Xms2G -Xmx1G",
+            "type": "jvm"
         }
     ],
     "java": {

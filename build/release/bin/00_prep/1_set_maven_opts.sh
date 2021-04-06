@@ -8,10 +8,18 @@ set -eu -o pipefail
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-export MAVEN_OPTS=" $(jq -r '.maven | map(.setting)| join(" ")' build/release/config/release.json)"
-echo "Working with the configuration: ${MAVEN_OPTS}"
+# setup the maven default options
 
-mkdir -p .m2/
-echo "${MAVEN_OPTS}" > maven.config
+# maven.config
+export TMP_MAVEN_OPTS=" $(jq -r '.maven | map(.setting)| join(" ")' build/release/config/release.json)"
+echo "Working with the configuration: ${TMP_MAVEN_OPTS}"
+
+mkdir -p .mvn/
+echo "${TMP_MAVEN_OPTS}" > .mvn/maven.config
+
+# jvm.config
+export TMP_MAVEN_JVM_OPTS=" $(jq -r '.maven-jvm | map(.setting)| join(" ")' build/release/config/release.json)"
+echo "Working with the configuration: ${TMP_MAVEN_JVM_OPTS}"
+echo "${TMP_MAVEN_JVM_OPTS}" > .mvn/jvm.config
 
 # EOF
