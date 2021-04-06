@@ -75,6 +75,8 @@ import com.ibm.fhir.search.util.SearchUtil;
  */
 public class ParameterExtractionTest {
     private static final String SAMPLE_STRING = "test";
+    private static final String SAMPLE_NON_NORMALIZED_TEXT_STRING = "Text  String";
+    private static final String SAMPLE_NORMALIZED_TEXT_STRING = "text string";
     private static final String SAMPLE_URI = "http://example.com";
     private static final String SAMPLE_UNIT = "s";
     private static final String SAMPLE_REF_RESOURCE_TYPE = "Patient";
@@ -370,19 +372,32 @@ public class ParameterExtractionTest {
     public void testCodeableConcept() throws FHIRPersistenceProcessorException {
         JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, tokenSearchParam);
         CodeableConcept.builder()
-                       .coding(Coding.builder().code(Code.of("a")).system(Uri.of(SAMPLE_URI)).build())
+                       .coding(Coding.builder().code(Code.of("a")).system(Uri.of(SAMPLE_URI)).display(string(SAMPLE_NON_NORMALIZED_TEXT_STRING + "a")).build())
                        .coding(Coding.builder().code(Code.of("b")).system(Uri.of(SAMPLE_URI)).build())
-                       .coding(Coding.builder().code(Code.of("c")).system(Uri.of(SAMPLE_URI)).build())
+                       .coding(Coding.builder().code(Code.of("c")).system(Uri.of(SAMPLE_URI)).display(string(SAMPLE_NON_NORMALIZED_TEXT_STRING + "c")).build())
+                       .text(string(SAMPLE_NON_NORMALIZED_TEXT_STRING))
                        .build()
                        .accept(parameterBuilder);
         List<ExtractedParameterValue> params = parameterBuilder.getResult();
-        assertEquals(params.size(), 3, "Number of extracted parameters");
+        assertEquals(params.size(), 6, "Number of extracted parameters");
+        assertEquals(((TokenParmVal) params.get(0)).getName(), SEARCH_PARAM_CODE_VALUE);
         assertEquals(((TokenParmVal) params.get(0)).getValueCode(), "a");
         assertEquals(((TokenParmVal) params.get(0)).getValueSystem(), SAMPLE_URI);
-        assertEquals(((TokenParmVal) params.get(1)).getValueCode(), "b");
-        assertEquals(((TokenParmVal) params.get(1)).getValueSystem(), SAMPLE_URI);
-        assertEquals(((TokenParmVal) params.get(2)).getValueCode(), "c");
+        assertEquals(((TokenParmVal) params.get(1)).getName(), SEARCH_PARAM_CODE_VALUE + SearchConstants.TEXT_MODIFIER_SUFFIX);
+        assertEquals(((TokenParmVal) params.get(1)).getValueCode(), SAMPLE_NORMALIZED_TEXT_STRING + "a");
+        assertEquals(((TokenParmVal) params.get(1)).getValueSystem(), JDBCConstants.DEFAULT_TOKEN_SYSTEM);
+        assertEquals(((TokenParmVal) params.get(2)).getName(), SEARCH_PARAM_CODE_VALUE);
+        assertEquals(((TokenParmVal) params.get(2)).getValueCode(), "b");
         assertEquals(((TokenParmVal) params.get(2)).getValueSystem(), SAMPLE_URI);
+        assertEquals(((TokenParmVal) params.get(3)).getName(), SEARCH_PARAM_CODE_VALUE);
+        assertEquals(((TokenParmVal) params.get(3)).getValueCode(), "c");
+        assertEquals(((TokenParmVal) params.get(3)).getValueSystem(), SAMPLE_URI);
+        assertEquals(((TokenParmVal) params.get(4)).getName(), SEARCH_PARAM_CODE_VALUE + SearchConstants.TEXT_MODIFIER_SUFFIX);
+        assertEquals(((TokenParmVal) params.get(4)).getValueCode(), SAMPLE_NORMALIZED_TEXT_STRING + "c");
+        assertEquals(((TokenParmVal) params.get(4)).getValueSystem(), JDBCConstants.DEFAULT_TOKEN_SYSTEM);
+        assertEquals(((TokenParmVal) params.get(5)).getName(), SEARCH_PARAM_CODE_VALUE + SearchConstants.TEXT_MODIFIER_SUFFIX);
+        assertEquals(((TokenParmVal) params.get(5)).getValueCode(), SAMPLE_NORMALIZED_TEXT_STRING);
+        assertEquals(((TokenParmVal) params.get(5)).getValueSystem(), JDBCConstants.DEFAULT_TOKEN_SYSTEM);
     }
 
     @Test
@@ -396,12 +411,17 @@ public class ParameterExtractionTest {
         Coding.builder()
               .code(Code.of(SAMPLE_STRING))
               .system(Uri.of(SAMPLE_URI))
+              .display(string(SAMPLE_NON_NORMALIZED_TEXT_STRING))
               .build()
               .accept(parameterBuilder);
         List<ExtractedParameterValue> params = parameterBuilder.getResult();
-        assertEquals(params.size(), 1, "Number of extracted parameters");
+        assertEquals(params.size(), 2, "Number of extracted parameters");
+        assertEquals(((TokenParmVal) params.get(0)).getName(), SEARCH_PARAM_CODE_VALUE);
         assertEquals(((TokenParmVal) params.get(0)).getValueCode(), SAMPLE_STRING);
         assertEquals(((TokenParmVal) params.get(0)).getValueSystem(), SAMPLE_URI);
+        assertEquals(((TokenParmVal) params.get(1)).getName(), SEARCH_PARAM_CODE_VALUE + SearchConstants.TEXT_MODIFIER_SUFFIX);
+        assertEquals(((TokenParmVal) params.get(1)).getValueCode(), SAMPLE_NORMALIZED_TEXT_STRING);
+        assertEquals(((TokenParmVal) params.get(1)).getValueSystem(), JDBCConstants.DEFAULT_TOKEN_SYSTEM);
     }
 
     @Test

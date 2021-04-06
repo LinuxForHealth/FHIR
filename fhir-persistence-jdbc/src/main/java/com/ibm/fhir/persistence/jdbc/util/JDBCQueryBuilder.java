@@ -1194,12 +1194,18 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         StringBuilder whereClauseSegment = new StringBuilder();
         String operator = this.getOperator(queryParm, EQ);
         boolean parmValueProcessed = false;
+        boolean appendEscape;
         SqlQueryData queryData;
         List<Object> bindVariables = new ArrayList<>();
         String tableAlias = paramTableAlias;
+        String queryParmCode = queryParm.getCode();
 
-        String code = queryParm.getCode();
-        if (!QuerySegmentAggregator.ID.equals(code)) {
+        if (!QuerySegmentAggregator.ID.equals(queryParmCode)) {
+
+            // Append the suffix for :text modifier
+            if (Modifier.TEXT.equals(queryParm.getModifier())) {
+                queryParmCode += SearchConstants.TEXT_MODIFIER_SUFFIX;
+            }
 
             // Only generate NOT EXISTS subquery if :not modifier is within chained query;
             // when :not modifier is within non-chained query QuerySegmentAggregator.buildWhereClause generates the NOT EXISTS subquery
@@ -1215,23 +1221,34 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
             // Build this piece of the segment:
             // (P1.PARAMETER_NAME_ID = x AND
-            this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
+            this.populateNameIdSubSegment(whereClauseSegment, queryParmCode, tableAlias);
 
             whereClauseSegment.append(AND).append(LEFT_PAREN);
             for (QueryParameterValue value : queryParm.getValues()) {
+                appendEscape = false;
+
                 // If multiple values are present, we need to OR them together.
                 if (parmValueProcessed) {
                     whereClauseSegment.append(OR);
                 }
 
                 whereClauseSegment.append(LEFT_PAREN);
-                
+
                 if (Modifier.IN.equals(queryParm.getModifier()) || Modifier.NOT_IN.equals(queryParm.getModifier())) {
                     populateValueSetCodesSubSegment(whereClauseSegment, value.getValueCode(), tableAlias);
                 } else {
                     // Include code
                     whereClauseSegment.append(tableAlias + DOT).append(TOKEN_VALUE).append(operator).append(BIND_VAR);
-                    bindVariables.add(SqlParameterEncoder.encode(value.getValueCode()));
+                    if (LIKE.equals(operator)) {
+                        // Must escape special wildcard characters _ and % in the parameter value string.
+                        String textSearchString = SqlParameterEncoder.encode(value.getValueCode())
+                                .replace(PERCENT_WILDCARD, ESCAPE_PERCENT)
+                                .replace(UNDERSCORE_WILDCARD, ESCAPE_UNDERSCORE) + PERCENT_WILDCARD;
+                        bindVariables.add(SearchUtil.normalizeForSearch(textSearchString));
+                        appendEscape = true;
+                    } else {
+                        bindVariables.add(SqlParameterEncoder.encode(value.getValueCode()));
+                    }
 
                     // Include system if present.
                     if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
@@ -1260,7 +1277,12 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                         }
                     }
                 }
-                
+
+                // Build this piece: ESCAPE '+'
+                if (appendEscape) {
+                    whereClauseSegment.append(ESCAPE_EXPR);
+                }
+
                 whereClauseSegment.append(RIGHT_PAREN);
                 parmValueProcessed = true;
             }
@@ -1980,9 +2002,9 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 if (codeSystemProcessed) {
                     whereClauseSegment.append(OR);
                 }
-                
+
                 // TODO: investigate if we can use COMMON_TOKEN_VALUES support
-                
+
                 // <parameterTableAlias>.TOKEN_VALUE IN (...)
                 whereClauseSegment.append(tokenValuePredicateString)
                     .append("'").append(String.join("','", codes)).append("'")
@@ -1991,7 +2013,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 // AND <parameterTableAlias>.CODE_SYSTEM_ID = {n}
                 whereClauseSegment.append(AND).append(codeSystemIdPredicateString)
                     .append(nullCheck(identityCache.getCodeSystemId(codeSetUrl)));
-                
+
                 codeSystemProcessed = true;
             }
         }

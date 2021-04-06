@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2021-03-30 12:00:00 -0400
+date:   2021-04-05 12:00:00 -0400
 permalink: /conformance/
 ---
 
@@ -163,7 +163,7 @@ FHIR search modifiers are described at https://www.hl7.org/fhir/R4/search.html#m
 |String                    |`:exact`,`:contains`,`:missing`    |"starts with" search that is case-insensitive and accent-insensitive|
 |Reference                 |`:[type]`,`:missing`,`:identifier` |exact match search and targets are implicitly added|
 |URI                       |`:below`,`:above`,`:missing`       |exact match search|
-|Token                     |`:missing`,`:not`,`:of-type`,`:in`,`:not-in`       |exact match search|
+|Token                     |`:missing`,`:not`,`:of-type`,`:in`,`:not-in`,`:text`|exact match search|
 |Number                    |`:missing`                         |implicit range search (see http://hl7.org/fhir/R4/search.html#number)|
 |Date                      |`:missing`                         |implicit range search (see https://www.hl7.org/fhir/search.html#date)|
 |Quantity                  |`:missing`                         |implicit range search (see http://hl7.org/fhir/R4/search.html#quantity)|
@@ -172,7 +172,7 @@ FHIR search modifiers are described at https://www.hl7.org/fhir/R4/search.html#m
 
 Due to performance implications, the `:exact` modifier should be used for String search parameters when possible.
 
-The `:text`, `:above`, and `:below` modifiers for Token search parameters are not yet supported by the IBM FHIR server. Use of these modifiers will result in an HTTP 400 error with an OperationOutcome that describes the failure.
+The `:above`, and `:below` modifiers for Token search parameters are not yet supported by the IBM FHIR server. Use of these modifiers will result in an HTTP 400 error with an OperationOutcome that describes the failure.
 
 The `:in` and `:not-in` modifiers for Token search parameters are supported, with the following restrictions:
 * The search parameter value must be an absolute URI that identifies a value set.
