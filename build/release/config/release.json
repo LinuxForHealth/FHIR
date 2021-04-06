@@ -1,0 +1,59 @@
+{
+    "maven": [
+        {
+            "comment": "Enables Retry to the Maven repositories",
+            "setting": "-Dmaven.wagon.http.retryHandler.count=3"
+        },
+        {
+            "comment": "Run with two cores",
+            "setting": "-T2c"
+        },
+        {
+            "comment": "Run with more memory",
+            "setting": "-Xms2G -Xmx1G"
+        },
+        {
+            "comment": "No transfer progress and colorless",
+            "setting": "-ntp -B"
+        },
+        {
+            "comment": "Point to settings file",
+            "setting": "-S build/release/config/settings.xml"
+        },
+        {
+            "comment": "Set as Headless",
+            "setting": "-Djava.awt.headless=true "
+        }
+    ],
+    "java": {
+        "JAVA_HOME": "/opt/hostedtoolcache/AdoptOpenJDK/1.0.0-ga-11-jdk-hotspot-linux-x64-normal-latest/x64"
+    },
+    "build": [
+        {
+            "type": "fhir-examples", 
+            "profiles": [
+                "generate-javadocs",
+                "build-and-sign-artifact"
+            ]
+        }
+    ],
+    "buildx":[
+        "build-artifact",
+        "deploy-to-mc",
+        "fhir-javadocs",
+        "fhir-validation-distribution",
+        "fhir-ig-carin-bb",
+        "fhir-ig-davinci-pdex-formulary",
+        "fhir-ig-davinci-pdex-plan-net",
+        "fhir-ig-davinci-hrex",
+        "fhir-ig-davinci-pdex",
+        "fhir-ig-mcode",
+        "fhir-ig-us-core",
+        "fhir-term",
+        "integration",
+        "model-all-tests",
+        "validation-all-tests",
+        "search-all-tests",
+        "jdbc-all-tests"
+    ]
+}
