@@ -18,7 +18,7 @@ mkdir -p .mvn/
 echo "${TMP_MAVEN_OPTS}" > .mvn/maven.config
 
 # jvm.config
-export TMP_MAVEN_JVM_OPTS=" $(jq -r '.maven-jvm | map(.setting)| join(" ")' build/release/config/release.json)"
+export TMP_MAVEN_JVM_OPTS=" $(jq -r '.maven_jvm | map(.setting)| join(" ")' build/release/config/release.json)"
 echo "Working with the configuration: ${TMP_MAVEN_JVM_OPTS}"
 echo "${TMP_MAVEN_JVM_OPTS}" > .mvn/jvm.config
 
