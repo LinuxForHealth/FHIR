@@ -19,16 +19,15 @@ mvn install source:jar source:test-jar javadoc:jar gpg:sign -f fhir-examples \
         -f fhir-examples -P "${BUILD_PROFILES}" -DskipTests
 
 # fhir-tools
-export BUILD_PROFILES=" $(jq -r '.build | map(.)| join(",")' build/release/config/release.json)"
-mvn install source:jar source:test-jar javadoc:jar \
+export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-tools").profiles | map(.) | join(",")' build/release/config/release.json)"
+mvn install source:jar source:test-jar javadoc:jar gpg:sign -f fhir-examples \
         -DadditionalJOption=-Xdoclint:none \
-        gpg:sign -Dgpg.passphrase="${FHIR_GPG_PASSPHRASE}" -Dgpg.defaultKeyring=false -Dgpg.keyname="${FHIR_GPG_KEYNAME}" \
         -f fhir-tools -P "${BUILD_PROFILES}" -DskipTests
 
 # fhir-parent
-mvn install source:jar source:test-jar javadoc:jar \
+export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-parent").profiles | map(.) | join(",")' build/release/config/release.json)"
+mvn install source:jar source:test-jar javadoc:jar gpg:sign -f fhir-examples \
         -DadditionalJOption=-Xdoclint:none \
-        gpg:sign -Dgpg.passphrase="${FHIR_GPG_PASSPHRASE}" -Dgpg.defaultKeyring=false -Dgpg.keyname="${FHIR_GPG_KEYNAME}" \
-        -f fhir-parent -P "${BUILD_PROFILES}" -DskipTests 
+        -f fhir-parent -P "${BUILD_PROFILES}" -DskipTests
 
 # EOF

@@ -44,25 +44,36 @@
                 "sign-artifact",
                 "build-artifact"
             ]
+        },
+        {
+            "type": "fhir-tools", 
+            "profiles": [
+                "generate-javadocs",
+                "sign-artifact",
+                "build-artifact"
+            ]
+        },
+        {
+            "type": "fhir-parent", 
+            "profiles": [
+                "generate-javadocs",
+                "sign-artifact",
+                "build-artifact",
+                "fhir-validation-distribution",
+                "fhir-ig-carin-bb",
+                "fhir-ig-davinci-pdex-formulary",
+                "fhir-ig-davinci-pdex-plan-net",
+                "fhir-ig-davinci-hrex",
+                "fhir-ig-davinci-pdex",
+                "fhir-ig-mcode",
+                "fhir-ig-us-core",
+                "fhir-term",
+                "integration",
+                "model-all-tests",
+                "validation-all-tests",
+                "search-all-tests",
+                "jdbc-all-tests"
+            ]
         }
-    ],
-    "buildx":[
-        "build-artifact",
-        "deploy-to-mc",
-        "fhir-javadocs",
-        "fhir-validation-distribution",
-        "fhir-ig-carin-bb",
-        "fhir-ig-davinci-pdex-formulary",
-        "fhir-ig-davinci-pdex-plan-net",
-        "fhir-ig-davinci-hrex",
-        "fhir-ig-davinci-pdex",
-        "fhir-ig-mcode",
-        "fhir-ig-us-core",
-        "fhir-term",
-        "integration",
-        "model-all-tests",
-        "validation-all-tests",
-        "search-all-tests",
-        "jdbc-all-tests"
     ]
 }
