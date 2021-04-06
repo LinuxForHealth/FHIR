@@ -34,6 +34,8 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
 import com.ibm.fhir.core.FHIRConstants;
+import com.ibm.fhir.model.resource.CodeSystem;
+import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.SearchParameter.Component;
@@ -74,6 +76,7 @@ import com.ibm.fhir.search.reference.value.CompartmentReference;
 import com.ibm.fhir.search.sort.Sort;
 import com.ibm.fhir.search.uri.UriBuilder;
 import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
+import com.ibm.fhir.term.util.CodeSystemSupport;
 import com.ibm.fhir.term.util.ValueSetSupport;
 
 /**
@@ -1336,6 +1339,30 @@ public class SearchUtil {
                         throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
                     }
                     parameterValue.setValueCode(unescapeSearchParm(v));
+                } else if (Modifier.ABOVE.equals(modifier) || Modifier.BELOW.equals(modifier)) {
+                    // Validate that the parameter value is a system+code
+                    if (parts.length != 2) {
+                        String msg = "Search parameter '" + searchParameter.getCode().getValue() + "' with modifier ':" + modifier.value() +
+                                "' requires a system and code";
+                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                    }
+                    // Validate that the system value is a URL that points to a registered CodeSystem.
+                    CodeSystem codeSystem = CodeSystemSupport.getCodeSystem(parts[0]);
+                    if (codeSystem == null) {
+                        String msg = "CodeSystem '" + parts[0] + "' specified for search parameter '" + searchParameter.getCode().getValue() +
+                                "' with modifier ':" + modifier.value() + "' could not be found";
+                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                    }
+                    // Validate that the code exists in the code system
+                    Code code = Code.builder().value(parts[1]).build();
+                    Concept concept = CodeSystemSupport.findConcept(codeSystem, code);
+                    if (concept == null) {
+                        String msg = "Code '" + parts[1] + "' specified for search parameter '" + searchParameter.getCode().getValue() +
+                                "' with modifier ':" + modifier.value() + "' does not exist in CodeSystem '" + parts[0] + "'";
+                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                    }
+                    parameterValue.setValueSystem(unescapeSearchParm(parts[0]));
+                    parameterValue.setValueCode(unescapeSearchParm(parts[1]));
                 } else if (Modifier.TEXT.equals(modifier)) {
                     parameterValue.setValueCode(unescapeSearchParm(v));
                 } else if (parts.length == 2) {

@@ -62,7 +62,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.Location;
+import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
@@ -90,6 +92,7 @@ import com.ibm.fhir.search.parameters.InclusionParameter;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.term.util.CodeSystemSupport;
 import com.ibm.fhir.term.util.ValueSetSupport;
 
 /**
@@ -1234,8 +1237,9 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
                 whereClauseSegment.append(LEFT_PAREN);
 
-                if (Modifier.IN.equals(queryParm.getModifier()) || Modifier.NOT_IN.equals(queryParm.getModifier())) {
-                    populateValueSetCodesSubSegment(whereClauseSegment, value.getValueCode(), tableAlias);
+                if (Modifier.IN.equals(queryParm.getModifier()) || Modifier.NOT_IN.equals(queryParm.getModifier()) ||
+                        Modifier.ABOVE.equals(queryParm.getModifier()) || Modifier.BELOW.equals(queryParm.getModifier())) {
+                    populateValueSetCodesSubSegment(whereClauseSegment, queryParm.getModifier(), value, tableAlias);
                 } else {
                     // Include code
                     whereClauseSegment.append(tableAlias + DOT).append(TOKEN_VALUE).append(operator).append(BIND_VAR);
@@ -1970,15 +1974,16 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
     /**
      * Populates an IN clause with value set codes for a token search parameter specifying the
-     * :in or :not-in modifier.
+     * :in, :not-in, :above, or :below modifier.
      *
      * @param whereClauseSegment  - the segment to which the sub-segment will be added
-     * @param parameterValue      - the search parameter value - a ValueSet URL
+     * @param modifier            - the query parameters modifier (:in | :not-in | :above | :below)
+     * @param parameterValue      - the search parameter value - a ValueSet URL or a CodeSystem URL + code
      * @param parameterTableAlias - the alias for the parameter table e.g. CPx
      * @throws FHIRPersistenceException
      */
-    private void populateValueSetCodesSubSegment(StringBuilder whereClauseSegment, String parameterValue,
-            String parameterTableAlias) throws FHIRPersistenceException {
+    private void populateValueSetCodesSubSegment(StringBuilder whereClauseSegment, Modifier modifier,
+            QueryParameterValue parameterValue, String parameterTableAlias) throws FHIRPersistenceException {
         final String METHODNAME = "populateValueSetCodesSubSegment";
         log.entering(CLASSNAME, METHODNAME, parameterValue);
 
@@ -1986,9 +1991,25 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         String codeSystemIdPredicateString = parameterTableAlias + DOT + CODE_SYSTEM_ID + EQ;
         boolean codeSystemProcessed = false;
 
-        // Note: validation that the value set exists and is expandable was done when the
-        // search parameter was parsed, so does not need to be done here.
-        Map<String, Set<String>> codeSetMap = ValueSetSupport.getCodeSetMap(ValueSetSupport.getValueSet(parameterValue));
+        // Get the codes to populate the IN clause.
+        // Note: validation of the value set or the code system + code specified in parameterValue
+        // was done when the search parameter was parsed, so does not need to be done here.
+        Map<String, Set<String>> codeSetMap = null;
+        if (Modifier.IN.equals(modifier) || Modifier.NOT_IN.equals(modifier)) {
+            codeSetMap = ValueSetSupport.getCodeSetMap(ValueSetSupport.getValueSet(parameterValue.getValueCode()));
+        } else if (Modifier.ABOVE.equals(modifier) || Modifier.BELOW.equals(modifier)) {
+            CodeSystem codeSystem = CodeSystemSupport.getCodeSystem(parameterValue.getValueSystem());
+            Code code = Code.builder().value(parameterValue.getValueCode()).build();
+            Set<String> codes;
+            if (Modifier.ABOVE.equals(modifier)) {
+                codes = CodeSystemSupport.getAncestorsAndSelf(codeSystem, code);
+            } else {
+                codes = CodeSystemSupport.getDescendantsAndSelf(codeSystem, code);
+            }
+            codeSetMap = Collections.singletonMap(parameterValue.getValueSystem(), codes);
+        }
+
+        // Build the SQL
         for (String codeSetUrl : codeSetMap.keySet()) {
             Set<String> codes = codeSetMap.get(codeSetUrl);
             if (codes != null) {
@@ -2003,7 +2024,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     whereClauseSegment.append(OR);
                 }
 
-                // TODO: investigate if we can use COMMON_TOKEN_VALUES support
+                // TODO: switch to use COMMON_TOKEN_VALUES support -dependent on issue #2184
 
                 // <parameterTableAlias>.TOKEN_VALUE IN (...)
                 whereClauseSegment.append(tokenValuePredicateString)
