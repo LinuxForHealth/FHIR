@@ -722,11 +722,11 @@ public abstract class FHIRTermServiceProviderTest {
     public void testClosure1() {
         Set<Concept> concepts = provider.closure(codeSystem, Code.of("d"));
 
-        List<String> actual = concepts.stream()
+        Set<String> actual = concepts.stream()
                 .map(concept -> concept.getCode().getValue())
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
 
-        List<String> expected = Arrays.asList("d", "q", "r", "s");
+        Set<String> expected = new HashSet<>(Arrays.asList("d", "q", "r", "s"));
 
         Assert.assertEquals(actual, expected);
     }
@@ -738,17 +738,17 @@ public abstract class FHIRTermServiceProviderTest {
 
         Map<Code, Set<Concept>> closureMap = provider.closure(codeSystem, new HashSet<>(Arrays.asList(code1, code2)));
 
-        List<String> actual1 = closureMap.get(code1).stream()
+        Set<String> actual1 = closureMap.get(code1).stream()
                 .map(concept -> concept.getCode().getValue())
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
 
-        List<String> expected1 = Arrays.asList("c", "o", "p");
+        Set<String> expected1 = new HashSet<>(Arrays.asList("c", "o", "p"));
 
-        List<String> actual2 = closureMap.get(code2).stream()
+        Set<String> actual2 = closureMap.get(code2).stream()
                 .map(concept -> concept.getCode().getValue())
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
 
-        List<String> expected2 = Arrays.asList("d", "q", "r", "s");
+        Set<String> expected2 = new HashSet<>(Arrays.asList("d", "q", "r", "s"));
 
         Assert.assertEquals(actual1, expected1);
         Assert.assertEquals(actual2, expected2);
