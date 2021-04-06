@@ -41,6 +41,7 @@
             "type": "fhir-examples", 
             "profiles": [
                 "generate-javadocs",
+                "sign-artifact",
                 "build-and-sign-artifact"
             ]
         }
