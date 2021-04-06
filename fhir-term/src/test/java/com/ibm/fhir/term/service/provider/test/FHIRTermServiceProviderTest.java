@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -715,5 +716,41 @@ public abstract class FHIRTermServiceProviderTest {
     public void testHasConcept() {
         Assert.assertTrue(provider.hasConcept(codeSystem, Code.of("a")));
         Assert.assertFalse(provider.hasConcept(codeSystem, Code.of("zzz")));
+    }
+
+    @Test
+    public void testClosure1() {
+        Set<Concept> concepts = provider.closure(codeSystem, Code.of("d"));
+
+        List<String> actual = concepts.stream()
+                .map(concept -> concept.getCode().getValue())
+                .collect(Collectors.toList());
+
+        List<String> expected = Arrays.asList("d", "q", "r", "s");
+
+        Assert.assertEquals(actual, expected);
+    }
+
+    @Test
+    public void testClosure2() {
+        Code code1 = Code.of("c");
+        Code code2 = Code.of("d");
+
+        Map<Code, Set<Concept>> closureMap = provider.closure(codeSystem, new HashSet<>(Arrays.asList(code1, code2)));
+
+        List<String> actual1 = closureMap.get(code1).stream()
+                .map(concept -> concept.getCode().getValue())
+                .collect(Collectors.toList());
+
+        List<String> expected1 = Arrays.asList("c", "o", "p");
+
+        List<String> actual2 = closureMap.get(code2).stream()
+                .map(concept -> concept.getCode().getValue())
+                .collect(Collectors.toList());
+
+        List<String> expected2 = Arrays.asList("d", "q", "r", "s");
+
+        Assert.assertEquals(actual1, expected1);
+        Assert.assertEquals(actual2, expected2);
     }
 }

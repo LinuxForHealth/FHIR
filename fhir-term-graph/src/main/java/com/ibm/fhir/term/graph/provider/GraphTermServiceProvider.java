@@ -20,6 +20,7 @@ import static java.util.Objects.requireNonNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -113,6 +114,16 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         checkTimeLimit(timeLimitStep);
 
         return concepts;
+    }
+
+    @Override
+    public Map<Code, Set<Concept>> closure(CodeSystem codeSystem, Set<Code> codes) {
+        Map<Code, Set<Concept>> result = new LinkedHashMap<>();
+        for (Code code : codes) {
+            Set<Concept> closure = closure(codeSystem, code);
+            result.put(code, closure);
+        }
+        return result;
     }
 
     @Override

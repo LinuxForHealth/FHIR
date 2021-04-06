@@ -7,6 +7,7 @@
 package com.ibm.fhir.term.spi;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.ibm.fhir.model.resource.CodeSystem;
@@ -27,6 +28,19 @@ public interface FHIRTermServiceProvider {
      *     flattened set of Concept instances for the given tree
      */
     Set<Concept> closure(CodeSystem codeSystem, Code code);
+
+    /**
+     * Get a map of sets containing {@link CodeSystem.Concept} instances where all structural
+     * hierarchies have been flattened
+     *
+     * @param codeSystem
+     *     the code system
+     * @param codes
+     *     the set of roots of hierarchies containing the Concept instances to be flattened
+     * @return
+     *     a map containing flattened sets of Concept instances for the given trees
+     */
+    Map<Code, Set<Concept>> closure(CodeSystem codeSystem, Set<Code> codes);
 
     /**
      * Get the concept in the provided code system with the specified code.
