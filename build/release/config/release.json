@@ -29,7 +29,7 @@
     "maven_jvm": [
         {
             "comment": "Run with more memory",
-            "setting": "-Xms2G -Xmx1G",
+            "setting": "-Xms1G -Xmx2G",
             "type": "jvm"
         }
     ],
