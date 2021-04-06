@@ -182,7 +182,7 @@
                                     <goal>javadoc-no-fork</goal>
                                     <goal>test-javadoc-no-fork</goal>
                                 </goals>
-                                <phase>site</phase>
+                                <phase>package</phase>
                             </execution>
                         </executions>
                     </plugin>
@@ -231,6 +231,7 @@
                         <executions>
                             <execution>
                                 <id>attach-sources</id>
+                                <phase>package</phase>
                                 <goals>
                                     <goal>jar-no-fork</goal>
                                 </goals>
