@@ -256,7 +256,7 @@
                                 <gpgArgument>--yes</gpgArgument>
                                 <gpgArgument>--no-tty</gpgArgument>
                                 <gpgArgument>--lock-never</gpgArgument>
-                                <gpgArgument>--passphrase ${env.GPG_PASSPHRASE}</gpgArgument>
+                                <gpgArgument>--passphrase-fd passwd-gpg</gpgArgument>
                                 <gpgArgument>--passphrase-repeat 0</gpgArgument>
                                 <gpgArgument>--pinentry-mode loopback</gpgArgument>
                             </gpgArguments>
