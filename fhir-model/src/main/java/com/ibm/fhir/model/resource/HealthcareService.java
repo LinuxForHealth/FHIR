@@ -160,30 +160,30 @@ public class HealthcareService extends DomainResource {
 
     private HealthcareService(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         active = builder.active;
         providedBy = builder.providedBy;
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
-        type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
-        specialty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialty, "specialty"));
-        location = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.location, "location"));
+        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
+        type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
+        specialty = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialty, "specialty", CodeableConcept.class));
+        location = Collections.unmodifiableList(ValidationSupport.checkList(builder.location, "location", Reference.class));
         name = builder.name;
         comment = builder.comment;
         extraDetails = builder.extraDetails;
         photo = builder.photo;
-        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
-        coverageArea = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.coverageArea, "coverageArea"));
-        serviceProvisionCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.serviceProvisionCode, "serviceProvisionCode"));
-        eligibility = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.eligibility, "eligibility"));
-        program = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.program, "program"));
-        characteristic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.characteristic, "characteristic"));
-        communication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communication, "communication"));
-        referralMethod = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referralMethod, "referralMethod"));
+        telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
+        coverageArea = Collections.unmodifiableList(ValidationSupport.checkList(builder.coverageArea, "coverageArea", Reference.class));
+        serviceProvisionCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.serviceProvisionCode, "serviceProvisionCode", CodeableConcept.class));
+        eligibility = Collections.unmodifiableList(ValidationSupport.checkList(builder.eligibility, "eligibility", Eligibility.class));
+        program = Collections.unmodifiableList(ValidationSupport.checkList(builder.program, "program", CodeableConcept.class));
+        characteristic = Collections.unmodifiableList(ValidationSupport.checkList(builder.characteristic, "characteristic", CodeableConcept.class));
+        communication = Collections.unmodifiableList(ValidationSupport.checkList(builder.communication, "communication", CodeableConcept.class));
+        referralMethod = Collections.unmodifiableList(ValidationSupport.checkList(builder.referralMethod, "referralMethod", CodeableConcept.class));
         appointmentRequired = builder.appointmentRequired;
-        availableTime = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.availableTime, "availableTime"));
-        notAvailable = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.notAvailable, "notAvailable"));
+        availableTime = Collections.unmodifiableList(ValidationSupport.checkList(builder.availableTime, "availableTime", AvailableTime.class));
+        notAvailable = Collections.unmodifiableList(ValidationSupport.checkList(builder.notAvailable, "notAvailable", NotAvailable.class));
         availabilityExceptions = builder.availabilityExceptions;
-        endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
+        endpoint = Collections.unmodifiableList(ValidationSupport.checkList(builder.endpoint, "endpoint", Reference.class));
         ValidationSupport.checkValueSetBinding(communication, "communication", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
         ValidationSupport.checkReferenceType(providedBy, "providedBy", "Organization");
         ValidationSupport.checkReferenceType(location, "location", "Location");
@@ -1865,7 +1865,7 @@ public class HealthcareService extends DomainResource {
 
         private AvailableTime(Builder builder) {
             super(builder);
-            daysOfWeek = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.daysOfWeek, "daysOfWeek"));
+            daysOfWeek = Collections.unmodifiableList(ValidationSupport.checkList(builder.daysOfWeek, "daysOfWeek", DaysOfWeek.class));
             allDay = builder.allDay;
             availableStartTime = builder.availableStartTime;
             availableEndTime = builder.availableEndTime;

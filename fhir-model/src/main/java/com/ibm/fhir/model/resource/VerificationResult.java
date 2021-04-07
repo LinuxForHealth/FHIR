@@ -156,20 +156,20 @@ public class VerificationResult extends DomainResource {
 
     private VerificationResult(Builder builder) {
         super(builder);
-        target = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.target, "target"));
-        targetLocation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.targetLocation, "targetLocation"));
+        target = Collections.unmodifiableList(ValidationSupport.checkList(builder.target, "target", Reference.class));
+        targetLocation = Collections.unmodifiableList(ValidationSupport.checkList(builder.targetLocation, "targetLocation", String.class));
         need = builder.need;
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusDate = builder.statusDate;
         validationType = builder.validationType;
-        validationProcess = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.validationProcess, "validationProcess"));
+        validationProcess = Collections.unmodifiableList(ValidationSupport.checkList(builder.validationProcess, "validationProcess", CodeableConcept.class));
         frequency = builder.frequency;
         lastPerformed = builder.lastPerformed;
         nextScheduled = builder.nextScheduled;
         failureAction = builder.failureAction;
-        primarySource = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.primarySource, "primarySource"));
+        primarySource = Collections.unmodifiableList(ValidationSupport.checkList(builder.primarySource, "primarySource", PrimarySource.class));
         attestation = builder.attestation;
-        validator = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.validator, "validator"));
+        validator = Collections.unmodifiableList(ValidationSupport.checkList(builder.validator, "validator", Validator.class));
         ValidationSupport.requireChildren(this);
     }
 
@@ -1052,12 +1052,12 @@ public class VerificationResult extends DomainResource {
         private PrimarySource(Builder builder) {
             super(builder);
             who = builder.who;
-            type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
-            communicationMethod = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communicationMethod, "communicationMethod"));
+            type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
+            communicationMethod = Collections.unmodifiableList(ValidationSupport.checkList(builder.communicationMethod, "communicationMethod", CodeableConcept.class));
             validationStatus = builder.validationStatus;
             validationDate = builder.validationDate;
             canPushUpdates = builder.canPushUpdates;
-            pushTypeAvailable = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.pushTypeAvailable, "pushTypeAvailable"));
+            pushTypeAvailable = Collections.unmodifiableList(ValidationSupport.checkList(builder.pushTypeAvailable, "pushTypeAvailable", CodeableConcept.class));
             ValidationSupport.checkReferenceType(who, "who", "Organization", "Practitioner", "PractitionerRole");
             ValidationSupport.requireValueOrChildren(this);
         }

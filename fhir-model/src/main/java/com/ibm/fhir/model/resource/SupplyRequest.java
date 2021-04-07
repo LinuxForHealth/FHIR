@@ -124,19 +124,19 @@ public class SupplyRequest extends DomainResource {
 
     private SupplyRequest(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = builder.status;
         category = builder.category;
         priority = builder.priority;
         item = ValidationSupport.requireChoiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
         quantity = ValidationSupport.requireNonNull(builder.quantity, "quantity");
-        parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
+        parameter = Collections.unmodifiableList(ValidationSupport.checkList(builder.parameter, "parameter", Parameter.class));
         occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
         authoredOn = builder.authoredOn;
         requester = builder.requester;
-        supplier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supplier, "supplier"));
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+        supplier = Collections.unmodifiableList(ValidationSupport.checkList(builder.supplier, "supplier", Reference.class));
+        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
         deliverFrom = builder.deliverFrom;
         deliverTo = builder.deliverTo;
         ValidationSupport.checkReferenceType(item, "item", "Medication", "Substance", "Device");

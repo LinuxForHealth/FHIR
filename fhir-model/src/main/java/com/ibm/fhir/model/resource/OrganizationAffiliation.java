@@ -100,18 +100,18 @@ public class OrganizationAffiliation extends DomainResource {
 
     private OrganizationAffiliation(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         active = builder.active;
         period = builder.period;
         organization = builder.organization;
         participatingOrganization = builder.participatingOrganization;
-        network = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.network, "network"));
-        code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
-        specialty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialty, "specialty"));
-        location = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.location, "location"));
-        healthcareService = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.healthcareService, "healthcareService"));
-        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
-        endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
+        network = Collections.unmodifiableList(ValidationSupport.checkList(builder.network, "network", Reference.class));
+        code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", CodeableConcept.class));
+        specialty = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialty, "specialty", CodeableConcept.class));
+        location = Collections.unmodifiableList(ValidationSupport.checkList(builder.location, "location", Reference.class));
+        healthcareService = Collections.unmodifiableList(ValidationSupport.checkList(builder.healthcareService, "healthcareService", Reference.class));
+        telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
+        endpoint = Collections.unmodifiableList(ValidationSupport.checkList(builder.endpoint, "endpoint", Reference.class));
         ValidationSupport.checkReferenceType(organization, "organization", "Organization");
         ValidationSupport.checkReferenceType(participatingOrganization, "participatingOrganization", "Organization");
         ValidationSupport.checkReferenceType(network, "network", "Organization");

@@ -69,7 +69,7 @@ public class Address extends Element {
         use = builder.use;
         type = builder.type;
         text = builder.text;
-        line = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.line, "line"));
+        line = Collections.unmodifiableList(ValidationSupport.checkList(builder.line, "line", String.class));
         city = builder.city;
         district = builder.district;
         state = builder.state;

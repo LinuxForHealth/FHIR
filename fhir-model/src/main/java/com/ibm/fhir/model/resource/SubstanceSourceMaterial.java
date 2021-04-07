@@ -84,14 +84,14 @@ public class SubstanceSourceMaterial extends DomainResource {
         sourceMaterialState = builder.sourceMaterialState;
         organismId = builder.organismId;
         organismName = builder.organismName;
-        parentSubstanceId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parentSubstanceId, "parentSubstanceId"));
-        parentSubstanceName = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parentSubstanceName, "parentSubstanceName"));
-        countryOfOrigin = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.countryOfOrigin, "countryOfOrigin"));
-        geographicalLocation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.geographicalLocation, "geographicalLocation"));
+        parentSubstanceId = Collections.unmodifiableList(ValidationSupport.checkList(builder.parentSubstanceId, "parentSubstanceId", Identifier.class));
+        parentSubstanceName = Collections.unmodifiableList(ValidationSupport.checkList(builder.parentSubstanceName, "parentSubstanceName", String.class));
+        countryOfOrigin = Collections.unmodifiableList(ValidationSupport.checkList(builder.countryOfOrigin, "countryOfOrigin", CodeableConcept.class));
+        geographicalLocation = Collections.unmodifiableList(ValidationSupport.checkList(builder.geographicalLocation, "geographicalLocation", String.class));
         developmentStage = builder.developmentStage;
-        fractionDescription = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.fractionDescription, "fractionDescription"));
+        fractionDescription = Collections.unmodifiableList(ValidationSupport.checkList(builder.fractionDescription, "fractionDescription", FractionDescription.class));
         organism = builder.organism;
-        partDescription = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partDescription, "partDescription"));
+        partDescription = Collections.unmodifiableList(ValidationSupport.checkList(builder.partDescription, "partDescription", PartDescription.class));
         ValidationSupport.requireChildren(this);
     }
 
@@ -1254,7 +1254,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             species = builder.species;
             intraspecificType = builder.intraspecificType;
             intraspecificDescription = builder.intraspecificDescription;
-            author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
+            author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", Author.class));
             hybrid = builder.hybrid;
             organismGeneral = builder.organismGeneral;
             ValidationSupport.requireValueOrChildren(this);

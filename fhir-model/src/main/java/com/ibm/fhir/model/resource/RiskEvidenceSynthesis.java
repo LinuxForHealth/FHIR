@@ -219,28 +219,28 @@ public class RiskEvidenceSynthesis extends DomainResource {
     private RiskEvidenceSynthesis(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         version = builder.version;
         name = builder.name;
         title = builder.title;
         status = ValidationSupport.requireNonNull(builder.status, "status");
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.topic, "topic"));
-        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
-        editor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.editor, "editor"));
-        reviewer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reviewer, "reviewer"));
-        endorser = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endorser, "endorser"));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
+        topic = Collections.unmodifiableList(ValidationSupport.checkList(builder.topic, "topic", CodeableConcept.class));
+        author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", ContactDetail.class));
+        editor = Collections.unmodifiableList(ValidationSupport.checkList(builder.editor, "editor", ContactDetail.class));
+        reviewer = Collections.unmodifiableList(ValidationSupport.checkList(builder.reviewer, "reviewer", ContactDetail.class));
+        endorser = Collections.unmodifiableList(ValidationSupport.checkList(builder.endorser, "endorser", ContactDetail.class));
+        relatedArtifact = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class));
         synthesisType = builder.synthesisType;
         studyType = builder.studyType;
         population = ValidationSupport.requireNonNull(builder.population, "population");
@@ -248,7 +248,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
         outcome = ValidationSupport.requireNonNull(builder.outcome, "outcome");
         sampleSize = builder.sampleSize;
         riskEstimate = builder.riskEstimate;
-        certainty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.certainty, "certainty"));
+        certainty = Collections.unmodifiableList(ValidationSupport.checkList(builder.certainty, "certainty", Certainty.class));
         ValidationSupport.checkReferenceType(population, "population", "EvidenceVariable");
         ValidationSupport.checkReferenceType(exposure, "exposure", "EvidenceVariable");
         ValidationSupport.checkReferenceType(outcome, "outcome", "EvidenceVariable");
@@ -2112,7 +2112,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
             unitOfMeasure = builder.unitOfMeasure;
             denominatorCount = builder.denominatorCount;
             numeratorCount = builder.numeratorCount;
-            precisionEstimate = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.precisionEstimate, "precisionEstimate"));
+            precisionEstimate = Collections.unmodifiableList(ValidationSupport.checkList(builder.precisionEstimate, "precisionEstimate", PrecisionEstimate.class));
             ValidationSupport.checkValueSetBinding(unitOfMeasure, "unitOfMeasure", "http://hl7.org/fhir/ValueSet/ucum-units", "http://unitsofmeasure.org");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -2881,9 +2881,9 @@ public class RiskEvidenceSynthesis extends DomainResource {
 
         private Certainty(Builder builder) {
             super(builder);
-            rating = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.rating, "rating"));
-            note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-            certaintySubcomponent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.certaintySubcomponent, "certaintySubcomponent"));
+            rating = Collections.unmodifiableList(ValidationSupport.checkList(builder.rating, "rating", CodeableConcept.class));
+            note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+            certaintySubcomponent = Collections.unmodifiableList(ValidationSupport.checkList(builder.certaintySubcomponent, "certaintySubcomponent", CertaintySubcomponent.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -3246,8 +3246,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
             private CertaintySubcomponent(Builder builder) {
                 super(builder);
                 type = builder.type;
-                rating = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.rating, "rating"));
-                note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+                rating = Collections.unmodifiableList(ValidationSupport.checkList(builder.rating, "rating", CodeableConcept.class));
+                note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 

@@ -147,7 +147,7 @@ public class List extends DomainResource {
 
     private List(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         mode = ValidationSupport.requireNonNull(builder.mode, "mode");
         title = builder.title;
@@ -157,8 +157,8 @@ public class List extends DomainResource {
         date = builder.date;
         source = builder.source;
         orderedBy = builder.orderedBy;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        entry = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.entry, "entry"));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        entry = Collections.unmodifiableList(ValidationSupport.checkList(builder.entry, "entry", Entry.class));
         emptyReason = builder.emptyReason;
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Location");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");

@@ -114,19 +114,19 @@ public class Specimen extends DomainResource {
 
     private Specimen(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         accessionIdentifier = builder.accessionIdentifier;
         status = builder.status;
         type = builder.type;
         subject = builder.subject;
         receivedTime = builder.receivedTime;
-        parent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parent, "parent"));
-        request = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.request, "request"));
+        parent = Collections.unmodifiableList(ValidationSupport.checkList(builder.parent, "parent", Reference.class));
+        request = Collections.unmodifiableList(ValidationSupport.checkList(builder.request, "request", Reference.class));
         collection = builder.collection;
-        processing = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.processing, "processing"));
-        container = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.container, "container"));
-        condition = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.condition, "condition"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        processing = Collections.unmodifiableList(ValidationSupport.checkList(builder.processing, "processing", Processing.class));
+        container = Collections.unmodifiableList(ValidationSupport.checkList(builder.container, "container", Container.class));
+        condition = Collections.unmodifiableList(ValidationSupport.checkList(builder.condition, "condition", CodeableConcept.class));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Substance", "Location");
         ValidationSupport.checkReferenceType(parent, "parent", "Specimen");
         ValidationSupport.checkReferenceType(request, "request", "ServiceRequest");
@@ -1492,7 +1492,7 @@ public class Specimen extends DomainResource {
             super(builder);
             description = builder.description;
             procedure = builder.procedure;
-            additive = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additive, "additive"));
+            additive = Collections.unmodifiableList(ValidationSupport.checkList(builder.additive, "additive", Reference.class));
             time = ValidationSupport.choiceElement(builder.time, "time", DateTime.class, Period.class);
             ValidationSupport.checkReferenceType(additive, "additive", "Substance");
             ValidationSupport.requireValueOrChildren(this);
@@ -1872,7 +1872,7 @@ public class Specimen extends DomainResource {
 
         private Container(Builder builder) {
             super(builder);
-            identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+            identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
             description = builder.description;
             type = builder.type;
             capacity = builder.capacity;

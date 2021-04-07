@@ -148,30 +148,30 @@ public class MedicationDispense extends DomainResource {
 
     private MedicationDispense(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Reference.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusReason = ValidationSupport.choiceElement(builder.statusReason, "statusReason", CodeableConcept.class, Reference.class);
         category = builder.category;
         medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
         subject = builder.subject;
         context = builder.context;
-        supportingInformation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInformation, "supportingInformation"));
-        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
+        supportingInformation = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingInformation, "supportingInformation", Reference.class));
+        performer = Collections.unmodifiableList(ValidationSupport.checkList(builder.performer, "performer", Performer.class));
         location = builder.location;
-        authorizingPrescription = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.authorizingPrescription, "authorizingPrescription"));
+        authorizingPrescription = Collections.unmodifiableList(ValidationSupport.checkList(builder.authorizingPrescription, "authorizingPrescription", Reference.class));
         type = builder.type;
         quantity = builder.quantity;
         daysSupply = builder.daysSupply;
         whenPrepared = builder.whenPrepared;
         whenHandedOver = builder.whenHandedOver;
         destination = builder.destination;
-        receiver = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.receiver, "receiver"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        dosageInstruction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dosageInstruction, "dosageInstruction"));
+        receiver = Collections.unmodifiableList(ValidationSupport.checkList(builder.receiver, "receiver", Reference.class));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        dosageInstruction = Collections.unmodifiableList(ValidationSupport.checkList(builder.dosageInstruction, "dosageInstruction", Dosage.class));
         substitution = builder.substitution;
-        detectedIssue = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detectedIssue, "detectedIssue"));
-        eventHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.eventHistory, "eventHistory"));
+        detectedIssue = Collections.unmodifiableList(ValidationSupport.checkList(builder.detectedIssue, "detectedIssue", Reference.class));
+        eventHistory = Collections.unmodifiableList(ValidationSupport.checkList(builder.eventHistory, "eventHistory", Reference.class));
         ValidationSupport.checkReferenceType(partOf, "partOf", "Procedure");
         ValidationSupport.checkReferenceType(statusReason, "statusReason", "DetectedIssue");
         ValidationSupport.checkReferenceType(medication, "medication", "Medication");
@@ -1851,8 +1851,8 @@ public class MedicationDispense extends DomainResource {
             super(builder);
             wasSubstituted = ValidationSupport.requireNonNull(builder.wasSubstituted, "wasSubstituted");
             type = builder.type;
-            reason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reason, "reason"));
-            responsibleParty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.responsibleParty, "responsibleParty"));
+            reason = Collections.unmodifiableList(ValidationSupport.checkList(builder.reason, "reason", CodeableConcept.class));
+            responsibleParty = Collections.unmodifiableList(ValidationSupport.checkList(builder.responsibleParty, "responsibleParty", Reference.class));
             ValidationSupport.checkReferenceType(responsibleParty, "responsibleParty", "Practitioner", "PractitionerRole");
             ValidationSupport.requireValueOrChildren(this);
         }

@@ -198,7 +198,7 @@ public class Contract extends DomainResource {
 
     private Contract(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         url = builder.url;
         version = builder.version;
         status = builder.status;
@@ -209,27 +209,27 @@ public class Contract extends DomainResource {
         issued = builder.issued;
         applies = builder.applies;
         expirationType = builder.expirationType;
-        subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
-        authority = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.authority, "authority"));
-        domain = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.domain, "domain"));
-        site = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.site, "site"));
+        subject = Collections.unmodifiableList(ValidationSupport.checkList(builder.subject, "subject", Reference.class));
+        authority = Collections.unmodifiableList(ValidationSupport.checkList(builder.authority, "authority", Reference.class));
+        domain = Collections.unmodifiableList(ValidationSupport.checkList(builder.domain, "domain", Reference.class));
+        site = Collections.unmodifiableList(ValidationSupport.checkList(builder.site, "site", Reference.class));
         name = builder.name;
         title = builder.title;
         subtitle = builder.subtitle;
-        alias = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.alias, "alias"));
+        alias = Collections.unmodifiableList(ValidationSupport.checkList(builder.alias, "alias", String.class));
         author = builder.author;
         scope = builder.scope;
         topic = ValidationSupport.choiceElement(builder.topic, "topic", CodeableConcept.class, Reference.class);
         type = builder.type;
-        subType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subType, "subType"));
+        subType = Collections.unmodifiableList(ValidationSupport.checkList(builder.subType, "subType", CodeableConcept.class));
         contentDefinition = builder.contentDefinition;
-        term = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.term, "term"));
-        supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
-        relevantHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relevantHistory, "relevantHistory"));
-        signer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.signer, "signer"));
-        friendly = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.friendly, "friendly"));
-        legal = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.legal, "legal"));
-        rule = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.rule, "rule"));
+        term = Collections.unmodifiableList(ValidationSupport.checkList(builder.term, "term", Term.class));
+        supportingInfo = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingInfo, "supportingInfo", Reference.class));
+        relevantHistory = Collections.unmodifiableList(ValidationSupport.checkList(builder.relevantHistory, "relevantHistory", Reference.class));
+        signer = Collections.unmodifiableList(ValidationSupport.checkList(builder.signer, "signer", Signer.class));
+        friendly = Collections.unmodifiableList(ValidationSupport.checkList(builder.friendly, "friendly", Friendly.class));
+        legal = Collections.unmodifiableList(ValidationSupport.checkList(builder.legal, "legal", Legal.class));
+        rule = Collections.unmodifiableList(ValidationSupport.checkList(builder.rule, "rule", Rule.class));
         legallyBinding = ValidationSupport.choiceElement(builder.legallyBinding, "legallyBinding", Attachment.class, Reference.class);
         ValidationSupport.checkReferenceType(instantiatesCanonical, "instantiatesCanonical", "Contract");
         ValidationSupport.checkReferenceType(authority, "authority", "Organization");
@@ -2427,11 +2427,11 @@ public class Contract extends DomainResource {
             type = builder.type;
             subType = builder.subType;
             text = builder.text;
-            securityLabel = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabel, "securityLabel"));
+            securityLabel = Collections.unmodifiableList(ValidationSupport.checkList(builder.securityLabel, "securityLabel", SecurityLabel.class));
             offer = ValidationSupport.requireNonNull(builder.offer, "offer");
-            asset = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.asset, "asset"));
-            action = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.action, "action"));
-            group = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.group, "group"));
+            asset = Collections.unmodifiableList(ValidationSupport.checkList(builder.asset, "asset", Asset.class));
+            action = Collections.unmodifiableList(ValidationSupport.checkList(builder.action, "action", Action.class));
+            group = Collections.unmodifiableList(ValidationSupport.checkList(builder.group, "group", Contract.Term.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -3115,10 +3115,10 @@ public class Contract extends DomainResource {
 
             private SecurityLabel(Builder builder) {
                 super(builder);
-                number = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.number, "number"));
+                number = Collections.unmodifiableList(ValidationSupport.checkList(builder.number, "number", UnsignedInt.class));
                 classification = ValidationSupport.requireNonNull(builder.classification, "classification");
-                category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
-                control = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.control, "control"));
+                category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", Coding.class));
+                control = Collections.unmodifiableList(ValidationSupport.checkList(builder.control, "control", Coding.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -3537,16 +3537,16 @@ public class Contract extends DomainResource {
 
             private Offer(Builder builder) {
                 super(builder);
-                identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-                party = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.party, "party"));
+                identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+                party = Collections.unmodifiableList(ValidationSupport.checkList(builder.party, "party", Party.class));
                 topic = builder.topic;
                 type = builder.type;
                 decision = builder.decision;
-                decisionMode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.decisionMode, "decisionMode"));
-                answer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.answer, "answer"));
+                decisionMode = Collections.unmodifiableList(ValidationSupport.checkList(builder.decisionMode, "decisionMode", CodeableConcept.class));
+                answer = Collections.unmodifiableList(ValidationSupport.checkList(builder.answer, "answer", Answer.class));
                 text = builder.text;
-                linkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.linkId, "linkId"));
-                securityLabelNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabelNumber, "securityLabelNumber"));
+                linkId = Collections.unmodifiableList(ValidationSupport.checkList(builder.linkId, "linkId", String.class));
+                securityLabelNumber = Collections.unmodifiableList(ValidationSupport.checkList(builder.securityLabelNumber, "securityLabelNumber", UnsignedInt.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -4178,7 +4178,7 @@ public class Contract extends DomainResource {
 
                 private Party(Builder builder) {
                     super(builder);
-                    reference = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.reference, "reference"));
+                    reference = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.reference, "reference", Reference.class));
                     role = ValidationSupport.requireNonNull(builder.role, "role");
                     ValidationSupport.checkReferenceType(reference, "reference", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Group", "Organization");
                     ValidationSupport.requireValueOrChildren(this);
@@ -4797,20 +4797,20 @@ public class Contract extends DomainResource {
             private Asset(Builder builder) {
                 super(builder);
                 scope = builder.scope;
-                type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
-                typeReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.typeReference, "typeReference"));
-                subtype = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subtype, "subtype"));
+                type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
+                typeReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.typeReference, "typeReference", Reference.class));
+                subtype = Collections.unmodifiableList(ValidationSupport.checkList(builder.subtype, "subtype", CodeableConcept.class));
                 relationship = builder.relationship;
-                context = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.context, "context"));
+                context = Collections.unmodifiableList(ValidationSupport.checkList(builder.context, "context", Context.class));
                 condition = builder.condition;
-                periodType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.periodType, "periodType"));
-                period = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.period, "period"));
-                usePeriod = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.usePeriod, "usePeriod"));
+                periodType = Collections.unmodifiableList(ValidationSupport.checkList(builder.periodType, "periodType", CodeableConcept.class));
+                period = Collections.unmodifiableList(ValidationSupport.checkList(builder.period, "period", Period.class));
+                usePeriod = Collections.unmodifiableList(ValidationSupport.checkList(builder.usePeriod, "usePeriod", Period.class));
                 text = builder.text;
-                linkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.linkId, "linkId"));
-                answer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.answer, "answer"));
-                securityLabelNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabelNumber, "securityLabelNumber"));
-                valuedItem = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.valuedItem, "valuedItem"));
+                linkId = Collections.unmodifiableList(ValidationSupport.checkList(builder.linkId, "linkId", String.class));
+                answer = Collections.unmodifiableList(ValidationSupport.checkList(builder.answer, "answer", Contract.Term.Offer.Answer.class));
+                securityLabelNumber = Collections.unmodifiableList(ValidationSupport.checkList(builder.securityLabelNumber, "securityLabelNumber", UnsignedInt.class));
+                valuedItem = Collections.unmodifiableList(ValidationSupport.checkList(builder.valuedItem, "valuedItem", ValuedItem.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -5691,7 +5691,7 @@ public class Contract extends DomainResource {
                 private Context(Builder builder) {
                     super(builder);
                     reference = builder.reference;
-                    code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
+                    code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", CodeableConcept.class));
                     text = builder.text;
                     ValidationSupport.requireValueOrChildren(this);
                 }
@@ -6031,8 +6031,8 @@ public class Contract extends DomainResource {
                     paymentDate = builder.paymentDate;
                     responsible = builder.responsible;
                     recipient = builder.recipient;
-                    linkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.linkId, "linkId"));
-                    securityLabelNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabelNumber, "securityLabelNumber"));
+                    linkId = Collections.unmodifiableList(ValidationSupport.checkList(builder.linkId, "linkId", String.class));
+                    securityLabelNumber = Collections.unmodifiableList(ValidationSupport.checkList(builder.securityLabelNumber, "securityLabelNumber", UnsignedInt.class));
                     ValidationSupport.checkReferenceType(responsible, "responsible", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
                     ValidationSupport.checkReferenceType(recipient, "recipient", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
                     ValidationSupport.requireValueOrChildren(this);
@@ -6800,25 +6800,25 @@ public class Contract extends DomainResource {
                 super(builder);
                 doNotPerform = builder.doNotPerform;
                 type = ValidationSupport.requireNonNull(builder.type, "type");
-                subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
+                subject = Collections.unmodifiableList(ValidationSupport.checkList(builder.subject, "subject", Subject.class));
                 intent = ValidationSupport.requireNonNull(builder.intent, "intent");
-                linkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.linkId, "linkId"));
+                linkId = Collections.unmodifiableList(ValidationSupport.checkList(builder.linkId, "linkId", String.class));
                 status = ValidationSupport.requireNonNull(builder.status, "status");
                 context = builder.context;
-                contextLinkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contextLinkId, "contextLinkId"));
+                contextLinkId = Collections.unmodifiableList(ValidationSupport.checkList(builder.contextLinkId, "contextLinkId", String.class));
                 occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
-                requester = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.requester, "requester"));
-                requesterLinkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.requesterLinkId, "requesterLinkId"));
-                performerType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performerType, "performerType"));
+                requester = Collections.unmodifiableList(ValidationSupport.checkList(builder.requester, "requester", Reference.class));
+                requesterLinkId = Collections.unmodifiableList(ValidationSupport.checkList(builder.requesterLinkId, "requesterLinkId", String.class));
+                performerType = Collections.unmodifiableList(ValidationSupport.checkList(builder.performerType, "performerType", CodeableConcept.class));
                 performerRole = builder.performerRole;
                 performer = builder.performer;
-                performerLinkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performerLinkId, "performerLinkId"));
-                reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-                reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-                reason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reason, "reason"));
-                reasonLinkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonLinkId, "reasonLinkId"));
-                note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-                securityLabelNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabelNumber, "securityLabelNumber"));
+                performerLinkId = Collections.unmodifiableList(ValidationSupport.checkList(builder.performerLinkId, "performerLinkId", String.class));
+                reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
+                reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
+                reason = Collections.unmodifiableList(ValidationSupport.checkList(builder.reason, "reason", String.class));
+                reasonLinkId = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonLinkId, "reasonLinkId", String.class));
+                note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+                securityLabelNumber = Collections.unmodifiableList(ValidationSupport.checkList(builder.securityLabelNumber, "securityLabelNumber", UnsignedInt.class));
                 ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
                 ValidationSupport.checkReferenceType(requester, "requester", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Group", "Organization");
                 ValidationSupport.checkReferenceType(performer, "performer", "RelatedPerson", "Patient", "Practitioner", "PractitionerRole", "CareTeam", "Device", "Substance", "Organization", "Location");
@@ -8017,7 +8017,7 @@ public class Contract extends DomainResource {
 
                 private Subject(Builder builder) {
                     super(builder);
-                    reference = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.reference, "reference"));
+                    reference = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.reference, "reference", Reference.class));
                     role = builder.role;
                     ValidationSupport.checkReferenceType(reference, "reference", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Group", "Organization");
                     ValidationSupport.requireValueOrChildren(this);
@@ -8347,7 +8347,7 @@ public class Contract extends DomainResource {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
             party = ValidationSupport.requireNonNull(builder.party, "party");
-            signature = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.signature, "signature"));
+            signature = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.signature, "signature", Signature.class));
             ValidationSupport.checkReferenceType(party, "party", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
             ValidationSupport.requireValueOrChildren(this);
         }

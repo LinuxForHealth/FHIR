@@ -42,7 +42,7 @@ public class ProductShelfLife extends BackboneElement {
         identifier = builder.identifier;
         type = ValidationSupport.requireNonNull(builder.type, "type");
         period = ValidationSupport.requireNonNull(builder.period, "period");
-        specialPrecautionsForStorage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialPrecautionsForStorage, "specialPrecautionsForStorage"));
+        specialPrecautionsForStorage = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialPrecautionsForStorage, "specialPrecautionsForStorage", CodeableConcept.class));
         ValidationSupport.requireValueOrChildren(this);
     }
 

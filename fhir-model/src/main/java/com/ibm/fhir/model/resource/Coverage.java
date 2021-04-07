@@ -147,7 +147,7 @@ public class Coverage extends DomainResource {
 
     private Coverage(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         type = builder.type;
         policyHolder = builder.policyHolder;
@@ -157,13 +157,13 @@ public class Coverage extends DomainResource {
         dependent = builder.dependent;
         relationship = builder.relationship;
         period = builder.period;
-        payor = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.payor, "payor"));
-        clazz = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.clazz, "class"));
+        payor = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.payor, "payor", Reference.class));
+        clazz = Collections.unmodifiableList(ValidationSupport.checkList(builder.clazz, "class", Class.class));
         order = builder.order;
         network = builder.network;
-        costToBeneficiary = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.costToBeneficiary, "costToBeneficiary"));
+        costToBeneficiary = Collections.unmodifiableList(ValidationSupport.checkList(builder.costToBeneficiary, "costToBeneficiary", CostToBeneficiary.class));
         subrogation = builder.subrogation;
-        contract = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contract, "contract"));
+        contract = Collections.unmodifiableList(ValidationSupport.checkList(builder.contract, "contract", Reference.class));
         ValidationSupport.checkReferenceType(policyHolder, "policyHolder", "Patient", "RelatedPerson", "Organization");
         ValidationSupport.checkReferenceType(subscriber, "subscriber", "Patient", "RelatedPerson");
         ValidationSupport.checkReferenceType(beneficiary, "beneficiary", "Patient");
@@ -1494,7 +1494,7 @@ public class Coverage extends DomainResource {
             super(builder);
             type = builder.type;
             value = ValidationSupport.requireChoiceElement(builder.value, "value", SimpleQuantity.class, Money.class);
-            exception = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.exception, "exception"));
+            exception = Collections.unmodifiableList(ValidationSupport.checkList(builder.exception, "exception", Exception.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

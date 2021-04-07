@@ -143,15 +143,15 @@ public class CarePlan extends DomainResource {
 
     private CarePlan(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesCanonical, "instantiatesCanonical"));
-        instantiatesUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesUri, "instantiatesUri"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        replaces = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.replaces, "replaces"));
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesCanonical, "instantiatesCanonical", Canonical.class));
+        instantiatesUri = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesUri, "instantiatesUri", Uri.class));
+        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
+        replaces = Collections.unmodifiableList(ValidationSupport.checkList(builder.replaces, "replaces", Reference.class));
+        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Reference.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         intent = ValidationSupport.requireNonNull(builder.intent, "intent");
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
         title = builder.title;
         description = builder.description;
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
@@ -159,13 +159,13 @@ public class CarePlan extends DomainResource {
         period = builder.period;
         created = builder.created;
         author = builder.author;
-        contributor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contributor, "contributor"));
-        careTeam = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.careTeam, "careTeam"));
-        addresses = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.addresses, "addresses"));
-        supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
-        goal = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.goal, "goal"));
-        activity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.activity, "activity"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        contributor = Collections.unmodifiableList(ValidationSupport.checkList(builder.contributor, "contributor", Reference.class));
+        careTeam = Collections.unmodifiableList(ValidationSupport.checkList(builder.careTeam, "careTeam", Reference.class));
+        addresses = Collections.unmodifiableList(ValidationSupport.checkList(builder.addresses, "addresses", Reference.class));
+        supportingInfo = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingInfo, "supportingInfo", Reference.class));
+        goal = Collections.unmodifiableList(ValidationSupport.checkList(builder.goal, "goal", Reference.class));
+        activity = Collections.unmodifiableList(ValidationSupport.checkList(builder.activity, "activity", Activity.class));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
         ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan");
         ValidationSupport.checkReferenceType(replaces, "replaces", "CarePlan");
         ValidationSupport.checkReferenceType(partOf, "partOf", "CarePlan");
@@ -1602,9 +1602,9 @@ public class CarePlan extends DomainResource {
 
         private Activity(Builder builder) {
             super(builder);
-            outcomeCodeableConcept = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.outcomeCodeableConcept, "outcomeCodeableConcept"));
-            outcomeReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.outcomeReference, "outcomeReference"));
-            progress = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.progress, "progress"));
+            outcomeCodeableConcept = Collections.unmodifiableList(ValidationSupport.checkList(builder.outcomeCodeableConcept, "outcomeCodeableConcept", CodeableConcept.class));
+            outcomeReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.outcomeReference, "outcomeReference", Reference.class));
+            progress = Collections.unmodifiableList(ValidationSupport.checkList(builder.progress, "progress", Annotation.class));
             reference = builder.reference;
             detail = builder.detail;
             ValidationSupport.checkReferenceType(reference, "reference", "Appointment", "CommunicationRequest", "DeviceRequest", "MedicationRequest", "NutritionOrder", "Task", "ServiceRequest", "VisionPrescription", "RequestGroup");
@@ -2095,18 +2095,18 @@ public class CarePlan extends DomainResource {
             private Detail(Builder builder) {
                 super(builder);
                 kind = builder.kind;
-                instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesCanonical, "instantiatesCanonical"));
-                instantiatesUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesUri, "instantiatesUri"));
+                instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesCanonical, "instantiatesCanonical", Canonical.class));
+                instantiatesUri = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesUri, "instantiatesUri", Uri.class));
                 code = builder.code;
-                reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-                reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-                goal = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.goal, "goal"));
+                reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
+                reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
+                goal = Collections.unmodifiableList(ValidationSupport.checkList(builder.goal, "goal", Reference.class));
                 status = ValidationSupport.requireNonNull(builder.status, "status");
                 statusReason = builder.statusReason;
                 doNotPerform = builder.doNotPerform;
                 scheduled = ValidationSupport.choiceElement(builder.scheduled, "scheduled", Timing.class, Period.class, String.class);
                 location = builder.location;
-                performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
+                performer = Collections.unmodifiableList(ValidationSupport.checkList(builder.performer, "performer", Reference.class));
                 product = ValidationSupport.choiceElement(builder.product, "product", CodeableConcept.class, Reference.class);
                 dailyAmount = builder.dailyAmount;
                 quantity = builder.quantity;

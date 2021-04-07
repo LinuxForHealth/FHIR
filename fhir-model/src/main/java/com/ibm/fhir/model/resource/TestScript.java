@@ -256,20 +256,20 @@ public class TestScript extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         purpose = builder.purpose;
         copyright = builder.copyright;
-        origin = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.origin, "origin"));
-        destination = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.destination, "destination"));
+        origin = Collections.unmodifiableList(ValidationSupport.checkList(builder.origin, "origin", Origin.class));
+        destination = Collections.unmodifiableList(ValidationSupport.checkList(builder.destination, "destination", Destination.class));
         metadata = builder.metadata;
-        fixture = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.fixture, "fixture"));
-        profile = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.profile, "profile"));
-        variable = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.variable, "variable"));
+        fixture = Collections.unmodifiableList(ValidationSupport.checkList(builder.fixture, "fixture", Fixture.class));
+        profile = Collections.unmodifiableList(ValidationSupport.checkList(builder.profile, "profile", Reference.class));
+        variable = Collections.unmodifiableList(ValidationSupport.checkList(builder.variable, "variable", Variable.class));
         setup = builder.setup;
-        test = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.test, "test"));
+        test = Collections.unmodifiableList(ValidationSupport.checkList(builder.test, "test", Test.class));
         teardown = builder.teardown;
         ValidationSupport.requireChildren(this);
     }
@@ -2081,8 +2081,8 @@ public class TestScript extends DomainResource {
 
         private Metadata(Builder builder) {
             super(builder);
-            link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
-            capability = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.capability, "capability"));
+            link = Collections.unmodifiableList(ValidationSupport.checkList(builder.link, "link", Link.class));
+            capability = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.capability, "capability", Capability.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2670,9 +2670,9 @@ public class TestScript extends DomainResource {
                 required = ValidationSupport.requireNonNull(builder.required, "required");
                 validated = ValidationSupport.requireNonNull(builder.validated, "validated");
                 description = builder.description;
-                origin = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.origin, "origin"));
+                origin = Collections.unmodifiableList(ValidationSupport.checkList(builder.origin, "origin", Integer.class));
                 destination = builder.destination;
-                link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
+                link = Collections.unmodifiableList(ValidationSupport.checkList(builder.link, "link", Uri.class));
                 capabilities = ValidationSupport.requireNonNull(builder.capabilities, "capabilities");
                 ValidationSupport.requireValueOrChildren(this);
             }
@@ -3921,7 +3921,7 @@ public class TestScript extends DomainResource {
 
         private Setup(Builder builder) {
             super(builder);
-            action = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.action, "action"));
+            action = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.action, "action", Action.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -4496,7 +4496,7 @@ public class TestScript extends DomainResource {
                     method = builder.method;
                     origin = builder.origin;
                     params = builder.params;
-                    requestHeader = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.requestHeader, "requestHeader"));
+                    requestHeader = Collections.unmodifiableList(ValidationSupport.checkList(builder.requestHeader, "requestHeader", RequestHeader.class));
                     requestId = builder.requestId;
                     responseId = builder.responseId;
                     sourceId = builder.sourceId;
@@ -6477,7 +6477,7 @@ public class TestScript extends DomainResource {
             super(builder);
             name = builder.name;
             description = builder.description;
-            action = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.action, "action"));
+            action = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.action, "action", Action.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -7057,7 +7057,7 @@ public class TestScript extends DomainResource {
 
         private Teardown(Builder builder) {
             super(builder);
-            action = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.action, "action"));
+            action = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.action, "action", Action.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
