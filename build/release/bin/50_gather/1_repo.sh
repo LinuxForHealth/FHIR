@@ -11,15 +11,15 @@
 mkdir -p build/release/workarea/release_files
 
 export RELEASE_FILES=" $(jq -r '.release_files | join(" ")' build/release/config/release.json)"
-for RELEASE_FILE in $(echo ${RELEASE_FILES})
+for RELEASE_FILE in $(echo "${RELEASE_FILES}")
 do
-    cp ${RELEASE_FILE} build/release/workarea/release_files || true
+    cp "${RELEASE_FILE}" build/release/workarea/release_files || true
 done
 
 mkdir -p build/release/workarea/release_files/build_files
 for CACHE_FILE in $(find . -name '*.jar*' -or -name '*.zip' -or -name '*.asc' -or -name '*.war' -or -name 'pom.xml')
 do
-    mv ${RELEASE_FILE} build/release/workarea/release_files/build_files || true
+    mv "${RELEASE_FILE}" build/release/workarea/release_files/build_files || true
 done
 
 # EOF

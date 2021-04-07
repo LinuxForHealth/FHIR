@@ -17,7 +17,7 @@ jobs:
         java: [ 'openjdk11' ]
       fail-fast: false
     steps:
-    - name: Grab the Main Branch
+    - name: Checkout the Main Branch
       uses: actions/checkout@v2.3.3
       with:
         ref: refs/heads/main
@@ -26,7 +26,7 @@ jobs:
       uses: joschi/setup-jdk@v2.3.0
       with:
         java-version: ${{ matrix.java }}
-    - name: Prep
+    - name: Build and Release
       env:
         BASE: origin/${{ github['base_ref'] }}
         GITHUB_TOKEN: ${{ secrets.DOCS_SITE_TOKEN }}
@@ -34,6 +34,9 @@ jobs:
         GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
         DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+        GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        GPG_KEYNAME: ${{ secrets.GPG_KEYNAME }}
+        GPG_KEY_FILE: ${{ secrets.GPG_KEY_FILE }}
         JAVA_HOME: /opt/hostedtoolcache/AdoptOpenJDK/1.0.0-ga-11-jdk-hotspot-linux-x64-normal-latest/x64/
       run: |
         . build/release/global.sh

@@ -7,7 +7,7 @@
 ###############################################################################
 
 # Assumes that fhir-install has already been built
-docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_TOKEN}
+docker login -u "${DOCKERHUB_USERNAME}" -p "${DOCKERHUB_TOKEN}"
 
 # Executes the build for the ibm-fhir-schematool
 # This build runs first so that the FAILURE comes before and stops the subsequent builds/releases.
