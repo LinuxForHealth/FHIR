@@ -15,12 +15,12 @@ set -eu -o pipefail
 # Reference https://www.mojohaus.org/versions-maven-plugin/set-mojo.html
 # use versions:revert - option to revert the change. 
 
-mvn versions:set  -f "fhir-examples" -DoldVersion="${BUILD_VERSION}" -DnewVersion="${BUILD_NEW_VERSION}"
-mvn versions:set  -f "fhir-tools" -DoldVersion="${BUILD_VERSION}" -DnewVersion="${BUILD_NEW_VERSION}"
-mvn versions:set  -f "fhir-parent"  -DoldVersion="${BUILD_VERSION}" -DnewVersion="${BUILD_NEW_VERSION}"
+mvn versions:set  -f "fhir-examples" -DoldVersion="*" -DnewVersion="${BUILD_VERSION}"
+mvn versions:set  -f "fhir-tools" -DoldVersion="*" -DnewVersion="${BUILD_VERSION}"
+mvn versions:set  -f "fhir-parent"  -DoldVersion="*" -DnewVersion="${BUILD_VERSION}"
 
 # Reconcile the versions. 
-mvn org.codehaus.mojo:versions-maven-plugin:2.7:set-property -Dproperty=fhir-examples.version -DnewVersion="${BUILD_NEW_VERSION}" -f fhir-parent
-mvn org.codehaus.mojo:versions-maven-plugin:2.7:set-property -Dproperty=fhir-tools.version -DnewVersion="${BUILD_NEW_VERSION}" -f fhir-parent
+mvn org.codehaus.mojo:versions-maven-plugin:2.7:set-property -Dproperty=fhir-examples.version -DnewVersion="${BUILD_VERSION}" -f fhir-parent
+mvn org.codehaus.mojo:versions-maven-plugin:2.7:set-property -Dproperty=fhir-tools.version -DnewVersion="${BUILD_VERSION}" -f fhir-parent
 
 # EOF
