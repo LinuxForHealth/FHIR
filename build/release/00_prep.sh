@@ -9,6 +9,6 @@ set -eu -o pipefail
 ###############################################################################
 
 # Install missing packages
-bash build/release/00_prep/0_install_packages.sh
+bash build/release/bin/00_prep/0_install_packages.sh
 
 # EOF
