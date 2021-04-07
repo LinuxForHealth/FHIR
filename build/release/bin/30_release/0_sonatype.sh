@@ -8,6 +8,6 @@ set -eu -o pipefail
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-
+# https://central.sonatype.org/pages/releasing-the-deployment.html
 
 # EOF
