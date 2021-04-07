@@ -20,8 +20,6 @@ import java.util.stream.Collectors;
 import javax.lang.model.SourceVersion;
 
 import com.ibm.fhir.model.builder.Builder;
-import com.ibm.fhir.model.resource.Bundle;
-import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Element;
@@ -171,16 +169,14 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
                     Builder<?> parentBuilder = parent.getBuilder();
                     Object obj = wrapper.getBuilder().build();
 
-                    MethodHandle methodHandle;
+                    Class<?> expectedType = ModelSupport.getElementType(parentBuilder.getClass().getEnclosingClass(), elementName);
+                    if (obj != null && !expectedType.isInstance(obj)) {
+                        throw new IllegalStateException("Expected argument of type " + expectedType + " but found " + obj.getClass());
+                    }
+
                     try {
-                        MethodType mt;
-                        if ((visited instanceof Element && ModelSupport.isChoiceElement(parentBuilder.getClass().getEnclosingClass(), elementName))
-                                || (visited instanceof Resource && isResourceContainer(parentBuilder, elementName))) {
-                            mt = MethodType.methodType(parentBuilder.getClass(), elementOrResource);
-                        } else {
-                            mt = MethodType.methodType(parentBuilder.getClass(), visited.getClass());
-                        }
-                        methodHandle = MethodHandles.publicLookup().findVirtual(parentBuilder.getClass(), setterName(elementName), mt);
+                        MethodType mt = MethodType.methodType(parentBuilder.getClass(), expectedType);
+                        MethodHandle methodHandle = MethodHandles.publicLookup().findVirtual(parentBuilder.getClass(), setterName(elementName), mt);
                         methodHandle.invoke(parentBuilder, obj);
                     } catch (Throwable t) {
                         throw new RuntimeException("Unexpected error while visiting " + parentBuilder.getClass() + "." + elementName, t);
@@ -189,12 +185,6 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
                 wrapper = parent;
             }
         }
-    }
-
-    private boolean isResourceContainer(Builder<?> parentBuilder, String elementName) {
-        return (parentBuilder instanceof Bundle.Entry.Builder && "resource".equals(elementName)) ||
-                (parentBuilder instanceof Bundle.Entry.Response.Builder && "outcome".equals(elementName)) ||
-                (parentBuilder instanceof Parameters.Parameter.Builder && "resource".equals(elementName));
     }
 
     /**
@@ -214,10 +204,16 @@ public class CopyingVisitor<T extends Visitable> extends DefaultVisitor {
         doVisitListEnd(elementName, visitables, type);
         ListWrapper listWrapper = listStack.pop();
         if (listWrapper.isDirty()) {
+            for (Visitable obj : listWrapper.getList()) {
+                if (!type.isInstance(obj)) {
+                    throw new IllegalStateException("Expected argument of type " + type + " but found " + obj.getClass());
+                }
+            }
             BuilderWrapper parent = builderStack.peek();
             parent.dirty(true);
             Builder<?> parentBuilder = parent.getBuilder();
             MethodHandles.Lookup lookup = MethodHandles.publicLookup();
+
             MethodType mt = MethodType.methodType(parentBuilder.getClass(), java.util.Collection.class);
             MethodHandle methodHandle;
             try {
