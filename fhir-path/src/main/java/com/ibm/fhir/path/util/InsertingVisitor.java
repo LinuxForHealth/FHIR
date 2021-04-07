@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,6 +23,7 @@ class InsertingVisitor<T extends Visitable> extends CopyingVisitor<T> {
      * @param elementName
      * @param index
      * @param value
+     * @throws IllegalArgumentException
      */
     public InsertingVisitor(Visitable parent, String parentPath, String elementName, int index, Visitable value) {
         this.parentPath = Objects.requireNonNull(parentPath);
@@ -35,6 +36,9 @@ class InsertingVisitor<T extends Visitable> extends CopyingVisitor<T> {
     @Override
     protected void doVisitListEnd(String elementName, List<? extends Visitable> visitables, Class<?> type) {
         if (getPath().equals(parentPath) && elementName.equals(this.elementNameToInsert)) {
+            if (!type.isInstance(value)) {
+                throw new IllegalStateException("target " + type + " is not assignable from " + value.getClass());
+            }
             getList().add(index, value);
             markListDirty();
         }

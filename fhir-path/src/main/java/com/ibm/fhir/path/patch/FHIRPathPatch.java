@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,7 +26,7 @@ public class FHIRPathPatch implements FHIRPatch {
     private FHIRPathPatch(Builder builder) {
         this.operations = Collections.unmodifiableList(builder.operations);
     }
-    
+
     @Override
     public <T extends Resource> T apply(T resource) throws FHIRPatchException {
         for (FHIRPathPatchOperation fhirPathPatchOperation : operations) {
@@ -34,7 +34,7 @@ public class FHIRPathPatch implements FHIRPatch {
         }
         return resource;
     }
-    
+
     /**
      * Convert the FHIRPathPatch to a FHIR Parameters resource
      */
@@ -45,22 +45,22 @@ public class FHIRPathPatch implements FHIRPatch {
         }
         return builder.build();
     }
-    
+
     public Builder toBuilder() {
         return new Builder().from(this);
     }
-    
+
     public static Builder builder() {
         return new Builder();
     }
-    
-    public static class Builder { 
+
+    public static class Builder {
         private List<FHIRPathPatchOperation> operations = new ArrayList<>(3);
-        
+
         private Builder() {
             // hidden constructor
         }
-    
+
         /**
          * Add an add operation to the FHIRPathPatch
          */
@@ -68,7 +68,7 @@ public class FHIRPathPatch implements FHIRPatch {
             operations.add(new FHIRPathPatchAdd(path, elementName, element));
             return this;
         }
-        
+
         /**
          * Add a delete operation to the FHIRPathPatch
          */
@@ -76,7 +76,7 @@ public class FHIRPathPatch implements FHIRPatch {
             operations.add(new FHIRPathPatchDelete(path));
             return this;
         }
-        
+
         /**
          * Add an insert operation to the FHIRPathPatch
          */
@@ -84,7 +84,7 @@ public class FHIRPathPatch implements FHIRPatch {
             operations.add(new FHIRPathPatchInsert(path, element, index));
             return this;
         }
-        
+
         /**
          * Add a move operation to the FHIRPathPatch
          */
@@ -92,7 +92,7 @@ public class FHIRPathPatch implements FHIRPatch {
             operations.add(new FHIRPathPatchMove(path, source, destination));
             return this;
         }
-        
+
         /**
          * Add an add operation to the FHIRPathPatch
          */
@@ -100,7 +100,7 @@ public class FHIRPathPatch implements FHIRPatch {
             operations.add(new FHIRPathPatchReplace(path, element));
             return this;
         }
-        
+
         /**
          * Add all patch operations from the passed FHIRPathPatch
          */
@@ -108,10 +108,10 @@ public class FHIRPathPatch implements FHIRPatch {
             operations.addAll(patch.operations);
             return this;
         }
-        
+
         /**
          * Build the {@link FHIRPathPatch}
-         * 
+         *
          * @return
          *     An immutable object of type {@link FHIRPathPatch}
          */
@@ -119,10 +119,10 @@ public class FHIRPathPatch implements FHIRPatch {
             return new FHIRPathPatch(this);
         }
     }
-    
+
     /**
      * Parse a FHIRPathPatch from a FHIR Parameters resource
-     * 
+     *
      * @throws IllegalArgumentException if the Parameters object does not satisfy the requirements of a FHIRPath Patch
      */
     public static FHIRPathPatch from(Parameters params) {
@@ -138,10 +138,10 @@ public class FHIRPathPatch implements FHIRPatch {
 
         return builder.build();
     }
-    
+
     /**
      * Parse the passed Parameter and add it to the builder
-     * 
+     *
      * @throws IllegalArgumentException if the Parameter object does not represent a valid FHIRPath Patch operation
      */
     private static void addOperation(Builder builder, Parameter operation) {

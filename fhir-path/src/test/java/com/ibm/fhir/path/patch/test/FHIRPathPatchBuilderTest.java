@@ -1,6 +1,6 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
- * 
+ * (C) Copyright IBM Corp. 2019, 2021
+ *
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -17,43 +17,152 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.patch.exception.FHIRPatchException;
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Patient.Communication;
+import com.ibm.fhir.model.resource.Patient.Contact;
+import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Coding;
+import com.ibm.fhir.model.type.Date;
+import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Time;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.AccountStatus;
+import com.ibm.fhir.model.type.code.AdministrativeGender;
+import com.ibm.fhir.model.type.code.DataAbsentReason;
 import com.ibm.fhir.path.patch.FHIRPathPatch;
 
 public class FHIRPathPatchBuilderTest {
     @Test
     private void patchBuilderTestIncremental() throws Exception {
         Patient patient = Patient.builder().id("test").build();
-        
+
         Patient patchedPatient = buildAdd().apply(patient);
         patient = addViaBuilder(patient);
         assertEquals(patchedPatient, patient);
-        
+
         patchedPatient = buildDelete().apply(patient);
         patient = deleteViaBuilder(patient);
         assertEquals(patchedPatient, patient);
-        
+
         patchedPatient = buildInsert().apply(patient);
         patient = insertViaBuilder(patient);
         assertEquals(patchedPatient, patient);
-        
+
         patchedPatient = buildMove().apply(patient);
         patient = moveViaBuilder(patient);
         assertEquals(patchedPatient, patient);
-        
+
         patchedPatient = buildReplace().apply(patient);
         patient = replaceViaBuilder(patient);
         assertEquals(patchedPatient, patient);
     }
-    
+
+    @Test(expectedExceptions = FHIRPatchException.class)
+    private void patchBuilderTestBadAddList() throws Exception {
+        Patient patient = Patient.builder().id("test").build();
+        Patient modifiedPatient = FHIRPathPatch.builder()
+                .add("Patient", "communication", Contact.builder().name(HumanName.builder().family(string("Last")).build()).build())
+                .build()
+                .apply(patient);
+        System.out.println(modifiedPatient);
+    }
+
+    @Test(expectedExceptions = FHIRPatchException.class)
+    private void patchBuilderTestBadAddSingle() throws Exception {
+        Patient patient = Patient.builder().id("test").build();
+        Patient modifiedPatient = FHIRPathPatch.builder()
+                .add("Patient", "birthDate", DateTime.now())
+                .build()
+                .apply(patient);
+        System.out.println(modifiedPatient);
+    }
+
+    @Test(expectedExceptions = FHIRPatchException.class)
+    private void patchBuilderTestBadAddSingleCode() throws Exception {
+        Patient patient = Patient.builder().id("test").build();
+        Patient modifiedPatient = FHIRPathPatch.builder()
+                .add("Patient", "active", AccountStatus.UNKNOWN)
+                .build()
+                .apply(patient);
+        System.out.println(modifiedPatient);
+    }
+
+    @Test(expectedExceptions = FHIRPatchException.class)
+    private void patchBuilderTestBadAddDeepCode() throws Exception {
+        Patient patient = Patient.builder().id("test").build();
+        Patient modifiedPatient = FHIRPathPatch.builder()
+                .add("Patient", "contact", Contact.builder()
+                    .name(HumanName.builder().family(string("Last")).build())
+                    .build())
+                .add("Patient.contact", "gender", DataAbsentReason.MASKED)
+                .build()
+                .apply(patient);
+        System.out.println(modifiedPatient);
+    }
+
+    @Test(expectedExceptions = FHIRPatchException.class)
+    private void patchBuilderTestBadInsert() throws Exception {
+        Patient patient = Patient.builder().id("test").build();
+        Patient modifiedPatient = FHIRPathPatch.builder()
+                .add("Patient", "communication", Communication.builder()
+                        .language(CodeableConcept.builder()
+                                .coding(Coding.builder()
+                                        .system(Uri.of("urn:ietf:bcp:47"))
+                                        .code(Code.of("en"))
+                                        .build())
+                                .build())
+                        .build())
+                .insert("Patient.communication", Contact.builder().name(HumanName.builder().family(string("Last")).build()).build(), 1)
+                .build()
+                .apply(patient);
+        System.out.println(modifiedPatient);
+    }
+
+    @Test(expectedExceptions = FHIRPatchException.class)
+    private void patchBuilderTestBadReplaceList() throws Exception {
+        Patient patient = Patient.builder().id("test").build();
+        Patient modifiedPatient = FHIRPathPatch.builder()
+                .add("Patient", "communication", Communication.builder()
+                        .language(CodeableConcept.builder()
+                                .coding(Coding.builder()
+                                        .system(Uri.of("urn:ietf:bcp:47"))
+                                        .code(Code.of("en"))
+                                        .build())
+                                .build())
+                        .build())
+                .replace("Patient.communication[0]", Contact.builder().name(HumanName.builder().family(string("Last")).build()).build())
+                .build()
+                .apply(patient);
+        System.out.println(modifiedPatient);
+    }
+
+    @Test(expectedExceptions = FHIRPatchException.class)
+    private void patchBuilderTestBadReplaceSingle() throws Exception {
+        Patient patient = Patient.builder().id("test").build();
+        FHIRPathPatch.builder()
+                .add("Patient", "birthDate", Date.of("2021"))
+                .replace("Patient.birthDate", DateTime.now())
+                .build()
+                .apply(patient);
+    }
+
+    @Test(expectedExceptions = FHIRPatchException.class)
+    private void patchBuilderTestBadReplaceSingleCode() throws Exception {
+        Patient patient = Patient.builder().id("test").build();
+        FHIRPathPatch.builder()
+                .add("Patient", "active", com.ibm.fhir.model.type.Boolean.TRUE)
+                .replace("Patient.active", Code.of("false"))
+                .build()
+                .apply(patient);
+    }
+
     @Test
     private void patchBuilderTestAll() throws Exception {
         Patient patient = Patient.builder().id("test").build();
-        
+
         FHIRPathPatch allPatch = FHIRPathPatch.builder()
             .from(buildAdd())
             .from(buildDelete())
@@ -61,15 +170,15 @@ public class FHIRPathPatchBuilderTest {
             .from(buildMove())
             .from(buildReplace())
             .build();
-        
+
         Patient patchedPatient = allPatch.apply(patient);
-        
+
         patient = addViaBuilder(patient);
         patient = deleteViaBuilder(patient);
         patient = insertViaBuilder(patient);
         patient = moveViaBuilder(patient);
         patient = replaceViaBuilder(patient);
-        
+
         assertEquals(patchedPatient, patient);
     }
 
@@ -91,6 +200,10 @@ public class FHIRPathPatchBuilderTest {
                                    .build())
                                .build(),
                       HumanName.builder().family(string("Last")).build())
+                .contact(Contact.builder()
+                                .name(HumanName.builder().family(string("Last")).build())
+                                .gender(AdministrativeGender.FEMALE)
+                                .build())
                 .active(com.ibm.fhir.model.type.Boolean.TRUE)
                 .build();
     }
@@ -101,6 +214,8 @@ public class FHIRPathPatchBuilderTest {
                 .add("Patient.identifier", "value", string("it-me"))
                 .add("Patient", "name", HumanName.builder().family(string("Last")).build())
                 .add("Patient", "name", HumanName.builder().family(string("Last")).build())
+                .add("Patient", "contact", Contact.builder().name(HumanName.builder().family(string("Last")).build()).build())
+                .add("Patient.contact", "gender", AdministrativeGender.FEMALE)
                 .add("Patient.name[0]", "given", string("First"))
                 .add("Patient.name[0]", "extension", Extension.builder().url("myExtension").build())
                 .add("Patient.name[0].extension", "extension", Extension.builder().url("lunchTime").build())
@@ -108,7 +223,7 @@ public class FHIRPathPatchBuilderTest {
                 .add("Patient", "active", com.ibm.fhir.model.type.Boolean.TRUE)
                 .build();
     }
-    
+
     private Patient deleteViaBuilder(Patient patient) {
         return patient.toBuilder()
                 .identifier(Collections.emptySet())
@@ -126,11 +241,11 @@ public class FHIRPathPatchBuilderTest {
     private Patient insertViaBuilder(Patient patient) {
         List<HumanName> names = new ArrayList<>(patient.getName());
         names.add(2, HumanName.builder().family(string("Inserted")).build());
-        
+
         List<Extension> name1extensions = new ArrayList<>(names.get(0).getExtension());
         name1extensions.add(0, Extension.builder().url("inserted").value(string("value")).build());
         names.set(0, names.get(0).toBuilder().extension(name1extensions).build());
-        
+
         return patient.toBuilder()
                 .name(names)
                 .build();
@@ -139,7 +254,7 @@ public class FHIRPathPatchBuilderTest {
     private FHIRPathPatch buildInsert() throws FHIRPatchException {
         return FHIRPathPatch.builder()
                 .insert("Patient.name", HumanName.builder().family(string("Inserted")).build(), 2)
-                .insert("Patient.name[0].extension", 
+                .insert("Patient.name[0].extension",
                         Extension.builder().url("inserted").value(string("value")).build(), 0)
                 .build();
     }

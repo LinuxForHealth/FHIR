@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,13 @@ class ReplacingVisitor<T extends Visitable> extends CopyingVisitor<T> {
     private String pathToReplace;
     private Visitable newValue;
 
+    /**
+     * @param parent
+     * @param elementName
+     * @param pathToReplace
+     * @param newValue
+     * @throws IllegalArgumentException
+     */
     public ReplacingVisitor(Visitable parent, String elementName, String pathToReplace, Visitable newValue) {
         this.pathToReplace = Objects.requireNonNull(pathToReplace);
         this.newValue = Objects.requireNonNull(newValue) instanceof Code ?
