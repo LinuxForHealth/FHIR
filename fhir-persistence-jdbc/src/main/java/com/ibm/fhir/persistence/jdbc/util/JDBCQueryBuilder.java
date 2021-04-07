@@ -1239,7 +1239,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
                 if (Modifier.IN.equals(queryParm.getModifier()) || Modifier.NOT_IN.equals(queryParm.getModifier()) ||
                         Modifier.ABOVE.equals(queryParm.getModifier()) || Modifier.BELOW.equals(queryParm.getModifier())) {
-                    populateValueSetCodesSubSegment(whereClauseSegment, queryParm.getModifier(), value, tableAlias);
+                    populateCodesSubSegment(whereClauseSegment, queryParm.getModifier(), value, tableAlias);
                 } else {
                     // Include code
                     whereClauseSegment.append(tableAlias + DOT).append(TOKEN_VALUE).append(operator).append(BIND_VAR);
@@ -1973,18 +1973,18 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
     }
 
     /**
-     * Populates an IN clause with value set codes for a token search parameter specifying the
-     * :in, :not-in, :above, or :below modifier.
+     * Builds an SQL segment which populates an IN clause with codes for a token search parameter
+     * specifying the :in, :not-in, :above, or :below modifier.
      *
      * @param whereClauseSegment  - the segment to which the sub-segment will be added
-     * @param modifier            - the query parameters modifier (:in | :not-in | :above | :below)
+     * @param modifier            - the search parameter modifier (:in | :not-in | :above | :below)
      * @param parameterValue      - the search parameter value - a ValueSet URL or a CodeSystem URL + code
      * @param parameterTableAlias - the alias for the parameter table e.g. CPx
      * @throws FHIRPersistenceException
      */
-    private void populateValueSetCodesSubSegment(StringBuilder whereClauseSegment, Modifier modifier,
+    private void populateCodesSubSegment(StringBuilder whereClauseSegment, Modifier modifier,
             QueryParameterValue parameterValue, String parameterTableAlias) throws FHIRPersistenceException {
-        final String METHODNAME = "populateValueSetCodesSubSegment";
+        final String METHODNAME = "populateCodesSubSegment";
         log.entering(CLASSNAME, METHODNAME, parameterValue);
 
         String tokenValuePredicateString = parameterTableAlias + DOT + TOKEN_VALUE + IN + LEFT_PAREN;
