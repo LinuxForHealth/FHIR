@@ -1047,7 +1047,7 @@
                                 <gpgArgument>--batch</gpgArgument>
                                 <gpgArgument>--yes</gpgArgument>
                                 <gpgArgument>--no-tty</gpgArgument>
-                                <gpgArgument>--lock-never</gpgArgument>
+                                <gpgArgument>--lock-multiple</gpgArgument>
                                 <!-- important not to have spaces in the args -->
                                 <gpgArgument>--pinentry-mode</gpgArgument>
                                 <gpgArgument>loopback</gpgArgument>
