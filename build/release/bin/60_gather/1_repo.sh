@@ -22,14 +22,4 @@ do
     mv ${RELEASE_FILE} build/release/workarea/release_files/build_files || true
 done
 
-
-
-
-
-
-
-
-
-build/release/repo/release-repository-${{ github.tag }}.zip
-
 # EOF
