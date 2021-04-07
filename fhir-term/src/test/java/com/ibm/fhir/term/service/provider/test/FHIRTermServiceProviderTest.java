@@ -719,6 +719,12 @@ public abstract class FHIRTermServiceProviderTest {
     }
 
     @Test
+    public void testHasConcepts() {
+        Assert.assertTrue(provider.hasConcepts(codeSystem, new HashSet<>(Arrays.asList(Code.of("a"), Code.of("b")))));
+        Assert.assertFalse(provider.hasConcepts(codeSystem, new HashSet<>(Arrays.asList(Code.of("a"), Code.of("zzz")))));
+    }
+
+    @Test
     public void testClosure1() {
         Set<Concept> concepts = provider.closure(codeSystem, Code.of("d"));
 

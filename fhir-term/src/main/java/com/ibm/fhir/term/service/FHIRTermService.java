@@ -188,10 +188,8 @@ public class FHIRTermService {
             Set<Code> codes = codeSetMap.get(codeSystem);
 
             FHIRTermServiceProvider provider = findProvider(codeSystem);
-            for (Code code : codes) {
-                if (!provider.hasConcept(codeSystem, code)) {
-                    return Collections.emptyMap();
-                }
+            if (!provider.hasConcepts(codeSystem, codes)) {
+                return Collections.emptyMap();
             }
 
             Map<Code, Set<Concept>> closureMap = provider.closure(codeSystem, codes);
@@ -304,6 +302,20 @@ public class FHIRTermService {
      */
     public boolean hasConcept(CodeSystem codeSystem, Code code) {
         return findProvider(codeSystem).hasConcept(codeSystem, code);
+    }
+
+    /**
+     * Indicates whether the given code system contains a concept for each of the specified codes.
+     *
+     * @param codeSystem
+     *     the code system
+     * @param codes
+     *     the codes
+     * @return
+     *     true if the given code system contains a concept for each of the specified codes, false otherwise
+     */
+    public boolean hasConcepts(CodeSystem codeSystem, Set<Code> codes) {
+        return findProvider(codeSystem).hasConcepts(codeSystem, codes);
     }
 
     /**
