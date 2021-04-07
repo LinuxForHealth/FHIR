@@ -123,7 +123,7 @@
             </build>
         </profile>
         <profile>
-            <id>generate-javadocs</id>
+            <id>generate-javadoc</id>
             <build>
                 <plugins>
                     <plugin>
@@ -216,9 +216,9 @@
                                 <gpgArgument>--yes</gpgArgument>
                                 <gpgArgument>--no-tty</gpgArgument>
                                 <gpgArgument>--lock-never</gpgArgument>
-                                <gpgArgument>--passphrase ${env.GPG_PASSPHRASE}</gpgArgument>
-                                <gpgArgument>--passphrase-repeat 0</gpgArgument>
-                                <gpgArgument>--pinentry-mode loopback</gpgArgument>
+                                <!-- important not to have spaces in the args -->
+                                <gpgArgument>--pinentry-mode</gpgArgument>
+                                <gpgArgument>loopback</gpgArgument>
                             </gpgArguments>
                         </configuration>
                     </plugin>
@@ -226,7 +226,7 @@
             </build>
         </profile>
         <profile>
-            <id>build-and-sign-artifact</id>
+            <id>build-artifact</id>
             <properties>
                 <gpg.keyname>${env.GPG_KEYNAME}</gpg.keyname>
                 <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
@@ -273,31 +273,6 @@
                                 </goals>
                             </execution>
                         </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                        <configuration>
-                            <defaultKeyring>false</defaultKeyring>
-                            <gpgArguments>
-                                <gpgArgument>--batch</gpgArgument>
-                                <gpgArgument>--yes</gpgArgument>
-                                <gpgArgument>--no-tty</gpgArgument>
-                                <gpgArgument>--lock-never</gpgArgument>
-                                <gpgArgument>--passphrase ${env.GPG_PASSPHRASE}</gpgArgument>
-                                <gpgArgument>--passphrase-repeat 0</gpgArgument>
-                                <gpgArgument>--pinentry-mode loopback</gpgArgument>
-                            </gpgArguments>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>

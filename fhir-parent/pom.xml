@@ -884,42 +884,7 @@
             </properties>
         </profile>
         <profile>
-            <id>deploy-version-rc</id>
-            <!-- This profile enables automation to change version and DEPLOY
-                rc to mvn clean -Drc=1 -Pdeploy-version-rc -f fhir-tools/pom.xml -->
-            <properties>
-                <!-- the version to be set -->
-                <rc>1</rc>
-                <deploy.version>4.0.0-rc${rc}-${maven.build.timestamp}</deploy.version>
-                <maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>versions-maven-plugin</artifactId>
-                        <version>2.7</version>
-                        <configuration>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>set</goal>
-                                </goals>
-                                <phase>clean</phase>
-                                <configuration>
-                                    <oldVersion>*</oldVersion>
-                                    <newVersion>${deploy.version}</newVersion>
-                                    <generateBackupPoms>true</generateBackupPoms>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>deploy-version-release</id>
+            <id>set-version-release</id>
             <!-- This profile enables automation to change version and DEPLOY
                 release to Maven Central. There are one input values. mvn clean -Drc=1 -Pdeploy-version-release
                 -f fhir-tools/pom.xml -->
@@ -955,48 +920,6 @@
             </build>
         </profile>
         <profile>
-            <id>deploy-sonatype</id>
-            <!-- This profile enables automation DEPLOY to maven central. There
-                are three input values. mvn clean install deploy -Pdeploy-sonatype -f fhir-tools/pom.xml -->
-            <properties>
-                <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
-            </properties>
-
-            <build>
-                <plugins>
-                    <plugin>
-                        <!-- Do not move this up to top level as it'll cause
-                            a conflict with m2e restrictions on v2.6 -->
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-jar-plugin</artifactId>
-                        <version>3.1.2</version>
-                        <configuration>
-                            <archive>
-                                <manifest>
-                                    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                                    <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                                </manifest>
-                                <manifestEntries>
-                                    <Build-Time>${maven.build.timestamp}</Build-Time>
-                                    <Build-Number>${BUILD_ID}</Build-Number>
-                                    <Git-Commit>${GIT_COMMIT}</Git-Commit>
-                                    <Git-Branch>${GIT_BRANCH}</Git-Branch>
-                                    <Git-URL>${GIT_URL}</Git-URL>
-                                </manifestEntries>
-                            </archive>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-
-            <distributionManagement>
-                <snapshotRepository>
-                    <id>ossrh</id>
-                    <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-                </snapshotRepository>
-            </distributionManagement>
-        </profile>
-        <profile>
             <id>validate-javadoc</id>
             <!-- validate is an optimized javadoc:javadoc goal for processing
                 only -->
@@ -1030,6 +953,193 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <id>generate-javadoc</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-site-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-project-info-reports-plugin</artifactId>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <configuration>
+                            <!-- speed up the build -->
+                            <isOffline>true</isOffline>
+                            <!-- no matter the JDK running the javadoc, it's 
+                                important this be at the minimum level we support, which is 11. -->
+                            <source>11</source>
+                            <!-- we don't need package -->
+                            <show>package</show>
+                            <!-- verbose if you are debugging -->
+                            <verbose>false</verbose>
+                            <dependencySourceIncludes>com.ibm.fhir:*</dependencySourceIncludes>
+                            <minmemory>2g</minmemory>
+                            <maxmemory>2g</maxmemory>
+                            <!-- doclint is none, otherwise build breaks -->
+                            <doclint>none</doclint>
+                            <additionalparam>-Xdoclint:none
+                                -Djava.awt.headless=true</additionalparam>
+                            <detectLinks>true</detectLinks>
+                            <!-- control display -->
+                            <author>false</author>
+                            <windowtitle>IBM FHIR Server</windowtitle>
+                            <doctitle>${project.name} ${project.version}</doctitle>
+                            <additionalOptions>
+                                <!-- makes the frames visible, disabled and 
+                                    going away eventually -->
+                                <additionalOption>--frames</additionalOption>
+                                <!-- Fixes the undefined redirect in search -->
+                                <additionalOption>--no-module-directories</additionalOption>
+                            </additionalOptions>
+                            <header><![CDATA[<a href="/FHIR" class="bx--header__name" target="_parent"><span>IBM</span>&nbsp;FHIR®&nbsp;Server</a>]]></header>
+                            <bottom><![CDATA[Copyright 2019, 2021. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
+                            <author>false</author>
+                            <stylesheetfile>${project.build.directory}/../../fhir-parent/src/javadocs/stylesheet.css</stylesheetfile>
+                            <!-- skips the three entries -->
+                            <nohelp>true</nohelp>
+                            <nodeprecated>true</nodeprecated>
+                            <nodeprecatedlist>true</nodeprecatedlist>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>javadoc-no-fork</goal>
+                                    <goal>test-javadoc-no-fork</goal>
+                                </goals>
+                                <phase>package</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>sign-artifact</id>
+            <properties>
+                <gpg.keyname>${env.GPG_KEYNAME}</gpg.keyname>
+                <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <defaultKeyring>false</defaultKeyring>
+                            <gpgArguments>
+                                <gpgArgument>--batch</gpgArgument>
+                                <gpgArgument>--yes</gpgArgument>
+                                <gpgArgument>--no-tty</gpgArgument>
+                                <gpgArgument>--lock-never</gpgArgument>
+                                <!-- important not to have spaces in the args -->
+                                <gpgArgument>--pinentry-mode</gpgArgument>
+                                <gpgArgument>loopback</gpgArgument>
+                            </gpgArguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>build-artifact</id>
+            <properties>
+                <gpg.keyname>${env.GPG_KEYNAME}</gpg.keyname>
+                <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <!-- Do not move this up to top level as it'll cause 
+                            a conflict with m2e restrictions on v2.6 -->
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>3.2.0</version>
+                        <configuration>
+                            <archive>
+                                <index>true</index>
+                                <manifest>
+                                    <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                                    <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                                </manifest>
+                                <manifestEntries>
+                                    <Build-Time>${maven.build.timestamp}</Build-Time>
+                                    <Build-Number>${BUILD_ID}</Build-Number>
+                                    <Git-Commit>${GIT_COMMIT}</Git-Commit>
+                                    <Git-Branch>${GIT_BRANCH}</Git-Branch>
+                                    <Git-URL>${GIT_URL}</Git-URL>
+                                </manifestEntries>
+                            </archive>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>3.8.1</version>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>deploy-to-sonatype</id>
+            <properties>
+                <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+            </properties>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>ossrh</id>
+                    <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+                </snapshotRepository>
+                <repository>
+                    <id>ossrh</id>
+                    <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </distributionManagement>
         </profile>
     </profiles>
 

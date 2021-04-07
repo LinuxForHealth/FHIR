@@ -295,27 +295,24 @@
             </properties>
         </profile>
         <profile>
-            <id>generate-javadocs</id>
+            <id>generate-javadoc</id>
             <build>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-site-plugin</artifactId>
-                        <version>3.8.2</version>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-project-info-reports-plugin</artifactId>
-                        <version>2.9</version>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>3.0.1</version>
                         <configuration>
                             <!-- speed up the build -->
                             <isOffline>true</isOffline>
-                            <!-- no matter the JDK running the javadoc, it's
+                            <!-- no matter the JDK running the javadoc, it's 
                                 important this be at the minimum level we support, which is 11. -->
                             <source>11</source>
                             <!-- we don't need package -->
@@ -327,15 +324,16 @@
                             <maxmemory>2g</maxmemory>
                             <!-- doclint is none, otherwise build breaks -->
                             <doclint>none</doclint>
-                            <additionalparam>-Xdoclint:none -Djava.awt.headless=true</additionalparam>
+                            <additionalparam>-Xdoclint:none
+                                -Djava.awt.headless=true</additionalparam>
                             <detectLinks>true</detectLinks>
                             <!-- control display -->
                             <author>false</author>
                             <windowtitle>IBM FHIR Server</windowtitle>
                             <doctitle>${project.name} ${project.version}</doctitle>
                             <additionalOptions>
-                                <!-- makes the frames visible, disabled and going
-                                    away eventually -->
+                                <!-- makes the frames visible, disabled and 
+                                    going away eventually -->
                                 <additionalOption>--frames</additionalOption>
                                 <!-- Fixes the undefined redirect in search -->
                                 <additionalOption>--no-module-directories</additionalOption>
@@ -356,7 +354,7 @@
                                     <goal>javadoc-no-fork</goal>
                                     <goal>test-javadoc-no-fork</goal>
                                 </goals>
-                                <phase>site</phase>
+                                <phase>package</phase>
                             </execution>
                         </executions>
                     </plugin>
@@ -383,12 +381,28 @@
                                 </goals>
                             </execution>
                         </executions>
+                        <configuration>
+                            <defaultKeyring>false</defaultKeyring>
+                            <gpgArguments>
+                                <gpgArgument>--batch</gpgArgument>
+                                <gpgArgument>--yes</gpgArgument>
+                                <gpgArgument>--no-tty</gpgArgument>
+                                <gpgArgument>--lock-never</gpgArgument>
+                                <!-- important not to have spaces in the args -->
+                                <gpgArgument>--pinentry-mode</gpgArgument>
+                                <gpgArgument>loopback</gpgArgument>
+                            </gpgArguments>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
         </profile>
         <profile>
             <id>build-artifact</id>
+            <properties>
+                <gpg.keyname>${env.GPG_KEYNAME}</gpg.keyname>
+                <gpg.passphrase>${env.GPG_PASSPHRASE}</gpg.passphrase>
+            </properties>
             <build>
                 <plugins>
                     <plugin>

@@ -4,6 +4,14 @@ The build process supports GitHub Actions and build on multiple branches.
 
 The build is triggered by a push of a tag. For each tag, a new build is executed. If a build fails, remove the failed build's tag. 
 
+## Dependencies
+https://github.com/actions/virtual-environments
+Ubuntu 20.04 	ubuntu-latest or ubuntu-20.04 	ubuntu-20.04 	
+https://github.com/actions/virtual-environments/blob/main/images/linux/Ubuntu2004-README.md
+# jq (already installed in ubuntu 20.04)
+# gh (already installed in ubuntu 20.04)
+# docker tools (already installed in ubuntu 20.04)
+
 ## Process
 The build executes the following steps:
 
