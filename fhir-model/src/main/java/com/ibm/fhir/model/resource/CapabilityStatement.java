@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -266,24 +267,24 @@ public class CapabilityStatement extends DomainResource {
         experimental = builder.experimental;
         date = ValidationSupport.requireNonNull(builder.date, "date");
         publisher = builder.publisher;
-        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
-        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         purpose = builder.purpose;
         copyright = builder.copyright;
         kind = ValidationSupport.requireNonNull(builder.kind, "kind");
-        instantiates = ValidationSupport.checkAndFinalizeList(builder.instantiates, "instantiates", Canonical.class);
-        imports = ValidationSupport.checkAndFinalizeList(builder.imports, "imports", Canonical.class);
+        instantiates = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiates, "instantiates", Canonical.class));
+        imports = Collections.unmodifiableList(ValidationSupport.checkList(builder.imports, "imports", Canonical.class));
         software = builder.software;
         implementation = builder.implementation;
         fhirVersion = ValidationSupport.requireNonNull(builder.fhirVersion, "fhirVersion");
-        format = ValidationSupport.checkAndFinalizeNonEmptyList(builder.format, "format", Code.class);
-        patchFormat = ValidationSupport.checkAndFinalizeList(builder.patchFormat, "patchFormat", Code.class);
-        implementationGuide = ValidationSupport.checkAndFinalizeList(builder.implementationGuide, "implementationGuide", Canonical.class);
-        rest = ValidationSupport.checkAndFinalizeList(builder.rest, "rest", Rest.class);
-        messaging = ValidationSupport.checkAndFinalizeList(builder.messaging, "messaging", Messaging.class);
-        document = ValidationSupport.checkAndFinalizeList(builder.document, "document", Document.class);
+        format = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.format, "format", Code.class));
+        patchFormat = Collections.unmodifiableList(ValidationSupport.checkList(builder.patchFormat, "patchFormat", Code.class));
+        implementationGuide = Collections.unmodifiableList(ValidationSupport.checkList(builder.implementationGuide, "implementationGuide", Canonical.class));
+        rest = Collections.unmodifiableList(ValidationSupport.checkList(builder.rest, "rest", Rest.class));
+        messaging = Collections.unmodifiableList(ValidationSupport.checkList(builder.messaging, "messaging", Messaging.class));
+        document = Collections.unmodifiableList(ValidationSupport.checkList(builder.document, "document", Document.class));
         ValidationSupport.requireChildren(this);
     }
 
@@ -2308,11 +2309,11 @@ public class CapabilityStatement extends DomainResource {
             mode = ValidationSupport.requireNonNull(builder.mode, "mode");
             documentation = builder.documentation;
             security = builder.security;
-            resource = ValidationSupport.checkAndFinalizeList(builder.resource, "resource", Resource.class);
-            interaction = ValidationSupport.checkAndFinalizeList(builder.interaction, "interaction", Interaction.class);
-            searchParam = ValidationSupport.checkAndFinalizeList(builder.searchParam, "searchParam", CapabilityStatement.Rest.Resource.SearchParam.class);
-            operation = ValidationSupport.checkAndFinalizeList(builder.operation, "operation", CapabilityStatement.Rest.Resource.Operation.class);
-            compartment = ValidationSupport.checkAndFinalizeList(builder.compartment, "compartment", Canonical.class);
+            resource = Collections.unmodifiableList(ValidationSupport.checkList(builder.resource, "resource", Resource.class));
+            interaction = Collections.unmodifiableList(ValidationSupport.checkList(builder.interaction, "interaction", Interaction.class));
+            searchParam = Collections.unmodifiableList(ValidationSupport.checkList(builder.searchParam, "searchParam", CapabilityStatement.Rest.Resource.SearchParam.class));
+            operation = Collections.unmodifiableList(ValidationSupport.checkList(builder.operation, "operation", CapabilityStatement.Rest.Resource.Operation.class));
+            compartment = Collections.unmodifiableList(ValidationSupport.checkList(builder.compartment, "compartment", Canonical.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2874,7 +2875,7 @@ public class CapabilityStatement extends DomainResource {
             private Security(Builder builder) {
                 super(builder);
                 cors = builder.cors;
-                service = ValidationSupport.checkAndFinalizeList(builder.service, "service", CodeableConcept.class);
+                service = Collections.unmodifiableList(ValidationSupport.checkList(builder.service, "service", CodeableConcept.class));
                 description = builder.description;
                 ValidationSupport.requireValueOrChildren(this);
             }
@@ -3237,9 +3238,9 @@ public class CapabilityStatement extends DomainResource {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
                 profile = builder.profile;
-                supportedProfile = ValidationSupport.checkAndFinalizeList(builder.supportedProfile, "supportedProfile", Canonical.class);
+                supportedProfile = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportedProfile, "supportedProfile", Canonical.class));
                 documentation = builder.documentation;
-                interaction = ValidationSupport.checkAndFinalizeList(builder.interaction, "interaction", Interaction.class);
+                interaction = Collections.unmodifiableList(ValidationSupport.checkList(builder.interaction, "interaction", Interaction.class));
                 versioning = builder.versioning;
                 readHistory = builder.readHistory;
                 updateCreate = builder.updateCreate;
@@ -3247,11 +3248,11 @@ public class CapabilityStatement extends DomainResource {
                 conditionalRead = builder.conditionalRead;
                 conditionalUpdate = builder.conditionalUpdate;
                 conditionalDelete = builder.conditionalDelete;
-                referencePolicy = ValidationSupport.checkAndFinalizeList(builder.referencePolicy, "referencePolicy", ReferenceHandlingPolicy.class);
-                searchInclude = ValidationSupport.checkAndFinalizeList(builder.searchInclude, "searchInclude", String.class);
-                searchRevInclude = ValidationSupport.checkAndFinalizeList(builder.searchRevInclude, "searchRevInclude", String.class);
-                searchParam = ValidationSupport.checkAndFinalizeList(builder.searchParam, "searchParam", SearchParam.class);
-                operation = ValidationSupport.checkAndFinalizeList(builder.operation, "operation", Operation.class);
+                referencePolicy = Collections.unmodifiableList(ValidationSupport.checkList(builder.referencePolicy, "referencePolicy", ReferenceHandlingPolicy.class));
+                searchInclude = Collections.unmodifiableList(ValidationSupport.checkList(builder.searchInclude, "searchInclude", String.class));
+                searchRevInclude = Collections.unmodifiableList(ValidationSupport.checkList(builder.searchRevInclude, "searchRevInclude", String.class));
+                searchParam = Collections.unmodifiableList(ValidationSupport.checkList(builder.searchParam, "searchParam", SearchParam.class));
+                operation = Collections.unmodifiableList(ValidationSupport.checkList(builder.operation, "operation", Operation.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -5370,10 +5371,10 @@ public class CapabilityStatement extends DomainResource {
 
         private Messaging(Builder builder) {
             super(builder);
-            endpoint = ValidationSupport.checkAndFinalizeList(builder.endpoint, "endpoint", Endpoint.class);
+            endpoint = Collections.unmodifiableList(ValidationSupport.checkList(builder.endpoint, "endpoint", Endpoint.class));
             reliableCache = builder.reliableCache;
             documentation = builder.documentation;
-            supportedMessage = ValidationSupport.checkAndFinalizeList(builder.supportedMessage, "supportedMessage", SupportedMessage.class);
+            supportedMessage = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportedMessage, "supportedMessage", SupportedMessage.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

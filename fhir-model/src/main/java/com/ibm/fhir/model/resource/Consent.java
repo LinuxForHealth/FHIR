@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -208,18 +209,18 @@ public class Consent extends DomainResource {
 
     private Consent(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         scope = ValidationSupport.requireNonNull(builder.scope, "scope");
-        category = ValidationSupport.checkAndFinalizeNonEmptyList(builder.category, "category", CodeableConcept.class);
+        category = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.category, "category", CodeableConcept.class));
         patient = builder.patient;
         dateTime = builder.dateTime;
-        performer = ValidationSupport.checkAndFinalizeList(builder.performer, "performer", Reference.class);
-        organization = ValidationSupport.checkAndFinalizeList(builder.organization, "organization", Reference.class);
+        performer = Collections.unmodifiableList(ValidationSupport.checkList(builder.performer, "performer", Reference.class));
+        organization = Collections.unmodifiableList(ValidationSupport.checkList(builder.organization, "organization", Reference.class));
         source = ValidationSupport.choiceElement(builder.source, "source", Attachment.class, Reference.class);
-        policy = ValidationSupport.checkAndFinalizeList(builder.policy, "policy", Policy.class);
+        policy = Collections.unmodifiableList(ValidationSupport.checkList(builder.policy, "policy", Policy.class));
         policyRule = builder.policyRule;
-        verification = ValidationSupport.checkAndFinalizeList(builder.verification, "verification", Verification.class);
+        verification = Collections.unmodifiableList(ValidationSupport.checkList(builder.verification, "verification", Verification.class));
         provision = builder.provision;
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(performer, "performer", "Organization", "Patient", "Practitioner", "RelatedPerson", "PractitionerRole");
@@ -1757,15 +1758,15 @@ public class Consent extends DomainResource {
             super(builder);
             type = builder.type;
             period = builder.period;
-            actor = ValidationSupport.checkAndFinalizeList(builder.actor, "actor", Actor.class);
-            action = ValidationSupport.checkAndFinalizeList(builder.action, "action", CodeableConcept.class);
-            securityLabel = ValidationSupport.checkAndFinalizeList(builder.securityLabel, "securityLabel", Coding.class);
-            purpose = ValidationSupport.checkAndFinalizeList(builder.purpose, "purpose", Coding.class);
-            clazz = ValidationSupport.checkAndFinalizeList(builder.clazz, "class", Coding.class);
-            code = ValidationSupport.checkAndFinalizeList(builder.code, "code", CodeableConcept.class);
+            actor = Collections.unmodifiableList(ValidationSupport.checkList(builder.actor, "actor", Actor.class));
+            action = Collections.unmodifiableList(ValidationSupport.checkList(builder.action, "action", CodeableConcept.class));
+            securityLabel = Collections.unmodifiableList(ValidationSupport.checkList(builder.securityLabel, "securityLabel", Coding.class));
+            purpose = Collections.unmodifiableList(ValidationSupport.checkList(builder.purpose, "purpose", Coding.class));
+            clazz = Collections.unmodifiableList(ValidationSupport.checkList(builder.clazz, "class", Coding.class));
+            code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", CodeableConcept.class));
             dataPeriod = builder.dataPeriod;
-            data = ValidationSupport.checkAndFinalizeList(builder.data, "data", Data.class);
-            provision = ValidationSupport.checkAndFinalizeList(builder.provision, "provision", Consent.Provision.class);
+            data = Collections.unmodifiableList(ValidationSupport.checkList(builder.data, "data", Data.class));
+            provision = Collections.unmodifiableList(ValidationSupport.checkList(builder.provision, "provision", Consent.Provision.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

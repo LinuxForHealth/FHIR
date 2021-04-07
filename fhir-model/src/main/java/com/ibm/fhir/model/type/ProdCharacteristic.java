@@ -8,6 +8,7 @@ package com.ibm.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -57,9 +58,9 @@ public class ProdCharacteristic extends BackboneElement {
         nominalVolume = builder.nominalVolume;
         externalDiameter = builder.externalDiameter;
         shape = builder.shape;
-        color = ValidationSupport.checkAndFinalizeList(builder.color, "color", String.class);
-        imprint = ValidationSupport.checkAndFinalizeList(builder.imprint, "imprint", String.class);
-        image = ValidationSupport.checkAndFinalizeList(builder.image, "image", Attachment.class);
+        color = Collections.unmodifiableList(ValidationSupport.checkList(builder.color, "color", String.class));
+        imprint = Collections.unmodifiableList(ValidationSupport.checkList(builder.imprint, "imprint", String.class));
+        image = Collections.unmodifiableList(ValidationSupport.checkList(builder.image, "image", Attachment.class));
         scoring = builder.scoring;
         ValidationSupport.requireValueOrChildren(this);
     }

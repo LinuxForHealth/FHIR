@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -131,7 +132,7 @@ public class MeasureReport extends DomainResource {
 
     private MeasureReport(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         type = ValidationSupport.requireNonNull(builder.type, "type");
         measure = ValidationSupport.requireNonNull(builder.measure, "measure");
@@ -140,8 +141,8 @@ public class MeasureReport extends DomainResource {
         reporter = builder.reporter;
         period = ValidationSupport.requireNonNull(builder.period, "period");
         improvementNotation = builder.improvementNotation;
-        group = ValidationSupport.checkAndFinalizeList(builder.group, "group", Group.class);
-        evaluatedResource = ValidationSupport.checkAndFinalizeList(builder.evaluatedResource, "evaluatedResource", Reference.class);
+        group = Collections.unmodifiableList(ValidationSupport.checkList(builder.group, "group", Group.class));
+        evaluatedResource = Collections.unmodifiableList(ValidationSupport.checkList(builder.evaluatedResource, "evaluatedResource", Reference.class));
         ValidationSupport.checkValueSetBinding(improvementNotation, "improvementNotation", "http://hl7.org/fhir/ValueSet/measure-improvement-notation", "http://terminology.hl7.org/CodeSystem/measure-improvement-notation", "increase", "decrease");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "PractitionerRole", "Location", "Device", "RelatedPerson", "Group");
         ValidationSupport.checkReferenceType(reporter, "reporter", "Practitioner", "PractitionerRole", "Location", "Organization");
@@ -894,9 +895,9 @@ public class MeasureReport extends DomainResource {
         private Group(Builder builder) {
             super(builder);
             code = builder.code;
-            population = ValidationSupport.checkAndFinalizeList(builder.population, "population", Population.class);
+            population = Collections.unmodifiableList(ValidationSupport.checkList(builder.population, "population", Population.class));
             measureScore = builder.measureScore;
-            stratifier = ValidationSupport.checkAndFinalizeList(builder.stratifier, "stratifier", Stratifier.class);
+            stratifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.stratifier, "stratifier", Stratifier.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1569,8 +1570,8 @@ public class MeasureReport extends DomainResource {
 
             private Stratifier(Builder builder) {
                 super(builder);
-                code = ValidationSupport.checkAndFinalizeList(builder.code, "code", CodeableConcept.class);
-                stratum = ValidationSupport.checkAndFinalizeList(builder.stratum, "stratum", Stratum.class);
+                code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", CodeableConcept.class));
+                stratum = Collections.unmodifiableList(ValidationSupport.checkList(builder.stratum, "stratum", Stratum.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -1876,8 +1877,8 @@ public class MeasureReport extends DomainResource {
                 private Stratum(Builder builder) {
                     super(builder);
                     value = builder.value;
-                    component = ValidationSupport.checkAndFinalizeList(builder.component, "component", Component.class);
-                    population = ValidationSupport.checkAndFinalizeList(builder.population, "population", Population.class);
+                    component = Collections.unmodifiableList(ValidationSupport.checkList(builder.component, "component", Component.class));
+                    population = Collections.unmodifiableList(ValidationSupport.checkList(builder.population, "population", Population.class));
                     measureScore = builder.measureScore;
                     ValidationSupport.requireValueOrChildren(this);
                 }

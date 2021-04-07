@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -109,18 +110,18 @@ public class RelatedPerson extends DomainResource {
 
     private RelatedPerson(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         active = builder.active;
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        relationship = ValidationSupport.checkAndFinalizeList(builder.relationship, "relationship", CodeableConcept.class);
-        name = ValidationSupport.checkAndFinalizeList(builder.name, "name", HumanName.class);
-        telecom = ValidationSupport.checkAndFinalizeList(builder.telecom, "telecom", ContactPoint.class);
+        relationship = Collections.unmodifiableList(ValidationSupport.checkList(builder.relationship, "relationship", CodeableConcept.class));
+        name = Collections.unmodifiableList(ValidationSupport.checkList(builder.name, "name", HumanName.class));
+        telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
         gender = builder.gender;
         birthDate = builder.birthDate;
-        address = ValidationSupport.checkAndFinalizeList(builder.address, "address", Address.class);
-        photo = ValidationSupport.checkAndFinalizeList(builder.photo, "photo", Attachment.class);
+        address = Collections.unmodifiableList(ValidationSupport.checkList(builder.address, "address", Address.class));
+        photo = Collections.unmodifiableList(ValidationSupport.checkList(builder.photo, "photo", Attachment.class));
         period = builder.period;
-        communication = ValidationSupport.checkAndFinalizeList(builder.communication, "communication", Communication.class);
+        communication = Collections.unmodifiableList(ValidationSupport.checkList(builder.communication, "communication", Communication.class));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.requireChildren(this);
     }

@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -104,19 +105,19 @@ public class CareTeam extends DomainResource {
 
     private CareTeam(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = builder.status;
-        category = ValidationSupport.checkAndFinalizeList(builder.category, "category", CodeableConcept.class);
+        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
         name = builder.name;
         subject = builder.subject;
         encounter = builder.encounter;
         period = builder.period;
-        participant = ValidationSupport.checkAndFinalizeList(builder.participant, "participant", Participant.class);
-        reasonCode = ValidationSupport.checkAndFinalizeList(builder.reasonCode, "reasonCode", CodeableConcept.class);
-        reasonReference = ValidationSupport.checkAndFinalizeList(builder.reasonReference, "reasonReference", Reference.class);
-        managingOrganization = ValidationSupport.checkAndFinalizeList(builder.managingOrganization, "managingOrganization", Reference.class);
-        telecom = ValidationSupport.checkAndFinalizeList(builder.telecom, "telecom", ContactPoint.class);
-        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
+        participant = Collections.unmodifiableList(ValidationSupport.checkList(builder.participant, "participant", Participant.class));
+        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
+        managingOrganization = Collections.unmodifiableList(ValidationSupport.checkList(builder.managingOrganization, "managingOrganization", Reference.class));
+        telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition");
@@ -1029,7 +1030,7 @@ public class CareTeam extends DomainResource {
 
         private Participant(Builder builder) {
             super(builder);
-            role = ValidationSupport.checkAndFinalizeList(builder.role, "role", CodeableConcept.class);
+            role = Collections.unmodifiableList(ValidationSupport.checkList(builder.role, "role", CodeableConcept.class));
             member = builder.member;
             onBehalfOf = builder.onBehalfOf;
             period = builder.period;

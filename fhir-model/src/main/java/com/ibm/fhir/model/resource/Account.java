@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -90,16 +91,16 @@ public class Account extends DomainResource {
 
     private Account(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         type = builder.type;
         name = builder.name;
-        subject = ValidationSupport.checkAndFinalizeList(builder.subject, "subject", Reference.class);
+        subject = Collections.unmodifiableList(ValidationSupport.checkList(builder.subject, "subject", Reference.class));
         servicePeriod = builder.servicePeriod;
-        coverage = ValidationSupport.checkAndFinalizeList(builder.coverage, "coverage", Coverage.class);
+        coverage = Collections.unmodifiableList(ValidationSupport.checkList(builder.coverage, "coverage", Coverage.class));
         owner = builder.owner;
         description = builder.description;
-        guarantor = ValidationSupport.checkAndFinalizeList(builder.guarantor, "guarantor", Guarantor.class);
+        guarantor = Collections.unmodifiableList(ValidationSupport.checkList(builder.guarantor, "guarantor", Guarantor.class));
         partOf = builder.partOf;
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Device", "Practitioner", "PractitionerRole", "Location", "HealthcareService", "Organization");
         ValidationSupport.checkReferenceType(owner, "owner", "Organization");

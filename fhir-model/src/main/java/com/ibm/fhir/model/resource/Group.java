@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -99,7 +100,7 @@ public class Group extends DomainResource {
 
     private Group(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         active = builder.active;
         type = ValidationSupport.requireNonNull(builder.type, "type");
         actual = ValidationSupport.requireNonNull(builder.actual, "actual");
@@ -107,8 +108,8 @@ public class Group extends DomainResource {
         name = builder.name;
         quantity = builder.quantity;
         managingEntity = builder.managingEntity;
-        characteristic = ValidationSupport.checkAndFinalizeList(builder.characteristic, "characteristic", Characteristic.class);
-        member = ValidationSupport.checkAndFinalizeList(builder.member, "member", Member.class);
+        characteristic = Collections.unmodifiableList(ValidationSupport.checkList(builder.characteristic, "characteristic", Characteristic.class));
+        member = Collections.unmodifiableList(ValidationSupport.checkList(builder.member, "member", Member.class));
         ValidationSupport.checkReferenceType(managingEntity, "managingEntity", "Organization", "RelatedPerson", "Practitioner", "PractitionerRole");
         ValidationSupport.requireChildren(this);
     }

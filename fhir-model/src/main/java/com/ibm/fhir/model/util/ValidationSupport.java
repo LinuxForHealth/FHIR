@@ -11,7 +11,6 @@ import static com.ibm.fhir.model.util.ModelSupport.FHIR_STRING;
 
 import java.io.StringReader;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -344,7 +343,7 @@ public final class ValidationSupport {
     }
 
     /**
-     * @deprecated subsumed by {@link #checkAndFinalizeNonEmptyList(List, String, Class)}
+     * @deprecated replaced by {@link #checkNonEmptyList(List, String, Class)}
      * @throws IllegalStateException if the passed list is empty or contains any null objects
      */
     @Deprecated
@@ -357,7 +356,7 @@ public final class ValidationSupport {
     }
 
     /**
-     * @deprecated subsumed by {@link #checkAndFinalizeList(List, String, Class)}
+     * @deprecated replaced by {@link #checkList(List, String, Class)}
      * @throws IllegalStateException if the passed list contains any null objects
      */
     @Deprecated
@@ -376,32 +375,31 @@ public final class ValidationSupport {
     }
 
     /**
-     * @return an unmodifiable copy of the passed list
-     * @throws IllegalStateException if the passed list contains any null objects or objects of an incompatible type
+     * @return the same list that was passed
+     * @throws IllegalStateException if the passed list is empty or contains any null objects or objects of an incompatible type
      */
-    public static <T> List<T> checkAndFinalizeNonEmptyList(List<T> elements, String elementName, Class<T> type) {
+    public static <T> List<T> checkNonEmptyList(List<T> elements, String elementName, Class<T> type) {
         if (elements.isEmpty()) {
             throw new IllegalStateException(String.format("Missing required element: '%s'", elementName));
         }
-        return checkAndFinalizeList(elements, elementName, type);
+        return checkList(elements, elementName, type);
     }
 
     /**
-     * @return an unmodifiable copy of the passed list
+     * @return the same list that was passed
      * @throws IllegalStateException if the passed list contains any null objects or objects of an incompatible type
      */
-    public static <T> List<T> checkAndFinalizeList(List<T> elements, String elementName, Class<T> type) {
+    public static <T> List<T> checkList(List<T> elements, String elementName, Class<T> type) {
         for (T element : elements) {
+            if (Objects.isNull(element)) {
+                throw new IllegalStateException(String.format("Repeating element: '%s' does not permit null elements", elementName));
+            }
             if (!type.isInstance(element)) {
-                if (Objects.isNull(element)) {
-                    throw new IllegalStateException(String.format("Repeating element: '%s' does not permit null elements", elementName));
-                } else {
-                    throw new IllegalStateException(String.format("Invalid type '%s' for list element '%s'; must be '%s'",
-                            element.getClass().getSimpleName(), elementName, type.getSimpleName()));
-                }
+                throw new IllegalStateException(String.format("Invalid type: %s for repeating element: '%s' must be: %s",
+                        element.getClass().getSimpleName(), elementName, type.getSimpleName()));
             }
         }
-        return Collections.unmodifiableList(elements);
+        return elements;
     }
 
     /**

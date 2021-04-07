@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -255,20 +256,20 @@ public class TestScript extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
-        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         purpose = builder.purpose;
         copyright = builder.copyright;
-        origin = ValidationSupport.checkAndFinalizeList(builder.origin, "origin", Origin.class);
-        destination = ValidationSupport.checkAndFinalizeList(builder.destination, "destination", Destination.class);
+        origin = Collections.unmodifiableList(ValidationSupport.checkList(builder.origin, "origin", Origin.class));
+        destination = Collections.unmodifiableList(ValidationSupport.checkList(builder.destination, "destination", Destination.class));
         metadata = builder.metadata;
-        fixture = ValidationSupport.checkAndFinalizeList(builder.fixture, "fixture", Fixture.class);
-        profile = ValidationSupport.checkAndFinalizeList(builder.profile, "profile", Reference.class);
-        variable = ValidationSupport.checkAndFinalizeList(builder.variable, "variable", Variable.class);
+        fixture = Collections.unmodifiableList(ValidationSupport.checkList(builder.fixture, "fixture", Fixture.class));
+        profile = Collections.unmodifiableList(ValidationSupport.checkList(builder.profile, "profile", Reference.class));
+        variable = Collections.unmodifiableList(ValidationSupport.checkList(builder.variable, "variable", Variable.class));
         setup = builder.setup;
-        test = ValidationSupport.checkAndFinalizeList(builder.test, "test", Test.class);
+        test = Collections.unmodifiableList(ValidationSupport.checkList(builder.test, "test", Test.class));
         teardown = builder.teardown;
         ValidationSupport.requireChildren(this);
     }
@@ -2080,8 +2081,8 @@ public class TestScript extends DomainResource {
 
         private Metadata(Builder builder) {
             super(builder);
-            link = ValidationSupport.checkAndFinalizeList(builder.link, "link", Link.class);
-            capability = ValidationSupport.checkAndFinalizeNonEmptyList(builder.capability, "capability", Capability.class);
+            link = Collections.unmodifiableList(ValidationSupport.checkList(builder.link, "link", Link.class));
+            capability = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.capability, "capability", Capability.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2669,9 +2670,9 @@ public class TestScript extends DomainResource {
                 required = ValidationSupport.requireNonNull(builder.required, "required");
                 validated = ValidationSupport.requireNonNull(builder.validated, "validated");
                 description = builder.description;
-                origin = ValidationSupport.checkAndFinalizeList(builder.origin, "origin", Integer.class);
+                origin = Collections.unmodifiableList(ValidationSupport.checkList(builder.origin, "origin", Integer.class));
                 destination = builder.destination;
-                link = ValidationSupport.checkAndFinalizeList(builder.link, "link", Uri.class);
+                link = Collections.unmodifiableList(ValidationSupport.checkList(builder.link, "link", Uri.class));
                 capabilities = ValidationSupport.requireNonNull(builder.capabilities, "capabilities");
                 ValidationSupport.requireValueOrChildren(this);
             }
@@ -3920,7 +3921,7 @@ public class TestScript extends DomainResource {
 
         private Setup(Builder builder) {
             super(builder);
-            action = ValidationSupport.checkAndFinalizeNonEmptyList(builder.action, "action", Action.class);
+            action = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.action, "action", Action.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -4495,7 +4496,7 @@ public class TestScript extends DomainResource {
                     method = builder.method;
                     origin = builder.origin;
                     params = builder.params;
-                    requestHeader = ValidationSupport.checkAndFinalizeList(builder.requestHeader, "requestHeader", RequestHeader.class);
+                    requestHeader = Collections.unmodifiableList(ValidationSupport.checkList(builder.requestHeader, "requestHeader", RequestHeader.class));
                     requestId = builder.requestId;
                     responseId = builder.responseId;
                     sourceId = builder.sourceId;
@@ -6476,7 +6477,7 @@ public class TestScript extends DomainResource {
             super(builder);
             name = builder.name;
             description = builder.description;
-            action = ValidationSupport.checkAndFinalizeNonEmptyList(builder.action, "action", Action.class);
+            action = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.action, "action", Action.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -7056,7 +7057,7 @@ public class TestScript extends DomainResource {
 
         private Teardown(Builder builder) {
             super(builder);
-            action = ValidationSupport.checkAndFinalizeNonEmptyList(builder.action, "action", Action.class);
+            action = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.action, "action", Action.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

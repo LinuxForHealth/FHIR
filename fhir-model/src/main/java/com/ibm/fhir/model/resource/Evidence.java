@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -142,7 +143,7 @@ public class Evidence extends DomainResource {
     private Evidence(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         version = builder.version;
         name = builder.name;
         title = builder.title;
@@ -151,24 +152,24 @@ public class Evidence extends DomainResource {
         status = ValidationSupport.requireNonNull(builder.status, "status");
         date = builder.date;
         publisher = builder.publisher;
-        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
-        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
-        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = ValidationSupport.checkAndFinalizeList(builder.topic, "topic", CodeableConcept.class);
-        author = ValidationSupport.checkAndFinalizeList(builder.author, "author", ContactDetail.class);
-        editor = ValidationSupport.checkAndFinalizeList(builder.editor, "editor", ContactDetail.class);
-        reviewer = ValidationSupport.checkAndFinalizeList(builder.reviewer, "reviewer", ContactDetail.class);
-        endorser = ValidationSupport.checkAndFinalizeList(builder.endorser, "endorser", ContactDetail.class);
-        relatedArtifact = ValidationSupport.checkAndFinalizeList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
+        topic = Collections.unmodifiableList(ValidationSupport.checkList(builder.topic, "topic", CodeableConcept.class));
+        author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", ContactDetail.class));
+        editor = Collections.unmodifiableList(ValidationSupport.checkList(builder.editor, "editor", ContactDetail.class));
+        reviewer = Collections.unmodifiableList(ValidationSupport.checkList(builder.reviewer, "reviewer", ContactDetail.class));
+        endorser = Collections.unmodifiableList(ValidationSupport.checkList(builder.endorser, "endorser", ContactDetail.class));
+        relatedArtifact = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class));
         exposureBackground = ValidationSupport.requireNonNull(builder.exposureBackground, "exposureBackground");
-        exposureVariant = ValidationSupport.checkAndFinalizeList(builder.exposureVariant, "exposureVariant", Reference.class);
-        outcome = ValidationSupport.checkAndFinalizeList(builder.outcome, "outcome", Reference.class);
+        exposureVariant = Collections.unmodifiableList(ValidationSupport.checkList(builder.exposureVariant, "exposureVariant", Reference.class));
+        outcome = Collections.unmodifiableList(ValidationSupport.checkList(builder.outcome, "outcome", Reference.class));
         ValidationSupport.checkReferenceType(exposureBackground, "exposureBackground", "EvidenceVariable");
         ValidationSupport.checkReferenceType(exposureVariant, "exposureVariant", "EvidenceVariable");
         ValidationSupport.checkReferenceType(outcome, "outcome", "EvidenceVariable");

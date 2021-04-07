@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -107,16 +108,16 @@ public class Organization extends DomainResource {
 
     private Organization(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         active = builder.active;
-        type = ValidationSupport.checkAndFinalizeList(builder.type, "type", CodeableConcept.class);
+        type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
         name = builder.name;
-        alias = ValidationSupport.checkAndFinalizeList(builder.alias, "alias", String.class);
-        telecom = ValidationSupport.checkAndFinalizeList(builder.telecom, "telecom", ContactPoint.class);
-        address = ValidationSupport.checkAndFinalizeList(builder.address, "address", Address.class);
+        alias = Collections.unmodifiableList(ValidationSupport.checkList(builder.alias, "alias", String.class));
+        telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
+        address = Collections.unmodifiableList(ValidationSupport.checkList(builder.address, "address", Address.class));
         partOf = builder.partOf;
-        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", Contact.class);
-        endpoint = ValidationSupport.checkAndFinalizeList(builder.endpoint, "endpoint", Reference.class);
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", Contact.class));
+        endpoint = Collections.unmodifiableList(ValidationSupport.checkList(builder.endpoint, "endpoint", Reference.class));
         ValidationSupport.checkReferenceType(partOf, "partOf", "Organization");
         ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
         ValidationSupport.requireChildren(this);
@@ -892,7 +893,7 @@ public class Organization extends DomainResource {
             super(builder);
             purpose = builder.purpose;
             name = builder.name;
-            telecom = ValidationSupport.checkAndFinalizeList(builder.telecom, "telecom", ContactPoint.class);
+            telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
             address = builder.address;
             ValidationSupport.requireValueOrChildren(this);
         }

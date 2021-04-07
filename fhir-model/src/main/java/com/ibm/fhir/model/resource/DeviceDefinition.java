@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -97,28 +98,28 @@ public class DeviceDefinition extends DomainResource {
 
     private DeviceDefinition(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
-        udiDeviceIdentifier = ValidationSupport.checkAndFinalizeList(builder.udiDeviceIdentifier, "udiDeviceIdentifier", UdiDeviceIdentifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        udiDeviceIdentifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.udiDeviceIdentifier, "udiDeviceIdentifier", UdiDeviceIdentifier.class));
         manufacturer = ValidationSupport.choiceElement(builder.manufacturer, "manufacturer", String.class, Reference.class);
-        deviceName = ValidationSupport.checkAndFinalizeList(builder.deviceName, "deviceName", DeviceName.class);
+        deviceName = Collections.unmodifiableList(ValidationSupport.checkList(builder.deviceName, "deviceName", DeviceName.class));
         modelNumber = builder.modelNumber;
         type = builder.type;
-        specialization = ValidationSupport.checkAndFinalizeList(builder.specialization, "specialization", Specialization.class);
-        version = ValidationSupport.checkAndFinalizeList(builder.version, "version", String.class);
-        safety = ValidationSupport.checkAndFinalizeList(builder.safety, "safety", CodeableConcept.class);
-        shelfLifeStorage = ValidationSupport.checkAndFinalizeList(builder.shelfLifeStorage, "shelfLifeStorage", ProductShelfLife.class);
+        specialization = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialization, "specialization", Specialization.class));
+        version = Collections.unmodifiableList(ValidationSupport.checkList(builder.version, "version", String.class));
+        safety = Collections.unmodifiableList(ValidationSupport.checkList(builder.safety, "safety", CodeableConcept.class));
+        shelfLifeStorage = Collections.unmodifiableList(ValidationSupport.checkList(builder.shelfLifeStorage, "shelfLifeStorage", ProductShelfLife.class));
         physicalCharacteristics = builder.physicalCharacteristics;
-        languageCode = ValidationSupport.checkAndFinalizeList(builder.languageCode, "languageCode", CodeableConcept.class);
-        capability = ValidationSupport.checkAndFinalizeList(builder.capability, "capability", Capability.class);
-        property = ValidationSupport.checkAndFinalizeList(builder.property, "property", Property.class);
+        languageCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.languageCode, "languageCode", CodeableConcept.class));
+        capability = Collections.unmodifiableList(ValidationSupport.checkList(builder.capability, "capability", Capability.class));
+        property = Collections.unmodifiableList(ValidationSupport.checkList(builder.property, "property", Property.class));
         owner = builder.owner;
-        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactPoint.class);
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactPoint.class));
         url = builder.url;
         onlineInformation = builder.onlineInformation;
-        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
         quantity = builder.quantity;
         parentDevice = builder.parentDevice;
-        material = ValidationSupport.checkAndFinalizeList(builder.material, "material", Material.class);
+        material = Collections.unmodifiableList(ValidationSupport.checkList(builder.material, "material", Material.class));
         ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
         ValidationSupport.checkReferenceType(owner, "owner", "Organization");
         ValidationSupport.checkReferenceType(parentDevice, "parentDevice", "DeviceDefinition");
@@ -2255,7 +2256,7 @@ public class DeviceDefinition extends DomainResource {
         private Capability(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
-            description = ValidationSupport.checkAndFinalizeList(builder.description, "description", CodeableConcept.class);
+            description = Collections.unmodifiableList(ValidationSupport.checkList(builder.description, "description", CodeableConcept.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2545,8 +2546,8 @@ public class DeviceDefinition extends DomainResource {
         private Property(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
-            valueQuantity = ValidationSupport.checkAndFinalizeList(builder.valueQuantity, "valueQuantity", Quantity.class);
-            valueCode = ValidationSupport.checkAndFinalizeList(builder.valueCode, "valueCode", CodeableConcept.class);
+            valueQuantity = Collections.unmodifiableList(ValidationSupport.checkList(builder.valueQuantity, "valueQuantity", Quantity.class));
+            valueCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.valueCode, "valueCode", CodeableConcept.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

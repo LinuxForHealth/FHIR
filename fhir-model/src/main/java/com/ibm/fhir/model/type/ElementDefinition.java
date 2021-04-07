@@ -8,6 +8,7 @@ package com.ibm.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -272,39 +273,39 @@ public class ElementDefinition extends BackboneElement {
     private ElementDefinition(Builder builder) {
         super(builder);
         path = ValidationSupport.requireNonNull(builder.path, "path");
-        representation = ValidationSupport.checkAndFinalizeList(builder.representation, "representation", PropertyRepresentation.class);
+        representation = Collections.unmodifiableList(ValidationSupport.checkList(builder.representation, "representation", PropertyRepresentation.class));
         sliceName = builder.sliceName;
         sliceIsConstraining = builder.sliceIsConstraining;
         label = builder.label;
-        code = ValidationSupport.checkAndFinalizeList(builder.code, "code", Coding.class);
+        code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", Coding.class));
         slicing = builder.slicing;
         _short = builder._short;
         definition = builder.definition;
         comment = builder.comment;
         requirements = builder.requirements;
-        alias = ValidationSupport.checkAndFinalizeList(builder.alias, "alias", String.class);
+        alias = Collections.unmodifiableList(ValidationSupport.checkList(builder.alias, "alias", String.class));
         min = builder.min;
         max = builder.max;
         base = builder.base;
         contentReference = builder.contentReference;
-        type = ValidationSupport.checkAndFinalizeList(builder.type, "type", Type.class);
+        type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", Type.class));
         defaultValue = ValidationSupport.choiceElement(builder.defaultValue, "defaultValue", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
         meaningWhenMissing = builder.meaningWhenMissing;
         orderMeaning = builder.orderMeaning;
         fixed = ValidationSupport.choiceElement(builder.fixed, "fixed", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
         pattern = ValidationSupport.choiceElement(builder.pattern, "pattern", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
-        example = ValidationSupport.checkAndFinalizeList(builder.example, "example", Example.class);
+        example = Collections.unmodifiableList(ValidationSupport.checkList(builder.example, "example", Example.class));
         minValue = ValidationSupport.choiceElement(builder.minValue, "minValue", Date.class, DateTime.class, Instant.class, Time.class, Decimal.class, Integer.class, PositiveInt.class, UnsignedInt.class, Quantity.class);
         maxValue = ValidationSupport.choiceElement(builder.maxValue, "maxValue", Date.class, DateTime.class, Instant.class, Time.class, Decimal.class, Integer.class, PositiveInt.class, UnsignedInt.class, Quantity.class);
         maxLength = builder.maxLength;
-        condition = ValidationSupport.checkAndFinalizeList(builder.condition, "condition", Id.class);
-        constraint = ValidationSupport.checkAndFinalizeList(builder.constraint, "constraint", Constraint.class);
+        condition = Collections.unmodifiableList(ValidationSupport.checkList(builder.condition, "condition", Id.class));
+        constraint = Collections.unmodifiableList(ValidationSupport.checkList(builder.constraint, "constraint", Constraint.class));
         mustSupport = builder.mustSupport;
         isModifier = builder.isModifier;
         isModifierReason = builder.isModifierReason;
         isSummary = builder.isSummary;
         binding = builder.binding;
-        mapping = ValidationSupport.checkAndFinalizeList(builder.mapping, "mapping", Mapping.class);
+        mapping = Collections.unmodifiableList(ValidationSupport.checkList(builder.mapping, "mapping", Mapping.class));
         ValidationSupport.requireValueOrChildren(this);
     }
 
@@ -1996,7 +1997,7 @@ public class ElementDefinition extends BackboneElement {
 
         private Slicing(Builder builder) {
             super(builder);
-            discriminator = ValidationSupport.checkAndFinalizeList(builder.discriminator, "discriminator", Discriminator.class);
+            discriminator = Collections.unmodifiableList(ValidationSupport.checkList(builder.discriminator, "discriminator", Discriminator.class));
             description = builder.description;
             ordered = builder.ordered;
             rules = ValidationSupport.requireNonNull(builder.rules, "rules");
@@ -2983,9 +2984,9 @@ public class ElementDefinition extends BackboneElement {
         private Type(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
-            profile = ValidationSupport.checkAndFinalizeList(builder.profile, "profile", Canonical.class);
-            targetProfile = ValidationSupport.checkAndFinalizeList(builder.targetProfile, "targetProfile", Canonical.class);
-            aggregation = ValidationSupport.checkAndFinalizeList(builder.aggregation, "aggregation", AggregationMode.class);
+            profile = Collections.unmodifiableList(ValidationSupport.checkList(builder.profile, "profile", Canonical.class));
+            targetProfile = Collections.unmodifiableList(ValidationSupport.checkList(builder.targetProfile, "targetProfile", Canonical.class));
+            aggregation = Collections.unmodifiableList(ValidationSupport.checkList(builder.aggregation, "aggregation", AggregationMode.class));
             versioning = builder.versioning;
             ValidationSupport.requireValueOrChildren(this);
         }

@@ -8,6 +8,7 @@ package com.ibm.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -76,7 +77,7 @@ public class Signature extends Element {
 
     private Signature(Builder builder) {
         super(builder);
-        type = ValidationSupport.checkAndFinalizeNonEmptyList(builder.type, "type", Coding.class);
+        type = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.type, "type", Coding.class));
         when = ValidationSupport.requireNonNull(builder.when, "when");
         who = ValidationSupport.requireNonNull(builder.who, "who");
         onBehalfOf = builder.onBehalfOf;

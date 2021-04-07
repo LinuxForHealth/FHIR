@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -61,10 +62,10 @@ public class SubstanceReferenceInformation extends DomainResource {
     private SubstanceReferenceInformation(Builder builder) {
         super(builder);
         comment = builder.comment;
-        gene = ValidationSupport.checkAndFinalizeList(builder.gene, "gene", Gene.class);
-        geneElement = ValidationSupport.checkAndFinalizeList(builder.geneElement, "geneElement", GeneElement.class);
-        classification = ValidationSupport.checkAndFinalizeList(builder.classification, "classification", Classification.class);
-        target = ValidationSupport.checkAndFinalizeList(builder.target, "target", Target.class);
+        gene = Collections.unmodifiableList(ValidationSupport.checkList(builder.gene, "gene", Gene.class));
+        geneElement = Collections.unmodifiableList(ValidationSupport.checkList(builder.geneElement, "geneElement", GeneElement.class));
+        classification = Collections.unmodifiableList(ValidationSupport.checkList(builder.classification, "classification", Classification.class));
+        target = Collections.unmodifiableList(ValidationSupport.checkList(builder.target, "target", Target.class));
         ValidationSupport.requireChildren(this);
     }
 
@@ -610,7 +611,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             super(builder);
             geneSequenceOrigin = builder.geneSequenceOrigin;
             gene = builder.gene;
-            source = ValidationSupport.checkAndFinalizeList(builder.source, "source", Reference.class);
+            source = Collections.unmodifiableList(ValidationSupport.checkList(builder.source, "source", Reference.class));
             ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -938,7 +939,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             super(builder);
             type = builder.type;
             element = builder.element;
-            source = ValidationSupport.checkAndFinalizeList(builder.source, "source", Reference.class);
+            source = Collections.unmodifiableList(ValidationSupport.checkList(builder.source, "source", Reference.class));
             ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -1268,8 +1269,8 @@ public class SubstanceReferenceInformation extends DomainResource {
             super(builder);
             domain = builder.domain;
             classification = builder.classification;
-            subtype = ValidationSupport.checkAndFinalizeList(builder.subtype, "subtype", CodeableConcept.class);
-            source = ValidationSupport.checkAndFinalizeList(builder.source, "source", Reference.class);
+            subtype = Collections.unmodifiableList(ValidationSupport.checkList(builder.subtype, "subtype", CodeableConcept.class));
+            source = Collections.unmodifiableList(ValidationSupport.checkList(builder.source, "source", Reference.class));
             ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -1663,7 +1664,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             organismType = builder.organismType;
             amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, Range.class, String.class);
             amountType = builder.amountType;
-            source = ValidationSupport.checkAndFinalizeList(builder.source, "source", Reference.class);
+            source = Collections.unmodifiableList(ValidationSupport.checkList(builder.source, "source", Reference.class));
             ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
             ValidationSupport.requireValueOrChildren(this);
         }

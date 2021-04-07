@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -182,23 +183,23 @@ public class OperationDefinition extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
-        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         purpose = builder.purpose;
         affectsState = builder.affectsState;
         code = ValidationSupport.requireNonNull(builder.code, "code");
         comment = builder.comment;
         base = builder.base;
-        resource = ValidationSupport.checkAndFinalizeList(builder.resource, "resource", ResourceType.class);
+        resource = Collections.unmodifiableList(ValidationSupport.checkList(builder.resource, "resource", ResourceType.class));
         system = ValidationSupport.requireNonNull(builder.system, "system");
         type = ValidationSupport.requireNonNull(builder.type, "type");
         instance = ValidationSupport.requireNonNull(builder.instance, "instance");
         inputProfile = builder.inputProfile;
         outputProfile = builder.outputProfile;
-        parameter = ValidationSupport.checkAndFinalizeList(builder.parameter, "parameter", Parameter.class);
-        overload = ValidationSupport.checkAndFinalizeList(builder.overload, "overload", Overload.class);
+        parameter = Collections.unmodifiableList(ValidationSupport.checkList(builder.parameter, "parameter", Parameter.class));
+        overload = Collections.unmodifiableList(ValidationSupport.checkList(builder.overload, "overload", Overload.class));
         ValidationSupport.requireChildren(this);
     }
 
@@ -1510,11 +1511,11 @@ public class OperationDefinition extends DomainResource {
             max = ValidationSupport.requireNonNull(builder.max, "max");
             documentation = builder.documentation;
             type = builder.type;
-            targetProfile = ValidationSupport.checkAndFinalizeList(builder.targetProfile, "targetProfile", Canonical.class);
+            targetProfile = Collections.unmodifiableList(ValidationSupport.checkList(builder.targetProfile, "targetProfile", Canonical.class));
             searchType = builder.searchType;
             binding = builder.binding;
-            referencedFrom = ValidationSupport.checkAndFinalizeList(builder.referencedFrom, "referencedFrom", ReferencedFrom.class);
-            part = ValidationSupport.checkAndFinalizeList(builder.part, "part", OperationDefinition.Parameter.class);
+            referencedFrom = Collections.unmodifiableList(ValidationSupport.checkList(builder.referencedFrom, "referencedFrom", ReferencedFrom.class));
+            part = Collections.unmodifiableList(ValidationSupport.checkList(builder.part, "part", OperationDefinition.Parameter.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2685,7 +2686,7 @@ public class OperationDefinition extends DomainResource {
 
         private Overload(Builder builder) {
             super(builder);
-            parameterName = ValidationSupport.checkAndFinalizeList(builder.parameterName, "parameterName", String.class);
+            parameterName = Collections.unmodifiableList(ValidationSupport.checkList(builder.parameterName, "parameterName", String.class));
             comment = builder.comment;
             ValidationSupport.requireValueOrChildren(this);
         }

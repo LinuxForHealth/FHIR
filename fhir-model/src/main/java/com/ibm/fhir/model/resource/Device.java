@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -119,31 +120,31 @@ public class Device extends DomainResource {
 
     private Device(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         definition = builder.definition;
-        udiCarrier = ValidationSupport.checkAndFinalizeList(builder.udiCarrier, "udiCarrier", UdiCarrier.class);
+        udiCarrier = Collections.unmodifiableList(ValidationSupport.checkList(builder.udiCarrier, "udiCarrier", UdiCarrier.class));
         status = builder.status;
-        statusReason = ValidationSupport.checkAndFinalizeList(builder.statusReason, "statusReason", CodeableConcept.class);
+        statusReason = Collections.unmodifiableList(ValidationSupport.checkList(builder.statusReason, "statusReason", CodeableConcept.class));
         distinctIdentifier = builder.distinctIdentifier;
         manufacturer = builder.manufacturer;
         manufactureDate = builder.manufactureDate;
         expirationDate = builder.expirationDate;
         lotNumber = builder.lotNumber;
         serialNumber = builder.serialNumber;
-        deviceName = ValidationSupport.checkAndFinalizeList(builder.deviceName, "deviceName", DeviceName.class);
+        deviceName = Collections.unmodifiableList(ValidationSupport.checkList(builder.deviceName, "deviceName", DeviceName.class));
         modelNumber = builder.modelNumber;
         partNumber = builder.partNumber;
         type = builder.type;
-        specialization = ValidationSupport.checkAndFinalizeList(builder.specialization, "specialization", Specialization.class);
-        version = ValidationSupport.checkAndFinalizeList(builder.version, "version", Version.class);
-        property = ValidationSupport.checkAndFinalizeList(builder.property, "property", Property.class);
+        specialization = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialization, "specialization", Specialization.class));
+        version = Collections.unmodifiableList(ValidationSupport.checkList(builder.version, "version", Version.class));
+        property = Collections.unmodifiableList(ValidationSupport.checkList(builder.property, "property", Property.class));
         patient = builder.patient;
         owner = builder.owner;
-        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactPoint.class);
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactPoint.class));
         location = builder.location;
         url = builder.url;
-        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
-        safety = ValidationSupport.checkAndFinalizeList(builder.safety, "safety", CodeableConcept.class);
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        safety = Collections.unmodifiableList(ValidationSupport.checkList(builder.safety, "safety", CodeableConcept.class));
         parent = builder.parent;
         ValidationSupport.checkReferenceType(definition, "definition", "DeviceDefinition");
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
@@ -2767,8 +2768,8 @@ public class Device extends DomainResource {
         private Property(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
-            valueQuantity = ValidationSupport.checkAndFinalizeList(builder.valueQuantity, "valueQuantity", Quantity.class);
-            valueCode = ValidationSupport.checkAndFinalizeList(builder.valueCode, "valueCode", CodeableConcept.class);
+            valueQuantity = Collections.unmodifiableList(ValidationSupport.checkList(builder.valueQuantity, "valueQuantity", Quantity.class));
+            valueCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.valueCode, "valueCode", CodeableConcept.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

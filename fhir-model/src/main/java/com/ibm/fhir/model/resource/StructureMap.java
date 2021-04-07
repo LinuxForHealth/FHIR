@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -181,7 +182,7 @@ public class StructureMap extends DomainResource {
     private StructureMap(Builder builder) {
         super(builder);
         url = ValidationSupport.requireNonNull(builder.url, "url");
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         version = builder.version;
         name = ValidationSupport.requireNonNull(builder.name, "name");
         title = builder.title;
@@ -189,15 +190,15 @@ public class StructureMap extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
-        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         purpose = builder.purpose;
         copyright = builder.copyright;
-        structure = ValidationSupport.checkAndFinalizeList(builder.structure, "structure", Structure.class);
-        _import = ValidationSupport.checkAndFinalizeList(builder._import, "import", Canonical.class);
-        group = ValidationSupport.checkAndFinalizeNonEmptyList(builder.group, "group", Group.class);
+        structure = Collections.unmodifiableList(ValidationSupport.checkList(builder.structure, "structure", Structure.class));
+        _import = Collections.unmodifiableList(ValidationSupport.checkList(builder._import, "import", Canonical.class));
+        group = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.group, "group", Group.class));
         ValidationSupport.requireChildren(this);
     }
 
@@ -1609,8 +1610,8 @@ public class StructureMap extends DomainResource {
             _extends = builder._extends;
             typeMode = ValidationSupport.requireNonNull(builder.typeMode, "typeMode");
             documentation = builder.documentation;
-            input = ValidationSupport.checkAndFinalizeNonEmptyList(builder.input, "input", Input.class);
-            rule = ValidationSupport.checkAndFinalizeNonEmptyList(builder.rule, "rule", Rule.class);
+            input = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.input, "input", Input.class));
+            rule = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.rule, "rule", Rule.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2407,10 +2408,10 @@ public class StructureMap extends DomainResource {
             private Rule(Builder builder) {
                 super(builder);
                 name = ValidationSupport.requireNonNull(builder.name, "name");
-                source = ValidationSupport.checkAndFinalizeNonEmptyList(builder.source, "source", Source.class);
-                target = ValidationSupport.checkAndFinalizeList(builder.target, "target", Target.class);
-                rule = ValidationSupport.checkAndFinalizeList(builder.rule, "rule", StructureMap.Group.Rule.class);
-                dependent = ValidationSupport.checkAndFinalizeList(builder.dependent, "dependent", Dependent.class);
+                source = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.source, "source", Source.class));
+                target = Collections.unmodifiableList(ValidationSupport.checkList(builder.target, "target", Target.class));
+                rule = Collections.unmodifiableList(ValidationSupport.checkList(builder.rule, "rule", StructureMap.Group.Rule.class));
+                dependent = Collections.unmodifiableList(ValidationSupport.checkList(builder.dependent, "dependent", Dependent.class));
                 documentation = builder.documentation;
                 ValidationSupport.requireValueOrChildren(this);
             }
@@ -3553,10 +3554,10 @@ public class StructureMap extends DomainResource {
                     contextType = builder.contextType;
                     element = builder.element;
                     variable = builder.variable;
-                    listMode = ValidationSupport.checkAndFinalizeList(builder.listMode, "listMode", StructureMapTargetListMode.class);
+                    listMode = Collections.unmodifiableList(ValidationSupport.checkList(builder.listMode, "listMode", StructureMapTargetListMode.class));
                     listRuleId = builder.listRuleId;
                     transform = builder.transform;
-                    parameter = ValidationSupport.checkAndFinalizeList(builder.parameter, "parameter", Parameter.class);
+                    parameter = Collections.unmodifiableList(ValidationSupport.checkList(builder.parameter, "parameter", Parameter.class));
                     ValidationSupport.requireValueOrChildren(this);
                 }
 
@@ -4289,7 +4290,7 @@ public class StructureMap extends DomainResource {
                 private Dependent(Builder builder) {
                     super(builder);
                     name = ValidationSupport.requireNonNull(builder.name, "name");
-                    variable = ValidationSupport.checkAndFinalizeNonEmptyList(builder.variable, "variable", String.class);
+                    variable = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.variable, "variable", String.class));
                     ValidationSupport.requireValueOrChildren(this);
                 }
 

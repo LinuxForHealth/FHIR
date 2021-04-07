@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -151,24 +152,24 @@ public class AdverseEvent extends DomainResource {
         super(builder);
         identifier = builder.identifier;
         actuality = ValidationSupport.requireNonNull(builder.actuality, "actuality");
-        category = ValidationSupport.checkAndFinalizeList(builder.category, "category", CodeableConcept.class);
+        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
         event = builder.event;
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
         encounter = builder.encounter;
         date = builder.date;
         detected = builder.detected;
         recordedDate = builder.recordedDate;
-        resultingCondition = ValidationSupport.checkAndFinalizeList(builder.resultingCondition, "resultingCondition", Reference.class);
+        resultingCondition = Collections.unmodifiableList(ValidationSupport.checkList(builder.resultingCondition, "resultingCondition", Reference.class));
         location = builder.location;
         seriousness = builder.seriousness;
         severity = builder.severity;
         outcome = builder.outcome;
         recorder = builder.recorder;
-        contributor = ValidationSupport.checkAndFinalizeList(builder.contributor, "contributor", Reference.class);
-        suspectEntity = ValidationSupport.checkAndFinalizeList(builder.suspectEntity, "suspectEntity", SuspectEntity.class);
-        subjectMedicalHistory = ValidationSupport.checkAndFinalizeList(builder.subjectMedicalHistory, "subjectMedicalHistory", Reference.class);
-        referenceDocument = ValidationSupport.checkAndFinalizeList(builder.referenceDocument, "referenceDocument", Reference.class);
-        study = ValidationSupport.checkAndFinalizeList(builder.study, "study", Reference.class);
+        contributor = Collections.unmodifiableList(ValidationSupport.checkList(builder.contributor, "contributor", Reference.class));
+        suspectEntity = Collections.unmodifiableList(ValidationSupport.checkList(builder.suspectEntity, "suspectEntity", SuspectEntity.class));
+        subjectMedicalHistory = Collections.unmodifiableList(ValidationSupport.checkList(builder.subjectMedicalHistory, "subjectMedicalHistory", Reference.class));
+        referenceDocument = Collections.unmodifiableList(ValidationSupport.checkList(builder.referenceDocument, "referenceDocument", Reference.class));
+        study = Collections.unmodifiableList(ValidationSupport.checkList(builder.study, "study", Reference.class));
         ValidationSupport.checkValueSetBinding(severity, "severity", "http://hl7.org/fhir/ValueSet/adverse-event-severity", "http://terminology.hl7.org/CodeSystem/adverse-event-severity", "mild", "moderate", "severe");
         ValidationSupport.checkValueSetBinding(outcome, "outcome", "http://hl7.org/fhir/ValueSet/adverse-event-outcome", "http://terminology.hl7.org/CodeSystem/adverse-event-outcome", "resolved", "recovering", "ongoing", "resolvedWithSequelae", "fatal", "unknown");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Practitioner", "RelatedPerson");
@@ -1359,7 +1360,7 @@ public class AdverseEvent extends DomainResource {
         private SuspectEntity(Builder builder) {
             super(builder);
             instance = ValidationSupport.requireNonNull(builder.instance, "instance");
-            causality = ValidationSupport.checkAndFinalizeList(builder.causality, "causality", Causality.class);
+            causality = Collections.unmodifiableList(ValidationSupport.checkList(builder.causality, "causality", Causality.class));
             ValidationSupport.checkReferenceType(instance, "instance", "Immunization", "Procedure", "Substance", "Medication", "MedicationAdministration", "MedicationStatement", "Device");
             ValidationSupport.requireValueOrChildren(this);
         }

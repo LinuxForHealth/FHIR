@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -89,17 +90,17 @@ public class DocumentManifest extends DomainResource {
     private DocumentManifest(Builder builder) {
         super(builder);
         masterIdentifier = builder.masterIdentifier;
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         type = builder.type;
         subject = builder.subject;
         created = builder.created;
-        author = ValidationSupport.checkAndFinalizeList(builder.author, "author", Reference.class);
-        recipient = ValidationSupport.checkAndFinalizeList(builder.recipient, "recipient", Reference.class);
+        author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", Reference.class));
+        recipient = Collections.unmodifiableList(ValidationSupport.checkList(builder.recipient, "recipient", Reference.class));
         source = builder.source;
         description = builder.description;
-        content = ValidationSupport.checkAndFinalizeNonEmptyList(builder.content, "content", Reference.class);
-        related = ValidationSupport.checkAndFinalizeList(builder.related, "related", Related.class);
+        content = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.content, "content", Reference.class));
+        related = Collections.unmodifiableList(ValidationSupport.checkList(builder.related, "related", Related.class));
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "Group", "Device");
         ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Organization", "Device", "Patient", "RelatedPerson");
         ValidationSupport.checkReferenceType(recipient, "recipient", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");

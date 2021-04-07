@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -240,27 +241,27 @@ public class Questionnaire extends DomainResource {
     private Questionnaire(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         version = builder.version;
         name = builder.name;
         title = builder.title;
-        derivedFrom = ValidationSupport.checkAndFinalizeList(builder.derivedFrom, "derivedFrom", Canonical.class);
+        derivedFrom = Collections.unmodifiableList(ValidationSupport.checkList(builder.derivedFrom, "derivedFrom", Canonical.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         experimental = builder.experimental;
-        subjectType = ValidationSupport.checkAndFinalizeList(builder.subjectType, "subjectType", ResourceType.class);
+        subjectType = Collections.unmodifiableList(ValidationSupport.checkList(builder.subjectType, "subjectType", ResourceType.class));
         date = builder.date;
         publisher = builder.publisher;
-        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
-        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         purpose = builder.purpose;
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        code = ValidationSupport.checkAndFinalizeList(builder.code, "code", Coding.class);
-        item = ValidationSupport.checkAndFinalizeList(builder.item, "item", Item.class);
+        code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", Coding.class));
+        item = Collections.unmodifiableList(ValidationSupport.checkList(builder.item, "item", Item.class));
         ValidationSupport.requireChildren(this);
     }
 
@@ -1467,20 +1468,20 @@ public class Questionnaire extends DomainResource {
             super(builder);
             linkId = ValidationSupport.requireNonNull(builder.linkId, "linkId");
             definition = builder.definition;
-            code = ValidationSupport.checkAndFinalizeList(builder.code, "code", Coding.class);
+            code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", Coding.class));
             prefix = builder.prefix;
             text = builder.text;
             type = ValidationSupport.requireNonNull(builder.type, "type");
-            enableWhen = ValidationSupport.checkAndFinalizeList(builder.enableWhen, "enableWhen", EnableWhen.class);
+            enableWhen = Collections.unmodifiableList(ValidationSupport.checkList(builder.enableWhen, "enableWhen", EnableWhen.class));
             enableBehavior = builder.enableBehavior;
             required = builder.required;
             repeats = builder.repeats;
             readOnly = builder.readOnly;
             maxLength = builder.maxLength;
             answerValueSet = builder.answerValueSet;
-            answerOption = ValidationSupport.checkAndFinalizeList(builder.answerOption, "answerOption", AnswerOption.class);
-            initial = ValidationSupport.checkAndFinalizeList(builder.initial, "initial", Initial.class);
-            item = ValidationSupport.checkAndFinalizeList(builder.item, "item", Questionnaire.Item.class);
+            answerOption = Collections.unmodifiableList(ValidationSupport.checkList(builder.answerOption, "answerOption", AnswerOption.class));
+            initial = Collections.unmodifiableList(ValidationSupport.checkList(builder.initial, "initial", Initial.class));
+            item = Collections.unmodifiableList(ValidationSupport.checkList(builder.item, "item", Questionnaire.Item.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

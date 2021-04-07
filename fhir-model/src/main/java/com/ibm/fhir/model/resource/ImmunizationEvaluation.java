@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -106,7 +107,7 @@ public class ImmunizationEvaluation extends DomainResource {
 
     private ImmunizationEvaluation(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
         date = builder.date;
@@ -114,7 +115,7 @@ public class ImmunizationEvaluation extends DomainResource {
         targetDisease = ValidationSupport.requireNonNull(builder.targetDisease, "targetDisease");
         immunizationEvent = ValidationSupport.requireNonNull(builder.immunizationEvent, "immunizationEvent");
         doseStatus = ValidationSupport.requireNonNull(builder.doseStatus, "doseStatus");
-        doseStatusReason = ValidationSupport.checkAndFinalizeList(builder.doseStatusReason, "doseStatusReason", CodeableConcept.class);
+        doseStatusReason = Collections.unmodifiableList(ValidationSupport.checkList(builder.doseStatusReason, "doseStatusReason", CodeableConcept.class));
         description = builder.description;
         series = builder.series;
         doseNumber = ValidationSupport.choiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);

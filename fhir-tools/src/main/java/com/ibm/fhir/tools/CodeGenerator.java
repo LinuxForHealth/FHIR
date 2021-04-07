@@ -1118,8 +1118,8 @@ public class CodeGenerator {
 
                     if (isRequired(elementDefinition)) {
                         if (isRepeating(elementDefinition)) {
-                            cb.assign(fieldName, "ValidationSupport.checkAndFinalizeNonEmptyList(builder." + fieldName + ", " + quote(elementName) + ", " +
-                                    getFieldType(structureDefinition, elementDefinition, false) + ".class)");
+                            cb.assign(fieldName, "Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder." + fieldName + ", " + quote(elementName) + ", " +
+                                    getFieldType(structureDefinition, elementDefinition, false) + ".class))");
                         } else {
                             if (isChoiceElement(elementDefinition)) {
                                 String types = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
@@ -1130,8 +1130,8 @@ public class CodeGenerator {
                         }
                     } else {
                         if (isRepeating(elementDefinition)) {
-                            cb.assign(fieldName, "ValidationSupport.checkAndFinalizeList(builder." + fieldName + ", " + quote(elementName) + ", " +
-                                    getFieldType(structureDefinition, elementDefinition, false) + ".class)");
+                            cb.assign(fieldName, "Collections.unmodifiableList(ValidationSupport.checkList(builder." + fieldName + ", " + quote(elementName) + ", " +
+                                    getFieldType(structureDefinition, elementDefinition, false) + ".class))");
                         } else {
                             if (isChoiceElement(elementDefinition)) {
                                 String types = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
@@ -2004,6 +2004,7 @@ public class CodeGenerator {
                 if (basePath.startsWith(name) && !basePath.equals(name)) {
                     imports.add("com.ibm.fhir.model.util.ValidationSupport");
                     imports.add("java.util.ArrayList");
+                    imports.add("java.util.Collections");
                     if (!"List".equals(name)) {
                         imports.add("java.util.List");
                     }

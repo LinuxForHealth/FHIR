@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -229,30 +230,30 @@ public class Observation extends DomainResource {
 
     private Observation(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
-        basedOn = ValidationSupport.checkAndFinalizeList(builder.basedOn, "basedOn", Reference.class);
-        partOf = ValidationSupport.checkAndFinalizeList(builder.partOf, "partOf", Reference.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
+        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Reference.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        category = ValidationSupport.checkAndFinalizeList(builder.category, "category", CodeableConcept.class);
+        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
         code = ValidationSupport.requireNonNull(builder.code, "code");
         subject = builder.subject;
-        focus = ValidationSupport.checkAndFinalizeList(builder.focus, "focus", Reference.class);
+        focus = Collections.unmodifiableList(ValidationSupport.checkList(builder.focus, "focus", Reference.class));
         encounter = builder.encounter;
         effective = ValidationSupport.choiceElement(builder.effective, "effective", DateTime.class, Period.class, Timing.class, Instant.class);
         issued = builder.issued;
-        performer = ValidationSupport.checkAndFinalizeList(builder.performer, "performer", Reference.class);
+        performer = Collections.unmodifiableList(ValidationSupport.checkList(builder.performer, "performer", Reference.class));
         value = ValidationSupport.choiceElement(builder.value, "value", Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class);
         dataAbsentReason = builder.dataAbsentReason;
-        interpretation = ValidationSupport.checkAndFinalizeList(builder.interpretation, "interpretation", CodeableConcept.class);
-        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
+        interpretation = Collections.unmodifiableList(ValidationSupport.checkList(builder.interpretation, "interpretation", CodeableConcept.class));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
         bodySite = builder.bodySite;
         method = builder.method;
         specimen = builder.specimen;
         device = builder.device;
-        referenceRange = ValidationSupport.checkAndFinalizeList(builder.referenceRange, "referenceRange", ReferenceRange.class);
-        hasMember = ValidationSupport.checkAndFinalizeList(builder.hasMember, "hasMember", Reference.class);
-        derivedFrom = ValidationSupport.checkAndFinalizeList(builder.derivedFrom, "derivedFrom", Reference.class);
-        component = ValidationSupport.checkAndFinalizeList(builder.component, "component", Component.class);
+        referenceRange = Collections.unmodifiableList(ValidationSupport.checkList(builder.referenceRange, "referenceRange", ReferenceRange.class));
+        hasMember = Collections.unmodifiableList(ValidationSupport.checkList(builder.hasMember, "hasMember", Reference.class));
+        derivedFrom = Collections.unmodifiableList(ValidationSupport.checkList(builder.derivedFrom, "derivedFrom", Reference.class));
+        component = Collections.unmodifiableList(ValidationSupport.checkList(builder.component, "component", Component.class));
         ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "DeviceRequest", "ImmunizationRecommendation", "MedicationRequest", "NutritionOrder", "ServiceRequest");
         ValidationSupport.checkReferenceType(partOf, "partOf", "MedicationAdministration", "MedicationDispense", "MedicationStatement", "Procedure", "Immunization", "ImagingStudy");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Location");
@@ -1751,7 +1752,7 @@ public class Observation extends DomainResource {
             low = builder.low;
             high = builder.high;
             type = builder.type;
-            appliesTo = ValidationSupport.checkAndFinalizeList(builder.appliesTo, "appliesTo", CodeableConcept.class);
+            appliesTo = Collections.unmodifiableList(ValidationSupport.checkList(builder.appliesTo, "appliesTo", CodeableConcept.class));
             age = builder.age;
             text = builder.text;
             ValidationSupport.requireValueOrChildren(this);
@@ -2206,8 +2207,8 @@ public class Observation extends DomainResource {
             code = ValidationSupport.requireNonNull(builder.code, "code");
             value = ValidationSupport.choiceElement(builder.value, "value", Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class);
             dataAbsentReason = builder.dataAbsentReason;
-            interpretation = ValidationSupport.checkAndFinalizeList(builder.interpretation, "interpretation", CodeableConcept.class);
-            referenceRange = ValidationSupport.checkAndFinalizeList(builder.referenceRange, "referenceRange", Observation.ReferenceRange.class);
+            interpretation = Collections.unmodifiableList(ValidationSupport.checkList(builder.interpretation, "interpretation", CodeableConcept.class));
+            referenceRange = Collections.unmodifiableList(ValidationSupport.checkList(builder.referenceRange, "referenceRange", Observation.ReferenceRange.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

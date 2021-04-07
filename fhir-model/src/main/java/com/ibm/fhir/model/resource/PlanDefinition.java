@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -217,7 +218,7 @@ public class PlanDefinition extends DomainResource {
     private PlanDefinition(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         version = builder.version;
         name = builder.name;
         title = builder.title;
@@ -228,25 +229,25 @@ public class PlanDefinition extends DomainResource {
         subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
         date = builder.date;
         publisher = builder.publisher;
-        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
-        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         purpose = builder.purpose;
         usage = builder.usage;
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = ValidationSupport.checkAndFinalizeList(builder.topic, "topic", CodeableConcept.class);
-        author = ValidationSupport.checkAndFinalizeList(builder.author, "author", ContactDetail.class);
-        editor = ValidationSupport.checkAndFinalizeList(builder.editor, "editor", ContactDetail.class);
-        reviewer = ValidationSupport.checkAndFinalizeList(builder.reviewer, "reviewer", ContactDetail.class);
-        endorser = ValidationSupport.checkAndFinalizeList(builder.endorser, "endorser", ContactDetail.class);
-        relatedArtifact = ValidationSupport.checkAndFinalizeList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
-        library = ValidationSupport.checkAndFinalizeList(builder.library, "library", Canonical.class);
-        goal = ValidationSupport.checkAndFinalizeList(builder.goal, "goal", Goal.class);
-        action = ValidationSupport.checkAndFinalizeList(builder.action, "action", Action.class);
+        topic = Collections.unmodifiableList(ValidationSupport.checkList(builder.topic, "topic", CodeableConcept.class));
+        author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", ContactDetail.class));
+        editor = Collections.unmodifiableList(ValidationSupport.checkList(builder.editor, "editor", ContactDetail.class));
+        reviewer = Collections.unmodifiableList(ValidationSupport.checkList(builder.reviewer, "reviewer", ContactDetail.class));
+        endorser = Collections.unmodifiableList(ValidationSupport.checkList(builder.endorser, "endorser", ContactDetail.class));
+        relatedArtifact = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class));
+        library = Collections.unmodifiableList(ValidationSupport.checkList(builder.library, "library", Canonical.class));
+        goal = Collections.unmodifiableList(ValidationSupport.checkList(builder.goal, "goal", Goal.class));
+        action = Collections.unmodifiableList(ValidationSupport.checkList(builder.action, "action", Action.class));
         ValidationSupport.checkReferenceType(subject, "subject", "Group");
         ValidationSupport.requireChildren(this);
     }
@@ -1854,9 +1855,9 @@ public class PlanDefinition extends DomainResource {
             description = ValidationSupport.requireNonNull(builder.description, "description");
             priority = builder.priority;
             start = builder.start;
-            addresses = ValidationSupport.checkAndFinalizeList(builder.addresses, "addresses", CodeableConcept.class);
-            documentation = ValidationSupport.checkAndFinalizeList(builder.documentation, "documentation", RelatedArtifact.class);
-            target = ValidationSupport.checkAndFinalizeList(builder.target, "target", Target.class);
+            addresses = Collections.unmodifiableList(ValidationSupport.checkList(builder.addresses, "addresses", CodeableConcept.class));
+            documentation = Collections.unmodifiableList(ValidationSupport.checkList(builder.documentation, "documentation", RelatedArtifact.class));
+            target = Collections.unmodifiableList(ValidationSupport.checkList(builder.target, "target", Target.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2733,18 +2734,18 @@ public class PlanDefinition extends DomainResource {
             description = builder.description;
             textEquivalent = builder.textEquivalent;
             priority = builder.priority;
-            code = ValidationSupport.checkAndFinalizeList(builder.code, "code", CodeableConcept.class);
-            reason = ValidationSupport.checkAndFinalizeList(builder.reason, "reason", CodeableConcept.class);
-            documentation = ValidationSupport.checkAndFinalizeList(builder.documentation, "documentation", RelatedArtifact.class);
-            goalId = ValidationSupport.checkAndFinalizeList(builder.goalId, "goalId", Id.class);
+            code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", CodeableConcept.class));
+            reason = Collections.unmodifiableList(ValidationSupport.checkList(builder.reason, "reason", CodeableConcept.class));
+            documentation = Collections.unmodifiableList(ValidationSupport.checkList(builder.documentation, "documentation", RelatedArtifact.class));
+            goalId = Collections.unmodifiableList(ValidationSupport.checkList(builder.goalId, "goalId", Id.class));
             subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
-            trigger = ValidationSupport.checkAndFinalizeList(builder.trigger, "trigger", TriggerDefinition.class);
-            condition = ValidationSupport.checkAndFinalizeList(builder.condition, "condition", Condition.class);
-            input = ValidationSupport.checkAndFinalizeList(builder.input, "input", DataRequirement.class);
-            output = ValidationSupport.checkAndFinalizeList(builder.output, "output", DataRequirement.class);
-            relatedAction = ValidationSupport.checkAndFinalizeList(builder.relatedAction, "relatedAction", RelatedAction.class);
+            trigger = Collections.unmodifiableList(ValidationSupport.checkList(builder.trigger, "trigger", TriggerDefinition.class));
+            condition = Collections.unmodifiableList(ValidationSupport.checkList(builder.condition, "condition", Condition.class));
+            input = Collections.unmodifiableList(ValidationSupport.checkList(builder.input, "input", DataRequirement.class));
+            output = Collections.unmodifiableList(ValidationSupport.checkList(builder.output, "output", DataRequirement.class));
+            relatedAction = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedAction, "relatedAction", RelatedAction.class));
             timing = ValidationSupport.choiceElement(builder.timing, "timing", DateTime.class, Age.class, Period.class, Duration.class, Range.class, Timing.class);
-            participant = ValidationSupport.checkAndFinalizeList(builder.participant, "participant", Participant.class);
+            participant = Collections.unmodifiableList(ValidationSupport.checkList(builder.participant, "participant", Participant.class));
             type = builder.type;
             groupingBehavior = builder.groupingBehavior;
             selectionBehavior = builder.selectionBehavior;
@@ -2753,8 +2754,8 @@ public class PlanDefinition extends DomainResource {
             cardinalityBehavior = builder.cardinalityBehavior;
             definition = ValidationSupport.choiceElement(builder.definition, "definition", Canonical.class, Uri.class);
             transform = builder.transform;
-            dynamicValue = ValidationSupport.checkAndFinalizeList(builder.dynamicValue, "dynamicValue", DynamicValue.class);
-            action = ValidationSupport.checkAndFinalizeList(builder.action, "action", PlanDefinition.Action.class);
+            dynamicValue = Collections.unmodifiableList(ValidationSupport.checkList(builder.dynamicValue, "dynamicValue", DynamicValue.class));
+            action = Collections.unmodifiableList(ValidationSupport.checkList(builder.action, "action", PlanDefinition.Action.class));
             ValidationSupport.checkReferenceType(subject, "subject", "Group");
             ValidationSupport.requireValueOrChildren(this);
         }

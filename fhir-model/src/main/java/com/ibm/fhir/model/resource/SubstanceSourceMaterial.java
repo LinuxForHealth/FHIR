@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -83,14 +84,14 @@ public class SubstanceSourceMaterial extends DomainResource {
         sourceMaterialState = builder.sourceMaterialState;
         organismId = builder.organismId;
         organismName = builder.organismName;
-        parentSubstanceId = ValidationSupport.checkAndFinalizeList(builder.parentSubstanceId, "parentSubstanceId", Identifier.class);
-        parentSubstanceName = ValidationSupport.checkAndFinalizeList(builder.parentSubstanceName, "parentSubstanceName", String.class);
-        countryOfOrigin = ValidationSupport.checkAndFinalizeList(builder.countryOfOrigin, "countryOfOrigin", CodeableConcept.class);
-        geographicalLocation = ValidationSupport.checkAndFinalizeList(builder.geographicalLocation, "geographicalLocation", String.class);
+        parentSubstanceId = Collections.unmodifiableList(ValidationSupport.checkList(builder.parentSubstanceId, "parentSubstanceId", Identifier.class));
+        parentSubstanceName = Collections.unmodifiableList(ValidationSupport.checkList(builder.parentSubstanceName, "parentSubstanceName", String.class));
+        countryOfOrigin = Collections.unmodifiableList(ValidationSupport.checkList(builder.countryOfOrigin, "countryOfOrigin", CodeableConcept.class));
+        geographicalLocation = Collections.unmodifiableList(ValidationSupport.checkList(builder.geographicalLocation, "geographicalLocation", String.class));
         developmentStage = builder.developmentStage;
-        fractionDescription = ValidationSupport.checkAndFinalizeList(builder.fractionDescription, "fractionDescription", FractionDescription.class);
+        fractionDescription = Collections.unmodifiableList(ValidationSupport.checkList(builder.fractionDescription, "fractionDescription", FractionDescription.class));
         organism = builder.organism;
-        partDescription = ValidationSupport.checkAndFinalizeList(builder.partDescription, "partDescription", PartDescription.class);
+        partDescription = Collections.unmodifiableList(ValidationSupport.checkList(builder.partDescription, "partDescription", PartDescription.class));
         ValidationSupport.requireChildren(this);
     }
 
@@ -1253,7 +1254,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             species = builder.species;
             intraspecificType = builder.intraspecificType;
             intraspecificDescription = builder.intraspecificDescription;
-            author = ValidationSupport.checkAndFinalizeList(builder.author, "author", Author.class);
+            author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", Author.class));
             hybrid = builder.hybrid;
             organismGeneral = builder.organismGeneral;
             ValidationSupport.requireValueOrChildren(this);

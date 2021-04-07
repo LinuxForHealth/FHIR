@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -88,9 +89,9 @@ public class SupplyDelivery extends DomainResource {
 
     private SupplyDelivery(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
-        basedOn = ValidationSupport.checkAndFinalizeList(builder.basedOn, "basedOn", Reference.class);
-        partOf = ValidationSupport.checkAndFinalizeList(builder.partOf, "partOf", Reference.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
+        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Reference.class));
         status = builder.status;
         patient = builder.patient;
         type = builder.type;
@@ -98,7 +99,7 @@ public class SupplyDelivery extends DomainResource {
         occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
         supplier = builder.supplier;
         destination = builder.destination;
-        receiver = ValidationSupport.checkAndFinalizeList(builder.receiver, "receiver", Reference.class);
+        receiver = Collections.unmodifiableList(ValidationSupport.checkList(builder.receiver, "receiver", Reference.class));
         ValidationSupport.checkValueSetBinding(type, "type", "http://hl7.org/fhir/ValueSet/supplydelivery-type", "http://terminology.hl7.org/CodeSystem/supply-item-type", "medication", "device");
         ValidationSupport.checkReferenceType(basedOn, "basedOn", "SupplyRequest");
         ValidationSupport.checkReferenceType(partOf, "partOf", "SupplyDelivery", "Contract");

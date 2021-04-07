@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -127,15 +128,15 @@ public class ObservationDefinition extends DomainResource {
 
     private ObservationDefinition(Builder builder) {
         super(builder);
-        category = ValidationSupport.checkAndFinalizeList(builder.category, "category", CodeableConcept.class);
+        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
         code = ValidationSupport.requireNonNull(builder.code, "code");
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
-        permittedDataType = ValidationSupport.checkAndFinalizeList(builder.permittedDataType, "permittedDataType", ObservationDataType.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        permittedDataType = Collections.unmodifiableList(ValidationSupport.checkList(builder.permittedDataType, "permittedDataType", ObservationDataType.class));
         multipleResultsAllowed = builder.multipleResultsAllowed;
         method = builder.method;
         preferredReportName = builder.preferredReportName;
         quantitativeDetails = builder.quantitativeDetails;
-        qualifiedInterval = ValidationSupport.checkAndFinalizeList(builder.qualifiedInterval, "qualifiedInterval", QualifiedInterval.class);
+        qualifiedInterval = Collections.unmodifiableList(ValidationSupport.checkList(builder.qualifiedInterval, "qualifiedInterval", QualifiedInterval.class));
         validCodedValueSet = builder.validCodedValueSet;
         normalCodedValueSet = builder.normalCodedValueSet;
         abnormalCodedValueSet = builder.abnormalCodedValueSet;
@@ -1323,7 +1324,7 @@ public class ObservationDefinition extends DomainResource {
             category = builder.category;
             range = builder.range;
             context = builder.context;
-            appliesTo = ValidationSupport.checkAndFinalizeList(builder.appliesTo, "appliesTo", CodeableConcept.class);
+            appliesTo = Collections.unmodifiableList(ValidationSupport.checkList(builder.appliesTo, "appliesTo", CodeableConcept.class));
             gender = builder.gender;
             age = builder.age;
             gestationalAge = builder.gestationalAge;

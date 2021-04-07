@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -217,12 +218,12 @@ public class Task extends DomainResource {
 
     private Task(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         instantiatesCanonical = builder.instantiatesCanonical;
         instantiatesUri = builder.instantiatesUri;
-        basedOn = ValidationSupport.checkAndFinalizeList(builder.basedOn, "basedOn", Reference.class);
+        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
         groupIdentifier = builder.groupIdentifier;
-        partOf = ValidationSupport.checkAndFinalizeList(builder.partOf, "partOf", Reference.class);
+        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Reference.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusReason = builder.statusReason;
         businessStatus = builder.businessStatus;
@@ -237,17 +238,17 @@ public class Task extends DomainResource {
         authoredOn = builder.authoredOn;
         lastModified = builder.lastModified;
         requester = builder.requester;
-        performerType = ValidationSupport.checkAndFinalizeList(builder.performerType, "performerType", CodeableConcept.class);
+        performerType = Collections.unmodifiableList(ValidationSupport.checkList(builder.performerType, "performerType", CodeableConcept.class));
         owner = builder.owner;
         location = builder.location;
         reasonCode = builder.reasonCode;
         reasonReference = builder.reasonReference;
-        insurance = ValidationSupport.checkAndFinalizeList(builder.insurance, "insurance", Reference.class);
-        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
-        relevantHistory = ValidationSupport.checkAndFinalizeList(builder.relevantHistory, "relevantHistory", Reference.class);
+        insurance = Collections.unmodifiableList(ValidationSupport.checkList(builder.insurance, "insurance", Reference.class));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        relevantHistory = Collections.unmodifiableList(ValidationSupport.checkList(builder.relevantHistory, "relevantHistory", Reference.class));
         restriction = builder.restriction;
-        input = ValidationSupport.checkAndFinalizeList(builder.input, "input", Input.class);
-        output = ValidationSupport.checkAndFinalizeList(builder.output, "output", Output.class);
+        input = Collections.unmodifiableList(ValidationSupport.checkList(builder.input, "input", Input.class));
+        output = Collections.unmodifiableList(ValidationSupport.checkList(builder.output, "output", Output.class));
         ValidationSupport.checkReferenceType(partOf, "partOf", "Task");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(requester, "requester", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
@@ -1777,7 +1778,7 @@ public class Task extends DomainResource {
             super(builder);
             repetitions = builder.repetitions;
             period = builder.period;
-            recipient = ValidationSupport.checkAndFinalizeList(builder.recipient, "recipient", Reference.class);
+            recipient = Collections.unmodifiableList(ValidationSupport.checkList(builder.recipient, "recipient", Reference.class));
             ValidationSupport.checkReferenceType(recipient, "recipient", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Group", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }

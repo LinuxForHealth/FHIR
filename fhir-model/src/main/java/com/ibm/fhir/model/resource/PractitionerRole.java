@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -104,20 +105,20 @@ public class PractitionerRole extends DomainResource {
 
     private PractitionerRole(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         active = builder.active;
         period = builder.period;
         practitioner = builder.practitioner;
         organization = builder.organization;
-        code = ValidationSupport.checkAndFinalizeList(builder.code, "code", CodeableConcept.class);
-        specialty = ValidationSupport.checkAndFinalizeList(builder.specialty, "specialty", CodeableConcept.class);
-        location = ValidationSupport.checkAndFinalizeList(builder.location, "location", Reference.class);
-        healthcareService = ValidationSupport.checkAndFinalizeList(builder.healthcareService, "healthcareService", Reference.class);
-        telecom = ValidationSupport.checkAndFinalizeList(builder.telecom, "telecom", ContactPoint.class);
-        availableTime = ValidationSupport.checkAndFinalizeList(builder.availableTime, "availableTime", AvailableTime.class);
-        notAvailable = ValidationSupport.checkAndFinalizeList(builder.notAvailable, "notAvailable", NotAvailable.class);
+        code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", CodeableConcept.class));
+        specialty = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialty, "specialty", CodeableConcept.class));
+        location = Collections.unmodifiableList(ValidationSupport.checkList(builder.location, "location", Reference.class));
+        healthcareService = Collections.unmodifiableList(ValidationSupport.checkList(builder.healthcareService, "healthcareService", Reference.class));
+        telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
+        availableTime = Collections.unmodifiableList(ValidationSupport.checkList(builder.availableTime, "availableTime", AvailableTime.class));
+        notAvailable = Collections.unmodifiableList(ValidationSupport.checkList(builder.notAvailable, "notAvailable", NotAvailable.class));
         availabilityExceptions = builder.availabilityExceptions;
-        endpoint = ValidationSupport.checkAndFinalizeList(builder.endpoint, "endpoint", Reference.class);
+        endpoint = Collections.unmodifiableList(ValidationSupport.checkList(builder.endpoint, "endpoint", Reference.class));
         ValidationSupport.checkReferenceType(practitioner, "practitioner", "Practitioner");
         ValidationSupport.checkReferenceType(organization, "organization", "Organization");
         ValidationSupport.checkReferenceType(location, "location", "Location");
@@ -1081,7 +1082,7 @@ public class PractitionerRole extends DomainResource {
 
         private AvailableTime(Builder builder) {
             super(builder);
-            daysOfWeek = ValidationSupport.checkAndFinalizeList(builder.daysOfWeek, "daysOfWeek", DaysOfWeek.class);
+            daysOfWeek = Collections.unmodifiableList(ValidationSupport.checkList(builder.daysOfWeek, "daysOfWeek", DaysOfWeek.class));
             allDay = builder.allDay;
             availableStartTime = builder.availableStartTime;
             availableEndTime = builder.availableEndTime;

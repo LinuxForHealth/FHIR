@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -104,8 +105,8 @@ public class QuestionnaireResponse extends DomainResource {
     private QuestionnaireResponse(Builder builder) {
         super(builder);
         identifier = builder.identifier;
-        basedOn = ValidationSupport.checkAndFinalizeList(builder.basedOn, "basedOn", Reference.class);
-        partOf = ValidationSupport.checkAndFinalizeList(builder.partOf, "partOf", Reference.class);
+        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
+        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Reference.class));
         questionnaire = builder.questionnaire;
         status = ValidationSupport.requireNonNull(builder.status, "status");
         subject = builder.subject;
@@ -113,7 +114,7 @@ public class QuestionnaireResponse extends DomainResource {
         authored = builder.authored;
         author = builder.author;
         source = builder.source;
-        item = ValidationSupport.checkAndFinalizeList(builder.item, "item", Item.class);
+        item = Collections.unmodifiableList(ValidationSupport.checkList(builder.item, "item", Item.class));
         ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ServiceRequest");
         ValidationSupport.checkReferenceType(partOf, "partOf", "Observation", "Procedure");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
@@ -888,8 +889,8 @@ public class QuestionnaireResponse extends DomainResource {
             linkId = ValidationSupport.requireNonNull(builder.linkId, "linkId");
             definition = builder.definition;
             text = builder.text;
-            answer = ValidationSupport.checkAndFinalizeList(builder.answer, "answer", Answer.class);
-            item = ValidationSupport.checkAndFinalizeList(builder.item, "item", QuestionnaireResponse.Item.class);
+            answer = Collections.unmodifiableList(ValidationSupport.checkList(builder.answer, "answer", Answer.class));
+            item = Collections.unmodifiableList(ValidationSupport.checkList(builder.item, "item", QuestionnaireResponse.Item.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1293,7 +1294,7 @@ public class QuestionnaireResponse extends DomainResource {
             private Answer(Builder builder) {
                 super(builder);
                 value = ValidationSupport.choiceElement(builder.value, "value", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class);
-                item = ValidationSupport.checkAndFinalizeList(builder.item, "item", QuestionnaireResponse.Item.class);
+                item = Collections.unmodifiableList(ValidationSupport.checkList(builder.item, "item", QuestionnaireResponse.Item.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 

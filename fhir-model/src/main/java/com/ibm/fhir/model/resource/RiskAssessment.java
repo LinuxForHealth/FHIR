@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -117,7 +118,7 @@ public class RiskAssessment extends DomainResource {
 
     private RiskAssessment(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         basedOn = builder.basedOn;
         parent = builder.parent;
         status = ValidationSupport.requireNonNull(builder.status, "status");
@@ -128,12 +129,12 @@ public class RiskAssessment extends DomainResource {
         occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class);
         condition = builder.condition;
         performer = builder.performer;
-        reasonCode = ValidationSupport.checkAndFinalizeList(builder.reasonCode, "reasonCode", CodeableConcept.class);
-        reasonReference = ValidationSupport.checkAndFinalizeList(builder.reasonReference, "reasonReference", Reference.class);
-        basis = ValidationSupport.checkAndFinalizeList(builder.basis, "basis", Reference.class);
-        prediction = ValidationSupport.checkAndFinalizeList(builder.prediction, "prediction", Prediction.class);
+        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
+        basis = Collections.unmodifiableList(ValidationSupport.checkList(builder.basis, "basis", Reference.class));
+        prediction = Collections.unmodifiableList(ValidationSupport.checkList(builder.prediction, "prediction", Prediction.class));
         mitigation = builder.mitigation;
-        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(condition, "condition", "Condition");

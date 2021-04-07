@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -110,10 +111,10 @@ public class CoverageEligibilityRequest extends DomainResource {
 
     private CoverageEligibilityRequest(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         priority = builder.priority;
-        purpose = ValidationSupport.checkAndFinalizeNonEmptyList(builder.purpose, "purpose", EligibilityRequestPurpose.class);
+        purpose = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.purpose, "purpose", EligibilityRequestPurpose.class));
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
         serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
         created = ValidationSupport.requireNonNull(builder.created, "created");
@@ -121,9 +122,9 @@ public class CoverageEligibilityRequest extends DomainResource {
         provider = builder.provider;
         insurer = ValidationSupport.requireNonNull(builder.insurer, "insurer");
         facility = builder.facility;
-        supportingInfo = ValidationSupport.checkAndFinalizeList(builder.supportingInfo, "supportingInfo", SupportingInfo.class);
-        insurance = ValidationSupport.checkAndFinalizeList(builder.insurance, "insurance", Insurance.class);
-        item = ValidationSupport.checkAndFinalizeList(builder.item, "item", Item.class);
+        supportingInfo = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingInfo, "supportingInfo", SupportingInfo.class));
+        insurance = Collections.unmodifiableList(ValidationSupport.checkList(builder.insurance, "insurance", Insurance.class));
+        item = Collections.unmodifiableList(ValidationSupport.checkList(builder.item, "item", Item.class));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(enterer, "enterer", "Practitioner", "PractitionerRole");
         ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
@@ -1671,16 +1672,16 @@ public class CoverageEligibilityRequest extends DomainResource {
 
         private Item(Builder builder) {
             super(builder);
-            supportingInfoSequence = ValidationSupport.checkAndFinalizeList(builder.supportingInfoSequence, "supportingInfoSequence", PositiveInt.class);
+            supportingInfoSequence = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingInfoSequence, "supportingInfoSequence", PositiveInt.class));
             category = builder.category;
             productOrService = builder.productOrService;
-            modifier = ValidationSupport.checkAndFinalizeList(builder.modifier, "modifier", CodeableConcept.class);
+            modifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifier, "modifier", CodeableConcept.class));
             provider = builder.provider;
             quantity = builder.quantity;
             unitPrice = builder.unitPrice;
             facility = builder.facility;
-            diagnosis = ValidationSupport.checkAndFinalizeList(builder.diagnosis, "diagnosis", Diagnosis.class);
-            detail = ValidationSupport.checkAndFinalizeList(builder.detail, "detail", Reference.class);
+            diagnosis = Collections.unmodifiableList(ValidationSupport.checkList(builder.diagnosis, "diagnosis", Diagnosis.class));
+            detail = Collections.unmodifiableList(ValidationSupport.checkList(builder.detail, "detail", Reference.class));
             ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole");
             ValidationSupport.checkReferenceType(facility, "facility", "Location", "Organization");
             ValidationSupport.requireValueOrChildren(this);

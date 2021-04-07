@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -147,30 +148,30 @@ public class MedicationDispense extends DomainResource {
 
     private MedicationDispense(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
-        partOf = ValidationSupport.checkAndFinalizeList(builder.partOf, "partOf", Reference.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Reference.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusReason = ValidationSupport.choiceElement(builder.statusReason, "statusReason", CodeableConcept.class, Reference.class);
         category = builder.category;
         medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
         subject = builder.subject;
         context = builder.context;
-        supportingInformation = ValidationSupport.checkAndFinalizeList(builder.supportingInformation, "supportingInformation", Reference.class);
-        performer = ValidationSupport.checkAndFinalizeList(builder.performer, "performer", Performer.class);
+        supportingInformation = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingInformation, "supportingInformation", Reference.class));
+        performer = Collections.unmodifiableList(ValidationSupport.checkList(builder.performer, "performer", Performer.class));
         location = builder.location;
-        authorizingPrescription = ValidationSupport.checkAndFinalizeList(builder.authorizingPrescription, "authorizingPrescription", Reference.class);
+        authorizingPrescription = Collections.unmodifiableList(ValidationSupport.checkList(builder.authorizingPrescription, "authorizingPrescription", Reference.class));
         type = builder.type;
         quantity = builder.quantity;
         daysSupply = builder.daysSupply;
         whenPrepared = builder.whenPrepared;
         whenHandedOver = builder.whenHandedOver;
         destination = builder.destination;
-        receiver = ValidationSupport.checkAndFinalizeList(builder.receiver, "receiver", Reference.class);
-        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
-        dosageInstruction = ValidationSupport.checkAndFinalizeList(builder.dosageInstruction, "dosageInstruction", Dosage.class);
+        receiver = Collections.unmodifiableList(ValidationSupport.checkList(builder.receiver, "receiver", Reference.class));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        dosageInstruction = Collections.unmodifiableList(ValidationSupport.checkList(builder.dosageInstruction, "dosageInstruction", Dosage.class));
         substitution = builder.substitution;
-        detectedIssue = ValidationSupport.checkAndFinalizeList(builder.detectedIssue, "detectedIssue", Reference.class);
-        eventHistory = ValidationSupport.checkAndFinalizeList(builder.eventHistory, "eventHistory", Reference.class);
+        detectedIssue = Collections.unmodifiableList(ValidationSupport.checkList(builder.detectedIssue, "detectedIssue", Reference.class));
+        eventHistory = Collections.unmodifiableList(ValidationSupport.checkList(builder.eventHistory, "eventHistory", Reference.class));
         ValidationSupport.checkReferenceType(partOf, "partOf", "Procedure");
         ValidationSupport.checkReferenceType(statusReason, "statusReason", "DetectedIssue");
         ValidationSupport.checkReferenceType(medication, "medication", "Medication");
@@ -1850,8 +1851,8 @@ public class MedicationDispense extends DomainResource {
             super(builder);
             wasSubstituted = ValidationSupport.requireNonNull(builder.wasSubstituted, "wasSubstituted");
             type = builder.type;
-            reason = ValidationSupport.checkAndFinalizeList(builder.reason, "reason", CodeableConcept.class);
-            responsibleParty = ValidationSupport.checkAndFinalizeList(builder.responsibleParty, "responsibleParty", Reference.class);
+            reason = Collections.unmodifiableList(ValidationSupport.checkList(builder.reason, "reason", CodeableConcept.class));
+            responsibleParty = Collections.unmodifiableList(ValidationSupport.checkList(builder.responsibleParty, "responsibleParty", Reference.class));
             ValidationSupport.checkReferenceType(responsibleParty, "responsibleParty", "Practitioner", "PractitionerRole");
             ValidationSupport.requireValueOrChildren(this);
         }

@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -117,23 +118,23 @@ public class MedicationKnowledge extends DomainResource {
         manufacturer = builder.manufacturer;
         doseForm = builder.doseForm;
         amount = builder.amount;
-        synonym = ValidationSupport.checkAndFinalizeList(builder.synonym, "synonym", String.class);
-        relatedMedicationKnowledge = ValidationSupport.checkAndFinalizeList(builder.relatedMedicationKnowledge, "relatedMedicationKnowledge", RelatedMedicationKnowledge.class);
-        associatedMedication = ValidationSupport.checkAndFinalizeList(builder.associatedMedication, "associatedMedication", Reference.class);
-        productType = ValidationSupport.checkAndFinalizeList(builder.productType, "productType", CodeableConcept.class);
-        monograph = ValidationSupport.checkAndFinalizeList(builder.monograph, "monograph", Monograph.class);
-        ingredient = ValidationSupport.checkAndFinalizeList(builder.ingredient, "ingredient", Ingredient.class);
+        synonym = Collections.unmodifiableList(ValidationSupport.checkList(builder.synonym, "synonym", String.class));
+        relatedMedicationKnowledge = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedMedicationKnowledge, "relatedMedicationKnowledge", RelatedMedicationKnowledge.class));
+        associatedMedication = Collections.unmodifiableList(ValidationSupport.checkList(builder.associatedMedication, "associatedMedication", Reference.class));
+        productType = Collections.unmodifiableList(ValidationSupport.checkList(builder.productType, "productType", CodeableConcept.class));
+        monograph = Collections.unmodifiableList(ValidationSupport.checkList(builder.monograph, "monograph", Monograph.class));
+        ingredient = Collections.unmodifiableList(ValidationSupport.checkList(builder.ingredient, "ingredient", Ingredient.class));
         preparationInstruction = builder.preparationInstruction;
-        intendedRoute = ValidationSupport.checkAndFinalizeList(builder.intendedRoute, "intendedRoute", CodeableConcept.class);
-        cost = ValidationSupport.checkAndFinalizeList(builder.cost, "cost", Cost.class);
-        monitoringProgram = ValidationSupport.checkAndFinalizeList(builder.monitoringProgram, "monitoringProgram", MonitoringProgram.class);
-        administrationGuidelines = ValidationSupport.checkAndFinalizeList(builder.administrationGuidelines, "administrationGuidelines", AdministrationGuidelines.class);
-        medicineClassification = ValidationSupport.checkAndFinalizeList(builder.medicineClassification, "medicineClassification", MedicineClassification.class);
+        intendedRoute = Collections.unmodifiableList(ValidationSupport.checkList(builder.intendedRoute, "intendedRoute", CodeableConcept.class));
+        cost = Collections.unmodifiableList(ValidationSupport.checkList(builder.cost, "cost", Cost.class));
+        monitoringProgram = Collections.unmodifiableList(ValidationSupport.checkList(builder.monitoringProgram, "monitoringProgram", MonitoringProgram.class));
+        administrationGuidelines = Collections.unmodifiableList(ValidationSupport.checkList(builder.administrationGuidelines, "administrationGuidelines", AdministrationGuidelines.class));
+        medicineClassification = Collections.unmodifiableList(ValidationSupport.checkList(builder.medicineClassification, "medicineClassification", MedicineClassification.class));
         packaging = builder.packaging;
-        drugCharacteristic = ValidationSupport.checkAndFinalizeList(builder.drugCharacteristic, "drugCharacteristic", DrugCharacteristic.class);
-        contraindication = ValidationSupport.checkAndFinalizeList(builder.contraindication, "contraindication", Reference.class);
-        regulatory = ValidationSupport.checkAndFinalizeList(builder.regulatory, "regulatory", Regulatory.class);
-        kinetics = ValidationSupport.checkAndFinalizeList(builder.kinetics, "kinetics", Kinetics.class);
+        drugCharacteristic = Collections.unmodifiableList(ValidationSupport.checkList(builder.drugCharacteristic, "drugCharacteristic", DrugCharacteristic.class));
+        contraindication = Collections.unmodifiableList(ValidationSupport.checkList(builder.contraindication, "contraindication", Reference.class));
+        regulatory = Collections.unmodifiableList(ValidationSupport.checkList(builder.regulatory, "regulatory", Regulatory.class));
+        kinetics = Collections.unmodifiableList(ValidationSupport.checkList(builder.kinetics, "kinetics", Kinetics.class));
         ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
         ValidationSupport.checkReferenceType(associatedMedication, "associatedMedication", "Medication");
         ValidationSupport.checkReferenceType(contraindication, "contraindication", "DetectedIssue");
@@ -1461,7 +1462,7 @@ public class MedicationKnowledge extends DomainResource {
         private RelatedMedicationKnowledge(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
-            reference = ValidationSupport.checkAndFinalizeNonEmptyList(builder.reference, "reference", Reference.class);
+            reference = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.reference, "reference", Reference.class));
             ValidationSupport.checkReferenceType(reference, "reference", "MedicationKnowledge");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -2921,9 +2922,9 @@ public class MedicationKnowledge extends DomainResource {
 
         private AdministrationGuidelines(Builder builder) {
             super(builder);
-            dosage = ValidationSupport.checkAndFinalizeList(builder.dosage, "dosage", Dosage.class);
+            dosage = Collections.unmodifiableList(ValidationSupport.checkList(builder.dosage, "dosage", Dosage.class));
             indication = ValidationSupport.choiceElement(builder.indication, "indication", CodeableConcept.class, Reference.class);
-            patientCharacteristics = ValidationSupport.checkAndFinalizeList(builder.patientCharacteristics, "patientCharacteristics", PatientCharacteristics.class);
+            patientCharacteristics = Collections.unmodifiableList(ValidationSupport.checkList(builder.patientCharacteristics, "patientCharacteristics", PatientCharacteristics.class));
             ValidationSupport.checkReferenceType(indication, "indication", "ObservationDefinition");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -3270,7 +3271,7 @@ public class MedicationKnowledge extends DomainResource {
             private Dosage(Builder builder) {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
-                dosage = ValidationSupport.checkAndFinalizeNonEmptyList(builder.dosage, "dosage", com.ibm.fhir.model.type.Dosage.class);
+                dosage = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.dosage, "dosage", com.ibm.fhir.model.type.Dosage.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -3566,7 +3567,7 @@ public class MedicationKnowledge extends DomainResource {
             private PatientCharacteristics(Builder builder) {
                 super(builder);
                 characteristic = ValidationSupport.requireChoiceElement(builder.characteristic, "characteristic", CodeableConcept.class, SimpleQuantity.class);
-                value = ValidationSupport.checkAndFinalizeList(builder.value, "value", String.class);
+                value = Collections.unmodifiableList(ValidationSupport.checkList(builder.value, "value", String.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -3862,7 +3863,7 @@ public class MedicationKnowledge extends DomainResource {
         private MedicineClassification(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
-            classification = ValidationSupport.checkAndFinalizeList(builder.classification, "classification", CodeableConcept.class);
+            classification = Collections.unmodifiableList(ValidationSupport.checkList(builder.classification, "classification", CodeableConcept.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -4699,8 +4700,8 @@ public class MedicationKnowledge extends DomainResource {
         private Regulatory(Builder builder) {
             super(builder);
             regulatoryAuthority = ValidationSupport.requireNonNull(builder.regulatoryAuthority, "regulatoryAuthority");
-            substitution = ValidationSupport.checkAndFinalizeList(builder.substitution, "substitution", Substitution.class);
-            schedule = ValidationSupport.checkAndFinalizeList(builder.schedule, "schedule", Schedule.class);
+            substitution = Collections.unmodifiableList(ValidationSupport.checkList(builder.substitution, "substitution", Substitution.class));
+            schedule = Collections.unmodifiableList(ValidationSupport.checkList(builder.schedule, "schedule", Schedule.class));
             maxDispense = builder.maxDispense;
             ValidationSupport.checkReferenceType(regulatoryAuthority, "regulatoryAuthority", "Organization");
             ValidationSupport.requireValueOrChildren(this);
@@ -5854,8 +5855,8 @@ public class MedicationKnowledge extends DomainResource {
 
         private Kinetics(Builder builder) {
             super(builder);
-            areaUnderCurve = ValidationSupport.checkAndFinalizeList(builder.areaUnderCurve, "areaUnderCurve", SimpleQuantity.class);
-            lethalDose50 = ValidationSupport.checkAndFinalizeList(builder.lethalDose50, "lethalDose50", SimpleQuantity.class);
+            areaUnderCurve = Collections.unmodifiableList(ValidationSupport.checkList(builder.areaUnderCurve, "areaUnderCurve", SimpleQuantity.class));
+            lethalDose50 = Collections.unmodifiableList(ValidationSupport.checkList(builder.lethalDose50, "lethalDose50", SimpleQuantity.class));
             halfLifePeriod = builder.halfLifePeriod;
             ValidationSupport.requireValueOrChildren(this);
         }

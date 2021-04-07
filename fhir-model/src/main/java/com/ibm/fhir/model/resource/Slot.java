@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -120,10 +121,10 @@ public class Slot extends DomainResource {
 
     private Slot(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
-        serviceCategory = ValidationSupport.checkAndFinalizeList(builder.serviceCategory, "serviceCategory", CodeableConcept.class);
-        serviceType = ValidationSupport.checkAndFinalizeList(builder.serviceType, "serviceType", CodeableConcept.class);
-        specialty = ValidationSupport.checkAndFinalizeList(builder.specialty, "specialty", CodeableConcept.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        serviceCategory = Collections.unmodifiableList(ValidationSupport.checkList(builder.serviceCategory, "serviceCategory", CodeableConcept.class));
+        serviceType = Collections.unmodifiableList(ValidationSupport.checkList(builder.serviceType, "serviceType", CodeableConcept.class));
+        specialty = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialty, "specialty", CodeableConcept.class));
         appointmentType = builder.appointmentType;
         schedule = ValidationSupport.requireNonNull(builder.schedule, "schedule");
         status = ValidationSupport.requireNonNull(builder.status, "status");

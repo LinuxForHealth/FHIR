@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -99,26 +100,26 @@ public class MedicinalProduct extends DomainResource {
 
     private MedicinalProduct(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         type = builder.type;
         domain = builder.domain;
         combinedPharmaceuticalDoseForm = builder.combinedPharmaceuticalDoseForm;
         legalStatusOfSupply = builder.legalStatusOfSupply;
         additionalMonitoringIndicator = builder.additionalMonitoringIndicator;
-        specialMeasures = ValidationSupport.checkAndFinalizeList(builder.specialMeasures, "specialMeasures", String.class);
+        specialMeasures = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialMeasures, "specialMeasures", String.class));
         paediatricUseIndicator = builder.paediatricUseIndicator;
-        productClassification = ValidationSupport.checkAndFinalizeList(builder.productClassification, "productClassification", CodeableConcept.class);
-        marketingStatus = ValidationSupport.checkAndFinalizeList(builder.marketingStatus, "marketingStatus", MarketingStatus.class);
-        pharmaceuticalProduct = ValidationSupport.checkAndFinalizeList(builder.pharmaceuticalProduct, "pharmaceuticalProduct", Reference.class);
-        packagedMedicinalProduct = ValidationSupport.checkAndFinalizeList(builder.packagedMedicinalProduct, "packagedMedicinalProduct", Reference.class);
-        attachedDocument = ValidationSupport.checkAndFinalizeList(builder.attachedDocument, "attachedDocument", Reference.class);
-        masterFile = ValidationSupport.checkAndFinalizeList(builder.masterFile, "masterFile", Reference.class);
-        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", Reference.class);
-        clinicalTrial = ValidationSupport.checkAndFinalizeList(builder.clinicalTrial, "clinicalTrial", Reference.class);
-        name = ValidationSupport.checkAndFinalizeNonEmptyList(builder.name, "name", Name.class);
-        crossReference = ValidationSupport.checkAndFinalizeList(builder.crossReference, "crossReference", Identifier.class);
-        manufacturingBusinessOperation = ValidationSupport.checkAndFinalizeList(builder.manufacturingBusinessOperation, "manufacturingBusinessOperation", ManufacturingBusinessOperation.class);
-        specialDesignation = ValidationSupport.checkAndFinalizeList(builder.specialDesignation, "specialDesignation", SpecialDesignation.class);
+        productClassification = Collections.unmodifiableList(ValidationSupport.checkList(builder.productClassification, "productClassification", CodeableConcept.class));
+        marketingStatus = Collections.unmodifiableList(ValidationSupport.checkList(builder.marketingStatus, "marketingStatus", MarketingStatus.class));
+        pharmaceuticalProduct = Collections.unmodifiableList(ValidationSupport.checkList(builder.pharmaceuticalProduct, "pharmaceuticalProduct", Reference.class));
+        packagedMedicinalProduct = Collections.unmodifiableList(ValidationSupport.checkList(builder.packagedMedicinalProduct, "packagedMedicinalProduct", Reference.class));
+        attachedDocument = Collections.unmodifiableList(ValidationSupport.checkList(builder.attachedDocument, "attachedDocument", Reference.class));
+        masterFile = Collections.unmodifiableList(ValidationSupport.checkList(builder.masterFile, "masterFile", Reference.class));
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", Reference.class));
+        clinicalTrial = Collections.unmodifiableList(ValidationSupport.checkList(builder.clinicalTrial, "clinicalTrial", Reference.class));
+        name = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.name, "name", Name.class));
+        crossReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.crossReference, "crossReference", Identifier.class));
+        manufacturingBusinessOperation = Collections.unmodifiableList(ValidationSupport.checkList(builder.manufacturingBusinessOperation, "manufacturingBusinessOperation", ManufacturingBusinessOperation.class));
+        specialDesignation = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialDesignation, "specialDesignation", SpecialDesignation.class));
         ValidationSupport.checkReferenceType(pharmaceuticalProduct, "pharmaceuticalProduct", "MedicinalProductPharmaceutical");
         ValidationSupport.checkReferenceType(packagedMedicinalProduct, "packagedMedicinalProduct", "MedicinalProductPackaged");
         ValidationSupport.checkReferenceType(attachedDocument, "attachedDocument", "DocumentReference");
@@ -1390,8 +1391,8 @@ public class MedicinalProduct extends DomainResource {
         private Name(Builder builder) {
             super(builder);
             productName = ValidationSupport.requireNonNull(builder.productName, "productName");
-            namePart = ValidationSupport.checkAndFinalizeList(builder.namePart, "namePart", NamePart.class);
-            countryLanguage = ValidationSupport.checkAndFinalizeList(builder.countryLanguage, "countryLanguage", CountryLanguage.class);
+            namePart = Collections.unmodifiableList(ValidationSupport.checkList(builder.namePart, "namePart", NamePart.class));
+            countryLanguage = Collections.unmodifiableList(ValidationSupport.checkList(builder.countryLanguage, "countryLanguage", CountryLanguage.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2327,7 +2328,7 @@ public class MedicinalProduct extends DomainResource {
             authorisationReferenceNumber = builder.authorisationReferenceNumber;
             effectiveDate = builder.effectiveDate;
             confidentialityIndicator = builder.confidentialityIndicator;
-            manufacturer = ValidationSupport.checkAndFinalizeList(builder.manufacturer, "manufacturer", Reference.class);
+            manufacturer = Collections.unmodifiableList(ValidationSupport.checkList(builder.manufacturer, "manufacturer", Reference.class));
             regulator = builder.regulator;
             ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
             ValidationSupport.checkReferenceType(regulator, "regulator", "Organization");
@@ -2759,7 +2760,7 @@ public class MedicinalProduct extends DomainResource {
 
         private SpecialDesignation(Builder builder) {
             super(builder);
-            identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+            identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
             type = builder.type;
             intendedUse = builder.intendedUse;
             indication = ValidationSupport.choiceElement(builder.indication, "indication", CodeableConcept.class, Reference.class);

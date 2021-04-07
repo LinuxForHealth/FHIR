@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -101,7 +102,7 @@ public class Parameters extends Resource {
 
     private Parameters(Builder builder) {
         super(builder);
-        parameter = ValidationSupport.checkAndFinalizeList(builder.parameter, "parameter", Parameter.class);
+        parameter = Collections.unmodifiableList(ValidationSupport.checkList(builder.parameter, "parameter", Parameter.class));
         ValidationSupport.requireChildren(this);
     }
 
@@ -322,7 +323,7 @@ public class Parameters extends Resource {
             name = ValidationSupport.requireNonNull(builder.name, "name");
             value = ValidationSupport.choiceElement(builder.value, "value", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
             resource = builder.resource;
-            part = ValidationSupport.checkAndFinalizeList(builder.part, "part", Parameters.Parameter.class);
+            part = Collections.unmodifiableList(ValidationSupport.checkList(builder.part, "part", Parameters.Parameter.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

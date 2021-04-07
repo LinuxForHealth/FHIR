@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -103,16 +104,16 @@ public class SubstanceSpecification extends DomainResource {
         status = builder.status;
         domain = builder.domain;
         description = builder.description;
-        source = ValidationSupport.checkAndFinalizeList(builder.source, "source", Reference.class);
+        source = Collections.unmodifiableList(ValidationSupport.checkList(builder.source, "source", Reference.class));
         comment = builder.comment;
-        moiety = ValidationSupport.checkAndFinalizeList(builder.moiety, "moiety", Moiety.class);
-        property = ValidationSupport.checkAndFinalizeList(builder.property, "property", Property.class);
+        moiety = Collections.unmodifiableList(ValidationSupport.checkList(builder.moiety, "moiety", Moiety.class));
+        property = Collections.unmodifiableList(ValidationSupport.checkList(builder.property, "property", Property.class));
         referenceInformation = builder.referenceInformation;
         structure = builder.structure;
-        code = ValidationSupport.checkAndFinalizeList(builder.code, "code", Code.class);
-        name = ValidationSupport.checkAndFinalizeList(builder.name, "name", Name.class);
-        molecularWeight = ValidationSupport.checkAndFinalizeList(builder.molecularWeight, "molecularWeight", SubstanceSpecification.Structure.Isotope.MolecularWeight.class);
-        relationship = ValidationSupport.checkAndFinalizeList(builder.relationship, "relationship", Relationship.class);
+        code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", Code.class));
+        name = Collections.unmodifiableList(ValidationSupport.checkList(builder.name, "name", Name.class));
+        molecularWeight = Collections.unmodifiableList(ValidationSupport.checkList(builder.molecularWeight, "molecularWeight", SubstanceSpecification.Structure.Isotope.MolecularWeight.class));
+        relationship = Collections.unmodifiableList(ValidationSupport.checkList(builder.relationship, "relationship", Relationship.class));
         nucleicAcid = builder.nucleicAcid;
         polymer = builder.polymer;
         protein = builder.protein;
@@ -2014,10 +2015,10 @@ public class SubstanceSpecification extends DomainResource {
             opticalActivity = builder.opticalActivity;
             molecularFormula = builder.molecularFormula;
             molecularFormulaByMoiety = builder.molecularFormulaByMoiety;
-            isotope = ValidationSupport.checkAndFinalizeList(builder.isotope, "isotope", Isotope.class);
+            isotope = Collections.unmodifiableList(ValidationSupport.checkList(builder.isotope, "isotope", Isotope.class));
             molecularWeight = builder.molecularWeight;
-            source = ValidationSupport.checkAndFinalizeList(builder.source, "source", Reference.class);
-            representation = ValidationSupport.checkAndFinalizeList(builder.representation, "representation", Representation.class);
+            source = Collections.unmodifiableList(ValidationSupport.checkList(builder.source, "source", Reference.class));
+            representation = Collections.unmodifiableList(ValidationSupport.checkList(builder.representation, "representation", Representation.class));
             ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -3501,7 +3502,7 @@ public class SubstanceSpecification extends DomainResource {
             status = builder.status;
             statusDate = builder.statusDate;
             comment = builder.comment;
-            source = ValidationSupport.checkAndFinalizeList(builder.source, "source", Reference.class);
+            source = Collections.unmodifiableList(ValidationSupport.checkList(builder.source, "source", Reference.class));
             ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -3908,13 +3909,13 @@ public class SubstanceSpecification extends DomainResource {
             type = builder.type;
             status = builder.status;
             preferred = builder.preferred;
-            language = ValidationSupport.checkAndFinalizeList(builder.language, "language", CodeableConcept.class);
-            domain = ValidationSupport.checkAndFinalizeList(builder.domain, "domain", CodeableConcept.class);
-            jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
-            synonym = ValidationSupport.checkAndFinalizeList(builder.synonym, "synonym", SubstanceSpecification.Name.class);
-            translation = ValidationSupport.checkAndFinalizeList(builder.translation, "translation", SubstanceSpecification.Name.class);
-            official = ValidationSupport.checkAndFinalizeList(builder.official, "official", Official.class);
-            source = ValidationSupport.checkAndFinalizeList(builder.source, "source", Reference.class);
+            language = Collections.unmodifiableList(ValidationSupport.checkList(builder.language, "language", CodeableConcept.class));
+            domain = Collections.unmodifiableList(ValidationSupport.checkList(builder.domain, "domain", CodeableConcept.class));
+            jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+            synonym = Collections.unmodifiableList(ValidationSupport.checkList(builder.synonym, "synonym", SubstanceSpecification.Name.class));
+            translation = Collections.unmodifiableList(ValidationSupport.checkList(builder.translation, "translation", SubstanceSpecification.Name.class));
+            official = Collections.unmodifiableList(ValidationSupport.checkList(builder.official, "official", Official.class));
+            source = Collections.unmodifiableList(ValidationSupport.checkList(builder.source, "source", Reference.class));
             ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -4925,7 +4926,7 @@ public class SubstanceSpecification extends DomainResource {
             amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, Range.class, Ratio.class, String.class);
             amountRatioLowLimit = builder.amountRatioLowLimit;
             amountType = builder.amountType;
-            source = ValidationSupport.checkAndFinalizeList(builder.source, "source", Reference.class);
+            source = Collections.unmodifiableList(ValidationSupport.checkList(builder.source, "source", Reference.class));
             ValidationSupport.checkReferenceType(substance, "substance", "SubstanceSpecification");
             ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
             ValidationSupport.requireValueOrChildren(this);

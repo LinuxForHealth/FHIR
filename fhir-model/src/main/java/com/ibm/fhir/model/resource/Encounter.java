@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -201,27 +202,27 @@ public class Encounter extends DomainResource {
 
     private Encounter(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        statusHistory = ValidationSupport.checkAndFinalizeList(builder.statusHistory, "statusHistory", StatusHistory.class);
+        statusHistory = Collections.unmodifiableList(ValidationSupport.checkList(builder.statusHistory, "statusHistory", StatusHistory.class));
         clazz = ValidationSupport.requireNonNull(builder.clazz, "class");
-        classHistory = ValidationSupport.checkAndFinalizeList(builder.classHistory, "classHistory", ClassHistory.class);
-        type = ValidationSupport.checkAndFinalizeList(builder.type, "type", CodeableConcept.class);
+        classHistory = Collections.unmodifiableList(ValidationSupport.checkList(builder.classHistory, "classHistory", ClassHistory.class));
+        type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
         serviceType = builder.serviceType;
         priority = builder.priority;
         subject = builder.subject;
-        episodeOfCare = ValidationSupport.checkAndFinalizeList(builder.episodeOfCare, "episodeOfCare", Reference.class);
-        basedOn = ValidationSupport.checkAndFinalizeList(builder.basedOn, "basedOn", Reference.class);
-        participant = ValidationSupport.checkAndFinalizeList(builder.participant, "participant", Participant.class);
-        appointment = ValidationSupport.checkAndFinalizeList(builder.appointment, "appointment", Reference.class);
+        episodeOfCare = Collections.unmodifiableList(ValidationSupport.checkList(builder.episodeOfCare, "episodeOfCare", Reference.class));
+        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
+        participant = Collections.unmodifiableList(ValidationSupport.checkList(builder.participant, "participant", Participant.class));
+        appointment = Collections.unmodifiableList(ValidationSupport.checkList(builder.appointment, "appointment", Reference.class));
         period = builder.period;
         length = builder.length;
-        reasonCode = ValidationSupport.checkAndFinalizeList(builder.reasonCode, "reasonCode", CodeableConcept.class);
-        reasonReference = ValidationSupport.checkAndFinalizeList(builder.reasonReference, "reasonReference", Reference.class);
-        diagnosis = ValidationSupport.checkAndFinalizeList(builder.diagnosis, "diagnosis", Diagnosis.class);
-        account = ValidationSupport.checkAndFinalizeList(builder.account, "account", Reference.class);
+        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
+        diagnosis = Collections.unmodifiableList(ValidationSupport.checkList(builder.diagnosis, "diagnosis", Diagnosis.class));
+        account = Collections.unmodifiableList(ValidationSupport.checkList(builder.account, "account", Reference.class));
         hospitalization = builder.hospitalization;
-        location = ValidationSupport.checkAndFinalizeList(builder.location, "location", Location.class);
+        location = Collections.unmodifiableList(ValidationSupport.checkList(builder.location, "location", Location.class));
         serviceProvider = builder.serviceProvider;
         partOf = builder.partOf;
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
@@ -2186,7 +2187,7 @@ public class Encounter extends DomainResource {
 
         private Participant(Builder builder) {
             super(builder);
-            type = ValidationSupport.checkAndFinalizeList(builder.type, "type", CodeableConcept.class);
+            type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
             period = builder.period;
             individual = builder.individual;
             ValidationSupport.checkReferenceType(individual, "individual", "Practitioner", "PractitionerRole", "RelatedPerson");
@@ -2877,9 +2878,9 @@ public class Encounter extends DomainResource {
             origin = builder.origin;
             admitSource = builder.admitSource;
             reAdmission = builder.reAdmission;
-            dietPreference = ValidationSupport.checkAndFinalizeList(builder.dietPreference, "dietPreference", CodeableConcept.class);
-            specialCourtesy = ValidationSupport.checkAndFinalizeList(builder.specialCourtesy, "specialCourtesy", CodeableConcept.class);
-            specialArrangement = ValidationSupport.checkAndFinalizeList(builder.specialArrangement, "specialArrangement", CodeableConcept.class);
+            dietPreference = Collections.unmodifiableList(ValidationSupport.checkList(builder.dietPreference, "dietPreference", CodeableConcept.class));
+            specialCourtesy = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialCourtesy, "specialCourtesy", CodeableConcept.class));
+            specialArrangement = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialArrangement, "specialArrangement", CodeableConcept.class));
             destination = builder.destination;
             dischargeDisposition = builder.dischargeDisposition;
             ValidationSupport.checkReferenceType(origin, "origin", "Location", "Organization");

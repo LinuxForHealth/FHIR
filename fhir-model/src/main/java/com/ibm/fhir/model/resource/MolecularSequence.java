@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -124,7 +125,7 @@ public class MolecularSequence extends DomainResource {
 
     private MolecularSequence(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         type = builder.type;
         coordinateSystem = ValidationSupport.requireNonNull(builder.coordinateSystem, "coordinateSystem");
         patient = builder.patient;
@@ -133,13 +134,13 @@ public class MolecularSequence extends DomainResource {
         performer = builder.performer;
         quantity = builder.quantity;
         referenceSeq = builder.referenceSeq;
-        variant = ValidationSupport.checkAndFinalizeList(builder.variant, "variant", Variant.class);
+        variant = Collections.unmodifiableList(ValidationSupport.checkList(builder.variant, "variant", Variant.class));
         observedSeq = builder.observedSeq;
-        quality = ValidationSupport.checkAndFinalizeList(builder.quality, "quality", Quality.class);
+        quality = Collections.unmodifiableList(ValidationSupport.checkList(builder.quality, "quality", Quality.class));
         readCoverage = builder.readCoverage;
-        repository = ValidationSupport.checkAndFinalizeList(builder.repository, "repository", Repository.class);
-        pointer = ValidationSupport.checkAndFinalizeList(builder.pointer, "pointer", Reference.class);
-        structureVariant = ValidationSupport.checkAndFinalizeList(builder.structureVariant, "structureVariant", StructureVariant.class);
+        repository = Collections.unmodifiableList(ValidationSupport.checkList(builder.repository, "repository", Repository.class));
+        pointer = Collections.unmodifiableList(ValidationSupport.checkList(builder.pointer, "pointer", Reference.class));
+        structureVariant = Collections.unmodifiableList(ValidationSupport.checkList(builder.structureVariant, "structureVariant", StructureVariant.class));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
         ValidationSupport.checkReferenceType(device, "device", "Device");
@@ -2838,13 +2839,13 @@ public class MolecularSequence extends DomainResource {
 
             private Roc(Builder builder) {
                 super(builder);
-                score = ValidationSupport.checkAndFinalizeList(builder.score, "score", Integer.class);
-                numTP = ValidationSupport.checkAndFinalizeList(builder.numTP, "numTP", Integer.class);
-                numFP = ValidationSupport.checkAndFinalizeList(builder.numFP, "numFP", Integer.class);
-                numFN = ValidationSupport.checkAndFinalizeList(builder.numFN, "numFN", Integer.class);
-                precision = ValidationSupport.checkAndFinalizeList(builder.precision, "precision", Decimal.class);
-                sensitivity = ValidationSupport.checkAndFinalizeList(builder.sensitivity, "sensitivity", Decimal.class);
-                fMeasure = ValidationSupport.checkAndFinalizeList(builder.fMeasure, "fMeasure", Decimal.class);
+                score = Collections.unmodifiableList(ValidationSupport.checkList(builder.score, "score", Integer.class));
+                numTP = Collections.unmodifiableList(ValidationSupport.checkList(builder.numTP, "numTP", Integer.class));
+                numFP = Collections.unmodifiableList(ValidationSupport.checkList(builder.numFP, "numFP", Integer.class));
+                numFN = Collections.unmodifiableList(ValidationSupport.checkList(builder.numFN, "numFN", Integer.class));
+                precision = Collections.unmodifiableList(ValidationSupport.checkList(builder.precision, "precision", Decimal.class));
+                sensitivity = Collections.unmodifiableList(ValidationSupport.checkList(builder.sensitivity, "sensitivity", Decimal.class));
+                fMeasure = Collections.unmodifiableList(ValidationSupport.checkList(builder.fMeasure, "fMeasure", Decimal.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 

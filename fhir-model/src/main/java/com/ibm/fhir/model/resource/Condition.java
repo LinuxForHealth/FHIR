@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -180,13 +181,13 @@ public class Condition extends DomainResource {
 
     private Condition(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         clinicalStatus = builder.clinicalStatus;
         verificationStatus = builder.verificationStatus;
-        category = ValidationSupport.checkAndFinalizeList(builder.category, "category", CodeableConcept.class);
+        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
         severity = builder.severity;
         code = builder.code;
-        bodySite = ValidationSupport.checkAndFinalizeList(builder.bodySite, "bodySite", CodeableConcept.class);
+        bodySite = Collections.unmodifiableList(ValidationSupport.checkList(builder.bodySite, "bodySite", CodeableConcept.class));
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
         encounter = builder.encounter;
         onset = ValidationSupport.choiceElement(builder.onset, "onset", DateTime.class, Age.class, Period.class, Range.class, String.class);
@@ -194,9 +195,9 @@ public class Condition extends DomainResource {
         recordedDate = builder.recordedDate;
         recorder = builder.recorder;
         asserter = builder.asserter;
-        stage = ValidationSupport.checkAndFinalizeList(builder.stage, "stage", Stage.class);
-        evidence = ValidationSupport.checkAndFinalizeList(builder.evidence, "evidence", Evidence.class);
-        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
+        stage = Collections.unmodifiableList(ValidationSupport.checkList(builder.stage, "stage", Stage.class));
+        evidence = Collections.unmodifiableList(ValidationSupport.checkList(builder.evidence, "evidence", Evidence.class));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
         ValidationSupport.checkValueSetBinding(clinicalStatus, "clinicalStatus", "http://hl7.org/fhir/ValueSet/condition-clinical", "http://terminology.hl7.org/CodeSystem/condition-clinical", "active", "recurrence", "relapse", "inactive", "remission", "resolved");
         ValidationSupport.checkValueSetBinding(verificationStatus, "verificationStatus", "http://hl7.org/fhir/ValueSet/condition-ver-status", "http://terminology.hl7.org/CodeSystem/condition-ver-status", "unconfirmed", "provisional", "differential", "confirmed", "refuted", "entered-in-error");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
@@ -1223,7 +1224,7 @@ public class Condition extends DomainResource {
         private Stage(Builder builder) {
             super(builder);
             summary = builder.summary;
-            assessment = ValidationSupport.checkAndFinalizeList(builder.assessment, "assessment", Reference.class);
+            assessment = Collections.unmodifiableList(ValidationSupport.checkList(builder.assessment, "assessment", Reference.class));
             type = builder.type;
             ValidationSupport.checkReferenceType(assessment, "assessment", "ClinicalImpression", "DiagnosticReport", "Observation");
             ValidationSupport.requireValueOrChildren(this);
@@ -1558,8 +1559,8 @@ public class Condition extends DomainResource {
 
         private Evidence(Builder builder) {
             super(builder);
-            code = ValidationSupport.checkAndFinalizeList(builder.code, "code", CodeableConcept.class);
-            detail = ValidationSupport.checkAndFinalizeList(builder.detail, "detail", Reference.class);
+            code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", CodeableConcept.class));
+            detail = Collections.unmodifiableList(ValidationSupport.checkList(builder.detail, "detail", Reference.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

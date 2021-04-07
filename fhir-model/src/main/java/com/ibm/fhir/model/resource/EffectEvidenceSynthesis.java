@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -241,28 +242,28 @@ public class EffectEvidenceSynthesis extends DomainResource {
     private EffectEvidenceSynthesis(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         version = builder.version;
         name = builder.name;
         title = builder.title;
         status = ValidationSupport.requireNonNull(builder.status, "status");
         date = builder.date;
         publisher = builder.publisher;
-        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
-        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
-        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = ValidationSupport.checkAndFinalizeList(builder.topic, "topic", CodeableConcept.class);
-        author = ValidationSupport.checkAndFinalizeList(builder.author, "author", ContactDetail.class);
-        editor = ValidationSupport.checkAndFinalizeList(builder.editor, "editor", ContactDetail.class);
-        reviewer = ValidationSupport.checkAndFinalizeList(builder.reviewer, "reviewer", ContactDetail.class);
-        endorser = ValidationSupport.checkAndFinalizeList(builder.endorser, "endorser", ContactDetail.class);
-        relatedArtifact = ValidationSupport.checkAndFinalizeList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
+        topic = Collections.unmodifiableList(ValidationSupport.checkList(builder.topic, "topic", CodeableConcept.class));
+        author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", ContactDetail.class));
+        editor = Collections.unmodifiableList(ValidationSupport.checkList(builder.editor, "editor", ContactDetail.class));
+        reviewer = Collections.unmodifiableList(ValidationSupport.checkList(builder.reviewer, "reviewer", ContactDetail.class));
+        endorser = Collections.unmodifiableList(ValidationSupport.checkList(builder.endorser, "endorser", ContactDetail.class));
+        relatedArtifact = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class));
         synthesisType = builder.synthesisType;
         studyType = builder.studyType;
         population = ValidationSupport.requireNonNull(builder.population, "population");
@@ -270,9 +271,9 @@ public class EffectEvidenceSynthesis extends DomainResource {
         exposureAlternative = ValidationSupport.requireNonNull(builder.exposureAlternative, "exposureAlternative");
         outcome = ValidationSupport.requireNonNull(builder.outcome, "outcome");
         sampleSize = builder.sampleSize;
-        resultsByExposure = ValidationSupport.checkAndFinalizeList(builder.resultsByExposure, "resultsByExposure", ResultsByExposure.class);
-        effectEstimate = ValidationSupport.checkAndFinalizeList(builder.effectEstimate, "effectEstimate", EffectEstimate.class);
-        certainty = ValidationSupport.checkAndFinalizeList(builder.certainty, "certainty", Certainty.class);
+        resultsByExposure = Collections.unmodifiableList(ValidationSupport.checkList(builder.resultsByExposure, "resultsByExposure", ResultsByExposure.class));
+        effectEstimate = Collections.unmodifiableList(ValidationSupport.checkList(builder.effectEstimate, "effectEstimate", EffectEstimate.class));
+        certainty = Collections.unmodifiableList(ValidationSupport.checkList(builder.certainty, "certainty", Certainty.class));
         ValidationSupport.checkReferenceType(population, "population", "EvidenceVariable");
         ValidationSupport.checkReferenceType(exposure, "exposure", "EvidenceVariable");
         ValidationSupport.checkReferenceType(exposureAlternative, "exposureAlternative", "EvidenceVariable");
@@ -2604,7 +2605,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
             variantState = builder.variantState;
             value = builder.value;
             unitOfMeasure = builder.unitOfMeasure;
-            precisionEstimate = ValidationSupport.checkAndFinalizeList(builder.precisionEstimate, "precisionEstimate", PrecisionEstimate.class);
+            precisionEstimate = Collections.unmodifiableList(ValidationSupport.checkList(builder.precisionEstimate, "precisionEstimate", PrecisionEstimate.class));
             ValidationSupport.checkValueSetBinding(unitOfMeasure, "unitOfMeasure", "http://hl7.org/fhir/ValueSet/ucum-units", "http://unitsofmeasure.org");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -3343,9 +3344,9 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
         private Certainty(Builder builder) {
             super(builder);
-            rating = ValidationSupport.checkAndFinalizeList(builder.rating, "rating", CodeableConcept.class);
-            note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
-            certaintySubcomponent = ValidationSupport.checkAndFinalizeList(builder.certaintySubcomponent, "certaintySubcomponent", CertaintySubcomponent.class);
+            rating = Collections.unmodifiableList(ValidationSupport.checkList(builder.rating, "rating", CodeableConcept.class));
+            note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+            certaintySubcomponent = Collections.unmodifiableList(ValidationSupport.checkList(builder.certaintySubcomponent, "certaintySubcomponent", CertaintySubcomponent.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -3708,8 +3709,8 @@ public class EffectEvidenceSynthesis extends DomainResource {
             private CertaintySubcomponent(Builder builder) {
                 super(builder);
                 type = builder.type;
-                rating = ValidationSupport.checkAndFinalizeList(builder.rating, "rating", CodeableConcept.class);
-                note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
+                rating = Collections.unmodifiableList(ValidationSupport.checkList(builder.rating, "rating", CodeableConcept.class));
+                note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 

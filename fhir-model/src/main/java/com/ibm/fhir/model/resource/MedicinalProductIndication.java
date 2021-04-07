@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -69,15 +70,15 @@ public class MedicinalProductIndication extends DomainResource {
 
     private MedicinalProductIndication(Builder builder) {
         super(builder);
-        subject = ValidationSupport.checkAndFinalizeList(builder.subject, "subject", Reference.class);
+        subject = Collections.unmodifiableList(ValidationSupport.checkList(builder.subject, "subject", Reference.class));
         diseaseSymptomProcedure = builder.diseaseSymptomProcedure;
         diseaseStatus = builder.diseaseStatus;
-        comorbidity = ValidationSupport.checkAndFinalizeList(builder.comorbidity, "comorbidity", CodeableConcept.class);
+        comorbidity = Collections.unmodifiableList(ValidationSupport.checkList(builder.comorbidity, "comorbidity", CodeableConcept.class));
         intendedEffect = builder.intendedEffect;
         duration = builder.duration;
-        otherTherapy = ValidationSupport.checkAndFinalizeList(builder.otherTherapy, "otherTherapy", OtherTherapy.class);
-        undesirableEffect = ValidationSupport.checkAndFinalizeList(builder.undesirableEffect, "undesirableEffect", Reference.class);
-        population = ValidationSupport.checkAndFinalizeList(builder.population, "population", Population.class);
+        otherTherapy = Collections.unmodifiableList(ValidationSupport.checkList(builder.otherTherapy, "otherTherapy", OtherTherapy.class));
+        undesirableEffect = Collections.unmodifiableList(ValidationSupport.checkList(builder.undesirableEffect, "undesirableEffect", Reference.class));
+        population = Collections.unmodifiableList(ValidationSupport.checkList(builder.population, "population", Population.class));
         ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication");
         ValidationSupport.checkReferenceType(undesirableEffect, "undesirableEffect", "MedicinalProductUndesirableEffect");
         ValidationSupport.requireChildren(this);

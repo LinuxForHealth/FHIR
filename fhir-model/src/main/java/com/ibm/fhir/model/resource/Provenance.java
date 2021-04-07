@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -114,16 +115,16 @@ public class Provenance extends DomainResource {
 
     private Provenance(Builder builder) {
         super(builder);
-        target = ValidationSupport.checkAndFinalizeNonEmptyList(builder.target, "target", Reference.class);
+        target = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.target, "target", Reference.class));
         occurred = ValidationSupport.choiceElement(builder.occurred, "occurred", Period.class, DateTime.class);
         recorded = ValidationSupport.requireNonNull(builder.recorded, "recorded");
-        policy = ValidationSupport.checkAndFinalizeList(builder.policy, "policy", Uri.class);
+        policy = Collections.unmodifiableList(ValidationSupport.checkList(builder.policy, "policy", Uri.class));
         location = builder.location;
-        reason = ValidationSupport.checkAndFinalizeList(builder.reason, "reason", CodeableConcept.class);
+        reason = Collections.unmodifiableList(ValidationSupport.checkList(builder.reason, "reason", CodeableConcept.class));
         activity = builder.activity;
-        agent = ValidationSupport.checkAndFinalizeNonEmptyList(builder.agent, "agent", Agent.class);
-        entity = ValidationSupport.checkAndFinalizeList(builder.entity, "entity", Entity.class);
-        signature = ValidationSupport.checkAndFinalizeList(builder.signature, "signature", Signature.class);
+        agent = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.agent, "agent", Agent.class));
+        entity = Collections.unmodifiableList(ValidationSupport.checkList(builder.entity, "entity", Entity.class));
+        signature = Collections.unmodifiableList(ValidationSupport.checkList(builder.signature, "signature", Signature.class));
         ValidationSupport.checkReferenceType(location, "location", "Location");
         ValidationSupport.requireChildren(this);
     }
@@ -916,7 +917,7 @@ public class Provenance extends DomainResource {
         private Agent(Builder builder) {
             super(builder);
             type = builder.type;
-            role = ValidationSupport.checkAndFinalizeList(builder.role, "role", CodeableConcept.class);
+            role = Collections.unmodifiableList(ValidationSupport.checkList(builder.role, "role", CodeableConcept.class));
             who = ValidationSupport.requireNonNull(builder.who, "who");
             onBehalfOf = builder.onBehalfOf;
             ValidationSupport.checkReferenceType(who, "who", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
@@ -1303,7 +1304,7 @@ public class Provenance extends DomainResource {
             super(builder);
             role = ValidationSupport.requireNonNull(builder.role, "role");
             what = ValidationSupport.requireNonNull(builder.what, "what");
-            agent = ValidationSupport.checkAndFinalizeList(builder.agent, "agent", Provenance.Agent.class);
+            agent = Collections.unmodifiableList(ValidationSupport.checkList(builder.agent, "agent", Provenance.Agent.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

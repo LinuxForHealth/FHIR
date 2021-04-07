@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -164,18 +165,18 @@ public class Composition extends DomainResource {
         identifier = builder.identifier;
         status = ValidationSupport.requireNonNull(builder.status, "status");
         type = ValidationSupport.requireNonNull(builder.type, "type");
-        category = ValidationSupport.checkAndFinalizeList(builder.category, "category", CodeableConcept.class);
+        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
         subject = builder.subject;
         encounter = builder.encounter;
         date = ValidationSupport.requireNonNull(builder.date, "date");
-        author = ValidationSupport.checkAndFinalizeNonEmptyList(builder.author, "author", Reference.class);
+        author = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.author, "author", Reference.class));
         title = ValidationSupport.requireNonNull(builder.title, "title");
         confidentiality = builder.confidentiality;
-        attester = ValidationSupport.checkAndFinalizeList(builder.attester, "attester", Attester.class);
+        attester = Collections.unmodifiableList(ValidationSupport.checkList(builder.attester, "attester", Attester.class));
         custodian = builder.custodian;
-        relatesTo = ValidationSupport.checkAndFinalizeList(builder.relatesTo, "relatesTo", RelatesTo.class);
-        event = ValidationSupport.checkAndFinalizeList(builder.event, "event", Event.class);
-        section = ValidationSupport.checkAndFinalizeList(builder.section, "section", Section.class);
+        relatesTo = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatesTo, "relatesTo", RelatesTo.class));
+        event = Collections.unmodifiableList(ValidationSupport.checkList(builder.event, "event", Event.class));
+        section = Collections.unmodifiableList(ValidationSupport.checkList(builder.section, "section", Section.class));
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Device", "Patient", "RelatedPerson", "Organization");
         ValidationSupport.checkReferenceType(custodian, "custodian", "Organization");
@@ -1742,9 +1743,9 @@ public class Composition extends DomainResource {
 
         private Event(Builder builder) {
             super(builder);
-            code = ValidationSupport.checkAndFinalizeList(builder.code, "code", CodeableConcept.class);
+            code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", CodeableConcept.class));
             period = builder.period;
-            detail = ValidationSupport.checkAndFinalizeList(builder.detail, "detail", Reference.class);
+            detail = Collections.unmodifiableList(ValidationSupport.checkList(builder.detail, "detail", Reference.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2120,14 +2121,14 @@ public class Composition extends DomainResource {
             super(builder);
             title = builder.title;
             code = builder.code;
-            author = ValidationSupport.checkAndFinalizeList(builder.author, "author", Reference.class);
+            author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", Reference.class));
             focus = builder.focus;
             text = builder.text;
             mode = builder.mode;
             orderedBy = builder.orderedBy;
-            entry = ValidationSupport.checkAndFinalizeList(builder.entry, "entry", Reference.class);
+            entry = Collections.unmodifiableList(ValidationSupport.checkList(builder.entry, "entry", Reference.class));
             emptyReason = builder.emptyReason;
-            section = ValidationSupport.checkAndFinalizeList(builder.section, "section", Composition.Section.class);
+            section = Collections.unmodifiableList(ValidationSupport.checkList(builder.section, "section", Composition.Section.class));
             ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Device", "Patient", "RelatedPerson", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }

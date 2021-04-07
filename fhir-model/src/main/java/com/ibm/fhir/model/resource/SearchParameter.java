@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -191,24 +192,24 @@ public class SearchParameter extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = ValidationSupport.requireNonNull(builder.description, "description");
-        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
-        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         purpose = builder.purpose;
         code = ValidationSupport.requireNonNull(builder.code, "code");
-        base = ValidationSupport.checkAndFinalizeNonEmptyList(builder.base, "base", ResourceType.class);
+        base = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.base, "base", ResourceType.class));
         type = ValidationSupport.requireNonNull(builder.type, "type");
         expression = builder.expression;
         xpath = builder.xpath;
         xpathUsage = builder.xpathUsage;
-        target = ValidationSupport.checkAndFinalizeList(builder.target, "target", ResourceType.class);
+        target = Collections.unmodifiableList(ValidationSupport.checkList(builder.target, "target", ResourceType.class));
         multipleOr = builder.multipleOr;
         multipleAnd = builder.multipleAnd;
-        comparator = ValidationSupport.checkAndFinalizeList(builder.comparator, "comparator", SearchComparator.class);
-        modifier = ValidationSupport.checkAndFinalizeList(builder.modifier, "modifier", SearchModifierCode.class);
-        chain = ValidationSupport.checkAndFinalizeList(builder.chain, "chain", String.class);
-        component = ValidationSupport.checkAndFinalizeList(builder.component, "component", Component.class);
+        comparator = Collections.unmodifiableList(ValidationSupport.checkList(builder.comparator, "comparator", SearchComparator.class));
+        modifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifier, "modifier", SearchModifierCode.class));
+        chain = Collections.unmodifiableList(ValidationSupport.checkList(builder.chain, "chain", String.class));
+        component = Collections.unmodifiableList(ValidationSupport.checkList(builder.component, "component", Component.class));
         ValidationSupport.requireChildren(this);
     }
 

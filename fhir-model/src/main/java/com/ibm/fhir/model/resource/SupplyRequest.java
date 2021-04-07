@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -123,19 +124,19 @@ public class SupplyRequest extends DomainResource {
 
     private SupplyRequest(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = builder.status;
         category = builder.category;
         priority = builder.priority;
         item = ValidationSupport.requireChoiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
         quantity = ValidationSupport.requireNonNull(builder.quantity, "quantity");
-        parameter = ValidationSupport.checkAndFinalizeList(builder.parameter, "parameter", Parameter.class);
+        parameter = Collections.unmodifiableList(ValidationSupport.checkList(builder.parameter, "parameter", Parameter.class));
         occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
         authoredOn = builder.authoredOn;
         requester = builder.requester;
-        supplier = ValidationSupport.checkAndFinalizeList(builder.supplier, "supplier", Reference.class);
-        reasonCode = ValidationSupport.checkAndFinalizeList(builder.reasonCode, "reasonCode", CodeableConcept.class);
-        reasonReference = ValidationSupport.checkAndFinalizeList(builder.reasonReference, "reasonReference", Reference.class);
+        supplier = Collections.unmodifiableList(ValidationSupport.checkList(builder.supplier, "supplier", Reference.class));
+        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
         deliverFrom = builder.deliverFrom;
         deliverTo = builder.deliverTo;
         ValidationSupport.checkReferenceType(item, "item", "Medication", "Substance", "Device");

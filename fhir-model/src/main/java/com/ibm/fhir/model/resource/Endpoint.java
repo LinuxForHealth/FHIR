@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -110,17 +111,17 @@ public class Endpoint extends DomainResource {
 
     private Endpoint(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         connectionType = ValidationSupport.requireNonNull(builder.connectionType, "connectionType");
         name = builder.name;
         managingOrganization = builder.managingOrganization;
-        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactPoint.class);
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactPoint.class));
         period = builder.period;
-        payloadType = ValidationSupport.checkAndFinalizeNonEmptyList(builder.payloadType, "payloadType", CodeableConcept.class);
-        payloadMimeType = ValidationSupport.checkAndFinalizeList(builder.payloadMimeType, "payloadMimeType", Code.class);
+        payloadType = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.payloadType, "payloadType", CodeableConcept.class));
+        payloadMimeType = Collections.unmodifiableList(ValidationSupport.checkList(builder.payloadMimeType, "payloadMimeType", Code.class));
         address = ValidationSupport.requireNonNull(builder.address, "address");
-        header = ValidationSupport.checkAndFinalizeList(builder.header, "header", String.class);
+        header = Collections.unmodifiableList(ValidationSupport.checkList(builder.header, "header", String.class));
         ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
         ValidationSupport.requireChildren(this);
     }

@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -67,10 +68,10 @@ public class MedicinalProductManufactured extends DomainResource {
         manufacturedDoseForm = ValidationSupport.requireNonNull(builder.manufacturedDoseForm, "manufacturedDoseForm");
         unitOfPresentation = builder.unitOfPresentation;
         quantity = ValidationSupport.requireNonNull(builder.quantity, "quantity");
-        manufacturer = ValidationSupport.checkAndFinalizeList(builder.manufacturer, "manufacturer", Reference.class);
-        ingredient = ValidationSupport.checkAndFinalizeList(builder.ingredient, "ingredient", Reference.class);
+        manufacturer = Collections.unmodifiableList(ValidationSupport.checkList(builder.manufacturer, "manufacturer", Reference.class));
+        ingredient = Collections.unmodifiableList(ValidationSupport.checkList(builder.ingredient, "ingredient", Reference.class));
         physicalCharacteristics = builder.physicalCharacteristics;
-        otherCharacteristics = ValidationSupport.checkAndFinalizeList(builder.otherCharacteristics, "otherCharacteristics", CodeableConcept.class);
+        otherCharacteristics = Collections.unmodifiableList(ValidationSupport.checkList(builder.otherCharacteristics, "otherCharacteristics", CodeableConcept.class));
         ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
         ValidationSupport.checkReferenceType(ingredient, "ingredient", "MedicinalProductIngredient");
         ValidationSupport.requireChildren(this);

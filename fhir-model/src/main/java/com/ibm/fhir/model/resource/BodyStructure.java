@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -85,13 +86,13 @@ public class BodyStructure extends DomainResource {
 
     private BodyStructure(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         active = builder.active;
         morphology = builder.morphology;
         location = builder.location;
-        locationQualifier = ValidationSupport.checkAndFinalizeList(builder.locationQualifier, "locationQualifier", CodeableConcept.class);
+        locationQualifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.locationQualifier, "locationQualifier", CodeableConcept.class));
         description = builder.description;
-        image = ValidationSupport.checkAndFinalizeList(builder.image, "image", Attachment.class);
+        image = Collections.unmodifiableList(ValidationSupport.checkList(builder.image, "image", Attachment.class));
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.requireChildren(this);

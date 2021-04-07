@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -183,17 +184,17 @@ public class TerminologyCapabilities extends DomainResource {
         experimental = builder.experimental;
         date = ValidationSupport.requireNonNull(builder.date, "date");
         publisher = builder.publisher;
-        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
-        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         purpose = builder.purpose;
         copyright = builder.copyright;
         kind = ValidationSupport.requireNonNull(builder.kind, "kind");
         software = builder.software;
         implementation = builder.implementation;
         lockedDate = builder.lockedDate;
-        codeSystem = ValidationSupport.checkAndFinalizeList(builder.codeSystem, "codeSystem", CodeSystem.class);
+        codeSystem = Collections.unmodifiableList(ValidationSupport.checkList(builder.codeSystem, "codeSystem", CodeSystem.class));
         expansion = builder.expansion;
         codeSearch = builder.codeSearch;
         validateCode = builder.validateCode;
@@ -1910,7 +1911,7 @@ public class TerminologyCapabilities extends DomainResource {
         private CodeSystem(Builder builder) {
             super(builder);
             uri = builder.uri;
-            version = ValidationSupport.checkAndFinalizeList(builder.version, "version", Version.class);
+            version = Collections.unmodifiableList(ValidationSupport.checkList(builder.version, "version", Version.class));
             subsumption = builder.subsumption;
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -2229,9 +2230,9 @@ public class TerminologyCapabilities extends DomainResource {
                 code = builder.code;
                 isDefault = builder.isDefault;
                 compositional = builder.compositional;
-                language = ValidationSupport.checkAndFinalizeList(builder.language, "language", Code.class);
-                filter = ValidationSupport.checkAndFinalizeList(builder.filter, "filter", Filter.class);
-                property = ValidationSupport.checkAndFinalizeList(builder.property, "property", Code.class);
+                language = Collections.unmodifiableList(ValidationSupport.checkList(builder.language, "language", Code.class));
+                filter = Collections.unmodifiableList(ValidationSupport.checkList(builder.filter, "filter", Filter.class));
+                property = Collections.unmodifiableList(ValidationSupport.checkList(builder.property, "property", Code.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -2673,7 +2674,7 @@ public class TerminologyCapabilities extends DomainResource {
                 private Filter(Builder builder) {
                     super(builder);
                     code = ValidationSupport.requireNonNull(builder.code, "code");
-                    op = ValidationSupport.checkAndFinalizeNonEmptyList(builder.op, "op", Code.class);
+                    op = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.op, "op", Code.class));
                     ValidationSupport.requireValueOrChildren(this);
                 }
 
@@ -2973,7 +2974,7 @@ public class TerminologyCapabilities extends DomainResource {
             hierarchical = builder.hierarchical;
             paging = builder.paging;
             incomplete = builder.incomplete;
-            parameter = ValidationSupport.checkAndFinalizeList(builder.parameter, "parameter", Parameter.class);
+            parameter = Collections.unmodifiableList(ValidationSupport.checkList(builder.parameter, "parameter", Parameter.class));
             textFilter = builder.textFilter;
             ValidationSupport.requireValueOrChildren(this);
         }

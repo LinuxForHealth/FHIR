@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -100,7 +101,7 @@ public class MessageHeader extends DomainResource {
     private MessageHeader(Builder builder) {
         super(builder);
         event = ValidationSupport.requireChoiceElement(builder.event, "event", Coding.class, Uri.class);
-        destination = ValidationSupport.checkAndFinalizeList(builder.destination, "destination", Destination.class);
+        destination = Collections.unmodifiableList(ValidationSupport.checkList(builder.destination, "destination", Destination.class));
         sender = builder.sender;
         enterer = builder.enterer;
         author = builder.author;
@@ -108,7 +109,7 @@ public class MessageHeader extends DomainResource {
         responsible = builder.responsible;
         reason = builder.reason;
         response = builder.response;
-        focus = ValidationSupport.checkAndFinalizeList(builder.focus, "focus", Reference.class);
+        focus = Collections.unmodifiableList(ValidationSupport.checkList(builder.focus, "focus", Reference.class));
         definition = builder.definition;
         ValidationSupport.checkReferenceType(sender, "sender", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.checkReferenceType(enterer, "enterer", "Practitioner", "PractitionerRole");

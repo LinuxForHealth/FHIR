@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -352,7 +353,7 @@ public class StructureDefinition extends DomainResource {
     private StructureDefinition(Builder builder) {
         super(builder);
         url = ValidationSupport.requireNonNull(builder.url, "url");
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         version = builder.version;
         name = ValidationSupport.requireNonNull(builder.name, "name");
         title = builder.title;
@@ -360,19 +361,19 @@ public class StructureDefinition extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
-        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         purpose = builder.purpose;
         copyright = builder.copyright;
-        keyword = ValidationSupport.checkAndFinalizeList(builder.keyword, "keyword", Coding.class);
+        keyword = Collections.unmodifiableList(ValidationSupport.checkList(builder.keyword, "keyword", Coding.class));
         fhirVersion = builder.fhirVersion;
-        mapping = ValidationSupport.checkAndFinalizeList(builder.mapping, "mapping", Mapping.class);
+        mapping = Collections.unmodifiableList(ValidationSupport.checkList(builder.mapping, "mapping", Mapping.class));
         kind = ValidationSupport.requireNonNull(builder.kind, "kind");
         _abstract = ValidationSupport.requireNonNull(builder._abstract, "abstract");
-        context = ValidationSupport.checkAndFinalizeList(builder.context, "context", Context.class);
-        contextInvariant = ValidationSupport.checkAndFinalizeList(builder.contextInvariant, "contextInvariant", String.class);
+        context = Collections.unmodifiableList(ValidationSupport.checkList(builder.context, "context", Context.class));
+        contextInvariant = Collections.unmodifiableList(ValidationSupport.checkList(builder.contextInvariant, "contextInvariant", String.class));
         type = ValidationSupport.requireNonNull(builder.type, "type");
         baseDefinition = builder.baseDefinition;
         derivation = builder.derivation;
@@ -2346,7 +2347,7 @@ public class StructureDefinition extends DomainResource {
 
         private Snapshot(Builder builder) {
             super(builder);
-            element = ValidationSupport.checkAndFinalizeNonEmptyList(builder.element, "element", ElementDefinition.class);
+            element = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.element, "element", ElementDefinition.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2605,7 +2606,7 @@ public class StructureDefinition extends DomainResource {
 
         private Differential(Builder builder) {
             super(builder);
-            element = ValidationSupport.checkAndFinalizeNonEmptyList(builder.element, "element", ElementDefinition.class);
+            element = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.element, "element", ElementDefinition.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

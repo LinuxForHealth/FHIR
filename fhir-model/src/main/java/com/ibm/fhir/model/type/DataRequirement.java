@@ -8,6 +8,7 @@ package com.ibm.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -90,13 +91,13 @@ public class DataRequirement extends Element {
     private DataRequirement(Builder builder) {
         super(builder);
         type = ValidationSupport.requireNonNull(builder.type, "type");
-        profile = ValidationSupport.checkAndFinalizeList(builder.profile, "profile", Canonical.class);
+        profile = Collections.unmodifiableList(ValidationSupport.checkList(builder.profile, "profile", Canonical.class));
         subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
-        mustSupport = ValidationSupport.checkAndFinalizeList(builder.mustSupport, "mustSupport", String.class);
-        codeFilter = ValidationSupport.checkAndFinalizeList(builder.codeFilter, "codeFilter", CodeFilter.class);
-        dateFilter = ValidationSupport.checkAndFinalizeList(builder.dateFilter, "dateFilter", DateFilter.class);
+        mustSupport = Collections.unmodifiableList(ValidationSupport.checkList(builder.mustSupport, "mustSupport", String.class));
+        codeFilter = Collections.unmodifiableList(ValidationSupport.checkList(builder.codeFilter, "codeFilter", CodeFilter.class));
+        dateFilter = Collections.unmodifiableList(ValidationSupport.checkList(builder.dateFilter, "dateFilter", DateFilter.class));
         limit = builder.limit;
-        sort = ValidationSupport.checkAndFinalizeList(builder.sort, "sort", Sort.class);
+        sort = Collections.unmodifiableList(ValidationSupport.checkList(builder.sort, "sort", Sort.class));
         ValidationSupport.checkReferenceType(subject, "subject", "Group");
         ValidationSupport.requireValueOrChildren(this);
     }
@@ -639,7 +640,7 @@ public class DataRequirement extends Element {
             path = builder.path;
             searchParam = builder.searchParam;
             valueSet = builder.valueSet;
-            code = ValidationSupport.checkAndFinalizeList(builder.code, "code", Coding.class);
+            code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", Coding.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

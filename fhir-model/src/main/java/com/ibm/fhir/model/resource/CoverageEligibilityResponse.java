@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -126,9 +127,9 @@ public class CoverageEligibilityResponse extends DomainResource {
 
     private CoverageEligibilityResponse(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        purpose = ValidationSupport.checkAndFinalizeNonEmptyList(builder.purpose, "purpose", EligibilityResponsePurpose.class);
+        purpose = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.purpose, "purpose", EligibilityResponsePurpose.class));
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
         serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
         created = ValidationSupport.requireNonNull(builder.created, "created");
@@ -137,10 +138,10 @@ public class CoverageEligibilityResponse extends DomainResource {
         outcome = ValidationSupport.requireNonNull(builder.outcome, "outcome");
         disposition = builder.disposition;
         insurer = ValidationSupport.requireNonNull(builder.insurer, "insurer");
-        insurance = ValidationSupport.checkAndFinalizeList(builder.insurance, "insurance", Insurance.class);
+        insurance = Collections.unmodifiableList(ValidationSupport.checkList(builder.insurance, "insurance", Insurance.class));
         preAuthRef = builder.preAuthRef;
         form = builder.form;
-        error = ValidationSupport.checkAndFinalizeList(builder.error, "error", Error.class);
+        error = Collections.unmodifiableList(ValidationSupport.checkList(builder.error, "error", Error.class));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.checkReferenceType(request, "request", "CoverageEligibilityRequest");
@@ -1054,7 +1055,7 @@ public class CoverageEligibilityResponse extends DomainResource {
             coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
             inforce = builder.inforce;
             benefitPeriod = builder.benefitPeriod;
-            item = ValidationSupport.checkAndFinalizeList(builder.item, "item", Item.class);
+            item = Collections.unmodifiableList(ValidationSupport.checkList(builder.item, "item", Item.class));
             ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -1467,7 +1468,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                 super(builder);
                 category = builder.category;
                 productOrService = builder.productOrService;
-                modifier = ValidationSupport.checkAndFinalizeList(builder.modifier, "modifier", CodeableConcept.class);
+                modifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifier, "modifier", CodeableConcept.class));
                 provider = builder.provider;
                 excluded = builder.excluded;
                 name = builder.name;
@@ -1475,9 +1476,9 @@ public class CoverageEligibilityResponse extends DomainResource {
                 network = builder.network;
                 unit = builder.unit;
                 term = builder.term;
-                benefit = ValidationSupport.checkAndFinalizeList(builder.benefit, "benefit", Benefit.class);
+                benefit = Collections.unmodifiableList(ValidationSupport.checkList(builder.benefit, "benefit", Benefit.class));
                 authorizationRequired = builder.authorizationRequired;
-                authorizationSupporting = ValidationSupport.checkAndFinalizeList(builder.authorizationSupporting, "authorizationSupporting", CodeableConcept.class);
+                authorizationSupporting = Collections.unmodifiableList(ValidationSupport.checkList(builder.authorizationSupporting, "authorizationSupporting", CodeableConcept.class));
                 authorizationUrl = builder.authorizationUrl;
                 ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole");
                 ValidationSupport.requireValueOrChildren(this);

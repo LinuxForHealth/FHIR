@@ -8,6 +8,7 @@ package com.ibm.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -120,7 +121,7 @@ public class Timing extends BackboneElement {
 
     private Timing(Builder builder) {
         super(builder);
-        event = ValidationSupport.checkAndFinalizeList(builder.event, "event", DateTime.class);
+        event = Collections.unmodifiableList(ValidationSupport.checkList(builder.event, "event", DateTime.class));
         repeat = builder.repeat;
         code = builder.code;
         ValidationSupport.requireValueOrChildren(this);
@@ -502,9 +503,9 @@ public class Timing extends BackboneElement {
             period = builder.period;
             periodMax = builder.periodMax;
             periodUnit = builder.periodUnit;
-            dayOfWeek = ValidationSupport.checkAndFinalizeList(builder.dayOfWeek, "dayOfWeek", DayOfWeek.class);
-            timeOfDay = ValidationSupport.checkAndFinalizeList(builder.timeOfDay, "timeOfDay", Time.class);
-            when = ValidationSupport.checkAndFinalizeList(builder.when, "when", EventTiming.class);
+            dayOfWeek = Collections.unmodifiableList(ValidationSupport.checkList(builder.dayOfWeek, "dayOfWeek", DayOfWeek.class));
+            timeOfDay = Collections.unmodifiableList(ValidationSupport.checkList(builder.timeOfDay, "timeOfDay", Time.class));
+            when = Collections.unmodifiableList(ValidationSupport.checkList(builder.when, "when", EventTiming.class));
             offset = builder.offset;
             ValidationSupport.requireValueOrChildren(this);
         }

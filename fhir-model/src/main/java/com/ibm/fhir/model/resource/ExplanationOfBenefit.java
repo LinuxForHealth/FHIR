@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -221,7 +222,7 @@ public class ExplanationOfBenefit extends DomainResource {
 
     private ExplanationOfBenefit(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         type = ValidationSupport.requireNonNull(builder.type, "type");
         subType = builder.subType;
@@ -235,7 +236,7 @@ public class ExplanationOfBenefit extends DomainResource {
         priority = builder.priority;
         fundsReserveRequested = builder.fundsReserveRequested;
         fundsReserve = builder.fundsReserve;
-        related = ValidationSupport.checkAndFinalizeList(builder.related, "related", Related.class);
+        related = Collections.unmodifiableList(ValidationSupport.checkList(builder.related, "related", Related.class));
         prescription = builder.prescription;
         originalPrescription = builder.originalPrescription;
         payee = builder.payee;
@@ -245,25 +246,25 @@ public class ExplanationOfBenefit extends DomainResource {
         claimResponse = builder.claimResponse;
         outcome = ValidationSupport.requireNonNull(builder.outcome, "outcome");
         disposition = builder.disposition;
-        preAuthRef = ValidationSupport.checkAndFinalizeList(builder.preAuthRef, "preAuthRef", String.class);
-        preAuthRefPeriod = ValidationSupport.checkAndFinalizeList(builder.preAuthRefPeriod, "preAuthRefPeriod", Period.class);
-        careTeam = ValidationSupport.checkAndFinalizeList(builder.careTeam, "careTeam", CareTeam.class);
-        supportingInfo = ValidationSupport.checkAndFinalizeList(builder.supportingInfo, "supportingInfo", SupportingInfo.class);
-        diagnosis = ValidationSupport.checkAndFinalizeList(builder.diagnosis, "diagnosis", Diagnosis.class);
-        procedure = ValidationSupport.checkAndFinalizeList(builder.procedure, "procedure", Procedure.class);
+        preAuthRef = Collections.unmodifiableList(ValidationSupport.checkList(builder.preAuthRef, "preAuthRef", String.class));
+        preAuthRefPeriod = Collections.unmodifiableList(ValidationSupport.checkList(builder.preAuthRefPeriod, "preAuthRefPeriod", Period.class));
+        careTeam = Collections.unmodifiableList(ValidationSupport.checkList(builder.careTeam, "careTeam", CareTeam.class));
+        supportingInfo = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingInfo, "supportingInfo", SupportingInfo.class));
+        diagnosis = Collections.unmodifiableList(ValidationSupport.checkList(builder.diagnosis, "diagnosis", Diagnosis.class));
+        procedure = Collections.unmodifiableList(ValidationSupport.checkList(builder.procedure, "procedure", Procedure.class));
         precedence = builder.precedence;
-        insurance = ValidationSupport.checkAndFinalizeNonEmptyList(builder.insurance, "insurance", Insurance.class);
+        insurance = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.insurance, "insurance", Insurance.class));
         accident = builder.accident;
-        item = ValidationSupport.checkAndFinalizeList(builder.item, "item", Item.class);
-        addItem = ValidationSupport.checkAndFinalizeList(builder.addItem, "addItem", AddItem.class);
-        adjudication = ValidationSupport.checkAndFinalizeList(builder.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class);
-        total = ValidationSupport.checkAndFinalizeList(builder.total, "total", Total.class);
+        item = Collections.unmodifiableList(ValidationSupport.checkList(builder.item, "item", Item.class));
+        addItem = Collections.unmodifiableList(ValidationSupport.checkList(builder.addItem, "addItem", AddItem.class));
+        adjudication = Collections.unmodifiableList(ValidationSupport.checkList(builder.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class));
+        total = Collections.unmodifiableList(ValidationSupport.checkList(builder.total, "total", Total.class));
         payment = builder.payment;
         formCode = builder.formCode;
         form = builder.form;
-        processNote = ValidationSupport.checkAndFinalizeList(builder.processNote, "processNote", ProcessNote.class);
+        processNote = Collections.unmodifiableList(ValidationSupport.checkList(builder.processNote, "processNote", ProcessNote.class));
         benefitPeriod = builder.benefitPeriod;
-        benefitBalance = ValidationSupport.checkAndFinalizeList(builder.benefitBalance, "benefitBalance", BenefitBalance.class);
+        benefitBalance = Collections.unmodifiableList(ValidationSupport.checkList(builder.benefitBalance, "benefitBalance", BenefitBalance.class));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(enterer, "enterer", "Practitioner", "PractitionerRole");
         ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
@@ -3734,7 +3735,7 @@ public class ExplanationOfBenefit extends DomainResource {
             super(builder);
             sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
             diagnosis = ValidationSupport.requireChoiceElement(builder.diagnosis, "diagnosis", CodeableConcept.class, Reference.class);
-            type = ValidationSupport.checkAndFinalizeList(builder.type, "type", CodeableConcept.class);
+            type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
             onAdmission = builder.onAdmission;
             packageCode = builder.packageCode;
             ValidationSupport.checkReferenceType(diagnosis, "diagnosis", "Condition");
@@ -4151,10 +4152,10 @@ public class ExplanationOfBenefit extends DomainResource {
         private Procedure(Builder builder) {
             super(builder);
             sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            type = ValidationSupport.checkAndFinalizeList(builder.type, "type", CodeableConcept.class);
+            type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
             date = builder.date;
             procedure = ValidationSupport.requireChoiceElement(builder.procedure, "procedure", CodeableConcept.class, Reference.class);
-            udi = ValidationSupport.checkAndFinalizeList(builder.udi, "udi", Reference.class);
+            udi = Collections.unmodifiableList(ValidationSupport.checkList(builder.udi, "udi", Reference.class));
             ValidationSupport.checkReferenceType(procedure, "procedure", "Procedure");
             ValidationSupport.checkReferenceType(udi, "udi", "Device");
             ValidationSupport.requireValueOrChildren(this);
@@ -4585,7 +4586,7 @@ public class ExplanationOfBenefit extends DomainResource {
             super(builder);
             focal = ValidationSupport.requireNonNull(builder.focal, "focal");
             coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
-            preAuthRef = ValidationSupport.checkAndFinalizeList(builder.preAuthRef, "preAuthRef", String.class);
+            preAuthRef = Collections.unmodifiableList(ValidationSupport.checkList(builder.preAuthRef, "preAuthRef", String.class));
             ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -5309,28 +5310,28 @@ public class ExplanationOfBenefit extends DomainResource {
         private Item(Builder builder) {
             super(builder);
             sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            careTeamSequence = ValidationSupport.checkAndFinalizeList(builder.careTeamSequence, "careTeamSequence", PositiveInt.class);
-            diagnosisSequence = ValidationSupport.checkAndFinalizeList(builder.diagnosisSequence, "diagnosisSequence", PositiveInt.class);
-            procedureSequence = ValidationSupport.checkAndFinalizeList(builder.procedureSequence, "procedureSequence", PositiveInt.class);
-            informationSequence = ValidationSupport.checkAndFinalizeList(builder.informationSequence, "informationSequence", PositiveInt.class);
+            careTeamSequence = Collections.unmodifiableList(ValidationSupport.checkList(builder.careTeamSequence, "careTeamSequence", PositiveInt.class));
+            diagnosisSequence = Collections.unmodifiableList(ValidationSupport.checkList(builder.diagnosisSequence, "diagnosisSequence", PositiveInt.class));
+            procedureSequence = Collections.unmodifiableList(ValidationSupport.checkList(builder.procedureSequence, "procedureSequence", PositiveInt.class));
+            informationSequence = Collections.unmodifiableList(ValidationSupport.checkList(builder.informationSequence, "informationSequence", PositiveInt.class));
             revenue = builder.revenue;
             category = builder.category;
             productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-            modifier = ValidationSupport.checkAndFinalizeList(builder.modifier, "modifier", CodeableConcept.class);
-            programCode = ValidationSupport.checkAndFinalizeList(builder.programCode, "programCode", CodeableConcept.class);
+            modifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifier, "modifier", CodeableConcept.class));
+            programCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.programCode, "programCode", CodeableConcept.class));
             serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
             location = ValidationSupport.choiceElement(builder.location, "location", CodeableConcept.class, Address.class, Reference.class);
             quantity = builder.quantity;
             unitPrice = builder.unitPrice;
             factor = builder.factor;
             net = builder.net;
-            udi = ValidationSupport.checkAndFinalizeList(builder.udi, "udi", Reference.class);
+            udi = Collections.unmodifiableList(ValidationSupport.checkList(builder.udi, "udi", Reference.class));
             bodySite = builder.bodySite;
-            subSite = ValidationSupport.checkAndFinalizeList(builder.subSite, "subSite", CodeableConcept.class);
-            encounter = ValidationSupport.checkAndFinalizeList(builder.encounter, "encounter", Reference.class);
-            noteNumber = ValidationSupport.checkAndFinalizeList(builder.noteNumber, "noteNumber", PositiveInt.class);
-            adjudication = ValidationSupport.checkAndFinalizeList(builder.adjudication, "adjudication", Adjudication.class);
-            detail = ValidationSupport.checkAndFinalizeList(builder.detail, "detail", Detail.class);
+            subSite = Collections.unmodifiableList(ValidationSupport.checkList(builder.subSite, "subSite", CodeableConcept.class));
+            encounter = Collections.unmodifiableList(ValidationSupport.checkList(builder.encounter, "encounter", Reference.class));
+            noteNumber = Collections.unmodifiableList(ValidationSupport.checkList(builder.noteNumber, "noteNumber", PositiveInt.class));
+            adjudication = Collections.unmodifiableList(ValidationSupport.checkList(builder.adjudication, "adjudication", Adjudication.class));
+            detail = Collections.unmodifiableList(ValidationSupport.checkList(builder.detail, "detail", Detail.class));
             ValidationSupport.checkReferenceType(location, "location", "Location");
             ValidationSupport.checkReferenceType(udi, "udi", "Device");
             ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
@@ -6918,16 +6919,16 @@ public class ExplanationOfBenefit extends DomainResource {
                 revenue = builder.revenue;
                 category = builder.category;
                 productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-                modifier = ValidationSupport.checkAndFinalizeList(builder.modifier, "modifier", CodeableConcept.class);
-                programCode = ValidationSupport.checkAndFinalizeList(builder.programCode, "programCode", CodeableConcept.class);
+                modifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifier, "modifier", CodeableConcept.class));
+                programCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.programCode, "programCode", CodeableConcept.class));
                 quantity = builder.quantity;
                 unitPrice = builder.unitPrice;
                 factor = builder.factor;
                 net = builder.net;
-                udi = ValidationSupport.checkAndFinalizeList(builder.udi, "udi", Reference.class);
-                noteNumber = ValidationSupport.checkAndFinalizeList(builder.noteNumber, "noteNumber", PositiveInt.class);
-                adjudication = ValidationSupport.checkAndFinalizeList(builder.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class);
-                subDetail = ValidationSupport.checkAndFinalizeList(builder.subDetail, "subDetail", SubDetail.class);
+                udi = Collections.unmodifiableList(ValidationSupport.checkList(builder.udi, "udi", Reference.class));
+                noteNumber = Collections.unmodifiableList(ValidationSupport.checkList(builder.noteNumber, "noteNumber", PositiveInt.class));
+                adjudication = Collections.unmodifiableList(ValidationSupport.checkList(builder.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class));
+                subDetail = Collections.unmodifiableList(ValidationSupport.checkList(builder.subDetail, "subDetail", SubDetail.class));
                 ValidationSupport.checkReferenceType(udi, "udi", "Device");
                 ValidationSupport.requireValueOrChildren(this);
             }
@@ -7741,15 +7742,15 @@ public class ExplanationOfBenefit extends DomainResource {
                     revenue = builder.revenue;
                     category = builder.category;
                     productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-                    modifier = ValidationSupport.checkAndFinalizeList(builder.modifier, "modifier", CodeableConcept.class);
-                    programCode = ValidationSupport.checkAndFinalizeList(builder.programCode, "programCode", CodeableConcept.class);
+                    modifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifier, "modifier", CodeableConcept.class));
+                    programCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.programCode, "programCode", CodeableConcept.class));
                     quantity = builder.quantity;
                     unitPrice = builder.unitPrice;
                     factor = builder.factor;
                     net = builder.net;
-                    udi = ValidationSupport.checkAndFinalizeList(builder.udi, "udi", Reference.class);
-                    noteNumber = ValidationSupport.checkAndFinalizeList(builder.noteNumber, "noteNumber", PositiveInt.class);
-                    adjudication = ValidationSupport.checkAndFinalizeList(builder.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class);
+                    udi = Collections.unmodifiableList(ValidationSupport.checkList(builder.udi, "udi", Reference.class));
+                    noteNumber = Collections.unmodifiableList(ValidationSupport.checkList(builder.noteNumber, "noteNumber", PositiveInt.class));
+                    adjudication = Collections.unmodifiableList(ValidationSupport.checkList(builder.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class));
                     ValidationSupport.checkReferenceType(udi, "udi", "Device");
                     ValidationSupport.requireValueOrChildren(this);
                 }
@@ -8525,13 +8526,13 @@ public class ExplanationOfBenefit extends DomainResource {
 
         private AddItem(Builder builder) {
             super(builder);
-            itemSequence = ValidationSupport.checkAndFinalizeList(builder.itemSequence, "itemSequence", PositiveInt.class);
-            detailSequence = ValidationSupport.checkAndFinalizeList(builder.detailSequence, "detailSequence", PositiveInt.class);
-            subDetailSequence = ValidationSupport.checkAndFinalizeList(builder.subDetailSequence, "subDetailSequence", PositiveInt.class);
-            provider = ValidationSupport.checkAndFinalizeList(builder.provider, "provider", Reference.class);
+            itemSequence = Collections.unmodifiableList(ValidationSupport.checkList(builder.itemSequence, "itemSequence", PositiveInt.class));
+            detailSequence = Collections.unmodifiableList(ValidationSupport.checkList(builder.detailSequence, "detailSequence", PositiveInt.class));
+            subDetailSequence = Collections.unmodifiableList(ValidationSupport.checkList(builder.subDetailSequence, "subDetailSequence", PositiveInt.class));
+            provider = Collections.unmodifiableList(ValidationSupport.checkList(builder.provider, "provider", Reference.class));
             productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-            modifier = ValidationSupport.checkAndFinalizeList(builder.modifier, "modifier", CodeableConcept.class);
-            programCode = ValidationSupport.checkAndFinalizeList(builder.programCode, "programCode", CodeableConcept.class);
+            modifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifier, "modifier", CodeableConcept.class));
+            programCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.programCode, "programCode", CodeableConcept.class));
             serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
             location = ValidationSupport.choiceElement(builder.location, "location", CodeableConcept.class, Address.class, Reference.class);
             quantity = builder.quantity;
@@ -8539,10 +8540,10 @@ public class ExplanationOfBenefit extends DomainResource {
             factor = builder.factor;
             net = builder.net;
             bodySite = builder.bodySite;
-            subSite = ValidationSupport.checkAndFinalizeList(builder.subSite, "subSite", CodeableConcept.class);
-            noteNumber = ValidationSupport.checkAndFinalizeList(builder.noteNumber, "noteNumber", PositiveInt.class);
-            adjudication = ValidationSupport.checkAndFinalizeList(builder.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class);
-            detail = ValidationSupport.checkAndFinalizeList(builder.detail, "detail", Detail.class);
+            subSite = Collections.unmodifiableList(ValidationSupport.checkList(builder.subSite, "subSite", CodeableConcept.class));
+            noteNumber = Collections.unmodifiableList(ValidationSupport.checkList(builder.noteNumber, "noteNumber", PositiveInt.class));
+            adjudication = Collections.unmodifiableList(ValidationSupport.checkList(builder.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class));
+            detail = Collections.unmodifiableList(ValidationSupport.checkList(builder.detail, "detail", Detail.class));
             ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
             ValidationSupport.checkReferenceType(location, "location", "Location");
             ValidationSupport.requireValueOrChildren(this);
@@ -9552,14 +9553,14 @@ public class ExplanationOfBenefit extends DomainResource {
             private Detail(Builder builder) {
                 super(builder);
                 productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-                modifier = ValidationSupport.checkAndFinalizeList(builder.modifier, "modifier", CodeableConcept.class);
+                modifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifier, "modifier", CodeableConcept.class));
                 quantity = builder.quantity;
                 unitPrice = builder.unitPrice;
                 factor = builder.factor;
                 net = builder.net;
-                noteNumber = ValidationSupport.checkAndFinalizeList(builder.noteNumber, "noteNumber", PositiveInt.class);
-                adjudication = ValidationSupport.checkAndFinalizeList(builder.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class);
-                subDetail = ValidationSupport.checkAndFinalizeList(builder.subDetail, "subDetail", SubDetail.class);
+                noteNumber = Collections.unmodifiableList(ValidationSupport.checkList(builder.noteNumber, "noteNumber", PositiveInt.class));
+                adjudication = Collections.unmodifiableList(ValidationSupport.checkList(builder.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class));
+                subDetail = Collections.unmodifiableList(ValidationSupport.checkList(builder.subDetail, "subDetail", SubDetail.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -10141,13 +10142,13 @@ public class ExplanationOfBenefit extends DomainResource {
                 private SubDetail(Builder builder) {
                     super(builder);
                     productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-                    modifier = ValidationSupport.checkAndFinalizeList(builder.modifier, "modifier", CodeableConcept.class);
+                    modifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifier, "modifier", CodeableConcept.class));
                     quantity = builder.quantity;
                     unitPrice = builder.unitPrice;
                     factor = builder.factor;
                     net = builder.net;
-                    noteNumber = ValidationSupport.checkAndFinalizeList(builder.noteNumber, "noteNumber", PositiveInt.class);
-                    adjudication = ValidationSupport.checkAndFinalizeList(builder.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class);
+                    noteNumber = Collections.unmodifiableList(ValidationSupport.checkList(builder.noteNumber, "noteNumber", PositiveInt.class));
+                    adjudication = Collections.unmodifiableList(ValidationSupport.checkList(builder.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class));
                     ValidationSupport.requireValueOrChildren(this);
                 }
 
@@ -11727,7 +11728,7 @@ public class ExplanationOfBenefit extends DomainResource {
             network = builder.network;
             unit = builder.unit;
             term = builder.term;
-            financial = ValidationSupport.checkAndFinalizeList(builder.financial, "financial", Financial.class);
+            financial = Collections.unmodifiableList(ValidationSupport.checkList(builder.financial, "financial", Financial.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

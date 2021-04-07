@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -86,14 +87,14 @@ public class VisionPrescription extends DomainResource {
 
     private VisionPrescription(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         created = ValidationSupport.requireNonNull(builder.created, "created");
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
         encounter = builder.encounter;
         dateWritten = ValidationSupport.requireNonNull(builder.dateWritten, "dateWritten");
         prescriber = ValidationSupport.requireNonNull(builder.prescriber, "prescriber");
-        lensSpecification = ValidationSupport.checkAndFinalizeNonEmptyList(builder.lensSpecification, "lensSpecification", LensSpecification.class);
+        lensSpecification = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.lensSpecification, "lensSpecification", LensSpecification.class));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(prescriber, "prescriber", "Practitioner", "PractitionerRole");
@@ -764,7 +765,7 @@ public class VisionPrescription extends DomainResource {
             sphere = builder.sphere;
             cylinder = builder.cylinder;
             axis = builder.axis;
-            prism = ValidationSupport.checkAndFinalizeList(builder.prism, "prism", Prism.class);
+            prism = Collections.unmodifiableList(ValidationSupport.checkList(builder.prism, "prism", Prism.class));
             add = builder.add;
             power = builder.power;
             backCurve = builder.backCurve;
@@ -772,7 +773,7 @@ public class VisionPrescription extends DomainResource {
             duration = builder.duration;
             color = builder.color;
             brand = builder.brand;
-            note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
+            note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -63,9 +64,9 @@ public class MedicinalProductInteraction extends DomainResource {
 
     private MedicinalProductInteraction(Builder builder) {
         super(builder);
-        subject = ValidationSupport.checkAndFinalizeList(builder.subject, "subject", Reference.class);
+        subject = Collections.unmodifiableList(ValidationSupport.checkList(builder.subject, "subject", Reference.class));
         description = builder.description;
-        interactant = ValidationSupport.checkAndFinalizeList(builder.interactant, "interactant", Interactant.class);
+        interactant = Collections.unmodifiableList(ValidationSupport.checkList(builder.interactant, "interactant", Interactant.class));
         type = builder.type;
         effect = builder.effect;
         incidence = builder.incidence;

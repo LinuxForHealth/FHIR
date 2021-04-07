@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -60,8 +61,8 @@ public class SubstanceProtein extends DomainResource {
         super(builder);
         sequenceType = builder.sequenceType;
         numberOfSubunits = builder.numberOfSubunits;
-        disulfideLinkage = ValidationSupport.checkAndFinalizeList(builder.disulfideLinkage, "disulfideLinkage", String.class);
-        subunit = ValidationSupport.checkAndFinalizeList(builder.subunit, "subunit", Subunit.class);
+        disulfideLinkage = Collections.unmodifiableList(ValidationSupport.checkList(builder.disulfideLinkage, "disulfideLinkage", String.class));
+        subunit = Collections.unmodifiableList(ValidationSupport.checkList(builder.subunit, "subunit", Subunit.class));
         ValidationSupport.requireChildren(this);
     }
 

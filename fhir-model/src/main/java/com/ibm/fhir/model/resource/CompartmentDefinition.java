@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -111,13 +112,13 @@ public class CompartmentDefinition extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
         purpose = builder.purpose;
         code = ValidationSupport.requireNonNull(builder.code, "code");
         search = ValidationSupport.requireNonNull(builder.search, "search");
-        resource = ValidationSupport.checkAndFinalizeList(builder.resource, "resource", Resource.class);
+        resource = Collections.unmodifiableList(ValidationSupport.checkList(builder.resource, "resource", Resource.class));
         ValidationSupport.requireChildren(this);
     }
 
@@ -964,7 +965,7 @@ public class CompartmentDefinition extends DomainResource {
         private Resource(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
-            param = ValidationSupport.checkAndFinalizeList(builder.param, "param", String.class);
+            param = Collections.unmodifiableList(ValidationSupport.checkList(builder.param, "param", String.class));
             documentation = builder.documentation;
             ValidationSupport.requireValueOrChildren(this);
         }

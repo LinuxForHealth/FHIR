@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -65,13 +66,13 @@ public class MedicinalProductContraindication extends DomainResource {
 
     private MedicinalProductContraindication(Builder builder) {
         super(builder);
-        subject = ValidationSupport.checkAndFinalizeList(builder.subject, "subject", Reference.class);
+        subject = Collections.unmodifiableList(ValidationSupport.checkList(builder.subject, "subject", Reference.class));
         disease = builder.disease;
         diseaseStatus = builder.diseaseStatus;
-        comorbidity = ValidationSupport.checkAndFinalizeList(builder.comorbidity, "comorbidity", CodeableConcept.class);
-        therapeuticIndication = ValidationSupport.checkAndFinalizeList(builder.therapeuticIndication, "therapeuticIndication", Reference.class);
-        otherTherapy = ValidationSupport.checkAndFinalizeList(builder.otherTherapy, "otherTherapy", OtherTherapy.class);
-        population = ValidationSupport.checkAndFinalizeList(builder.population, "population", Population.class);
+        comorbidity = Collections.unmodifiableList(ValidationSupport.checkList(builder.comorbidity, "comorbidity", CodeableConcept.class));
+        therapeuticIndication = Collections.unmodifiableList(ValidationSupport.checkList(builder.therapeuticIndication, "therapeuticIndication", Reference.class));
+        otherTherapy = Collections.unmodifiableList(ValidationSupport.checkList(builder.otherTherapy, "otherTherapy", OtherTherapy.class));
+        population = Collections.unmodifiableList(ValidationSupport.checkList(builder.population, "population", Population.class));
         ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication");
         ValidationSupport.checkReferenceType(therapeuticIndication, "therapeuticIndication", "MedicinalProductIndication");
         ValidationSupport.requireChildren(this);

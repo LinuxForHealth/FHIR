@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -114,22 +115,22 @@ public class ExampleScenario extends DomainResource {
     private ExampleScenario(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         version = builder.version;
         name = builder.name;
         status = ValidationSupport.requireNonNull(builder.status, "status");
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
-        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
-        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         copyright = builder.copyright;
         purpose = builder.purpose;
-        actor = ValidationSupport.checkAndFinalizeList(builder.actor, "actor", Actor.class);
-        instance = ValidationSupport.checkAndFinalizeList(builder.instance, "instance", Instance.class);
-        process = ValidationSupport.checkAndFinalizeList(builder.process, "process", Process.class);
-        workflow = ValidationSupport.checkAndFinalizeList(builder.workflow, "workflow", Canonical.class);
+        actor = Collections.unmodifiableList(ValidationSupport.checkList(builder.actor, "actor", Actor.class));
+        instance = Collections.unmodifiableList(ValidationSupport.checkList(builder.instance, "instance", Instance.class));
+        process = Collections.unmodifiableList(ValidationSupport.checkList(builder.process, "process", Process.class));
+        workflow = Collections.unmodifiableList(ValidationSupport.checkList(builder.workflow, "workflow", Canonical.class));
         ValidationSupport.requireChildren(this);
     }
 
@@ -1507,8 +1508,8 @@ public class ExampleScenario extends DomainResource {
             resourceType = ValidationSupport.requireNonNull(builder.resourceType, "resourceType");
             name = builder.name;
             description = builder.description;
-            version = ValidationSupport.checkAndFinalizeList(builder.version, "version", Version.class);
-            containedInstance = ValidationSupport.checkAndFinalizeList(builder.containedInstance, "containedInstance", ContainedInstance.class);
+            version = Collections.unmodifiableList(ValidationSupport.checkList(builder.version, "version", Version.class));
+            containedInstance = Collections.unmodifiableList(ValidationSupport.checkList(builder.containedInstance, "containedInstance", ContainedInstance.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2489,7 +2490,7 @@ public class ExampleScenario extends DomainResource {
             description = builder.description;
             preConditions = builder.preConditions;
             postConditions = builder.postConditions;
-            step = ValidationSupport.checkAndFinalizeList(builder.step, "step", Step.class);
+            step = Collections.unmodifiableList(ValidationSupport.checkList(builder.step, "step", Step.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2867,10 +2868,10 @@ public class ExampleScenario extends DomainResource {
 
             private Step(Builder builder) {
                 super(builder);
-                process = ValidationSupport.checkAndFinalizeList(builder.process, "process", ExampleScenario.Process.class);
+                process = Collections.unmodifiableList(ValidationSupport.checkList(builder.process, "process", ExampleScenario.Process.class));
                 pause = builder.pause;
                 operation = builder.operation;
-                alternative = ValidationSupport.checkAndFinalizeList(builder.alternative, "alternative", Alternative.class);
+                alternative = Collections.unmodifiableList(ValidationSupport.checkList(builder.alternative, "alternative", Alternative.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -3762,7 +3763,7 @@ public class ExampleScenario extends DomainResource {
                     super(builder);
                     title = ValidationSupport.requireNonNull(builder.title, "title");
                     description = builder.description;
-                    step = ValidationSupport.checkAndFinalizeList(builder.step, "step", ExampleScenario.Process.Step.class);
+                    step = Collections.unmodifiableList(ValidationSupport.checkList(builder.step, "step", ExampleScenario.Process.Step.class));
                     ValidationSupport.requireValueOrChildren(this);
                 }
 

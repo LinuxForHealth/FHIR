@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -95,22 +96,22 @@ public class Invoice extends DomainResource {
 
     private Invoice(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         cancelledReason = builder.cancelledReason;
         type = builder.type;
         subject = builder.subject;
         recipient = builder.recipient;
         date = builder.date;
-        participant = ValidationSupport.checkAndFinalizeList(builder.participant, "participant", Participant.class);
+        participant = Collections.unmodifiableList(ValidationSupport.checkList(builder.participant, "participant", Participant.class));
         issuer = builder.issuer;
         account = builder.account;
-        lineItem = ValidationSupport.checkAndFinalizeList(builder.lineItem, "lineItem", LineItem.class);
-        totalPriceComponent = ValidationSupport.checkAndFinalizeList(builder.totalPriceComponent, "totalPriceComponent", Invoice.LineItem.PriceComponent.class);
+        lineItem = Collections.unmodifiableList(ValidationSupport.checkList(builder.lineItem, "lineItem", LineItem.class));
+        totalPriceComponent = Collections.unmodifiableList(ValidationSupport.checkList(builder.totalPriceComponent, "totalPriceComponent", Invoice.LineItem.PriceComponent.class));
         totalNet = builder.totalNet;
         totalGross = builder.totalGross;
         paymentTerms = builder.paymentTerms;
-        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(recipient, "recipient", "Organization", "Patient", "RelatedPerson");
         ValidationSupport.checkReferenceType(issuer, "issuer", "Organization");
@@ -1332,7 +1333,7 @@ public class Invoice extends DomainResource {
             super(builder);
             sequence = builder.sequence;
             chargeItem = ValidationSupport.requireChoiceElement(builder.chargeItem, "chargeItem", Reference.class, CodeableConcept.class);
-            priceComponent = ValidationSupport.checkAndFinalizeList(builder.priceComponent, "priceComponent", PriceComponent.class);
+            priceComponent = Collections.unmodifiableList(ValidationSupport.checkList(builder.priceComponent, "priceComponent", PriceComponent.class));
             ValidationSupport.checkReferenceType(chargeItem, "chargeItem", "ChargeItem");
             ValidationSupport.requireValueOrChildren(this);
         }

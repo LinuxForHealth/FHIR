@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -115,18 +116,18 @@ public class DetectedIssue extends DomainResource {
 
     private DetectedIssue(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         code = builder.code;
         severity = builder.severity;
         patient = builder.patient;
         identified = ValidationSupport.choiceElement(builder.identified, "identified", DateTime.class, Period.class);
         author = builder.author;
-        implicated = ValidationSupport.checkAndFinalizeList(builder.implicated, "implicated", Reference.class);
-        evidence = ValidationSupport.checkAndFinalizeList(builder.evidence, "evidence", Evidence.class);
+        implicated = Collections.unmodifiableList(ValidationSupport.checkList(builder.implicated, "implicated", Reference.class));
+        evidence = Collections.unmodifiableList(ValidationSupport.checkList(builder.evidence, "evidence", Evidence.class));
         detail = builder.detail;
         reference = builder.reference;
-        mitigation = ValidationSupport.checkAndFinalizeList(builder.mitigation, "mitigation", Mitigation.class);
+        mitigation = Collections.unmodifiableList(ValidationSupport.checkList(builder.mitigation, "mitigation", Mitigation.class));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Device");
         ValidationSupport.requireChildren(this);
@@ -920,8 +921,8 @@ public class DetectedIssue extends DomainResource {
 
         private Evidence(Builder builder) {
             super(builder);
-            code = ValidationSupport.checkAndFinalizeList(builder.code, "code", CodeableConcept.class);
-            detail = ValidationSupport.checkAndFinalizeList(builder.detail, "detail", Reference.class);
+            code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", CodeableConcept.class));
+            detail = Collections.unmodifiableList(ValidationSupport.checkList(builder.detail, "detail", Reference.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

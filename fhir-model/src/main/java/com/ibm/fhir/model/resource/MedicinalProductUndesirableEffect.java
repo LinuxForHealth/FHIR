@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -55,11 +56,11 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
 
     private MedicinalProductUndesirableEffect(Builder builder) {
         super(builder);
-        subject = ValidationSupport.checkAndFinalizeList(builder.subject, "subject", Reference.class);
+        subject = Collections.unmodifiableList(ValidationSupport.checkList(builder.subject, "subject", Reference.class));
         symptomConditionEffect = builder.symptomConditionEffect;
         classification = builder.classification;
         frequencyOfOccurrence = builder.frequencyOfOccurrence;
-        population = ValidationSupport.checkAndFinalizeList(builder.population, "population", Population.class);
+        population = Collections.unmodifiableList(ValidationSupport.checkList(builder.population, "population", Population.class));
         ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication");
         ValidationSupport.requireChildren(this);
     }

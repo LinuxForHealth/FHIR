@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -131,23 +132,23 @@ public class NutritionOrder extends DomainResource {
 
     private NutritionOrder(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
-        instantiatesCanonical = ValidationSupport.checkAndFinalizeList(builder.instantiatesCanonical, "instantiatesCanonical", Canonical.class);
-        instantiatesUri = ValidationSupport.checkAndFinalizeList(builder.instantiatesUri, "instantiatesUri", Uri.class);
-        instantiates = ValidationSupport.checkAndFinalizeList(builder.instantiates, "instantiates", Uri.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesCanonical, "instantiatesCanonical", Canonical.class));
+        instantiatesUri = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesUri, "instantiatesUri", Uri.class));
+        instantiates = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiates, "instantiates", Uri.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         intent = ValidationSupport.requireNonNull(builder.intent, "intent");
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
         encounter = builder.encounter;
         dateTime = ValidationSupport.requireNonNull(builder.dateTime, "dateTime");
         orderer = builder.orderer;
-        allergyIntolerance = ValidationSupport.checkAndFinalizeList(builder.allergyIntolerance, "allergyIntolerance", Reference.class);
-        foodPreferenceModifier = ValidationSupport.checkAndFinalizeList(builder.foodPreferenceModifier, "foodPreferenceModifier", CodeableConcept.class);
-        excludeFoodModifier = ValidationSupport.checkAndFinalizeList(builder.excludeFoodModifier, "excludeFoodModifier", CodeableConcept.class);
+        allergyIntolerance = Collections.unmodifiableList(ValidationSupport.checkList(builder.allergyIntolerance, "allergyIntolerance", Reference.class));
+        foodPreferenceModifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.foodPreferenceModifier, "foodPreferenceModifier", CodeableConcept.class));
+        excludeFoodModifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.excludeFoodModifier, "excludeFoodModifier", CodeableConcept.class));
         oralDiet = builder.oralDiet;
-        supplement = ValidationSupport.checkAndFinalizeList(builder.supplement, "supplement", Supplement.class);
+        supplement = Collections.unmodifiableList(ValidationSupport.checkList(builder.supplement, "supplement", Supplement.class));
         enteralFormula = builder.enteralFormula;
-        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(orderer, "orderer", "Practitioner", "PractitionerRole");
@@ -1246,11 +1247,11 @@ public class NutritionOrder extends DomainResource {
 
         private OralDiet(Builder builder) {
             super(builder);
-            type = ValidationSupport.checkAndFinalizeList(builder.type, "type", CodeableConcept.class);
-            schedule = ValidationSupport.checkAndFinalizeList(builder.schedule, "schedule", Timing.class);
-            nutrient = ValidationSupport.checkAndFinalizeList(builder.nutrient, "nutrient", Nutrient.class);
-            texture = ValidationSupport.checkAndFinalizeList(builder.texture, "texture", Texture.class);
-            fluidConsistencyType = ValidationSupport.checkAndFinalizeList(builder.fluidConsistencyType, "fluidConsistencyType", CodeableConcept.class);
+            type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
+            schedule = Collections.unmodifiableList(ValidationSupport.checkList(builder.schedule, "schedule", Timing.class));
+            nutrient = Collections.unmodifiableList(ValidationSupport.checkList(builder.nutrient, "nutrient", Nutrient.class));
+            texture = Collections.unmodifiableList(ValidationSupport.checkList(builder.texture, "texture", Texture.class));
+            fluidConsistencyType = Collections.unmodifiableList(ValidationSupport.checkList(builder.fluidConsistencyType, "fluidConsistencyType", CodeableConcept.class));
             instruction = builder.instruction;
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -2291,7 +2292,7 @@ public class NutritionOrder extends DomainResource {
             super(builder);
             type = builder.type;
             productName = builder.productName;
-            schedule = ValidationSupport.checkAndFinalizeList(builder.schedule, "schedule", Timing.class);
+            schedule = Collections.unmodifiableList(ValidationSupport.checkList(builder.schedule, "schedule", Timing.class));
             quantity = builder.quantity;
             instruction = builder.instruction;
             ValidationSupport.requireValueOrChildren(this);
@@ -2700,7 +2701,7 @@ public class NutritionOrder extends DomainResource {
             additiveProductName = builder.additiveProductName;
             caloricDensity = builder.caloricDensity;
             routeofAdministration = builder.routeofAdministration;
-            administration = ValidationSupport.checkAndFinalizeList(builder.administration, "administration", Administration.class);
+            administration = Collections.unmodifiableList(ValidationSupport.checkList(builder.administration, "administration", Administration.class));
             maxVolumeToDeliver = builder.maxVolumeToDeliver;
             administrationInstruction = builder.administrationInstruction;
             ValidationSupport.requireValueOrChildren(this);

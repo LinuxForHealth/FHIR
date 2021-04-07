@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -145,32 +146,32 @@ public class ChargeItem extends DomainResource {
 
     private ChargeItem(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
-        definitionUri = ValidationSupport.checkAndFinalizeList(builder.definitionUri, "definitionUri", Uri.class);
-        definitionCanonical = ValidationSupport.checkAndFinalizeList(builder.definitionCanonical, "definitionCanonical", Canonical.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        definitionUri = Collections.unmodifiableList(ValidationSupport.checkList(builder.definitionUri, "definitionUri", Uri.class));
+        definitionCanonical = Collections.unmodifiableList(ValidationSupport.checkList(builder.definitionCanonical, "definitionCanonical", Canonical.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        partOf = ValidationSupport.checkAndFinalizeList(builder.partOf, "partOf", Reference.class);
+        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Reference.class));
         code = ValidationSupport.requireNonNull(builder.code, "code");
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
         context = builder.context;
         occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
-        performer = ValidationSupport.checkAndFinalizeList(builder.performer, "performer", Performer.class);
+        performer = Collections.unmodifiableList(ValidationSupport.checkList(builder.performer, "performer", Performer.class));
         performingOrganization = builder.performingOrganization;
         requestingOrganization = builder.requestingOrganization;
         costCenter = builder.costCenter;
         quantity = builder.quantity;
-        bodysite = ValidationSupport.checkAndFinalizeList(builder.bodysite, "bodysite", CodeableConcept.class);
+        bodysite = Collections.unmodifiableList(ValidationSupport.checkList(builder.bodysite, "bodysite", CodeableConcept.class));
         factorOverride = builder.factorOverride;
         priceOverride = builder.priceOverride;
         overrideReason = builder.overrideReason;
         enterer = builder.enterer;
         enteredDate = builder.enteredDate;
-        reason = ValidationSupport.checkAndFinalizeList(builder.reason, "reason", CodeableConcept.class);
-        service = ValidationSupport.checkAndFinalizeList(builder.service, "service", Reference.class);
+        reason = Collections.unmodifiableList(ValidationSupport.checkList(builder.reason, "reason", CodeableConcept.class));
+        service = Collections.unmodifiableList(ValidationSupport.checkList(builder.service, "service", Reference.class));
         product = ValidationSupport.choiceElement(builder.product, "product", Reference.class, CodeableConcept.class);
-        account = ValidationSupport.checkAndFinalizeList(builder.account, "account", Reference.class);
-        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
-        supportingInformation = ValidationSupport.checkAndFinalizeList(builder.supportingInformation, "supportingInformation", Reference.class);
+        account = Collections.unmodifiableList(ValidationSupport.checkList(builder.account, "account", Reference.class));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        supportingInformation = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingInformation, "supportingInformation", Reference.class));
         ValidationSupport.checkReferenceType(partOf, "partOf", "ChargeItem");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");

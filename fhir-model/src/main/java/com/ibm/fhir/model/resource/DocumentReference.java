@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -150,20 +151,20 @@ public class DocumentReference extends DomainResource {
     private DocumentReference(Builder builder) {
         super(builder);
         masterIdentifier = builder.masterIdentifier;
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         docStatus = builder.docStatus;
         type = builder.type;
-        category = ValidationSupport.checkAndFinalizeList(builder.category, "category", CodeableConcept.class);
+        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
         subject = builder.subject;
         date = builder.date;
-        author = ValidationSupport.checkAndFinalizeList(builder.author, "author", Reference.class);
+        author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", Reference.class));
         authenticator = builder.authenticator;
         custodian = builder.custodian;
-        relatesTo = ValidationSupport.checkAndFinalizeList(builder.relatesTo, "relatesTo", RelatesTo.class);
+        relatesTo = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatesTo, "relatesTo", RelatesTo.class));
         description = builder.description;
-        securityLabel = ValidationSupport.checkAndFinalizeList(builder.securityLabel, "securityLabel", CodeableConcept.class);
-        content = ValidationSupport.checkAndFinalizeNonEmptyList(builder.content, "content", Content.class);
+        securityLabel = Collections.unmodifiableList(ValidationSupport.checkList(builder.securityLabel, "securityLabel", CodeableConcept.class));
+        content = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.content, "content", Content.class));
         context = builder.context;
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "Group", "Device");
         ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Organization", "Device", "Patient", "RelatedPerson");
@@ -1739,13 +1740,13 @@ public class DocumentReference extends DomainResource {
 
         private Context(Builder builder) {
             super(builder);
-            encounter = ValidationSupport.checkAndFinalizeList(builder.encounter, "encounter", Reference.class);
-            event = ValidationSupport.checkAndFinalizeList(builder.event, "event", CodeableConcept.class);
+            encounter = Collections.unmodifiableList(ValidationSupport.checkList(builder.encounter, "encounter", Reference.class));
+            event = Collections.unmodifiableList(ValidationSupport.checkList(builder.event, "event", CodeableConcept.class));
             period = builder.period;
             facilityType = builder.facilityType;
             practiceSetting = builder.practiceSetting;
             sourcePatientInfo = builder.sourcePatientInfo;
-            related = ValidationSupport.checkAndFinalizeList(builder.related, "related", Reference.class);
+            related = Collections.unmodifiableList(ValidationSupport.checkList(builder.related, "related", Reference.class));
             ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter", "EpisodeOfCare");
             ValidationSupport.checkReferenceType(sourcePatientInfo, "sourcePatientInfo", "Patient");
             ValidationSupport.requireValueOrChildren(this);

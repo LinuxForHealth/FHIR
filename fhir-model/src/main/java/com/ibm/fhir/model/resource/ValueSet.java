@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -182,7 +183,7 @@ public class ValueSet extends DomainResource {
     private ValueSet(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         version = builder.version;
         name = builder.name;
         title = builder.title;
@@ -190,10 +191,10 @@ public class ValueSet extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
-        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         immutable = builder.immutable;
         purpose = builder.purpose;
         copyright = builder.copyright;
@@ -1182,8 +1183,8 @@ public class ValueSet extends DomainResource {
             super(builder);
             lockedDate = builder.lockedDate;
             inactive = builder.inactive;
-            include = ValidationSupport.checkAndFinalizeNonEmptyList(builder.include, "include", Include.class);
-            exclude = ValidationSupport.checkAndFinalizeList(builder.exclude, "exclude", ValueSet.Compose.Include.class);
+            include = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.include, "include", Include.class));
+            exclude = Collections.unmodifiableList(ValidationSupport.checkList(builder.exclude, "exclude", ValueSet.Compose.Include.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1568,9 +1569,9 @@ public class ValueSet extends DomainResource {
                 super(builder);
                 system = builder.system;
                 version = builder.version;
-                concept = ValidationSupport.checkAndFinalizeList(builder.concept, "concept", Concept.class);
-                filter = ValidationSupport.checkAndFinalizeList(builder.filter, "filter", Filter.class);
-                valueSet = ValidationSupport.checkAndFinalizeList(builder.valueSet, "valueSet", Canonical.class);
+                concept = Collections.unmodifiableList(ValidationSupport.checkList(builder.concept, "concept", Concept.class));
+                filter = Collections.unmodifiableList(ValidationSupport.checkList(builder.filter, "filter", Filter.class));
+                valueSet = Collections.unmodifiableList(ValidationSupport.checkList(builder.valueSet, "valueSet", Canonical.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -1992,7 +1993,7 @@ public class ValueSet extends DomainResource {
                     super(builder);
                     code = ValidationSupport.requireNonNull(builder.code, "code");
                     display = builder.display;
-                    designation = ValidationSupport.checkAndFinalizeList(builder.designation, "designation", Designation.class);
+                    designation = Collections.unmodifiableList(ValidationSupport.checkList(builder.designation, "designation", Designation.class));
                     ValidationSupport.requireValueOrChildren(this);
                 }
 
@@ -2967,8 +2968,8 @@ public class ValueSet extends DomainResource {
             timestamp = ValidationSupport.requireNonNull(builder.timestamp, "timestamp");
             total = builder.total;
             offset = builder.offset;
-            parameter = ValidationSupport.checkAndFinalizeList(builder.parameter, "parameter", Parameter.class);
-            contains = ValidationSupport.checkAndFinalizeList(builder.contains, "contains", Contains.class);
+            parameter = Collections.unmodifiableList(ValidationSupport.checkList(builder.parameter, "parameter", Parameter.class));
+            contains = Collections.unmodifiableList(ValidationSupport.checkList(builder.contains, "contains", Contains.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -3703,8 +3704,8 @@ public class ValueSet extends DomainResource {
                 version = builder.version;
                 code = builder.code;
                 display = builder.display;
-                designation = ValidationSupport.checkAndFinalizeList(builder.designation, "designation", ValueSet.Compose.Include.Concept.Designation.class);
-                contains = ValidationSupport.checkAndFinalizeList(builder.contains, "contains", ValueSet.Expansion.Contains.class);
+                designation = Collections.unmodifiableList(ValidationSupport.checkList(builder.designation, "designation", ValueSet.Compose.Include.Concept.Designation.class));
+                contains = Collections.unmodifiableList(ValidationSupport.checkList(builder.contains, "contains", ValueSet.Expansion.Contains.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 

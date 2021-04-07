@@ -8,6 +8,7 @@ package com.ibm.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -78,7 +79,7 @@ public class TriggerDefinition extends Element {
         type = ValidationSupport.requireNonNull(builder.type, "type");
         name = builder.name;
         timing = ValidationSupport.choiceElement(builder.timing, "timing", Timing.class, Reference.class, Date.class, DateTime.class);
-        data = ValidationSupport.checkAndFinalizeList(builder.data, "data", DataRequirement.class);
+        data = Collections.unmodifiableList(ValidationSupport.checkList(builder.data, "data", DataRequirement.class));
         condition = builder.condition;
         ValidationSupport.checkReferenceType(timing, "timing", "Schedule");
         ValidationSupport.requireValueOrChildren(this);

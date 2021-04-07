@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -146,7 +147,7 @@ public class Coverage extends DomainResource {
 
     private Coverage(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         type = builder.type;
         policyHolder = builder.policyHolder;
@@ -156,13 +157,13 @@ public class Coverage extends DomainResource {
         dependent = builder.dependent;
         relationship = builder.relationship;
         period = builder.period;
-        payor = ValidationSupport.checkAndFinalizeNonEmptyList(builder.payor, "payor", Reference.class);
-        clazz = ValidationSupport.checkAndFinalizeList(builder.clazz, "class", Class.class);
+        payor = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.payor, "payor", Reference.class));
+        clazz = Collections.unmodifiableList(ValidationSupport.checkList(builder.clazz, "class", Class.class));
         order = builder.order;
         network = builder.network;
-        costToBeneficiary = ValidationSupport.checkAndFinalizeList(builder.costToBeneficiary, "costToBeneficiary", CostToBeneficiary.class);
+        costToBeneficiary = Collections.unmodifiableList(ValidationSupport.checkList(builder.costToBeneficiary, "costToBeneficiary", CostToBeneficiary.class));
         subrogation = builder.subrogation;
-        contract = ValidationSupport.checkAndFinalizeList(builder.contract, "contract", Reference.class);
+        contract = Collections.unmodifiableList(ValidationSupport.checkList(builder.contract, "contract", Reference.class));
         ValidationSupport.checkReferenceType(policyHolder, "policyHolder", "Patient", "RelatedPerson", "Organization");
         ValidationSupport.checkReferenceType(subscriber, "subscriber", "Patient", "RelatedPerson");
         ValidationSupport.checkReferenceType(beneficiary, "beneficiary", "Patient");
@@ -1493,7 +1494,7 @@ public class Coverage extends DomainResource {
             super(builder);
             type = builder.type;
             value = ValidationSupport.requireChoiceElement(builder.value, "value", SimpleQuantity.class, Money.class);
-            exception = ValidationSupport.checkAndFinalizeList(builder.exception, "exception", Exception.class);
+            exception = Collections.unmodifiableList(ValidationSupport.checkList(builder.exception, "exception", Exception.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

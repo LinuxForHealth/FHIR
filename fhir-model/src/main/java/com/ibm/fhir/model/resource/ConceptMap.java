@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -152,15 +153,15 @@ public class ConceptMap extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
-        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         purpose = builder.purpose;
         copyright = builder.copyright;
         source = ValidationSupport.choiceElement(builder.source, "source", Uri.class, Canonical.class);
         target = ValidationSupport.choiceElement(builder.target, "target", Uri.class, Canonical.class);
-        group = ValidationSupport.checkAndFinalizeList(builder.group, "group", Group.class);
+        group = Collections.unmodifiableList(ValidationSupport.checkList(builder.group, "group", Group.class));
         ValidationSupport.requireChildren(this);
     }
 
@@ -1151,7 +1152,7 @@ public class ConceptMap extends DomainResource {
             sourceVersion = builder.sourceVersion;
             target = builder.target;
             targetVersion = builder.targetVersion;
-            element = ValidationSupport.checkAndFinalizeNonEmptyList(builder.element, "element", Element.class);
+            element = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.element, "element", Element.class));
             unmapped = builder.unmapped;
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -1565,7 +1566,7 @@ public class ConceptMap extends DomainResource {
                 super(builder);
                 code = builder.code;
                 display = builder.display;
-                target = ValidationSupport.checkAndFinalizeList(builder.target, "target", Target.class);
+                target = Collections.unmodifiableList(ValidationSupport.checkList(builder.target, "target", Target.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -1889,8 +1890,8 @@ public class ConceptMap extends DomainResource {
                     display = builder.display;
                     equivalence = ValidationSupport.requireNonNull(builder.equivalence, "equivalence");
                     comment = builder.comment;
-                    dependsOn = ValidationSupport.checkAndFinalizeList(builder.dependsOn, "dependsOn", DependsOn.class);
-                    product = ValidationSupport.checkAndFinalizeList(builder.product, "product", ConceptMap.Group.Element.Target.DependsOn.class);
+                    dependsOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.dependsOn, "dependsOn", DependsOn.class));
+                    product = Collections.unmodifiableList(ValidationSupport.checkList(builder.product, "product", ConceptMap.Group.Element.Target.DependsOn.class));
                     ValidationSupport.requireValueOrChildren(this);
                 }
 

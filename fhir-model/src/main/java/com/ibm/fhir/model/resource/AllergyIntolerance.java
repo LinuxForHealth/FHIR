@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -143,11 +144,11 @@ public class AllergyIntolerance extends DomainResource {
 
     private AllergyIntolerance(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         clinicalStatus = builder.clinicalStatus;
         verificationStatus = builder.verificationStatus;
         type = builder.type;
-        category = ValidationSupport.checkAndFinalizeList(builder.category, "category", AllergyIntoleranceCategory.class);
+        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", AllergyIntoleranceCategory.class));
         criticality = builder.criticality;
         code = builder.code;
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
@@ -157,8 +158,8 @@ public class AllergyIntolerance extends DomainResource {
         recorder = builder.recorder;
         asserter = builder.asserter;
         lastOccurrence = builder.lastOccurrence;
-        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
-        reaction = ValidationSupport.checkAndFinalizeList(builder.reaction, "reaction", Reaction.class);
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        reaction = Collections.unmodifiableList(ValidationSupport.checkList(builder.reaction, "reaction", Reaction.class));
         ValidationSupport.checkValueSetBinding(clinicalStatus, "clinicalStatus", "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical", "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical", "active", "inactive", "resolved");
         ValidationSupport.checkValueSetBinding(verificationStatus, "verificationStatus", "http://hl7.org/fhir/ValueSet/allergyintolerance-verification", "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification", "unconfirmed", "confirmed", "refuted", "entered-in-error");
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
@@ -1131,12 +1132,12 @@ public class AllergyIntolerance extends DomainResource {
         private Reaction(Builder builder) {
             super(builder);
             substance = builder.substance;
-            manifestation = ValidationSupport.checkAndFinalizeNonEmptyList(builder.manifestation, "manifestation", CodeableConcept.class);
+            manifestation = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.manifestation, "manifestation", CodeableConcept.class));
             description = builder.description;
             onset = builder.onset;
             severity = builder.severity;
             exposureRoute = builder.exposureRoute;
-            note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
+            note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

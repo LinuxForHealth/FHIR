@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -61,7 +62,7 @@ public class SubstanceNucleicAcid extends DomainResource {
         numberOfSubunits = builder.numberOfSubunits;
         areaOfHybridisation = builder.areaOfHybridisation;
         oligoNucleotideType = builder.oligoNucleotideType;
-        subunit = ValidationSupport.checkAndFinalizeList(builder.subunit, "subunit", Subunit.class);
+        subunit = Collections.unmodifiableList(ValidationSupport.checkList(builder.subunit, "subunit", Subunit.class));
         ValidationSupport.requireChildren(this);
     }
 
@@ -578,8 +579,8 @@ public class SubstanceNucleicAcid extends DomainResource {
             sequenceAttachment = builder.sequenceAttachment;
             fivePrime = builder.fivePrime;
             threePrime = builder.threePrime;
-            linkage = ValidationSupport.checkAndFinalizeList(builder.linkage, "linkage", Linkage.class);
-            sugar = ValidationSupport.checkAndFinalizeList(builder.sugar, "sugar", Sugar.class);
+            linkage = Collections.unmodifiableList(ValidationSupport.checkList(builder.linkage, "linkage", Linkage.class));
+            sugar = Collections.unmodifiableList(ValidationSupport.checkList(builder.sugar, "sugar", Sugar.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

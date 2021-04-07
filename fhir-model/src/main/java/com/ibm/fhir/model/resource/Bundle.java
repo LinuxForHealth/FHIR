@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -155,8 +156,8 @@ public class Bundle extends Resource {
         type = ValidationSupport.requireNonNull(builder.type, "type");
         timestamp = builder.timestamp;
         total = builder.total;
-        link = ValidationSupport.checkAndFinalizeList(builder.link, "link", Link.class);
-        entry = ValidationSupport.checkAndFinalizeList(builder.entry, "entry", Entry.class);
+        link = Collections.unmodifiableList(ValidationSupport.checkList(builder.link, "link", Link.class));
+        entry = Collections.unmodifiableList(ValidationSupport.checkList(builder.entry, "entry", Entry.class));
         signature = builder.signature;
         ValidationSupport.requireChildren(this);
     }
@@ -871,7 +872,7 @@ public class Bundle extends Resource {
 
         private Entry(Builder builder) {
             super(builder);
-            link = ValidationSupport.checkAndFinalizeList(builder.link, "link", Bundle.Link.class);
+            link = Collections.unmodifiableList(ValidationSupport.checkList(builder.link, "link", Bundle.Link.class));
             fullUrl = builder.fullUrl;
             resource = builder.resource;
             search = builder.search;

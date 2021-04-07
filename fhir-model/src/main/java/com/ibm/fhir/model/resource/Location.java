@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -135,23 +136,23 @@ public class Location extends DomainResource {
 
     private Location(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = builder.status;
         operationalStatus = builder.operationalStatus;
         name = builder.name;
-        alias = ValidationSupport.checkAndFinalizeList(builder.alias, "alias", String.class);
+        alias = Collections.unmodifiableList(ValidationSupport.checkList(builder.alias, "alias", String.class));
         description = builder.description;
         mode = builder.mode;
-        type = ValidationSupport.checkAndFinalizeList(builder.type, "type", CodeableConcept.class);
-        telecom = ValidationSupport.checkAndFinalizeList(builder.telecom, "telecom", ContactPoint.class);
+        type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
+        telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
         address = builder.address;
         physicalType = builder.physicalType;
         position = builder.position;
         managingOrganization = builder.managingOrganization;
         partOf = builder.partOf;
-        hoursOfOperation = ValidationSupport.checkAndFinalizeList(builder.hoursOfOperation, "hoursOfOperation", HoursOfOperation.class);
+        hoursOfOperation = Collections.unmodifiableList(ValidationSupport.checkList(builder.hoursOfOperation, "hoursOfOperation", HoursOfOperation.class));
         availabilityExceptions = builder.availabilityExceptions;
-        endpoint = ValidationSupport.checkAndFinalizeList(builder.endpoint, "endpoint", Reference.class);
+        endpoint = Collections.unmodifiableList(ValidationSupport.checkList(builder.endpoint, "endpoint", Reference.class));
         ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
         ValidationSupport.checkReferenceType(partOf, "partOf", "Location");
         ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
@@ -1447,7 +1448,7 @@ public class Location extends DomainResource {
 
         private HoursOfOperation(Builder builder) {
             super(builder);
-            daysOfWeek = ValidationSupport.checkAndFinalizeList(builder.daysOfWeek, "daysOfWeek", DaysOfWeek.class);
+            daysOfWeek = Collections.unmodifiableList(ValidationSupport.checkList(builder.daysOfWeek, "daysOfWeek", DaysOfWeek.class));
             allDay = builder.allDay;
             openingTime = builder.openingTime;
             closingTime = builder.closingTime;

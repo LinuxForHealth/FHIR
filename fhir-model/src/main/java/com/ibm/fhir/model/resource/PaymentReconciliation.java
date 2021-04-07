@@ -8,6 +8,7 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -102,7 +103,7 @@ public class PaymentReconciliation extends DomainResource {
 
     private PaymentReconciliation(Builder builder) {
         super(builder);
-        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         period = builder.period;
         created = ValidationSupport.requireNonNull(builder.created, "created");
@@ -114,9 +115,9 @@ public class PaymentReconciliation extends DomainResource {
         paymentDate = ValidationSupport.requireNonNull(builder.paymentDate, "paymentDate");
         paymentAmount = ValidationSupport.requireNonNull(builder.paymentAmount, "paymentAmount");
         paymentIdentifier = builder.paymentIdentifier;
-        detail = ValidationSupport.checkAndFinalizeList(builder.detail, "detail", Detail.class);
+        detail = Collections.unmodifiableList(ValidationSupport.checkList(builder.detail, "detail", Detail.class));
         formCode = builder.formCode;
-        processNote = ValidationSupport.checkAndFinalizeList(builder.processNote, "processNote", ProcessNote.class);
+        processNote = Collections.unmodifiableList(ValidationSupport.checkList(builder.processNote, "processNote", ProcessNote.class));
         ValidationSupport.checkReferenceType(paymentIssuer, "paymentIssuer", "Organization");
         ValidationSupport.checkReferenceType(request, "request", "Task");
         ValidationSupport.checkReferenceType(requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
