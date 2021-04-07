@@ -93,6 +93,25 @@ public interface FHIRTermServiceProvider {
     boolean hasConcept(CodeSystem codeSystem, Code code);
 
     /**
+     * Indicates whether the given code system contains a concept for each of the specified codes.
+     *
+     * @param codeSystem
+     *     the code system
+     * @param codes
+     *     the codes
+     * @return
+     *     true if the given code system contains a concept for each of the specified codes, false otherwise
+     */
+    default boolean hasConcepts(CodeSystem codeSystem, Set<Code> codes) {
+        for (Code code : codes) {
+            if (!hasConcept(codeSystem, code)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Indicates whether the given code system is supported.
      *
      * @param codeSystem
