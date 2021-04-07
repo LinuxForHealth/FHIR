@@ -122,6 +122,11 @@
                 <version>4.0.4</version>
                 <scope>provided</scope>
             </dependency>
+            <dependency>
+                <groupId>jakarta.annotation</groupId>
+                <artifactId>jakarta.annotation-api</artifactId>
+                <version>1.3.5</version>
+            </dependency>
             <!-- used in fhir-server-test and required for the Tyrus client to work on Java 11 -->
             <dependency>
                 <groupId>jakarta.xml.ws</groupId>
