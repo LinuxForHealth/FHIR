@@ -1,6 +1,53 @@
 #!/usr/bin/env bash
 
 ###############################################################################
+# (C) Copyright IBM Corp. 2021
+#
+# SPDX-License-Identifier: Apache-2.0
+###############################################################################
+
+
+# If Build is for 
+
+${BUILD_ID}
+GIT_COMMIT
+GIT_BRANCH
+GIT_URL
+FHIR_GPG_PASSPHRASE
+FHIR_GPG_KEYNAME
+GPG_PASSPHRASE
+GPG_KEYNAME
+
+# Check the BUILD_PASSWORD is set
+if [ ! -z "${BUILD_PASSWORD}" ]
+then 
+    info "BUILD PASSWORD is set!"
+else 
+    warn "BUILD PASSWORD is NOT set!"
+fi
+
+# Check the BUILD_PASSWORD is set
+if [ ! -z "${BUILD_USERNAME}" ]
+then 
+    info "BUILD USERNAME is set!"
+else 
+    warn "BUILD USERNAME is NOT set!"
+fi
+
+JAVA_HOME
+
+
+
+# Set the global Maven options
+build/release/bin/00_prep/1_set_maven_opts.sh
+
+
+BUILD_NEW_VERSION
+BUILD_VERSION
+
+#!/usr/bin/env bash
+
+###############################################################################
 # (C) Copyright IBM Corp. 2020, 2021
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -131,5 +178,7 @@ echo "export BUILD_DISPLAY_NAME=\"${BUILD_ID}\"" >> bootstrap.env
 
 # Reset to Original Directory
 popd > /dev/null
+
+# EOF
 
 # EOF

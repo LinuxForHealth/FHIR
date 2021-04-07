@@ -8,7 +8,8 @@ set -eu -o pipefail
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-# Install missing packages
-bash build/release/00_prep/0_install_packages.sh
+bash build/release/bin/50_gather/0_release_commit_details.sh
+bash build/release/bin/50_gather/1_repo.sh
+bash build/release/bin/50_gather/2_codecov.sh
 
 # EOF

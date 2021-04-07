@@ -3,12 +3,13 @@
 set -eu -o pipefail
 
 ###############################################################################
-# (C) Copyright IBM Corp. 2021
+# (C) Copyright IBM Corp. 2020
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-# Install missing packages
-bash build/release/00_prep/0_install_packages.sh
+# generates a list of commits since last tag
+
+git log $(git describe --tags --abbrev=0 @^)..@ > build/release/workarea/release_files/release-commit-details.txt
 
 # EOF

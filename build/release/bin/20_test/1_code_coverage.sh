@@ -22,8 +22,4 @@ mvn -T2C test jacoco:report-aggregate -f fhir-tools -P "${BUILD_PROFILES}"
 export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-parent").profiles | map(.) | join(",")' build/release/config/release.json)"
 mvn -T2C test jacoco:report-aggregate -f fhir-parent -P "${BUILD_PROFILES}"
 
-mkdir -p build/release/workarea/release_files/test_coverage
-mkdir -p build/release/workarea/release_files/logs
-release-test-coverage-and-logs.tgz
-
 # EOF

@@ -8,16 +8,9 @@ set -eu -o pipefail
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-echo "::group::Preparing the Build"
+bash build/release/10_build/0_cache.sh
+bash build/release/10_build/1_clean.sh
+bash build/release/10_build/2_version.sh
+bash build/release/10_build/3_build.sh
 
-        bash build/release/bootstrap-env.sh
-        . ./build/release/bootstrap.env
-        bash build/release/version.sh
-        bash build/release/clean.sh
-        bash build/release/build.sh
-        bash build/release/code-coverage.sh
-        bash build/release/release-to-mc.sh
-        bash build/release/create_repo.sh
-        bash build/release/docker-push.sh
-        bash build/release/release-commit-details.sh
-        bash build/release/diagnostics.sh
+# EOF
