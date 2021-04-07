@@ -20,12 +20,12 @@ import static java.util.Objects.requireNonNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.apache.commons.configuration.Configuration;
@@ -117,16 +117,6 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
     }
 
     @Override
-    public Map<Code, Set<Concept>> closure(CodeSystem codeSystem, Set<Code> codes) {
-        Map<Code, Set<Concept>> result = new LinkedHashMap<>();
-        for (Code code : codes) {
-            Set<Concept> closure = closure(codeSystem, code);
-            result.put(code, closure);
-        }
-        return result;
-    }
-
-    @Override
     public Concept getConcept(CodeSystem codeSystem, Code code) {
         checkArguments(codeSystem, code);
         return getConcept(codeSystem, code, true, true);
@@ -134,16 +124,21 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
 
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem) {
+        return getConcepts(codeSystem, Function.identity());
+    }
+
+    @Override
+    public <R> Set<R> getConcepts(CodeSystem codeSystem, Function<Concept, ? extends R> mapper) {
         checkArgument(codeSystem);
 
-        Set<Concept> concepts = new LinkedHashSet<>(getCount(codeSystem));
+        Set<R> concepts = new LinkedHashSet<>(getCount(codeSystem));
 
         GraphTraversal<Vertex, Vertex> g = hasVersion(hasUrl(vertices(), codeSystem.getUrl()), codeSystem.getVersion())
             .out("concept")
             .timeLimit(timeLimit);
         TimeLimitStep<?> timeLimitStep = getTimeLimitStep(g);
 
-        g.elementMap().toStream().forEach(elementMap -> concepts.add(createConcept(elementMap)));
+        g.elementMap().toStream().forEach(elementMap -> concepts.add(mapper.apply(createConcept(elementMap))));
 
         checkTimeLimit(timeLimitStep);
 
@@ -152,9 +147,14 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
 
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters) {
+        return getConcepts(codeSystem, filters, Function.identity());
+    }
+
+    @Override
+    public <R> Set<R> getConcepts(CodeSystem codeSystem, List<Filter> filters, Function<Concept, ? extends R> mapper) {
         checkArguments(codeSystem, filters);
 
-        Set<Concept> concepts = new LinkedHashSet<>();
+        Set<R> concepts = new LinkedHashSet<>();
 
         GraphTraversal<Vertex, Vertex> g = vertices();
 
@@ -203,7 +203,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         g = g.timeLimit(timeLimit);
         TimeLimitStep<?> timeLimitStep = getTimeLimitStep(g);
 
-        g.elementMap().toStream().forEach(elementMap -> concepts.add(createConcept(elementMap)));
+        g.elementMap().toStream().forEach(elementMap -> concepts.add(mapper.apply(createConcept(elementMap))));
 
         checkTimeLimit(timeLimitStep);
 

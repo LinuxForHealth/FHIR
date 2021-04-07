@@ -21,6 +21,7 @@ import java.util.Objects;
 import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.CodeSystem;
@@ -39,18 +40,11 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
 import com.ibm.fhir.model.type.code.ConceptSubsumptionOutcome;
+import com.ibm.fhir.term.service.LookupOutcome.Designation;
+import com.ibm.fhir.term.service.LookupOutcome.Property;
+import com.ibm.fhir.term.service.TranslationOutcome.Match;
 import com.ibm.fhir.term.service.provider.RegistryTermServiceProvider;
-import com.ibm.fhir.term.spi.ExpansionParameters;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
-import com.ibm.fhir.term.spi.LookupOutcome;
-import com.ibm.fhir.term.spi.LookupOutcome.Designation;
-import com.ibm.fhir.term.spi.LookupOutcome.Property;
-import com.ibm.fhir.term.spi.LookupParameters;
-import com.ibm.fhir.term.spi.TranslationOutcome;
-import com.ibm.fhir.term.spi.TranslationOutcome.Match;
-import com.ibm.fhir.term.spi.TranslationParameters;
-import com.ibm.fhir.term.spi.ValidationOutcome;
-import com.ibm.fhir.term.spi.ValidationParameters;
 import com.ibm.fhir.term.util.CodeSystemSupport;
 import com.ibm.fhir.term.util.ValueSetSupport;
 
@@ -267,12 +261,29 @@ public class FHIRTermService {
      * hierarchies have been flattened.
      *
      * @param codeSystem
-     *     the code system
+     *     the code system containing the set of Concept instances to be flattened
      * @return
-     *     flattened list of Concept instances for the given code system
+     *     flattened set of Concept instances for the given code system
      */
     public Set<Concept> getConcepts(CodeSystem codeSystem) {
         return findProvider(codeSystem).getConcepts(codeSystem);
+    }
+
+    /**
+     * Get a set containing {@link R} instances mapped from concepts where all structural
+     * hierarchies have been flattened.
+     *
+     * @param <R>
+     *     the element type of the result set
+     * @param codeSystem
+     *     the code system containing the set of Concept instances to be flattened
+     * @param mapper
+     *     the function to be applied
+     * @return
+     *     flattened set of {@link R} instances mapped from concepts for the given code system
+     */
+    public <R> Set<R> getConcepts(CodeSystem codeSystem, Function<Concept, ? extends R> mapper) {
+        return findProvider(codeSystem).getConcepts(codeSystem, mapper);
     }
 
     /**
@@ -288,6 +299,25 @@ public class FHIRTermService {
      */
     public Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters) {
         return findProvider(codeSystem).getConcepts(codeSystem, filters);
+    }
+
+    /**
+     * Get a set containing {@link R} instances mapped from concepts where all structural
+     * hierarchies have been flattened and filtered by the given set of value set include filters.
+     *
+     * @param <R>
+     *     the element type of the result set
+     * @param codeSystem
+     *     the code system containing the set of Concept instances to be flattened / filtered
+     * @param filters
+     *     the value set include filters
+     * @param mapper
+     *     the function to be applied
+     * @return
+     *     flattened / filtered set of {@link R} instances mapped from concepts for the given code system
+     */
+    public <R> Set<R> getConcepts(CodeSystem codeSystem, List<Filter> filters, Function<Concept, ? extends R> mapper) {
+        return findProvider(codeSystem).getConcepts(codeSystem, filters, mapper);
     }
 
     /**

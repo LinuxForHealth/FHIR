@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.term.spi;
+package com.ibm.fhir.term.service;
 
 import static com.ibm.fhir.model.type.String.string;
 

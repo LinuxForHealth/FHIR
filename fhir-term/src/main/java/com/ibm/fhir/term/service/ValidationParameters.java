@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.term.spi;
+package com.ibm.fhir.term.service;
 
 import static com.ibm.fhir.term.service.util.FHIRTermServiceUtil.getParameter;
 

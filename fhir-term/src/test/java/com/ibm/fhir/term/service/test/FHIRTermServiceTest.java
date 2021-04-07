@@ -38,10 +38,10 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.ConceptMapEquivalence;
 import com.ibm.fhir.model.type.code.ConceptSubsumptionOutcome;
 import com.ibm.fhir.term.service.FHIRTermService;
-import com.ibm.fhir.term.spi.LookupOutcome;
-import com.ibm.fhir.term.spi.TranslationOutcome;
-import com.ibm.fhir.term.spi.TranslationOutcome.Match;
-import com.ibm.fhir.term.spi.ValidationOutcome;
+import com.ibm.fhir.term.service.LookupOutcome;
+import com.ibm.fhir.term.service.TranslationOutcome;
+import com.ibm.fhir.term.service.ValidationOutcome;
+import com.ibm.fhir.term.service.TranslationOutcome.Match;
 
 public class FHIRTermServiceTest {
     @Test

@@ -1,10 +1,10 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.term.spi;
+package com.ibm.fhir.term.service;
 
 import static com.ibm.fhir.model.type.String.string;
 
@@ -21,7 +21,7 @@ import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.ConceptMapEquivalence;
-import com.ibm.fhir.term.spi.TranslationOutcome.Match.Product;
+import com.ibm.fhir.term.service.TranslationOutcome.Match.Product;
 
 /**
  * This class is used to represent the outcome of the translate operation:
