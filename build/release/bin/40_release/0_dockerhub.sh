@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# (C) Copyright IBM Corp. 2020
+# (C) Copyright IBM Corp. 2020, 2021
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -14,7 +14,9 @@ docker login -u ${DOCKERHUB_USERNAME} -p ${DOCKERHUB_TOKEN}
 export WORKSPACE=$(pwd)
 bash fhir-install/src/main/docker/ibm-fhir-schematool/build.sh
 
-mvn dockerfile:build -f fhir-install -Dmaven.wagon.http.retryHandler.count=3
-mvn dockerfile:tag@tag-version -f fhir-install -Dmaven.wagon.http.retryHandler.count=3
-mvn dockerfile:push@push-version -f fhir-install -Dmaven.wagon.http.retryHandler.count=3
-mvn dockerfile:push@push-latest -f fhir-install -Dmaven.wagon.http.retryHandler.count=3
+mvn dockerfile:build -f fhir-install
+mvn dockerfile:tag@tag-version -f fhir-install
+mvn dockerfile:push@push-version -f fhir-install
+mvn dockerfile:push@push-latest -f fhir-install
+
+# EOF

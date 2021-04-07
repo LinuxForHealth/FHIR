@@ -1,4 +1,5 @@
 {
+    "_comment_on_maven": "-T2C isn't a great idea when signing",
     "maven": [
         {
             "comment": "Enables Retry to the Maven repositories",
@@ -6,13 +7,8 @@
             "type": "maven"
         },
         {
-            "comment": "Run with two cores",
-            "setting": "-T2C",
-            "type": "maven"
-        },
-        {
             "comment": "No transfer progress and colorless",
-            "setting": "-ntp -B",
+            "setting": " --no-transfer-progress -B",
             "type": "maven"
         },
         {
@@ -75,5 +71,19 @@
                 "jdbc-all-tests"
             ]
         }
+    ],
+    "release_files": [
+        "fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar",
+        "fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar.asc",
+        "fhir-swagger-generator/target/fhir-swagger-generator-*-cli.jar",
+        "fhir-swagger-generator/target/fhir-swagger-generator-*-cli.jar.asc",
+        "fhir-path/target/fhir-path-*-cli.jar",
+        "fhir-path/target/fhir-path-*-cli.jar.asc",
+        "fhir-bucket/target/fhir-bucket-*-cli.jar",
+        "fhir-bucket/target/fhir-bucket-*-cli.jar.asc",
+        "fhir-validation/target/fhir-validation-distribution.zip",
+        "fhir-validation/target/fhir-validation-distribution.zip.asc",
+        "fhir-install/target/fhir-server-distribution.zip",
+        "fhir-install/target/fhir-server-distribution.zip.asc"
     ]
 }
