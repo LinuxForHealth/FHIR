@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -79,19 +78,19 @@ public class CatalogEntry extends DomainResource {
 
     private CatalogEntry(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         type = builder.type;
         orderable = ValidationSupport.requireNonNull(builder.orderable, "orderable");
         referencedItem = ValidationSupport.requireNonNull(builder.referencedItem, "referencedItem");
-        additionalIdentifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additionalIdentifier, "additionalIdentifier"));
-        classification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.classification, "classification"));
+        additionalIdentifier = ValidationSupport.checkAndFinalizeList(builder.additionalIdentifier, "additionalIdentifier", Identifier.class);
+        classification = ValidationSupport.checkAndFinalizeList(builder.classification, "classification", CodeableConcept.class);
         status = builder.status;
         validityPeriod = builder.validityPeriod;
         validTo = builder.validTo;
         lastUpdated = builder.lastUpdated;
-        additionalCharacteristic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additionalCharacteristic, "additionalCharacteristic"));
-        additionalClassification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additionalClassification, "additionalClassification"));
-        relatedEntry = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedEntry, "relatedEntry"));
+        additionalCharacteristic = ValidationSupport.checkAndFinalizeList(builder.additionalCharacteristic, "additionalCharacteristic", CodeableConcept.class);
+        additionalClassification = ValidationSupport.checkAndFinalizeList(builder.additionalClassification, "additionalClassification", CodeableConcept.class);
+        relatedEntry = ValidationSupport.checkAndFinalizeList(builder.relatedEntry, "relatedEntry", RelatedEntry.class);
         ValidationSupport.checkReferenceType(referencedItem, "referencedItem", "Medication", "Device", "Organization", "Practitioner", "PractitionerRole", "HealthcareService", "ActivityDefinition", "PlanDefinition", "SpecimenDefinition", "ObservationDefinition", "Binary");
         ValidationSupport.requireChildren(this);
     }

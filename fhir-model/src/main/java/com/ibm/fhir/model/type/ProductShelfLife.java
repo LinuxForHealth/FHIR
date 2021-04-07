@@ -8,7 +8,6 @@ package com.ibm.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -42,7 +41,7 @@ public class ProductShelfLife extends BackboneElement {
         identifier = builder.identifier;
         type = ValidationSupport.requireNonNull(builder.type, "type");
         period = ValidationSupport.requireNonNull(builder.period, "period");
-        specialPrecautionsForStorage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialPrecautionsForStorage, "specialPrecautionsForStorage"));
+        specialPrecautionsForStorage = ValidationSupport.checkAndFinalizeList(builder.specialPrecautionsForStorage, "specialPrecautionsForStorage", CodeableConcept.class);
         ValidationSupport.requireValueOrChildren(this);
     }
 

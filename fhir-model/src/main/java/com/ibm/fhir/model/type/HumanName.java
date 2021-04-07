@@ -8,7 +8,6 @@ package com.ibm.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,9 +53,9 @@ public class HumanName extends Element {
         use = builder.use;
         text = builder.text;
         family = builder.family;
-        given = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.given, "given"));
-        prefix = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.prefix, "prefix"));
-        suffix = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.suffix, "suffix"));
+        given = ValidationSupport.checkAndFinalizeList(builder.given, "given", String.class);
+        prefix = ValidationSupport.checkAndFinalizeList(builder.prefix, "prefix", String.class);
+        suffix = ValidationSupport.checkAndFinalizeList(builder.suffix, "suffix", String.class);
         period = builder.period;
         ValidationSupport.requireValueOrChildren(this);
     }

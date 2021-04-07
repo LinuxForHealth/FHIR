@@ -8,7 +8,6 @@ package com.ibm.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -67,9 +66,9 @@ public class Meta extends Element {
         versionId = builder.versionId;
         lastUpdated = builder.lastUpdated;
         source = builder.source;
-        profile = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.profile, "profile"));
-        security = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.security, "security"));
-        tag = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.tag, "tag"));
+        profile = ValidationSupport.checkAndFinalizeList(builder.profile, "profile", Canonical.class);
+        security = ValidationSupport.checkAndFinalizeList(builder.security, "security", Coding.class);
+        tag = ValidationSupport.checkAndFinalizeList(builder.tag, "tag", Coding.class);
         ValidationSupport.requireValueOrChildren(this);
     }
 

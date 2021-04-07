@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -79,16 +78,16 @@ public class Person extends DomainResource {
 
     private Person(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        name = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.name, "name"));
-        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        name = ValidationSupport.checkAndFinalizeList(builder.name, "name", HumanName.class);
+        telecom = ValidationSupport.checkAndFinalizeList(builder.telecom, "telecom", ContactPoint.class);
         gender = builder.gender;
         birthDate = builder.birthDate;
-        address = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.address, "address"));
+        address = ValidationSupport.checkAndFinalizeList(builder.address, "address", Address.class);
         photo = builder.photo;
         managingOrganization = builder.managingOrganization;
         active = builder.active;
-        link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
+        link = ValidationSupport.checkAndFinalizeList(builder.link, "link", Link.class);
         ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
         ValidationSupport.requireChildren(this);
     }

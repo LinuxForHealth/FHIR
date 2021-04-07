@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -52,7 +51,7 @@ public class OperationOutcome extends DomainResource {
 
     private OperationOutcome(Builder builder) {
         super(builder);
-        issue = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.issue, "issue"));
+        issue = ValidationSupport.checkAndFinalizeNonEmptyList(builder.issue, "issue", Issue.class);
         ValidationSupport.requireChildren(this);
     }
 
@@ -454,8 +453,8 @@ public class OperationOutcome extends DomainResource {
             code = ValidationSupport.requireNonNull(builder.code, "code");
             details = builder.details;
             diagnostics = builder.diagnostics;
-            location = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.location, "location"));
-            expression = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.expression, "expression"));
+            location = ValidationSupport.checkAndFinalizeList(builder.location, "location", String.class);
+            expression = ValidationSupport.checkAndFinalizeList(builder.expression, "expression", String.class);
             ValidationSupport.requireValueOrChildren(this);
         }
 

@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -143,29 +142,29 @@ public class Communication extends DomainResource {
 
     private Communication(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesCanonical, "instantiatesCanonical"));
-        instantiatesUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesUri, "instantiatesUri"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
-        inResponseTo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.inResponseTo, "inResponseTo"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        instantiatesCanonical = ValidationSupport.checkAndFinalizeList(builder.instantiatesCanonical, "instantiatesCanonical", Canonical.class);
+        instantiatesUri = ValidationSupport.checkAndFinalizeList(builder.instantiatesUri, "instantiatesUri", Uri.class);
+        basedOn = ValidationSupport.checkAndFinalizeList(builder.basedOn, "basedOn", Reference.class);
+        partOf = ValidationSupport.checkAndFinalizeList(builder.partOf, "partOf", Reference.class);
+        inResponseTo = ValidationSupport.checkAndFinalizeList(builder.inResponseTo, "inResponseTo", Reference.class);
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusReason = builder.statusReason;
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        category = ValidationSupport.checkAndFinalizeList(builder.category, "category", CodeableConcept.class);
         priority = builder.priority;
-        medium = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.medium, "medium"));
+        medium = ValidationSupport.checkAndFinalizeList(builder.medium, "medium", CodeableConcept.class);
         subject = builder.subject;
         topic = builder.topic;
-        about = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.about, "about"));
+        about = ValidationSupport.checkAndFinalizeList(builder.about, "about", Reference.class);
         encounter = builder.encounter;
         sent = builder.sent;
         received = builder.received;
-        recipient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.recipient, "recipient"));
+        recipient = ValidationSupport.checkAndFinalizeList(builder.recipient, "recipient", Reference.class);
         sender = builder.sender;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-        payload = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.payload, "payload"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        reasonCode = ValidationSupport.checkAndFinalizeList(builder.reasonCode, "reasonCode", CodeableConcept.class);
+        reasonReference = ValidationSupport.checkAndFinalizeList(builder.reasonReference, "reasonReference", Reference.class);
+        payload = ValidationSupport.checkAndFinalizeList(builder.payload, "payload", Payload.class);
+        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
         ValidationSupport.checkReferenceType(inResponseTo, "inResponseTo", "Communication");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");

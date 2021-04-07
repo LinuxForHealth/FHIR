@@ -8,7 +8,6 @@ package com.ibm.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -69,7 +68,7 @@ public class Address extends Element {
         use = builder.use;
         type = builder.type;
         text = builder.text;
-        line = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.line, "line"));
+        line = ValidationSupport.checkAndFinalizeList(builder.line, "line", String.class);
         city = builder.city;
         district = builder.district;
         state = builder.state;

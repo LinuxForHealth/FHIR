@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -103,19 +102,19 @@ public class DeviceUseStatement extends DomainResource {
 
     private DeviceUseStatement(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        basedOn = ValidationSupport.checkAndFinalizeList(builder.basedOn, "basedOn", Reference.class);
         status = ValidationSupport.requireNonNull(builder.status, "status");
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
-        derivedFrom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.derivedFrom, "derivedFrom"));
+        derivedFrom = ValidationSupport.checkAndFinalizeList(builder.derivedFrom, "derivedFrom", Reference.class);
         timing = ValidationSupport.choiceElement(builder.timing, "timing", Timing.class, Period.class, DateTime.class);
         recordedOn = builder.recordedOn;
         source = builder.source;
         device = ValidationSupport.requireNonNull(builder.device, "device");
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+        reasonCode = ValidationSupport.checkAndFinalizeList(builder.reasonCode, "reasonCode", CodeableConcept.class);
+        reasonReference = ValidationSupport.checkAndFinalizeList(builder.reasonReference, "reasonReference", Reference.class);
         bodySite = builder.bodySite;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
         ValidationSupport.checkReferenceType(basedOn, "basedOn", "ServiceRequest");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(derivedFrom, "derivedFrom", "ServiceRequest", "Procedure", "Claim", "Observation", "QuestionnaireResponse", "DocumentReference");

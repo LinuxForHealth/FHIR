@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -151,14 +150,14 @@ public class NamingSystem extends DomainResource {
         kind = ValidationSupport.requireNonNull(builder.kind, "kind");
         date = ValidationSupport.requireNonNull(builder.date, "date");
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
         responsible = builder.responsible;
         type = builder.type;
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
+        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
         usage = builder.usage;
-        uniqueId = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.uniqueId, "uniqueId"));
+        uniqueId = ValidationSupport.checkAndFinalizeNonEmptyList(builder.uniqueId, "uniqueId", UniqueId.class);
         ValidationSupport.requireChildren(this);
     }
 

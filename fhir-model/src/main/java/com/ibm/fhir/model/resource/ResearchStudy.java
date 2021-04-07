@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -185,30 +184,30 @@ public class ResearchStudy extends DomainResource {
 
     private ResearchStudy(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         title = builder.title;
-        protocol = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.protocol, "protocol"));
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
+        protocol = ValidationSupport.checkAndFinalizeList(builder.protocol, "protocol", Reference.class);
+        partOf = ValidationSupport.checkAndFinalizeList(builder.partOf, "partOf", Reference.class);
         status = ValidationSupport.requireNonNull(builder.status, "status");
         primaryPurposeType = builder.primaryPurposeType;
         phase = builder.phase;
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
-        focus = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.focus, "focus"));
-        condition = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.condition, "condition"));
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
-        keyword = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.keyword, "keyword"));
-        location = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.location, "location"));
+        category = ValidationSupport.checkAndFinalizeList(builder.category, "category", CodeableConcept.class);
+        focus = ValidationSupport.checkAndFinalizeList(builder.focus, "focus", CodeableConcept.class);
+        condition = ValidationSupport.checkAndFinalizeList(builder.condition, "condition", CodeableConcept.class);
+        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
+        relatedArtifact = ValidationSupport.checkAndFinalizeList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
+        keyword = ValidationSupport.checkAndFinalizeList(builder.keyword, "keyword", CodeableConcept.class);
+        location = ValidationSupport.checkAndFinalizeList(builder.location, "location", CodeableConcept.class);
         description = builder.description;
-        enrollment = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.enrollment, "enrollment"));
+        enrollment = ValidationSupport.checkAndFinalizeList(builder.enrollment, "enrollment", Reference.class);
         period = builder.period;
         sponsor = builder.sponsor;
         principalInvestigator = builder.principalInvestigator;
-        site = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.site, "site"));
+        site = ValidationSupport.checkAndFinalizeList(builder.site, "site", Reference.class);
         reasonStopped = builder.reasonStopped;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        arm = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.arm, "arm"));
-        objective = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.objective, "objective"));
+        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
+        arm = ValidationSupport.checkAndFinalizeList(builder.arm, "arm", Arm.class);
+        objective = ValidationSupport.checkAndFinalizeList(builder.objective, "objective", Objective.class);
         ValidationSupport.checkReferenceType(protocol, "protocol", "PlanDefinition");
         ValidationSupport.checkReferenceType(partOf, "partOf", "ResearchStudy");
         ValidationSupport.checkReferenceType(enrollment, "enrollment", "Group");

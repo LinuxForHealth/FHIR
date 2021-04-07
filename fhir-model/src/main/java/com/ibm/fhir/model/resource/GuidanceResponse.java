@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -92,20 +91,20 @@ public class GuidanceResponse extends DomainResource {
     private GuidanceResponse(Builder builder) {
         super(builder);
         requestIdentifier = builder.requestIdentifier;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         module = ValidationSupport.requireChoiceElement(builder.module, "module", Uri.class, Canonical.class, CodeableConcept.class);
         status = ValidationSupport.requireNonNull(builder.status, "status");
         subject = builder.subject;
         encounter = builder.encounter;
         occurrenceDateTime = builder.occurrenceDateTime;
         performer = builder.performer;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        evaluationMessage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.evaluationMessage, "evaluationMessage"));
+        reasonCode = ValidationSupport.checkAndFinalizeList(builder.reasonCode, "reasonCode", CodeableConcept.class);
+        reasonReference = ValidationSupport.checkAndFinalizeList(builder.reasonReference, "reasonReference", Reference.class);
+        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
+        evaluationMessage = ValidationSupport.checkAndFinalizeList(builder.evaluationMessage, "evaluationMessage", Reference.class);
         outputParameters = builder.outputParameters;
         result = builder.result;
-        dataRequirement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dataRequirement, "dataRequirement"));
+        dataRequirement = ValidationSupport.checkAndFinalizeList(builder.dataRequirement, "dataRequirement", DataRequirement.class);
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(performer, "performer", "Device");

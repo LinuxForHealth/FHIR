@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -96,11 +95,11 @@ public class AppointmentResponse extends DomainResource {
 
     private AppointmentResponse(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         appointment = ValidationSupport.requireNonNull(builder.appointment, "appointment");
         start = builder.start;
         end = builder.end;
-        participantType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.participantType, "participantType"));
+        participantType = ValidationSupport.checkAndFinalizeList(builder.participantType, "participantType", CodeableConcept.class);
         actor = builder.actor;
         participantStatus = ValidationSupport.requireNonNull(builder.participantStatus, "participantStatus");
         comment = builder.comment;

@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -127,7 +126,7 @@ public class DeviceMetric extends DomainResource {
 
     private DeviceMetric(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         type = ValidationSupport.requireNonNull(builder.type, "type");
         unit = builder.unit;
         source = builder.source;
@@ -136,7 +135,7 @@ public class DeviceMetric extends DomainResource {
         color = builder.color;
         category = ValidationSupport.requireNonNull(builder.category, "category");
         measurementPeriod = builder.measurementPeriod;
-        calibration = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.calibration, "calibration"));
+        calibration = ValidationSupport.checkAndFinalizeList(builder.calibration, "calibration", Calibration.class);
         ValidationSupport.checkReferenceType(source, "source", "Device");
         ValidationSupport.checkReferenceType(parent, "parent", "Device");
         ValidationSupport.requireChildren(this);

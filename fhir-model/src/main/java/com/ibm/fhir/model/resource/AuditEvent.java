@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -209,16 +208,16 @@ public class AuditEvent extends DomainResource {
     private AuditEvent(Builder builder) {
         super(builder);
         type = ValidationSupport.requireNonNull(builder.type, "type");
-        subtype = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subtype, "subtype"));
+        subtype = ValidationSupport.checkAndFinalizeList(builder.subtype, "subtype", Coding.class);
         action = builder.action;
         period = builder.period;
         recorded = ValidationSupport.requireNonNull(builder.recorded, "recorded");
         outcome = builder.outcome;
         outcomeDesc = builder.outcomeDesc;
-        purposeOfEvent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.purposeOfEvent, "purposeOfEvent"));
-        agent = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.agent, "agent"));
+        purposeOfEvent = ValidationSupport.checkAndFinalizeList(builder.purposeOfEvent, "purposeOfEvent", CodeableConcept.class);
+        agent = ValidationSupport.checkAndFinalizeNonEmptyList(builder.agent, "agent", Agent.class);
         source = ValidationSupport.requireNonNull(builder.source, "source");
-        entity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.entity, "entity"));
+        entity = ValidationSupport.checkAndFinalizeList(builder.entity, "entity", Entity.class);
         ValidationSupport.requireChildren(this);
     }
 
@@ -996,16 +995,16 @@ public class AuditEvent extends DomainResource {
         private Agent(Builder builder) {
             super(builder);
             type = builder.type;
-            role = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.role, "role"));
+            role = ValidationSupport.checkAndFinalizeList(builder.role, "role", CodeableConcept.class);
             who = builder.who;
             altId = builder.altId;
             name = builder.name;
             requestor = ValidationSupport.requireNonNull(builder.requestor, "requestor");
             location = builder.location;
-            policy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.policy, "policy"));
+            policy = ValidationSupport.checkAndFinalizeList(builder.policy, "policy", Uri.class);
             media = builder.media;
             network = builder.network;
-            purposeOfUse = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.purposeOfUse, "purposeOfUse"));
+            purposeOfUse = ValidationSupport.checkAndFinalizeList(builder.purposeOfUse, "purposeOfUse", CodeableConcept.class);
             ValidationSupport.checkReferenceType(who, "who", "PractitionerRole", "Practitioner", "Organization", "Device", "Patient", "RelatedPerson");
             ValidationSupport.checkReferenceType(location, "location", "Location");
             ValidationSupport.requireValueOrChildren(this);
@@ -1909,7 +1908,7 @@ public class AuditEvent extends DomainResource {
             super(builder);
             site = builder.site;
             observer = ValidationSupport.requireNonNull(builder.observer, "observer");
-            type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
+            type = ValidationSupport.checkAndFinalizeList(builder.type, "type", Coding.class);
             ValidationSupport.checkReferenceType(observer, "observer", "PractitionerRole", "Practitioner", "Organization", "Device", "Patient", "RelatedPerson");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -2277,11 +2276,11 @@ public class AuditEvent extends DomainResource {
             type = builder.type;
             role = builder.role;
             lifecycle = builder.lifecycle;
-            securityLabel = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabel, "securityLabel"));
+            securityLabel = ValidationSupport.checkAndFinalizeList(builder.securityLabel, "securityLabel", Coding.class);
             name = builder.name;
             description = builder.description;
             query = builder.query;
-            detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
+            detail = ValidationSupport.checkAndFinalizeList(builder.detail, "detail", Detail.class);
             ValidationSupport.requireValueOrChildren(this);
         }
 

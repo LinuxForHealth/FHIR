@@ -8,7 +8,6 @@ package com.ibm.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,7 +19,6 @@ import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
-import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.FHIRAllTypes;
 import com.ibm.fhir.model.type.code.SortDirection;
@@ -92,13 +90,13 @@ public class DataRequirement extends Element {
     private DataRequirement(Builder builder) {
         super(builder);
         type = ValidationSupport.requireNonNull(builder.type, "type");
-        profile = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.profile, "profile"));
+        profile = ValidationSupport.checkAndFinalizeList(builder.profile, "profile", Canonical.class);
         subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
-        mustSupport = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.mustSupport, "mustSupport"));
-        codeFilter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.codeFilter, "codeFilter"));
-        dateFilter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dateFilter, "dateFilter"));
+        mustSupport = ValidationSupport.checkAndFinalizeList(builder.mustSupport, "mustSupport", String.class);
+        codeFilter = ValidationSupport.checkAndFinalizeList(builder.codeFilter, "codeFilter", CodeFilter.class);
+        dateFilter = ValidationSupport.checkAndFinalizeList(builder.dateFilter, "dateFilter", DateFilter.class);
         limit = builder.limit;
-        sort = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.sort, "sort"));
+        sort = ValidationSupport.checkAndFinalizeList(builder.sort, "sort", Sort.class);
         ValidationSupport.checkReferenceType(subject, "subject", "Group");
         ValidationSupport.requireValueOrChildren(this);
     }
@@ -641,7 +639,7 @@ public class DataRequirement extends Element {
             path = builder.path;
             searchParam = builder.searchParam;
             valueSet = builder.valueSet;
-            code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
+            code = ValidationSupport.checkAndFinalizeList(builder.code, "code", Coding.class);
             ValidationSupport.requireValueOrChildren(this);
         }
 

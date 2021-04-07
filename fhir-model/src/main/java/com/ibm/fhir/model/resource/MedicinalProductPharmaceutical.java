@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -69,13 +68,13 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
     private MedicinalProductPharmaceutical(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         administrableDoseForm = ValidationSupport.requireNonNull(builder.administrableDoseForm, "administrableDoseForm");
         unitOfPresentation = builder.unitOfPresentation;
-        ingredient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.ingredient, "ingredient"));
-        device = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.device, "device"));
-        characteristics = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.characteristics, "characteristics"));
-        routeOfAdministration = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.routeOfAdministration, "routeOfAdministration"));
+        ingredient = ValidationSupport.checkAndFinalizeList(builder.ingredient, "ingredient", Reference.class);
+        device = ValidationSupport.checkAndFinalizeList(builder.device, "device", Reference.class);
+        characteristics = ValidationSupport.checkAndFinalizeList(builder.characteristics, "characteristics", Characteristics.class);
+        routeOfAdministration = ValidationSupport.checkAndFinalizeNonEmptyList(builder.routeOfAdministration, "routeOfAdministration", RouteOfAdministration.class);
         ValidationSupport.checkReferenceType(ingredient, "ingredient", "MedicinalProductIngredient");
         ValidationSupport.checkReferenceType(device, "device", "DeviceDefinition");
         ValidationSupport.requireChildren(this);
@@ -1018,7 +1017,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             maxDosePerDay = builder.maxDosePerDay;
             maxDosePerTreatmentPeriod = builder.maxDosePerTreatmentPeriod;
             maxTreatmentPeriod = builder.maxTreatmentPeriod;
-            targetSpecies = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.targetSpecies, "targetSpecies"));
+            targetSpecies = ValidationSupport.checkAndFinalizeList(builder.targetSpecies, "targetSpecies", TargetSpecies.class);
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1473,7 +1472,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             private TargetSpecies(Builder builder) {
                 super(builder);
                 code = ValidationSupport.requireNonNull(builder.code, "code");
-                withdrawalPeriod = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.withdrawalPeriod, "withdrawalPeriod"));
+                withdrawalPeriod = ValidationSupport.checkAndFinalizeList(builder.withdrawalPeriod, "withdrawalPeriod", WithdrawalPeriod.class);
                 ValidationSupport.requireValueOrChildren(this);
             }
 

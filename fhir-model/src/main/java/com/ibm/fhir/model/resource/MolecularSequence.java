@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -125,7 +124,7 @@ public class MolecularSequence extends DomainResource {
 
     private MolecularSequence(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         type = builder.type;
         coordinateSystem = ValidationSupport.requireNonNull(builder.coordinateSystem, "coordinateSystem");
         patient = builder.patient;
@@ -134,13 +133,13 @@ public class MolecularSequence extends DomainResource {
         performer = builder.performer;
         quantity = builder.quantity;
         referenceSeq = builder.referenceSeq;
-        variant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.variant, "variant"));
+        variant = ValidationSupport.checkAndFinalizeList(builder.variant, "variant", Variant.class);
         observedSeq = builder.observedSeq;
-        quality = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.quality, "quality"));
+        quality = ValidationSupport.checkAndFinalizeList(builder.quality, "quality", Quality.class);
         readCoverage = builder.readCoverage;
-        repository = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.repository, "repository"));
-        pointer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.pointer, "pointer"));
-        structureVariant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.structureVariant, "structureVariant"));
+        repository = ValidationSupport.checkAndFinalizeList(builder.repository, "repository", Repository.class);
+        pointer = ValidationSupport.checkAndFinalizeList(builder.pointer, "pointer", Reference.class);
+        structureVariant = ValidationSupport.checkAndFinalizeList(builder.structureVariant, "structureVariant", StructureVariant.class);
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
         ValidationSupport.checkReferenceType(device, "device", "Device");
@@ -2839,13 +2838,13 @@ public class MolecularSequence extends DomainResource {
 
             private Roc(Builder builder) {
                 super(builder);
-                score = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.score, "score"));
-                numTP = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.numTP, "numTP"));
-                numFP = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.numFP, "numFP"));
-                numFN = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.numFN, "numFN"));
-                precision = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.precision, "precision"));
-                sensitivity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.sensitivity, "sensitivity"));
-                fMeasure = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.fMeasure, "fMeasure"));
+                score = ValidationSupport.checkAndFinalizeList(builder.score, "score", Integer.class);
+                numTP = ValidationSupport.checkAndFinalizeList(builder.numTP, "numTP", Integer.class);
+                numFP = ValidationSupport.checkAndFinalizeList(builder.numFP, "numFP", Integer.class);
+                numFN = ValidationSupport.checkAndFinalizeList(builder.numFN, "numFN", Integer.class);
+                precision = ValidationSupport.checkAndFinalizeList(builder.precision, "precision", Decimal.class);
+                sensitivity = ValidationSupport.checkAndFinalizeList(builder.sensitivity, "sensitivity", Decimal.class);
+                fMeasure = ValidationSupport.checkAndFinalizeList(builder.fMeasure, "fMeasure", Decimal.class);
                 ValidationSupport.requireValueOrChildren(this);
             }
 

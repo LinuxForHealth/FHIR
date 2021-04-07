@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -111,10 +110,10 @@ public class CoverageEligibilityRequest extends DomainResource {
 
     private CoverageEligibilityRequest(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         status = ValidationSupport.requireNonNull(builder.status, "status");
         priority = builder.priority;
-        purpose = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.purpose, "purpose"));
+        purpose = ValidationSupport.checkAndFinalizeNonEmptyList(builder.purpose, "purpose", EligibilityRequestPurpose.class);
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
         serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
         created = ValidationSupport.requireNonNull(builder.created, "created");
@@ -122,9 +121,9 @@ public class CoverageEligibilityRequest extends DomainResource {
         provider = builder.provider;
         insurer = ValidationSupport.requireNonNull(builder.insurer, "insurer");
         facility = builder.facility;
-        supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
-        insurance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.insurance, "insurance"));
-        item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
+        supportingInfo = ValidationSupport.checkAndFinalizeList(builder.supportingInfo, "supportingInfo", SupportingInfo.class);
+        insurance = ValidationSupport.checkAndFinalizeList(builder.insurance, "insurance", Insurance.class);
+        item = ValidationSupport.checkAndFinalizeList(builder.item, "item", Item.class);
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(enterer, "enterer", "Practitioner", "PractitionerRole");
         ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
@@ -1672,16 +1671,16 @@ public class CoverageEligibilityRequest extends DomainResource {
 
         private Item(Builder builder) {
             super(builder);
-            supportingInfoSequence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfoSequence, "supportingInfoSequence"));
+            supportingInfoSequence = ValidationSupport.checkAndFinalizeList(builder.supportingInfoSequence, "supportingInfoSequence", PositiveInt.class);
             category = builder.category;
             productOrService = builder.productOrService;
-            modifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifier, "modifier"));
+            modifier = ValidationSupport.checkAndFinalizeList(builder.modifier, "modifier", CodeableConcept.class);
             provider = builder.provider;
             quantity = builder.quantity;
             unitPrice = builder.unitPrice;
             facility = builder.facility;
-            diagnosis = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.diagnosis, "diagnosis"));
-            detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
+            diagnosis = ValidationSupport.checkAndFinalizeList(builder.diagnosis, "diagnosis", Diagnosis.class);
+            detail = ValidationSupport.checkAndFinalizeList(builder.detail, "detail", Reference.class);
             ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole");
             ValidationSupport.checkReferenceType(facility, "facility", "Location", "Organization");
             ValidationSupport.requireValueOrChildren(this);

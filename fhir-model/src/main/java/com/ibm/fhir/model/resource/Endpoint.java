@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -111,17 +110,17 @@ public class Endpoint extends DomainResource {
 
     private Endpoint(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         status = ValidationSupport.requireNonNull(builder.status, "status");
         connectionType = ValidationSupport.requireNonNull(builder.connectionType, "connectionType");
         name = builder.name;
         managingOrganization = builder.managingOrganization;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactPoint.class);
         period = builder.period;
-        payloadType = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.payloadType, "payloadType"));
-        payloadMimeType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.payloadMimeType, "payloadMimeType"));
+        payloadType = ValidationSupport.checkAndFinalizeNonEmptyList(builder.payloadType, "payloadType", CodeableConcept.class);
+        payloadMimeType = ValidationSupport.checkAndFinalizeList(builder.payloadMimeType, "payloadMimeType", Code.class);
         address = ValidationSupport.requireNonNull(builder.address, "address");
-        header = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.header, "header"));
+        header = ValidationSupport.checkAndFinalizeList(builder.header, "header", String.class);
         ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
         ValidationSupport.requireChildren(this);
     }

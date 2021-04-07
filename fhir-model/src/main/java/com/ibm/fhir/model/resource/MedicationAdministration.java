@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -146,25 +145,25 @@ public class MedicationAdministration extends DomainResource {
 
     private MedicationAdministration(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        instantiates = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiates, "instantiates"));
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        instantiates = ValidationSupport.checkAndFinalizeList(builder.instantiates, "instantiates", Uri.class);
+        partOf = ValidationSupport.checkAndFinalizeList(builder.partOf, "partOf", Reference.class);
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        statusReason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.statusReason, "statusReason"));
+        statusReason = ValidationSupport.checkAndFinalizeList(builder.statusReason, "statusReason", CodeableConcept.class);
         category = builder.category;
         medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
         context = builder.context;
-        supportingInformation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInformation, "supportingInformation"));
+        supportingInformation = ValidationSupport.checkAndFinalizeList(builder.supportingInformation, "supportingInformation", Reference.class);
         effective = ValidationSupport.requireChoiceElement(builder.effective, "effective", DateTime.class, Period.class);
-        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+        performer = ValidationSupport.checkAndFinalizeList(builder.performer, "performer", Performer.class);
+        reasonCode = ValidationSupport.checkAndFinalizeList(builder.reasonCode, "reasonCode", CodeableConcept.class);
+        reasonReference = ValidationSupport.checkAndFinalizeList(builder.reasonReference, "reasonReference", Reference.class);
         request = builder.request;
-        device = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.device, "device"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        device = ValidationSupport.checkAndFinalizeList(builder.device, "device", Reference.class);
+        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
         dosage = builder.dosage;
-        eventHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.eventHistory, "eventHistory"));
+        eventHistory = ValidationSupport.checkAndFinalizeList(builder.eventHistory, "eventHistory", Reference.class);
         ValidationSupport.checkReferenceType(partOf, "partOf", "MedicationAdministration", "Procedure");
         ValidationSupport.checkReferenceType(medication, "medication", "Medication");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");

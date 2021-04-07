@@ -11,6 +11,7 @@ import static com.ibm.fhir.model.util.ModelSupport.FHIR_STRING;
 
 import java.io.StringReader;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -333,17 +334,6 @@ public final class ValidationSupport {
     }
 
     /**
-     * @throws IllegalStateException if the passed list is empty or contains any null objects
-     */
-    public static <T> List<T> requireNonEmpty(List<T> elements, String elementName) {
-        requireNonNull(elements, elementName);
-        if (elements.isEmpty()) {
-            throw new IllegalStateException(String.format("Missing required element: '%s'", elementName));
-        }
-        return elements;
-    }
-
-    /**
      * @throws IllegalStateException if the passed element is null
      */
     public static <T> T requireNonNull(T element, String elementName) {
@@ -354,8 +344,23 @@ public final class ValidationSupport {
     }
 
     /**
+     * @deprecated subsumed by {@link #checkAndFinalizeNonEmptyList(List, String, Class)}
+     * @throws IllegalStateException if the passed list is empty or contains any null objects
+     */
+    @Deprecated
+    public static <T> List<T> requireNonEmpty(List<T> elements, String elementName) {
+        requireNonNull(elements, elementName);
+        if (elements.isEmpty()) {
+            throw new IllegalStateException(String.format("Missing required element: '%s'", elementName));
+        }
+        return elements;
+    }
+
+    /**
+     * @deprecated subsumed by {@link #checkAndFinalizeList(List, String, Class)}
      * @throws IllegalStateException if the passed list contains any null objects
      */
+    @Deprecated
     public static <T> List<T> requireNonNull(List<T> elements, String elementName) {
         boolean anyMatch = false;
         for (T element : elements) {
@@ -368,6 +373,35 @@ public final class ValidationSupport {
             throw new IllegalStateException(String.format("Repeating element: '%s' does not permit null elements", elementName));
         }
         return elements;
+    }
+
+    /**
+     * @return an unmodifiable copy of the passed list
+     * @throws IllegalStateException if the passed list contains any null objects or objects of an incompatible type
+     */
+    public static <T> List<T> checkAndFinalizeNonEmptyList(List<T> elements, String elementName, Class<T> type) {
+        if (elements.isEmpty()) {
+            throw new IllegalStateException(String.format("Missing required element: '%s'", elementName));
+        }
+        return checkAndFinalizeList(elements, elementName, type);
+    }
+
+    /**
+     * @return an unmodifiable copy of the passed list
+     * @throws IllegalStateException if the passed list contains any null objects or objects of an incompatible type
+     */
+    public static <T> List<T> checkAndFinalizeList(List<T> elements, String elementName, Class<T> type) {
+        for (T element : elements) {
+            if (!type.isInstance(element)) {
+                if (Objects.isNull(element)) {
+                    throw new IllegalStateException(String.format("Repeating element: '%s' does not permit null elements", elementName));
+                } else {
+                    throw new IllegalStateException(String.format("Invalid type '%s' for list element '%s'; must be '%s'",
+                            element.getClass().getSimpleName(), elementName, type.getSimpleName()));
+                }
+            }
+        }
+        return Collections.unmodifiableList(elements);
     }
 
     /**

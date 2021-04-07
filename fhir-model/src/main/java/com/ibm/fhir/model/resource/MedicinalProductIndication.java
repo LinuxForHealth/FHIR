@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -70,15 +69,15 @@ public class MedicinalProductIndication extends DomainResource {
 
     private MedicinalProductIndication(Builder builder) {
         super(builder);
-        subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
+        subject = ValidationSupport.checkAndFinalizeList(builder.subject, "subject", Reference.class);
         diseaseSymptomProcedure = builder.diseaseSymptomProcedure;
         diseaseStatus = builder.diseaseStatus;
-        comorbidity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.comorbidity, "comorbidity"));
+        comorbidity = ValidationSupport.checkAndFinalizeList(builder.comorbidity, "comorbidity", CodeableConcept.class);
         intendedEffect = builder.intendedEffect;
         duration = builder.duration;
-        otherTherapy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.otherTherapy, "otherTherapy"));
-        undesirableEffect = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.undesirableEffect, "undesirableEffect"));
-        population = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.population, "population"));
+        otherTherapy = ValidationSupport.checkAndFinalizeList(builder.otherTherapy, "otherTherapy", OtherTherapy.class);
+        undesirableEffect = ValidationSupport.checkAndFinalizeList(builder.undesirableEffect, "undesirableEffect", Reference.class);
+        population = ValidationSupport.checkAndFinalizeList(builder.population, "population", Population.class);
         ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication");
         ValidationSupport.checkReferenceType(undesirableEffect, "undesirableEffect", "MedicinalProductUndesirableEffect");
         ValidationSupport.requireChildren(this);

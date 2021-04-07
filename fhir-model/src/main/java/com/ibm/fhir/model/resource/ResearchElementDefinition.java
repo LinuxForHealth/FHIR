@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -186,7 +185,7 @@ public class ResearchElementDefinition extends DomainResource {
     private ResearchElementDefinition(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         version = builder.version;
         name = builder.name;
         title = builder.title;
@@ -197,27 +196,27 @@ public class ResearchElementDefinition extends DomainResource {
         subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
         description = builder.description;
-        comment = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.comment, "comment"));
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        comment = ValidationSupport.checkAndFinalizeList(builder.comment, "comment", String.class);
+        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
+        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
         purpose = builder.purpose;
         usage = builder.usage;
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.topic, "topic"));
-        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
-        editor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.editor, "editor"));
-        reviewer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reviewer, "reviewer"));
-        endorser = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endorser, "endorser"));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
-        library = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.library, "library"));
+        topic = ValidationSupport.checkAndFinalizeList(builder.topic, "topic", CodeableConcept.class);
+        author = ValidationSupport.checkAndFinalizeList(builder.author, "author", ContactDetail.class);
+        editor = ValidationSupport.checkAndFinalizeList(builder.editor, "editor", ContactDetail.class);
+        reviewer = ValidationSupport.checkAndFinalizeList(builder.reviewer, "reviewer", ContactDetail.class);
+        endorser = ValidationSupport.checkAndFinalizeList(builder.endorser, "endorser", ContactDetail.class);
+        relatedArtifact = ValidationSupport.checkAndFinalizeList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
+        library = ValidationSupport.checkAndFinalizeList(builder.library, "library", Canonical.class);
         type = ValidationSupport.requireNonNull(builder.type, "type");
         variableType = builder.variableType;
-        characteristic = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.characteristic, "characteristic"));
+        characteristic = ValidationSupport.checkAndFinalizeNonEmptyList(builder.characteristic, "characteristic", Characteristic.class);
         ValidationSupport.checkReferenceType(subject, "subject", "Group");
         ValidationSupport.requireChildren(this);
     }
@@ -1891,7 +1890,7 @@ public class ResearchElementDefinition extends DomainResource {
         private Characteristic(Builder builder) {
             super(builder);
             definition = ValidationSupport.requireChoiceElement(builder.definition, "definition", CodeableConcept.class, Canonical.class, Expression.class, DataRequirement.class);
-            usageContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.usageContext, "usageContext"));
+            usageContext = ValidationSupport.checkAndFinalizeList(builder.usageContext, "usageContext", UsageContext.class);
             exclude = builder.exclude;
             unitOfMeasure = builder.unitOfMeasure;
             studyEffectiveDescription = builder.studyEffectiveDescription;

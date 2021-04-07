@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -155,17 +154,17 @@ public class DeviceRequest extends DomainResource {
 
     private DeviceRequest(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesCanonical, "instantiatesCanonical"));
-        instantiatesUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesUri, "instantiatesUri"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        priorRequest = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.priorRequest, "priorRequest"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        instantiatesCanonical = ValidationSupport.checkAndFinalizeList(builder.instantiatesCanonical, "instantiatesCanonical", Canonical.class);
+        instantiatesUri = ValidationSupport.checkAndFinalizeList(builder.instantiatesUri, "instantiatesUri", Uri.class);
+        basedOn = ValidationSupport.checkAndFinalizeList(builder.basedOn, "basedOn", Reference.class);
+        priorRequest = ValidationSupport.checkAndFinalizeList(builder.priorRequest, "priorRequest", Reference.class);
         groupIdentifier = builder.groupIdentifier;
         status = builder.status;
         intent = ValidationSupport.requireNonNull(builder.intent, "intent");
         priority = builder.priority;
         code = ValidationSupport.requireChoiceElement(builder.code, "code", Reference.class, CodeableConcept.class);
-        parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
+        parameter = ValidationSupport.checkAndFinalizeList(builder.parameter, "parameter", Parameter.class);
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
         encounter = builder.encounter;
         occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
@@ -173,12 +172,12 @@ public class DeviceRequest extends DomainResource {
         requester = builder.requester;
         performerType = builder.performerType;
         performer = builder.performer;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-        insurance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.insurance, "insurance"));
-        supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        relevantHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relevantHistory, "relevantHistory"));
+        reasonCode = ValidationSupport.checkAndFinalizeList(builder.reasonCode, "reasonCode", CodeableConcept.class);
+        reasonReference = ValidationSupport.checkAndFinalizeList(builder.reasonReference, "reasonReference", Reference.class);
+        insurance = ValidationSupport.checkAndFinalizeList(builder.insurance, "insurance", Reference.class);
+        supportingInfo = ValidationSupport.checkAndFinalizeList(builder.supportingInfo, "supportingInfo", Reference.class);
+        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
+        relevantHistory = ValidationSupport.checkAndFinalizeList(builder.relevantHistory, "relevantHistory", Reference.class);
         ValidationSupport.checkReferenceType(code, "code", "Device");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Location", "Device");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");

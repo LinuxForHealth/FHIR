@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -77,9 +76,9 @@ public abstract class DomainResource extends Resource {
     protected DomainResource(Builder builder) {
         super(builder);
         text = builder.text;
-        contained = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contained, "contained"));
-        extension = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.extension, "extension"));
-        modifierExtension = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifierExtension, "modifierExtension"));
+        contained = ValidationSupport.checkAndFinalizeList(builder.contained, "contained", Resource.class);
+        extension = ValidationSupport.checkAndFinalizeList(builder.extension, "extension", Extension.class);
+        modifierExtension = ValidationSupport.checkAndFinalizeList(builder.modifierExtension, "modifierExtension", Extension.class);
     }
 
     /**

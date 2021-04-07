@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -161,22 +160,22 @@ public class Goal extends DomainResource {
 
     private Goal(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         lifecycleStatus = ValidationSupport.requireNonNull(builder.lifecycleStatus, "lifecycleStatus");
         achievementStatus = builder.achievementStatus;
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        category = ValidationSupport.checkAndFinalizeList(builder.category, "category", CodeableConcept.class);
         priority = builder.priority;
         description = ValidationSupport.requireNonNull(builder.description, "description");
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
         start = ValidationSupport.choiceElement(builder.start, "start", Date.class, CodeableConcept.class);
-        target = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.target, "target"));
+        target = ValidationSupport.checkAndFinalizeList(builder.target, "target", Target.class);
         statusDate = builder.statusDate;
         statusReason = builder.statusReason;
         expressedBy = builder.expressedBy;
-        addresses = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.addresses, "addresses"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        outcomeCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.outcomeCode, "outcomeCode"));
-        outcomeReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.outcomeReference, "outcomeReference"));
+        addresses = ValidationSupport.checkAndFinalizeList(builder.addresses, "addresses", Reference.class);
+        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
+        outcomeCode = ValidationSupport.checkAndFinalizeList(builder.outcomeCode, "outcomeCode", CodeableConcept.class);
+        outcomeReference = ValidationSupport.checkAndFinalizeList(builder.outcomeReference, "outcomeReference", Reference.class);
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Organization");
         ValidationSupport.checkReferenceType(expressedBy, "expressedBy", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
         ValidationSupport.checkReferenceType(addresses, "addresses", "Condition", "Observation", "MedicationStatement", "NutritionOrder", "ServiceRequest", "RiskAssessment");

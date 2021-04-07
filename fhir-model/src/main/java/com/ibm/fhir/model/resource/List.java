@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Objects;
 
 import javax.annotation.Generated;
@@ -147,7 +146,7 @@ public class List extends DomainResource {
 
     private List(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         status = ValidationSupport.requireNonNull(builder.status, "status");
         mode = ValidationSupport.requireNonNull(builder.mode, "mode");
         title = builder.title;
@@ -157,8 +156,8 @@ public class List extends DomainResource {
         date = builder.date;
         source = builder.source;
         orderedBy = builder.orderedBy;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        entry = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.entry, "entry"));
+        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
+        entry = ValidationSupport.checkAndFinalizeList(builder.entry, "entry", Entry.class);
         emptyReason = builder.emptyReason;
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Location");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");

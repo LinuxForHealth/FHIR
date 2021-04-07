@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -198,7 +197,7 @@ public class Contract extends DomainResource {
 
     private Contract(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         url = builder.url;
         version = builder.version;
         status = builder.status;
@@ -209,27 +208,27 @@ public class Contract extends DomainResource {
         issued = builder.issued;
         applies = builder.applies;
         expirationType = builder.expirationType;
-        subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
-        authority = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.authority, "authority"));
-        domain = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.domain, "domain"));
-        site = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.site, "site"));
+        subject = ValidationSupport.checkAndFinalizeList(builder.subject, "subject", Reference.class);
+        authority = ValidationSupport.checkAndFinalizeList(builder.authority, "authority", Reference.class);
+        domain = ValidationSupport.checkAndFinalizeList(builder.domain, "domain", Reference.class);
+        site = ValidationSupport.checkAndFinalizeList(builder.site, "site", Reference.class);
         name = builder.name;
         title = builder.title;
         subtitle = builder.subtitle;
-        alias = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.alias, "alias"));
+        alias = ValidationSupport.checkAndFinalizeList(builder.alias, "alias", String.class);
         author = builder.author;
         scope = builder.scope;
         topic = ValidationSupport.choiceElement(builder.topic, "topic", CodeableConcept.class, Reference.class);
         type = builder.type;
-        subType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subType, "subType"));
+        subType = ValidationSupport.checkAndFinalizeList(builder.subType, "subType", CodeableConcept.class);
         contentDefinition = builder.contentDefinition;
-        term = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.term, "term"));
-        supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
-        relevantHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relevantHistory, "relevantHistory"));
-        signer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.signer, "signer"));
-        friendly = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.friendly, "friendly"));
-        legal = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.legal, "legal"));
-        rule = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.rule, "rule"));
+        term = ValidationSupport.checkAndFinalizeList(builder.term, "term", Term.class);
+        supportingInfo = ValidationSupport.checkAndFinalizeList(builder.supportingInfo, "supportingInfo", Reference.class);
+        relevantHistory = ValidationSupport.checkAndFinalizeList(builder.relevantHistory, "relevantHistory", Reference.class);
+        signer = ValidationSupport.checkAndFinalizeList(builder.signer, "signer", Signer.class);
+        friendly = ValidationSupport.checkAndFinalizeList(builder.friendly, "friendly", Friendly.class);
+        legal = ValidationSupport.checkAndFinalizeList(builder.legal, "legal", Legal.class);
+        rule = ValidationSupport.checkAndFinalizeList(builder.rule, "rule", Rule.class);
         legallyBinding = ValidationSupport.choiceElement(builder.legallyBinding, "legallyBinding", Attachment.class, Reference.class);
         ValidationSupport.checkReferenceType(instantiatesCanonical, "instantiatesCanonical", "Contract");
         ValidationSupport.checkReferenceType(authority, "authority", "Organization");
@@ -2427,11 +2426,11 @@ public class Contract extends DomainResource {
             type = builder.type;
             subType = builder.subType;
             text = builder.text;
-            securityLabel = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabel, "securityLabel"));
+            securityLabel = ValidationSupport.checkAndFinalizeList(builder.securityLabel, "securityLabel", SecurityLabel.class);
             offer = ValidationSupport.requireNonNull(builder.offer, "offer");
-            asset = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.asset, "asset"));
-            action = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.action, "action"));
-            group = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.group, "group"));
+            asset = ValidationSupport.checkAndFinalizeList(builder.asset, "asset", Asset.class);
+            action = ValidationSupport.checkAndFinalizeList(builder.action, "action", Action.class);
+            group = ValidationSupport.checkAndFinalizeList(builder.group, "group", Contract.Term.class);
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -3115,10 +3114,10 @@ public class Contract extends DomainResource {
 
             private SecurityLabel(Builder builder) {
                 super(builder);
-                number = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.number, "number"));
+                number = ValidationSupport.checkAndFinalizeList(builder.number, "number", UnsignedInt.class);
                 classification = ValidationSupport.requireNonNull(builder.classification, "classification");
-                category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
-                control = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.control, "control"));
+                category = ValidationSupport.checkAndFinalizeList(builder.category, "category", Coding.class);
+                control = ValidationSupport.checkAndFinalizeList(builder.control, "control", Coding.class);
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -3537,16 +3536,16 @@ public class Contract extends DomainResource {
 
             private Offer(Builder builder) {
                 super(builder);
-                identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-                party = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.party, "party"));
+                identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+                party = ValidationSupport.checkAndFinalizeList(builder.party, "party", Party.class);
                 topic = builder.topic;
                 type = builder.type;
                 decision = builder.decision;
-                decisionMode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.decisionMode, "decisionMode"));
-                answer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.answer, "answer"));
+                decisionMode = ValidationSupport.checkAndFinalizeList(builder.decisionMode, "decisionMode", CodeableConcept.class);
+                answer = ValidationSupport.checkAndFinalizeList(builder.answer, "answer", Answer.class);
                 text = builder.text;
-                linkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.linkId, "linkId"));
-                securityLabelNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabelNumber, "securityLabelNumber"));
+                linkId = ValidationSupport.checkAndFinalizeList(builder.linkId, "linkId", String.class);
+                securityLabelNumber = ValidationSupport.checkAndFinalizeList(builder.securityLabelNumber, "securityLabelNumber", UnsignedInt.class);
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -4178,7 +4177,7 @@ public class Contract extends DomainResource {
 
                 private Party(Builder builder) {
                     super(builder);
-                    reference = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.reference, "reference"));
+                    reference = ValidationSupport.checkAndFinalizeNonEmptyList(builder.reference, "reference", Reference.class);
                     role = ValidationSupport.requireNonNull(builder.role, "role");
                     ValidationSupport.checkReferenceType(reference, "reference", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Group", "Organization");
                     ValidationSupport.requireValueOrChildren(this);
@@ -4797,20 +4796,20 @@ public class Contract extends DomainResource {
             private Asset(Builder builder) {
                 super(builder);
                 scope = builder.scope;
-                type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
-                typeReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.typeReference, "typeReference"));
-                subtype = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subtype, "subtype"));
+                type = ValidationSupport.checkAndFinalizeList(builder.type, "type", CodeableConcept.class);
+                typeReference = ValidationSupport.checkAndFinalizeList(builder.typeReference, "typeReference", Reference.class);
+                subtype = ValidationSupport.checkAndFinalizeList(builder.subtype, "subtype", CodeableConcept.class);
                 relationship = builder.relationship;
-                context = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.context, "context"));
+                context = ValidationSupport.checkAndFinalizeList(builder.context, "context", Context.class);
                 condition = builder.condition;
-                periodType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.periodType, "periodType"));
-                period = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.period, "period"));
-                usePeriod = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.usePeriod, "usePeriod"));
+                periodType = ValidationSupport.checkAndFinalizeList(builder.periodType, "periodType", CodeableConcept.class);
+                period = ValidationSupport.checkAndFinalizeList(builder.period, "period", Period.class);
+                usePeriod = ValidationSupport.checkAndFinalizeList(builder.usePeriod, "usePeriod", Period.class);
                 text = builder.text;
-                linkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.linkId, "linkId"));
-                answer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.answer, "answer"));
-                securityLabelNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabelNumber, "securityLabelNumber"));
-                valuedItem = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.valuedItem, "valuedItem"));
+                linkId = ValidationSupport.checkAndFinalizeList(builder.linkId, "linkId", String.class);
+                answer = ValidationSupport.checkAndFinalizeList(builder.answer, "answer", Contract.Term.Offer.Answer.class);
+                securityLabelNumber = ValidationSupport.checkAndFinalizeList(builder.securityLabelNumber, "securityLabelNumber", UnsignedInt.class);
+                valuedItem = ValidationSupport.checkAndFinalizeList(builder.valuedItem, "valuedItem", ValuedItem.class);
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -5691,7 +5690,7 @@ public class Contract extends DomainResource {
                 private Context(Builder builder) {
                     super(builder);
                     reference = builder.reference;
-                    code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
+                    code = ValidationSupport.checkAndFinalizeList(builder.code, "code", CodeableConcept.class);
                     text = builder.text;
                     ValidationSupport.requireValueOrChildren(this);
                 }
@@ -6031,8 +6030,8 @@ public class Contract extends DomainResource {
                     paymentDate = builder.paymentDate;
                     responsible = builder.responsible;
                     recipient = builder.recipient;
-                    linkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.linkId, "linkId"));
-                    securityLabelNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabelNumber, "securityLabelNumber"));
+                    linkId = ValidationSupport.checkAndFinalizeList(builder.linkId, "linkId", String.class);
+                    securityLabelNumber = ValidationSupport.checkAndFinalizeList(builder.securityLabelNumber, "securityLabelNumber", UnsignedInt.class);
                     ValidationSupport.checkReferenceType(responsible, "responsible", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
                     ValidationSupport.checkReferenceType(recipient, "recipient", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
                     ValidationSupport.requireValueOrChildren(this);
@@ -6800,25 +6799,25 @@ public class Contract extends DomainResource {
                 super(builder);
                 doNotPerform = builder.doNotPerform;
                 type = ValidationSupport.requireNonNull(builder.type, "type");
-                subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
+                subject = ValidationSupport.checkAndFinalizeList(builder.subject, "subject", Subject.class);
                 intent = ValidationSupport.requireNonNull(builder.intent, "intent");
-                linkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.linkId, "linkId"));
+                linkId = ValidationSupport.checkAndFinalizeList(builder.linkId, "linkId", String.class);
                 status = ValidationSupport.requireNonNull(builder.status, "status");
                 context = builder.context;
-                contextLinkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contextLinkId, "contextLinkId"));
+                contextLinkId = ValidationSupport.checkAndFinalizeList(builder.contextLinkId, "contextLinkId", String.class);
                 occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
-                requester = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.requester, "requester"));
-                requesterLinkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.requesterLinkId, "requesterLinkId"));
-                performerType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performerType, "performerType"));
+                requester = ValidationSupport.checkAndFinalizeList(builder.requester, "requester", Reference.class);
+                requesterLinkId = ValidationSupport.checkAndFinalizeList(builder.requesterLinkId, "requesterLinkId", String.class);
+                performerType = ValidationSupport.checkAndFinalizeList(builder.performerType, "performerType", CodeableConcept.class);
                 performerRole = builder.performerRole;
                 performer = builder.performer;
-                performerLinkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performerLinkId, "performerLinkId"));
-                reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-                reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-                reason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reason, "reason"));
-                reasonLinkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonLinkId, "reasonLinkId"));
-                note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-                securityLabelNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabelNumber, "securityLabelNumber"));
+                performerLinkId = ValidationSupport.checkAndFinalizeList(builder.performerLinkId, "performerLinkId", String.class);
+                reasonCode = ValidationSupport.checkAndFinalizeList(builder.reasonCode, "reasonCode", CodeableConcept.class);
+                reasonReference = ValidationSupport.checkAndFinalizeList(builder.reasonReference, "reasonReference", Reference.class);
+                reason = ValidationSupport.checkAndFinalizeList(builder.reason, "reason", String.class);
+                reasonLinkId = ValidationSupport.checkAndFinalizeList(builder.reasonLinkId, "reasonLinkId", String.class);
+                note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
+                securityLabelNumber = ValidationSupport.checkAndFinalizeList(builder.securityLabelNumber, "securityLabelNumber", UnsignedInt.class);
                 ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
                 ValidationSupport.checkReferenceType(requester, "requester", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Group", "Organization");
                 ValidationSupport.checkReferenceType(performer, "performer", "RelatedPerson", "Patient", "Practitioner", "PractitionerRole", "CareTeam", "Device", "Substance", "Organization", "Location");
@@ -8017,7 +8016,7 @@ public class Contract extends DomainResource {
 
                 private Subject(Builder builder) {
                     super(builder);
-                    reference = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.reference, "reference"));
+                    reference = ValidationSupport.checkAndFinalizeNonEmptyList(builder.reference, "reference", Reference.class);
                     role = builder.role;
                     ValidationSupport.checkReferenceType(reference, "reference", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Group", "Organization");
                     ValidationSupport.requireValueOrChildren(this);
@@ -8347,7 +8346,7 @@ public class Contract extends DomainResource {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
             party = ValidationSupport.requireNonNull(builder.party, "party");
-            signature = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.signature, "signature"));
+            signature = ValidationSupport.checkAndFinalizeNonEmptyList(builder.signature, "signature", Signature.class);
             ValidationSupport.checkReferenceType(party, "party", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
             ValidationSupport.requireValueOrChildren(this);
         }

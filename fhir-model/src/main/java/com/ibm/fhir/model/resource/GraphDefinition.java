@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -130,14 +129,14 @@ public class GraphDefinition extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
+        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
         purpose = builder.purpose;
         start = ValidationSupport.requireNonNull(builder.start, "start");
         profile = builder.profile;
-        link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
+        link = ValidationSupport.checkAndFinalizeList(builder.link, "link", Link.class);
         ValidationSupport.requireChildren(this);
     }
 
@@ -1024,7 +1023,7 @@ public class GraphDefinition extends DomainResource {
             min = builder.min;
             max = builder.max;
             description = builder.description;
-            target = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.target, "target"));
+            target = ValidationSupport.checkAndFinalizeList(builder.target, "target", Target.class);
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1436,8 +1435,8 @@ public class GraphDefinition extends DomainResource {
                 type = ValidationSupport.requireNonNull(builder.type, "type");
                 params = builder.params;
                 profile = builder.profile;
-                compartment = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.compartment, "compartment"));
-                link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
+                compartment = ValidationSupport.checkAndFinalizeList(builder.compartment, "compartment", Compartment.class);
+                link = ValidationSupport.checkAndFinalizeList(builder.link, "link", GraphDefinition.Link.class);
                 ValidationSupport.requireValueOrChildren(this);
             }
 

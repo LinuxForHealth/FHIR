@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -121,7 +120,7 @@ public class ClinicalImpression extends DomainResource {
 
     private ClinicalImpression(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusReason = builder.statusReason;
         code = builder.code;
@@ -132,15 +131,15 @@ public class ClinicalImpression extends DomainResource {
         date = builder.date;
         assessor = builder.assessor;
         previous = builder.previous;
-        problem = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.problem, "problem"));
-        investigation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.investigation, "investigation"));
-        protocol = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.protocol, "protocol"));
+        problem = ValidationSupport.checkAndFinalizeList(builder.problem, "problem", Reference.class);
+        investigation = ValidationSupport.checkAndFinalizeList(builder.investigation, "investigation", Investigation.class);
+        protocol = ValidationSupport.checkAndFinalizeList(builder.protocol, "protocol", Uri.class);
         summary = builder.summary;
-        finding = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.finding, "finding"));
-        prognosisCodeableConcept = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.prognosisCodeableConcept, "prognosisCodeableConcept"));
-        prognosisReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.prognosisReference, "prognosisReference"));
-        supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        finding = ValidationSupport.checkAndFinalizeList(builder.finding, "finding", Finding.class);
+        prognosisCodeableConcept = ValidationSupport.checkAndFinalizeList(builder.prognosisCodeableConcept, "prognosisCodeableConcept", CodeableConcept.class);
+        prognosisReference = ValidationSupport.checkAndFinalizeList(builder.prognosisReference, "prognosisReference", Reference.class);
+        supportingInfo = ValidationSupport.checkAndFinalizeList(builder.supportingInfo, "supportingInfo", Reference.class);
+        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(assessor, "assessor", "Practitioner", "PractitionerRole");
@@ -1329,7 +1328,7 @@ public class ClinicalImpression extends DomainResource {
         private Investigation(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
-            item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
+            item = ValidationSupport.checkAndFinalizeList(builder.item, "item", Reference.class);
             ValidationSupport.checkReferenceType(item, "item", "Observation", "QuestionnaireResponse", "FamilyMemberHistory", "DiagnosticReport", "RiskAssessment", "ImagingStudy", "Media");
             ValidationSupport.requireValueOrChildren(this);
         }

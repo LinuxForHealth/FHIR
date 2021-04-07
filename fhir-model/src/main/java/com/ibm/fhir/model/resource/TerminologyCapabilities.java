@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -184,17 +183,17 @@ public class TerminologyCapabilities extends DomainResource {
         experimental = builder.experimental;
         date = ValidationSupport.requireNonNull(builder.date, "date");
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
+        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
         purpose = builder.purpose;
         copyright = builder.copyright;
         kind = ValidationSupport.requireNonNull(builder.kind, "kind");
         software = builder.software;
         implementation = builder.implementation;
         lockedDate = builder.lockedDate;
-        codeSystem = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.codeSystem, "codeSystem"));
+        codeSystem = ValidationSupport.checkAndFinalizeList(builder.codeSystem, "codeSystem", CodeSystem.class);
         expansion = builder.expansion;
         codeSearch = builder.codeSearch;
         validateCode = builder.validateCode;
@@ -1911,7 +1910,7 @@ public class TerminologyCapabilities extends DomainResource {
         private CodeSystem(Builder builder) {
             super(builder);
             uri = builder.uri;
-            version = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.version, "version"));
+            version = ValidationSupport.checkAndFinalizeList(builder.version, "version", Version.class);
             subsumption = builder.subsumption;
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -2230,9 +2229,9 @@ public class TerminologyCapabilities extends DomainResource {
                 code = builder.code;
                 isDefault = builder.isDefault;
                 compositional = builder.compositional;
-                language = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.language, "language"));
-                filter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.filter, "filter"));
-                property = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.property, "property"));
+                language = ValidationSupport.checkAndFinalizeList(builder.language, "language", Code.class);
+                filter = ValidationSupport.checkAndFinalizeList(builder.filter, "filter", Filter.class);
+                property = ValidationSupport.checkAndFinalizeList(builder.property, "property", Code.class);
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -2674,7 +2673,7 @@ public class TerminologyCapabilities extends DomainResource {
                 private Filter(Builder builder) {
                     super(builder);
                     code = ValidationSupport.requireNonNull(builder.code, "code");
-                    op = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.op, "op"));
+                    op = ValidationSupport.checkAndFinalizeNonEmptyList(builder.op, "op", Code.class);
                     ValidationSupport.requireValueOrChildren(this);
                 }
 
@@ -2974,7 +2973,7 @@ public class TerminologyCapabilities extends DomainResource {
             hierarchical = builder.hierarchical;
             paging = builder.paging;
             incomplete = builder.incomplete;
-            parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
+            parameter = ValidationSupport.checkAndFinalizeList(builder.parameter, "parameter", Parameter.class);
             textFilter = builder.textFilter;
             ValidationSupport.requireValueOrChildren(this);
         }

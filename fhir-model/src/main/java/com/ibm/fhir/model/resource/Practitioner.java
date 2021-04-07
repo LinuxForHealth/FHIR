@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -96,16 +95,16 @@ public class Practitioner extends DomainResource {
 
     private Practitioner(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         active = builder.active;
-        name = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.name, "name"));
-        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
-        address = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.address, "address"));
+        name = ValidationSupport.checkAndFinalizeList(builder.name, "name", HumanName.class);
+        telecom = ValidationSupport.checkAndFinalizeList(builder.telecom, "telecom", ContactPoint.class);
+        address = ValidationSupport.checkAndFinalizeList(builder.address, "address", Address.class);
         gender = builder.gender;
         birthDate = builder.birthDate;
-        photo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.photo, "photo"));
-        qualification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.qualification, "qualification"));
-        communication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communication, "communication"));
+        photo = ValidationSupport.checkAndFinalizeList(builder.photo, "photo", Attachment.class);
+        qualification = ValidationSupport.checkAndFinalizeList(builder.qualification, "qualification", Qualification.class);
+        communication = ValidationSupport.checkAndFinalizeList(builder.communication, "communication", CodeableConcept.class);
         ValidationSupport.checkValueSetBinding(communication, "communication", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
         ValidationSupport.requireChildren(this);
     }
@@ -878,7 +877,7 @@ public class Practitioner extends DomainResource {
 
         private Qualification(Builder builder) {
             super(builder);
-            identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+            identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
             code = ValidationSupport.requireNonNull(builder.code, "code");
             period = builder.period;
             issuer = builder.issuer;

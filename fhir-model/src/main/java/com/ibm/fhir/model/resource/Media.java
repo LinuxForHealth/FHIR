@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -156,9 +155,9 @@ public class Media extends DomainResource {
 
     private Media(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        basedOn = ValidationSupport.checkAndFinalizeList(builder.basedOn, "basedOn", Reference.class);
+        partOf = ValidationSupport.checkAndFinalizeList(builder.partOf, "partOf", Reference.class);
         status = ValidationSupport.requireNonNull(builder.status, "status");
         type = builder.type;
         modality = builder.modality;
@@ -168,7 +167,7 @@ public class Media extends DomainResource {
         created = ValidationSupport.choiceElement(builder.created, "created", DateTime.class, Period.class);
         issued = builder.issued;
         operator = builder.operator;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
+        reasonCode = ValidationSupport.checkAndFinalizeList(builder.reasonCode, "reasonCode", CodeableConcept.class);
         bodySite = builder.bodySite;
         deviceName = builder.deviceName;
         device = builder.device;
@@ -177,7 +176,7 @@ public class Media extends DomainResource {
         frames = builder.frames;
         duration = builder.duration;
         content = ValidationSupport.requireNonNull(builder.content, "content");
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
         ValidationSupport.checkReferenceType(basedOn, "basedOn", "ServiceRequest", "CarePlan");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "PractitionerRole", "Group", "Device", "Specimen", "Location");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");

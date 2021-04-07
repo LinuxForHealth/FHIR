@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -175,26 +174,26 @@ public class ImagingStudy extends DomainResource {
 
     private ImagingStudy(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        modality = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modality, "modality"));
+        modality = ValidationSupport.checkAndFinalizeList(builder.modality, "modality", Coding.class);
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
         encounter = builder.encounter;
         started = builder.started;
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
+        basedOn = ValidationSupport.checkAndFinalizeList(builder.basedOn, "basedOn", Reference.class);
         referrer = builder.referrer;
-        interpreter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.interpreter, "interpreter"));
-        endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
+        interpreter = ValidationSupport.checkAndFinalizeList(builder.interpreter, "interpreter", Reference.class);
+        endpoint = ValidationSupport.checkAndFinalizeList(builder.endpoint, "endpoint", Reference.class);
         numberOfSeries = builder.numberOfSeries;
         numberOfInstances = builder.numberOfInstances;
         procedureReference = builder.procedureReference;
-        procedureCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.procedureCode, "procedureCode"));
+        procedureCode = ValidationSupport.checkAndFinalizeList(builder.procedureCode, "procedureCode", CodeableConcept.class);
         location = builder.location;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        reasonCode = ValidationSupport.checkAndFinalizeList(builder.reasonCode, "reasonCode", CodeableConcept.class);
+        reasonReference = ValidationSupport.checkAndFinalizeList(builder.reasonReference, "reasonReference", Reference.class);
+        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
         description = builder.description;
-        series = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.series, "series"));
+        series = ValidationSupport.checkAndFinalizeList(builder.series, "series", Series.class);
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Device", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ServiceRequest", "Appointment", "AppointmentResponse", "Task");
@@ -1481,13 +1480,13 @@ public class ImagingStudy extends DomainResource {
             modality = ValidationSupport.requireNonNull(builder.modality, "modality");
             description = builder.description;
             numberOfInstances = builder.numberOfInstances;
-            endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
+            endpoint = ValidationSupport.checkAndFinalizeList(builder.endpoint, "endpoint", Reference.class);
             bodySite = builder.bodySite;
             laterality = builder.laterality;
-            specimen = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specimen, "specimen"));
+            specimen = ValidationSupport.checkAndFinalizeList(builder.specimen, "specimen", Reference.class);
             started = builder.started;
-            performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
-            instance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instance, "instance"));
+            performer = ValidationSupport.checkAndFinalizeList(builder.performer, "performer", Performer.class);
+            instance = ValidationSupport.checkAndFinalizeList(builder.instance, "instance", Instance.class);
             ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
             ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
             ValidationSupport.requireValueOrChildren(this);

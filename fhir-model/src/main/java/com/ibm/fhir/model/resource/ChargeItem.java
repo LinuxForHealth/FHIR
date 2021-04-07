@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -146,32 +145,32 @@ public class ChargeItem extends DomainResource {
 
     private ChargeItem(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        definitionUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.definitionUri, "definitionUri"));
-        definitionCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.definitionCanonical, "definitionCanonical"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        definitionUri = ValidationSupport.checkAndFinalizeList(builder.definitionUri, "definitionUri", Uri.class);
+        definitionCanonical = ValidationSupport.checkAndFinalizeList(builder.definitionCanonical, "definitionCanonical", Canonical.class);
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
+        partOf = ValidationSupport.checkAndFinalizeList(builder.partOf, "partOf", Reference.class);
         code = ValidationSupport.requireNonNull(builder.code, "code");
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
         context = builder.context;
         occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
-        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
+        performer = ValidationSupport.checkAndFinalizeList(builder.performer, "performer", Performer.class);
         performingOrganization = builder.performingOrganization;
         requestingOrganization = builder.requestingOrganization;
         costCenter = builder.costCenter;
         quantity = builder.quantity;
-        bodysite = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.bodysite, "bodysite"));
+        bodysite = ValidationSupport.checkAndFinalizeList(builder.bodysite, "bodysite", CodeableConcept.class);
         factorOverride = builder.factorOverride;
         priceOverride = builder.priceOverride;
         overrideReason = builder.overrideReason;
         enterer = builder.enterer;
         enteredDate = builder.enteredDate;
-        reason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reason, "reason"));
-        service = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.service, "service"));
+        reason = ValidationSupport.checkAndFinalizeList(builder.reason, "reason", CodeableConcept.class);
+        service = ValidationSupport.checkAndFinalizeList(builder.service, "service", Reference.class);
         product = ValidationSupport.choiceElement(builder.product, "product", Reference.class, CodeableConcept.class);
-        account = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.account, "account"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        supportingInformation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInformation, "supportingInformation"));
+        account = ValidationSupport.checkAndFinalizeList(builder.account, "account", Reference.class);
+        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
+        supportingInformation = ValidationSupport.checkAndFinalizeList(builder.supportingInformation, "supportingInformation", Reference.class);
         ValidationSupport.checkReferenceType(partOf, "partOf", "ChargeItem");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");

@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -89,13 +88,13 @@ public class Medication extends DomainResource {
 
     private Medication(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         code = builder.code;
         status = builder.status;
         manufacturer = builder.manufacturer;
         form = builder.form;
         amount = builder.amount;
-        ingredient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.ingredient, "ingredient"));
+        ingredient = ValidationSupport.checkAndFinalizeList(builder.ingredient, "ingredient", Ingredient.class);
         batch = builder.batch;
         ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
         ValidationSupport.requireChildren(this);

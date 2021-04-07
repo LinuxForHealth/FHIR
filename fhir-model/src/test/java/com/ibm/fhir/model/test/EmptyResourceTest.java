@@ -10,6 +10,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Patient.Link;
 import com.ibm.fhir.model.type.Narrative;
 
 public class EmptyResourceTest {
@@ -26,5 +27,10 @@ public class EmptyResourceTest {
     @Test
     public void testPatientWithEmptyNarrative() {
         Patient.builder().text(Narrative.EMPTY).build();
+    }
+
+    @Test(expectedExceptions = IllegalStateException.class)
+    public void testInvalidPatient() {
+        Patient.builder().link((Link)null).build();
     }
 }

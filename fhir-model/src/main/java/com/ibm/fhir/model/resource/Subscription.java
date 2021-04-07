@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -79,7 +78,7 @@ public class Subscription extends DomainResource {
     private Subscription(Builder builder) {
         super(builder);
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactPoint.class);
         end = builder.end;
         reason = ValidationSupport.requireNonNull(builder.reason, "reason");
         criteria = ValidationSupport.requireNonNull(builder.criteria, "criteria");
@@ -664,7 +663,7 @@ public class Subscription extends DomainResource {
             type = ValidationSupport.requireNonNull(builder.type, "type");
             endpoint = builder.endpoint;
             payload = builder.payload;
-            header = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.header, "header"));
+            header = ValidationSupport.checkAndFinalizeList(builder.header, "header", String.class);
             ValidationSupport.requireValueOrChildren(this);
         }
 

@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -104,16 +103,16 @@ public class SubstanceSpecification extends DomainResource {
         status = builder.status;
         domain = builder.domain;
         description = builder.description;
-        source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
+        source = ValidationSupport.checkAndFinalizeList(builder.source, "source", Reference.class);
         comment = builder.comment;
-        moiety = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.moiety, "moiety"));
-        property = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.property, "property"));
+        moiety = ValidationSupport.checkAndFinalizeList(builder.moiety, "moiety", Moiety.class);
+        property = ValidationSupport.checkAndFinalizeList(builder.property, "property", Property.class);
         referenceInformation = builder.referenceInformation;
         structure = builder.structure;
-        code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
-        name = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.name, "name"));
-        molecularWeight = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.molecularWeight, "molecularWeight"));
-        relationship = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relationship, "relationship"));
+        code = ValidationSupport.checkAndFinalizeList(builder.code, "code", Code.class);
+        name = ValidationSupport.checkAndFinalizeList(builder.name, "name", Name.class);
+        molecularWeight = ValidationSupport.checkAndFinalizeList(builder.molecularWeight, "molecularWeight", SubstanceSpecification.Structure.Isotope.MolecularWeight.class);
+        relationship = ValidationSupport.checkAndFinalizeList(builder.relationship, "relationship", Relationship.class);
         nucleicAcid = builder.nucleicAcid;
         polymer = builder.polymer;
         protein = builder.protein;
@@ -2015,10 +2014,10 @@ public class SubstanceSpecification extends DomainResource {
             opticalActivity = builder.opticalActivity;
             molecularFormula = builder.molecularFormula;
             molecularFormulaByMoiety = builder.molecularFormulaByMoiety;
-            isotope = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.isotope, "isotope"));
+            isotope = ValidationSupport.checkAndFinalizeList(builder.isotope, "isotope", Isotope.class);
             molecularWeight = builder.molecularWeight;
-            source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
-            representation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.representation, "representation"));
+            source = ValidationSupport.checkAndFinalizeList(builder.source, "source", Reference.class);
+            representation = ValidationSupport.checkAndFinalizeList(builder.representation, "representation", Representation.class);
             ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -3502,7 +3501,7 @@ public class SubstanceSpecification extends DomainResource {
             status = builder.status;
             statusDate = builder.statusDate;
             comment = builder.comment;
-            source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
+            source = ValidationSupport.checkAndFinalizeList(builder.source, "source", Reference.class);
             ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -3909,13 +3908,13 @@ public class SubstanceSpecification extends DomainResource {
             type = builder.type;
             status = builder.status;
             preferred = builder.preferred;
-            language = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.language, "language"));
-            domain = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.domain, "domain"));
-            jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
-            synonym = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.synonym, "synonym"));
-            translation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.translation, "translation"));
-            official = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.official, "official"));
-            source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
+            language = ValidationSupport.checkAndFinalizeList(builder.language, "language", CodeableConcept.class);
+            domain = ValidationSupport.checkAndFinalizeList(builder.domain, "domain", CodeableConcept.class);
+            jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
+            synonym = ValidationSupport.checkAndFinalizeList(builder.synonym, "synonym", SubstanceSpecification.Name.class);
+            translation = ValidationSupport.checkAndFinalizeList(builder.translation, "translation", SubstanceSpecification.Name.class);
+            official = ValidationSupport.checkAndFinalizeList(builder.official, "official", Official.class);
+            source = ValidationSupport.checkAndFinalizeList(builder.source, "source", Reference.class);
             ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -4926,7 +4925,7 @@ public class SubstanceSpecification extends DomainResource {
             amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, Range.class, Ratio.class, String.class);
             amountRatioLowLimit = builder.amountRatioLowLimit;
             amountType = builder.amountType;
-            source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
+            source = ValidationSupport.checkAndFinalizeList(builder.source, "source", Reference.class);
             ValidationSupport.checkReferenceType(substance, "substance", "SubstanceSpecification");
             ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
             ValidationSupport.requireValueOrChildren(this);

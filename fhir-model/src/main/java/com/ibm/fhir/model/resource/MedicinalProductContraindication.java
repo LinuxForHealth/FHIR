@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -66,13 +65,13 @@ public class MedicinalProductContraindication extends DomainResource {
 
     private MedicinalProductContraindication(Builder builder) {
         super(builder);
-        subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
+        subject = ValidationSupport.checkAndFinalizeList(builder.subject, "subject", Reference.class);
         disease = builder.disease;
         diseaseStatus = builder.diseaseStatus;
-        comorbidity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.comorbidity, "comorbidity"));
-        therapeuticIndication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.therapeuticIndication, "therapeuticIndication"));
-        otherTherapy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.otherTherapy, "otherTherapy"));
-        population = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.population, "population"));
+        comorbidity = ValidationSupport.checkAndFinalizeList(builder.comorbidity, "comorbidity", CodeableConcept.class);
+        therapeuticIndication = ValidationSupport.checkAndFinalizeList(builder.therapeuticIndication, "therapeuticIndication", Reference.class);
+        otherTherapy = ValidationSupport.checkAndFinalizeList(builder.otherTherapy, "otherTherapy", OtherTherapy.class);
+        population = ValidationSupport.checkAndFinalizeList(builder.population, "population", Population.class);
         ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication");
         ValidationSupport.checkReferenceType(therapeuticIndication, "therapeuticIndication", "MedicinalProductIndication");
         ValidationSupport.requireChildren(this);

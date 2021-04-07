@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -183,23 +182,23 @@ public class OperationDefinition extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
+        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
         purpose = builder.purpose;
         affectsState = builder.affectsState;
         code = ValidationSupport.requireNonNull(builder.code, "code");
         comment = builder.comment;
         base = builder.base;
-        resource = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.resource, "resource"));
+        resource = ValidationSupport.checkAndFinalizeList(builder.resource, "resource", ResourceType.class);
         system = ValidationSupport.requireNonNull(builder.system, "system");
         type = ValidationSupport.requireNonNull(builder.type, "type");
         instance = ValidationSupport.requireNonNull(builder.instance, "instance");
         inputProfile = builder.inputProfile;
         outputProfile = builder.outputProfile;
-        parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
-        overload = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.overload, "overload"));
+        parameter = ValidationSupport.checkAndFinalizeList(builder.parameter, "parameter", Parameter.class);
+        overload = ValidationSupport.checkAndFinalizeList(builder.overload, "overload", Overload.class);
         ValidationSupport.requireChildren(this);
     }
 
@@ -1511,11 +1510,11 @@ public class OperationDefinition extends DomainResource {
             max = ValidationSupport.requireNonNull(builder.max, "max");
             documentation = builder.documentation;
             type = builder.type;
-            targetProfile = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.targetProfile, "targetProfile"));
+            targetProfile = ValidationSupport.checkAndFinalizeList(builder.targetProfile, "targetProfile", Canonical.class);
             searchType = builder.searchType;
             binding = builder.binding;
-            referencedFrom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referencedFrom, "referencedFrom"));
-            part = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.part, "part"));
+            referencedFrom = ValidationSupport.checkAndFinalizeList(builder.referencedFrom, "referencedFrom", ReferencedFrom.class);
+            part = ValidationSupport.checkAndFinalizeList(builder.part, "part", OperationDefinition.Parameter.class);
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2686,7 +2685,7 @@ public class OperationDefinition extends DomainResource {
 
         private Overload(Builder builder) {
             super(builder);
-            parameterName = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameterName, "parameterName"));
+            parameterName = ValidationSupport.checkAndFinalizeList(builder.parameterName, "parameterName", String.class);
             comment = builder.comment;
             ValidationSupport.requireValueOrChildren(this);
         }

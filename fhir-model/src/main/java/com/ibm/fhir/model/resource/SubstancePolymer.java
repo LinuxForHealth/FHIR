@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -62,10 +61,10 @@ public class SubstancePolymer extends DomainResource {
         super(builder);
         clazz = builder.clazz;
         geometry = builder.geometry;
-        copolymerConnectivity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.copolymerConnectivity, "copolymerConnectivity"));
-        modification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modification, "modification"));
-        monomerSet = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.monomerSet, "monomerSet"));
-        repeat = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.repeat, "repeat"));
+        copolymerConnectivity = ValidationSupport.checkAndFinalizeList(builder.copolymerConnectivity, "copolymerConnectivity", CodeableConcept.class);
+        modification = ValidationSupport.checkAndFinalizeList(builder.modification, "modification", String.class);
+        monomerSet = ValidationSupport.checkAndFinalizeList(builder.monomerSet, "monomerSet", MonomerSet.class);
+        repeat = ValidationSupport.checkAndFinalizeList(builder.repeat, "repeat", Repeat.class);
         ValidationSupport.requireChildren(this);
     }
 
@@ -637,7 +636,7 @@ public class SubstancePolymer extends DomainResource {
         private MonomerSet(Builder builder) {
             super(builder);
             ratioType = builder.ratioType;
-            startingMaterial = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.startingMaterial, "startingMaterial"));
+            startingMaterial = ValidationSupport.checkAndFinalizeList(builder.startingMaterial, "startingMaterial", StartingMaterial.class);
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1255,7 +1254,7 @@ public class SubstancePolymer extends DomainResource {
             numberOfUnits = builder.numberOfUnits;
             averageMolecularFormula = builder.averageMolecularFormula;
             repeatUnitAmountType = builder.repeatUnitAmountType;
-            repeatUnit = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.repeatUnit, "repeatUnit"));
+            repeatUnit = ValidationSupport.checkAndFinalizeList(builder.repeatUnit, "repeatUnit", RepeatUnit.class);
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1605,8 +1604,8 @@ public class SubstancePolymer extends DomainResource {
                 orientationOfPolymerisation = builder.orientationOfPolymerisation;
                 repeatUnit = builder.repeatUnit;
                 amount = builder.amount;
-                degreeOfPolymerisation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.degreeOfPolymerisation, "degreeOfPolymerisation"));
-                structuralRepresentation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.structuralRepresentation, "structuralRepresentation"));
+                degreeOfPolymerisation = ValidationSupport.checkAndFinalizeList(builder.degreeOfPolymerisation, "degreeOfPolymerisation", DegreeOfPolymerisation.class);
+                structuralRepresentation = ValidationSupport.checkAndFinalizeList(builder.structuralRepresentation, "structuralRepresentation", StructuralRepresentation.class);
                 ValidationSupport.requireValueOrChildren(this);
             }
 

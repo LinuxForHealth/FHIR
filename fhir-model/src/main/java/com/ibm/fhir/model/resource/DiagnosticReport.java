@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -133,24 +132,24 @@ public class DiagnosticReport extends DomainResource {
 
     private DiagnosticReport(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        basedOn = ValidationSupport.checkAndFinalizeList(builder.basedOn, "basedOn", Reference.class);
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        category = ValidationSupport.checkAndFinalizeList(builder.category, "category", CodeableConcept.class);
         code = ValidationSupport.requireNonNull(builder.code, "code");
         subject = builder.subject;
         encounter = builder.encounter;
         effective = ValidationSupport.choiceElement(builder.effective, "effective", DateTime.class, Period.class);
         issued = builder.issued;
-        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
-        resultsInterpreter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.resultsInterpreter, "resultsInterpreter"));
-        specimen = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specimen, "specimen"));
-        result = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.result, "result"));
-        imagingStudy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.imagingStudy, "imagingStudy"));
-        media = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.media, "media"));
+        performer = ValidationSupport.checkAndFinalizeList(builder.performer, "performer", Reference.class);
+        resultsInterpreter = ValidationSupport.checkAndFinalizeList(builder.resultsInterpreter, "resultsInterpreter", Reference.class);
+        specimen = ValidationSupport.checkAndFinalizeList(builder.specimen, "specimen", Reference.class);
+        result = ValidationSupport.checkAndFinalizeList(builder.result, "result", Reference.class);
+        imagingStudy = ValidationSupport.checkAndFinalizeList(builder.imagingStudy, "imagingStudy", Reference.class);
+        media = ValidationSupport.checkAndFinalizeList(builder.media, "media", Media.class);
         conclusion = builder.conclusion;
-        conclusionCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.conclusionCode, "conclusionCode"));
-        presentedForm = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.presentedForm, "presentedForm"));
+        conclusionCode = ValidationSupport.checkAndFinalizeList(builder.conclusionCode, "conclusionCode", CodeableConcept.class);
+        presentedForm = ValidationSupport.checkAndFinalizeList(builder.presentedForm, "presentedForm", Attachment.class);
         ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ImmunizationRecommendation", "MedicationRequest", "NutritionOrder", "ServiceRequest");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Location");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");

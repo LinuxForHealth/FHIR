@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -137,22 +136,22 @@ public class Patient extends DomainResource {
 
     private Patient(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         active = builder.active;
-        name = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.name, "name"));
-        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
+        name = ValidationSupport.checkAndFinalizeList(builder.name, "name", HumanName.class);
+        telecom = ValidationSupport.checkAndFinalizeList(builder.telecom, "telecom", ContactPoint.class);
         gender = builder.gender;
         birthDate = builder.birthDate;
         deceased = ValidationSupport.choiceElement(builder.deceased, "deceased", Boolean.class, DateTime.class);
-        address = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.address, "address"));
+        address = ValidationSupport.checkAndFinalizeList(builder.address, "address", Address.class);
         maritalStatus = builder.maritalStatus;
         multipleBirth = ValidationSupport.choiceElement(builder.multipleBirth, "multipleBirth", Boolean.class, Integer.class);
-        photo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.photo, "photo"));
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
-        communication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communication, "communication"));
-        generalPractitioner = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.generalPractitioner, "generalPractitioner"));
+        photo = ValidationSupport.checkAndFinalizeList(builder.photo, "photo", Attachment.class);
+        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", Contact.class);
+        communication = ValidationSupport.checkAndFinalizeList(builder.communication, "communication", Communication.class);
+        generalPractitioner = ValidationSupport.checkAndFinalizeList(builder.generalPractitioner, "generalPractitioner", Reference.class);
         managingOrganization = builder.managingOrganization;
-        link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
+        link = ValidationSupport.checkAndFinalizeList(builder.link, "link", Link.class);
         ValidationSupport.checkReferenceType(generalPractitioner, "generalPractitioner", "Organization", "Practitioner", "PractitionerRole");
         ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
         ValidationSupport.requireChildren(this);
@@ -1186,9 +1185,9 @@ public class Patient extends DomainResource {
 
         private Contact(Builder builder) {
             super(builder);
-            relationship = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relationship, "relationship"));
+            relationship = ValidationSupport.checkAndFinalizeList(builder.relationship, "relationship", CodeableConcept.class);
             name = builder.name;
-            telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
+            telecom = ValidationSupport.checkAndFinalizeList(builder.telecom, "telecom", ContactPoint.class);
             address = builder.address;
             gender = builder.gender;
             organization = builder.organization;

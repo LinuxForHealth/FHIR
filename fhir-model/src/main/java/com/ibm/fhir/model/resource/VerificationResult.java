@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -156,20 +155,20 @@ public class VerificationResult extends DomainResource {
 
     private VerificationResult(Builder builder) {
         super(builder);
-        target = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.target, "target"));
-        targetLocation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.targetLocation, "targetLocation"));
+        target = ValidationSupport.checkAndFinalizeList(builder.target, "target", Reference.class);
+        targetLocation = ValidationSupport.checkAndFinalizeList(builder.targetLocation, "targetLocation", String.class);
         need = builder.need;
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusDate = builder.statusDate;
         validationType = builder.validationType;
-        validationProcess = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.validationProcess, "validationProcess"));
+        validationProcess = ValidationSupport.checkAndFinalizeList(builder.validationProcess, "validationProcess", CodeableConcept.class);
         frequency = builder.frequency;
         lastPerformed = builder.lastPerformed;
         nextScheduled = builder.nextScheduled;
         failureAction = builder.failureAction;
-        primarySource = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.primarySource, "primarySource"));
+        primarySource = ValidationSupport.checkAndFinalizeList(builder.primarySource, "primarySource", PrimarySource.class);
         attestation = builder.attestation;
-        validator = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.validator, "validator"));
+        validator = ValidationSupport.checkAndFinalizeList(builder.validator, "validator", Validator.class);
         ValidationSupport.requireChildren(this);
     }
 
@@ -1052,12 +1051,12 @@ public class VerificationResult extends DomainResource {
         private PrimarySource(Builder builder) {
             super(builder);
             who = builder.who;
-            type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
-            communicationMethod = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communicationMethod, "communicationMethod"));
+            type = ValidationSupport.checkAndFinalizeList(builder.type, "type", CodeableConcept.class);
+            communicationMethod = ValidationSupport.checkAndFinalizeList(builder.communicationMethod, "communicationMethod", CodeableConcept.class);
             validationStatus = builder.validationStatus;
             validationDate = builder.validationDate;
             canPushUpdates = builder.canPushUpdates;
-            pushTypeAvailable = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.pushTypeAvailable, "pushTypeAvailable"));
+            pushTypeAvailable = ValidationSupport.checkAndFinalizeList(builder.pushTypeAvailable, "pushTypeAvailable", CodeableConcept.class);
             ValidationSupport.checkReferenceType(who, "who", "Organization", "Practitioner", "PractitionerRole");
             ValidationSupport.requireValueOrChildren(this);
         }

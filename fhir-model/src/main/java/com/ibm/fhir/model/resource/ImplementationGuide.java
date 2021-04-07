@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -170,16 +169,16 @@ public class ImplementationGuide extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
+        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
         copyright = builder.copyright;
         packageId = ValidationSupport.requireNonNull(builder.packageId, "packageId");
         license = builder.license;
-        fhirVersion = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.fhirVersion, "fhirVersion"));
-        dependsOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dependsOn, "dependsOn"));
-        global = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.global, "global"));
+        fhirVersion = ValidationSupport.checkAndFinalizeNonEmptyList(builder.fhirVersion, "fhirVersion", FHIRVersion.class);
+        dependsOn = ValidationSupport.checkAndFinalizeList(builder.dependsOn, "dependsOn", DependsOn.class);
+        global = ValidationSupport.checkAndFinalizeList(builder.global, "global", Global.class);
         definition = builder.definition;
         manifest = builder.manifest;
         ValidationSupport.requireChildren(this);
@@ -1864,11 +1863,11 @@ public class ImplementationGuide extends DomainResource {
 
         private Definition(Builder builder) {
             super(builder);
-            grouping = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.grouping, "grouping"));
-            resource = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.resource, "resource"));
+            grouping = ValidationSupport.checkAndFinalizeList(builder.grouping, "grouping", Grouping.class);
+            resource = ValidationSupport.checkAndFinalizeNonEmptyList(builder.resource, "resource", Resource.class);
             page = builder.page;
-            parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
-            template = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.template, "template"));
+            parameter = ValidationSupport.checkAndFinalizeList(builder.parameter, "parameter", Parameter.class);
+            template = ValidationSupport.checkAndFinalizeList(builder.template, "template", Template.class);
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2596,7 +2595,7 @@ public class ImplementationGuide extends DomainResource {
             private Resource(Builder builder) {
                 super(builder);
                 reference = ValidationSupport.requireNonNull(builder.reference, "reference");
-                fhirVersion = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.fhirVersion, "fhirVersion"));
+                fhirVersion = ValidationSupport.checkAndFinalizeList(builder.fhirVersion, "fhirVersion", FHIRVersion.class);
                 name = builder.name;
                 description = builder.description;
                 example = ValidationSupport.choiceElement(builder.example, "example", Boolean.class, Canonical.class);
@@ -3036,7 +3035,7 @@ public class ImplementationGuide extends DomainResource {
                 name = ValidationSupport.requireChoiceElement(builder.name, "name", Url.class, Reference.class);
                 title = ValidationSupport.requireNonNull(builder.title, "title");
                 generation = ValidationSupport.requireNonNull(builder.generation, "generation");
-                page = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.page, "page"));
+                page = ValidationSupport.checkAndFinalizeList(builder.page, "page", ImplementationGuide.Definition.Page.class);
                 ValidationSupport.checkReferenceType(name, "name", "Binary");
                 ValidationSupport.requireValueOrChildren(this);
             }
@@ -3996,10 +3995,10 @@ public class ImplementationGuide extends DomainResource {
         private Manifest(Builder builder) {
             super(builder);
             rendering = builder.rendering;
-            resource = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.resource, "resource"));
-            page = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.page, "page"));
-            image = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.image, "image"));
-            other = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.other, "other"));
+            resource = ValidationSupport.checkAndFinalizeNonEmptyList(builder.resource, "resource", Resource.class);
+            page = ValidationSupport.checkAndFinalizeList(builder.page, "page", Page.class);
+            image = ValidationSupport.checkAndFinalizeList(builder.image, "image", String.class);
+            other = ValidationSupport.checkAndFinalizeList(builder.other, "other", String.class);
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -4763,7 +4762,7 @@ public class ImplementationGuide extends DomainResource {
                 super(builder);
                 name = ValidationSupport.requireNonNull(builder.name, "name");
                 title = builder.title;
-                anchor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.anchor, "anchor"));
+                anchor = ValidationSupport.checkAndFinalizeList(builder.anchor, "anchor", String.class);
                 ValidationSupport.requireValueOrChildren(this);
             }
 

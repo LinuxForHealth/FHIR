@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -218,12 +217,12 @@ public class Task extends DomainResource {
 
     private Task(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         instantiatesCanonical = builder.instantiatesCanonical;
         instantiatesUri = builder.instantiatesUri;
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
+        basedOn = ValidationSupport.checkAndFinalizeList(builder.basedOn, "basedOn", Reference.class);
         groupIdentifier = builder.groupIdentifier;
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
+        partOf = ValidationSupport.checkAndFinalizeList(builder.partOf, "partOf", Reference.class);
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusReason = builder.statusReason;
         businessStatus = builder.businessStatus;
@@ -238,17 +237,17 @@ public class Task extends DomainResource {
         authoredOn = builder.authoredOn;
         lastModified = builder.lastModified;
         requester = builder.requester;
-        performerType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performerType, "performerType"));
+        performerType = ValidationSupport.checkAndFinalizeList(builder.performerType, "performerType", CodeableConcept.class);
         owner = builder.owner;
         location = builder.location;
         reasonCode = builder.reasonCode;
         reasonReference = builder.reasonReference;
-        insurance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.insurance, "insurance"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        relevantHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relevantHistory, "relevantHistory"));
+        insurance = ValidationSupport.checkAndFinalizeList(builder.insurance, "insurance", Reference.class);
+        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
+        relevantHistory = ValidationSupport.checkAndFinalizeList(builder.relevantHistory, "relevantHistory", Reference.class);
         restriction = builder.restriction;
-        input = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.input, "input"));
-        output = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.output, "output"));
+        input = ValidationSupport.checkAndFinalizeList(builder.input, "input", Input.class);
+        output = ValidationSupport.checkAndFinalizeList(builder.output, "output", Output.class);
         ValidationSupport.checkReferenceType(partOf, "partOf", "Task");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(requester, "requester", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
@@ -1778,7 +1777,7 @@ public class Task extends DomainResource {
             super(builder);
             repetitions = builder.repetitions;
             period = builder.period;
-            recipient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.recipient, "recipient"));
+            recipient = ValidationSupport.checkAndFinalizeList(builder.recipient, "recipient", Reference.class);
             ValidationSupport.checkReferenceType(recipient, "recipient", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Group", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }

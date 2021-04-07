@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -165,29 +164,29 @@ public class MessageDefinition extends DomainResource {
     private MessageDefinition(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         version = builder.version;
         name = builder.name;
         title = builder.title;
-        replaces = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.replaces, "replaces"));
+        replaces = ValidationSupport.checkAndFinalizeList(builder.replaces, "replaces", Canonical.class);
         status = ValidationSupport.requireNonNull(builder.status, "status");
         experimental = builder.experimental;
         date = ValidationSupport.requireNonNull(builder.date, "date");
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
+        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
         purpose = builder.purpose;
         copyright = builder.copyright;
         base = builder.base;
-        parent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parent, "parent"));
+        parent = ValidationSupport.checkAndFinalizeList(builder.parent, "parent", Canonical.class);
         event = ValidationSupport.requireChoiceElement(builder.event, "event", Coding.class, Uri.class);
         category = builder.category;
-        focus = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.focus, "focus"));
+        focus = ValidationSupport.checkAndFinalizeList(builder.focus, "focus", Focus.class);
         responseRequired = builder.responseRequired;
-        allowedResponse = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.allowedResponse, "allowedResponse"));
-        graph = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.graph, "graph"));
+        allowedResponse = ValidationSupport.checkAndFinalizeList(builder.allowedResponse, "allowedResponse", AllowedResponse.class);
+        graph = ValidationSupport.checkAndFinalizeList(builder.graph, "graph", Canonical.class);
         ValidationSupport.requireChildren(this);
     }
 

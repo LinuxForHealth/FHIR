@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -67,7 +66,7 @@ public class Linkage extends DomainResource {
         super(builder);
         active = builder.active;
         author = builder.author;
-        item = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.item, "item"));
+        item = ValidationSupport.checkAndFinalizeNonEmptyList(builder.item, "item", Item.class);
         ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.requireChildren(this);
     }

@@ -7,7 +7,6 @@
 package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -89,17 +88,17 @@ public class BiologicallyDerivedProduct extends DomainResource {
 
     private BiologicallyDerivedProduct(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         productCategory = builder.productCategory;
         productCode = builder.productCode;
         status = builder.status;
-        request = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.request, "request"));
+        request = ValidationSupport.checkAndFinalizeList(builder.request, "request", Reference.class);
         quantity = builder.quantity;
-        parent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parent, "parent"));
+        parent = ValidationSupport.checkAndFinalizeList(builder.parent, "parent", Reference.class);
         collection = builder.collection;
-        processing = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.processing, "processing"));
+        processing = ValidationSupport.checkAndFinalizeList(builder.processing, "processing", Processing.class);
         manipulation = builder.manipulation;
-        storage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.storage, "storage"));
+        storage = ValidationSupport.checkAndFinalizeList(builder.storage, "storage", Storage.class);
         ValidationSupport.checkReferenceType(request, "request", "ServiceRequest");
         ValidationSupport.checkReferenceType(parent, "parent", "BiologicallyDerivedProduct");
         ValidationSupport.requireChildren(this);

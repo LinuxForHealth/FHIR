@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -98,13 +97,13 @@ public class Substance extends DomainResource {
 
     private Substance(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         status = builder.status;
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        category = ValidationSupport.checkAndFinalizeList(builder.category, "category", CodeableConcept.class);
         code = ValidationSupport.requireNonNull(builder.code, "code");
         description = builder.description;
-        instance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instance, "instance"));
-        ingredient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.ingredient, "ingredient"));
+        instance = ValidationSupport.checkAndFinalizeList(builder.instance, "instance", Instance.class);
+        ingredient = ValidationSupport.checkAndFinalizeList(builder.ingredient, "ingredient", Ingredient.class);
         ValidationSupport.requireChildren(this);
     }
 

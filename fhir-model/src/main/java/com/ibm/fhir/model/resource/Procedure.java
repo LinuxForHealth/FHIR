@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -191,11 +190,11 @@ public class Procedure extends DomainResource {
 
     private Procedure(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesCanonical, "instantiatesCanonical"));
-        instantiatesUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesUri, "instantiatesUri"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
+        instantiatesCanonical = ValidationSupport.checkAndFinalizeList(builder.instantiatesCanonical, "instantiatesCanonical", Canonical.class);
+        instantiatesUri = ValidationSupport.checkAndFinalizeList(builder.instantiatesUri, "instantiatesUri", Uri.class);
+        basedOn = ValidationSupport.checkAndFinalizeList(builder.basedOn, "basedOn", Reference.class);
+        partOf = ValidationSupport.checkAndFinalizeList(builder.partOf, "partOf", Reference.class);
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusReason = builder.statusReason;
         category = builder.category;
@@ -205,20 +204,20 @@ public class Procedure extends DomainResource {
         performed = ValidationSupport.choiceElement(builder.performed, "performed", DateTime.class, Period.class, String.class, Age.class, Range.class);
         recorder = builder.recorder;
         asserter = builder.asserter;
-        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
+        performer = ValidationSupport.checkAndFinalizeList(builder.performer, "performer", Performer.class);
         location = builder.location;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-        bodySite = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.bodySite, "bodySite"));
+        reasonCode = ValidationSupport.checkAndFinalizeList(builder.reasonCode, "reasonCode", CodeableConcept.class);
+        reasonReference = ValidationSupport.checkAndFinalizeList(builder.reasonReference, "reasonReference", Reference.class);
+        bodySite = ValidationSupport.checkAndFinalizeList(builder.bodySite, "bodySite", CodeableConcept.class);
         outcome = builder.outcome;
-        report = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.report, "report"));
-        complication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.complication, "complication"));
-        complicationDetail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.complicationDetail, "complicationDetail"));
-        followUp = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.followUp, "followUp"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        focalDevice = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.focalDevice, "focalDevice"));
-        usedReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.usedReference, "usedReference"));
-        usedCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.usedCode, "usedCode"));
+        report = ValidationSupport.checkAndFinalizeList(builder.report, "report", Reference.class);
+        complication = ValidationSupport.checkAndFinalizeList(builder.complication, "complication", CodeableConcept.class);
+        complicationDetail = ValidationSupport.checkAndFinalizeList(builder.complicationDetail, "complicationDetail", Reference.class);
+        followUp = ValidationSupport.checkAndFinalizeList(builder.followUp, "followUp", CodeableConcept.class);
+        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
+        focalDevice = ValidationSupport.checkAndFinalizeList(builder.focalDevice, "focalDevice", FocalDevice.class);
+        usedReference = ValidationSupport.checkAndFinalizeList(builder.usedReference, "usedReference", Reference.class);
+        usedCode = ValidationSupport.checkAndFinalizeList(builder.usedCode, "usedCode", CodeableConcept.class);
         ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ServiceRequest");
         ValidationSupport.checkReferenceType(partOf, "partOf", "Procedure", "Observation", "MedicationAdministration");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");

@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -353,7 +352,7 @@ public class StructureDefinition extends DomainResource {
     private StructureDefinition(Builder builder) {
         super(builder);
         url = ValidationSupport.requireNonNull(builder.url, "url");
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         version = builder.version;
         name = ValidationSupport.requireNonNull(builder.name, "name");
         title = builder.title;
@@ -361,19 +360,19 @@ public class StructureDefinition extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
+        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
         purpose = builder.purpose;
         copyright = builder.copyright;
-        keyword = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.keyword, "keyword"));
+        keyword = ValidationSupport.checkAndFinalizeList(builder.keyword, "keyword", Coding.class);
         fhirVersion = builder.fhirVersion;
-        mapping = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.mapping, "mapping"));
+        mapping = ValidationSupport.checkAndFinalizeList(builder.mapping, "mapping", Mapping.class);
         kind = ValidationSupport.requireNonNull(builder.kind, "kind");
         _abstract = ValidationSupport.requireNonNull(builder._abstract, "abstract");
-        context = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.context, "context"));
-        contextInvariant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contextInvariant, "contextInvariant"));
+        context = ValidationSupport.checkAndFinalizeList(builder.context, "context", Context.class);
+        contextInvariant = ValidationSupport.checkAndFinalizeList(builder.contextInvariant, "contextInvariant", String.class);
         type = ValidationSupport.requireNonNull(builder.type, "type");
         baseDefinition = builder.baseDefinition;
         derivation = builder.derivation;
@@ -2347,7 +2346,7 @@ public class StructureDefinition extends DomainResource {
 
         private Snapshot(Builder builder) {
             super(builder);
-            element = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.element, "element"));
+            element = ValidationSupport.checkAndFinalizeNonEmptyList(builder.element, "element", ElementDefinition.class);
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2606,7 +2605,7 @@ public class StructureDefinition extends DomainResource {
 
         private Differential(Builder builder) {
             super(builder);
-            element = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.element, "element"));
+            element = ValidationSupport.checkAndFinalizeNonEmptyList(builder.element, "element", ElementDefinition.class);
             ValidationSupport.requireValueOrChildren(this);
         }
 

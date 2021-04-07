@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -179,7 +178,7 @@ public class Library extends DomainResource {
     private Library(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         version = builder.version;
         name = builder.name;
         title = builder.title;
@@ -190,25 +189,25 @@ public class Library extends DomainResource {
         subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
+        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
         purpose = builder.purpose;
         usage = builder.usage;
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.topic, "topic"));
-        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
-        editor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.editor, "editor"));
-        reviewer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reviewer, "reviewer"));
-        endorser = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endorser, "endorser"));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
-        parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
-        dataRequirement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dataRequirement, "dataRequirement"));
-        content = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.content, "content"));
+        topic = ValidationSupport.checkAndFinalizeList(builder.topic, "topic", CodeableConcept.class);
+        author = ValidationSupport.checkAndFinalizeList(builder.author, "author", ContactDetail.class);
+        editor = ValidationSupport.checkAndFinalizeList(builder.editor, "editor", ContactDetail.class);
+        reviewer = ValidationSupport.checkAndFinalizeList(builder.reviewer, "reviewer", ContactDetail.class);
+        endorser = ValidationSupport.checkAndFinalizeList(builder.endorser, "endorser", ContactDetail.class);
+        relatedArtifact = ValidationSupport.checkAndFinalizeList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
+        parameter = ValidationSupport.checkAndFinalizeList(builder.parameter, "parameter", ParameterDefinition.class);
+        dataRequirement = ValidationSupport.checkAndFinalizeList(builder.dataRequirement, "dataRequirement", DataRequirement.class);
+        content = ValidationSupport.checkAndFinalizeList(builder.content, "content", Attachment.class);
         ValidationSupport.checkReferenceType(subject, "subject", "Group");
         ValidationSupport.requireChildren(this);
     }

@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -88,10 +87,10 @@ public class SpecimenDefinition extends DomainResource {
         super(builder);
         identifier = builder.identifier;
         typeCollected = builder.typeCollected;
-        patientPreparation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.patientPreparation, "patientPreparation"));
+        patientPreparation = ValidationSupport.checkAndFinalizeList(builder.patientPreparation, "patientPreparation", CodeableConcept.class);
         timeAspect = builder.timeAspect;
-        collection = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.collection, "collection"));
-        typeTested = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.typeTested, "typeTested"));
+        collection = ValidationSupport.checkAndFinalizeList(builder.collection, "collection", CodeableConcept.class);
+        typeTested = ValidationSupport.checkAndFinalizeList(builder.typeTested, "typeTested", TypeTested.class);
         ValidationSupport.requireChildren(this);
     }
 
@@ -671,8 +670,8 @@ public class SpecimenDefinition extends DomainResource {
             container = builder.container;
             requirement = builder.requirement;
             retentionTime = builder.retentionTime;
-            rejectionCriterion = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.rejectionCriterion, "rejectionCriterion"));
-            handling = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.handling, "handling"));
+            rejectionCriterion = ValidationSupport.checkAndFinalizeList(builder.rejectionCriterion, "rejectionCriterion", CodeableConcept.class);
+            handling = ValidationSupport.checkAndFinalizeList(builder.handling, "handling", Handling.class);
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1194,7 +1193,7 @@ public class SpecimenDefinition extends DomainResource {
                 description = builder.description;
                 capacity = builder.capacity;
                 minimumVolume = ValidationSupport.choiceElement(builder.minimumVolume, "minimumVolume", SimpleQuantity.class, String.class);
-                additive = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additive, "additive"));
+                additive = ValidationSupport.checkAndFinalizeList(builder.additive, "additive", Additive.class);
                 preparation = builder.preparation;
                 ValidationSupport.requireValueOrChildren(this);
             }

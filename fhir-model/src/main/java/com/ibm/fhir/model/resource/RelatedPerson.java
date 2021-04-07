@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -110,18 +109,18 @@ public class RelatedPerson extends DomainResource {
 
     private RelatedPerson(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         active = builder.active;
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        relationship = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relationship, "relationship"));
-        name = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.name, "name"));
-        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
+        relationship = ValidationSupport.checkAndFinalizeList(builder.relationship, "relationship", CodeableConcept.class);
+        name = ValidationSupport.checkAndFinalizeList(builder.name, "name", HumanName.class);
+        telecom = ValidationSupport.checkAndFinalizeList(builder.telecom, "telecom", ContactPoint.class);
         gender = builder.gender;
         birthDate = builder.birthDate;
-        address = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.address, "address"));
-        photo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.photo, "photo"));
+        address = ValidationSupport.checkAndFinalizeList(builder.address, "address", Address.class);
+        photo = ValidationSupport.checkAndFinalizeList(builder.photo, "photo", Attachment.class);
         period = builder.period;
-        communication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communication, "communication"));
+        communication = ValidationSupport.checkAndFinalizeList(builder.communication, "communication", Communication.class);
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.requireChildren(this);
     }

@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -115,9 +114,9 @@ public class TestReport extends DomainResource {
         score = builder.score;
         tester = builder.tester;
         issued = builder.issued;
-        participant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.participant, "participant"));
+        participant = ValidationSupport.checkAndFinalizeList(builder.participant, "participant", Participant.class);
         setup = builder.setup;
-        test = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.test, "test"));
+        test = ValidationSupport.checkAndFinalizeList(builder.test, "test", Test.class);
         teardown = builder.teardown;
         ValidationSupport.checkReferenceType(testScript, "testScript", "TestScript");
         ValidationSupport.requireChildren(this);
@@ -1161,7 +1160,7 @@ public class TestReport extends DomainResource {
 
         private Setup(Builder builder) {
             super(builder);
-            action = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.action, "action"));
+            action = ValidationSupport.checkAndFinalizeNonEmptyList(builder.action, "action", Action.class);
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2299,7 +2298,7 @@ public class TestReport extends DomainResource {
             super(builder);
             name = builder.name;
             description = builder.description;
-            action = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.action, "action"));
+            action = ValidationSupport.checkAndFinalizeNonEmptyList(builder.action, "action", Action.class);
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2880,7 +2879,7 @@ public class TestReport extends DomainResource {
 
         private Teardown(Builder builder) {
             super(builder);
-            action = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.action, "action"));
+            action = ValidationSupport.checkAndFinalizeNonEmptyList(builder.action, "action", Action.class);
             ValidationSupport.requireValueOrChildren(this);
         }
 

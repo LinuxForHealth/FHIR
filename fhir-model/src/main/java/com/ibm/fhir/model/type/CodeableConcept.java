@@ -8,7 +8,6 @@ package com.ibm.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -32,7 +31,7 @@ public class CodeableConcept extends Element {
 
     private CodeableConcept(Builder builder) {
         super(builder);
-        coding = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.coding, "coding"));
+        coding = ValidationSupport.checkAndFinalizeList(builder.coding, "coding", Coding.class);
         text = builder.text;
         ValidationSupport.requireValueOrChildren(this);
     }

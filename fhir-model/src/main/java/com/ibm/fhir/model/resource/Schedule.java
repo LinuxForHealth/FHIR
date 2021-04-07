@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -93,12 +92,12 @@ public class Schedule extends DomainResource {
 
     private Schedule(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         active = builder.active;
-        serviceCategory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.serviceCategory, "serviceCategory"));
-        serviceType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.serviceType, "serviceType"));
-        specialty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialty, "specialty"));
-        actor = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.actor, "actor"));
+        serviceCategory = ValidationSupport.checkAndFinalizeList(builder.serviceCategory, "serviceCategory", CodeableConcept.class);
+        serviceType = ValidationSupport.checkAndFinalizeList(builder.serviceType, "serviceType", CodeableConcept.class);
+        specialty = ValidationSupport.checkAndFinalizeList(builder.specialty, "specialty", CodeableConcept.class);
+        actor = ValidationSupport.checkAndFinalizeNonEmptyList(builder.actor, "actor", Reference.class);
         planningHorizon = builder.planningHorizon;
         comment = builder.comment;
         ValidationSupport.checkReferenceType(actor, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");

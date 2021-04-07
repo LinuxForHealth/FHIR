@@ -8,7 +8,6 @@ package com.ibm.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -36,7 +35,7 @@ public abstract class Element extends AbstractVisitable {
 
     protected Element(Builder builder) {
         id = builder.id;
-        extension = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.extension, "extension"));
+        extension = ValidationSupport.checkAndFinalizeList(builder.extension, "extension", Extension.class);
         ValidationSupport.checkString(id);
     }
 

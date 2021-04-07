@@ -13,7 +13,6 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Summary;
-import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 

@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -116,18 +115,18 @@ public class DetectedIssue extends DomainResource {
 
     private DetectedIssue(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         status = ValidationSupport.requireNonNull(builder.status, "status");
         code = builder.code;
         severity = builder.severity;
         patient = builder.patient;
         identified = ValidationSupport.choiceElement(builder.identified, "identified", DateTime.class, Period.class);
         author = builder.author;
-        implicated = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.implicated, "implicated"));
-        evidence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.evidence, "evidence"));
+        implicated = ValidationSupport.checkAndFinalizeList(builder.implicated, "implicated", Reference.class);
+        evidence = ValidationSupport.checkAndFinalizeList(builder.evidence, "evidence", Evidence.class);
         detail = builder.detail;
         reference = builder.reference;
-        mitigation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.mitigation, "mitigation"));
+        mitigation = ValidationSupport.checkAndFinalizeList(builder.mitigation, "mitigation", Mitigation.class);
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Device");
         ValidationSupport.requireChildren(this);
@@ -921,8 +920,8 @@ public class DetectedIssue extends DomainResource {
 
         private Evidence(Builder builder) {
             super(builder);
-            code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
-            detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
+            code = ValidationSupport.checkAndFinalizeList(builder.code, "code", CodeableConcept.class);
+            detail = ValidationSupport.checkAndFinalizeList(builder.detail, "detail", Reference.class);
             ValidationSupport.requireValueOrChildren(this);
         }
 

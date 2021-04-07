@@ -8,7 +8,6 @@ package com.ibm.fhir.model.type;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,7 +16,6 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Summary;
-import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -91,14 +89,14 @@ public class Dosage extends BackboneElement {
         super(builder);
         sequence = builder.sequence;
         text = builder.text;
-        additionalInstruction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additionalInstruction, "additionalInstruction"));
+        additionalInstruction = ValidationSupport.checkAndFinalizeList(builder.additionalInstruction, "additionalInstruction", CodeableConcept.class);
         patientInstruction = builder.patientInstruction;
         timing = builder.timing;
         asNeeded = ValidationSupport.choiceElement(builder.asNeeded, "asNeeded", Boolean.class, CodeableConcept.class);
         site = builder.site;
         route = builder.route;
         method = builder.method;
-        doseAndRate = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.doseAndRate, "doseAndRate"));
+        doseAndRate = ValidationSupport.checkAndFinalizeList(builder.doseAndRate, "doseAndRate", DoseAndRate.class);
         maxDosePerPeriod = builder.maxDosePerPeriod;
         maxDosePerAdministration = builder.maxDosePerAdministration;
         maxDosePerLifetime = builder.maxDosePerLifetime;

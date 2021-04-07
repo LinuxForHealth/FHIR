@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -156,7 +155,7 @@ public class EvidenceVariable extends DomainResource {
     private EvidenceVariable(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         version = builder.version;
         name = builder.name;
         title = builder.title;
@@ -165,23 +164,23 @@ public class EvidenceVariable extends DomainResource {
         status = ValidationSupport.requireNonNull(builder.status, "status");
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
         description = builder.description;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
+        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
+        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.topic, "topic"));
-        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
-        editor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.editor, "editor"));
-        reviewer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reviewer, "reviewer"));
-        endorser = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endorser, "endorser"));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
+        topic = ValidationSupport.checkAndFinalizeList(builder.topic, "topic", CodeableConcept.class);
+        author = ValidationSupport.checkAndFinalizeList(builder.author, "author", ContactDetail.class);
+        editor = ValidationSupport.checkAndFinalizeList(builder.editor, "editor", ContactDetail.class);
+        reviewer = ValidationSupport.checkAndFinalizeList(builder.reviewer, "reviewer", ContactDetail.class);
+        endorser = ValidationSupport.checkAndFinalizeList(builder.endorser, "endorser", ContactDetail.class);
+        relatedArtifact = ValidationSupport.checkAndFinalizeList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
         type = builder.type;
-        characteristic = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.characteristic, "characteristic"));
+        characteristic = ValidationSupport.checkAndFinalizeNonEmptyList(builder.characteristic, "characteristic", Characteristic.class);
         ValidationSupport.requireChildren(this);
     }
 
@@ -1620,7 +1619,7 @@ public class EvidenceVariable extends DomainResource {
             super(builder);
             description = builder.description;
             definition = ValidationSupport.requireChoiceElement(builder.definition, "definition", Reference.class, Canonical.class, CodeableConcept.class, Expression.class, DataRequirement.class, TriggerDefinition.class);
-            usageContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.usageContext, "usageContext"));
+            usageContext = ValidationSupport.checkAndFinalizeList(builder.usageContext, "usageContext", UsageContext.class);
             exclude = builder.exclude;
             participantEffective = ValidationSupport.choiceElement(builder.participantEffective, "participantEffective", DateTime.class, Period.class, Duration.class, Timing.class);
             timeFromStart = builder.timeFromStart;

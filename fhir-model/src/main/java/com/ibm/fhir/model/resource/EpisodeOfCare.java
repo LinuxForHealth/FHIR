@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -100,18 +99,18 @@ public class EpisodeOfCare extends DomainResource {
 
     private EpisodeOfCare(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        statusHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.statusHistory, "statusHistory"));
-        type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
-        diagnosis = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.diagnosis, "diagnosis"));
+        statusHistory = ValidationSupport.checkAndFinalizeList(builder.statusHistory, "statusHistory", StatusHistory.class);
+        type = ValidationSupport.checkAndFinalizeList(builder.type, "type", CodeableConcept.class);
+        diagnosis = ValidationSupport.checkAndFinalizeList(builder.diagnosis, "diagnosis", Diagnosis.class);
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
         managingOrganization = builder.managingOrganization;
         period = builder.period;
-        referralRequest = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referralRequest, "referralRequest"));
+        referralRequest = ValidationSupport.checkAndFinalizeList(builder.referralRequest, "referralRequest", Reference.class);
         careManager = builder.careManager;
-        team = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.team, "team"));
-        account = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.account, "account"));
+        team = ValidationSupport.checkAndFinalizeList(builder.team, "team", Reference.class);
+        account = ValidationSupport.checkAndFinalizeList(builder.account, "account", Reference.class);
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
         ValidationSupport.checkReferenceType(referralRequest, "referralRequest", "ServiceRequest");

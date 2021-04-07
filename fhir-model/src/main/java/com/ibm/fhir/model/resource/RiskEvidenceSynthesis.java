@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -219,28 +218,28 @@ public class RiskEvidenceSynthesis extends DomainResource {
     private RiskEvidenceSynthesis(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         version = builder.version;
         name = builder.name;
         title = builder.title;
         status = ValidationSupport.requireNonNull(builder.status, "status");
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
         description = builder.description;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
+        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
+        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.topic, "topic"));
-        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
-        editor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.editor, "editor"));
-        reviewer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reviewer, "reviewer"));
-        endorser = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endorser, "endorser"));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
+        topic = ValidationSupport.checkAndFinalizeList(builder.topic, "topic", CodeableConcept.class);
+        author = ValidationSupport.checkAndFinalizeList(builder.author, "author", ContactDetail.class);
+        editor = ValidationSupport.checkAndFinalizeList(builder.editor, "editor", ContactDetail.class);
+        reviewer = ValidationSupport.checkAndFinalizeList(builder.reviewer, "reviewer", ContactDetail.class);
+        endorser = ValidationSupport.checkAndFinalizeList(builder.endorser, "endorser", ContactDetail.class);
+        relatedArtifact = ValidationSupport.checkAndFinalizeList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
         synthesisType = builder.synthesisType;
         studyType = builder.studyType;
         population = ValidationSupport.requireNonNull(builder.population, "population");
@@ -248,7 +247,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
         outcome = ValidationSupport.requireNonNull(builder.outcome, "outcome");
         sampleSize = builder.sampleSize;
         riskEstimate = builder.riskEstimate;
-        certainty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.certainty, "certainty"));
+        certainty = ValidationSupport.checkAndFinalizeList(builder.certainty, "certainty", Certainty.class);
         ValidationSupport.checkReferenceType(population, "population", "EvidenceVariable");
         ValidationSupport.checkReferenceType(exposure, "exposure", "EvidenceVariable");
         ValidationSupport.checkReferenceType(outcome, "outcome", "EvidenceVariable");
@@ -2112,7 +2111,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
             unitOfMeasure = builder.unitOfMeasure;
             denominatorCount = builder.denominatorCount;
             numeratorCount = builder.numeratorCount;
-            precisionEstimate = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.precisionEstimate, "precisionEstimate"));
+            precisionEstimate = ValidationSupport.checkAndFinalizeList(builder.precisionEstimate, "precisionEstimate", PrecisionEstimate.class);
             ValidationSupport.checkValueSetBinding(unitOfMeasure, "unitOfMeasure", "http://hl7.org/fhir/ValueSet/ucum-units", "http://unitsofmeasure.org");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -2881,9 +2880,9 @@ public class RiskEvidenceSynthesis extends DomainResource {
 
         private Certainty(Builder builder) {
             super(builder);
-            rating = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.rating, "rating"));
-            note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-            certaintySubcomponent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.certaintySubcomponent, "certaintySubcomponent"));
+            rating = ValidationSupport.checkAndFinalizeList(builder.rating, "rating", CodeableConcept.class);
+            note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
+            certaintySubcomponent = ValidationSupport.checkAndFinalizeList(builder.certaintySubcomponent, "certaintySubcomponent", CertaintySubcomponent.class);
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -3246,8 +3245,8 @@ public class RiskEvidenceSynthesis extends DomainResource {
             private CertaintySubcomponent(Builder builder) {
                 super(builder);
                 type = builder.type;
-                rating = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.rating, "rating"));
-                note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+                rating = ValidationSupport.checkAndFinalizeList(builder.rating, "rating", CodeableConcept.class);
+                note = ValidationSupport.checkAndFinalizeList(builder.note, "note", Annotation.class);
                 ValidationSupport.requireValueOrChildren(this);
             }
 

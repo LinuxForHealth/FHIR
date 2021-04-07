@@ -8,7 +8,6 @@ package com.ibm.fhir.model.resource;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -182,7 +181,7 @@ public class StructureMap extends DomainResource {
     private StructureMap(Builder builder) {
         super(builder);
         url = ValidationSupport.requireNonNull(builder.url, "url");
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = ValidationSupport.checkAndFinalizeList(builder.identifier, "identifier", Identifier.class);
         version = builder.version;
         name = ValidationSupport.requireNonNull(builder.name, "name");
         title = builder.title;
@@ -190,15 +189,15 @@ public class StructureMap extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = ValidationSupport.checkAndFinalizeList(builder.contact, "contact", ContactDetail.class);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = ValidationSupport.checkAndFinalizeList(builder.useContext, "useContext", UsageContext.class);
+        jurisdiction = ValidationSupport.checkAndFinalizeList(builder.jurisdiction, "jurisdiction", CodeableConcept.class);
         purpose = builder.purpose;
         copyright = builder.copyright;
-        structure = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.structure, "structure"));
-        _import = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder._import, "import"));
-        group = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.group, "group"));
+        structure = ValidationSupport.checkAndFinalizeList(builder.structure, "structure", Structure.class);
+        _import = ValidationSupport.checkAndFinalizeList(builder._import, "import", Canonical.class);
+        group = ValidationSupport.checkAndFinalizeNonEmptyList(builder.group, "group", Group.class);
         ValidationSupport.requireChildren(this);
     }
 
@@ -1610,8 +1609,8 @@ public class StructureMap extends DomainResource {
             _extends = builder._extends;
             typeMode = ValidationSupport.requireNonNull(builder.typeMode, "typeMode");
             documentation = builder.documentation;
-            input = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.input, "input"));
-            rule = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.rule, "rule"));
+            input = ValidationSupport.checkAndFinalizeNonEmptyList(builder.input, "input", Input.class);
+            rule = ValidationSupport.checkAndFinalizeNonEmptyList(builder.rule, "rule", Rule.class);
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2408,10 +2407,10 @@ public class StructureMap extends DomainResource {
             private Rule(Builder builder) {
                 super(builder);
                 name = ValidationSupport.requireNonNull(builder.name, "name");
-                source = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.source, "source"));
-                target = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.target, "target"));
-                rule = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.rule, "rule"));
-                dependent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dependent, "dependent"));
+                source = ValidationSupport.checkAndFinalizeNonEmptyList(builder.source, "source", Source.class);
+                target = ValidationSupport.checkAndFinalizeList(builder.target, "target", Target.class);
+                rule = ValidationSupport.checkAndFinalizeList(builder.rule, "rule", StructureMap.Group.Rule.class);
+                dependent = ValidationSupport.checkAndFinalizeList(builder.dependent, "dependent", Dependent.class);
                 documentation = builder.documentation;
                 ValidationSupport.requireValueOrChildren(this);
             }
@@ -3554,10 +3553,10 @@ public class StructureMap extends DomainResource {
                     contextType = builder.contextType;
                     element = builder.element;
                     variable = builder.variable;
-                    listMode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.listMode, "listMode"));
+                    listMode = ValidationSupport.checkAndFinalizeList(builder.listMode, "listMode", StructureMapTargetListMode.class);
                     listRuleId = builder.listRuleId;
                     transform = builder.transform;
-                    parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
+                    parameter = ValidationSupport.checkAndFinalizeList(builder.parameter, "parameter", Parameter.class);
                     ValidationSupport.requireValueOrChildren(this);
                 }
 
@@ -4290,7 +4289,7 @@ public class StructureMap extends DomainResource {
                 private Dependent(Builder builder) {
                     super(builder);
                     name = ValidationSupport.requireNonNull(builder.name, "name");
-                    variable = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.variable, "variable"));
+                    variable = ValidationSupport.checkAndFinalizeNonEmptyList(builder.variable, "variable", String.class);
                     ValidationSupport.requireValueOrChildren(this);
                 }
 
