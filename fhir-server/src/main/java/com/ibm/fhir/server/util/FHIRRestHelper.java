@@ -2564,20 +2564,27 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             for (Resource resource : resources) {
-                if (resource == null || resource.getId() == null) {
-                    throw new IllegalStateException("Returned resources must have an id.");
+                Bundle.Entry.Builder entryBuilder = Bundle.Entry.builder();
+                if (resource != null) {
+                    if (resource.getId() != null) {
+                        entryBuilder.fullUrl(Uri.of(getRequestBaseUri(type) + "/" + resource.getClass().getSimpleName() + "/" + resource.getId()));
+                    } else {
+                        String msg = "A resource with no id was found.";
+                        issues.add(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, msg));
+                    }
+                    entryBuilder.resource(resource);
+                } else {
+                    String msg = "A resource with no data was found.";
+                    issues.add(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, msg));
                 }
                 // Search mode is determined by the matchResourceCount, which will be decremented each time through the loop.
                 // If the count is greater than 0, the mode is MATCH. If less than or equal to 0, the mode is INCLUDE.
-                Bundle.Entry entry = Bundle.Entry.builder()
-                        .fullUrl(Uri.of(getRequestBaseUri(type) + "/" + resource.getClass().getSimpleName() + "/" + resource.getId()))
-                        .resource(resource)
-                        .search(Search.builder()
-                            .mode(matchResourceCount-- > 0 ? SearchEntryMode.MATCH : SearchEntryMode.INCLUDE)
-                            .score(Decimal.of("1"))
-                            .build())
-                        .build();
-
+                Bundle.Entry entry = entryBuilder
+                    .search(Search.builder()
+                        .mode(matchResourceCount-- > 0 ? SearchEntryMode.MATCH : SearchEntryMode.INCLUDE)
+                        .score(Decimal.of("1"))
+                        .build())
+                    .build();
                 bundleBuilder.entry(entry);
             }
 
