@@ -2564,7 +2564,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             for (Resource resource : resources) {
-                if (resource.getId() == null) {
+                if (resource == null || resource.getId() == null) {
                     throw new IllegalStateException("Returned resources must have an id.");
                 }
                 // Search mode is determined by the matchResourceCount, which will be decremented each time through the loop.
