@@ -175,7 +175,6 @@ Due to performance implications, the `:exact` modifier should be used for String
 The `:above` and `:below` modifiers for Token search parameters are supported, with the following restrictions:
 * The search parameter value must have the form of `[system]|[code]`.
 * The referenced code system must exist in the FHIR registry.
-* The referenced code must exist in the code system.
 
 The `:in` and `:not-in` modifiers for Token search parameters are supported, with the following restrictions:
 * The search parameter value must be an absolute URI that identifies a value set.
