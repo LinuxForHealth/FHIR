@@ -20,13 +20,13 @@ mvn install source:jar source:test-jar javadoc:jar gpg:sign -f fhir-examples \
 
 # fhir-tools
 export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-tools").profiles | map(.) | join(",")' build/release/config/release.json)"
-mvn install source:jar source:test-jar javadoc:jar gpg:sign -f fhir-examples \
+mvn install source:jar source:test-jar javadoc:jar gpg:sign -f fhir-tools \
         -DadditionalJOption=-Xdoclint:none \
         -f fhir-tools -P "${BUILD_PROFILES}" -DskipTests
 
 # fhir-parent
 export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-parent").profiles | map(.) | join(",")' build/release/config/release.json)"
-mvn install source:jar source:test-jar javadoc:jar gpg:sign -f fhir-examples \
+mvn install source:jar source:test-jar javadoc:jar gpg:sign -f fhir-parent \
         -DadditionalJOption=-Xdoclint:none \
         -f fhir-parent -P "${BUILD_PROFILES}" -DskipTests
 
