@@ -2570,11 +2570,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         entryBuilder.fullUrl(Uri.of(getRequestBaseUri(type) + "/" + resource.getClass().getSimpleName() + "/" + resource.getId()));
                     } else {
                         String msg = "A resource with no id was found.";
+                        log.warning(msg);
                         issues.add(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, msg));
                     }
                     entryBuilder.resource(resource);
                 } else {
                     String msg = "A resource with no data was found.";
+                    log.warning(msg);
                     issues.add(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, msg));
                 }
                 // Search mode is determined by the matchResourceCount, which will be decremented each time through the loop.
