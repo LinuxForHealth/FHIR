@@ -182,7 +182,6 @@ public class ChargeItem extends DomainResource {
         ValidationSupport.checkReferenceType(service, "service", "DiagnosticReport", "ImagingStudy", "Immunization", "MedicationAdministration", "MedicationDispense", "Observation", "Procedure", "SupplyDelivery");
         ValidationSupport.checkReferenceType(product, "product", "Device", "Medication", "Substance");
         ValidationSupport.checkReferenceType(account, "account", "Account");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

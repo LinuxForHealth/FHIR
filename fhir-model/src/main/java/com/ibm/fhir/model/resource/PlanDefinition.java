@@ -249,7 +249,6 @@ public class PlanDefinition extends DomainResource {
         goal = Collections.unmodifiableList(ValidationSupport.checkList(builder.goal, "goal", Goal.class));
         action = Collections.unmodifiableList(ValidationSupport.checkList(builder.action, "action", Action.class));
         ValidationSupport.checkReferenceType(subject, "subject", "Group");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

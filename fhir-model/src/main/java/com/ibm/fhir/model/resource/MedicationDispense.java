@@ -183,7 +183,6 @@ public class MedicationDispense extends DomainResource {
         ValidationSupport.checkReferenceType(receiver, "receiver", "Patient", "Practitioner");
         ValidationSupport.checkReferenceType(detectedIssue, "detectedIssue", "DetectedIssue");
         ValidationSupport.checkReferenceType(eventHistory, "eventHistory", "Provenance");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

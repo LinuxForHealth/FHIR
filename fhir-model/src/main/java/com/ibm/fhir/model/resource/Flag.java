@@ -101,7 +101,6 @@ public class Flag extends DomainResource {
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Location", "Group", "Organization", "Practitioner", "PlanDefinition", "Medication", "Procedure");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(author, "author", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

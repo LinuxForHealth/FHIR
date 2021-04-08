@@ -105,7 +105,6 @@ public class MedicinalProductAuthorization extends DomainResource {
         ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "MedicinalProductPackaged");
         ValidationSupport.checkReferenceType(holder, "holder", "Organization");
         ValidationSupport.checkReferenceType(regulator, "regulator", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

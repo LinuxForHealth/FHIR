@@ -130,7 +130,6 @@ public class CoverageEligibilityRequest extends DomainResource {
         ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
         ValidationSupport.checkReferenceType(facility, "facility", "Location");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

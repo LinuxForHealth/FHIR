@@ -105,7 +105,6 @@ public class Account extends DomainResource {
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Device", "Practitioner", "PractitionerRole", "Location", "HealthcareService", "Organization");
         ValidationSupport.checkReferenceType(owner, "owner", "Organization");
         ValidationSupport.checkReferenceType(partOf, "partOf", "Account");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

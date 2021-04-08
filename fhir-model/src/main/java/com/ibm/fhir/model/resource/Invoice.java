@@ -116,7 +116,6 @@ public class Invoice extends DomainResource {
         ValidationSupport.checkReferenceType(recipient, "recipient", "Organization", "Patient", "RelatedPerson");
         ValidationSupport.checkReferenceType(issuer, "issuer", "Organization");
         ValidationSupport.checkReferenceType(account, "account", "Account");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

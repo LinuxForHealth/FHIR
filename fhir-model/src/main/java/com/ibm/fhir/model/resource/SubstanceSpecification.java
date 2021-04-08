@@ -124,7 +124,6 @@ public class SubstanceSpecification extends DomainResource {
         ValidationSupport.checkReferenceType(polymer, "polymer", "SubstancePolymer");
         ValidationSupport.checkReferenceType(protein, "protein", "SubstanceProtein");
         ValidationSupport.checkReferenceType(sourceMaterial, "sourceMaterial", "SubstanceSourceMaterial");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

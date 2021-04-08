@@ -211,7 +211,6 @@ public class ClaimResponse extends DomainResource {
         ValidationSupport.checkReferenceType(requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.checkReferenceType(request, "request", "Claim");
         ValidationSupport.checkReferenceType(communicationRequest, "communicationRequest", "CommunicationRequest");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

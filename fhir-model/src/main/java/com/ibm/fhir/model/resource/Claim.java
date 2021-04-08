@@ -207,7 +207,6 @@ public class Claim extends DomainResource {
         ValidationSupport.checkReferenceType(originalPrescription, "originalPrescription", "DeviceRequest", "MedicationRequest", "VisionPrescription");
         ValidationSupport.checkReferenceType(referral, "referral", "ServiceRequest");
         ValidationSupport.checkReferenceType(facility, "facility", "Location");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

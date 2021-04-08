@@ -107,7 +107,6 @@ public class Practitioner extends DomainResource {
         qualification = Collections.unmodifiableList(ValidationSupport.checkList(builder.qualification, "qualification", Qualification.class));
         communication = Collections.unmodifiableList(ValidationSupport.checkList(builder.communication, "communication", CodeableConcept.class));
         ValidationSupport.checkValueSetBinding(communication, "communication", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

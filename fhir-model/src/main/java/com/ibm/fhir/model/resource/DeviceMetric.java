@@ -139,7 +139,6 @@ public class DeviceMetric extends DomainResource {
         calibration = Collections.unmodifiableList(ValidationSupport.checkList(builder.calibration, "calibration", Calibration.class));
         ValidationSupport.checkReferenceType(source, "source", "Device");
         ValidationSupport.checkReferenceType(parent, "parent", "Device");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

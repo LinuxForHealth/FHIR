@@ -146,7 +146,6 @@ public class CoverageEligibilityResponse extends DomainResource {
         ValidationSupport.checkReferenceType(requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.checkReferenceType(request, "request", "CoverageEligibilityRequest");
         ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

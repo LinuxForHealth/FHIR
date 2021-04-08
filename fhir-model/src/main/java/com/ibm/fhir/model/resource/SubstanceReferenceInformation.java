@@ -66,7 +66,6 @@ public class SubstanceReferenceInformation extends DomainResource {
         geneElement = Collections.unmodifiableList(ValidationSupport.checkList(builder.geneElement, "geneElement", GeneElement.class));
         classification = Collections.unmodifiableList(ValidationSupport.checkList(builder.classification, "classification", Classification.class));
         target = Collections.unmodifiableList(ValidationSupport.checkList(builder.target, "target", Target.class));
-        ValidationSupport.requireChildren(this);
     }
 
     /**

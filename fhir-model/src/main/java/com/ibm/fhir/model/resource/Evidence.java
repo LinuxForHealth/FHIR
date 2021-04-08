@@ -173,7 +173,6 @@ public class Evidence extends DomainResource {
         ValidationSupport.checkReferenceType(exposureBackground, "exposureBackground", "EvidenceVariable");
         ValidationSupport.checkReferenceType(exposureVariant, "exposureVariant", "EvidenceVariable");
         ValidationSupport.checkReferenceType(outcome, "outcome", "EvidenceVariable");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

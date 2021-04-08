@@ -119,7 +119,6 @@ public class CompartmentDefinition extends DomainResource {
         code = ValidationSupport.requireNonNull(builder.code, "code");
         search = ValidationSupport.requireNonNull(builder.search, "search");
         resource = Collections.unmodifiableList(ValidationSupport.checkList(builder.resource, "resource", Resource.class));
-        ValidationSupport.requireChildren(this);
     }
 
     /**

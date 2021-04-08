@@ -130,7 +130,6 @@ public class Specimen extends DomainResource {
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Substance", "Location");
         ValidationSupport.checkReferenceType(parent, "parent", "Specimen");
         ValidationSupport.checkReferenceType(request, "request", "ServiceRequest");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

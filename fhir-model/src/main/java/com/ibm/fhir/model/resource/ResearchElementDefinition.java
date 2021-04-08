@@ -219,7 +219,6 @@ public class ResearchElementDefinition extends DomainResource {
         variableType = builder.variableType;
         characteristic = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.characteristic, "characteristic", Characteristic.class));
         ValidationSupport.checkReferenceType(subject, "subject", "Group");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

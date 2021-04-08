@@ -85,7 +85,6 @@ public class EnrollmentResponse extends DomainResource {
         ValidationSupport.checkReferenceType(request, "request", "EnrollmentRequest");
         ValidationSupport.checkReferenceType(organization, "organization", "Organization");
         ValidationSupport.checkReferenceType(requestProvider, "requestProvider", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

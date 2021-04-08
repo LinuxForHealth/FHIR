@@ -159,7 +159,6 @@ public class NamingSystem extends DomainResource {
         jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         usage = builder.usage;
         uniqueId = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.uniqueId, "uniqueId", UniqueId.class));
-        ValidationSupport.requireChildren(this);
     }
 
     /**

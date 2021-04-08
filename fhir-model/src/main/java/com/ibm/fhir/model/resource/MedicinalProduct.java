@@ -126,7 +126,6 @@ public class MedicinalProduct extends DomainResource {
         ValidationSupport.checkReferenceType(masterFile, "masterFile", "DocumentReference");
         ValidationSupport.checkReferenceType(contact, "contact", "Organization", "PractitionerRole");
         ValidationSupport.checkReferenceType(clinicalTrial, "clinicalTrial", "ResearchStudy");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

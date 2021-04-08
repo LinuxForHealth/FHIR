@@ -162,7 +162,6 @@ public class ConceptMap extends DomainResource {
         source = ValidationSupport.choiceElement(builder.source, "source", Uri.class, Canonical.class);
         target = ValidationSupport.choiceElement(builder.target, "target", Uri.class, Canonical.class);
         group = Collections.unmodifiableList(ValidationSupport.checkList(builder.group, "group", Group.class));
-        ValidationSupport.requireChildren(this);
     }
 
     /**

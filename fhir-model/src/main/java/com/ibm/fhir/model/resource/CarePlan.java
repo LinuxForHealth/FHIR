@@ -176,7 +176,6 @@ public class CarePlan extends DomainResource {
         ValidationSupport.checkReferenceType(careTeam, "careTeam", "CareTeam");
         ValidationSupport.checkReferenceType(addresses, "addresses", "Condition");
         ValidationSupport.checkReferenceType(goal, "goal", "Goal");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

@@ -140,7 +140,6 @@ public class RiskAssessment extends DomainResource {
         ValidationSupport.checkReferenceType(condition, "condition", "Condition");
         ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Device");
         ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

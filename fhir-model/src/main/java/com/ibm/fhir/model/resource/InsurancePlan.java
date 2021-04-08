@@ -131,7 +131,6 @@ public class InsurancePlan extends DomainResource {
         ValidationSupport.checkReferenceType(coverageArea, "coverageArea", "Location");
         ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
         ValidationSupport.checkReferenceType(network, "network", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

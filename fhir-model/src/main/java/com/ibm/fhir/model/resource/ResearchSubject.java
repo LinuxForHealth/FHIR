@@ -86,7 +86,6 @@ public class ResearchSubject extends DomainResource {
         ValidationSupport.checkReferenceType(study, "study", "ResearchStudy");
         ValidationSupport.checkReferenceType(individual, "individual", "Patient");
         ValidationSupport.checkReferenceType(consent, "consent", "Consent");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

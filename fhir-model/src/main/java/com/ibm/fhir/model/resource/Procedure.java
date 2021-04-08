@@ -230,7 +230,6 @@ public class Procedure extends DomainResource {
         ValidationSupport.checkReferenceType(report, "report", "DiagnosticReport", "DocumentReference", "Composition");
         ValidationSupport.checkReferenceType(complicationDetail, "complicationDetail", "Condition");
         ValidationSupport.checkReferenceType(usedReference, "usedReference", "Device", "Medication", "Substance");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

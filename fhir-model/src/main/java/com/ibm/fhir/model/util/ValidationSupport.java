@@ -412,8 +412,10 @@ public final class ValidationSupport {
     }
 
     /**
+     * @deprecated https://jira.hl7.org/browse/FHIR-26565 has clarified that empty resources are allowed
      * @throws IllegalStateException if the passed element has no children
      */
+    @Deprecated
     public static void requireChildren(Resource resource) {
         if (!resource.hasChildren()) {
             throw new IllegalStateException("global-1: All FHIR elements must have a @value or children");

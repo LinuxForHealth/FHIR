@@ -278,7 +278,6 @@ public class EffectEvidenceSynthesis extends DomainResource {
         ValidationSupport.checkReferenceType(exposure, "exposure", "EvidenceVariable");
         ValidationSupport.checkReferenceType(exposureAlternative, "exposureAlternative", "EvidenceVariable");
         ValidationSupport.checkReferenceType(outcome, "outcome", "EvidenceVariable");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

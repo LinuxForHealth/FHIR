@@ -107,7 +107,6 @@ public class SupplyDelivery extends DomainResource {
         ValidationSupport.checkReferenceType(supplier, "supplier", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.checkReferenceType(destination, "destination", "Location");
         ValidationSupport.checkReferenceType(receiver, "receiver", "Practitioner", "PractitionerRole");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

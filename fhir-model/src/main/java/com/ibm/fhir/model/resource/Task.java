@@ -256,7 +256,6 @@ public class Task extends DomainResource {
         ValidationSupport.checkReferenceType(location, "location", "Location");
         ValidationSupport.checkReferenceType(insurance, "insurance", "Coverage", "ClaimResponse");
         ValidationSupport.checkReferenceType(relevantHistory, "relevantHistory", "Provenance");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

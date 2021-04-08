@@ -118,7 +118,6 @@ public class OrganizationAffiliation extends DomainResource {
         ValidationSupport.checkReferenceType(location, "location", "Location");
         ValidationSupport.checkReferenceType(healthcareService, "healthcareService", "HealthcareService");
         ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

@@ -219,7 +219,6 @@ public class Appointment extends DomainResource {
         ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Procedure", "Observation", "ImmunizationRecommendation");
         ValidationSupport.checkReferenceType(slot, "slot", "Slot");
         ValidationSupport.checkReferenceType(basedOn, "basedOn", "ServiceRequest");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

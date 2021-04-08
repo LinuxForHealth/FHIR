@@ -133,7 +133,6 @@ public class Slot extends DomainResource {
         overbooked = builder.overbooked;
         comment = builder.comment;
         ValidationSupport.checkReferenceType(schedule, "schedule", "Schedule");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

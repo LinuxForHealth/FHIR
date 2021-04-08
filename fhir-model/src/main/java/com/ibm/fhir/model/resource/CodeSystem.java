@@ -205,7 +205,6 @@ public class CodeSystem extends DomainResource {
         filter = Collections.unmodifiableList(ValidationSupport.checkList(builder.filter, "filter", Filter.class));
         property = Collections.unmodifiableList(ValidationSupport.checkList(builder.property, "property", Property.class));
         concept = Collections.unmodifiableList(ValidationSupport.checkList(builder.concept, "concept", Concept.class));
-        ValidationSupport.requireChildren(this);
     }
 
     /**

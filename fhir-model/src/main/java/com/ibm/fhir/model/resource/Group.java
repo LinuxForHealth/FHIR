@@ -111,7 +111,6 @@ public class Group extends DomainResource {
         characteristic = Collections.unmodifiableList(ValidationSupport.checkList(builder.characteristic, "characteristic", Characteristic.class));
         member = Collections.unmodifiableList(ValidationSupport.checkList(builder.member, "member", Member.class));
         ValidationSupport.checkReferenceType(managingEntity, "managingEntity", "Organization", "RelatedPerson", "Practitioner", "PractitionerRole");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

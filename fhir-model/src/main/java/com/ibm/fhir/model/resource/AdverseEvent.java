@@ -181,7 +181,6 @@ public class AdverseEvent extends DomainResource {
         ValidationSupport.checkReferenceType(subjectMedicalHistory, "subjectMedicalHistory", "Condition", "Observation", "AllergyIntolerance", "FamilyMemberHistory", "Immunization", "Procedure", "Media", "DocumentReference");
         ValidationSupport.checkReferenceType(referenceDocument, "referenceDocument", "DocumentReference");
         ValidationSupport.checkReferenceType(study, "study", "ResearchStudy");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

@@ -123,7 +123,6 @@ public class RelatedPerson extends DomainResource {
         period = builder.period;
         communication = Collections.unmodifiableList(ValidationSupport.checkList(builder.communication, "communication", Communication.class));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

@@ -173,7 +173,6 @@ public class MedicationAdministration extends DomainResource {
         ValidationSupport.checkReferenceType(request, "request", "MedicationRequest");
         ValidationSupport.checkReferenceType(device, "device", "Device");
         ValidationSupport.checkReferenceType(eventHistory, "eventHistory", "Provenance");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

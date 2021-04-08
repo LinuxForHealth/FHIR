@@ -131,7 +131,6 @@ public class ExampleScenario extends DomainResource {
         instance = Collections.unmodifiableList(ValidationSupport.checkList(builder.instance, "instance", Instance.class));
         process = Collections.unmodifiableList(ValidationSupport.checkList(builder.process, "process", Process.class));
         workflow = Collections.unmodifiableList(ValidationSupport.checkList(builder.workflow, "workflow", Canonical.class));
-        ValidationSupport.requireChildren(this);
     }
 
     /**

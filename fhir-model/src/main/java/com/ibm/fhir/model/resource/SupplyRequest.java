@@ -145,7 +145,6 @@ public class SupplyRequest extends DomainResource {
         ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
         ValidationSupport.checkReferenceType(deliverFrom, "deliverFrom", "Organization", "Location");
         ValidationSupport.checkReferenceType(deliverTo, "deliverTo", "Organization", "Location", "Patient");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

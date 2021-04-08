@@ -123,7 +123,6 @@ public class DeviceDefinition extends DomainResource {
         ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
         ValidationSupport.checkReferenceType(owner, "owner", "Organization");
         ValidationSupport.checkReferenceType(parentDevice, "parentDevice", "DeviceDefinition");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

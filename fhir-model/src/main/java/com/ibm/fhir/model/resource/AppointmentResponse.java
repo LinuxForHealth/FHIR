@@ -106,7 +106,6 @@ public class AppointmentResponse extends DomainResource {
         comment = builder.comment;
         ValidationSupport.checkReferenceType(appointment, "appointment", "Appointment");
         ValidationSupport.checkReferenceType(actor, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

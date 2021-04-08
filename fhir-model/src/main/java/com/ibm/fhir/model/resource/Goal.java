@@ -181,7 +181,6 @@ public class Goal extends DomainResource {
         ValidationSupport.checkReferenceType(expressedBy, "expressedBy", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
         ValidationSupport.checkReferenceType(addresses, "addresses", "Condition", "Observation", "MedicationStatement", "NutritionOrder", "ServiceRequest", "RiskAssessment");
         ValidationSupport.checkReferenceType(outcomeReference, "outcomeReference", "Observation");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

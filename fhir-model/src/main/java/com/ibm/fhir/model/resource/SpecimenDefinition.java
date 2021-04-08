@@ -92,7 +92,6 @@ public class SpecimenDefinition extends DomainResource {
         timeAspect = builder.timeAspect;
         collection = Collections.unmodifiableList(ValidationSupport.checkList(builder.collection, "collection", CodeableConcept.class));
         typeTested = Collections.unmodifiableList(ValidationSupport.checkList(builder.typeTested, "typeTested", TypeTested.class));
-        ValidationSupport.requireChildren(this);
     }
 
     /**

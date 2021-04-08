@@ -204,7 +204,6 @@ public class ImagingStudy extends DomainResource {
         ValidationSupport.checkReferenceType(procedureReference, "procedureReference", "Procedure");
         ValidationSupport.checkReferenceType(location, "location", "Location");
         ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "Media", "DiagnosticReport", "DocumentReference");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

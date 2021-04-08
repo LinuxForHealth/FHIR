@@ -92,7 +92,6 @@ public class SubstanceSourceMaterial extends DomainResource {
         fractionDescription = Collections.unmodifiableList(ValidationSupport.checkList(builder.fractionDescription, "fractionDescription", FractionDescription.class));
         organism = builder.organism;
         partDescription = Collections.unmodifiableList(ValidationSupport.checkList(builder.partDescription, "partDescription", PartDescription.class));
-        ValidationSupport.requireChildren(this);
     }
 
     /**

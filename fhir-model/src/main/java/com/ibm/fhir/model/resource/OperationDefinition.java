@@ -200,7 +200,6 @@ public class OperationDefinition extends DomainResource {
         outputProfile = builder.outputProfile;
         parameter = Collections.unmodifiableList(ValidationSupport.checkList(builder.parameter, "parameter", Parameter.class));
         overload = Collections.unmodifiableList(ValidationSupport.checkList(builder.overload, "overload", Overload.class));
-        ValidationSupport.requireChildren(this);
     }
 
     /**

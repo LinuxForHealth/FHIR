@@ -85,7 +85,6 @@ public class Subscription extends DomainResource {
         criteria = ValidationSupport.requireNonNull(builder.criteria, "criteria");
         error = builder.error;
         channel = ValidationSupport.requireNonNull(builder.channel, "channel");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

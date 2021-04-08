@@ -209,7 +209,6 @@ public class ResearchDefinition extends DomainResource {
         ValidationSupport.checkReferenceType(exposure, "exposure", "ResearchElementDefinition");
         ValidationSupport.checkReferenceType(exposureAlternative, "exposureAlternative", "ResearchElementDefinition");
         ValidationSupport.checkReferenceType(outcome, "outcome", "ResearchElementDefinition");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

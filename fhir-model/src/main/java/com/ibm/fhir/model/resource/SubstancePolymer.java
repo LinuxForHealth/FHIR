@@ -66,7 +66,6 @@ public class SubstancePolymer extends DomainResource {
         modification = Collections.unmodifiableList(ValidationSupport.checkList(builder.modification, "modification", String.class));
         monomerSet = Collections.unmodifiableList(ValidationSupport.checkList(builder.monomerSet, "monomerSet", MonomerSet.class));
         repeat = Collections.unmodifiableList(ValidationSupport.checkList(builder.repeat, "repeat", Repeat.class));
-        ValidationSupport.requireChildren(this);
     }
 
     /**

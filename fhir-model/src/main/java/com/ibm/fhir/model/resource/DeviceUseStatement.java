@@ -122,7 +122,6 @@ public class DeviceUseStatement extends DomainResource {
         ValidationSupport.checkReferenceType(source, "source", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
         ValidationSupport.checkReferenceType(device, "device", "Device");
         ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference", "Media");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

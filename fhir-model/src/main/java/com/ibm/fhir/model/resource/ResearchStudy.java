@@ -215,7 +215,6 @@ public class ResearchStudy extends DomainResource {
         ValidationSupport.checkReferenceType(sponsor, "sponsor", "Organization");
         ValidationSupport.checkReferenceType(principalInvestigator, "principalInvestigator", "Practitioner", "PractitionerRole");
         ValidationSupport.checkReferenceType(site, "site", "Location");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

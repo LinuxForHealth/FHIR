@@ -102,7 +102,6 @@ public class Schedule extends DomainResource {
         planningHorizon = builder.planningHorizon;
         comment = builder.comment;
         ValidationSupport.checkReferenceType(actor, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

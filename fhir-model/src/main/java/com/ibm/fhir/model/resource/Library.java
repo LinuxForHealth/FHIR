@@ -210,7 +210,6 @@ public class Library extends DomainResource {
         dataRequirement = Collections.unmodifiableList(ValidationSupport.checkList(builder.dataRequirement, "dataRequirement", DataRequirement.class));
         content = Collections.unmodifiableList(ValidationSupport.checkList(builder.content, "content", Attachment.class));
         ValidationSupport.checkReferenceType(subject, "subject", "Group");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
