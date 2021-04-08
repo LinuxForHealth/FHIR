@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,7 +33,7 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathResourceNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
-import com.ibm.fhir.term.spi.ExpansionParameters;
+import com.ibm.fhir.term.service.ExpansionParameters;
 
 public class ExpandFunction extends FHIRPathAbstractTermFunction {
     @Override

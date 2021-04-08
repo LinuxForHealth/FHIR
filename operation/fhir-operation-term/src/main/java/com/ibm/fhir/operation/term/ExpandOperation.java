@@ -18,8 +18,8 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.term.service.ExpansionParameters;
 import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
-import com.ibm.fhir.term.spi.ExpansionParameters;
 
 public class ExpandOperation extends AbstractTermOperation {
     @Override

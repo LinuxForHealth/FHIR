@@ -23,9 +23,9 @@ import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 import com.ibm.fhir.server.util.FHIRRestHelper;
+import com.ibm.fhir.term.service.LookupOutcome;
+import com.ibm.fhir.term.service.LookupParameters;
 import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
-import com.ibm.fhir.term.spi.LookupOutcome;
-import com.ibm.fhir.term.spi.LookupParameters;
 
 public class LookupOperation extends AbstractTermOperation {
     @Override

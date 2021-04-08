@@ -6,9 +6,13 @@
 
 package com.ibm.fhir.term.spi;
 
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
@@ -40,7 +44,14 @@ public interface FHIRTermServiceProvider {
      * @return
      *     a map containing flattened sets of Concept instances for the given trees
      */
-    Map<Code, Set<Concept>> closure(CodeSystem codeSystem, Set<Code> codes);
+    default Map<Code, Set<Concept>> closure(CodeSystem codeSystem, Set<Code> codes) {
+        Map<Code, Set<Concept>> result = new LinkedHashMap<>();
+        for (Code code : codes) {
+            Set<Concept> closure = closure(codeSystem, code);
+            result.put(code, closure);
+        }
+        return result;
+    }
 
     /**
      * Get the concept in the provided code system with the specified code.
@@ -61,24 +72,64 @@ public interface FHIRTermServiceProvider {
      * hierarchies have been flattened.
      *
      * @param codeSystem
-     *     the code system
+     *     the code system containing the set of Concept instances to be flattened
      * @return
-     *     flattened list of Concept instances for the given code system
+     *     flattened set of Concept instances for the given code system
      */
     Set<Concept> getConcepts(CodeSystem codeSystem);
+
+    /**
+     * Get a set containing {@link R} instances mapped from concepts where all structural
+     * hierarchies have been flattened.
+     *
+     * @param <R>
+     *     the element type of the result set
+     * @param codeSystem
+     *     the code system containing the set of Concept instances to be flattened
+     * @param function
+     *     the function to apply to each element of the result set
+     * @return
+     *     flattened set of {@link R} instances mapped from concepts for the given code system
+     */
+    default <R> Set<R> getConcepts(CodeSystem codeSystem, Function<Concept, ? extends R> function) {
+        return getConcepts(codeSystem).stream()
+            .map(function)
+            .collect(Collectors.toCollection(LinkedHashSet::new));
+    }
 
     /**
      * Get a set containing {@link CodeSystem.Concept} instances where all structural
      * hierarchies have been flattened and filtered by the given set of value set include filters.
      *
      * @param codeSystem
-     *     the code system
+     *     the code system containing the set of Concept instances to be flattened / filtered
      * @param filters
      *     the value set include filters
      * @return
-     *     flattened / filtered list of Concept instances for the given code system
+     *     flattened / filtered set of Concept instances for the given code system
      */
     Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters);
+
+    /**
+     * Get a set containing {@link R} instances mapped from concepts where all structural
+     * hierarchies have been flattened and filtered by the given set of value set include filters.
+     *
+     * @param <R>
+     *     the element type of the result set
+     * @param codeSystem
+     *     the code system containing the set of Concept instances to be flattened / filtered
+     * @param filters
+     *     the value set include filters
+     * @param function
+     *     the function to apply to each element of the result set
+     * @return
+     *     flattened / filtered set of {@link R} instances mapped from concepts for the given code system
+     */
+    default <R> Set<R> getConcepts(CodeSystem codeSystem, List<Filter> filters, Function<Concept, ? extends R> function) {
+        return getConcepts(codeSystem, filters).stream()
+            .map(function)
+            .collect(Collectors.toCollection(LinkedHashSet::new));
+    }
 
     /**
      * Indicates whether the given code system contains a concept with the specified code.
