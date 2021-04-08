@@ -49,6 +49,7 @@ import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.core.context.FHIRPagingContext;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.patch.FHIRPatch;
+import com.ibm.fhir.model.patch.exception.FHIRPatchException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.Bundle.Entry.Request;
@@ -428,7 +429,19 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             if (patch != null) {
-                newResource = patch.apply(ior.getPrevResource());
+                try {
+                    newResource = patch.apply(ior.getPrevResource());
+                } catch (FHIRPatchException e) {
+                    String msg = "Invalid patch: " + e.getMessage();
+                    throw new FHIROperationException(msg, e).withIssue(Issue.builder()
+                            .severity(IssueSeverity.ERROR)
+                            .code(IssueType.INVALID)
+                            .details(CodeableConcept.builder()
+                                    .text(string(msg))
+                                    .build())
+                            .expression(string(e.getPath()))
+                            .build());
+                }
             }
 
             // Validate the input and, if valid, start collecting supplemental warnings
