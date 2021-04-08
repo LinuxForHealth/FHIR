@@ -1,15 +1,17 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.server.test;
+package com.ibm.fhir.server.util;
 
 import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.fail;
+
+import java.util.Arrays;
 
 import javax.ws.rs.core.Response;
 
@@ -30,6 +32,7 @@ import com.ibm.fhir.model.resource.Procedure;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
+import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
@@ -42,7 +45,9 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.type.code.ProcedureStatus;
 import com.ibm.fhir.persistence.FHIRPersistence;
-import com.ibm.fhir.server.util.FHIRRestHelper;
+import com.ibm.fhir.search.context.FHIRSearchContext;
+import com.ibm.fhir.search.context.FHIRSearchContextFactory;
+import com.ibm.fhir.server.test.MockPersistenceImpl;
 
 public class FHIRRestHelperTest {
 
@@ -1959,4 +1964,32 @@ public class FHIRRestHelperTest {
         }
     }
 
+    /**
+     * Test building search bundle with null rsrc and rsrc with no id.
+     */
+    @Test
+    public void testBundleSearchBundleWithNullRsrcAndNoId() throws Exception {
+        FHIRPersistence persistence = new MockPersistenceImpl();
+        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+        FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
+
+        Patient patientNoId = Patient.builder()
+                .name(HumanName.builder()
+                    .given(string("John"))
+                    .family(string("Doe"))
+                    .build())
+                .build();
+
+        // Process bundle
+        Bundle responseBundle = helper.createSearchBundle(Arrays.asList(null, patientNoId), context, "Patient");
+
+        // Validate results
+        assertNotNull(responseBundle);
+        assertEquals(3, responseBundle.getEntry().size());
+        Bundle.Entry entry = responseBundle.getEntry().get(2);
+        OperationOutcome operationOutcome = (OperationOutcome) entry.getResource();
+        assertEquals(2, operationOutcome.getIssue().size());
+        assertEquals("A resource with no data was found.", operationOutcome.getIssue().get(0).getDetails().getText().getValue());
+        assertEquals("A resource with no id was found.", operationOutcome.getIssue().get(1).getDetails().getText().getValue());
+    }
 }

@@ -1504,8 +1504,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
     /**
      * Extracts search parameters for the passed FHIR Resource.
-     * @param fhirResource - Some FHIR Resource
-     * @param resourceDTO - A Resource DTO representation of the passed FHIR Resource.
+     * @param fhirResource - A FHIR Resource.
+     * @param resourceDTOx - A Resource DTO representation of the passed FHIR Resource.
+     * @return list of extracted search parameters
      * @throws Exception
      */
     private List<ExtractedParameterValue> extractSearchParameters(Resource fhirResource, com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTOx)
@@ -1521,6 +1522,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         List<ExtractedParameterValue> allParameters = new ArrayList<>();
 
         try {
+            if (fhirResource == null) {
+                return allParameters;
+            }
             map = SearchUtil.extractParameterValues(fhirResource);
 
             for (Entry<SearchParameter, List<FHIRPathNode>> entry : map.entrySet()) {
@@ -1925,7 +1929,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         T resource = null;
         InputStream in = null;
         try {
-            if (resourceDTO != null) {
+            if (resourceDTO != null && resourceDTO.getDataStream() != null) {
                 in = new GZIPInputStream(resourceDTO.getDataStream().inputStream());
                 if (elements != null) {
                     // parse/filter the resource using elements
