@@ -59,11 +59,11 @@ public class CodeSystemSupportTest {
     }
 
     @Test
-    public void testGetConceptsWithMapper() {
+    public void testGetConceptsWithCodeValueFunction() {
         CodeSystem codeSystem = CodeSystemSupport.getCodeSystem("http://ibm.com/fhir/CodeSystem/test");
 
-        Function<Concept, String> mapper = CodeSystemSupport.getCodeValueFunction(codeSystem);
-        Set<String> actual = CodeSystemSupport.getConcepts(codeSystem, mapper);
+        Function<Concept, String> function = CodeSystemSupport.getCodeValueFunction(codeSystem);
+        Set<String> actual = CodeSystemSupport.getConcepts(codeSystem, function);
 
         Set<Concept> concepts = CodeSystemSupport.getConcepts(codeSystem);
         Set<String> expected = concepts.stream()
