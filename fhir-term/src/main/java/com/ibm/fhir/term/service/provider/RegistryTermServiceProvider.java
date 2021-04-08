@@ -35,14 +35,14 @@ public class RegistryTermServiceProvider implements FHIRTermServiceProvider {
         Concept concept = CodeSystemSupport.findConcept(codeSystem, code);
         if (concept != null) {
             // child concepts are removed for consistency with the other providers
-            return CodeSystemSupport.NO_CHILDREN_MAPPER.apply(concept);
+            return CodeSystemSupport.CONCEPT_NO_CHILDREN_FUNCTION.apply(concept);
         }
         return null;
     }
 
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem) {
-        return getConcepts(codeSystem, CodeSystemSupport.SIMPLE_CONCEPT_MAPPER);
+        return getConcepts(codeSystem, CodeSystemSupport.SIMPLE_CONCEPT_FUNCTION);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class RegistryTermServiceProvider implements FHIRTermServiceProvider {
 
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters) {
-        return getConcepts(codeSystem, filters, CodeSystemSupport.SIMPLE_CONCEPT_MAPPER);
+        return getConcepts(codeSystem, filters, CodeSystemSupport.SIMPLE_CONCEPT_FUNCTION);
     }
 
     @Override

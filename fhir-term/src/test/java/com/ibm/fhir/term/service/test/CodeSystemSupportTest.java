@@ -62,7 +62,7 @@ public class CodeSystemSupportTest {
     public void testGetConceptsWithMapper() {
         CodeSystem codeSystem = CodeSystemSupport.getCodeSystem("http://ibm.com/fhir/CodeSystem/test");
 
-        Function<Concept, String> mapper = CodeSystemSupport.getStringMapper(codeSystem);
+        Function<Concept, String> mapper = CodeSystemSupport.getCodeValueFunction(codeSystem);
         Set<String> actual = CodeSystemSupport.getConcepts(codeSystem, mapper);
 
         Set<Concept> concepts = CodeSystemSupport.getConcepts(codeSystem);

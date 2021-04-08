@@ -57,11 +57,6 @@ public class FHIRTermService {
         }
 
         @Override
-        public Map<Code, Set<Concept>> closure(CodeSystem codeSystem, Set<Code> codes) {
-            return Collections.emptyMap();
-        }
-
-        @Override
         public Concept getConcept(CodeSystem codeSystem, Code code) {
             return null;
         }
@@ -277,13 +272,13 @@ public class FHIRTermService {
      *     the element type of the result set
      * @param codeSystem
      *     the code system containing the set of Concept instances to be flattened
-     * @param mapper
-     *     the function to be applied
+     * @param function
+     *     the function to apply to each element of the result set
      * @return
      *     flattened set of {@link R} instances mapped from concepts for the given code system
      */
-    public <R> Set<R> getConcepts(CodeSystem codeSystem, Function<Concept, ? extends R> mapper) {
-        return findProvider(codeSystem).getConcepts(codeSystem, mapper);
+    public <R> Set<R> getConcepts(CodeSystem codeSystem, Function<Concept, ? extends R> function) {
+        return findProvider(codeSystem).getConcepts(codeSystem, function);
     }
 
     /**
@@ -311,13 +306,13 @@ public class FHIRTermService {
      *     the code system containing the set of Concept instances to be flattened / filtered
      * @param filters
      *     the value set include filters
-     * @param mapper
-     *     the function to be applied
+     * @param function
+     *     the function to apply to each element of the result set
      * @return
      *     flattened / filtered set of {@link R} instances mapped from concepts for the given code system
      */
-    public <R> Set<R> getConcepts(CodeSystem codeSystem, List<Filter> filters, Function<Concept, ? extends R> mapper) {
-        return findProvider(codeSystem).getConcepts(codeSystem, filters, mapper);
+    public <R> Set<R> getConcepts(CodeSystem codeSystem, List<Filter> filters, Function<Concept, ? extends R> function) {
+        return findProvider(codeSystem).getConcepts(codeSystem, filters, function);
     }
 
     /**

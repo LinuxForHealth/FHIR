@@ -86,14 +86,14 @@ public interface FHIRTermServiceProvider {
      *     the element type of the result set
      * @param codeSystem
      *     the code system containing the set of Concept instances to be flattened
-     * @param mapper
-     *     the function to be applied
+     * @param function
+     *     the function to apply to each element of the result set
      * @return
      *     flattened set of {@link R} instances mapped from concepts for the given code system
      */
-    default <R> Set<R> getConcepts(CodeSystem codeSystem, Function<Concept, ? extends R> mapper) {
+    default <R> Set<R> getConcepts(CodeSystem codeSystem, Function<Concept, ? extends R> function) {
         return getConcepts(codeSystem).stream()
-            .map(mapper)
+            .map(function)
             .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
@@ -120,14 +120,14 @@ public interface FHIRTermServiceProvider {
      *     the code system containing the set of Concept instances to be flattened / filtered
      * @param filters
      *     the value set include filters
-     * @param mapper
-     *     the function to be applied
+     * @param function
+     *     the function to apply to each element of the result set
      * @return
      *     flattened / filtered set of {@link R} instances mapped from concepts for the given code system
      */
-    default <R> Set<R> getConcepts(CodeSystem codeSystem, List<Filter> filters, Function<Concept, ? extends R> mapper) {
+    default <R> Set<R> getConcepts(CodeSystem codeSystem, List<Filter> filters, Function<Concept, ? extends R> function) {
         return getConcepts(codeSystem, filters).stream()
-            .map(mapper)
+            .map(function)
             .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 

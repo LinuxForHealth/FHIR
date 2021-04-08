@@ -60,7 +60,7 @@ public final class CodeSystemSupport {
     /**
      * A function that maps a code system concept to its code value
      */
-    public static final Function<Concept, java.lang.String> STRING_MAPPER = new Function<Concept, java.lang.String>() {
+    public static final Function<Concept, java.lang.String> CODE_VALUE_FUNCTION = new Function<Concept, java.lang.String>() {
         @Override
         public java.lang.String apply(Concept concept) {
             return concept.getCode().getValue();
@@ -70,7 +70,27 @@ public final class CodeSystemSupport {
     /**
      * A function that maps a code system concept to its normalized code value
      */
-    public static final Function<Concept, java.lang.String> NORMALIZED_STRING_MAPPER = new Function<Concept, java.lang.String>() {
+    public static final Function<Concept, java.lang.String> NORMALIZED_CODE_VALUE_FUNCTION = new Function<Concept, java.lang.String>() {
+        @Override
+        public java.lang.String apply(Concept concept) {
+            return normalize(concept.getCode().getValue());
+        }
+    };
+
+    /**
+     * A function that maps a code system concept to its display value
+     */
+    public static final Function<Concept, java.lang.String> DISPLAY_VALUE_FUNCTION = new Function<Concept, java.lang.String>() {
+        @Override
+        public java.lang.String apply(Concept concept) {
+            return concept.getDisplay().getValue();
+        }
+    };
+
+    /**
+     * A function that maps a code system concept to its normalized display value
+     */
+    public static final Function<Concept, java.lang.String> NORMALIZED_DISPLAY_VALUE_FUNCTION = new Function<Concept, java.lang.String>() {
         @Override
         public java.lang.String apply(Concept concept) {
             return normalize(concept.getCode().getValue());
@@ -80,7 +100,7 @@ public final class CodeSystemSupport {
     /**
      * A function that maps a code system concept to a code system concept with child concepts removed
      */
-    public static final Function<Concept, Concept> NO_CHILDREN_MAPPER = new Function<Concept, Concept>() {
+    public static final Function<Concept, Concept> CONCEPT_NO_CHILDREN_FUNCTION = new Function<Concept, Concept>() {
         @Override
         public Concept apply(Concept concept) {
             return concept.toBuilder()
@@ -92,7 +112,7 @@ public final class CodeSystemSupport {
     /**
      * A function that maps a code system concept to a code system concept with only a code and display value
      */
-    public static final Function<Concept, Concept> SIMPLE_CONCEPT_MAPPER = new Function<Concept, Concept>() {
+    public static final Function<Concept, Concept> SIMPLE_CONCEPT_FUNCTION = new Function<Concept, Concept>() {
         @Override
         public Concept apply(Concept concept) {
             return Concept.builder()
@@ -243,6 +263,18 @@ public final class CodeSystemSupport {
     }
 
     /**
+     * Get the appropriate code value function for the given code system based on its case sensitivity.
+     *
+     * @param codeSystem
+     *     the code system
+     * @return
+     *     the appropriate code value function for the given code system based on its case sensitivity
+     */
+    public static Function<Concept, java.lang.String> getCodeValueFunction(CodeSystem codeSystem) {
+        return isCaseSensitive(codeSystem) ? CODE_VALUE_FUNCTION : NORMALIZED_CODE_VALUE_FUNCTION;
+    }
+
+    /**
      * Get the concept property that matches the specified code.
      *
      * @param concept
@@ -297,15 +329,15 @@ public final class CodeSystemSupport {
      *     the element type of the result set
      * @param codeSystem
      *     the code system containing the set of Concept instances to be flattened
-     * @param mapper
-     *     the function to be applied
+     * @param function
+     *     the function to apply to each element of the result set
      * @return
      *     flattened set of {@link R} instances mapped from concepts for the given code system
      */
-    public static <R> Set<R> getConcepts(CodeSystem codeSystem, Function<Concept, ? extends R> mapper) {
+    public static <R> Set<R> getConcepts(CodeSystem codeSystem, Function<Concept, ? extends R> function) {
         Set<R> result = (codeSystem.getCount() != null) ? new LinkedHashSet<>(codeSystem.getCount().getValue()) : new LinkedHashSet<>();
         for (Concept concept : codeSystem.getConcept()) {
-            result.addAll(getConcepts(concept, mapper));
+            result.addAll(getConcepts(concept, function));
         }
         return result;
     }
@@ -335,17 +367,17 @@ public final class CodeSystemSupport {
      *     the code system containing the set of Concept instances to be flattened / filtered
      * @param filters
      *     the value set include filters
-     * @param mapper
-     *     the function to be applied
+     * @param function
+     *     the function to apply to each element of the result set
      * @return
      *     flattened / filtered set of {@link R} instances mapped from concepts for the given code system
      */
-    public static <R> Set<R> getConcepts(CodeSystem codeSystem, List<Include.Filter> filters, Function<Concept, ? extends R> mapper) {
+    public static <R> Set<R> getConcepts(CodeSystem codeSystem, List<Include.Filter> filters, Function<Concept, ? extends R> function) {
         Set<R> result = new LinkedHashSet<>();
         List<ConceptFilter> conceptFilters = buildConceptFilters(codeSystem, filters);
         for (Concept concept : getConcepts(codeSystem)) {
             if (accept(conceptFilters, concept)) {
-                result.add(mapper.apply(concept));
+                result.add(function.apply(concept));
             }
         }
         return result;
@@ -372,37 +404,25 @@ public final class CodeSystemSupport {
      *     the element type of the result set
      * @param concept
      *     the root of the tree containing the Concept instances to be flattened
-     * @param mapper
-     *     the function to be applied
+     * @param function
+     *     the function to apply to each element of the result set
      * @return
      *     flattened set of {@link R} instances mapped from concepts for the given tree
      */
-    public static <R> Set<R> getConcepts(Concept concept, Function<Concept, ? extends R> mapper) {
+    public static <R> Set<R> getConcepts(Concept concept, Function<Concept, ? extends R> function) {
         if (concept == null) {
             return Collections.emptySet();
         }
         Set<R> result = new LinkedHashSet<>();
-        result.add(mapper.apply(concept));
+        result.add(function.apply(concept));
         for (Concept c : concept.getConcept()) {
-            result.addAll(getConcepts(c, mapper));
+            result.addAll(getConcepts(c, function));
         }
         return result;
     }
 
     public static Set<java.lang.String> getDescendantsAndSelf(CodeSystem codeSystem, Code code) {
         return DESCENDANTS_AND_SELF_CACHE.computeIfAbsent(code.getValue(), k -> computeDescendantsAndSelf(codeSystem, code));
-    }
-
-    /**
-     * Get the appropriate string mapper for the given code system based on its case sensitivity.
-     *
-     * @param codeSystem
-     *     the code system
-     * @return
-     *     the appropriate string mapper for the given code system based on its case sensitivity
-     */
-    public static Function<Concept, java.lang.String> getStringMapper(CodeSystem codeSystem) {
-        return isCaseSensitive(codeSystem) ? STRING_MAPPER : NORMALIZED_STRING_MAPPER;
     }
 
     /**
@@ -696,7 +716,7 @@ public final class CodeSystemSupport {
             .property(Code.of("concept"))
             .op(FilterOperator.GENERALIZES)
             .value(code)
-            .build()), getStringMapper(codeSystem));
+            .build()), getCodeValueFunction(codeSystem));
     }
 
     private static Set<java.lang.String> computeDescendantsAndSelf(CodeSystem codeSystem, Code code) {
@@ -704,7 +724,7 @@ public final class CodeSystemSupport {
             .property(Code.of("concept"))
             .op(FilterOperator.IS_A)
             .value(code)
-            .build()), getStringMapper(codeSystem));
+            .build()), getCodeValueFunction(codeSystem));
     }
 
     private static ConceptFilter createDescendentOfFilter(CodeSystem codeSystem, Include.Filter filter) {
@@ -822,8 +842,8 @@ public final class CodeSystemSupport {
         throw conceptFilterNotCreated(RegexFilter.class, filter);
     }
 
-    private static java.lang.String toString(CodeSystem codeSystem, Concept concept) {
-        return getStringMapper(codeSystem).apply(concept);
+    private static java.lang.String toCodeValue(CodeSystem codeSystem, Concept concept) {
+        return getCodeValueFunction(codeSystem).apply(concept);
     }
 
     private interface ConceptFilter {
@@ -836,13 +856,13 @@ public final class CodeSystemSupport {
 
         public DescendentOfFilter(CodeSystem codeSystem, Concept concept) {
             this.codeSystem = codeSystem;
-            descendants = getConcepts(concept, getStringMapper(codeSystem));
-            descendants.remove(CodeSystemSupport.toString(codeSystem, concept));
+            descendants = getConcepts(concept, getCodeValueFunction(codeSystem));
+            descendants.remove(toCodeValue(codeSystem, concept));
         }
 
         @Override
         public boolean accept(Concept concept) {
-            return descendants.contains(CodeSystemSupport.toString(codeSystem, concept));
+            return descendants.contains(toCodeValue(codeSystem, concept));
         }
     }
 
@@ -871,25 +891,25 @@ public final class CodeSystemSupport {
                 Concept parent = findConcept(codeSystem, code(value));
                 if (parent != null) {
                     children.addAll(parent.getConcept().stream()
-                        .map(getStringMapper(codeSystem))
+                        .map(getCodeValueFunction(codeSystem))
                         .collect(Collectors.toCollection(LinkedHashSet::new)));
                 }
             }
 
             this.child = "child".equals(property.getValue()) ?
-                CodeSystemSupport.toString(codeSystem, findConcept(codeSystem, code(value))) :
+                toCodeValue(codeSystem, findConcept(codeSystem, code(value))) :
                 null;
         }
 
         @Override
         public boolean accept(Concept concept) {
             if ("parent".equals(property.getValue())) {
-                return children.contains(CodeSystemSupport.toString(codeSystem, concept));
+                return children.contains(toCodeValue(codeSystem, concept));
             }
 
             if ("child".equals(property.getValue())) {
                 return concept.getConcept().stream()
-                    .map(getStringMapper(codeSystem))
+                    .map(getCodeValueFunction(codeSystem))
                     .collect(Collectors.toCollection(LinkedHashSet::new))
                     .contains(child);
             }
@@ -928,12 +948,12 @@ public final class CodeSystemSupport {
 
         public GeneralizesFilter(CodeSystem codeSystem, Concept concept) {
             this.codeSystem = codeSystem;
-            this.concept = CodeSystemSupport.toString(codeSystem, concept);
+            this.concept = toCodeValue(codeSystem, concept);
         }
 
         @Override
         public boolean accept(Concept concept) {
-            return getConcepts(concept, getStringMapper(codeSystem)).contains(this.concept);
+            return getConcepts(concept, getCodeValueFunction(codeSystem)).contains(this.concept);
         }
     }
 
@@ -951,7 +971,7 @@ public final class CodeSystemSupport {
         @Override
         public boolean accept(Concept concept) {
             if ("concept".equals(property.getValue())) {
-                return set.contains(CodeSystemSupport.toString(codeSystem, concept));
+                return set.contains(toCodeValue(codeSystem, concept));
             }
 
             if (hasConceptProperty(concept, property)) {
@@ -971,12 +991,12 @@ public final class CodeSystemSupport {
 
         public IsAFilter(CodeSystem codeSystem, Concept concept) {
             this.codeSystem = codeSystem;
-            descendantsAndSelf = getConcepts(concept, getStringMapper(codeSystem));
+            descendantsAndSelf = getConcepts(concept, getCodeValueFunction(codeSystem));
         }
 
         @Override
         public boolean accept(Concept concept) {
-            return descendantsAndSelf.contains(CodeSystemSupport.toString(codeSystem, concept));
+            return descendantsAndSelf.contains(toCodeValue(codeSystem, concept));
         }
     }
 
@@ -999,7 +1019,7 @@ public final class CodeSystemSupport {
         @Override
         public boolean accept(Concept concept) {
             if ("concept".equals(property.getValue())) {
-                return !set.contains(CodeSystemSupport.toString(codeSystem, concept));
+                return !set.contains(toCodeValue(codeSystem, concept));
             }
 
             if (hasConceptProperty(concept, property)) {
