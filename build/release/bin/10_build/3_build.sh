@@ -27,6 +27,7 @@ mvn -T2C install source:jar source:test-jar javadoc:jar gpg:sign -f fhir-tools \
 # fhir-parent
 # we hit 'gpg: signing failed: Cannot allocate memory' when running -T2C
 export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-parent").profiles | map(.) | join(",")' build/release/config/release.json)"
+mvn install -f fhir-parent -DskipTests
 mvn install source:jar source:test-jar javadoc:jar gpg:sign -f fhir-parent \
         -DadditionalJOption=-Xdoclint:none \
         -f fhir-parent -P "${BUILD_PROFILES}" -DskipTests

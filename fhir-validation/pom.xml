@@ -96,18 +96,6 @@
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-ig-carin-bb</artifactId>
-                    <version>${project.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-ig-us-core</artifactId>
-                    <version>${project.version}</version>
-                </dependency>
-            </dependencies>
             <build>
                 <plugins>
                     <plugin>
@@ -119,7 +107,7 @@
                                 <id>copy-fhir-ig-carin-bb</id>
                                 <phase>package</phase>
                                 <goals>
-                                    <goal>copy-dependencies</goal>
+                                    <goal>copy</goal>
                                 </goals>
                                 <configuration>
                                     <artifactItems>
@@ -151,18 +139,6 @@
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-ig-davinci-pdex</artifactId>
-                    <version>${project.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-ig-us-core</artifactId>
-                    <version>${project.version}</version>
-                </dependency>
-            </dependencies>
             <build>
                 <plugins>
                     <plugin>
@@ -206,18 +182,6 @@
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-ig-davinci-hrex</artifactId>
-                    <version>${project.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-ig-us-core</artifactId>
-                    <version>${project.version}</version>
-                </dependency>
-            </dependencies>
             <build>
                 <plugins>
                     <plugin>
@@ -261,18 +225,6 @@
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-ig-davinci-pdex-plan-net</artifactId>
-                    <version>${project.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-ig-us-core</artifactId>
-                    <version>${project.version}</version>
-                </dependency>
-            </dependencies>
             <build>
                 <plugins>
                     <plugin>
@@ -310,18 +262,6 @@
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-ig-davinci-pdex-formulary</artifactId>
-                    <version>${project.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-ig-us-core</artifactId>
-                    <version>${project.version}</version>
-                </dependency>
-            </dependencies>
             <build>
                 <plugins>
                     <plugin>
@@ -359,13 +299,6 @@
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-ig-mcode</artifactId>
-                    <version>${project.version}</version>
-                </dependency>
-            </dependencies>
             <build>
                 <plugins>
                     <plugin>
@@ -403,13 +336,6 @@
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
-            <dependencies>
-                <dependency>
-                    <groupId>${project.groupId}</groupId>
-                    <artifactId>fhir-ig-us-core</artifactId>
-                    <version>${project.version}</version>
-                </dependency>
-            </dependencies>
             <build>
                 <plugins>
                     <plugin>
