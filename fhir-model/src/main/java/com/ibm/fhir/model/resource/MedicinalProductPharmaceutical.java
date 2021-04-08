@@ -69,13 +69,13 @@ public class MedicinalProductPharmaceutical extends DomainResource {
 
     private MedicinalProductPharmaceutical(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         administrableDoseForm = ValidationSupport.requireNonNull(builder.administrableDoseForm, "administrableDoseForm");
         unitOfPresentation = builder.unitOfPresentation;
-        ingredient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.ingredient, "ingredient"));
-        device = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.device, "device"));
-        characteristics = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.characteristics, "characteristics"));
-        routeOfAdministration = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.routeOfAdministration, "routeOfAdministration"));
+        ingredient = Collections.unmodifiableList(ValidationSupport.checkList(builder.ingredient, "ingredient", Reference.class));
+        device = Collections.unmodifiableList(ValidationSupport.checkList(builder.device, "device", Reference.class));
+        characteristics = Collections.unmodifiableList(ValidationSupport.checkList(builder.characteristics, "characteristics", Characteristics.class));
+        routeOfAdministration = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.routeOfAdministration, "routeOfAdministration", RouteOfAdministration.class));
         ValidationSupport.checkReferenceType(ingredient, "ingredient", "MedicinalProductIngredient");
         ValidationSupport.checkReferenceType(device, "device", "DeviceDefinition");
         ValidationSupport.requireChildren(this);
@@ -1018,7 +1018,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             maxDosePerDay = builder.maxDosePerDay;
             maxDosePerTreatmentPeriod = builder.maxDosePerTreatmentPeriod;
             maxTreatmentPeriod = builder.maxTreatmentPeriod;
-            targetSpecies = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.targetSpecies, "targetSpecies"));
+            targetSpecies = Collections.unmodifiableList(ValidationSupport.checkList(builder.targetSpecies, "targetSpecies", TargetSpecies.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1473,7 +1473,7 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             private TargetSpecies(Builder builder) {
                 super(builder);
                 code = ValidationSupport.requireNonNull(builder.code, "code");
-                withdrawalPeriod = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.withdrawalPeriod, "withdrawalPeriod"));
+                withdrawalPeriod = Collections.unmodifiableList(ValidationSupport.checkList(builder.withdrawalPeriod, "withdrawalPeriod", WithdrawalPeriod.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 

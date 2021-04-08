@@ -182,7 +182,7 @@ public class Immunization extends DomainResource {
 
     private Immunization(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusReason = builder.statusReason;
         vaccineCode = ValidationSupport.requireNonNull(builder.vaccineCode, "vaccineCode");
@@ -199,17 +199,17 @@ public class Immunization extends DomainResource {
         site = builder.site;
         route = builder.route;
         doseQuantity = builder.doseQuantity;
-        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+        performer = Collections.unmodifiableList(ValidationSupport.checkList(builder.performer, "performer", Performer.class));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
         isSubpotent = builder.isSubpotent;
-        subpotentReason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subpotentReason, "subpotentReason"));
-        education = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.education, "education"));
-        programEligibility = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.programEligibility, "programEligibility"));
+        subpotentReason = Collections.unmodifiableList(ValidationSupport.checkList(builder.subpotentReason, "subpotentReason", CodeableConcept.class));
+        education = Collections.unmodifiableList(ValidationSupport.checkList(builder.education, "education", Education.class));
+        programEligibility = Collections.unmodifiableList(ValidationSupport.checkList(builder.programEligibility, "programEligibility", CodeableConcept.class));
         fundingSource = builder.fundingSource;
-        reaction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reaction, "reaction"));
-        protocolApplied = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.protocolApplied, "protocolApplied"));
+        reaction = Collections.unmodifiableList(ValidationSupport.checkList(builder.reaction, "reaction", Reaction.class));
+        protocolApplied = Collections.unmodifiableList(ValidationSupport.checkList(builder.protocolApplied, "protocolApplied", ProtocolApplied.class));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(location, "location", "Location");
@@ -2557,7 +2557,7 @@ public class Immunization extends DomainResource {
             super(builder);
             series = builder.series;
             authority = builder.authority;
-            targetDisease = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.targetDisease, "targetDisease"));
+            targetDisease = Collections.unmodifiableList(ValidationSupport.checkList(builder.targetDisease, "targetDisease", CodeableConcept.class));
             doseNumber = ValidationSupport.requireChoiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);
             seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
             ValidationSupport.checkReferenceType(authority, "authority", "Organization");

@@ -16,6 +16,7 @@ import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.code.ConceptSubsumptionOutcome;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
@@ -46,7 +47,7 @@ public class SubsumesOperation extends AbstractTermOperation {
             }
             ConceptSubsumptionOutcome outcome = service.subsumes(codingA, codingB);
             if (outcome == null) {
-                throw new FHIROperationException("Subsumption cannot be tested");
+                throw buildExceptionWithIssue("Subsumption cannot be tested", IssueType.NOT_SUPPORTED);
             }
             return Parameters.builder()
                     .parameter(Parameter.builder()

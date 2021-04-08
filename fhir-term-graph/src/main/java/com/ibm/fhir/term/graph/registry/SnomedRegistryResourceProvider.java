@@ -35,7 +35,7 @@ import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.term.registry.ImplicitValueSetRegistryResourceProvider;
 import com.ibm.fhir.term.service.FHIRTermService;
-import com.ibm.fhir.term.spi.ValidationOutcome;
+import com.ibm.fhir.term.service.ValidationOutcome;
 
 public class SnomedRegistryResourceProvider extends ImplicitValueSetRegistryResourceProvider {
     private static final Logger log = Logger.getLogger(SnomedRegistryResourceProvider.class.getName());

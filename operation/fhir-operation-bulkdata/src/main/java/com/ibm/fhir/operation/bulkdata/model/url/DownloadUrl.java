@@ -19,6 +19,8 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.HttpMethod;
 
+import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
+
 /**
  * Based on the IBM Cloud Documentation
  *
@@ -29,7 +31,6 @@ public class DownloadUrl {
     private static final Logger logger = Logger.getLogger(DownloadUrl.class.getName());
 
     private static final String HTTP_METHOD = HttpMethod.GET;
-    private static final String EXPIRY_SECONDS = String.valueOf(86400);
 
     private static final MessageDigest digest = createSigningDigest();
 
@@ -110,10 +111,12 @@ public class DownloadUrl {
         String datestamp = time.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
         String timestamp = datestamp + "T" + time.format(DateTimeFormatter.ofPattern("HHmmss")) + "Z";
 
+        String expirySeconds = String.valueOf(ConfigurationFactory.getInstance().getPresignedUrlExpiry());
+
         String standardizedQuerystring = "X-Amz-Algorithm=AWS4-HMAC-SHA256" +
                 "&X-Amz-Credential=" + URLEncoder.encode(accessKey + "/" + datestamp + "/" + region + "/s3/aws4_request", StandardCharsets.UTF_8.toString()) +
                 "&X-Amz-Date=" + timestamp +
-                "&X-Amz-Expires=" + EXPIRY_SECONDS +
+                "&X-Amz-Expires=" + expirySeconds +
                 "&X-Amz-SignedHeaders=host";
 
         String standardizedResource = "/" + bucketName + "/" + cosBucketPathPrefix + "/"+ objectKey;

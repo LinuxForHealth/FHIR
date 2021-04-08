@@ -183,23 +183,23 @@ public class OperationDefinition extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         purpose = builder.purpose;
         affectsState = builder.affectsState;
         code = ValidationSupport.requireNonNull(builder.code, "code");
         comment = builder.comment;
         base = builder.base;
-        resource = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.resource, "resource"));
+        resource = Collections.unmodifiableList(ValidationSupport.checkList(builder.resource, "resource", ResourceType.class));
         system = ValidationSupport.requireNonNull(builder.system, "system");
         type = ValidationSupport.requireNonNull(builder.type, "type");
         instance = ValidationSupport.requireNonNull(builder.instance, "instance");
         inputProfile = builder.inputProfile;
         outputProfile = builder.outputProfile;
-        parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
-        overload = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.overload, "overload"));
+        parameter = Collections.unmodifiableList(ValidationSupport.checkList(builder.parameter, "parameter", Parameter.class));
+        overload = Collections.unmodifiableList(ValidationSupport.checkList(builder.overload, "overload", Overload.class));
         ValidationSupport.requireChildren(this);
     }
 
@@ -1511,11 +1511,11 @@ public class OperationDefinition extends DomainResource {
             max = ValidationSupport.requireNonNull(builder.max, "max");
             documentation = builder.documentation;
             type = builder.type;
-            targetProfile = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.targetProfile, "targetProfile"));
+            targetProfile = Collections.unmodifiableList(ValidationSupport.checkList(builder.targetProfile, "targetProfile", Canonical.class));
             searchType = builder.searchType;
             binding = builder.binding;
-            referencedFrom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referencedFrom, "referencedFrom"));
-            part = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.part, "part"));
+            referencedFrom = Collections.unmodifiableList(ValidationSupport.checkList(builder.referencedFrom, "referencedFrom", ReferencedFrom.class));
+            part = Collections.unmodifiableList(ValidationSupport.checkList(builder.part, "part", OperationDefinition.Parameter.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2686,7 +2686,7 @@ public class OperationDefinition extends DomainResource {
 
         private Overload(Builder builder) {
             super(builder);
-            parameterName = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameterName, "parameterName"));
+            parameterName = Collections.unmodifiableList(ValidationSupport.checkList(builder.parameterName, "parameterName", String.class));
             comment = builder.comment;
             ValidationSupport.requireValueOrChildren(this);
         }

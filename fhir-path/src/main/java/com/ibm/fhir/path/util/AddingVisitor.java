@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,6 +26,7 @@ class AddingVisitor<T extends Visitable> extends CopyingVisitor<T> {
      * @param parentPath a "simple" FHIRPath path to the parent of the element being added
      * @param elementName the name of the element to add
      * @param value the element to add
+     * @throws IllegalArgumentException
      */
     public AddingVisitor(Visitable parent, String parentPath, String elementName, Visitable value) {
         this.path = Objects.requireNonNull(parentPath);
@@ -34,17 +35,18 @@ class AddingVisitor<T extends Visitable> extends CopyingVisitor<T> {
         this.value = Objects.requireNonNull(value) instanceof Code ?
                 convertToCodeSubtype(parent, elementName, (Code)value) : value;
     }
-    
+
     @Override
     protected void doVisitListEnd(String elementName, List<? extends Visitable> visitables, Class<?> type) {
-        if (getPath().equals(path) &&
-                type.isAssignableFrom(value.getClass()) &&
-                elementName.equals(this.elementNameToAdd)) {
+        if (getPath().equals(path) && elementName.equals(this.elementNameToAdd)) {
+            if (!type.isAssignableFrom(value.getClass())) {
+                throw new IllegalStateException("target " + type + " is not assignable from " + value.getClass());
+            }
             getList().add(value);
             markListDirty();
         }
     }
-    
+
     @Override
     public boolean visit(String elementName, int index, Visitable value) {
         if (!isRepeatingElement) {
@@ -56,7 +58,7 @@ class AddingVisitor<T extends Visitable> extends CopyingVisitor<T> {
         }
         return true;
     }
-    
+
     @Override
     protected void doVisitEnd(String elementName, int elementIndex, Resource resource) {
         if (!isRepeatingElement) {
@@ -65,7 +67,7 @@ class AddingVisitor<T extends Visitable> extends CopyingVisitor<T> {
             }
         }
     }
-    
+
     @Override
     protected void doVisitEnd(String elementName, int elementIndex, Element element) {
         if (!isRepeatingElement) {

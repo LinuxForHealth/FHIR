@@ -34,9 +34,12 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
 import com.ibm.fhir.core.FHIRConstants;
+import com.ibm.fhir.model.resource.CodeSystem;
+import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.SearchParameter.Component;
+import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Reference;
@@ -73,6 +76,8 @@ import com.ibm.fhir.search.reference.value.CompartmentReference;
 import com.ibm.fhir.search.sort.Sort;
 import com.ibm.fhir.search.uri.UriBuilder;
 import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
+import com.ibm.fhir.term.util.CodeSystemSupport;
+import com.ibm.fhir.term.util.ValueSetSupport;
 
 /**
  * Search Utility<br>
@@ -1281,6 +1286,7 @@ public class SearchUtil {
                 // token
                 // [parameter]=[system]|[code]
                 // [parameter]:of-type=[system|code|value]
+                // [parameter]:text=code
                 /*
                  * TODO: start enforcing this:
                  * "For token parameters on elements of type ContactPoint, uri, or boolean,
@@ -1293,7 +1299,8 @@ public class SearchUtil {
                     final String ofTypeParmName = searchParameter.getCode().getValue() + SearchConstants.OF_TYPE_MODIFIER_SUFFIX;
                     parameterValue.setOfTypeModifier(true);
                     if (parts.length < 2) {
-                        String msg = "Search parameter '" + searchParameter.getCode().getValue() + "' with modifier ':" + modifier.value() + "' requires at least a code and value";
+                        String msg = "Search parameter '" + searchParameter.getCode().getValue() + "' with modifier ':" + modifier.value() +
+                                "' requires at least a code and value";
                         throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
                     } else if (parts.length < 4) {
                         QueryParameterValue typeParameterValue = new QueryParameterValue();
@@ -1301,24 +1308,64 @@ public class SearchUtil {
                             typeParameterValue.setValueSystem(unescapeSearchParm(parts[0]));
                         }
                         typeParameterValue.setValueCode(unescapeSearchParm(parts[parts.length - 2]));
-                        QueryParameter typeParameter = new QueryParameter(Type.TOKEN, SearchUtil.makeCompositeSubCode(ofTypeParmName, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_TYPE),
-                            null, null, Collections.singletonList(typeParameterValue));
+                        QueryParameter typeParameter = new QueryParameter(Type.TOKEN, SearchUtil.makeCompositeSubCode(ofTypeParmName,
+                            SearchConstants.OF_TYPE_MODIFIER_COMPONENT_TYPE), null, null, Collections.singletonList(typeParameterValue));
                         parameterValue.addComponent(typeParameter);
 
                         QueryParameterValue valueParameterValue = new QueryParameterValue();
                         valueParameterValue.setValueCode(unescapeSearchParm(parts[parts.length - 1]));
-                        QueryParameter valueParameter = new QueryParameter(Type.TOKEN, SearchUtil.makeCompositeSubCode(ofTypeParmName, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE),
-                            null, null, Collections.singletonList(valueParameterValue));
+                        QueryParameter valueParameter = new QueryParameter(Type.TOKEN, SearchUtil.makeCompositeSubCode(ofTypeParmName,
+                            SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE), null, null, Collections.singletonList(valueParameterValue));
                         parameterValue.addComponent(valueParameter);
                     } else {
                         QueryParameterValue valueParameterValue = new QueryParameterValue();
                         valueParameterValue.setValueCode(unescapeSearchParm(v));
-                        QueryParameter valueParameter = new QueryParameter(Type.TOKEN, SearchUtil.makeCompositeSubCode(ofTypeParmName, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE),
-                            null, null, Collections.singletonList(valueParameterValue));
+                        QueryParameter valueParameter = new QueryParameter(Type.TOKEN, SearchUtil.makeCompositeSubCode(ofTypeParmName,
+                            SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE), null, null, Collections.singletonList(valueParameterValue));
                         parameterValue.addComponent(valueParameter);
                     }
-              } else
-                if (parts.length == 2) {
+                } else if (Modifier.IN.equals(modifier) || Modifier.NOT_IN.equals(modifier)) {
+                    // Validate that the parameter value is a ValueSet URL that points to a registered ValueSet that is
+                    // expandable.
+                    ValueSet valueSet = ValueSetSupport.getValueSet(v);
+                    if (valueSet == null) {
+                        String msg = "ValueSet '" + v + "' specified for search parameter '" + searchParameter.getCode().getValue() +
+                                "' with modifier ':" + modifier.value() + "' could not be found";
+                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                    }
+                    if (!ValueSetSupport.isExpandable(valueSet)) {
+                        String msg = "ValueSet '" + v + "' specified for search parameter '" + searchParameter.getCode().getValue() +
+                                "' with modifier ':" + modifier.value() + "' is not expandable";
+                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                    }
+                    parameterValue.setValueCode(unescapeSearchParm(v));
+                } else if (Modifier.ABOVE.equals(modifier) || Modifier.BELOW.equals(modifier)) {
+                    // Validate that the parameter value is a system+code
+                    if (parts.length != 2) {
+                        String msg = "Search parameter '" + searchParameter.getCode().getValue() + "' with modifier ':" + modifier.value() +
+                                "' requires a system and code";
+                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                    }
+                    // Validate that the system value is a URL that points to a registered CodeSystem.
+                    CodeSystem codeSystem = CodeSystemSupport.getCodeSystem(parts[0]);
+                    if (codeSystem == null) {
+                        String msg = "CodeSystem '" + parts[0] + "' specified for search parameter '" + searchParameter.getCode().getValue() +
+                                "' with modifier ':" + modifier.value() + "' could not be found";
+                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                    }
+                    // Validate that the code exists in the code system
+                    Code code = Code.builder().value(parts[1]).build();
+                    Concept concept = CodeSystemSupport.findConcept(codeSystem, code);
+                    if (concept == null) {
+                        String msg = "Code '" + parts[1] + "' specified for search parameter '" + searchParameter.getCode().getValue() +
+                                "' with modifier ':" + modifier.value() + "' does not exist in CodeSystem '" + parts[0] + "'";
+                        throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+                    }
+                    parameterValue.setValueSystem(unescapeSearchParm(parts[0]));
+                    parameterValue.setValueCode(unescapeSearchParm(parts[1]));
+                } else if (Modifier.TEXT.equals(modifier)) {
+                    parameterValue.setValueCode(unescapeSearchParm(v));
+                } else if (parts.length == 2) {
                     parameterValue.setValueSystem(unescapeSearchParm(parts[0]));
                     parameterValue.setValueCode(unescapeSearchParm(parts[1]));
                 } else {
@@ -2085,18 +2132,18 @@ public class SearchUtil {
 
     /**
      * Normalizes a string to be used as a search parameter value. All accents and
-     * diacritics are removed. And then the
-     * string is transformed to lower case.
+     * diacritics are removed. Consecutive whitespace characters are replaced with
+     * a single space. And then the string is transformed to lower case.
      *
-     * @param value
-     * @return
+     * @param value the string to normalize
+     * @return the normalized string
      */
     public static String normalizeForSearch(String value) {
 
         String normalizedValue = null;
         if (value != null) {
             normalizedValue = Normalizer.normalize(value, Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
-            normalizedValue = normalizedValue.toLowerCase();
+            normalizedValue = normalizedValue.replaceAll("\\s+", " ").toLowerCase();
         }
 
         return normalizedValue;

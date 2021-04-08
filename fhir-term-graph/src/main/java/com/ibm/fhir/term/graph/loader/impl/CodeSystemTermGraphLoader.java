@@ -7,10 +7,10 @@
 package com.ibm.fhir.term.graph.loader.impl;
 
 import static com.ibm.fhir.term.graph.loader.util.FHIRTermGraphLoaderUtil.toMap;
-import static com.ibm.fhir.term.graph.util.FHIRTermGraphUtil.toLong;
-import static com.ibm.fhir.term.graph.util.FHIRTermGraphUtil.toObject;
 import static com.ibm.fhir.term.util.CodeSystemSupport.getConcepts;
 import static com.ibm.fhir.term.util.CodeSystemSupport.normalize;
+import static com.ibm.fhir.term.util.CodeSystemSupport.toLong;
+import static com.ibm.fhir.term.util.CodeSystemSupport.toObject;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -39,6 +39,7 @@ import com.ibm.fhir.model.resource.CodeSystem.Concept.Property;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Element;
+import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.term.graph.FHIRTermGraph;
 import com.ibm.fhir.term.graph.loader.FHIRTermGraphLoader;
@@ -94,7 +95,10 @@ public class CodeSystemTermGraphLoader extends AbstractTermGraphLoader {
     public void load() {
         createCodeSystemVertex();
         createConceptVertices();
-        createEdges();
+        if (CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning()) ||
+                codeSystem.getHierarchyMeaning() == null) {
+            createEdges();
+        }
     }
 
     public CodeSystem getCodeSystem() {

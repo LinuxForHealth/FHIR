@@ -26,7 +26,7 @@ public abstract class BackboneElement extends Element {
 
     protected BackboneElement(Builder builder) {
         super(builder);
-        modifierExtension = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifierExtension, "modifierExtension"));
+        modifierExtension = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifierExtension, "modifierExtension", Extension.class));
     }
 
     /**

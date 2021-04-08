@@ -8,37 +8,29 @@ package com.ibm.fhir.term.graph.test;
 
 import static org.testng.Assert.fail;
 
-import java.io.InputStream;
-
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.model.format.Format;
-import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.term.graph.FHIRTermGraph;
 import com.ibm.fhir.term.graph.factory.FHIRTermGraphFactory;
 import com.ibm.fhir.term.graph.loader.FHIRTermGraphLoader;
 import com.ibm.fhir.term.graph.loader.impl.CodeSystemTermGraphLoader;
 import com.ibm.fhir.term.graph.provider.GraphTermServiceProvider;
-import com.ibm.fhir.term.graph.util.FHIRTermGraphUtil;
 import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
-
-import ch.qos.logback.classic.Level;
+import com.ibm.fhir.term.util.CodeSystemSupport;
 
 public class GraphTermServiceProviderTimeLimitTest {
     @Test
     public void testGraphTermServiceProviderTimeLimit() throws Exception {
-        FHIRTermGraphUtil.setRootLoggerLevel(Level.INFO);
-
         FHIRTermGraph graph = null;
-        try (InputStream in = GraphTermServiceProviderTimeLimitTest.class.getClassLoader().getResourceAsStream("JSON/CodeSystem-test.json")) {
+        try {
             graph = FHIRTermGraphFactory.open(new PropertiesConfiguration("conf/janusgraph-berkeleyje-lucene.properties"));
             graph.dropAllVertices();
 
-            CodeSystem codeSystem = FHIRParser.parser(Format.JSON).parse(in);
+            CodeSystem codeSystem = CodeSystemSupport.getCodeSystem("http://ibm.com/fhir/CodeSystem/test");
             FHIRTermGraphLoader loader = new CodeSystemTermGraphLoader(graph, codeSystem);
             loader.load();
 

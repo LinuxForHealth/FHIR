@@ -180,7 +180,7 @@ public class CodeSystem extends DomainResource {
     private CodeSystem(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         version = builder.version;
         name = builder.name;
         title = builder.title;
@@ -188,10 +188,10 @@ public class CodeSystem extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         purpose = builder.purpose;
         copyright = builder.copyright;
         caseSensitive = builder.caseSensitive;
@@ -202,9 +202,9 @@ public class CodeSystem extends DomainResource {
         content = ValidationSupport.requireNonNull(builder.content, "content");
         supplements = builder.supplements;
         count = builder.count;
-        filter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.filter, "filter"));
-        property = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.property, "property"));
-        concept = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.concept, "concept"));
+        filter = Collections.unmodifiableList(ValidationSupport.checkList(builder.filter, "filter", Filter.class));
+        property = Collections.unmodifiableList(ValidationSupport.checkList(builder.property, "property", Property.class));
+        concept = Collections.unmodifiableList(ValidationSupport.checkList(builder.concept, "concept", Concept.class));
         ValidationSupport.requireChildren(this);
     }
 
@@ -1504,7 +1504,7 @@ public class CodeSystem extends DomainResource {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
             description = builder.description;
-            operator = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.operator, "operator"));
+            operator = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.operator, "operator", FilterOperator.class));
             value = ValidationSupport.requireNonNull(builder.value, "value");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -2222,9 +2222,9 @@ public class CodeSystem extends DomainResource {
             code = ValidationSupport.requireNonNull(builder.code, "code");
             display = builder.display;
             definition = builder.definition;
-            designation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.designation, "designation"));
-            property = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.property, "property"));
-            concept = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.concept, "concept"));
+            designation = Collections.unmodifiableList(ValidationSupport.checkList(builder.designation, "designation", Designation.class));
+            property = Collections.unmodifiableList(ValidationSupport.checkList(builder.property, "property", Property.class));
+            concept = Collections.unmodifiableList(ValidationSupport.checkList(builder.concept, "concept", CodeSystem.Concept.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

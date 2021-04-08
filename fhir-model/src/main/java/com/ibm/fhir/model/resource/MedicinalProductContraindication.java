@@ -66,13 +66,13 @@ public class MedicinalProductContraindication extends DomainResource {
 
     private MedicinalProductContraindication(Builder builder) {
         super(builder);
-        subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
+        subject = Collections.unmodifiableList(ValidationSupport.checkList(builder.subject, "subject", Reference.class));
         disease = builder.disease;
         diseaseStatus = builder.diseaseStatus;
-        comorbidity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.comorbidity, "comorbidity"));
-        therapeuticIndication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.therapeuticIndication, "therapeuticIndication"));
-        otherTherapy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.otherTherapy, "otherTherapy"));
-        population = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.population, "population"));
+        comorbidity = Collections.unmodifiableList(ValidationSupport.checkList(builder.comorbidity, "comorbidity", CodeableConcept.class));
+        therapeuticIndication = Collections.unmodifiableList(ValidationSupport.checkList(builder.therapeuticIndication, "therapeuticIndication", Reference.class));
+        otherTherapy = Collections.unmodifiableList(ValidationSupport.checkList(builder.otherTherapy, "otherTherapy", OtherTherapy.class));
+        population = Collections.unmodifiableList(ValidationSupport.checkList(builder.population, "population", Population.class));
         ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication");
         ValidationSupport.checkReferenceType(therapeuticIndication, "therapeuticIndication", "MedicinalProductIndication");
         ValidationSupport.requireChildren(this);

@@ -142,28 +142,28 @@ public class ChargeItemDefinition extends DomainResource {
     private ChargeItemDefinition(Builder builder) {
         super(builder);
         url = ValidationSupport.requireNonNull(builder.url, "url");
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         version = builder.version;
         title = builder.title;
-        derivedFromUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.derivedFromUri, "derivedFromUri"));
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
-        replaces = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.replaces, "replaces"));
+        derivedFromUri = Collections.unmodifiableList(ValidationSupport.checkList(builder.derivedFromUri, "derivedFromUri", Uri.class));
+        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Canonical.class));
+        replaces = Collections.unmodifiableList(ValidationSupport.checkList(builder.replaces, "replaces", Canonical.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
         code = builder.code;
-        instance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instance, "instance"));
-        applicability = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.applicability, "applicability"));
-        propertyGroup = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.propertyGroup, "propertyGroup"));
+        instance = Collections.unmodifiableList(ValidationSupport.checkList(builder.instance, "instance", Reference.class));
+        applicability = Collections.unmodifiableList(ValidationSupport.checkList(builder.applicability, "applicability", Applicability.class));
+        propertyGroup = Collections.unmodifiableList(ValidationSupport.checkList(builder.propertyGroup, "propertyGroup", PropertyGroup.class));
         ValidationSupport.checkReferenceType(instance, "instance", "Medication", "Substance", "Device");
         ValidationSupport.requireChildren(this);
     }
@@ -1737,8 +1737,8 @@ public class ChargeItemDefinition extends DomainResource {
 
         private PropertyGroup(Builder builder) {
             super(builder);
-            applicability = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.applicability, "applicability"));
-            priceComponent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.priceComponent, "priceComponent"));
+            applicability = Collections.unmodifiableList(ValidationSupport.checkList(builder.applicability, "applicability", ChargeItemDefinition.Applicability.class));
+            priceComponent = Collections.unmodifiableList(ValidationSupport.checkList(builder.priceComponent, "priceComponent", PriceComponent.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

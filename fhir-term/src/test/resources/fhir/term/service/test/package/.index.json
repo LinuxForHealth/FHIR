@@ -77,6 +77,13 @@
             "id": "snomed-ucum",
             "url": "http://ibm.com/fhir/ConceptMap/snomed-ucum",
             "version": "0.1.0"
+        },
+        {
+            "filename": "CodeSystem-test.json",
+            "resourceType": "CodeSystem",
+            "id": "test",
+            "url": "http://ibm.com/fhir/CodeSystem/test",
+            "version": "1.0.0"
         }
     ]
 }

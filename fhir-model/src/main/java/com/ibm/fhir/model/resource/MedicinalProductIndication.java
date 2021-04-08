@@ -70,15 +70,15 @@ public class MedicinalProductIndication extends DomainResource {
 
     private MedicinalProductIndication(Builder builder) {
         super(builder);
-        subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
+        subject = Collections.unmodifiableList(ValidationSupport.checkList(builder.subject, "subject", Reference.class));
         diseaseSymptomProcedure = builder.diseaseSymptomProcedure;
         diseaseStatus = builder.diseaseStatus;
-        comorbidity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.comorbidity, "comorbidity"));
+        comorbidity = Collections.unmodifiableList(ValidationSupport.checkList(builder.comorbidity, "comorbidity", CodeableConcept.class));
         intendedEffect = builder.intendedEffect;
         duration = builder.duration;
-        otherTherapy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.otherTherapy, "otherTherapy"));
-        undesirableEffect = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.undesirableEffect, "undesirableEffect"));
-        population = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.population, "population"));
+        otherTherapy = Collections.unmodifiableList(ValidationSupport.checkList(builder.otherTherapy, "otherTherapy", OtherTherapy.class));
+        undesirableEffect = Collections.unmodifiableList(ValidationSupport.checkList(builder.undesirableEffect, "undesirableEffect", Reference.class));
+        population = Collections.unmodifiableList(ValidationSupport.checkList(builder.population, "population", Population.class));
         ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication");
         ValidationSupport.checkReferenceType(undesirableEffect, "undesirableEffect", "MedicinalProductUndesirableEffect");
         ValidationSupport.requireChildren(this);

@@ -92,20 +92,20 @@ public class GuidanceResponse extends DomainResource {
     private GuidanceResponse(Builder builder) {
         super(builder);
         requestIdentifier = builder.requestIdentifier;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         module = ValidationSupport.requireChoiceElement(builder.module, "module", Uri.class, Canonical.class, CodeableConcept.class);
         status = ValidationSupport.requireNonNull(builder.status, "status");
         subject = builder.subject;
         encounter = builder.encounter;
         occurrenceDateTime = builder.occurrenceDateTime;
         performer = builder.performer;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        evaluationMessage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.evaluationMessage, "evaluationMessage"));
+        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        evaluationMessage = Collections.unmodifiableList(ValidationSupport.checkList(builder.evaluationMessage, "evaluationMessage", Reference.class));
         outputParameters = builder.outputParameters;
         result = builder.result;
-        dataRequirement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dataRequirement, "dataRequirement"));
+        dataRequirement = Collections.unmodifiableList(ValidationSupport.checkList(builder.dataRequirement, "dataRequirement", DataRequirement.class));
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(performer, "performer", "Device");

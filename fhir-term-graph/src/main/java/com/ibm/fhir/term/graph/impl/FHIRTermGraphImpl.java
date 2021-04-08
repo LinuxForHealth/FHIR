@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.term.graph.impl;
 
-import static com.ibm.fhir.term.graph.util.FHIRTermGraphUtil.setRootLoggerLevel;
 import static java.util.Objects.requireNonNull;
 
 import java.util.logging.Level;
@@ -51,7 +50,6 @@ public class FHIRTermGraphImpl implements FHIRTermGraph {
         boolean readOnly = configuration.getBoolean(STORAGE_READ_ONLY, false);
         configuration.setProperty(STORAGE_READ_ONLY, false);
 
-        setRootLoggerLevel(ch.qos.logback.classic.Level.INFO);
         JanusGraph graph = JanusGraphFactory.open(configuration);
 
         if (!schemaExists(graph)) {

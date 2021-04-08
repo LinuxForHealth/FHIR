@@ -1118,7 +1118,8 @@ public class CodeGenerator {
 
                     if (isRequired(elementDefinition)) {
                         if (isRepeating(elementDefinition)) {
-                            cb.assign(fieldName, "Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder." + fieldName + ", " + quote(elementName) + "))");
+                            cb.assign(fieldName, "Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder." + fieldName + ", " + quote(elementName) + ", " +
+                                    getFieldType(structureDefinition, elementDefinition, false) + ".class))");
                         } else {
                             if (isChoiceElement(elementDefinition)) {
                                 String types = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
@@ -1129,7 +1130,8 @@ public class CodeGenerator {
                         }
                     } else {
                         if (isRepeating(elementDefinition)) {
-                            cb.assign(fieldName, "Collections.unmodifiableList(ValidationSupport.requireNonNull(builder." + fieldName + ", " + quote(elementName) + "))");
+                            cb.assign(fieldName, "Collections.unmodifiableList(ValidationSupport.checkList(builder." + fieldName + ", " + quote(elementName) + ", " +
+                                    getFieldType(structureDefinition, elementDefinition, false) + ".class))");
                         } else {
                             if (isChoiceElement(elementDefinition)) {
                                 String types = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
@@ -1884,7 +1886,7 @@ public class CodeGenerator {
             cb.javadocStart()
                 .javadoc("Factory method for creating Base64Binary objects from a byte array; this array should be the actual value.")
                 .javadoc("")
-                .javadocParam("value", "The byte array of the previously encoded base64 content")
+                .javadocParam("value", "The byte array of to-be-encoded content")
                 .javadocEnd();
             cb.method(mods("public", "static"), "Base64Binary", "of", params("byte[] value"))
                 ._return(className + ".builder().value(value).build()")
@@ -1988,7 +1990,9 @@ public class CodeGenerator {
             String basePath = elementDefinition.getJsonObject("base").getString("path");
 
             if (isBackboneElement(elementDefinition)) {
-                imports.add("com.ibm.fhir.model.type.BackboneElement");
+                if ("resource".equals(structureDefinition.getString("kind"))) {
+                    imports.add("com.ibm.fhir.model.type.BackboneElement");
+                }
                 imports.add("com.ibm.fhir.model.util.ValidationSupport");
             }
 

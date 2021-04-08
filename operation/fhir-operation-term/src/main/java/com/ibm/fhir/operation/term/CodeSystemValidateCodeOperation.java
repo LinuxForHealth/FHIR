@@ -14,12 +14,13 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Element;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.term.service.ValidationOutcome;
+import com.ibm.fhir.term.service.ValidationParameters;
 import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
-import com.ibm.fhir.term.spi.ValidationOutcome;
-import com.ibm.fhir.term.spi.ValidationParameters;
 
 public class CodeSystemValidateCodeOperation extends AbstractTermOperation {
     @Override
@@ -67,15 +68,15 @@ public class CodeSystemValidateCodeOperation extends AbstractTermOperation {
                     return;
                 }
             }
-            throw new FHIROperationException("CodeableConcept does not contain a coding element that matches the specified CodeSystem url and/or version");
+            throw buildExceptionWithIssue("CodeableConcept does not contain a coding element that matches the specified CodeSystem url and/or version", IssueType.INVALID);
         }
         // codedElement.is(Coding.class)
         Coding coding = codedElement.as(Coding.class);
         if (coding.getSystem() != null && codeSystem.getUrl() != null && !coding.getSystem().equals(codeSystem.getUrl())) {
-            throw new FHIROperationException("Coding system does not match the specified CodeSystem url");
+            throw buildExceptionWithIssue("Coding system does not match the specified CodeSystem url", IssueType.INVALID);
         }
         if (coding.getVersion() != null && codeSystem.getVersion() != null && !coding.getVersion().equals(codeSystem.getVersion())) {
-            throw new FHIROperationException("Coding version does not match the specified CodeSystem version");
+            throw buildExceptionWithIssue("Coding version does not match the specified CodeSystem version", IssueType.INVALID);
         }
     }
 }

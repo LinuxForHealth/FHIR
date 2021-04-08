@@ -79,16 +79,16 @@ public class Person extends DomainResource {
 
     private Person(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        name = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.name, "name"));
-        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        name = Collections.unmodifiableList(ValidationSupport.checkList(builder.name, "name", HumanName.class));
+        telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
         gender = builder.gender;
         birthDate = builder.birthDate;
-        address = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.address, "address"));
+        address = Collections.unmodifiableList(ValidationSupport.checkList(builder.address, "address", Address.class));
         photo = builder.photo;
         managingOrganization = builder.managingOrganization;
         active = builder.active;
-        link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
+        link = Collections.unmodifiableList(ValidationSupport.checkList(builder.link, "link", Link.class));
         ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
         ValidationSupport.requireChildren(this);
     }

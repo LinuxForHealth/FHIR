@@ -100,7 +100,7 @@ public class Group extends DomainResource {
 
     private Group(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         active = builder.active;
         type = ValidationSupport.requireNonNull(builder.type, "type");
         actual = ValidationSupport.requireNonNull(builder.actual, "actual");
@@ -108,8 +108,8 @@ public class Group extends DomainResource {
         name = builder.name;
         quantity = builder.quantity;
         managingEntity = builder.managingEntity;
-        characteristic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.characteristic, "characteristic"));
-        member = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.member, "member"));
+        characteristic = Collections.unmodifiableList(ValidationSupport.checkList(builder.characteristic, "characteristic", Characteristic.class));
+        member = Collections.unmodifiableList(ValidationSupport.checkList(builder.member, "member", Member.class));
         ValidationSupport.checkReferenceType(managingEntity, "managingEntity", "Organization", "RelatedPerson", "Practitioner", "PractitionerRole");
         ValidationSupport.requireChildren(this);
     }

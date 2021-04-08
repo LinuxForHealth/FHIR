@@ -98,13 +98,13 @@ public class Substance extends DomainResource {
 
     private Substance(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = builder.status;
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
         code = ValidationSupport.requireNonNull(builder.code, "code");
         description = builder.description;
-        instance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instance, "instance"));
-        ingredient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.ingredient, "ingredient"));
+        instance = Collections.unmodifiableList(ValidationSupport.checkList(builder.instance, "instance", Instance.class));
+        ingredient = Collections.unmodifiableList(ValidationSupport.checkList(builder.ingredient, "ingredient", Ingredient.class));
         ValidationSupport.requireChildren(this);
     }
 

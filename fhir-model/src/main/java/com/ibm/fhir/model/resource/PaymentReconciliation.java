@@ -103,7 +103,7 @@ public class PaymentReconciliation extends DomainResource {
 
     private PaymentReconciliation(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         period = builder.period;
         created = ValidationSupport.requireNonNull(builder.created, "created");
@@ -115,9 +115,9 @@ public class PaymentReconciliation extends DomainResource {
         paymentDate = ValidationSupport.requireNonNull(builder.paymentDate, "paymentDate");
         paymentAmount = ValidationSupport.requireNonNull(builder.paymentAmount, "paymentAmount");
         paymentIdentifier = builder.paymentIdentifier;
-        detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
+        detail = Collections.unmodifiableList(ValidationSupport.checkList(builder.detail, "detail", Detail.class));
         formCode = builder.formCode;
-        processNote = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.processNote, "processNote"));
+        processNote = Collections.unmodifiableList(ValidationSupport.checkList(builder.processNote, "processNote", ProcessNote.class));
         ValidationSupport.checkReferenceType(paymentIssuer, "paymentIssuer", "Organization");
         ValidationSupport.checkReferenceType(request, "request", "Task");
         ValidationSupport.checkReferenceType(requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
