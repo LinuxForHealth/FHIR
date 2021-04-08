@@ -123,7 +123,6 @@ public class Endpoint extends DomainResource {
         address = ValidationSupport.requireNonNull(builder.address, "address");
         header = Collections.unmodifiableList(ValidationSupport.checkList(builder.header, "header", String.class));
         ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

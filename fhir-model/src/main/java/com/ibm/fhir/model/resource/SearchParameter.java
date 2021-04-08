@@ -210,7 +210,6 @@ public class SearchParameter extends DomainResource {
         modifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifier, "modifier", SearchModifierCode.class));
         chain = Collections.unmodifiableList(ValidationSupport.checkList(builder.chain, "chain", String.class));
         component = Collections.unmodifiableList(ValidationSupport.checkList(builder.component, "component", Component.class));
-        ValidationSupport.requireChildren(this);
     }
 
     /**

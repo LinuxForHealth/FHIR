@@ -120,7 +120,6 @@ public class Organization extends DomainResource {
         endpoint = Collections.unmodifiableList(ValidationSupport.checkList(builder.endpoint, "endpoint", Reference.class));
         ValidationSupport.checkReferenceType(partOf, "partOf", "Organization");
         ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

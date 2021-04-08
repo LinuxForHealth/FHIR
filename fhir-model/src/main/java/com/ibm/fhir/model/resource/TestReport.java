@@ -120,7 +120,6 @@ public class TestReport extends DomainResource {
         test = Collections.unmodifiableList(ValidationSupport.checkList(builder.test, "test", Test.class));
         teardown = builder.teardown;
         ValidationSupport.checkReferenceType(testScript, "testScript", "TestScript");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

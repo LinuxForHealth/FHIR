@@ -188,7 +188,6 @@ public class MessageDefinition extends DomainResource {
         responseRequired = builder.responseRequired;
         allowedResponse = Collections.unmodifiableList(ValidationSupport.checkList(builder.allowedResponse, "allowedResponse", AllowedResponse.class));
         graph = Collections.unmodifiableList(ValidationSupport.checkList(builder.graph, "graph", Canonical.class));
-        ValidationSupport.requireChildren(this);
     }
 
     /**

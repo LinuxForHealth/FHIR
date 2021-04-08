@@ -233,7 +233,6 @@ public class Encounter extends DomainResource {
         ValidationSupport.checkReferenceType(account, "account", "Account");
         ValidationSupport.checkReferenceType(serviceProvider, "serviceProvider", "Organization");
         ValidationSupport.checkReferenceType(partOf, "partOf", "Encounter");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

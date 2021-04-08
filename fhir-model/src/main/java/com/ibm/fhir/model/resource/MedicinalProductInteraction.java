@@ -72,7 +72,6 @@ public class MedicinalProductInteraction extends DomainResource {
         incidence = builder.incidence;
         management = builder.management;
         ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication", "Substance");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

@@ -262,7 +262,6 @@ public class Questionnaire extends DomainResource {
         effectivePeriod = builder.effectivePeriod;
         code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", Coding.class));
         item = Collections.unmodifiableList(ValidationSupport.checkList(builder.item, "item", Item.class));
-        ValidationSupport.requireChildren(this);
     }
 
     /**

@@ -90,7 +90,6 @@ public class Person extends DomainResource {
         active = builder.active;
         link = Collections.unmodifiableList(ValidationSupport.checkList(builder.link, "link", Link.class));
         ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

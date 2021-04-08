@@ -200,7 +200,6 @@ public class ValueSet extends DomainResource {
         copyright = builder.copyright;
         compose = builder.compose;
         expansion = builder.expansion;
-        ValidationSupport.requireChildren(this);
     }
 
     /**

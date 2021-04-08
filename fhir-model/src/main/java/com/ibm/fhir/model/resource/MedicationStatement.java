@@ -171,7 +171,6 @@ public class MedicationStatement extends DomainResource {
         ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
         ValidationSupport.checkReferenceType(informationSource, "informationSource", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");
         ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

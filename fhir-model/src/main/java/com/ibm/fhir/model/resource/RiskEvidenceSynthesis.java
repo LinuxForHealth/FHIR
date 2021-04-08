@@ -252,7 +252,6 @@ public class RiskEvidenceSynthesis extends DomainResource {
         ValidationSupport.checkReferenceType(population, "population", "EvidenceVariable");
         ValidationSupport.checkReferenceType(exposure, "exposure", "EvidenceVariable");
         ValidationSupport.checkReferenceType(outcome, "outcome", "EvidenceVariable");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

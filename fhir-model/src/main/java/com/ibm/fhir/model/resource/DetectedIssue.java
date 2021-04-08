@@ -130,7 +130,6 @@ public class DetectedIssue extends DomainResource {
         mitigation = Collections.unmodifiableList(ValidationSupport.checkList(builder.mitigation, "mitigation", Mitigation.class));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Device");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

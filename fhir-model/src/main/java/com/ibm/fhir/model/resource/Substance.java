@@ -105,7 +105,6 @@ public class Substance extends DomainResource {
         description = builder.description;
         instance = Collections.unmodifiableList(ValidationSupport.checkList(builder.instance, "instance", Instance.class));
         ingredient = Collections.unmodifiableList(ValidationSupport.checkList(builder.ingredient, "ingredient", Ingredient.class));
-        ValidationSupport.requireChildren(this);
     }
 
     /**

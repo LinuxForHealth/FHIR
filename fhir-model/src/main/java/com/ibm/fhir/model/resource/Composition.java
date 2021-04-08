@@ -180,7 +180,6 @@ public class Composition extends DomainResource {
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Device", "Patient", "RelatedPerson", "Organization");
         ValidationSupport.checkReferenceType(custodian, "custodian", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

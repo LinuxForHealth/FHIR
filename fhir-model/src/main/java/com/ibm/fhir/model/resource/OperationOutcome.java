@@ -53,7 +53,6 @@ public class OperationOutcome extends DomainResource {
     private OperationOutcome(Builder builder) {
         super(builder);
         issue = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.issue, "issue", Issue.class));
-        ValidationSupport.requireChildren(this);
     }
 
     /**

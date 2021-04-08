@@ -102,7 +102,6 @@ public class BiologicallyDerivedProduct extends DomainResource {
         storage = Collections.unmodifiableList(ValidationSupport.checkList(builder.storage, "storage", Storage.class));
         ValidationSupport.checkReferenceType(request, "request", "ServiceRequest");
         ValidationSupport.checkReferenceType(parent, "parent", "BiologicallyDerivedProduct");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

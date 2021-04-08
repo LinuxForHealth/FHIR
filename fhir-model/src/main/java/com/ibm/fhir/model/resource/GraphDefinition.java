@@ -138,7 +138,6 @@ public class GraphDefinition extends DomainResource {
         start = ValidationSupport.requireNonNull(builder.start, "start");
         profile = builder.profile;
         link = Collections.unmodifiableList(ValidationSupport.checkList(builder.link, "link", Link.class));
-        ValidationSupport.requireChildren(this);
     }
 
     /**

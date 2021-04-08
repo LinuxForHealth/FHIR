@@ -199,7 +199,6 @@ public class StructureMap extends DomainResource {
         structure = Collections.unmodifiableList(ValidationSupport.checkList(builder.structure, "structure", Structure.class));
         _import = Collections.unmodifiableList(ValidationSupport.checkList(builder._import, "import", Canonical.class));
         group = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.group, "group", Group.class));
-        ValidationSupport.requireChildren(this);
     }
 
     /**

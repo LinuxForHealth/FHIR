@@ -271,7 +271,6 @@ public class TestScript extends DomainResource {
         setup = builder.setup;
         test = Collections.unmodifiableList(ValidationSupport.checkList(builder.test, "test", Test.class));
         teardown = builder.teardown;
-        ValidationSupport.requireChildren(this);
     }
 
     /**

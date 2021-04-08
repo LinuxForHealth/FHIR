@@ -84,7 +84,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertNotNull(responsePatient);
         savedPatient = responsePatient;
     }
-    
+
     @Test(groups = { "server-spec" })
     public void testCreatePatientWithReturnPrefs() throws Exception {
         WebTarget target = getWebTarget();
@@ -101,14 +101,14 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertNotNull(location.toString());
         assertFalse(location.toString().isEmpty());
         assertEquals(response.getLength(),0);
-        
+
         response = target.path("Patient").request()
                 .header("Prefer", "return=representation")
                 .post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
         assertNotNull(responsePatient);
-        
+
         response = target.path("Patient").request()
                 .header("Prefer", "return=OperationOutcome")
                 .post(entity, Response.class);
@@ -130,7 +130,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
         // Set an id on the patient.
         patient = patient.toBuilder().id("1").build();
-        
+
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
@@ -141,7 +141,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
 
         // Get the patient's logical id value.
         String newPatientId = getLocationLogicalId(response);
-        
+
         // Check that this id DOES NOT match the id we included in the resource we submitted
         assertNotEquals(patient.getId(), newPatientId);
     }
@@ -150,15 +150,17 @@ public class ServerSpecTest extends FHIRServerTestBase {
     @Test(groups = { "server-spec" })
     public void testCreatePatientErrorInvalidResource() throws Exception {
         WebTarget target = getWebTarget();
-        
-        JsonObject patient = BUILDER_FACTORY.createObjectBuilder().add("resourceType", "Patient")
+
+        JsonObject patient = BUILDER_FACTORY.createObjectBuilder()
+                .add("resourceType", "Patient")
+                .add("id", "invalid_id_with_underscores")
                 .build();
-        
+
         Entity<JsonObject> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        
-        assertValidationOperationOutcome(response.readEntity(OperationOutcome.class), "global-1");
+
+        assertValidationOperationOutcome(response.readEntity(OperationOutcome.class), "invalid character");
     }
 
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
@@ -171,10 +173,10 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient patient = response.readEntity(Patient.class);
         assertNotNull(patient);
-        
+
         // Modify the patient.
         patient = patient.toBuilder().gender(AdministrativeGender.MALE).build();
-        
+
         // Next, update the patient and verify the response.
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
@@ -195,13 +197,13 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient patient = response.readEntity(Patient.class);
         assertNotNull(patient);
-        
+
         // Modify the patient.
         patient = patient.toBuilder()
                 .name(HumanName.builder().given(string("Jane")).family(string("Doe")).build())
                 .gender(AdministrativeGender.FEMALE)
                 .build();
-        
+
         // Next, update the patient and verify the response.
         String ifMatchValue = "W/\"" + patient.getMeta().getVersionId().getValue() + "\"";
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
@@ -226,13 +228,13 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient patient = response.readEntity(Patient.class);
         assertNotNull(patient);
-        
+
         // Modify the patient.
         patient = patient.toBuilder()
                 .name(HumanName.builder().given(string("Jane")).family(string("Doe")).build())
                 .gender(AdministrativeGender.FEMALE)
                 .build();
-        
+
         // Next, update the patient and verify the response.
         // We'll use an incorrect value for the If-Match header (no W/" and " surrounding version id).
         String ifMatchValue = patient.getMeta().getVersionId().getValue();
@@ -255,13 +257,13 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient patient = response.readEntity(Patient.class);
         assertNotNull(patient);
-        
+
         // Modify the patient.
         patient = patient.toBuilder()
                 .name(HumanName.builder().given(string("Jane")).family(string("Doe")).build())
                 .gender(AdministrativeGender.FEMALE)
                 .build();
-        
+
         // Next, update the patient and verify the response.
         // We'll use an incorrect value for the If-Match header (no " around version id).
         String ifMatchValue = "W/" + patient.getMeta().getVersionId().getValue();
@@ -284,13 +286,13 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient patient = response.readEntity(Patient.class);
         assertNotNull(patient);
-        
+
         // Modify the patient.
         patient = patient.toBuilder()
                 .name(HumanName.builder().given(string("Jane")).family(string("Doe")).build())
                 .gender(AdministrativeGender.FEMALE)
                 .build();
-        
+
         // Next, update the patient and verify the response.
         // We'll use an incorrect value for the If-Match header (incorrect version #).
         String ifMatchValue = "W/\"1\"";
@@ -306,32 +308,32 @@ public class ServerSpecTest extends FHIRServerTestBase {
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
     public void testCreateObservation() throws Exception {
         WebTarget target = getWebTarget();
-        
+
         // Next, create an Observation belonging to the new patient.
         String patientId = savedPatient.getId();
         Observation observation = TestUtil.buildPatientObservation(patientId, "Observation1.json");
         Entity<Observation> obs = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request().post(obs, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
-     
+
         String observationId = getLocationLogicalId(response);
         response = target.path("Observation/" + observationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Observation responseObs = response.readEntity(Observation.class);
         savedObservation = responseObs;
-    }    
-    
-   
-    
+    }
+
+
+
     // Test: create an invalid observation
     @Test(groups = { "server-spec" })
     public void testCreateObservationErrorInvalidResource() throws Exception {
         WebTarget target = getWebTarget();
-        
-        
+
+
         JsonObject observation = BUILDER_FACTORY.createObjectBuilder().add("resourceType", "Observation")
                 .build();
-        
+
         Entity<JsonObject> entity = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
@@ -370,20 +372,20 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "Resource type 'Patient' does not match type specified in request URI: Observation");
     }
-    
+
     private Patient buildPatient() {
         String id = UUID.randomUUID().toString();
-        
+
         Meta meta = Meta.builder()
                 .versionId(Id.of("1"))
                 .lastUpdated(Instant.now(ZoneOffset.UTC))
                 .build();
-        
+
         HumanName name = HumanName.builder()
                 .given(string("John2"))
                 .family(string("Doe2"))
                 .build();
-        
+
         return Patient.builder()
                 .id(id)
                 .meta(meta)
@@ -475,7 +477,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
         assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "version -1 not found");
     }
-    
+
     @Test
     public void testHistoryPatientNoResults() {
         WebTarget target = getWebTarget();
@@ -490,11 +492,11 @@ public class ServerSpecTest extends FHIRServerTestBase {
 
         assertNotNull(bundle.getEntry());
         assertEquals(0, bundle.getEntry().size());
-        
+
         assertNotNull(bundle.getTotal());
         assertTrue(0 == bundle.getTotal().getValue());
     }
-    
+
     @Test(groups = { "server-spec" })
     public void testHistoryInvalidResourceType() {
         WebTarget target = getWebTarget();
@@ -502,7 +504,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
         assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "'Bogus' is not a valid resource type.");
     }
-    
+
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
     public void testSearchPatientByFamilyName() {
         WebTarget target = getWebTarget();
@@ -511,28 +513,28 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        
+
         assertNotNull(bundle.getType());
         assertNotNull(bundle.getType().getValue());
         assertEquals(BundleType.SEARCHSET.getValue(), bundle.getType().getValue());
-        
+
         assertNotNull(bundle.getEntry());
         assertTrue(bundle.getEntry().size() >= 1);
-        
+
         assertNotNull(bundle.getTotal());
         assertNotNull(bundle.getTotal().getValue());
 //      assertEquals(new Double(bundle.getEntry().size()), new Double(bundle.getTotal().getValue().doubleValue()));
     }
-    
+
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
     public void testSearchPatientInvalidSearchAttribute() {
         WebTarget target = getWebTarget();
         Response response = target.path("Patient").queryParam("notasearch:parameter", "foo").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), 
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class),
                 "Search parameter 'notasearch' for resource type 'Patient' was not found.");
     }
-    
+
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient", "testCreateObservation"})
     public void testSearchObservation() {
         WebTarget target = getWebTarget();
@@ -542,17 +544,17 @@ public class ServerSpecTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
         assertEquals(1, bundle.getEntry().size());
-    }    
-    
+    }
+
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreateObservation"})
     public void testSearchObservationInvalidSearchParameter() {
         WebTarget target = getWebTarget();
         Response response = target.path("Observation").queryParam("notasearch:parameter", "foo").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), 
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class),
                 "Search parameter 'notasearch' for resource type 'Observation' was not found.");
     }
-    
+
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreateObservation"})
     public void testSearchInvalidResourceType() {
         WebTarget target = getWebTarget();
@@ -560,7 +562,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
         assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), "'NotAResourceType' is not a valid resource type.");
     }
-    
+
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
     public void testSearchPatientInvalidSearchOperator() {
         WebTarget target = getWebTarget();
@@ -576,7 +578,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         obs = obs.toBuilder()
                 .subject(Reference.builder().reference(string(fakePatientRef)).build())
                 .build();
-        
+
         // First conditional create should find no matches, so we should get back a 201.
         FHIRParameters ifNoneExistQuery = new FHIRParameters().searchParam("subject", fakePatientRef);
         FHIRResponse response = client.conditionalCreate(obs, ifNoneExistQuery);
@@ -584,7 +586,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
         String locationURI = response.getLocation();
         assertNotNull(locationURI);
-        
+
         // Second conditional create should find 1 match, so we should get back a 200.
         response = client.conditionalCreate(obs, ifNoneExistQuery);
         assertNotNull(response);
@@ -592,19 +594,19 @@ public class ServerSpecTest extends FHIRServerTestBase {
         String locationURI2 = response.getLocation();
         assertNotNull(locationURI2);
         assertEquals(locationURI, locationURI2);
-        
+
         // A search that results in multiple matches should result in a 412 status code.
         FHIRParameters multipleMatches = new FHIRParameters().searchParam("status", "final");
         response = client.conditionalCreate(obs, multipleMatches);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.PRECONDITION_FAILED.getStatusCode());
-        
+
         // Finally, an invalid search should result in a 400 status code.
         FHIRParameters badSearch = new FHIRParameters().searchParam("NOTASEARCH:PARAM", "foo");
         response = client.conditionalCreate(obs, badSearch);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
-    }    
+    }
 
     @Test(groups = { "server-spec" }, dependsOnMethods = { "testConditionalCreateObservation" })
     public void testConditionalUpdateObservation() throws Exception {
@@ -615,7 +617,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
                 .subject(Reference.builder().reference(string(fakePatientRef)).build())
                 .id(obsId)
                 .build();
-        
+
         // First conditional update should find no matches, so we should get back a 201.
         FHIRParameters query = new FHIRParameters().searchParam("_id", obsId);
         FHIRResponse response = client.conditionalUpdate(obs, query);
@@ -623,17 +625,17 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
         String locationURI = response.getLocation();
         assertNotNull(locationURI);
-        
+
         // Second conditional update should find 1 match, so we should get back a 200.
         response = client.conditionalUpdate(obs, query);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         String locationURI2 = response.getLocation();
         assertNotNull(locationURI2);
-        
+
         // The location URIs should differ in the version #'s.
         assertNotEquals(locationURI, locationURI2);
-        
+
         // Next, verify that we have two versions of the Observation resource.
         response = client.history("Observation", obsId, null);
         assertNotNull(response);
@@ -641,20 +643,20 @@ public class ServerSpecTest extends FHIRServerTestBase {
         Bundle historyBundle = response.getResource(Bundle.class);
         assertNotNull(historyBundle);
         assertEquals(2, historyBundle.getTotal().getValue().intValue());
-        
+
         // A search that results in multiple matches should result in a 412 status code.
         FHIRParameters multipleMatches = new FHIRParameters().searchParam("status", "final");
         response = client.conditionalUpdate(obs, multipleMatches);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.PRECONDITION_FAILED.getStatusCode());
-        
+
         // Finally, an invalid search should result in a 400 status code.
         FHIRParameters badSearch = new FHIRParameters().searchParam("NOTASEARCH:PARAM", "foo");
         response = client.conditionalUpdate(obs, badSearch);
         assertNotNull(response);
         assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
     }
-    
+
     @Test(groups = { "server-spec" })
     public void testConditionalUpdateObservation2() throws Exception {
         String fakePatientRef = "Patient/" + UUID.randomUUID().toString();
@@ -663,8 +665,8 @@ public class ServerSpecTest extends FHIRServerTestBase {
         obs = obs.toBuilder()
                 .subject(Reference.builder().reference(string(fakePatientRef)).build())
                 .build();
-        
-        // First conditional update should find no matches, so we should get back a 201 
+
+        // First conditional update should find no matches, so we should get back a 201
         // with server assigned id.
         FHIRParameters query = new FHIRParameters().searchParam("_id", obsId);
         FHIRResponse response = client.conditionalUpdate(obs, query);
@@ -672,10 +674,10 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.CREATED.getStatusCode());
         String locationURI = response.getLocation();
         assertNotNull(locationURI);
-        
+
         String[] tokens = parseLocationURI(locationURI);
         String resourceId = tokens[1];
-        
+
         // Second conditional update should find 1 match, but because there is a un-matching
         // resourceId in the input resource, so we should get back a 400 error.
         query = new FHIRParameters().searchParam("_id", resourceId);
@@ -685,9 +687,9 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.BAD_REQUEST.getStatusCode());
         assertExceptionOperationOutcome(response.getResource(OperationOutcome.class),
                 "Input resource 'id' attribute must match the id of the search result resource");
-        
+
     }
-    
+
     // Test: retrieve Patient with _summary=true.
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
     public void testReadPatientSummary() {
@@ -701,7 +703,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
                 Coding.builder().system(uri("http://terminology.hl7.org/CodeSystem/v3-ObservationValue")).code(Code.of("SUBSETTED")).display(string("subsetted")).build();
         assertTrue(FHIRUtil.hasTag(responsePatient, subsettedTag));
     }
-    
+
     // Test: retrieve Patient with _summary=text.
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
     public void testReadPatientSummary_Text() {
@@ -715,8 +717,8 @@ public class ServerSpecTest extends FHIRServerTestBase {
                 Coding.builder().system(uri("http://terminology.hl7.org/CodeSystem/v3-ObservationValue")).code(Code.of("SUBSETTED")).display(string("subsetted")).build();
         assertTrue(FHIRUtil.hasTag(responsePatient, subsettedTag));
     }
-    
-    
+
+
     // Test: retrieve Patient with _summary=false.
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
     public void testReadPatientSummary_False() {
@@ -730,8 +732,8 @@ public class ServerSpecTest extends FHIRServerTestBase {
                 Coding.builder().system(uri("http://terminology.hl7.org/CodeSystem/v3-ObservationValue")).code(Code.of("SUBSETTED")).display(string("subsetted")).build();
         assertTrue(!FHIRUtil.hasTag(responsePatient, subsettedTag));
     }
-    
-    
+
+
     // Test: retrieve Patient with _summary=data.
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
     public void testReadPatientSummary_Data() {
@@ -745,8 +747,8 @@ public class ServerSpecTest extends FHIRServerTestBase {
                 Coding.builder().system(uri("http://terminology.hl7.org/CodeSystem/v3-ObservationValue")).code(Code.of("SUBSETTED")).display(string("subsetted")).build();
         assertTrue(FHIRUtil.hasTag(responsePatient, subsettedTag));
     }
-    
-    
+
+
     // Test: retrieve Patient with _summary=invalid.
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
     public void testReadPatientSummary_Invalid_lenient() {
@@ -762,8 +764,8 @@ public class ServerSpecTest extends FHIRServerTestBase {
                 Coding.builder().system(uri("http://terminology.hl7.org/CodeSystem/v3-ObservationValue")).code(Code.of("SUBSETTED")).display(string("subsetted")).build();
         assertTrue(!FHIRUtil.hasTag(responsePatient, subsettedTag));
     }
-    
-    
+
+
     // Test: retrieve Patient with _summary=invalid with "strict" Prefer header.
     @Test(groups = { "server-spec" }, dependsOnMethods={"testCreatePatient"})
     public void testReadPatientSummary_Invalid_strict() {
@@ -775,7 +777,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
                 .get();
 
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class), 
+        assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class),
                 "An error occurred while parsing parameter '_summary'");
     }
 }

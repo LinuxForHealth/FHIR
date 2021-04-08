@@ -238,7 +238,6 @@ public class Contract extends DomainResource {
         ValidationSupport.checkReferenceType(author, "author", "Patient", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.checkReferenceType(relevantHistory, "relevantHistory", "Provenance");
         ValidationSupport.checkReferenceType(legallyBinding, "legallyBinding", "Composition", "DocumentReference", "QuestionnaireResponse", "Contract");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

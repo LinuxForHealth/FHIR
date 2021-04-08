@@ -260,7 +260,6 @@ public class ServiceRequest extends DomainResource {
         ValidationSupport.checkReferenceType(insurance, "insurance", "Coverage", "ClaimResponse");
         ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
         ValidationSupport.checkReferenceType(relevantHistory, "relevantHistory", "Provenance");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

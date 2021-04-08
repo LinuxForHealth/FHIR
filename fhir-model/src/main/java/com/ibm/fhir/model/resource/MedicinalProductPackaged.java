@@ -86,7 +86,6 @@ public class MedicinalProductPackaged extends DomainResource {
         ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct");
         ValidationSupport.checkReferenceType(marketingAuthorization, "marketingAuthorization", "MedicinalProductAuthorization");
         ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

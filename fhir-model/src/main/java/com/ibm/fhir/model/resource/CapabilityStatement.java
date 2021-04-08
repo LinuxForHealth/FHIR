@@ -285,7 +285,6 @@ public class CapabilityStatement extends DomainResource {
         rest = Collections.unmodifiableList(ValidationSupport.checkList(builder.rest, "rest", Rest.class));
         messaging = Collections.unmodifiableList(ValidationSupport.checkList(builder.messaging, "messaging", Messaging.class));
         document = Collections.unmodifiableList(ValidationSupport.checkList(builder.document, "document", Document.class));
-        ValidationSupport.requireChildren(this);
     }
 
     /**

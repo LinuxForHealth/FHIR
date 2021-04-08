@@ -200,7 +200,6 @@ public class TerminologyCapabilities extends DomainResource {
         validateCode = builder.validateCode;
         translation = builder.translation;
         closure = builder.closure;
-        ValidationSupport.requireChildren(this);
     }
 
     /**

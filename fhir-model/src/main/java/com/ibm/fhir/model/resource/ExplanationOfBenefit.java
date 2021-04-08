@@ -275,7 +275,6 @@ public class ExplanationOfBenefit extends DomainResource {
         ValidationSupport.checkReferenceType(facility, "facility", "Location");
         ValidationSupport.checkReferenceType(claim, "claim", "Claim");
         ValidationSupport.checkReferenceType(claimResponse, "claimResponse", "ClaimResponse");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

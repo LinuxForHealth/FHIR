@@ -219,7 +219,6 @@ public class AuditEvent extends DomainResource {
         agent = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.agent, "agent", Agent.class));
         source = ValidationSupport.requireNonNull(builder.source, "source");
         entity = Collections.unmodifiableList(ValidationSupport.checkList(builder.entity, "entity", Entity.class));
-        ValidationSupport.requireChildren(this);
     }
 
     /**

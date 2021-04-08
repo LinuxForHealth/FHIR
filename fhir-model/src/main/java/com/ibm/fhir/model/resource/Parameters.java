@@ -103,7 +103,6 @@ public class Parameters extends Resource {
     private Parameters(Builder builder) {
         super(builder);
         parameter = Collections.unmodifiableList(ValidationSupport.checkList(builder.parameter, "parameter", Parameter.class));
-        ValidationSupport.requireChildren(this);
     }
 
     /**

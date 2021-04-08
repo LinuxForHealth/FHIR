@@ -107,7 +107,6 @@ public class PaymentNotice extends DomainResource {
         ValidationSupport.checkReferenceType(payment, "payment", "PaymentReconciliation");
         ValidationSupport.checkReferenceType(payee, "payee", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.checkReferenceType(recipient, "recipient", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

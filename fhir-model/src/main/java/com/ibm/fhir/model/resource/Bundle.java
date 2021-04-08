@@ -159,7 +159,6 @@ public class Bundle extends Resource {
         link = Collections.unmodifiableList(ValidationSupport.checkList(builder.link, "link", Link.class));
         entry = Collections.unmodifiableList(ValidationSupport.checkList(builder.entry, "entry", Entry.class));
         signature = builder.signature;
-        ValidationSupport.requireChildren(this);
     }
 
     /**

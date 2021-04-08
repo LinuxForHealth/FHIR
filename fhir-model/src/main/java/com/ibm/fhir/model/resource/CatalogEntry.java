@@ -93,7 +93,6 @@ public class CatalogEntry extends DomainResource {
         additionalClassification = Collections.unmodifiableList(ValidationSupport.checkList(builder.additionalClassification, "additionalClassification", CodeableConcept.class));
         relatedEntry = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedEntry, "relatedEntry", RelatedEntry.class));
         ValidationSupport.checkReferenceType(referencedItem, "referencedItem", "Medication", "Device", "Organization", "Practitioner", "PractitionerRole", "HealthcareService", "ActivityDefinition", "PlanDefinition", "SpecimenDefinition", "ObservationDefinition", "Binary");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

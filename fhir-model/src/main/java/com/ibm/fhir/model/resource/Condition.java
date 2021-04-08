@@ -204,7 +204,6 @@ public class Condition extends DomainResource {
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(recorder, "recorder", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson");
         ValidationSupport.checkReferenceType(asserter, "asserter", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

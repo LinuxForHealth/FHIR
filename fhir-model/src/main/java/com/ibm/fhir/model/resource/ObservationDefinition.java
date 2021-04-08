@@ -145,7 +145,6 @@ public class ObservationDefinition extends DomainResource {
         ValidationSupport.checkReferenceType(normalCodedValueSet, "normalCodedValueSet", "ValueSet");
         ValidationSupport.checkReferenceType(abnormalCodedValueSet, "abnormalCodedValueSet", "ValueSet");
         ValidationSupport.checkReferenceType(criticalCodedValueSet, "criticalCodedValueSet", "ValueSet");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

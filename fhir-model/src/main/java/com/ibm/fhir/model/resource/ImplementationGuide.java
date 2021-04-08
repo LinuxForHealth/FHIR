@@ -182,7 +182,6 @@ public class ImplementationGuide extends DomainResource {
         global = Collections.unmodifiableList(ValidationSupport.checkList(builder.global, "global", Global.class));
         definition = builder.definition;
         manifest = builder.manifest;
-        ValidationSupport.requireChildren(this);
     }
 
     /**

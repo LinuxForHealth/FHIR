@@ -159,7 +159,6 @@ public class DiagnosticReport extends DomainResource {
         ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
         ValidationSupport.checkReferenceType(result, "result", "Observation");
         ValidationSupport.checkReferenceType(imagingStudy, "imagingStudy", "ImagingStudy");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

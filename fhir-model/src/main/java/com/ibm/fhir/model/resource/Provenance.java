@@ -126,7 +126,6 @@ public class Provenance extends DomainResource {
         entity = Collections.unmodifiableList(ValidationSupport.checkList(builder.entity, "entity", Entity.class));
         signature = Collections.unmodifiableList(ValidationSupport.checkList(builder.signature, "signature", Signature.class));
         ValidationSupport.checkReferenceType(location, "location", "Location");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

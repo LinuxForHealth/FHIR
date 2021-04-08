@@ -75,7 +75,6 @@ public class MedicinalProductContraindication extends DomainResource {
         population = Collections.unmodifiableList(ValidationSupport.checkList(builder.population, "population", Population.class));
         ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication");
         ValidationSupport.checkReferenceType(therapeuticIndication, "therapeuticIndication", "MedicinalProductIndication");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

@@ -147,7 +147,6 @@ public class ClinicalImpression extends DomainResource {
         ValidationSupport.checkReferenceType(previous, "previous", "ClinicalImpression");
         ValidationSupport.checkReferenceType(problem, "problem", "Condition", "AllergyIntolerance");
         ValidationSupport.checkReferenceType(prognosisReference, "prognosisReference", "RiskAssessment");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

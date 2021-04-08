@@ -163,7 +163,6 @@ public class List extends DomainResource {
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Location");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(source, "source", "Practitioner", "PractitionerRole", "Patient", "Device");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

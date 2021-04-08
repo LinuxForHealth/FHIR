@@ -77,7 +77,6 @@ public class EnrollmentRequest extends DomainResource {
         ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.checkReferenceType(candidate, "candidate", "Patient");
         ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

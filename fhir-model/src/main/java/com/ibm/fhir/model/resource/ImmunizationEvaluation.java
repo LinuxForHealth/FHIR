@@ -123,7 +123,6 @@ public class ImmunizationEvaluation extends DomainResource {
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(authority, "authority", "Organization");
         ValidationSupport.checkReferenceType(immunizationEvent, "immunizationEvent", "Immunization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

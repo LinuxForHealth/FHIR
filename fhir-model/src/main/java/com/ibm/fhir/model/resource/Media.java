@@ -183,7 +183,6 @@ public class Media extends DomainResource {
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(operator, "operator", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "Device", "RelatedPerson");
         ValidationSupport.checkReferenceType(device, "device", "Device", "DeviceMetric", "Device");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

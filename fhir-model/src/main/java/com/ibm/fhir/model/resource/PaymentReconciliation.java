@@ -121,7 +121,6 @@ public class PaymentReconciliation extends DomainResource {
         ValidationSupport.checkReferenceType(paymentIssuer, "paymentIssuer", "Organization");
         ValidationSupport.checkReferenceType(request, "request", "Task");
         ValidationSupport.checkReferenceType(requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

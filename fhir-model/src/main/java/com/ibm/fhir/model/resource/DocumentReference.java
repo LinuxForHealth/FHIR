@@ -170,7 +170,6 @@ public class DocumentReference extends DomainResource {
         ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Organization", "Device", "Patient", "RelatedPerson");
         ValidationSupport.checkReferenceType(authenticator, "authenticator", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.checkReferenceType(custodian, "custodian", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

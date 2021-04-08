@@ -56,7 +56,6 @@ public class Binary extends Resource {
         contentType = ValidationSupport.requireNonNull(builder.contentType, "contentType");
         securityContext = builder.securityContext;
         data = builder.data;
-        ValidationSupport.requireChildren(this);
     }
 
     /**

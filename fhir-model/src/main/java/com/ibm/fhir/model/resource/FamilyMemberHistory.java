@@ -175,7 +175,6 @@ public class FamilyMemberHistory extends DomainResource {
         condition = Collections.unmodifiableList(ValidationSupport.checkList(builder.condition, "condition", Condition.class));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "AllergyIntolerance", "QuestionnaireResponse", "DiagnosticReport", "DocumentReference");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

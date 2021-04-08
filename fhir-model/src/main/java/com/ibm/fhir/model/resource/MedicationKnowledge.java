@@ -138,7 +138,6 @@ public class MedicationKnowledge extends DomainResource {
         ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
         ValidationSupport.checkReferenceType(associatedMedication, "associatedMedication", "Medication");
         ValidationSupport.checkReferenceType(contraindication, "contraindication", "DetectedIssue");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

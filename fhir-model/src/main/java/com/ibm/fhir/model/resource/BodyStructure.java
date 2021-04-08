@@ -95,7 +95,6 @@ public class BodyStructure extends DomainResource {
         image = Collections.unmodifiableList(ValidationSupport.checkList(builder.image, "image", Attachment.class));
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

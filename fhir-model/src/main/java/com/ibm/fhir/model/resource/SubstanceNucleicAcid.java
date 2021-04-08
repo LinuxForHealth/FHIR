@@ -63,7 +63,6 @@ public class SubstanceNucleicAcid extends DomainResource {
         areaOfHybridisation = builder.areaOfHybridisation;
         oligoNucleotideType = builder.oligoNucleotideType;
         subunit = Collections.unmodifiableList(ValidationSupport.checkList(builder.subunit, "subunit", Subunit.class));
-        ValidationSupport.requireChildren(this);
     }
 
     /**

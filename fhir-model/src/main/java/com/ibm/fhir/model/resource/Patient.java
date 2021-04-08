@@ -155,7 +155,6 @@ public class Patient extends DomainResource {
         link = Collections.unmodifiableList(ValidationSupport.checkList(builder.link, "link", Link.class));
         ValidationSupport.checkReferenceType(generalPractitioner, "generalPractitioner", "Organization", "Practitioner", "PractitionerRole");
         ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

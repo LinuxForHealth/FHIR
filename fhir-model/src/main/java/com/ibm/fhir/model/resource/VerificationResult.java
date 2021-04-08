@@ -170,7 +170,6 @@ public class VerificationResult extends DomainResource {
         primarySource = Collections.unmodifiableList(ValidationSupport.checkList(builder.primarySource, "primarySource", PrimarySource.class));
         attestation = builder.attestation;
         validator = Collections.unmodifiableList(ValidationSupport.checkList(builder.validator, "validator", Validator.class));
-        ValidationSupport.requireChildren(this);
     }
 
     /**

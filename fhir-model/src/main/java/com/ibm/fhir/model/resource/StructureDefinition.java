@@ -379,7 +379,6 @@ public class StructureDefinition extends DomainResource {
         derivation = builder.derivation;
         snapshot = builder.snapshot;
         differential = builder.differential;
-        ValidationSupport.requireChildren(this);
     }
 
     /**

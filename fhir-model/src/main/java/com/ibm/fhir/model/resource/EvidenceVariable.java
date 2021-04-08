@@ -182,7 +182,6 @@ public class EvidenceVariable extends DomainResource {
         relatedArtifact = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class));
         type = builder.type;
         characteristic = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.characteristic, "characteristic", Characteristic.class));
-        ValidationSupport.requireChildren(this);
     }
 
     /**

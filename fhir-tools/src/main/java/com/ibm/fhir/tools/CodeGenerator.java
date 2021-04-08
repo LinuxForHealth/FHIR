@@ -1271,10 +1271,6 @@ public class CodeGenerator {
                 cb.invoke("ValidationSupport", "requireValueOrChildren", args("this"));
             }
 
-            if (isResource(structureDefinition) && !isAbstract(structureDefinition) && !nested) {
-                cb.invoke("ValidationSupport", "requireChildren", args("this"));
-            }
-
             if (isXhtml(structureDefinition)) {
                 cb.invoke("ValidationSupport", "checkXHTMLContent", args("value"));
             }

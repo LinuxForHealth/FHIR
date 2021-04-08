@@ -186,7 +186,6 @@ public class EventDefinition extends DomainResource {
         relatedArtifact = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class));
         trigger = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.trigger, "trigger", TriggerDefinition.class));
         ValidationSupport.checkReferenceType(subject, "subject", "Group");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

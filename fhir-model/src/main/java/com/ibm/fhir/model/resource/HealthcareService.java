@@ -189,7 +189,6 @@ public class HealthcareService extends DomainResource {
         ValidationSupport.checkReferenceType(location, "location", "Location");
         ValidationSupport.checkReferenceType(coverageArea, "coverageArea", "Location");
         ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

@@ -118,7 +118,6 @@ public class EpisodeOfCare extends DomainResource {
         ValidationSupport.checkReferenceType(careManager, "careManager", "Practitioner", "PractitionerRole");
         ValidationSupport.checkReferenceType(team, "team", "CareTeam");
         ValidationSupport.checkReferenceType(account, "account", "Account");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

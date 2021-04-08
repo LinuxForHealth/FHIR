@@ -263,7 +263,6 @@ public class Observation extends DomainResource {
         ValidationSupport.checkReferenceType(device, "device", "Device", "DeviceMetric");
         ValidationSupport.checkReferenceType(hasMember, "hasMember", "Observation", "QuestionnaireResponse", "MolecularSequence");
         ValidationSupport.checkReferenceType(derivedFrom, "derivedFrom", "DocumentReference", "ImagingStudy", "Media", "QuestionnaireResponse", "Observation", "MolecularSequence");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

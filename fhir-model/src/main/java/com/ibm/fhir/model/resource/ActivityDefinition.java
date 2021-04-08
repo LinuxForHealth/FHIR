@@ -283,7 +283,6 @@ public class ActivityDefinition extends DomainResource {
         ValidationSupport.checkReferenceType(specimenRequirement, "specimenRequirement", "SpecimenDefinition");
         ValidationSupport.checkReferenceType(observationRequirement, "observationRequirement", "ObservationDefinition");
         ValidationSupport.checkReferenceType(observationResultRequirement, "observationResultRequirement", "ObservationDefinition");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

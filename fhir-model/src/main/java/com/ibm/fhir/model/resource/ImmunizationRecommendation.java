@@ -84,7 +84,6 @@ public class ImmunizationRecommendation extends DomainResource {
         recommendation = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.recommendation, "recommendation", Recommendation.class));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(authority, "authority", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

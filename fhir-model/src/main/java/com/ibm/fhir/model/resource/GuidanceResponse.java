@@ -113,7 +113,6 @@ public class GuidanceResponse extends DomainResource {
         ValidationSupport.checkReferenceType(evaluationMessage, "evaluationMessage", "OperationOutcome");
         ValidationSupport.checkReferenceType(outputParameters, "outputParameters", "Parameters");
         ValidationSupport.checkReferenceType(result, "result", "CarePlan", "RequestGroup");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
