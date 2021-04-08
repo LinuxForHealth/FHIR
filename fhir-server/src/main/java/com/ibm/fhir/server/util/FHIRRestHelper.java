@@ -2516,7 +2516,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @return the bundle
      * @throws Exception
      */
-    private Bundle createSearchBundle(List<Resource> resources, FHIRSearchContext searchContext, String type)
+    Bundle createSearchBundle(List<Resource> resources, FHIRSearchContext searchContext, String type)
         throws Exception {
 
         // throws if we have a count of more than 2,147,483,647 resources
