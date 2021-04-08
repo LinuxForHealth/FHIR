@@ -10,6 +10,7 @@ set -eu -o pipefail
 
 # generates a list of commits since last tag
 
+mkdir -p build/release/workarea/release_files
 git log $(git describe --tags --abbrev=0 @^)..@ > build/release/workarea/release_files/release-commit-details.txt
 
 # EOF
