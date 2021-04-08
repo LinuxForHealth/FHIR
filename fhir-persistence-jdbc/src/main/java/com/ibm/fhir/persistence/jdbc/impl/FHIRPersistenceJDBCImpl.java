@@ -1522,167 +1522,122 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         List<ExtractedParameterValue> allParameters = new ArrayList<>();
 
         try {
-            if (fhirResource != null) {
-                map = SearchUtil.extractParameterValues(fhirResource);
+            if (fhirResource == null) {
+                return allParameters;
+            }
+            map = SearchUtil.extractParameterValues(fhirResource);
 
-                for (Entry<SearchParameter, List<FHIRPathNode>> entry : map.entrySet()) {
-                    SearchParameter sp = entry.getKey();
-                    code = sp.getCode().getValue();
+            for (Entry<SearchParameter, List<FHIRPathNode>> entry : map.entrySet()) {
+                SearchParameter sp = entry.getKey();
+                code = sp.getCode().getValue();
 
-                    // As not to inject any other special handling logic, this is a simple inline check to see if
-                    // _id or _lastUpdated are used, and ignore those extracted values.
-                    if (SPECIAL_HANDLING.contains(code)) {
-                        continue;
-                    }
-                    type = sp.getType().getValue();
-                    expression = sp.getExpression().getValue();
+                // As not to inject any other special handling logic, this is a simple inline check to see if
+                // _id or _lastUpdated are used, and ignore those extracted values.
+                if (SPECIAL_HANDLING.contains(code)) {
+                    continue;
+                }
+                type = sp.getType().getValue();
+                expression = sp.getExpression().getValue();
 
-                    if (log.isLoggable(Level.FINE)) {
-                        log.fine("Processing SearchParameter resource: " + fhirResource.getClass().getSimpleName() + ", code: " + code + ", type: " + type + ", expression: " + expression);
-                    }
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Processing SearchParameter resource: " + fhirResource.getClass().getSimpleName() + ", code: " + code + ", type: " + type + ", expression: " + expression);
+                }
 
-                    List<FHIRPathNode> values = entry.getValue();
+                List<FHIRPathNode> values = entry.getValue();
 
-                    if (SearchParamType.COMPOSITE.equals(sp.getType())) {
-                        List<Component> components = sp.getComponent();
-                        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+                if (SearchParamType.COMPOSITE.equals(sp.getType())) {
+                    List<Component> components = sp.getComponent();
+                    FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
-                        for (FHIRPathNode value : values) {
-                            Visitable fhirNode;
-                            EvaluationContext context;
-                            if (value.isResourceNode()) {
-                                fhirNode = value.asResourceNode().resource();
-                                context = new EvaluationContext((Resource) fhirNode);
-                            } else if (value.isElementNode()) {
-                                fhirNode = value.asElementNode().element();
-                                context = new EvaluationContext((Element) fhirNode);
-                            } else {
-                                throw new IllegalStateException("Composite parameter expression must select one or more FHIR elements");
-                            }
-
-                            CompositeParmVal p = new CompositeParmVal();
-                            p.setName(code);
-                            p.setResourceType(fhirResource.getClass().getSimpleName());
-
-                            for (int i = 0; i < components.size(); i++) {
-                                Component component = components.get(i);
-                                Collection<FHIRPathNode> nodes = evaluator.evaluate(context, component.getExpression().getValue());
-                                if (nodes.isEmpty()){
-                                    if (log.isLoggable(Level.FINER)) {
-                                        log.finer("Component expression '" + component.getExpression().getValue() + "' resulted in 0 nodes; "
-                                                + "skipping composite parameter '" + code + "'.");
-                                    }
-                                    continue;
-                                }
-
-                                // Alternative: consider pulling the search parameter from the FHIRRegistry instead so we can use versioned references.
-                                // Of course, that would require adding extension-search-params to the Registry which would require the Registry to be tenant-aware.
-    //                            SearchParameter compSP = FHIRRegistry.getInstance().getResource(component.getDefinition().getValue(), SearchParameter.class);
-                                SearchParameter compSP = SearchUtil.getSearchParameter(p.getResourceType(), component.getDefinition());
-                                JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(p.getResourceType(), compSP);
-                                FHIRPathNode node = nodes.iterator().next();
-                                if (nodes.size() > 1 ) {
-                                    // TODO: support component expressions that result in multiple nodes
-                                    // On the current schema, this means creating a different CompositeParmValue for each ordered set of component values.
-                                    // For example, if a composite has two components and each one's expression results in two nodes
-                                    // ([Code1,Code2] and [Quantity1,Quantity2]) and each node results in a single ExtractedParameterValue,
-                                    // then we need to generate CompositeParmVal objects for [Code1,Quantity1], [Code1,Quantity2],
-                                    // [Code2,Quantity1], and [Code2,Quantity2].
-                                    // Assumption: this should be rare.
-                                    if (log.isLoggable(Level.FINE)) {
-                                        log.fine("Component expression '" + component.getExpression().getValue() + "' resulted in multiple nodes; "
-                                                + "proceeding with randomly chosen node '" + node.path() + "' for search parameter '" + code + "'.");
-                                    }
-                                }
-
-                                try {
-                                    if (node.isElementNode()) {
-                                        // parameterBuilder aggregates the results for later retrieval
-                                        node.asElementNode().element().accept(parameterBuilder);
-                                        // retrieve the list of parameters built from all the FHIRPathElementNode values
-                                        List<ExtractedParameterValue> parameters = parameterBuilder.getResult();
-                                        if (parameters.isEmpty()){
-                                            if (log.isLoggable(Level.FINE)) {
-                                                log.fine("Selected element '" + node.path() + "' resulted in 0 extracted parameter values; "
-                                                        + "skipping composite parameter '" + code + "'.");
-                                            }
-                                            continue;
-                                        }
-
-                                        if (parameters.size() > 1) {
-                                            // TODO: support component searchParms that lead to multiple ExtractedParameterValues
-                                            // On the current schema, this means creating a different CompositeParmValue for each ordered set of component values.
-                                            // For example:
-                                            // If a composite has two components and each results in two extracted parameters ([A,B] and [1,2] respectively)
-                                            // then we need to generate CompositeParmVal objects for [A,1], [A,2], [B,1], and [B,2]
-                                            // Assumption: this should only be common for Quantity search parameters with both a coded unit and a display unit,
-                                            // and in these cases, the coded unit is almost always the preferred value for search.
-                                            if (log.isLoggable(Level.FINE)) {
-                                                log.fine("Selected element '" + node.path() + "' resulted in multiple extracted parameter values; "
-                                                        + "proceeding with the first extracted value for composite parameter '" + code + "'.");
-                                            }
-                                        }
-                                        ExtractedParameterValue componentParam = parameters.get(0);
-                                        // override the component parameter name with the composite parameter name
-                                        componentParam.setName(SearchUtil.makeCompositeSubCode(code, componentParam.getName()));
-                                        componentParam.setBase(p.getBase());
-                                        p.addComponent(componentParam);
-                                    } else if (node.isSystemValue()){
-                                        ExtractedParameterValue primitiveParam = processPrimitiveValue(node.asSystemValue());
-                                        primitiveParam.setName(code);
-                                        primitiveParam.setResourceType(fhirResource.getClass().getSimpleName());
-
-                                        if (log.isLoggable(Level.FINE)) {
-                                            log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
-                                        }
-                                        p.addComponent(primitiveParam);
-                                    } else {
-                                        // log and continue
-                                        String msg = "Unable to extract value from '" + value.path() +
-                                                "'; search parameter value extraction can only be performed on Elements and primitive values.";
-                                        if (log.isLoggable(Level.FINE)) {
-                                            log.fine(msg);
-                                        }
-                                        addWarning(IssueType.INVALID, msg);
-                                        continue;
-                                    }
-                                } catch (IllegalArgumentException e) {
-                                    // log and continue with the other parameters
-                                    StringBuilder msg = new StringBuilder("Skipped search parameter '" + code + "'");
-                                    if (sp.getId() != null) {
-                                        msg.append(" with id '" + sp.getId() + "'");
-                                    }
-                                    msg.append(" for resource type " + fhirResource.getClass().getSimpleName());
-                                    // just use the message...no need for the whole stack trace
-                                    msg.append(" due to \n" + e.getMessage());
-                                    if (log.isLoggable(Level.FINE)) {
-                                        log.fine(msg.toString());
-                                    }
-                                    addWarning(IssueType.INVALID, msg.toString());
-                                }
-                            }
-                            if (components.size() == p.getComponent().size()) {
-                                // only add the parameter if all of the components are present and accounted for
-                                allParameters.add(p);
-                            }
+                    for (FHIRPathNode value : values) {
+                        Visitable fhirNode;
+                        EvaluationContext context;
+                        if (value.isResourceNode()) {
+                            fhirNode = value.asResourceNode().resource();
+                            context = new EvaluationContext((Resource) fhirNode);
+                        } else if (value.isElementNode()) {
+                            fhirNode = value.asElementNode().element();
+                            context = new EvaluationContext((Element) fhirNode);
+                        } else {
+                            throw new IllegalStateException("Composite parameter expression must select one or more FHIR elements");
                         }
-                    } else { // ! SearchParamType.COMPOSITE.equals(sp.getType())
-                        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(fhirResource.getClass().getSimpleName(), sp);
 
-                        for (FHIRPathNode value : values) {
+                        CompositeParmVal p = new CompositeParmVal();
+                        p.setName(code);
+                        p.setResourceType(fhirResource.getClass().getSimpleName());
+
+                        for (int i = 0; i < components.size(); i++) {
+                            Component component = components.get(i);
+                            Collection<FHIRPathNode> nodes = evaluator.evaluate(context, component.getExpression().getValue());
+                            if (nodes.isEmpty()){
+                                if (log.isLoggable(Level.FINER)) {
+                                    log.finer("Component expression '" + component.getExpression().getValue() + "' resulted in 0 nodes; "
+                                            + "skipping composite parameter '" + code + "'.");
+                                }
+                                continue;
+                            }
+
+                            // Alternative: consider pulling the search parameter from the FHIRRegistry instead so we can use versioned references.
+                            // Of course, that would require adding extension-search-params to the Registry which would require the Registry to be tenant-aware.
+//                            SearchParameter compSP = FHIRRegistry.getInstance().getResource(component.getDefinition().getValue(), SearchParameter.class);
+                            SearchParameter compSP = SearchUtil.getSearchParameter(p.getResourceType(), component.getDefinition());
+                            JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(p.getResourceType(), compSP);
+                            FHIRPathNode node = nodes.iterator().next();
+                            if (nodes.size() > 1 ) {
+                                // TODO: support component expressions that result in multiple nodes
+                                // On the current schema, this means creating a different CompositeParmValue for each ordered set of component values.
+                                // For example, if a composite has two components and each one's expression results in two nodes
+                                // ([Code1,Code2] and [Quantity1,Quantity2]) and each node results in a single ExtractedParameterValue,
+                                // then we need to generate CompositeParmVal objects for [Code1,Quantity1], [Code1,Quantity2],
+                                // [Code2,Quantity1], and [Code2,Quantity2].
+                                // Assumption: this should be rare.
+                                if (log.isLoggable(Level.FINE)) {
+                                    log.fine("Component expression '" + component.getExpression().getValue() + "' resulted in multiple nodes; "
+                                            + "proceeding with randomly chosen node '" + node.path() + "' for search parameter '" + code + "'.");
+                                }
+                            }
 
                             try {
-                                if (value.isElementNode()) {
+                                if (node.isElementNode()) {
                                     // parameterBuilder aggregates the results for later retrieval
-                                    value.asElementNode().element().accept(parameterBuilder);
-                                } else if (value.isSystemValue()){
-                                    ExtractedParameterValue p = processPrimitiveValue(value.asSystemValue());
-                                    p.setName(code);
-                                    p.setResourceType(fhirResource.getClass().getSimpleName());
-                                    allParameters.add(p);
+                                    node.asElementNode().element().accept(parameterBuilder);
+                                    // retrieve the list of parameters built from all the FHIRPathElementNode values
+                                    List<ExtractedParameterValue> parameters = parameterBuilder.getResult();
+                                    if (parameters.isEmpty()){
+                                        if (log.isLoggable(Level.FINE)) {
+                                            log.fine("Selected element '" + node.path() + "' resulted in 0 extracted parameter values; "
+                                                    + "skipping composite parameter '" + code + "'.");
+                                        }
+                                        continue;
+                                    }
+
+                                    if (parameters.size() > 1) {
+                                        // TODO: support component searchParms that lead to multiple ExtractedParameterValues
+                                        // On the current schema, this means creating a different CompositeParmValue for each ordered set of component values.
+                                        // For example:
+                                        // If a composite has two components and each results in two extracted parameters ([A,B] and [1,2] respectively)
+                                        // then we need to generate CompositeParmVal objects for [A,1], [A,2], [B,1], and [B,2]
+                                        // Assumption: this should only be common for Quantity search parameters with both a coded unit and a display unit,
+                                        // and in these cases, the coded unit is almost always the preferred value for search.
+                                        if (log.isLoggable(Level.FINE)) {
+                                            log.fine("Selected element '" + node.path() + "' resulted in multiple extracted parameter values; "
+                                                    + "proceeding with the first extracted value for composite parameter '" + code + "'.");
+                                        }
+                                    }
+                                    ExtractedParameterValue componentParam = parameters.get(0);
+                                    // override the component parameter name with the composite parameter name
+                                    componentParam.setName(SearchUtil.makeCompositeSubCode(code, componentParam.getName()));
+                                    componentParam.setBase(p.getBase());
+                                    p.addComponent(componentParam);
+                                } else if (node.isSystemValue()){
+                                    ExtractedParameterValue primitiveParam = processPrimitiveValue(node.asSystemValue());
+                                    primitiveParam.setName(code);
+                                    primitiveParam.setResourceType(fhirResource.getClass().getSimpleName());
+
                                     if (log.isLoggable(Level.FINE)) {
                                         log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
                                     }
+                                    p.addComponent(primitiveParam);
                                 } else {
                                     // log and continue
                                     String msg = "Unable to extract value from '" + value.path() +
@@ -1695,7 +1650,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                 }
                             } catch (IllegalArgumentException e) {
                                 // log and continue with the other parameters
-                                StringBuilder msg = new StringBuilder("Skipping search parameter '" + code + "'");
+                                StringBuilder msg = new StringBuilder("Skipped search parameter '" + code + "'");
                                 if (sp.getId() != null) {
                                     msg.append(" with id '" + sp.getId() + "'");
                                 }
@@ -1708,22 +1663,68 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                 addWarning(IssueType.INVALID, msg.toString());
                             }
                         }
-                        // retrieve the list of parameters built from all the FHIRPathElementNode values
-                        List<ExtractedParameterValue> parameters = parameterBuilder.getResult();
-                        for (ExtractedParameterValue p : parameters) {
+                        if (components.size() == p.getComponent().size()) {
+                            // only add the parameter if all of the components are present and accounted for
                             allParameters.add(p);
-                            if (log.isLoggable(Level.FINE)) {
-                                log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
+                        }
+                    }
+                } else { // ! SearchParamType.COMPOSITE.equals(sp.getType())
+                    JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(fhirResource.getClass().getSimpleName(), sp);
+
+                    for (FHIRPathNode value : values) {
+
+                        try {
+                            if (value.isElementNode()) {
+                                // parameterBuilder aggregates the results for later retrieval
+                                value.asElementNode().element().accept(parameterBuilder);
+                            } else if (value.isSystemValue()){
+                                ExtractedParameterValue p = processPrimitiveValue(value.asSystemValue());
+                                p.setName(code);
+                                p.setResourceType(fhirResource.getClass().getSimpleName());
+                                allParameters.add(p);
+                                if (log.isLoggable(Level.FINE)) {
+                                    log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
+                                }
+                            } else {
+                                // log and continue
+                                String msg = "Unable to extract value from '" + value.path() +
+                                        "'; search parameter value extraction can only be performed on Elements and primitive values.";
+                                if (log.isLoggable(Level.FINE)) {
+                                    log.fine(msg);
+                                }
+                                addWarning(IssueType.INVALID, msg);
+                                continue;
                             }
+                        } catch (IllegalArgumentException e) {
+                            // log and continue with the other parameters
+                            StringBuilder msg = new StringBuilder("Skipping search parameter '" + code + "'");
+                            if (sp.getId() != null) {
+                                msg.append(" with id '" + sp.getId() + "'");
+                            }
+                            msg.append(" for resource type " + fhirResource.getClass().getSimpleName());
+                            // just use the message...no need for the whole stack trace
+                            msg.append(" due to \n" + e.getMessage());
+                            if (log.isLoggable(Level.FINE)) {
+                                log.fine(msg.toString());
+                            }
+                            addWarning(IssueType.INVALID, msg.toString());
+                        }
+                    }
+                    // retrieve the list of parameters built from all the FHIRPathElementNode values
+                    List<ExtractedParameterValue> parameters = parameterBuilder.getResult();
+                    for (ExtractedParameterValue p : parameters) {
+                        allParameters.add(p);
+                        if (log.isLoggable(Level.FINE)) {
+                            log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
                         }
                     }
                 }
-
-                // Augment the extracted parameter list with special values we use to represent compartment relationships.
-                // These references are stored as tokens and are used by the search query builder
-                // for compartment-based searches
-                addCompartmentParams(allParameters, fhirResource);
             }
+
+            // Augment the extracted parameter list with special values we use to represent compartment relationships.
+            // These references are stored as tokens and are used by the search query builder
+            // for compartment-based searches
+            addCompartmentParams(allParameters, fhirResource);
         } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
