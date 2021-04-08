@@ -12,11 +12,11 @@ set -eu -o pipefail
 
 # fhir-examples
 export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-examples").profiles | map(.) | join(",")' build/release/config/release.json)"
-mvn -T2C test jacoco:report-aggregate -f fhir-examples -P "${BUILD_PROFILES}"
+mvn -T2C test jacoco:report-aggregate -f fhir-examples
 
 # fhir-tools
 export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-tools").profiles | map(.) | join(",")' build/release/config/release.json)"
-mvn -T2C test jacoco:report-aggregate -f fhir-tools -P "${BUILD_PROFILES}"
+mvn -T2C test jacoco:report-aggregate -f fhir-tools
 
 # fhir-parent
 export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-parent").profiles | map(.) | join(",")' build/release/config/release.json)"
