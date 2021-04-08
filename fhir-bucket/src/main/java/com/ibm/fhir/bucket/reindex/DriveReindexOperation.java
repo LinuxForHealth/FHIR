@@ -25,6 +25,9 @@ import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Resource;
 
+import com.ibm.fhir.database.utils.api.DataAccessException;
+
+
 /**
  * Drives the $reindex custom operation in parallel. Each thread keeps running
  * until the OperationOutcome indicates that no work remains to be processed.
@@ -199,7 +202,19 @@ public class DriveReindexOperation {
      */
     private void callReindexOperation() {
         while (this.running && this.active) {
-            boolean ok = callOnce();
+            boolean ok = false;
+            try {
+                ok = callOnce();
+            } catch (DataAccessException x) {
+                // allow active be set to false.  This will notify monitorLoop something is wrong.
+                // Probably all threads will encounter the same exception and monitorLoop will
+                // try to refill the pool if all threads exit.
+                logger.severe("DataAccessException caught when contacting FHIR server. FHIR client thread will exit." + x.toString() );
+            } catch (IllegalStateException x) {
+                // Fail for this exception too. fhir-bucket fhir client suggests this exception results from config error.
+                // So probably this will be caught first time monitorLoop calls callOnce and not here.
+                logger.severe("IllegalStateException caught. FHIR client thread will exit." + x.toString() );
+            }
             if (!ok) {
                 // stop everything on the first failure
                 this.active = false;
