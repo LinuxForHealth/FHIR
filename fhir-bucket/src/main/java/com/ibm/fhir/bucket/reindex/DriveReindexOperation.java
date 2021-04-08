@@ -27,7 +27,6 @@ import com.ibm.fhir.model.resource.Resource;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
 
-
 /**
  * Drives the $reindex custom operation in parallel. Each thread keeps running
  * until the OperationOutcome indicates that no work remains to be processed.
