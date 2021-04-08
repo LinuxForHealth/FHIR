@@ -30,7 +30,7 @@ public class SelectAdapter {
 
     /**
      * Adapter this select statement
-     * 
+     *
      * @param select
      */
     public SelectAdapter(Select select) {
@@ -39,7 +39,7 @@ public class SelectAdapter {
 
     /**
      * Public constructor taking a collection of string column names
-     * 
+     *
      * @param columns
      */
     public SelectAdapter(String... columns) {
@@ -49,7 +49,6 @@ public class SelectAdapter {
 
     /**
      * Create a from clause for this select statement
-     * 
      * @return
      */
     public FromAdapter from(String tableName, Alias alias) {
@@ -59,7 +58,7 @@ public class SelectAdapter {
 
     /**
      * Add the sub-query select to the FROM clause
-     * 
+     *
      * @param sub the sub-query select statement
      * @param alias
      * @return
@@ -71,7 +70,7 @@ public class SelectAdapter {
 
     /**
      * Create a from clause for this select statement
-     * 
+     *
      * @return
      */
     public FromAdapter from(String table) {
@@ -80,8 +79,19 @@ public class SelectAdapter {
     }
 
     /**
+     * Create a {@link FromAdapter} associated with the current select statement.
+     * No row sources are added to the query. The FROM will only be added
+     * to the statement if rows sources are subsequently added to the returned
+     * {@link FromAdapter}.
+     * @return
+     */
+    public FromAdapter from() {
+        return new FromAdapter(select);
+    }
+
+    /**
      * Getter for the select statement we are managing
-     * 
+     *
      * @return
      */
     public Select getSelect() {
@@ -89,8 +99,18 @@ public class SelectAdapter {
     }
 
     /**
+     * Add pagination offset/limit to the query
+     * @param translator
+     * @param offset
+     * @param rowsPerPage
+     */
+    public void pagination(int offset, int rowsPerPage) {
+        select.addPagination(offset, rowsPerPage);
+    }
+
+    /**
      * Get the statement we've been constructing
-     * 
+     *
      * @return
      */
     public Select build() {

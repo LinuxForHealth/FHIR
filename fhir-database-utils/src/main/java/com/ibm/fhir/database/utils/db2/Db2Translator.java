@@ -274,4 +274,22 @@ public class Db2Translator implements IDatabaseTranslator {
     public String limit(String arg) {
         return "FETCH FIRST " + arg + " ROWS ONLY";
     }
+
+    @Override
+    public String pagination(int offset, int rowsPerPage) {
+        StringBuilder result = new StringBuilder();
+        if (offset == 0) {
+            result.append("FETCH FIRST ");
+            result.append(rowsPerPage);
+            result.append(" ROWS ONLY");
+        } else {
+            result.append("OFFSET ");
+            result.append(offset);
+            result.append(" ROWS ");
+            result.append("FETCH NEXT ");
+            result.append(rowsPerPage);
+            result.append(" ROWS ONLY");
+        }
+        return result.toString();
+    }
 }

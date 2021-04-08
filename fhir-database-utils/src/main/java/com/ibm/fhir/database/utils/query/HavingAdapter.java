@@ -16,7 +16,7 @@ public class HavingAdapter {
     /**
      * Protected constructor. Should only need to be instantiated
      * as part of a {@link SelectAdapter}.
-     * 
+     *
      * @param select
      */
     protected HavingAdapter(Select select) {
@@ -28,11 +28,15 @@ public class HavingAdapter {
     }
 
     /**
-     * Order by is the very last part of a statement
-     * 
+     * Start building the ORDER BY clause
+     * @param expressions
      * @return
      */
-    public OrderByAdapter orderBy() {
-        return new OrderByAdapter(select);
+    public OrderByAdapter orderBy(String... expressions) {
+        OrderByClause ob = new OrderByClause();
+        ob.add(expressions);
+        this.select.setOrderByClause(ob);
+        return new OrderByAdapter(select, ob);
     }
+
 }

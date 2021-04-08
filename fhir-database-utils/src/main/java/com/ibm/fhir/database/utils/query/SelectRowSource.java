@@ -9,19 +9,18 @@ package com.ibm.fhir.database.utils.query;
 /**
  * Represents a table referenced in the from list
  */
-public class FromItemSelect extends FromItem {
+public class SelectRowSource implements RowSource {
 
     // The sub-query
     private final Select select;
 
     /**
      * Protected constructor
-     * 
+     *
      * @param subQuery
      * @param alias
      */
-    protected FromItemSelect(Select subQuery, Alias alias) {
-        super(alias);
+    protected SelectRowSource(Select subQuery) {
         this.select = subQuery;
     }
 
@@ -32,10 +31,6 @@ public class FromItemSelect extends FromItem {
         result.append(select.toString());
         result.append(")");
 
-        Alias alias = getAlias();
-        if (alias != null) {
-            result.append(" AS ").append(alias.toString());
-        }
         return result.toString();
     }
 }

@@ -13,13 +13,22 @@ public class OrderByAdapter {
     // The builder from which we were created
     private final Select select;
 
+    // The order by clause under construction
+    private final OrderByClause orderByClause;
+
     /**
      * Protected constructor for modeling the GROUP BY part of a SELECT statement.
-     * 
+     *
      * @param select
      */
-    protected OrderByAdapter(Select select) {
+    protected OrderByAdapter(Select select, OrderByClause ob) {
         this.select = select;
+        this.orderByClause = ob;
+    }
+
+    public OrderByAdapter add(String...strings) {
+        this.orderByClause.add(strings);
+        return this;
     }
 
     public Select build() {

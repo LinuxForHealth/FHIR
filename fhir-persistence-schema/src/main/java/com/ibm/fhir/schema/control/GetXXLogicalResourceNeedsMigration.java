@@ -20,11 +20,11 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
  * If this value is null, it means that the table needs to be migrated. If the table
  * is empty, then obviously there's no need for migration.
  */
-public class GetXXXLogicalResourceNeedsMigration implements IDatabaseSupplier<Boolean> {
+public class GetXXLogicalResourceNeedsMigration implements IDatabaseSupplier<Boolean> {
     private final String schemaName;
     private final String resourceTypeName;
 
-    public GetXXXLogicalResourceNeedsMigration(String schemaName, String resourceTypeName) {
+    public GetXXLogicalResourceNeedsMigration(String schemaName, String resourceTypeName) {
         this.schemaName = schemaName;
         this.resourceTypeName = resourceTypeName;
     }

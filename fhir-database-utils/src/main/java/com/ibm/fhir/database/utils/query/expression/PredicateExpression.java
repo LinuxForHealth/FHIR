@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019,2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,12 +14,16 @@ public class PredicateExpression extends Predicate {
     // The string expression we represent
     private String expr;
 
+    /**
+     * Public constructor
+     * @param boolExpr
+     */
     public PredicateExpression(String boolExpr) {
         this.expr = boolExpr;
     }
 
     @Override
-    public String toString() {
-        return expr;
+    public <T> T render(StatementRenderer<T> renderer) {
+        return renderer.expression(expr);
     }
 }
