@@ -11,7 +11,7 @@
 function build_security_check { 
     mkdir -p build/release/workarea/release_files/
     SEC_LOGS="build/release/workarea/release_files/fhir-parent-build_security_check.log"
-    mvn -T2C com.redhat.victims.maven:security-versions:check -f "fhir-parent" --log-file "${SEC_LOGS}"
+    mvn com.redhat.victims.maven:security-versions:check -f "fhir-parent" --log-file "${SEC_LOGS}"
 
     echo "[Report]: "
     cat "${SEC_LOGS}" |  grep 'is vulnerable to'

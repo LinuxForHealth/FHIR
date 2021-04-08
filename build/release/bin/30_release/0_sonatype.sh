@@ -9,5 +9,7 @@ set -eu -o pipefail
 ###############################################################################
 
 # https://central.sonatype.org/pages/releasing-the-deployment.html
+# https://central.sonatype.org/publish/publish-maven/
+mvn deploy
 
 # EOF

@@ -25,12 +25,9 @@ When the default `com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory` is u
 Adding a new relational database type is not for the faint of heart, but the IBM FHIR Server team is here to help!
 To add support for an alternative relational database, there are multiple projects to consider:
 
-1. `fhir-persistence-proxy`
-2. `fhir-database-utils`
-3. `fhir-persistence-schema`
-4. `fhir-persistence-jdbc`
-
-The `fhir-persistence-proxy` project provides the default DataSource used by the IBM FHIR Server, but its just a wrapper for the XADataSources provided by the packaged JDBC drivers. To extend this class for a new database type, extend the `datasourceTypeMapping` with a mapping from your own type name (used in `fhir-server-config`) to a classname from your driver that implements the `javax.sql.XADataSource` interface). Note that the proxy jar and your driver must be packaged in the `fhirSharedLib` library defined in the server's `server.xml` in order to use liberty-managed transactions (e.g. for performing a transaction that spans multiple datasources).
+1. `fhir-database-utils`
+2. `fhir-persistence-schema`
+3. `fhir-persistence-jdbc`
 
 The `fhir-database-utils` project provides generic utilities for defining a PhysicalDataModel and applying it to a target database via the IDatabaseAdapter and IVersionHistoryService interfaces. Check out the `com.ibm.fhir.database.utils.db2` and `com.ibm.fhir.database.utils.derby` packages to understand how you might extend the framework with support for a new database type.
 
