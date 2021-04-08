@@ -2723,8 +2723,15 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         for (int i = 0; i < resources.size(); i++) {
             Resource resource = resources.get(i);
 
+            if (resource == null) {
+                String msg = "A resource with no data was found.";
+                log.warning(msg);
+                throw new IllegalStateException(msg);
+            }
             if (resource.getId() == null) {
-                throw new IllegalStateException("Returned resources must have an id.");
+                String msg = "A resource with no id was found.";
+                log.warning(msg);
+                throw new IllegalStateException(msg);
             }
 
             Integer versionId = Integer.valueOf(resource.getMeta().getVersionId().getValue());
