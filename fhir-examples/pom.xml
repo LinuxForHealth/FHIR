@@ -141,8 +141,8 @@
                             <!-- speed up the build -->
                             <isOffline>true</isOffline>
                             <!-- no matter the JDK running the javadoc, it's 
-                                important this be at the minimum level we support, which is 11. -->
-                            <source>11</source>
+                                important this be at the minimum level we support, which is 8. -->
+                            <source>8</source>
                             <!-- we don't need package -->
                             <show>package</show>
                             <!-- verbose if you are debugging -->
@@ -308,6 +308,75 @@
                     <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
                 </repository>
             </distributionManagement>
+        </profile>
+        <profile>
+            <id>fhir-javadocs</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-site-plugin</artifactId>
+                        <version>3.8.2</version>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-project-info-reports-plugin</artifactId>
+                        <version>2.9</version>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.0.1</version>
+                        <configuration>
+                            <!-- speed up the build -->
+                            <isOffline>true</isOffline>
+                            <!-- no matter the JDK running the javadoc, it's 
+                                important this be at the minimum level we support, which is 8. -->
+                            <source>8</source>
+                            <!-- we don't need package -->
+                            <show>package</show>
+                            <!-- verbose if you are debugging -->
+                            <verbose>false</verbose>
+                            <dependencySourceIncludes>com.ibm.fhir:*</dependencySourceIncludes>
+                            <minmemory>2g</minmemory>
+                            <maxmemory>2g</maxmemory>
+                            <!-- doclint is none, otherwise build breaks -->
+                            <doclint>none</doclint>
+                            <additionalparam>-Xdoclint:none -Djava.awt.headless=true</additionalparam>
+                            <detectLinks>true</detectLinks>
+                            <!-- control display -->
+                            <author>false</author>
+                            <windowtitle>IBM FHIR Server</windowtitle>
+                            <doctitle>${project.name} ${project.version}</doctitle>
+                            <additionalOptions>
+                                <!-- makes the frames visible, disabled and going 
+                                    away eventually -->
+                                <additionalOption>--frames</additionalOption>
+                                <!-- Fixes the undefined redirect in search -->
+                                <additionalOption>--no-module-directories</additionalOption>
+                            </additionalOptions>
+                            <header><![CDATA[<a href="/FHIR" class="bx--header__name" target="_parent"><span>IBM</span>&nbsp;FHIR®&nbsp;Server</a>]]></header>
+                            <bottom><![CDATA[Copyright 2019, 2021. <a href="http://www.ibm.com">IBM Corporation<a><br></br>FHIR&reg; is the registered trademark of HL7 and is used with the permission of HL7.]]></bottom>
+                            <author>false</author>
+                            <stylesheetfile>${project.build.directory}/../../fhir-parent/src/javadocs/stylesheet.css</stylesheetfile>
+                            <!-- skips the three entries -->
+                            <nohelp>true</nohelp>
+                            <nodeprecated>true</nodeprecated>
+                            <nodeprecatedlist>true</nodeprecatedlist>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>javadoc-no-fork</goal>
+                                    <goal>test-javadoc-no-fork</goal>
+                                </goals>
+                                <phase>site</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 </project>
