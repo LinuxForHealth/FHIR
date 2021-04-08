@@ -2005,6 +2005,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/security/oauth/smart/enabled`|boolean|Whether or not the server is enabled for OAuth-based authentication/authorization|
 |`fhirServer/security/oauth/smart/scopes`|array|The list of SMART scopes to advertise in the `.well-known/smart-configuration endpoint|
 |`fhirServer/security/oauth/smart/capabilities`|array|The list of SMART capabilities to advertise in the `.well-known/smart-configuration endpoint|
+|`fhirServer/security/operation/authorize/reindex`|boolean|True, the reindex operation is made available only to fhiradmins, and users are denied access|
 |`fhirServer/audit/serviceClassName`|string|The audit service to use. Currently, com.ibm.fhir.audit.impl.NopService to indicate the logger service is disabled, and com.ibm.fhir.audit.impl.KafkaService to indicate using Kafka as a destination.|
 |`fhirServer/audit/serviceProperties/auditTopic`|string|The kafka topic to use for CADF audit logging service|
 |`fhirServer/audit/serviceProperties/geoCity`|string|The Geo City configured for audit logging service.|
@@ -2129,6 +2130,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/security/oauth/smart/enabled`|boolean|false|
 |`fhirServer/security/oauth/smart/scopes`|array|null|
 |`fhirServer/security/oauth/smart/capabilities`|array|null|
+|`fhirServer/security/operation/authorize/reindex`|boolean|false|
 |`fhirServer/audit/serviceClassName`|""|
 |`fhirServer/audit/serviceProperties/auditTopic`|FHIR_AUDIT|
 |`fhirServer/audit/serviceProperties/geoCity`|UnknownCity|
@@ -2242,6 +2244,7 @@ must restart the server for that change to take effect.
 |`fhirServer/security/oauth/smart/enabled`|Y|Y|
 |`fhirServer/security/oauth/smart/scopes`|Y|Y|
 |`fhirServer/security/oauth/smart/capabilities`|Y|Y|
+|`fhirServer/security/operation/authorize/reindex`|Y|Y|
 |`fhirServer/audit/serviceClassName`|N|N|
 |`fhirServer/audit/serviceProperties/auditTopic`|N|N|
 |`fhirServer/audit/serviceProperties/geoCity`|N|N|

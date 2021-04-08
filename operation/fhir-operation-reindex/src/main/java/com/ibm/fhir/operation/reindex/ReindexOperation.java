@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
@@ -40,6 +42,8 @@ public class ReindexOperation extends AbstractOperation {
     private static final String PARAM_TSTAMP = "tstamp";
     private static final String PARAM_RESOURCE_COUNT = "resourceCount";
     private static final String PARAM_RESOURCE_LOGICAL_ID = "resourceLogicalId";
+
+    private static final String PROP_AUTH_REINDEX = FHIRConfiguration.PROPERTY_SECURITY_OPERATION_AUTHORIZE + "/reindex";
 
     // The max number of resources we allow to be processed by one request
     private static final int MAX_RESOURCE_COUNT = 1000;
@@ -67,7 +71,11 @@ public class ReindexOperation extends AbstractOperation {
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType,
             String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
             throws FHIROperationException {
-        authorize("reindex", operationContext);
+        // Checks to see if this needs to be authorized, if the client configuration is set to authorize, else passes through.
+        boolean shouldAuthorize = FHIRConfigHelper.getBooleanProperty(PROP_AUTH_REINDEX, false);
+        if (shouldAuthorize) {
+            authorize("reindex", operationContext);
+        }
 
         // Allow only POST because we're changing the state of the database
         String method = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_METHOD_TYPE);

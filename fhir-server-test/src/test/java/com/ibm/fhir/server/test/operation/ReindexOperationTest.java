@@ -61,7 +61,6 @@ import com.ibm.fhir.server.test.bulkdata.ExportOperationTest;
 
 /**
  * This class tests the $reindex operation and the custom authorization for admin only.
- *
  */
 public class ReindexOperationTest extends FHIRServerTestBase {
     private static final String CLASSNAME = ExportOperationTest.class.getName();
@@ -109,7 +108,7 @@ public class ReindexOperationTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
         target = target.path("/$reindex");
         Response r = target.request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                     .header("X-FHIR-TENANT-ID", "default")
+                     .header("X-FHIR-TENANT-ID", "tenant1")
                      .header("X-FHIR-DSID", "default")
                      .get(Response.class);
         assertEquals(r.getStatus(), Status.FORBIDDEN.getStatusCode());
@@ -140,6 +139,7 @@ public class ReindexOperationTest extends FHIRServerTestBase {
                 .build()){
             HttpPost post = new HttpPost(url);
             post.setHeader("Content-Type", "application/fhir+json");
+            post.setHeader("X-FHIR-TENANT-ID", "tenant1");
 
             List<Parameter> parameters = new ArrayList<>();
             parameters.add(

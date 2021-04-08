@@ -33,6 +33,13 @@
                     "currentSchema": "APP"
                 }
             }
+        },
+        "security": {
+            "operation": {
+                "authorize": {
+                    "reindex": true
+                }
+            }
         }
     }
 }

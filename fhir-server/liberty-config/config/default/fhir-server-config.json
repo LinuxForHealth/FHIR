@@ -39,6 +39,11 @@
                         "permission-patient"
                     ]
                 }
+            }, 
+            "operation": {
+                "authorize": {
+                    "reindex": false
+                }
             }
         },
         "notifications": {
