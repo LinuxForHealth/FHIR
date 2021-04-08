@@ -46,8 +46,8 @@ public class RegistryTermServiceProvider implements FHIRTermServiceProvider {
     }
 
     @Override
-    public <R> Set<R> getConcepts(CodeSystem codeSystem, Function<Concept, ? extends R> mapper) {
-        return CodeSystemSupport.getConcepts(codeSystem, mapper);
+    public <R> Set<R> getConcepts(CodeSystem codeSystem, Function<Concept, ? extends R> function) {
+        return CodeSystemSupport.getConcepts(codeSystem, function);
     }
 
     @Override
@@ -56,9 +56,9 @@ public class RegistryTermServiceProvider implements FHIRTermServiceProvider {
     }
 
     @Override
-    public <R> Set<R> getConcepts(CodeSystem codeSystem, List<Filter> filters, Function<Concept, ? extends R> mapper) {
+    public <R> Set<R> getConcepts(CodeSystem codeSystem, List<Filter> filters, Function<Concept, ? extends R> function) {
         try {
-            return CodeSystemSupport.getConcepts(codeSystem, filters, mapper);
+            return CodeSystemSupport.getConcepts(codeSystem, filters, function);
         } catch (FHIRTermException e) {
             throw new FHIRTermServiceException(e.getMessage(), e, e.getIssues());
         }

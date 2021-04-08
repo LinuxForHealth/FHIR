@@ -128,7 +128,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
     }
 
     @Override
-    public <R> Set<R> getConcepts(CodeSystem codeSystem, Function<Concept, ? extends R> mapper) {
+    public <R> Set<R> getConcepts(CodeSystem codeSystem, Function<Concept, ? extends R> function) {
         checkArgument(codeSystem);
 
         Set<R> concepts = new LinkedHashSet<>(getCount(codeSystem));
@@ -138,7 +138,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
             .timeLimit(timeLimit);
         TimeLimitStep<?> timeLimitStep = getTimeLimitStep(g);
 
-        g.elementMap().toStream().forEach(elementMap -> concepts.add(mapper.apply(createConcept(elementMap))));
+        g.elementMap().toStream().forEach(elementMap -> concepts.add(function.apply(createConcept(elementMap))));
 
         checkTimeLimit(timeLimitStep);
 
@@ -151,7 +151,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
     }
 
     @Override
-    public <R> Set<R> getConcepts(CodeSystem codeSystem, List<Filter> filters, Function<Concept, ? extends R> mapper) {
+    public <R> Set<R> getConcepts(CodeSystem codeSystem, List<Filter> filters, Function<Concept, ? extends R> function) {
         checkArguments(codeSystem, filters);
 
         Set<R> concepts = new LinkedHashSet<>();
@@ -203,7 +203,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         g = g.timeLimit(timeLimit);
         TimeLimitStep<?> timeLimitStep = getTimeLimitStep(g);
 
-        g.elementMap().toStream().forEach(elementMap -> concepts.add(mapper.apply(createConcept(elementMap))));
+        g.elementMap().toStream().forEach(elementMap -> concepts.add(function.apply(createConcept(elementMap))));
 
         checkTimeLimit(timeLimitStep);
 
