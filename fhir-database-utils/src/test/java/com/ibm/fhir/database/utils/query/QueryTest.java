@@ -6,15 +6,16 @@
 
 package com.ibm.fhir.database.utils.query;
 
-import static com.ibm.fhir.database.utils.query.Select.alias;
 import static com.ibm.fhir.database.utils.query.Select.select;
 import static com.ibm.fhir.database.utils.query.SqlConstants.IS_NOT_NULL;
+import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.alias;
+import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.col;
 import static org.testng.Assert.assertEquals;
 
 import org.testng.annotations.Test;
 
 /**
- * Query Tests
+ * Some basic tests to exercise the query and expression model.
  */
 public class QueryTest {
     // Some constants we use when testing the query build
@@ -45,7 +46,7 @@ public class QueryTest {
             .groupBy(FOO_TOWN)
             .having("COUNT(*) > 10")
             .build();
-        
+
         // Here's what our SQL should be
         final String SQL = "SELECT FOO_TOWN, MAX(FOO_AGE) FROM FOO_TAB WHERE FOO_AGE IS NOT NULL GROUP BY FOO_TOWN HAVING COUNT(*) > 10";
         assertEquals(query.toString(), SQL);
@@ -73,5 +74,28 @@ public class QueryTest {
         final String SQL = "SELECT * FROM (SELECT FOO_ID FROM FOO_TAB) AS sub";
         assertEquals(query.toString(), SQL);
     }
+
+    @Test
+    public void complexExpression() {
+        Select query = select("*")
+                .from(select(FOO_ID).from(FOO_TAB).build(), alias("sub"))
+                .where().col(FOO_ID).eq(1)
+                .or(col(FOO_ID)).eq(2)
+                .and(col(FOO_NAME)).eq("alice")
+                .build();
+
+    }
+
+    @Test
+    public void expression2() {
+        Select query = select("*")
+                .from(select(FOO_ID).from(FOO_TAB).build(), alias("sub"))
+                .where().col(FOO_ID).eq(1)
+                .and(col(FOO_ID)).eq(2)
+                .or(col(FOO_NAME)).eq("alice")
+                .build();
+
+    }
+
 
 }

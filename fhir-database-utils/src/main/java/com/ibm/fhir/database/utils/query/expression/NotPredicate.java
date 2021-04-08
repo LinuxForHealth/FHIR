@@ -14,13 +14,10 @@ public class NotPredicate extends UnaryPredicate {
     public NotPredicate(Predicate p) {
         super(p);
     }
-    
+
 
     @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append("NOT ");
-        result.append(getPredicate().toString());
-        return result.toString();
+    public <T> T render(StatementRenderer<T> renderer) {
+        return renderer.not(getPredicate().render(renderer));
     }
 }

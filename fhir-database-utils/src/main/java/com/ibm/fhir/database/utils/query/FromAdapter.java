@@ -6,11 +6,14 @@
 
 package com.ibm.fhir.database.utils.query;
 
+import com.ibm.fhir.database.utils.query.expression.PredicateAdapter;
+import com.ibm.fhir.database.utils.query.node.ExpNode;
+
 /**
  * Adapter for building the FROM clause of a SELECT statement
  */
 public class FromAdapter {
-    
+
     // the select statement being built
     private final Select select;
 
@@ -21,7 +24,7 @@ public class FromAdapter {
     public FromAdapter(Select select) {
         this.select = select;
     }
-    
+
     /**
      * Add a table to the from clause
      * returning this {@link FromAdapter} ready for the next item
@@ -45,13 +48,47 @@ public class FromAdapter {
         return this;
     }
 
+    public FromAdapter innerJoin(String tableName, Alias alias, PredicateAdapter joinOnPredicate) {
+        this.select.addInnerJoin(tableName, alias, joinOnPredicate.build());
+        return this;
+    }
+
+    public FromAdapter innerJoin(Select subQuery, Alias alias) {
+        return this;
+    }
+
     /**
      * Start building the "WHERE" clause for the statement
      * @param predicate
      * @return
      */
     public WhereAdapter where(String predicate) {
-        return new WhereAdapter(this.select, predicate);
+        WhereClause wc = establishWhereClause();
+        return new WhereAdapter(this.select, wc, predicate);
+    }
+
+    public WhereAdapter where(String tableAlias, String columnName) {
+        WhereClause wc = establishWhereClause();
+        return new WhereAdapter(this.select, wc, tableAlias, columnName);
+    }
+
+    public WhereAdapter where() {
+        WhereClause wc = establishWhereClause();
+        return new WhereAdapter(this.select, wc);
+    }
+
+    public WhereAdapter where(ExpNode predicate) {
+        WhereClause wc = establishWhereClause();
+        return new WhereAdapter(this.select, wc, predicate);
+    }
+
+    public WhereClause establishWhereClause() {
+        WhereClause wc = this.select.getWhereClause();
+        if (wc == null) {
+            wc = new WhereClause();
+            this.select.setWhereClause(wc);
+        }
+        return wc;
     }
 
     /**
@@ -66,18 +103,25 @@ public class FromAdapter {
         // complete
         return new FromSubQueryAdapter(this.select, this);
     }
-        
+
+    /**
+     * Provide the select statement we've been building
+     * @return
+     */
     public Select build() {
         return select;
     }
-    
+
     public GroupByAdapter groupBy(String... expressions) {
-        select.addGroupBy(expressions);
-        return new GroupByAdapter(select);
+        GroupByClause gb = new GroupByClause();
+        this.select.setGroupByClause(gb);
+        return new GroupByAdapter(select, gb, expressions);
     }
-    
+
     public OrderByAdapter orderBy(String...expressions) {
-        select.addOrderBy(expressions);
-        return new OrderByAdapter(select);
+        OrderByClause ob = new OrderByClause();
+        ob.add(expressions);
+        this.select.setOrderByClause(ob);
+        return new OrderByAdapter(select, ob);
     }
 }

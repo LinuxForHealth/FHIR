@@ -45,6 +45,7 @@ public class JDBCConstants {
     public static final String CURRENT_RESOURCE_ID = "CURRENT_RESOURCE_ID";
     public static final String PARAMETER_NAME_ID = "PARAMETER_NAME_ID";
     public static final String IS_DELETED_NO = "IS_DELETED = 'N'";
+    public static final String IS_DELETED = "IS_DELETED";
 
     // Generic SQL query string constants
     public static final String DOT = ".";

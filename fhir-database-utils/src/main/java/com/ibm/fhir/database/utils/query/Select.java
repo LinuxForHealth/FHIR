@@ -10,8 +10,12 @@ import static com.ibm.fhir.database.utils.query.SqlConstants.FROM;
 import static com.ibm.fhir.database.utils.query.SqlConstants.SELECT;
 import static com.ibm.fhir.database.utils.query.SqlConstants.SPACE;
 
-import com.ibm.fhir.database.utils.query.expression.Predicate;
-import com.ibm.fhir.database.utils.query.expression.PredicateExpression;
+import java.util.List;
+
+import com.ibm.fhir.database.utils.query.expression.StatementRenderer;
+import com.ibm.fhir.database.utils.query.node.BindMarkerNode;
+import com.ibm.fhir.database.utils.query.node.ExpNode;
+import com.ibm.fhir.database.utils.query.node.ExpNodeVisitor;
 
 /**
  * Representation of a select statement built by {@link SelectAdapter#build()}
@@ -35,10 +39,13 @@ public class Select {
     // The fields/expressions determining sort order. Optional
     private OrderByClause orderByClause;
 
+    // offset/limit for pagination
+    private PaginationClause paginationClause;
+
     /**
      * Factory to create a new instance of the builder needed to create this
      * statement
-     * 
+     *
      * @return
      */
     public static SelectAdapter select(String... columns) {
@@ -46,22 +53,8 @@ public class Select {
     }
 
     /**
-     * Factory function for creating an {@link Alias} from a string
-     * 
-     * @param aliasStr
-     * @return
-     */
-    public static Alias alias(String aliasStr) {
-        return new Alias(aliasStr);
-    }
-
-    public static Predicate predicate(String boolExpr) {
-        return new PredicateExpression(boolExpr);
-    }
-
-    /**
      * Add the list of simple columns
-     * 
+     *
      * @param columns
      */
     public void addColumns(String... columns) {
@@ -90,25 +83,12 @@ public class Select {
         fromClause.addFrom(sub, alias);
     }
 
-    public void addWhere(String predicate) {
-        if (whereClause == null) {
-            whereClause = new WhereClause();
-        }
-        whereClause.addPredicate(predicate);
+    public void setWhereClause(WhereClause wc) {
+        this.whereClause = wc;
     }
 
-    public void addGroupBy(String... expressions) {
-        if (groupByClause == null) {
-            groupByClause = new GroupByClause();
-        }
-        groupByClause.add(expressions);
-    }
-
-    public void addOrderBy(String... expressions) {
-        if (orderByClause == null) {
-            orderByClause = new OrderByClause();
-        }
-        orderByClause.add(expressions);
+    public void setGroupByClause(GroupByClause gb) {
+        this.groupByClause = gb;
     }
 
     /**
@@ -123,6 +103,8 @@ public class Select {
 
     @Override
     public String toString() {
+        // Just for information purposes...should use the #render call
+        // for database-specific query syntax
         StringBuilder result = new StringBuilder();
         result.append(SELECT);
         result.append(SPACE).append(this.selectList.toString());
@@ -145,6 +127,115 @@ public class Select {
             result.append(SPACE).append(this.orderByClause.toString());
         }
 
+        if (this.paginationClause != null) {
+            result.append(SPACE).append(this.paginationClause.toString());
+        }
+
         return result.toString();
+    }
+
+    /**
+     * A string representation of the query with the bind variables substituted
+     * in place which is handy for debugging - but not to be used for actual
+     * execution.
+     * @return the query string starting XELECT instead of SELECT
+     */
+    public String toDebugString() {
+        StringBuilder result = new StringBuilder();
+
+        // on purpose...so you can't accidentally use this query string
+        result.append("SELECT");
+        result.append(SPACE).append(this.selectList.toString());
+        result.append(SPACE).append(FROM);
+        result.append(SPACE).append(this.fromClause.toString());
+
+        if (this.whereClause != null) {
+            result.append(SPACE).append(this.whereClause.toDebugString());
+        }
+
+        if (this.groupByClause != null) {
+            result.append(SPACE).append(this.groupByClause.toString());
+        }
+
+        if (this.havingClause != null) {
+            result.append(SPACE).append(this.havingClause.toString());
+        }
+
+        if (this.orderByClause != null) {
+            result.append(SPACE).append(this.orderByClause.toString());
+        }
+
+        return result.toString();
+    }
+
+    /**
+     * Render the components of the statement
+     * @param <T>
+     * @param renderer
+     * @return
+     */
+    public <T> T render(StatementRenderer<T> renderer) {
+        return renderer.select(selectList, fromClause, whereClause, groupByClause, havingClause, orderByClause, paginationClause);
+    }
+
+    /**
+     * Add an inner join to the from clause for this select statement.
+     * @param tableName
+     * @param alias
+     * @param joinOnPredicate
+     */
+    public void addInnerJoin(String tableName, Alias alias, ExpNode joinOnPredicate) {
+        fromClause.addInnerJoin(tableName, alias, joinOnPredicate);
+    }
+
+    /**
+     * @param ob
+     */
+    public void setOrderByClause(OrderByClause ob) {
+        this.orderByClause = ob;
+    }
+
+    /**
+     * Collect all the bind marker nodes associated with this statement
+     * @param bindMarkers
+     */
+    public void gatherBindMarkers(List<BindMarkerNode> bindMarkers) {
+        // at present, only bind markers in the where clause are supported
+        if (whereClause != null) {
+            whereClause.gatherBindMarkers(bindMarkers);
+        }
+    }
+
+    /**
+     * Getter for the whereClause
+     * @return the whereClause value, which can be null if not yet set
+     */
+    public WhereClause getWhereClause() {
+        return this.whereClause;
+    }
+
+    /**
+     * Visit the components of this query
+     * @param <T>
+     * @param visitor
+     * @return
+     */
+    public <T> T visit(ExpNodeVisitor<T> visitor) {
+        T result;
+        if (whereClause != null) {
+            result = whereClause.visit(visitor);
+        } else {
+            result = null;
+        }
+        return result;
+    }
+
+    /**
+     * Add a pagination clause (offset/limit) to the query.
+     * @param offset
+     * @param rowsPerPage
+     */
+    public void addPagination(int offset, int rowsPerPage) {
+        this.paginationClause = new PaginationClause(offset, rowsPerPage);
     }
 }

@@ -10,17 +10,15 @@ package com.ibm.fhir.database.utils.query.expression;
  * Implements the SQL "AND" predicate
  */
 public class AndPredicate extends BinaryPredicate {
-    
+
     public AndPredicate(Predicate left, Predicate right) {
         super(left, right);
     }
-    
+
     @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append(getLeft().toString());
-        result.append(" AND ");
-        result.append(getRight().toString());
-        return result.toString();
+    public <T> T render(StatementRenderer<T> renderer) {
+        T left = getLeft().render(renderer);
+        T right = getRight().render(renderer);
+        return renderer.and(left, right);
     }
 }

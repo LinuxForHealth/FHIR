@@ -12,11 +12,11 @@ package com.ibm.fhir.database.utils.query;
  */
 public class Alias {
     private final String alias;
-    
-    protected Alias(String alias) {
+
+    public Alias(String alias) {
         this.alias = alias;
     }
-    
+
     @Override
     public String toString() {
         return this.alias;

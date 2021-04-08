@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 
 import javax.transaction.TransactionSynchronizationRegistry;
 
+import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
@@ -768,5 +769,21 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
      */
     protected FHIRPersistenceJDBCCache getCache() {
         return this.cache;
+    }
+
+    @Override
+    public int searchCount(Select countQuery) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        return runCountQuery(countQuery);
+   }
+
+    @Override
+    public List<Resource> search(Select select) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        return runQuery(select);
+    }
+
+    @Override
+    public List<Long> searchForIds(Select dataQuery) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

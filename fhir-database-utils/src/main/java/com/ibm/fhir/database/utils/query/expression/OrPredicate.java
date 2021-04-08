@@ -12,21 +12,19 @@ package com.ibm.fhir.database.utils.query.expression;
 public class OrPredicate extends BinaryPredicate {
 
     /**
-     * 
+     * Public constructor
      * @param left
      * @param right
      */
     public OrPredicate(Predicate left, Predicate right) {
         super(left, right);
     }
-    
+
     @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append(getLeft().toString());
-        result.append(" OR ");
-        result.append(getRight().toString());
-        return result.toString();
+    public <T> T render(StatementRenderer<T> renderer) {
+        T left = getLeft().render(renderer);
+        T right = getRight().render(renderer);
+        return renderer.or(left, right);
     }
 
 }

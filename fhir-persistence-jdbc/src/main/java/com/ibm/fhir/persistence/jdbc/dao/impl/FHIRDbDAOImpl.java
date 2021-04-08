@@ -16,8 +16,13 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.db2.Db2Translator;
+import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.model.DbType;
+import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
+import com.ibm.fhir.database.utils.query.QueryUtil;
+import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
@@ -47,10 +52,10 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
 
     // The connection the DAO operates against
     private final Connection connection;
-    
+
     // The name of the FHIR data schema (containing the FHIR resource tables).
     private final String schemaName;
-    
+
     // The type of database we are connected to. Perhaps should use translator instead?
     private final FHIRDbFlavor flavor;
 
@@ -141,7 +146,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
                 log.log(Level.SEVERE, ce.getMessage(), ce);
             }
         }
-        
+
         log.exiting(CLASSNAME, METHODNAME);
     }
 
@@ -293,6 +298,99 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
     }
 
     /**
+     * Creates and executes a PreparedStatement for the passed sql containing a 'SELECT COUNT...'.
+     * The count value is extracted from the ResultSet and returned as an int.
+     *
+     * @param sql        - The SQL SELECT COUNT template to execute.
+     * @param searchArgs - An array of arguments to be substituted into the SQL template.
+     * @return int - The count of results returned by the SQL query.
+     * @throws FHIRPersistenceDataAccessException
+     * @throws FHIRPersistenceDBConnectException
+     */
+    protected int runCountQuery(Select countQuery)
+            throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "runCountQuery";
+        log.entering(CLASSNAME, METHODNAME);
+
+        int rowCount = 0;
+        long dbCallStartTime;
+        double dbCallDuration;
+
+        try (PreparedStatement stmt = QueryUtil.prepareSelect(connection, countQuery, getTranslator())) {
+            dbCallStartTime = System.nanoTime();
+            ResultSet resultSet = stmt.executeQuery();
+            dbCallDuration = (System.nanoTime() - dbCallStartTime) / 1e6;
+            if (resultSet.next()) {
+                rowCount = resultSet.getInt(1);
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Successfully retrieved count. SQL=" + countQuery.toDebugString()  + NEWLINE + "  count=" + rowCount + " executionTime="
+                            + dbCallDuration + "ms");
+                }
+            } else {
+                // Don't emit the SQL text in an exception - it risks returning it to the client in a response
+                FHIRPersistenceDataAccessException fx =
+                        new FHIRPersistenceDataAccessException("Server error: failure retrieving count");
+                throw severe(log, fx, countQuery.toDebugString(), null);
+            }
+        } catch (FHIRPersistenceException e) {
+            throw e;
+        } catch (Throwable e) {
+            // Don't emit the SQL text in an exception - it risks returning it to the client in a response
+            FHIRPersistenceDataAccessException fx =
+                    new FHIRPersistenceDataAccessException("Server error: failure retrieving count");
+            throw severe(log, fx, countQuery.toDebugString(), e);
+        } finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+
+        return rowCount;
+    }
+
+    /**
+     * Retrieve the FHIR objects by executing the given {@link Select} statement
+     * @param select
+     * @return
+     * @throws FHIRPersistenceDataAccessException
+     * @throws FHIRPersistenceDBConnectException
+     */
+    protected List<Resource> runQuery(Select select)
+            throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "runQuery";
+        log.entering(CLASSNAME, METHODNAME);
+
+        List<Resource> fhirObjects = new ArrayList<>();
+        ResultSet resultSet = null;
+        String errMsg;
+        long dbCallStartTime;
+        double dbCallDuration;
+
+        try (PreparedStatement stmt = QueryUtil.prepareSelect(connection, select, getTranslator())) {
+            dbCallStartTime = System.nanoTime();
+            resultSet = stmt.executeQuery();
+            dbCallDuration = (System.nanoTime() - dbCallStartTime) / 1e6;
+            // Transform the resultSet into a collection of Data Transfer Objects
+            fhirObjects = this.createDTOs(resultSet);
+
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Successfully retrieved FHIR objects. SQL=" + select.toDebugString()  + NEWLINE + " executionTime="
+                        + dbCallDuration + "ms");
+            }
+        } catch (FHIRPersistenceException e) {
+            throw e;
+        } catch (Throwable e) {
+            // avoid leaking SQL because the exception message might be returned to a client
+            FHIRPersistenceDataAccessException fx =
+                    new FHIRPersistenceDataAccessException("Failure retrieving FHIR objects");
+            throw severe(log, fx, select.toDebugString(), e);
+        } finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+
+        return fhirObjects;
+    }
+
+
+    /**
      * An method for creating a collection of Data Transfer Objects of type T from the contents of the passed ResultSet.
      *
      * @param resultSet A ResultSet containing FHIR persistent object data.
@@ -405,5 +503,29 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             log.exiting(CLASSNAME, METHODNAME);
         }
         return strValues;
+    }
+
+    /**
+     * Get the translator appropriate for the flavor of database we are using
+     * @return
+     */
+    protected IDatabaseTranslator getTranslator() {
+        IDatabaseTranslator result;
+
+        switch (this.flavor.getType()) {
+        case DERBY:
+            result = new DerbyTranslator();
+            break;
+        case DB2:
+            result = new Db2Translator();
+            break;
+        case POSTGRESQL:
+            result = new PostgresTranslator();
+            break;
+        default:
+            throw new IllegalStateException("DbType not supported: " + this.flavor.getType());
+        }
+
+        return result;
     }
 }
