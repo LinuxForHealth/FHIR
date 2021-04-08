@@ -939,7 +939,7 @@ public final class FHIRPathUtil {
          */
         Collection<FHIRPathNode> nodes = evaluator.evaluate(elementOrResource, fhirPath);
         if (!isSingleton(nodes)) {
-            throw new FHIRPatchException("Expected a singleton but instead found " + nodes.size() + " nodes", fhirPath);
+            throw new FHIRPatchException("The FHIRPath must return a single element but instead returned " + nodes.size(), fhirPath);
         }
         return getSingleton(nodes);
     }
