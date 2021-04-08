@@ -35,7 +35,7 @@ fi
 if [ -n "${GPG_KEY_FILE}" ]
 then
     echo "${GPG_KEY_FILE}" | base64 -d > private.key
-    gpg --import private.key || true
+    gpg --batch --import private.key || true
     rm -rf private.key || true
 else
     echo "GPG_KEY_FILE not set"
