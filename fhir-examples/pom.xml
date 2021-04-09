@@ -6,6 +6,41 @@
     <groupId>com.ibm.fhir</groupId>
     <version>4.7.0-SNAPSHOT</version>
 
+    <name>IBM FHIR Server - Examples</name>
+    <url>https://github.com/ibm/fhir</url>
+    <organization>
+        <name>IBM</name>
+        <url>https://github.com/ibm/fhir</url>
+    </organization>
+    <scm>
+        <url>https://github.com/ibm/fhir.git</url>
+        <developerConnection>IBM</developerConnection>
+        <tag>ibm-fhir-server</tag>
+        <connection>scm:git:https://github.com/ibm/fhir.git</connection>
+    </scm>
+    <issueManagement>
+        <url>https://github.com/ibm/fhir/issues</url>
+    </issueManagement>
+    <ciManagement>
+        <url>https://github.com/ibm/fhir/actions</url>
+    </ciManagement>
+    <description>The IBM® FHIR® Server is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability.</description>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>IBM Watson Health Development</name>
+            <email>fhirci@us.ibm.com</email>
+            <url>https://www.ibm.com/</url>
+            <organization>IBM Watson Health</organization>
+            <organizationUrl>http://www.ibm.com</organizationUrl>
+        </developer>
+    </developers>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
@@ -417,20 +452,5 @@
             </build>
         </profile>
     </profiles>
-    <name>IBM FHIR Server - Examples</name>
-    <url>https://github.com/ibm/fhir</url>
-    <organization>
-        <name>IBM</name>
-        <url>https://github.com/ibm/fhir</url>
-    </organization>
-    <scm>
-        <url>https://github.com/ibm/fhir.git</url>
-    </scm>
-    <issueManagement>
-        <url>https://github.com/ibm/fhir/issues</url>
-    </issueManagement>
-    <ciManagement>
-        <url>https://github.com/ibm/fhir/actions</url>
-    </ciManagement>
-    <description>The IBM® FHIR® Server is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability.</description>
+
 </project>
