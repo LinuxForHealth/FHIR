@@ -117,10 +117,6 @@ public class RemoteTermServiceProvider implements FHIRTermServiceProvider {
         }
     }
 
-    public Configuration getConfiguration() {
-        return configuration;
-    }
-
     @Override
     public Set<Concept> closure(CodeSystem codeSystem, Code code) {
         return getConcepts(codeSystem, Collections.singletonList(Filter.builder()
@@ -270,6 +266,137 @@ public class RemoteTermServiceProvider implements FHIRTermServiceProvider {
         } finally {
             client = null;
         }
+    }
+
+    public Configuration getConfiguration() {
+        return configuration;
+    }
+
+    private Parameters buildValueSetExpandParameters(CodeSystem codeSystem, List<Filter> filters) {
+        return Parameters.builder()
+            .parameter(Parameter.builder()
+                .name(string("valueSet"))
+                .resource(ValueSet.builder()
+                    .status(PublicationStatus.ACTIVE)
+                    .compose(Compose.builder()
+                        .include(Include.builder()
+                            .system(codeSystem.getUrl())
+                            .version(codeSystem.getVersion())
+                            .filter(filters)
+                            .build())
+                        .build())
+                    .build())
+                .build())
+            .build();
+    }
+
+    private KeyStore loadKeyStoreFile(Configuration.TrustStore trustStore) {
+        return loadKeyStoreFile(trustStore.getLocation(), trustStore.getPassword(), trustStore.getType());
+    }
+
+    private KeyStore loadKeyStoreFile(String location, String password, String type) {
+        InputStream in = null;
+        try {
+            KeyStore keyStore = KeyStore.getInstance(type);
+
+            URL url = Thread.currentThread().getContextClassLoader().getResource(location);
+            if (url != null) {
+                in = url.openStream();
+            }
+
+            if (in == null) {
+                File file = new File(location);
+                if (file.exists()) {
+                    in = new FileInputStream(file);
+                }
+            }
+
+            if (in == null) {
+                throw new FileNotFoundException("KeyStore file '" + location + "' was not found.");
+            }
+
+            keyStore.load(in, password.toCharArray());
+
+            return keyStore;
+        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException e) {
+            throw new IllegalStateException("Error loading keystore file '" + location + "' : " + e);
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (Throwable t) { }
+            }
+        }
+    }
+
+    private Concept toConcept(Code code, Parameters parameters) {
+        Concept.Builder conceptBuilder = Concept.builder();
+
+        conceptBuilder.code(code);
+
+        Parameter displayParameter = getParameter(parameters, "display");
+        if (displayParameter != null) {
+            conceptBuilder.display(displayParameter.getValue().as(FHIR_STRING));
+        }
+
+        for (Parameter designationParameter : getParameters(parameters, "designation")) {
+            Designation.Builder designationBuilder = Designation.builder();
+
+            Parameter languageParameter = getPart(designationParameter, "language");
+            if (languageParameter != null && languageParameter.getValue() instanceof Code) {
+                designationBuilder.language((Code) languageParameter.getValue());
+            }
+
+            Parameter useParameter = getPart(designationParameter, "use");
+            if (useParameter != null && useParameter.getValue() instanceof Coding) {
+                designationBuilder.use((Coding) useParameter.getValue());
+            }
+
+            Parameter valueParameter = getPart(designationParameter, "value");
+            if (valueParameter == null || !FHIR_STRING.isInstance(valueParameter.getValue())) {
+                log.warning("Required parameter 'value' is null or has an invalid value type");
+                continue;
+            }
+            designationBuilder.value(valueParameter.getValue().as(FHIR_STRING));
+
+            conceptBuilder.designation(designationBuilder.build());
+        }
+
+        for (Parameter propertyParameter : getParameters(parameters, "property")) {
+            Property.Builder propertyBuilder = Property.builder();
+
+            Parameter codeParameter = getPart(propertyParameter, "code");
+            if (codeParameter == null || !FHIR_STRING.isInstance(codeParameter.getValue())) {
+                log.warning("Required parameter 'code' is null or has an invalid value type");
+                continue;
+            }
+            propertyBuilder.code(Code.of(codeParameter.getValue().as(FHIR_STRING).getValue()));
+
+            Parameter valueParameter = getPart(propertyParameter, "value");
+            if (valueParameter == null) {
+                valueParameter = getPart(propertyParameter, "valueString");
+            }
+            if (valueParameter == null || valueParameter.getValue() == null) {
+                log.warning("Required parameter 'value' is null or has an invalid value type");
+                continue;
+            }
+            propertyBuilder.value(valueParameter.getValue());
+
+            conceptBuilder.property(propertyBuilder.build());
+        }
+
+        return conceptBuilder.build();
+    }
+
+    private Concept toConcept(JsonObject contains) {
+        return Concept.builder()
+            .code(Code.of(contains.getString("code")))
+            .display(string(contains.getString("display")))
+            .build();
+    }
+
+    private boolean usingSSLTransport() {
+        return base.startsWith("https:");
     }
 
     public static class Configuration {
@@ -666,132 +793,5 @@ public class RemoteTermServiceProvider implements FHIRTermServiceProvider {
             String basicAuthToken = basicAuth.getUsername() + ":" + basicAuth.getPassword();
             return "Basic " + Base64.getEncoder().encodeToString(basicAuthToken.getBytes());
         }
-    }
-
-    private Parameters buildValueSetExpandParameters(CodeSystem codeSystem, List<Filter> filters) {
-        return Parameters.builder()
-            .parameter(Parameter.builder()
-                .name(string("valueSet"))
-                .resource(ValueSet.builder()
-                    .status(PublicationStatus.ACTIVE)
-                    .compose(Compose.builder()
-                        .include(Include.builder()
-                            .system(codeSystem.getUrl())
-                            .version(codeSystem.getVersion())
-                            .filter(filters)
-                            .build())
-                        .build())
-                    .build())
-                .build())
-            .build();
-    }
-
-    private KeyStore loadKeyStoreFile(Configuration.TrustStore trustStore) {
-        return loadKeyStoreFile(trustStore.getLocation(), trustStore.getPassword(), trustStore.getType());
-    }
-
-    private KeyStore loadKeyStoreFile(String location, String password, String type) {
-        InputStream in = null;
-        try {
-            KeyStore keyStore = KeyStore.getInstance(type);
-
-            URL url = Thread.currentThread().getContextClassLoader().getResource(location);
-            if (url != null) {
-                in = url.openStream();
-            }
-
-            if (in == null) {
-                File file = new File(location);
-                if (file.exists()) {
-                    in = new FileInputStream(file);
-                }
-            }
-
-            if (in == null) {
-                throw new FileNotFoundException("KeyStore file '" + location + "' was not found.");
-            }
-
-            keyStore.load(in, password.toCharArray());
-
-            return keyStore;
-        } catch (KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException e) {
-            throw new IllegalStateException("Error loading keystore file '" + location + "' : " + e);
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (Throwable t) { }
-            }
-        }
-    }
-
-    private Concept toConcept(Code code, Parameters parameters) {
-        Concept.Builder conceptBuilder = Concept.builder();
-
-        conceptBuilder.code(code);
-
-        Parameter displayParameter = getParameter(parameters, "display");
-        if (displayParameter != null) {
-            conceptBuilder.display(displayParameter.getValue().as(FHIR_STRING));
-        }
-
-        for (Parameter designationParameter : getParameters(parameters, "designation")) {
-            Designation.Builder designationBuilder = Designation.builder();
-
-            Parameter languageParameter = getPart(designationParameter, "language");
-            if (languageParameter != null && languageParameter.getValue() instanceof Code) {
-                designationBuilder.language((Code) languageParameter.getValue());
-            }
-
-            Parameter useParameter = getPart(designationParameter, "use");
-            if (useParameter != null && useParameter.getValue() instanceof Coding) {
-                designationBuilder.use((Coding) useParameter.getValue());
-            }
-
-            Parameter valueParameter = getPart(designationParameter, "value");
-            if (valueParameter == null || !FHIR_STRING.isInstance(valueParameter.getValue())) {
-                log.warning("Required parameter 'value' is null or has an invalid value type");
-                continue;
-            }
-            designationBuilder.value(valueParameter.getValue().as(FHIR_STRING));
-
-            conceptBuilder.designation(designationBuilder.build());
-        }
-
-        for (Parameter propertyParameter : getParameters(parameters, "property")) {
-            Property.Builder propertyBuilder = Property.builder();
-
-            Parameter codeParameter = getPart(propertyParameter, "code");
-            if (codeParameter == null || !FHIR_STRING.isInstance(codeParameter.getValue())) {
-                log.warning("Required parameter 'code' is null or has an invalid value type");
-                continue;
-            }
-            propertyBuilder.code(Code.of(codeParameter.getValue().as(FHIR_STRING).getValue()));
-
-            Parameter valueParameter = getPart(propertyParameter, "value");
-            if (valueParameter == null) {
-                valueParameter = getPart(propertyParameter, "valueString");
-            }
-            if (valueParameter == null || valueParameter.getValue() == null) {
-                log.warning("Required parameter 'value' is null or has an invalid value type");
-                continue;
-            }
-            propertyBuilder.value(valueParameter.getValue());
-
-            conceptBuilder.property(propertyBuilder.build());
-        }
-
-        return conceptBuilder.build();
-    }
-
-    private Concept toConcept(JsonObject contains) {
-        return Concept.builder()
-            .code(Code.of(contains.getString("code")))
-            .display(string(contains.getString("display")))
-            .build();
-    }
-
-    private boolean usingSSLTransport() {
-        return base.startsWith("https:");
     }
 }
