@@ -10,6 +10,8 @@ set -eu -o pipefail
 
 # https://central.sonatype.org/pages/releasing-the-deployment.html
 # https://central.sonatype.org/publish/publish-maven/
-mvn deploy
+mvn deploy -f fhir-examples -DskipTests
+mvn deploy -f fhir-tools -DskipTests
+mvn deploy -f fhir-parent -DskipTests
 
 # EOF
