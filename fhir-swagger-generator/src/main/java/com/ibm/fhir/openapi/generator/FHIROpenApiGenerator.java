@@ -558,6 +558,8 @@ public class FHIROpenApiGenerator {
 
 
         generateDefinition(CapabilityStatement.class, definitions);
+        generateDefinition(Resource.class, definitions);
+        generateDefinition(DomainResource.class, definitions);
 
         // generate definition for all inner classes inside the top level resources.
         for (String innerClassName : getAllResourceInnerClasses()) {
