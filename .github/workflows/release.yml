@@ -49,21 +49,7 @@ jobs:
         bash build/release/40_drop.sh
     - name: Gather artifacts and materials
       if: always()
-      env:
-        BASE: origin/${{ github['base_ref'] }}
-        GITHUB_TOKEN: ${{ secrets.DOCS_SITE_TOKEN }}
-        GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
-        GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
-        DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-        DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-        GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
-        GPG_KEYNAME: ${{ secrets.GPG_KEYNAME }}
-        GPG_KEY_FILE: ${{ secrets.GPG_KEY_FILE }}
-        OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-        OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-        JAVA_HOME: /opt/hostedtoolcache/AdoptOpenJDK/1.0.0-ga-11-jdk-hotspot-linux-x64-normal-latest/x64/
       run: |
-        . build/release/global.sh
         bash build/release/50_gather.sh
     - name: Upload Artifacts
       if: always()
