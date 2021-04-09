@@ -39,11 +39,6 @@
                         "permission-patient"
                     ]
                 }
-            }, 
-            "operation": {
-                "authorize": {
-                    "reindex": false
-                }
             }
         },
         "notifications": {
@@ -195,6 +190,11 @@
                     "create": false,
                     "presigned": true
                 }
+            }
+        },
+        "operations": {
+            "reindex": {
+                "adminOnly": false
             }
         }
     }

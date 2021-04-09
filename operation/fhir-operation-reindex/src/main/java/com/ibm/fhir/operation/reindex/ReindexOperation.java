@@ -43,7 +43,7 @@ public class ReindexOperation extends AbstractOperation {
     private static final String PARAM_RESOURCE_COUNT = "resourceCount";
     private static final String PARAM_RESOURCE_LOGICAL_ID = "resourceLogicalId";
 
-    private static final String PROP_AUTH_REINDEX = FHIRConfiguration.PROPERTY_SECURITY_OPERATION_AUTHORIZE + "/reindex";
+    private static final String PROP_AUTH_REINDEX = FHIRConfiguration.PROPERTY_OPERATIONS + "/reindex/adminOnly";
 
     // The max number of resources we allow to be processed by one request
     private static final int MAX_RESOURCE_COUNT = 1000;

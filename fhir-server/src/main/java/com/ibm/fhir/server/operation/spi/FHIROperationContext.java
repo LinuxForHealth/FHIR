@@ -61,11 +61,6 @@ public class FHIROperationContext {
     public static final String PROPNAME_SECURITY_CONTEXT = "SECURITY_CONTEXT";
 
     /**
-     * This property is to inject the JWT into the Operation Context.
-     */
-    public static final String PROPNAME_JWT = "JWT";
-
-    /**
      *This property is of type HttpMethod
      */
     public static final String PROPNAME_METHOD_TYPE = "METHOD_TYPE";

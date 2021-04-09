@@ -1986,6 +1986,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/notifications/nats/truststorePassword`|string|The password for the truststore.|
 |`fhirServer/notifications/nats/keystoreLocation`|string|The file location of the keystore to use for TLS.|
 |`fhirServer/notifications/nats/keystorePassword`|string|The password for the keystore.|
+|`fhirServer/operations/reindex/adminOnly`|boolean|True, the reindex operation is made available only to fhiradmins, and users are denied access|
 |`fhirServer/persistence/factoryClassname`|string|The name of the factory class to use for creating instances of the persistence layer implementation.|
 |`fhirServer/persistence/common/updateCreateEnabled`|boolean|A boolean flag which indicates whether or not the 'update/create' feature should be enabled in the selected persistence layer.|
 |`fhirServer/persistence/datasources`|map|A map containing datasource definitions. See [Section 3.3.1 The JDBC persistence layer](#331-the-jdbc-persistence-layer) for more information.|
@@ -2005,7 +2006,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/security/oauth/smart/enabled`|boolean|Whether or not the server is enabled for OAuth-based authentication/authorization|
 |`fhirServer/security/oauth/smart/scopes`|array|The list of SMART scopes to advertise in the `.well-known/smart-configuration endpoint|
 |`fhirServer/security/oauth/smart/capabilities`|array|The list of SMART capabilities to advertise in the `.well-known/smart-configuration endpoint|
-|`fhirServer/security/operation/authorize/reindex`|boolean|True, the reindex operation is made available only to fhiradmins, and users are denied access|
 |`fhirServer/audit/serviceClassName`|string|The audit service to use. Currently, com.ibm.fhir.audit.impl.NopService to indicate the logger service is disabled, and com.ibm.fhir.audit.impl.KafkaService to indicate using Kafka as a destination.|
 |`fhirServer/audit/serviceProperties/auditTopic`|string|The kafka topic to use for CADF audit logging service|
 |`fhirServer/audit/serviceProperties/geoCity`|string|The Geo City configured for audit logging service.|
@@ -2111,6 +2111,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/notifications/nats/truststorePassword`||
 |`fhirServer/notifications/nats/keystoreLocation`||
 |`fhirServer/notifications/nats/keystorePassword`||
+|`fhirServer/operations/reindex/adminOnly`|boolean|false|
 |`fhirServer/persistence/factoryClassname`|com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory|
 |`fhirServer/persistence/common/updateCreateEnabled`|true|
 |`fhirServer/persistence/datasources`|embedded Derby database: derby/fhirDB|
@@ -2130,7 +2131,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/security/oauth/smart/enabled`|boolean|false|
 |`fhirServer/security/oauth/smart/scopes`|array|null|
 |`fhirServer/security/oauth/smart/capabilities`|array|null|
-|`fhirServer/security/operation/authorize/reindex`|boolean|false|
 |`fhirServer/audit/serviceClassName`|""|
 |`fhirServer/audit/serviceProperties/auditTopic`|FHIR_AUDIT|
 |`fhirServer/audit/serviceProperties/geoCity`|UnknownCity|
@@ -2225,6 +2225,7 @@ must restart the server for that change to take effect.
 |`fhirServer/notifications/nats/truststorePassword`|N|N|
 |`fhirServer/notifications/nats/keystoreLocation`|N|N|
 |`fhirServer/notifications/nats/keystorePassword`|N|N|
+|`fhirServer/operations/reindex/adminOnly`|Y|Y|
 |`fhirServer/persistence/factoryClassname`|N|N|
 |`fhirServer/persistence/common/updateCreateEnabled`|N|N|
 |`fhirServer/persistence/datasources`|Y|N|
@@ -2244,7 +2245,6 @@ must restart the server for that change to take effect.
 |`fhirServer/security/oauth/smart/enabled`|Y|Y|
 |`fhirServer/security/oauth/smart/scopes`|Y|Y|
 |`fhirServer/security/oauth/smart/capabilities`|Y|Y|
-|`fhirServer/security/operation/authorize/reindex`|Y|Y|
 |`fhirServer/audit/serviceClassName`|N|N|
 |`fhirServer/audit/serviceProperties/auditTopic`|N|N|
 |`fhirServer/audit/serviceProperties/geoCity`|N|N|
