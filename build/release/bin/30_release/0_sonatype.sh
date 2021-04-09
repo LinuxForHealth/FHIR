@@ -12,15 +12,15 @@ set -eu -o pipefail
 # https://central.sonatype.org/publish/publish-maven/
 
 # fhir-examples
-export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-examples").profiles | map(.) | join(",")' build/release/config/release.json)"
+export BUILD_PROFILES="deploy-to-sonatype"
 mvn -T2C deploy -f fhir-examples -P "${BUILD_PROFILES}" -DskipTests
 
 # fhir-tools
-export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-tools").profiles | map(.) | join(",")' build/release/config/release.json)"
+export BUILD_PROFILES="deploy-to-sonatype"
 mvn -T2C deploy -f fhir-tools -P "${BUILD_PROFILES}" -DskipTests
 
 # fhir-parent
-export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-parent").profiles | map(.) | join(",")' build/release/config/release.json)"
+export BUILD_PROFILES="deploy-to-sonatype"
 mvn -T2C deploy -f fhir-parent -P "${BUILD_PROFILES}" -DskipTests
 
 # EOF
