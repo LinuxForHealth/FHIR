@@ -27,6 +27,7 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TRUSTSTORE_PW;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,6 +60,11 @@ import com.ibm.fhir.server.operation.FHIROperationRegistry;
 import com.ibm.fhir.server.registry.ServerRegistryResourceProvider;
 import com.ibm.fhir.server.util.FHIROperationUtil;
 import com.ibm.fhir.term.graph.provider.GraphTermServiceProvider;
+import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider;
+import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration;
+import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.BasicAuth;
+import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.Supports;
+import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.TrustStore;
 import com.ibm.fhir.term.service.FHIRTermService;
 
 @WebListener("IBM FHIR Server Servlet Context Listener")
@@ -75,6 +81,8 @@ public class FHIRServletContextListener implements ServletContextListener {
     private static FHIRNotificationNATSPublisher natsPublisher = null;
 
     private GraphTermServiceProvider graphTermServiceProvider;
+
+    private List<RemoteTermServiceProvider> remoteTermServiceProviders = new ArrayList<>();
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
@@ -212,6 +220,61 @@ public class FHIRServletContextListener implements ServletContextListener {
                 }
             }
 
+            PropertyGroup termPropertyGroup = fhirConfig.getPropertyGroup("fhirServer/term");
+            if (termPropertyGroup != null) {
+                Object[] remoteTermServiceProvidersArray = termPropertyGroup.getArrayProperty("remoteTermServiceProviders");
+                if (remoteTermServiceProvidersArray != null) {
+                    for (Object remoteTermServiceProviderObject : remoteTermServiceProvidersArray) {
+                        PropertyGroup remoteTermServiceProviderPropertyGroup = (PropertyGroup) remoteTermServiceProviderObject;
+                        try {
+                            Configuration.Builder builder = Configuration.builder();
+
+                            builder.base(remoteTermServiceProviderPropertyGroup.getStringProperty("base"));
+
+                            PropertyGroup trustStorePropertyGroup = remoteTermServiceProviderPropertyGroup.getPropertyGroup("trustStore");
+                            if (trustStorePropertyGroup != null) {
+                                builder.trustStore(TrustStore.builder()
+                                    .location(trustStorePropertyGroup.getStringProperty("location"))
+                                    .password(trustStorePropertyGroup.getStringProperty("password"))
+                                    .type(trustStorePropertyGroup.getStringProperty("type", TrustStore.DEFAULT_TYPE))
+                                    .build());
+                            }
+
+                            builder.hostnameVerificationEnabled(remoteTermServiceProviderPropertyGroup.getBooleanProperty("hostnameVerificationEnabled", Configuration.DEFAULT_HOSTNAME_VERIFICATION_ENABLED));
+
+                            PropertyGroup basicAuthPropertyGroup = remoteTermServiceProviderPropertyGroup.getPropertyGroup("basicAuth");
+                            if (basicAuthPropertyGroup != null) {
+                                builder.basicAuth(BasicAuth.builder()
+                                    .username(basicAuthPropertyGroup.getStringProperty("username"))
+                                    .password(basicAuthPropertyGroup.getStringProperty("password"))
+                                    .build());
+                            }
+
+                            builder.httpTimeout(remoteTermServiceProviderPropertyGroup.getIntProperty("httpTimeout", Configuration.DEFAULT_HTTP_TIMEOUT));
+
+                            Object[] supportsArray = remoteTermServiceProviderPropertyGroup.getArrayProperty("supports");
+                            if (supportsArray != null) {
+                                for (Object supportsObject : supportsArray) {
+                                    PropertyGroup supportsPropertyGroup = (PropertyGroup) supportsObject;
+                                    builder.supports(Supports.builder()
+                                        .system(supportsPropertyGroup.getStringProperty("system"))
+                                        .version(supportsPropertyGroup.getStringProperty("version"))
+                                        .build());
+                                }
+                            }
+
+                            Configuration configuration = builder.build();
+
+                            RemoteTermServiceProvider remoteTermServiceProvider = new RemoteTermServiceProvider(configuration);
+                            FHIRTermService.getInstance().addProvider(remoteTermServiceProvider);
+                            remoteTermServiceProviders.add(remoteTermServiceProvider);
+                        } catch (Exception e) {
+                            log.log(Level.WARNING, "Unable to create RemoteTermServiceProvider from configuration property group: " + remoteTermServiceProviderPropertyGroup, e);
+                        }
+                    }
+                }
+            }
+
             // Finally, set our "initComplete" flag to true.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.TRUE);
         } catch(Throwable t) {
@@ -248,6 +311,10 @@ public class FHIRServletContextListener implements ServletContextListener {
 
             if (graphTermServiceProvider != null) {
                 graphTermServiceProvider.getGraph().close();
+            }
+
+            for (RemoteTermServiceProvider remoteTermServiceProvider : remoteTermServiceProviders) {
+                remoteTermServiceProvider.close();
             }
         } catch (Exception e) {
             // Ignore it
