@@ -6,15 +6,23 @@
 
 package com.ibm.fhir.persistence.context;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.persistence.context.impl.FHIRHistoryContextImpl;
 import com.ibm.fhir.persistence.context.impl.FHIRPersistenceContextImpl;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
+import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 
 /**
  * This is a factory used to create instances of the FHIRPersistenceContext interface.
  */
 public class FHIRPersistenceContextFactory {
+    private static Logger log = Logger.getLogger(FHIRPersistenceContextFactory.class.getName());
 
     private FHIRPersistenceContextFactory() {
         // No Operation
@@ -59,7 +67,18 @@ public class FHIRPersistenceContextFactory {
      * Returns a FHIRHistoryContext instance with default values.
      */
     public static FHIRHistoryContext createHistoryContext() {
-        return new FHIRHistoryContextImpl();
+        int pageSize = FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_DEFAULT_PAGE_SIZE, FHIRConstants.FHIR_PAGE_SIZE_DEFAULT);
+        if (pageSize > SearchConstants.MAX_PAGE_SIZE) {
+            if (log.isLoggable(Level.WARNING)) {
+                log.warning(String.format("Server configuration %s = %d exceeds maximum allowed page size %d; using %d",
+                    FHIRConfiguration.PROPERTY_DEFAULT_PAGE_SIZE, pageSize, SearchConstants.MAX_PAGE_SIZE, SearchConstants.MAX_PAGE_SIZE));
+            }
+            pageSize = SearchConstants.MAX_PAGE_SIZE;
+        }
+        
+        FHIRHistoryContext ctx = new FHIRHistoryContextImpl();
+        ctx.setPageSize(pageSize);
+        return ctx;
     }
 
     /**
