@@ -87,18 +87,17 @@ public class VisionPrescription extends DomainResource {
 
     private VisionPrescription(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         created = ValidationSupport.requireNonNull(builder.created, "created");
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
         encounter = builder.encounter;
         dateWritten = ValidationSupport.requireNonNull(builder.dateWritten, "dateWritten");
         prescriber = ValidationSupport.requireNonNull(builder.prescriber, "prescriber");
-        lensSpecification = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.lensSpecification, "lensSpecification"));
+        lensSpecification = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.lensSpecification, "lensSpecification", LensSpecification.class));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(prescriber, "prescriber", "Practitioner", "PractitionerRole");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -765,7 +764,7 @@ public class VisionPrescription extends DomainResource {
             sphere = builder.sphere;
             cylinder = builder.cylinder;
             axis = builder.axis;
-            prism = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.prism, "prism"));
+            prism = Collections.unmodifiableList(ValidationSupport.checkList(builder.prism, "prism", Prism.class));
             add = builder.add;
             power = builder.power;
             backCurve = builder.backCurve;
@@ -773,7 +772,7 @@ public class VisionPrescription extends DomainResource {
             duration = builder.duration;
             color = builder.color;
             brand = builder.brand;
-            note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+            note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

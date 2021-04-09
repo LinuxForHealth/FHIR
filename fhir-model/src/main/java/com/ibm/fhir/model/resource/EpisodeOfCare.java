@@ -100,25 +100,24 @@ public class EpisodeOfCare extends DomainResource {
 
     private EpisodeOfCare(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        statusHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.statusHistory, "statusHistory"));
-        type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
-        diagnosis = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.diagnosis, "diagnosis"));
+        statusHistory = Collections.unmodifiableList(ValidationSupport.checkList(builder.statusHistory, "statusHistory", StatusHistory.class));
+        type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
+        diagnosis = Collections.unmodifiableList(ValidationSupport.checkList(builder.diagnosis, "diagnosis", Diagnosis.class));
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
         managingOrganization = builder.managingOrganization;
         period = builder.period;
-        referralRequest = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referralRequest, "referralRequest"));
+        referralRequest = Collections.unmodifiableList(ValidationSupport.checkList(builder.referralRequest, "referralRequest", Reference.class));
         careManager = builder.careManager;
-        team = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.team, "team"));
-        account = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.account, "account"));
+        team = Collections.unmodifiableList(ValidationSupport.checkList(builder.team, "team", Reference.class));
+        account = Collections.unmodifiableList(ValidationSupport.checkList(builder.account, "account", Reference.class));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
         ValidationSupport.checkReferenceType(referralRequest, "referralRequest", "ServiceRequest");
         ValidationSupport.checkReferenceType(careManager, "careManager", "Practitioner", "PractitionerRole");
         ValidationSupport.checkReferenceType(team, "team", "CareTeam");
         ValidationSupport.checkReferenceType(account, "account", "Account");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

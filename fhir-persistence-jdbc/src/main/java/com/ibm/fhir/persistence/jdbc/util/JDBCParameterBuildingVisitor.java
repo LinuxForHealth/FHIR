@@ -401,6 +401,14 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         for (Coding coding : codeableConcept.getCoding()) {
             visit(elementName, elementIndex, coding);
         }
+        if (codeableConcept.getText() != null && codeableConcept.getText().hasValue()) {
+            // Extract as token as normalized string since :text modifier is simple string search
+            TokenParmVal p = new TokenParmVal();
+            p.setResourceType(resourceType);
+            p.setName(searchParamCode + SearchConstants.TEXT_MODIFIER_SUFFIX);
+            p.setValueCode(SearchUtil.normalizeForSearch(codeableConcept.getText().getValue()));
+            result.add(p);
+        }
         return false;
     }
 
@@ -418,6 +426,14 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 p.setValueSystem(coding.getSystem().getValue());
             }
             result.add(p);
+            if (coding.getDisplay() != null && coding.getDisplay().hasValue()) {
+                // Extract as token as normalized string since :text modifier is simple string search
+                p = new TokenParmVal();
+                p.setResourceType(resourceType);
+                p.setName(searchParamCode + SearchConstants.TEXT_MODIFIER_SUFFIX);
+                p.setValueCode(SearchUtil.normalizeForSearch(coding.getDisplay().getValue()));
+                result.add(p);
+            }
         }
         return false;
     }

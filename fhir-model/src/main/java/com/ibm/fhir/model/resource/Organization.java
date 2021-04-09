@@ -108,19 +108,18 @@ public class Organization extends DomainResource {
 
     private Organization(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         active = builder.active;
-        type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
+        type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
         name = builder.name;
-        alias = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.alias, "alias"));
-        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
-        address = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.address, "address"));
+        alias = Collections.unmodifiableList(ValidationSupport.checkList(builder.alias, "alias", String.class));
+        telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
+        address = Collections.unmodifiableList(ValidationSupport.checkList(builder.address, "address", Address.class));
         partOf = builder.partOf;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
-        endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", Contact.class));
+        endpoint = Collections.unmodifiableList(ValidationSupport.checkList(builder.endpoint, "endpoint", Reference.class));
         ValidationSupport.checkReferenceType(partOf, "partOf", "Organization");
         ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -893,7 +892,7 @@ public class Organization extends DomainResource {
             super(builder);
             purpose = builder.purpose;
             name = builder.name;
-            telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
+            telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
             address = builder.address;
             ValidationSupport.requireValueOrChildren(this);
         }

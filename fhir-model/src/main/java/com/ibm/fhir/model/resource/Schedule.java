@@ -93,16 +93,15 @@ public class Schedule extends DomainResource {
 
     private Schedule(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         active = builder.active;
-        serviceCategory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.serviceCategory, "serviceCategory"));
-        serviceType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.serviceType, "serviceType"));
-        specialty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialty, "specialty"));
-        actor = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.actor, "actor"));
+        serviceCategory = Collections.unmodifiableList(ValidationSupport.checkList(builder.serviceCategory, "serviceCategory", CodeableConcept.class));
+        serviceType = Collections.unmodifiableList(ValidationSupport.checkList(builder.serviceType, "serviceType", CodeableConcept.class));
+        specialty = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialty, "specialty", CodeableConcept.class));
+        actor = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.actor, "actor", Reference.class));
         planningHorizon = builder.planningHorizon;
         comment = builder.comment;
         ValidationSupport.checkReferenceType(actor, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

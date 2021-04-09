@@ -151,15 +151,14 @@ public class NamingSystem extends DomainResource {
         kind = ValidationSupport.requireNonNull(builder.kind, "kind");
         date = ValidationSupport.requireNonNull(builder.date, "date");
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         responsible = builder.responsible;
         type = builder.type;
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         usage = builder.usage;
-        uniqueId = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.uniqueId, "uniqueId"));
-        ValidationSupport.requireChildren(this);
+        uniqueId = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.uniqueId, "uniqueId", UniqueId.class));
     }
 
     /**

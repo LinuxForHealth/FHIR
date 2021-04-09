@@ -133,24 +133,24 @@ public class DiagnosticReport extends DomainResource {
 
     private DiagnosticReport(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
         code = ValidationSupport.requireNonNull(builder.code, "code");
         subject = builder.subject;
         encounter = builder.encounter;
         effective = ValidationSupport.choiceElement(builder.effective, "effective", DateTime.class, Period.class);
         issued = builder.issued;
-        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
-        resultsInterpreter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.resultsInterpreter, "resultsInterpreter"));
-        specimen = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specimen, "specimen"));
-        result = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.result, "result"));
-        imagingStudy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.imagingStudy, "imagingStudy"));
-        media = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.media, "media"));
+        performer = Collections.unmodifiableList(ValidationSupport.checkList(builder.performer, "performer", Reference.class));
+        resultsInterpreter = Collections.unmodifiableList(ValidationSupport.checkList(builder.resultsInterpreter, "resultsInterpreter", Reference.class));
+        specimen = Collections.unmodifiableList(ValidationSupport.checkList(builder.specimen, "specimen", Reference.class));
+        result = Collections.unmodifiableList(ValidationSupport.checkList(builder.result, "result", Reference.class));
+        imagingStudy = Collections.unmodifiableList(ValidationSupport.checkList(builder.imagingStudy, "imagingStudy", Reference.class));
+        media = Collections.unmodifiableList(ValidationSupport.checkList(builder.media, "media", Media.class));
         conclusion = builder.conclusion;
-        conclusionCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.conclusionCode, "conclusionCode"));
-        presentedForm = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.presentedForm, "presentedForm"));
+        conclusionCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.conclusionCode, "conclusionCode", CodeableConcept.class));
+        presentedForm = Collections.unmodifiableList(ValidationSupport.checkList(builder.presentedForm, "presentedForm", Attachment.class));
         ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ImmunizationRecommendation", "MedicationRequest", "NutritionOrder", "ServiceRequest");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Location");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
@@ -159,7 +159,6 @@ public class DiagnosticReport extends DomainResource {
         ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
         ValidationSupport.checkReferenceType(result, "result", "Observation");
         ValidationSupport.checkReferenceType(imagingStudy, "imagingStudy", "ImagingStudy");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

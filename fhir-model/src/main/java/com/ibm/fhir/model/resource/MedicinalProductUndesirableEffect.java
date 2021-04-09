@@ -56,13 +56,12 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
 
     private MedicinalProductUndesirableEffect(Builder builder) {
         super(builder);
-        subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
+        subject = Collections.unmodifiableList(ValidationSupport.checkList(builder.subject, "subject", Reference.class));
         symptomConditionEffect = builder.symptomConditionEffect;
         classification = builder.classification;
         frequencyOfOccurrence = builder.frequencyOfOccurrence;
-        population = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.population, "population"));
+        population = Collections.unmodifiableList(ValidationSupport.checkList(builder.population, "population", Population.class));
         ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

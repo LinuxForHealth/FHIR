@@ -91,7 +91,7 @@ public class PaymentNotice extends DomainResource {
 
     private PaymentNotice(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         request = builder.request;
         response = builder.response;
@@ -107,7 +107,6 @@ public class PaymentNotice extends DomainResource {
         ValidationSupport.checkReferenceType(payment, "payment", "PaymentReconciliation");
         ValidationSupport.checkReferenceType(payee, "payee", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.checkReferenceType(recipient, "recipient", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

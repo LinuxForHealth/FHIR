@@ -6,11 +6,9 @@
 
 package com.ibm.fhir.term.service.provider;
 
-import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.function.Function;
 
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
@@ -36,32 +34,31 @@ public class RegistryTermServiceProvider implements FHIRTermServiceProvider {
     public Concept getConcept(CodeSystem codeSystem, Code code) {
         Concept concept = CodeSystemSupport.findConcept(codeSystem, code);
         if (concept != null) {
-            return concept.toBuilder()
-                .concept(Collections.emptyList())
-                .build();
+            // child concepts are removed for consistency with the other providers
+            return CodeSystemSupport.CONCEPT_NO_CHILDREN_FUNCTION.apply(concept);
         }
         return null;
     }
 
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem) {
-        return CodeSystemSupport.getConcepts(codeSystem).stream()
-            .map(concept -> Concept.builder()
-                .code(concept.getCode())
-                .display(concept.getDisplay())
-                .build())
-            .collect(Collectors.toCollection(LinkedHashSet::new));
+        return getConcepts(codeSystem, CodeSystemSupport.SIMPLE_CONCEPT_FUNCTION);
+    }
+
+    @Override
+    public <R> Set<R> getConcepts(CodeSystem codeSystem, Function<Concept, ? extends R> function) {
+        return CodeSystemSupport.getConcepts(codeSystem, function);
     }
 
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters) {
+        return getConcepts(codeSystem, filters, CodeSystemSupport.SIMPLE_CONCEPT_FUNCTION);
+    }
+
+    @Override
+    public <R> Set<R> getConcepts(CodeSystem codeSystem, List<Filter> filters, Function<Concept, ? extends R> function) {
         try {
-            return CodeSystemSupport.getConcepts(codeSystem, filters).stream()
-                .map(concept -> Concept.builder()
-                    .code(concept.getCode())
-                    .display(concept.getDisplay())
-                    .build())
-                .collect(Collectors.toCollection(LinkedHashSet::new));
+            return CodeSystemSupport.getConcepts(codeSystem, filters, function);
         } catch (FHIRTermException e) {
             throw new FHIRTermServiceException(e.getMessage(), e, e.getIssues());
         }

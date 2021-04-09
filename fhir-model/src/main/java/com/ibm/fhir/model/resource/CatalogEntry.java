@@ -79,21 +79,20 @@ public class CatalogEntry extends DomainResource {
 
     private CatalogEntry(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         type = builder.type;
         orderable = ValidationSupport.requireNonNull(builder.orderable, "orderable");
         referencedItem = ValidationSupport.requireNonNull(builder.referencedItem, "referencedItem");
-        additionalIdentifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additionalIdentifier, "additionalIdentifier"));
-        classification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.classification, "classification"));
+        additionalIdentifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.additionalIdentifier, "additionalIdentifier", Identifier.class));
+        classification = Collections.unmodifiableList(ValidationSupport.checkList(builder.classification, "classification", CodeableConcept.class));
         status = builder.status;
         validityPeriod = builder.validityPeriod;
         validTo = builder.validTo;
         lastUpdated = builder.lastUpdated;
-        additionalCharacteristic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additionalCharacteristic, "additionalCharacteristic"));
-        additionalClassification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additionalClassification, "additionalClassification"));
-        relatedEntry = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedEntry, "relatedEntry"));
+        additionalCharacteristic = Collections.unmodifiableList(ValidationSupport.checkList(builder.additionalCharacteristic, "additionalCharacteristic", CodeableConcept.class));
+        additionalClassification = Collections.unmodifiableList(ValidationSupport.checkList(builder.additionalClassification, "additionalClassification", CodeableConcept.class));
+        relatedEntry = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedEntry, "relatedEntry", RelatedEntry.class));
         ValidationSupport.checkReferenceType(referencedItem, "referencedItem", "Medication", "Device", "Organization", "Practitioner", "PractitionerRole", "HealthcareService", "ActivityDefinition", "PlanDefinition", "SpecimenDefinition", "ObservationDefinition", "Binary");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

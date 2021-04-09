@@ -6,8 +6,13 @@
 
 package com.ibm.fhir.term.spi;
 
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
@@ -29,7 +34,29 @@ public interface FHIRTermServiceProvider {
     Set<Concept> closure(CodeSystem codeSystem, Code code);
 
     /**
+     * Get a map of sets containing {@link CodeSystem.Concept} instances where all structural
+     * hierarchies have been flattened
+     *
+     * @param codeSystem
+     *     the code system
+     * @param codes
+     *     the set of roots of hierarchies containing the Concept instances to be flattened
+     * @return
+     *     a map containing flattened sets of Concept instances for the given trees
+     */
+    default Map<Code, Set<Concept>> closure(CodeSystem codeSystem, Set<Code> codes) {
+        Map<Code, Set<Concept>> result = new LinkedHashMap<>();
+        for (Code code : codes) {
+            Set<Concept> closure = closure(codeSystem, code);
+            result.put(code, closure);
+        }
+        return result;
+    }
+
+    /**
      * Get the concept in the provided code system with the specified code.
+     * Consumers should not expect the returned Concept to contain child concepts, even where
+     * such concepts exist in the underlying CodeSystem.
      *
      * @param codeSystem
      *     the code system
@@ -45,24 +72,64 @@ public interface FHIRTermServiceProvider {
      * hierarchies have been flattened.
      *
      * @param codeSystem
-     *     the code system
+     *     the code system containing the set of Concept instances to be flattened
      * @return
-     *     flattened list of Concept instances for the given code system
+     *     flattened set of Concept instances for the given code system
      */
     Set<Concept> getConcepts(CodeSystem codeSystem);
+
+    /**
+     * Get a set containing {@link R} instances mapped from concepts where all structural
+     * hierarchies have been flattened.
+     *
+     * @param <R>
+     *     the element type of the result set
+     * @param codeSystem
+     *     the code system containing the set of Concept instances to be flattened
+     * @param function
+     *     the function to apply to each element of the result set
+     * @return
+     *     flattened set of {@link R} instances mapped from concepts for the given code system
+     */
+    default <R> Set<R> getConcepts(CodeSystem codeSystem, Function<Concept, ? extends R> function) {
+        return getConcepts(codeSystem).stream()
+            .map(function)
+            .collect(Collectors.toCollection(LinkedHashSet::new));
+    }
 
     /**
      * Get a set containing {@link CodeSystem.Concept} instances where all structural
      * hierarchies have been flattened and filtered by the given set of value set include filters.
      *
      * @param codeSystem
-     *     the code system
+     *     the code system containing the set of Concept instances to be flattened / filtered
      * @param filters
      *     the value set include filters
      * @return
-     *     flattened / filtered list of Concept instances for the given code system
+     *     flattened / filtered set of Concept instances for the given code system
      */
     Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters);
+
+    /**
+     * Get a set containing {@link R} instances mapped from concepts where all structural
+     * hierarchies have been flattened and filtered by the given set of value set include filters.
+     *
+     * @param <R>
+     *     the element type of the result set
+     * @param codeSystem
+     *     the code system containing the set of Concept instances to be flattened / filtered
+     * @param filters
+     *     the value set include filters
+     * @param function
+     *     the function to apply to each element of the result set
+     * @return
+     *     flattened / filtered set of {@link R} instances mapped from concepts for the given code system
+     */
+    default <R> Set<R> getConcepts(CodeSystem codeSystem, List<Filter> filters, Function<Concept, ? extends R> function) {
+        return getConcepts(codeSystem, filters).stream()
+            .map(function)
+            .collect(Collectors.toCollection(LinkedHashSet::new));
+    }
 
     /**
      * Indicates whether the given code system contains a concept with the specified code.
@@ -77,6 +144,25 @@ public interface FHIRTermServiceProvider {
     boolean hasConcept(CodeSystem codeSystem, Code code);
 
     /**
+     * Indicates whether the given code system contains a concept for each of the specified codes.
+     *
+     * @param codeSystem
+     *     the code system
+     * @param codes
+     *     the codes
+     * @return
+     *     true if the given code system contains a concept for each of the specified codes, false otherwise
+     */
+    default boolean hasConcepts(CodeSystem codeSystem, Set<Code> codes) {
+        for (Code code : codes) {
+            if (!hasConcept(codeSystem, code)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Indicates whether the given code system is supported.
      *
      * @param codeSystem
@@ -87,7 +173,8 @@ public interface FHIRTermServiceProvider {
     boolean isSupported(CodeSystem codeSystem);
 
     /**
-     * Find the concept in tree rooted by the provided concept that matches the specified code.
+     * Indicates whether the concept for {@code CodeA} subsumes the concept for {@code codeB}
+     * in the passed CodeSystem.
      *
      * @param codeSystem
      *     the code system
@@ -96,7 +183,8 @@ public interface FHIRTermServiceProvider {
      * @param codeB
      *     the code to match
      * @return
-     *     the code system concept that matches the specified code, or null if not such concept exists
+     *     true if the code system concept for {@code codeB} exists in the tree rooted by the concept for
+     *     {@code CodeA}, false otherwise
      */
     boolean subsumes(CodeSystem codeSystem, Code codeA, Code codeB);
 }

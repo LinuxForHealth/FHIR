@@ -121,10 +121,10 @@ public class Slot extends DomainResource {
 
     private Slot(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        serviceCategory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.serviceCategory, "serviceCategory"));
-        serviceType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.serviceType, "serviceType"));
-        specialty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialty, "specialty"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        serviceCategory = Collections.unmodifiableList(ValidationSupport.checkList(builder.serviceCategory, "serviceCategory", CodeableConcept.class));
+        serviceType = Collections.unmodifiableList(ValidationSupport.checkList(builder.serviceType, "serviceType", CodeableConcept.class));
+        specialty = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialty, "specialty", CodeableConcept.class));
         appointmentType = builder.appointmentType;
         schedule = ValidationSupport.requireNonNull(builder.schedule, "schedule");
         status = ValidationSupport.requireNonNull(builder.status, "status");
@@ -133,7 +133,6 @@ public class Slot extends DomainResource {
         overbooked = builder.overbooked;
         comment = builder.comment;
         ValidationSupport.checkReferenceType(schedule, "schedule", "Schedule");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

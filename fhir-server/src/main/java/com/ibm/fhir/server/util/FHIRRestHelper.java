@@ -49,6 +49,7 @@ import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.core.context.FHIRPagingContext;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.patch.FHIRPatch;
+import com.ibm.fhir.model.patch.exception.FHIRPatchException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.Bundle.Entry.Request;
@@ -428,7 +429,19 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             if (patch != null) {
-                newResource = patch.apply(ior.getPrevResource());
+                try {
+                    newResource = patch.apply(ior.getPrevResource());
+                } catch (FHIRPatchException e) {
+                    String msg = "Invalid patch: " + e.getMessage();
+                    throw new FHIROperationException(msg, e).withIssue(Issue.builder()
+                            .severity(IssueSeverity.ERROR)
+                            .code(IssueType.INVALID)
+                            .details(CodeableConcept.builder()
+                                    .text(string(msg))
+                                    .build())
+                            .expression(string(e.getPath()))
+                            .build());
+                }
             }
 
             // Validate the input and, if valid, start collecting supplemental warnings
@@ -2516,7 +2529,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @return the bundle
      * @throws Exception
      */
-    private Bundle createSearchBundle(List<Resource> resources, FHIRSearchContext searchContext, String type)
+    Bundle createSearchBundle(List<Resource> resources, FHIRSearchContext searchContext, String type)
         throws Exception {
 
         // throws if we have a count of more than 2,147,483,647 resources
@@ -2564,20 +2577,29 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             for (Resource resource : resources) {
-                if (resource.getId() == null) {
-                    throw new IllegalStateException("Returned resources must have an id.");
+                Bundle.Entry.Builder entryBuilder = Bundle.Entry.builder();
+                if (resource != null) {
+                    if (resource.getId() != null) {
+                        entryBuilder.fullUrl(Uri.of(getRequestBaseUri(type) + "/" + resource.getClass().getSimpleName() + "/" + resource.getId()));
+                    } else {
+                        String msg = "A resource with no id was found.";
+                        log.warning(msg);
+                        issues.add(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, msg));
+                    }
+                    entryBuilder.resource(resource);
+                } else {
+                    String msg = "A resource with no data was found.";
+                    log.warning(msg);
+                    issues.add(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, msg));
                 }
                 // Search mode is determined by the matchResourceCount, which will be decremented each time through the loop.
                 // If the count is greater than 0, the mode is MATCH. If less than or equal to 0, the mode is INCLUDE.
-                Bundle.Entry entry = Bundle.Entry.builder()
-                        .fullUrl(Uri.of(getRequestBaseUri(type) + "/" + resource.getClass().getSimpleName() + "/" + resource.getId()))
-                        .resource(resource)
-                        .search(Search.builder()
-                            .mode(matchResourceCount-- > 0 ? SearchEntryMode.MATCH : SearchEntryMode.INCLUDE)
-                            .score(Decimal.of("1"))
-                            .build())
-                        .build();
-
+                Bundle.Entry entry = entryBuilder
+                    .search(Search.builder()
+                        .mode(matchResourceCount-- > 0 ? SearchEntryMode.MATCH : SearchEntryMode.INCLUDE)
+                        .score(Decimal.of("1"))
+                        .build())
+                    .build();
                 bundleBuilder.entry(entry);
             }
 
@@ -2714,8 +2736,15 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         for (int i = 0; i < resources.size(); i++) {
             Resource resource = resources.get(i);
 
+            if (resource == null) {
+                String msg = "A resource with no data was found.";
+                log.warning(msg);
+                throw new IllegalStateException(msg);
+            }
             if (resource.getId() == null) {
-                throw new IllegalStateException("Returned resources must have an id.");
+                String msg = "A resource with no id was found.";
+                log.warning(msg);
+                throw new IllegalStateException(msg);
             }
 
             Integer versionId = Integer.valueOf(resource.getMeta().getVersionId().getValue());

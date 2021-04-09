@@ -216,19 +216,19 @@ public class ServiceRequest extends DomainResource {
 
     private ServiceRequest(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesCanonical, "instantiatesCanonical"));
-        instantiatesUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesUri, "instantiatesUri"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        replaces = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.replaces, "replaces"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesCanonical, "instantiatesCanonical", Canonical.class));
+        instantiatesUri = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesUri, "instantiatesUri", Uri.class));
+        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
+        replaces = Collections.unmodifiableList(ValidationSupport.checkList(builder.replaces, "replaces", Reference.class));
         requisition = builder.requisition;
         status = ValidationSupport.requireNonNull(builder.status, "status");
         intent = ValidationSupport.requireNonNull(builder.intent, "intent");
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
         priority = builder.priority;
         doNotPerform = builder.doNotPerform;
         code = builder.code;
-        orderDetail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.orderDetail, "orderDetail"));
+        orderDetail = Collections.unmodifiableList(ValidationSupport.checkList(builder.orderDetail, "orderDetail", CodeableConcept.class));
         quantity = ValidationSupport.choiceElement(builder.quantity, "quantity", Quantity.class, Ratio.class, Range.class);
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
         encounter = builder.encounter;
@@ -237,18 +237,18 @@ public class ServiceRequest extends DomainResource {
         authoredOn = builder.authoredOn;
         requester = builder.requester;
         performerType = builder.performerType;
-        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
-        locationCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.locationCode, "locationCode"));
-        locationReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.locationReference, "locationReference"));
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-        insurance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.insurance, "insurance"));
-        supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
-        specimen = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specimen, "specimen"));
-        bodySite = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.bodySite, "bodySite"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        performer = Collections.unmodifiableList(ValidationSupport.checkList(builder.performer, "performer", Reference.class));
+        locationCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.locationCode, "locationCode", CodeableConcept.class));
+        locationReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.locationReference, "locationReference", Reference.class));
+        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
+        insurance = Collections.unmodifiableList(ValidationSupport.checkList(builder.insurance, "insurance", Reference.class));
+        supportingInfo = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingInfo, "supportingInfo", Reference.class));
+        specimen = Collections.unmodifiableList(ValidationSupport.checkList(builder.specimen, "specimen", Reference.class));
+        bodySite = Collections.unmodifiableList(ValidationSupport.checkList(builder.bodySite, "bodySite", CodeableConcept.class));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
         patientInstruction = builder.patientInstruction;
-        relevantHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relevantHistory, "relevantHistory"));
+        relevantHistory = Collections.unmodifiableList(ValidationSupport.checkList(builder.relevantHistory, "relevantHistory", Reference.class));
         ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ServiceRequest", "MedicationRequest");
         ValidationSupport.checkReferenceType(replaces, "replaces", "ServiceRequest");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Location", "Device");
@@ -260,7 +260,6 @@ public class ServiceRequest extends DomainResource {
         ValidationSupport.checkReferenceType(insurance, "insurance", "Coverage", "ClaimResponse");
         ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
         ValidationSupport.checkReferenceType(relevantHistory, "relevantHistory", "Provenance");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

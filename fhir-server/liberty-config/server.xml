@@ -30,8 +30,8 @@
 
     <!-- IBM FHIR Server's keystore and truststore configuration -->
     <ssl id="defaultSSLConfig" keyStoreRef="defaultKeyStore" trustStoreRef="defaultTrustStore" clientAuthenticationSupported="true" sslProtocol="TLSv1.2"/>
-    <keyStore id="defaultKeyStore" location="${server.output.dir}/resources/security/fhirKeyStore.p12" password="change-password"/>
-    <keyStore id="defaultTrustStore" location="${server.output.dir}/resources/security/fhirTrustStore.p12" password="change-password"/>
+    <keyStore id="defaultKeyStore" location="${server.config.dir}/resources/security/fhirKeyStore.p12" password="change-password"/>
+    <keyStore id="defaultTrustStore" location="${server.config.dir}/resources/security/fhirTrustStore.p12" password="change-password"/>
 
     <!-- This entry defines the ports that the server will listen on.
         By default, the httpPort is disabled (set to "-1").
@@ -52,7 +52,9 @@
     -->
     <variable name="TRACE_SPEC" defaultValue="*=info"/>
     <variable name="TRACE_FILE" defaultValue="trace.log"/>
-    <logging traceSpecification="${TRACE_SPEC}" traceFileName="${TRACE_FILE}" isoDateFormat="true"/>
+    <variable name="TRACE_FORMAT" defaultValue="BASIC"/>
+    <variable name="WLP_LOGGING_CONSOLE_LOGLEVEL" defaultValue="INFO"/>
+    <logging traceSpecification="${TRACE_SPEC}" traceFileName="${TRACE_FILE}" traceFormat="${TRACE_FORMAT}" consoleLogLevel="${WLP_LOGGING_CONSOLE_LOGLEVEL}"/>
 
     <!-- Automatically expand WAR files and EAR files -->
     <applicationManager autoExpand="true"/>
@@ -61,7 +63,7 @@
 
     <!-- This is the main IBM FHIR Server REST API war -->
     <webApplication contextRoot="fhir-server/api/v4" id="fhir-server-webapp" location="fhir-server.war" name="fhir-server-webapp">
-        <classloader privateLibraryRef="configResources,fhirUserLib"/>
+        <classloader privateLibraryRef="fhirUserLib"/>
         <!-- Include id attributes to make it easier to override this via dropinConfig -->
         <application-bnd id="bind">
             <security-role id="users" name="FHIRUsers">
@@ -69,15 +71,6 @@
             </security-role>
         </application-bnd>
     </webApplication>
-
-    <!--
-        This library element puts a specific directory in the classpath so that it can be used
-        for user-provided configuration files (e.g. extension-search-parameters.xml)
-    -->
-    <library id="configResources">
-        <folder dir="${server.config.dir}/config"/>
-        <fileset dir="${server.config.dir}/config" includes="*.jar"/>
-    </library>
 
     <!--
         This sharedlib can contain user-contributed jars that are intended to augment
@@ -92,11 +85,9 @@
     <library id="sharedLibDb2">
         <fileset dir="${shared.resource.dir}/lib/db2" includes="*.jar"/>
     </library>
-
     <library id="sharedLibDerby">
         <fileset dir="${shared.resource.dir}/lib/derby" includes="*.jar"/>
     </library>
-    
     <library id="sharedLibPostgres">
         <fileset dir="${shared.resource.dir}/lib/postgresql" includes="*.jar"/>
     </library>

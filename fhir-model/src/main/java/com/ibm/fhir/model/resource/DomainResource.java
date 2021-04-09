@@ -77,9 +77,9 @@ public abstract class DomainResource extends Resource {
     protected DomainResource(Builder builder) {
         super(builder);
         text = builder.text;
-        contained = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contained, "contained"));
-        extension = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.extension, "extension"));
-        modifierExtension = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifierExtension, "modifierExtension"));
+        contained = Collections.unmodifiableList(ValidationSupport.checkList(builder.contained, "contained", Resource.class));
+        extension = Collections.unmodifiableList(ValidationSupport.checkList(builder.extension, "extension", Extension.class));
+        modifierExtension = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifierExtension, "modifierExtension", Extension.class));
     }
 
     /**

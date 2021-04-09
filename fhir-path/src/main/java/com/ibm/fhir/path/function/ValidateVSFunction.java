@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,8 +33,8 @@ import com.ibm.fhir.path.FHIRPathElementNode;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathResourceNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
-import com.ibm.fhir.term.spi.ValidationOutcome;
-import com.ibm.fhir.term.spi.ValidationParameters;
+import com.ibm.fhir.term.service.ValidationOutcome;
+import com.ibm.fhir.term.service.ValidationParameters;
 
 public class ValidateVSFunction extends FHIRPathAbstractTermFunction {
     @Override

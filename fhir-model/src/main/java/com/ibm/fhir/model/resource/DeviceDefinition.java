@@ -98,32 +98,31 @@ public class DeviceDefinition extends DomainResource {
 
     private DeviceDefinition(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        udiDeviceIdentifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.udiDeviceIdentifier, "udiDeviceIdentifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        udiDeviceIdentifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.udiDeviceIdentifier, "udiDeviceIdentifier", UdiDeviceIdentifier.class));
         manufacturer = ValidationSupport.choiceElement(builder.manufacturer, "manufacturer", String.class, Reference.class);
-        deviceName = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.deviceName, "deviceName"));
+        deviceName = Collections.unmodifiableList(ValidationSupport.checkList(builder.deviceName, "deviceName", DeviceName.class));
         modelNumber = builder.modelNumber;
         type = builder.type;
-        specialization = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialization, "specialization"));
-        version = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.version, "version"));
-        safety = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.safety, "safety"));
-        shelfLifeStorage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.shelfLifeStorage, "shelfLifeStorage"));
+        specialization = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialization, "specialization", Specialization.class));
+        version = Collections.unmodifiableList(ValidationSupport.checkList(builder.version, "version", String.class));
+        safety = Collections.unmodifiableList(ValidationSupport.checkList(builder.safety, "safety", CodeableConcept.class));
+        shelfLifeStorage = Collections.unmodifiableList(ValidationSupport.checkList(builder.shelfLifeStorage, "shelfLifeStorage", ProductShelfLife.class));
         physicalCharacteristics = builder.physicalCharacteristics;
-        languageCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.languageCode, "languageCode"));
-        capability = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.capability, "capability"));
-        property = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.property, "property"));
+        languageCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.languageCode, "languageCode", CodeableConcept.class));
+        capability = Collections.unmodifiableList(ValidationSupport.checkList(builder.capability, "capability", Capability.class));
+        property = Collections.unmodifiableList(ValidationSupport.checkList(builder.property, "property", Property.class));
         owner = builder.owner;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactPoint.class));
         url = builder.url;
         onlineInformation = builder.onlineInformation;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
         quantity = builder.quantity;
         parentDevice = builder.parentDevice;
-        material = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.material, "material"));
+        material = Collections.unmodifiableList(ValidationSupport.checkList(builder.material, "material", Material.class));
         ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
         ValidationSupport.checkReferenceType(owner, "owner", "Organization");
         ValidationSupport.checkReferenceType(parentDevice, "parentDevice", "DeviceDefinition");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -2256,7 +2255,7 @@ public class DeviceDefinition extends DomainResource {
         private Capability(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
-            description = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.description, "description"));
+            description = Collections.unmodifiableList(ValidationSupport.checkList(builder.description, "description", CodeableConcept.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2546,8 +2545,8 @@ public class DeviceDefinition extends DomainResource {
         private Property(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
-            valueQuantity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.valueQuantity, "valueQuantity"));
-            valueCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.valueCode, "valueCode"));
+            valueQuantity = Collections.unmodifiableList(ValidationSupport.checkList(builder.valueQuantity, "valueQuantity", Quantity.class));
+            valueCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.valueCode, "valueCode", CodeableConcept.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

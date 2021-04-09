@@ -5,28 +5,26 @@
 # ----------------------------------------------------------------------------
 # Stage: Base
 
-FROM openliberty/open-liberty:21.0.0.3-full-java8-openj9-ubi as base
-
-ENV LICENSE accept
+FROM openliberty/open-liberty:21.0.0.3-kernel-slim-java11-openj9-ubi as base
 
 USER root
 RUN yum install -y unzip
-
-RUN mkdir -p /opt/ibm-fhir-server
+RUN install -d -o 1001 /opt/ibm-fhir-server
+USER 1001
 
 COPY target/fhir-server-distribution.zip /tmp/
 RUN unzip -qq /tmp/fhir-server-distribution.zip -d /tmp && \
     /tmp/fhir-server-dist/install-fhir.sh /opt/ol/wlp && \
     mv /tmp/fhir-server-dist/tools /opt/ibm-fhir-server/tools
-COPY ./src/main/docker/ibm-fhir-server/bootstrap.sh /opt/ibm-fhir-server/
-
-USER 1001
+COPY src/main/docker/ibm-fhir-server/bootstrap.properties /opt/ol/wlp/usr/servers/defaultServer/
+COPY src/main/docker/ibm-fhir-server/bootstrap.sh /opt/ibm-fhir-server/
 
 # ----------------------------------------------------------------------------
 # Stage: Runnable
 
-FROM openliberty/open-liberty:21.0.0.3-full-java8-openj9-ubi
+FROM openliberty/open-liberty:21.0.0.3-kernel-slim-java11-openj9-ubi
 
+ARG VERBOSE=true
 ARG FHIR_VERSION=4.7.0-SNAPSHOT
 
 # The following labels are required: 
@@ -36,37 +34,30 @@ LABEL version="$FHIR_VERSION"
 LABEL summary="Image for IBM FHIR Server with OpenJ9 and UBI 8"
 LABEL description="The IBM FHIR Server is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability."
 
-COPY --chown=1001:0 --from=base /opt/ol/wlp/usr /opt/ol/wlp/usr
-COPY --chown=1001:0 --from=base /opt/ibm-fhir-server /opt/ibm-fhir-server
+ENV FHIR_CONFIG_HOME=/opt/ol/wlp/usr/servers/defaultServer \
+    WLP_LOGGING_CONSOLE_SOURCE=message,trace,accessLog,ffdc,audit \
+    WLP_LOGGING_CONSOLE_LOGLEVEL=info \
+    WLP_LOGGING_CONSOLE_FORMAT=SIMPLE \
+    WLP_LOGGING_MESSAGE_SOURCE="" \
+    WLP_LOGGING_MESSAGE_FORMAT=JSON \
+    TRACE_FILE=stdout \
+    TRACE_FORMAT=BASIC
 
 COPY target/LICENSE /licenses/
 
-ENV FHIR /opt/ol/wlp/usr/servers/fhir-server
+COPY --chown=1001:0 --from=base /opt/ol/wlp/usr/servers/defaultServer/server.xml /opt/ol/wlp/usr/servers/defaultServer/
+COPY --chown=1001:0 --from=base /opt/ol/wlp/usr/servers/defaultServer/configDropins /opt/ol/wlp/usr/servers/defaultServer/configDropins
 
-# Set the working directory to the fhir-server liberty server
-WORKDIR ${FHIR}
+RUN features.sh
 
-# Set the output directory so that output will appear under the working directory
-ENV WLP_OUTPUT_DIR=/opt/ol/wlp/usr/servers
+COPY --chown=1001:0 --from=base /opt/ol/wlp/usr /opt/ol/wlp/usr
 
-# Tell liberty not to worry about a keystore since we provide our own at a different path
-ENV KEYSTORE_REQUIRED "false"
+RUN configure.sh
 
-# Replace links to defaultServer with links to fhir-server and 
-# create the configDropins directories for the fhir-server
-USER root
-RUN chmod -R 755 /opt/ibm-fhir-server && \
-    ln -sfn ${FHIR} /output && \
-    ln -sfn ${FHIR} /config && \
-    rm -rf /opt/ol/wlp/output && \
-    rm -rf /opt/ol/wlp/usr/servers/defaultServer && \
-    mkdir -p /config/configDropins/defaults /config/configDropins/overrides && \
-    chown -R 1001:1001 /config/configDropins/ && \
-    yum update -y && \
-    yum clean all && \
-    rm -rf /var/cache/yum
+COPY --chown=1001:0 --from=base /opt/ibm-fhir-server /opt/ibm-fhir-server
 
-USER 1001
+# Set the working directory to the liberty defaultServer
+WORKDIR ${FHIR_CONFIG_HOME}
 
 ENTRYPOINT ["/opt/ibm-fhir-server/bootstrap.sh"]
-CMD ["/opt/ol/wlp/bin/server", "run", "fhir-server"]
+CMD ["/opt/ol/wlp/bin/server", "run", "defaultServer"]

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,6 +18,7 @@ import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.operation.spi.AbstractOperation;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
@@ -55,7 +56,7 @@ public abstract class AbstractTermOperation extends AbstractOperation {
         if (FHIROperationContext.Type.INSTANCE.equals(operationContext.getType())) {
             Resource resource = resourceHelper.doRead(resourceTypeName, logicalId, false, false, null, null);
             if (resource == null) {
-                throw new FHIROperationException(resourceTypeName + " with id '" + logicalId + "' was not found");
+                throw buildExceptionWithIssue(resourceTypeName + " with id '" + logicalId + "' was not found", IssueType.NOT_FOUND);
             }
             return resourceType.cast(resource);
         }
@@ -68,7 +69,7 @@ public abstract class AbstractTermOperation extends AbstractOperation {
             }
             T resource = FHIRRegistry.getInstance().getResource(url, resourceType);
             if (resource == null) {
-                throw new FHIROperationException(resourceTypeName + " with url '" + url + "' is not available");
+                throw buildExceptionWithIssue(resourceTypeName + " with url '" + url + "' is not available", IssueType.NOT_SUPPORTED);
             }
             return resource;
         }
@@ -76,11 +77,11 @@ public abstract class AbstractTermOperation extends AbstractOperation {
         if (resourceParameter != null) {
             Resource resource = resourceParameter.getResource();
             if (!resourceType.isInstance(resource)) {
-                throw new FHIROperationException("Parameter with name '" + resourceParameterName + "' does not contain a " + resourceTypeName + " resource");
+                throw buildExceptionWithIssue("Parameter with name '" + resourceParameterName + "' does not contain a " + resourceTypeName + " resource", IssueType.INVALID);
             }
             return resourceType.cast(resource);
         }
-        throw new FHIROperationException("Parameter with name '" + resourceParameterName + "' was not found");
+        throw buildExceptionWithIssue("Parameter with name '" + resourceParameterName + "' was not found", IssueType.INVALID);
     }
 
     protected Element getCodedElement(
@@ -122,11 +123,11 @@ public abstract class AbstractTermOperation extends AbstractOperation {
         }
         Parameter systemParameter = getParameter(parameters, "system");
         if (systemRequired && systemParameter == null) {
-            throw new FHIROperationException("Parameter with name 'system' was not found");
+            throw buildExceptionWithIssue("Parameter with name 'system' was not found", IssueType.INVALID);
         }
         Parameter codeParameter = getParameter(parameters, codeParameterName);
         if (codeParameter == null) {
-            throw new FHIROperationException("Parameter with name '" + codeParameterName + "' was not found");
+            throw buildExceptionWithIssue("Parameter with name '" + codeParameterName + "' was not found", IssueType.INVALID);
         }
         Parameter versionParameter = getParameter(parameters, "version");
         Parameter displayParameter = getParameter(parameters, "display");

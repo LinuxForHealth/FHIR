@@ -202,27 +202,27 @@ public class Encounter extends DomainResource {
 
     private Encounter(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        statusHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.statusHistory, "statusHistory"));
+        statusHistory = Collections.unmodifiableList(ValidationSupport.checkList(builder.statusHistory, "statusHistory", StatusHistory.class));
         clazz = ValidationSupport.requireNonNull(builder.clazz, "class");
-        classHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.classHistory, "classHistory"));
-        type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
+        classHistory = Collections.unmodifiableList(ValidationSupport.checkList(builder.classHistory, "classHistory", ClassHistory.class));
+        type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
         serviceType = builder.serviceType;
         priority = builder.priority;
         subject = builder.subject;
-        episodeOfCare = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.episodeOfCare, "episodeOfCare"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        participant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.participant, "participant"));
-        appointment = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.appointment, "appointment"));
+        episodeOfCare = Collections.unmodifiableList(ValidationSupport.checkList(builder.episodeOfCare, "episodeOfCare", Reference.class));
+        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
+        participant = Collections.unmodifiableList(ValidationSupport.checkList(builder.participant, "participant", Participant.class));
+        appointment = Collections.unmodifiableList(ValidationSupport.checkList(builder.appointment, "appointment", Reference.class));
         period = builder.period;
         length = builder.length;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-        diagnosis = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.diagnosis, "diagnosis"));
-        account = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.account, "account"));
+        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
+        diagnosis = Collections.unmodifiableList(ValidationSupport.checkList(builder.diagnosis, "diagnosis", Diagnosis.class));
+        account = Collections.unmodifiableList(ValidationSupport.checkList(builder.account, "account", Reference.class));
         hospitalization = builder.hospitalization;
-        location = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.location, "location"));
+        location = Collections.unmodifiableList(ValidationSupport.checkList(builder.location, "location", Location.class));
         serviceProvider = builder.serviceProvider;
         partOf = builder.partOf;
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
@@ -233,7 +233,6 @@ public class Encounter extends DomainResource {
         ValidationSupport.checkReferenceType(account, "account", "Account");
         ValidationSupport.checkReferenceType(serviceProvider, "serviceProvider", "Organization");
         ValidationSupport.checkReferenceType(partOf, "partOf", "Encounter");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -2187,7 +2186,7 @@ public class Encounter extends DomainResource {
 
         private Participant(Builder builder) {
             super(builder);
-            type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
+            type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
             period = builder.period;
             individual = builder.individual;
             ValidationSupport.checkReferenceType(individual, "individual", "Practitioner", "PractitionerRole", "RelatedPerson");
@@ -2878,9 +2877,9 @@ public class Encounter extends DomainResource {
             origin = builder.origin;
             admitSource = builder.admitSource;
             reAdmission = builder.reAdmission;
-            dietPreference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dietPreference, "dietPreference"));
-            specialCourtesy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialCourtesy, "specialCourtesy"));
-            specialArrangement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialArrangement, "specialArrangement"));
+            dietPreference = Collections.unmodifiableList(ValidationSupport.checkList(builder.dietPreference, "dietPreference", CodeableConcept.class));
+            specialCourtesy = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialCourtesy, "specialCourtesy", CodeableConcept.class));
+            specialArrangement = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialArrangement, "specialArrangement", CodeableConcept.class));
             destination = builder.destination;
             dischargeDisposition = builder.dischargeDisposition;
             ValidationSupport.checkReferenceType(origin, "origin", "Location", "Organization");

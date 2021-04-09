@@ -144,11 +144,11 @@ public class AllergyIntolerance extends DomainResource {
 
     private AllergyIntolerance(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         clinicalStatus = builder.clinicalStatus;
         verificationStatus = builder.verificationStatus;
         type = builder.type;
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", AllergyIntoleranceCategory.class));
         criticality = builder.criticality;
         code = builder.code;
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
@@ -158,15 +158,14 @@ public class AllergyIntolerance extends DomainResource {
         recorder = builder.recorder;
         asserter = builder.asserter;
         lastOccurrence = builder.lastOccurrence;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        reaction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reaction, "reaction"));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        reaction = Collections.unmodifiableList(ValidationSupport.checkList(builder.reaction, "reaction", Reaction.class));
         ValidationSupport.checkValueSetBinding(clinicalStatus, "clinicalStatus", "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical", "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical", "active", "inactive", "resolved");
         ValidationSupport.checkValueSetBinding(verificationStatus, "verificationStatus", "http://hl7.org/fhir/ValueSet/allergyintolerance-verification", "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification", "unconfirmed", "confirmed", "refuted", "entered-in-error");
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(recorder, "recorder", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson");
         ValidationSupport.checkReferenceType(asserter, "asserter", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1132,12 +1131,12 @@ public class AllergyIntolerance extends DomainResource {
         private Reaction(Builder builder) {
             super(builder);
             substance = builder.substance;
-            manifestation = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.manifestation, "manifestation"));
+            manifestation = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.manifestation, "manifestation", CodeableConcept.class));
             description = builder.description;
             onset = builder.onset;
             severity = builder.severity;
             exposureRoute = builder.exposureRoute;
-            note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+            note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

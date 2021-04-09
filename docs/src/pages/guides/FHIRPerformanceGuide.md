@@ -2,37 +2,52 @@
 layout: post
 title:  IBM FHIR Server Performance Guide
 description: IBM FHIR Server Performance Guide
-Copyright: years 2020
-lastupdated: "2020-12-02"
+Copyright: years 2020, 2021
+lastupdated: "2020-03-31"
 permalink: /FHIRServerPerformanceGuide/
 ---
 
-- [1 Overview](#1-overview)
+**Table of Contents**
+
+- [1. Overview](#1-overview)
 - [2 System Sizing](#2-system-sizing)
 - [3 FHIR Server Configuration](#3-fhir-server-configuration)
-  * [3.1 Concurrency](#31-concurrency)
-  * [3.2 Transaction Timeout](#32-transaction-timeout)
-  * [3.3 Session Affinity](#33-session-affinity)
-  * [3.4 Valud-Id Caches](#34-value-id-caches)
-  * [3.5 Logical Id Generation](#35-logical-id-generation)
-  * [3.6 Compartment Search Optimization](#36-compartment-search-optimization)
+    - [3.1 Concurrency](#31-concurrency)
+        - [3.1.1 Liberty Profile Concurrency](#311-liberty-profile-concurrency)
+        - [3.1.2 Database Max Connections](#312-database-max-connections)
+        - [3.1.3 JEE Datasource Default, Recommended](#313-jee-datasource-default-recommended)
+        - [3.1.4 Proxy Datasource Legacy](#314-proxy-datasource-legacy)
+    - [3.2 Transaction Timeout](#32-transaction-timeout)
+    - [3.3 Session Affinity](#33-session-affinity)
+    - [3.4 Value-Id Caches](#34-value-id-caches)
+    - [3.5 Logical Id Generation](#35-logical-id-generation)
+    - [3.6 Compartment Search Optimization](#36-compartment-search-optimization)
 - [4 Database Tuning](#4-database-tuning)
-  * [4.1 PostgreSQL](#41-postgresql)
-  * [4.2 IBM Db2](#42-ibm-db2)
-  * [4.3 Derby](#43-derby)
+    - [4.1 PostgreSQL](#41-postgresql)
+        - [4.1.1 Fillfactor](#411-fillfactor)
+        - [4.1.2 Tuning Auto-vacuum](#412-tuning-auto-vacuum)
+        - [4.1.3 Transaction Id Wraparound](#413-transaction-id-wraparound)
+        - [4.1.4 Vacuum Monitoring](#414-vacuum-monitoring)
+        - [4.1.5 Max Locks](#415-max-locks)
+    - [4.2 IBM Db2](#42-ibm-db2)
+    - [4.3 Derby](#43-derby)
 - [5 Client Access Scenarios](#5-client-access-scenarios)
-  * [5.1 Search Examples](#51-search-examples)
-- [6 Tools](#6-tools)
-  * [6.1 Making FHIR Requests With curl](#61-making-fhir-requests-with-curl)
-  * [6.2 Making FHIR Requests with IBM FHIR Server Client](#62-making-fhir-requests-with-ibm-fhir-server-client)
+    - [5.1 Read](#51-read)
+    - [5.2 Version Read](#52-version-read)
+    - [5.3 History](#53-history)
+    - [5.4 Search Performance](#54-search-performance)
+    - [5.5 Search Examples](#55-search-examples)
+    - [5.6 Tools](#56-tools)
+    - [5.7 Making FHIR Requests With curl](#57-making-fhir-requests-with-curl)
+    - [5.8 Making FHIR Requests with IBM FHIR Server Client](#58-making-fhir-requests-with-ibm-fhir-server-client)
 
-# 1 Overview
+# 1. Overview
 
 This guide describes how to tune IBM FHIR Server and its database to get the best performance. It also describes different FHIR query strategies which may help to work around specific performance issues.
 
 Note: all logical-ids and resources in this guide are examples and do not refer to actual patient data.
 
-# 2 System Sizing
+# 2. System Sizing
 
 The sizing table below should be considered a starting point. Actual requirements may vary greatly based on the specific scenarios for a given deployment. For example, search-heavy workloads will require more database CPU and IOPS capacity than a system servicing simple reads.
 
@@ -74,7 +89,7 @@ The following sizes are guidelines only. You should test and measure for your sp
 
 <br/>
 
-# 3 FHIR Server Configuration
+# 3. FHIR Server Configuration
 
 Terminology:
 * **tenant_name** - the name/id of a tenant. Used interchangeably with tenant_id;
@@ -85,15 +100,15 @@ Terminology:
 * **ds-id** - an identifier representing a datastore used for a tenant.
 
 
-## 3.1 Concurrency
+## 3.1. Concurrency
 
 This section describes how to configure the IBM FHIR Server and its database for concurrency.
 
-### 3.1.1 Liberty Profile Concurrency
+### 3.1.1. Liberty Profile Concurrency
 
 Liberty Profile uses an executor service to handle incoming HTTP/S requests. By default, the executor service automatically adjusts its thread pool size to most efficiently handle the request load. Although the executor service can be configured, we recommend using the default configuration. The best solution for supporting greater concurrency is to scale-out additional instances of the IBM FHIR Server.
 
-### 3.1.2 Database Max Connections
+### 3.1.2. Database Max Connections
 
 Db2 and PostgreSQL limit the maximum number of open connections. It is important to configure the database in conjunction with the Liberty Profile datasource connection pools to avoid connection failures which will result in HTTP 500 errors being returned from the IBM FHIR Server.
 
@@ -109,7 +124,7 @@ Assuming there are N instances of the IBM FHIR Server, the recommended connectio
 
 See [Managing PostgreSQL Connections](https://cloud.ibm.com/docs/databases-for-postgresql?topic=databases-for-postgresql-managing-connections) in the IBM Cloud documentation for more information.
 
-### 3.1.3 JEE Datasource (Default, Recommended)
+### 3.1.3. JEE Datasource (Default, Recommended)
 
 The recommended approach for tenant datatstore configuration is to use individual JTA datasources, each with their own connection manager (connection pool):
 
@@ -135,13 +150,13 @@ Because each datasource gets its own connection manager you can tune each indepe
 
 Each JTA datasource should be configured in its own `.xml` server configuration file and placed into `{fhir-server-home}/configDropins/overrides` where it will be picked up automatically by Liberty Profile on startup.
 
-### 3.1.4 Proxy Datasource (Legacy)
+### 3.1.4. Proxy Datasource (Legacy)
 
 The IBM FHIR Server proxy datasource is based on a custom datasource implementation which allows datasources to be programmatically added and removed without a server restart, something not supported natively in Liberty Profile. This implementation has been deprecated and is no longer the default configuration.
 
 To use the IBM FHIR Server proxy datasource, just one Liberty Profile JTA `<dataSource>` is required:
 
-```
+``` xml
     <dataSource id="fhirProxyDataSource" jndiName="jdbc/fhirProxyDataSource" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true" validationTimeout="30s">
         <jdbcDriver libraryRef="fhirSharedLib" javax.sql.XADataSource="com.ibm.fhir.persistence.proxy.FHIRProxyXADataSource"/>
         <connectionManager maxPoolSize="200" minPoolSize="20" connectionTimeout="60s" maxIdleTime="2m" numConnectionsPerThreadLocal="2"/>
@@ -168,9 +183,9 @@ Note, the FHIRProxyXADataSource is only called to provide new connections. Most 
 
 
 
-## 3.2 Transaction Timeout
+## 3.2. Transaction Timeout
 
-Long transactions consume significant resources so to protect the system, Liberty Profile will time-out a transaction after 2 minutes (120s) by default. When a transaction times out, Liberty Profile will forcibly close any database connection currently executing a statement and the IBM FHIR Server will return an HTTP 500 response to the caller. The maximum transaction time can be extended using the `<transaction>` element in the Liberty Profile configuration. See Database Access TransactionManager Timeout in the (IBM FHIR Server User's Guide)[https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide/] for a description how to configure this in the IBM FHIR Server.
+Long transactions consume significant resources so to protect the system, Liberty Profile will time-out a transaction after 2 minutes (120s) by default. When a transaction times out, Liberty Profile will forcibly close any database connection currently executing a statement and the IBM FHIR Server will return an HTTP 500 response to the caller. The maximum transaction time can be extended using the `<transaction>` element in the Liberty Profile configuration. See Database Access TransactionManager Timeout in the [IBM FHIR Server User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide/) for a description how to configure this in the IBM FHIR Server.
 
 The following table summarizes how the transaction timeout is used for different request types:
 
@@ -192,11 +207,11 @@ Firewalls or other components in the flow between a client and the IBM FHIR Serv
 1. Configure the network path to make sure that TCP idle timeout exceeds the client read timeout for all components in the client-server flow. This is impractical unless the infrastructure is dedicated (e.g. an internal system-to-system flow), even then it might not be desirable or allowed;
 2. Configure TCP keep-alive (SO_KEEPALIVE) on the connection. This instructs the operating system to occassionally send packets over the wire to let the networking components know that the connection is still active while the client waits for a response from the server. Some clients may configure keep-alive by default, in which case no action is required. Note that TCP keep-alive should not be confused with HTTP Keep-Alive. The TCP keep-alive and client read-timeout values should be considered together. There is no point configuring TCP keep-alive if the delay before sending the first packet is longer than the client read-timeout. Likewise, TCP keep-alive will not prevent a client read from timing out. TCP keep-alive only ensures a connection is not reset by a network component thinking it is idle. The timing values you configure need to be guided by the network configuration in your particular solution.
 
-## 3.3 Session Affinity
+## 3.3. Session Affinity
 
 TLS connection setup is a costly CPU operation. It is therefore important to ensure that routing components are configured for session affinity to avoid unnecessary connection setup costs. Clients should be written to reuse connections when making multiple requests.
 
-## 3.4 Value-Id Caches
+## 3.4. Value-Id Caches
 
 The IBM FHIR Server uses internal memory caches for resource type names, parameter names, references, codes and systems. These caches use a least-recently-used (LRU) strategy to avoid unbound growth which would result in an out-of-memory (OOM) condition.
 
@@ -215,7 +230,7 @@ The following datasource properties in fhir-server-config.json are used to tune 
 
 The caches are isolated by tenant and specific to each datasource defined for that tenant:
 
-```
+``` json
 {
     "fhirServer": {
         "persistence": {
@@ -254,7 +269,7 @@ Currently no cache-hit metrics are exposed related to the caches. Tuning relies 
 
 The values for PARAMETER_NAMES and RESOURCE_TYPES are supposed to be fully cached. Any substantial reads (selects) from these tables after initial startup/first request should be considered a defect.
 
-## 3.5 Logical Id Generation
+## 3.5. Logical Id Generation
 
 Using random values for resource identifiers can cause performance issues in large databases. This is a particular issue when using PostgreSQL with the IBM FHIR Server due to an issue known as write amplification from full page writes. For details, see this blog post: https://www.2ndquadrant.com/en/blog/on-the-impact-of-full-page-writes.
 
@@ -266,13 +281,13 @@ This strategy provides both the desirable trait of global uniqueness as well as 
 
 The IBM FHIR Server also uses normalization to avoid storing (and indexing) long identifier strings in multiple places. This saves space, and the database-generated identity values are based on sequences which naturally produce the desired right-hand-insert behavior.
 
-## 3.6 Compartment Search Optimization
+## 3.6. Compartment Search Optimization
 
 Resources are assigned to various compartments using expressions with multiple terms. In the IBM FHIR Server JDBC persistence layer, these expressions are translated to SQL predicates with multiple `OR` statements. These `ORs` make it more difficult for the query optimizer to compute the most efficient execution plan resulting in a slow query. To address this, the IBM FHIR Server evaluates the compartment membership expression during ingestion and stores the results. The SQL query can then be written using a single value predicate resulting in faster query.
 
 To enable this optimization, set the `fhirServer/search/useStoredCompartmentParam` configuration parameter to `true` in the fhir-server-config.json file:
 
-```
+``` json
         "search": {
             "useStoredCompartmentParam": true
         },
@@ -281,7 +296,7 @@ To enable this optimization, set the `fhirServer/search/useStoredCompartmentPara
 Enabling this optimization is recommended. See the IBM FHIR Server release notes for more details.
 
 
-# 4 Database Tuning
+# 4. Database Tuning
 
 | Tuneable | Guidance |
 | -------- | -------- |
@@ -290,7 +305,7 @@ Enabling this optimization is recommended. See the IBM FHIR Server release notes
 | Concurrency | Ensure the database supports the required number of connections from the application server cluster, plus any administration overhead. Connections and their associated sessions consume memory which must be considered in the overall database server memory budget. |
 
 
-## 4.1 PostgreSQL
+## 4.1. PostgreSQL
 
 For PostgreSQL, we recommend tuning the following properties:
 
@@ -319,7 +334,7 @@ FHIR search queries are translated into SQL expressions. When several search par
 
 See the [PostgreSQL Query Planning](https://www.postgresql.org/docs/12/runtime-config-query.html) guide for more information.
 
-### 4.1.1 Fillfactor
+### 4.1.1. Fillfactor
 
 In PostgreSQL, the default `fillfactor` for each table is 100 - no room is reserved for updates. This maximizes storage utilization, but impacts performance for updates which occur when new versions of a resource are ingested. Update statements are also used frequently during the reindex process.
 
@@ -329,7 +344,7 @@ The `fillfactor` for the `logical_resources` table may benefit from an even lowe
 
 To change the fillfactor for existing data, a `VACUUM FULL` operation is required:
 
-```
+``` sql
 ALTER TABLE fhirdata.logical_resources SET (fillfactor=70);
 ...
 VACUUM FULL fhirdata.logical_resources;
@@ -337,11 +352,11 @@ VACUUM FULL fhirdata.logical_resources;
 
 This should only be performed during a maintenance window when there is no load on the system.
 
-### 4.1.2 Tuning Auto-vacuum
+### 4.1.2. Tuning Auto-vacuum
 
 When running reindex operations (after a search parameter configuration change, for example), the `logical_resources` table undergoes frequent updates to an indexed column. Due to the nature of how PostgreSQL handles updates, this results in a significant amount of old index blocks which slows progress. The table storage parameters may need to be tuned to vacuum the `logical_resources` table more aggressively. To address this, tune the storage parameters for this table as follows:
 
-```
+``` sql
 -- Lower the trigger threshold for starting work
 alter table fhirdata.logical_resources SET (autovacuum_vacuum_scale_factor = 0.01, autovacuum_vacuum_threshold=1000);
 
@@ -355,7 +370,7 @@ See the [PostSQL VACUUM documentation](https://www.postgresql.org/docs/12/sql-va
 
 In addition, administrators may also choose to run a manual vacuum as shown in the following example:
 
-```
+``` sql
 fhirdb=> VACUUM (ANALYZE,VERBOSE) fhirdata.logical_resources;
 INFO:  vacuuming "fhirdata.logical_resources"
 INFO:  scanned index "logical_resources_pk" to remove 16813312 row versions
@@ -390,7 +405,7 @@ INFO:  "logical_resources": scanned 30000 of 4210218 pages, containing 551774 li
 VACUUM
 ```
 
-### 4.1.3 Transaction Id Wraparound
+### 4.1.3. Transaction Id Wraparound
 
 Be ware of multixact wraparound issues, as highlighted by the following warning when running a manual vacuum:
 
@@ -402,11 +417,11 @@ HINT:  Close open transactions with multixacts soon to avoid wraparound problems
 This indicates that the automatic vacuum process needs to be more aggressive. See [here](https://info.crunchydata.com/blog/managing-transaction-id-wraparound-in-postgresql) for details.
 
 
-### 4.1.4 Vacuum Monitoring
+### 4.1.4. Vacuum Monitoring
 
 Use the following query to see the impact of updates and deletes on the IBM FHIR Server tables (assuming the tenant is configured to use the `fhirdata` schema):
 
-```
+``` sql
  SELECT relname,
         n_tup_ins AS "inserts",
         n_tup_upd AS "updates",
@@ -421,7 +436,7 @@ Use the following query to see the impact of updates and deletes on the IBM FHIR
 
 The values reported are since the database was last restarted. To check uptime, run the following query:
 
-```
+``` sql
  SELECT current_timestamp - pg_postmaster_start_time();
     ?column?     
 -----------------
@@ -431,7 +446,7 @@ The values reported are since the database was last restarted. To check uptime, 
 
 The following query can be used to see how many auto-vacuum jobs are currently in progress and for which tables:
 
-```
+``` sql
 fhirdb=> SELECT r.relname, v.*
            FROM pg_stat_progress_vacuum v,
                 pg_stat_user_tables r
@@ -446,7 +461,7 @@ fhirdb=> SELECT r.relname, v.*
 
 By default, only 3 vacuum jobs can run concurrently.
 
-### 4.1.5 Max Locks
+### 4.1.5. Max Locks
 
 To drop an IBM FHIR Server schema in PostgreSQL, set the following configuration in `postgresql.conf`:
 
@@ -456,17 +471,17 @@ max_locks_per_transaction = 128		# min 10
 
 This change requires a database restart.
 
-## 4.2 IBM Db2
+## 4.2. IBM Db2
 
 TBD.
 
 
-## 4.3 Derby
+## 4.3. Derby
 
 Derby is not recommended for production use and therefore tuning Derby will not be addressed in this guide.
 
 
-# 5 Client Access Scenarios
+# 5. Client Access Scenarios
 
 The IBM FHIR Server translates a FHIR search request into a SQL query. The database performs query optimization to generate what it thinks is the most efficient execution plan before running the query. This optimization depends on the database having good statistics (and a clever algorithm) to make the right choice. When this goes wrong, the result is a slow response which can also end up consuming significant resources which impact the capacity of the system as a whole.
 
@@ -486,7 +501,7 @@ There are many ways to retrieve data:
 
 There may also be some subtle semantic differences among searches which might appear to be equivalent. This is particularly true for compartment-based queries due to the complex definition of compartment membership defined in the FHIR specification.
 
-## 5.1 Read
+## 5.1. Read
 
 Logical id-based read requests are the fastest way to access a resource, for example:
 
@@ -496,7 +511,7 @@ Logical id-based read requests are the fastest way to access a resource, for exa
 
 This translates into a single query which utilizes indexes to quickly locate the required record:
 
-```
+``` sql
 SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID,
        R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID
   FROM Patient_RESOURCES R,
@@ -520,7 +535,7 @@ Planning Time: 0.313 ms
 Execution Time: 0.127 ms
 ```
 
-## 5.2 Version Read
+## 5.2. Version Read
 
 The FHIR specification supports reading a specific version of a resource:
 
@@ -539,7 +554,7 @@ SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID,
    AND R.VERSION_ID = ?
 ```
 
-## 5.3 History
+## 5.3. History
 
 The history query returns all versions of a resource. Because there is no limit to the number of versions for a given resource, the results are ordered by the version_id (resource version number) and paginated using OFFSET and FETCH NEXT ROWS clauses:
 
@@ -566,7 +581,7 @@ SELECT COUNT(R.VERSION_ID)
 
 In most cases the history queries will execute very quickly. Performance will be slower for cases where a single resource has thousands of versions. To avoid this, ingestion pipelines must ensure they only update a version when necessary.
 
-## 5.4 Search Performance
+## 5.4. Search Performance
 
 **Predicate Order**
 
@@ -599,7 +614,7 @@ Patient/175517d8bea-32d33eec-d98f-4c99-a3cf-06a113ddcf08/CareTeam?status=http://
 Explicitly providing the code is always preferred. If no system is provided, in some cases the IBM FHIR Server can determine the correct code-system to use automatically, which helps query performance.
 
 
-## 5.5 Search Examples
+## 5.5. Search Examples
 
 The section contains search examples and performance considerations for various types of search parameters.
 
@@ -838,9 +853,9 @@ The IBM FHIR server implements such element filtering directly in its resource p
 
 This can provide significant savings for search requests that bring back lots of data (large pages and/or many field per resource).
 
-## 6 Tools
+## 5.6. Tools
 
-## 6.1 Making FHIR Requests With curl
+## 5.7. Making FHIR Requests With curl
 
 ```
 curl -k -i \
@@ -884,6 +899,6 @@ Examples of valid resources can be found in the [fhir-examples](https://github.c
 
 
 
-## 6.2 Making FHIR Requests with IBM FHIR Server Client
+## 5.8. Making FHIR Requests with IBM FHIR Server Client
 
 See FHIR client API in the [IBM FHIR Server User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide).

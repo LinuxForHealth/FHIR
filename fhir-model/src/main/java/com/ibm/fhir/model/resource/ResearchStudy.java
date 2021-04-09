@@ -185,37 +185,36 @@ public class ResearchStudy extends DomainResource {
 
     private ResearchStudy(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         title = builder.title;
-        protocol = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.protocol, "protocol"));
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
+        protocol = Collections.unmodifiableList(ValidationSupport.checkList(builder.protocol, "protocol", Reference.class));
+        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Reference.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         primaryPurposeType = builder.primaryPurposeType;
         phase = builder.phase;
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
-        focus = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.focus, "focus"));
-        condition = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.condition, "condition"));
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
-        keyword = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.keyword, "keyword"));
-        location = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.location, "location"));
+        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
+        focus = Collections.unmodifiableList(ValidationSupport.checkList(builder.focus, "focus", CodeableConcept.class));
+        condition = Collections.unmodifiableList(ValidationSupport.checkList(builder.condition, "condition", CodeableConcept.class));
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        relatedArtifact = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class));
+        keyword = Collections.unmodifiableList(ValidationSupport.checkList(builder.keyword, "keyword", CodeableConcept.class));
+        location = Collections.unmodifiableList(ValidationSupport.checkList(builder.location, "location", CodeableConcept.class));
         description = builder.description;
-        enrollment = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.enrollment, "enrollment"));
+        enrollment = Collections.unmodifiableList(ValidationSupport.checkList(builder.enrollment, "enrollment", Reference.class));
         period = builder.period;
         sponsor = builder.sponsor;
         principalInvestigator = builder.principalInvestigator;
-        site = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.site, "site"));
+        site = Collections.unmodifiableList(ValidationSupport.checkList(builder.site, "site", Reference.class));
         reasonStopped = builder.reasonStopped;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        arm = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.arm, "arm"));
-        objective = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.objective, "objective"));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        arm = Collections.unmodifiableList(ValidationSupport.checkList(builder.arm, "arm", Arm.class));
+        objective = Collections.unmodifiableList(ValidationSupport.checkList(builder.objective, "objective", Objective.class));
         ValidationSupport.checkReferenceType(protocol, "protocol", "PlanDefinition");
         ValidationSupport.checkReferenceType(partOf, "partOf", "ResearchStudy");
         ValidationSupport.checkReferenceType(enrollment, "enrollment", "Group");
         ValidationSupport.checkReferenceType(sponsor, "sponsor", "Organization");
         ValidationSupport.checkReferenceType(principalInvestigator, "principalInvestigator", "Practitioner", "PractitionerRole");
         ValidationSupport.checkReferenceType(site, "site", "Location");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

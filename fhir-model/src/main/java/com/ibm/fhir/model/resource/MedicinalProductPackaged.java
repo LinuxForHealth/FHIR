@@ -74,19 +74,18 @@ public class MedicinalProductPackaged extends DomainResource {
 
     private MedicinalProductPackaged(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        subject = Collections.unmodifiableList(ValidationSupport.checkList(builder.subject, "subject", Reference.class));
         description = builder.description;
         legalStatusOfSupply = builder.legalStatusOfSupply;
-        marketingStatus = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.marketingStatus, "marketingStatus"));
+        marketingStatus = Collections.unmodifiableList(ValidationSupport.checkList(builder.marketingStatus, "marketingStatus", MarketingStatus.class));
         marketingAuthorization = builder.marketingAuthorization;
-        manufacturer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturer, "manufacturer"));
-        batchIdentifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.batchIdentifier, "batchIdentifier"));
-        packageItem = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.packageItem, "packageItem"));
+        manufacturer = Collections.unmodifiableList(ValidationSupport.checkList(builder.manufacturer, "manufacturer", Reference.class));
+        batchIdentifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.batchIdentifier, "batchIdentifier", BatchIdentifier.class));
+        packageItem = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.packageItem, "packageItem", PackageItem.class));
         ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct");
         ValidationSupport.checkReferenceType(marketingAuthorization, "marketingAuthorization", "MedicinalProductAuthorization");
         ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1116,18 +1115,18 @@ public class MedicinalProductPackaged extends DomainResource {
 
         private PackageItem(Builder builder) {
             super(builder);
-            identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+            identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
             type = ValidationSupport.requireNonNull(builder.type, "type");
             quantity = ValidationSupport.requireNonNull(builder.quantity, "quantity");
-            material = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.material, "material"));
-            alternateMaterial = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.alternateMaterial, "alternateMaterial"));
-            device = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.device, "device"));
-            manufacturedItem = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturedItem, "manufacturedItem"));
-            packageItem = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.packageItem, "packageItem"));
+            material = Collections.unmodifiableList(ValidationSupport.checkList(builder.material, "material", CodeableConcept.class));
+            alternateMaterial = Collections.unmodifiableList(ValidationSupport.checkList(builder.alternateMaterial, "alternateMaterial", CodeableConcept.class));
+            device = Collections.unmodifiableList(ValidationSupport.checkList(builder.device, "device", Reference.class));
+            manufacturedItem = Collections.unmodifiableList(ValidationSupport.checkList(builder.manufacturedItem, "manufacturedItem", Reference.class));
+            packageItem = Collections.unmodifiableList(ValidationSupport.checkList(builder.packageItem, "packageItem", MedicinalProductPackaged.PackageItem.class));
             physicalCharacteristics = builder.physicalCharacteristics;
-            otherCharacteristics = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.otherCharacteristics, "otherCharacteristics"));
-            shelfLifeStorage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.shelfLifeStorage, "shelfLifeStorage"));
-            manufacturer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturer, "manufacturer"));
+            otherCharacteristics = Collections.unmodifiableList(ValidationSupport.checkList(builder.otherCharacteristics, "otherCharacteristics", CodeableConcept.class));
+            shelfLifeStorage = Collections.unmodifiableList(ValidationSupport.checkList(builder.shelfLifeStorage, "shelfLifeStorage", ProductShelfLife.class));
+            manufacturer = Collections.unmodifiableList(ValidationSupport.checkList(builder.manufacturer, "manufacturer", Reference.class));
             ValidationSupport.checkReferenceType(device, "device", "DeviceDefinition");
             ValidationSupport.checkReferenceType(manufacturedItem, "manufacturedItem", "MedicinalProductManufactured");
             ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");

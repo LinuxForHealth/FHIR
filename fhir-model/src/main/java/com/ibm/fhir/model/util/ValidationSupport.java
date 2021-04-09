@@ -333,17 +333,6 @@ public final class ValidationSupport {
     }
 
     /**
-     * @throws IllegalStateException if the passed list is empty or contains any null objects
-     */
-    public static <T> List<T> requireNonEmpty(List<T> elements, String elementName) {
-        requireNonNull(elements, elementName);
-        if (elements.isEmpty()) {
-            throw new IllegalStateException(String.format("Missing required element: '%s'", elementName));
-        }
-        return elements;
-    }
-
-    /**
      * @throws IllegalStateException if the passed element is null
      */
     public static <T> T requireNonNull(T element, String elementName) {
@@ -354,8 +343,23 @@ public final class ValidationSupport {
     }
 
     /**
+     * @deprecated replaced by {@link #checkNonEmptyList(List, String, Class)}
+     * @throws IllegalStateException if the passed list is empty or contains any null objects
+     */
+    @Deprecated
+    public static <T> List<T> requireNonEmpty(List<T> elements, String elementName) {
+        requireNonNull(elements, elementName);
+        if (elements.isEmpty()) {
+            throw new IllegalStateException(String.format("Missing required element: '%s'", elementName));
+        }
+        return elements;
+    }
+
+    /**
+     * @deprecated replaced by {@link #checkList(List, String, Class)}
      * @throws IllegalStateException if the passed list contains any null objects
      */
+    @Deprecated
     public static <T> List<T> requireNonNull(List<T> elements, String elementName) {
         boolean anyMatch = false;
         for (T element : elements) {
@@ -371,6 +375,34 @@ public final class ValidationSupport {
     }
 
     /**
+     * @return the same list that was passed
+     * @throws IllegalStateException if the passed list is empty or contains any null objects or objects of an incompatible type
+     */
+    public static <T> List<T> checkNonEmptyList(List<T> elements, String elementName, Class<T> type) {
+        if (elements.isEmpty()) {
+            throw new IllegalStateException(String.format("Missing required element: '%s'", elementName));
+        }
+        return checkList(elements, elementName, type);
+    }
+
+    /**
+     * @return the same list that was passed
+     * @throws IllegalStateException if the passed list contains any null objects or objects of an incompatible type
+     */
+    public static <T> List<T> checkList(List<T> elements, String elementName, Class<T> type) {
+        for (T element : elements) {
+            if (Objects.isNull(element)) {
+                throw new IllegalStateException(String.format("Repeating element: '%s' does not permit null elements", elementName));
+            }
+            if (!type.isInstance(element)) {
+                throw new IllegalStateException(String.format("Invalid type: %s for repeating element: '%s' must be: %s",
+                        element.getClass().getSimpleName(), elementName, type.getSimpleName()));
+            }
+        }
+        return elements;
+    }
+
+    /**
      * @throws IllegalStateException if the passed element has no value and no children
      */
     public static void requireValueOrChildren(Element element) {
@@ -380,8 +412,10 @@ public final class ValidationSupport {
     }
 
     /**
+     * @deprecated https://jira.hl7.org/browse/FHIR-26565 has clarified that empty resources are allowed
      * @throws IllegalStateException if the passed element has no children
      */
+    @Deprecated
     public static void requireChildren(Resource resource) {
         if (!resource.hasChildren()) {
             throw new IllegalStateException("global-1: All FHIR elements must have a @value or children");

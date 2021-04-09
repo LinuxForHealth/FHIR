@@ -140,28 +140,28 @@ public class CommunicationRequest extends DomainResource {
 
     private CommunicationRequest(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        replaces = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.replaces, "replaces"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
+        replaces = Collections.unmodifiableList(ValidationSupport.checkList(builder.replaces, "replaces", Reference.class));
         groupIdentifier = builder.groupIdentifier;
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusReason = builder.statusReason;
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
         priority = builder.priority;
         doNotPerform = builder.doNotPerform;
-        medium = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.medium, "medium"));
+        medium = Collections.unmodifiableList(ValidationSupport.checkList(builder.medium, "medium", CodeableConcept.class));
         subject = builder.subject;
-        about = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.about, "about"));
+        about = Collections.unmodifiableList(ValidationSupport.checkList(builder.about, "about", Reference.class));
         encounter = builder.encounter;
-        payload = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.payload, "payload"));
+        payload = Collections.unmodifiableList(ValidationSupport.checkList(builder.payload, "payload", Payload.class));
         occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class);
         authoredOn = builder.authoredOn;
         requester = builder.requester;
-        recipient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.recipient, "recipient"));
+        recipient = Collections.unmodifiableList(ValidationSupport.checkList(builder.recipient, "recipient", Reference.class));
         sender = builder.sender;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
         ValidationSupport.checkReferenceType(replaces, "replaces", "CommunicationRequest");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
@@ -169,7 +169,6 @@ public class CommunicationRequest extends DomainResource {
         ValidationSupport.checkReferenceType(recipient, "recipient", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Group", "CareTeam", "HealthcareService");
         ValidationSupport.checkReferenceType(sender, "sender", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "HealthcareService");
         ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

@@ -103,26 +103,25 @@ public class DeviceUseStatement extends DomainResource {
 
     private DeviceUseStatement(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
-        derivedFrom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.derivedFrom, "derivedFrom"));
+        derivedFrom = Collections.unmodifiableList(ValidationSupport.checkList(builder.derivedFrom, "derivedFrom", Reference.class));
         timing = ValidationSupport.choiceElement(builder.timing, "timing", Timing.class, Period.class, DateTime.class);
         recordedOn = builder.recordedOn;
         source = builder.source;
         device = ValidationSupport.requireNonNull(builder.device, "device");
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
         bodySite = builder.bodySite;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
         ValidationSupport.checkReferenceType(basedOn, "basedOn", "ServiceRequest");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(derivedFrom, "derivedFrom", "ServiceRequest", "Procedure", "Claim", "Observation", "QuestionnaireResponse", "DocumentReference");
         ValidationSupport.checkReferenceType(source, "source", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
         ValidationSupport.checkReferenceType(device, "device", "Device");
         ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference", "Media");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

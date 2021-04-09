@@ -112,26 +112,25 @@ public class InsurancePlan extends DomainResource {
 
     private InsurancePlan(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = builder.status;
-        type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
+        type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
         name = builder.name;
-        alias = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.alias, "alias"));
+        alias = Collections.unmodifiableList(ValidationSupport.checkList(builder.alias, "alias", String.class));
         period = builder.period;
         ownedBy = builder.ownedBy;
         administeredBy = builder.administeredBy;
-        coverageArea = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.coverageArea, "coverageArea"));
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
-        endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
-        network = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.network, "network"));
-        coverage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.coverage, "coverage"));
-        plan = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.plan, "plan"));
+        coverageArea = Collections.unmodifiableList(ValidationSupport.checkList(builder.coverageArea, "coverageArea", Reference.class));
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", Contact.class));
+        endpoint = Collections.unmodifiableList(ValidationSupport.checkList(builder.endpoint, "endpoint", Reference.class));
+        network = Collections.unmodifiableList(ValidationSupport.checkList(builder.network, "network", Reference.class));
+        coverage = Collections.unmodifiableList(ValidationSupport.checkList(builder.coverage, "coverage", Coverage.class));
+        plan = Collections.unmodifiableList(ValidationSupport.checkList(builder.plan, "plan", Plan.class));
         ValidationSupport.checkReferenceType(ownedBy, "ownedBy", "Organization");
         ValidationSupport.checkReferenceType(administeredBy, "administeredBy", "Organization");
         ValidationSupport.checkReferenceType(coverageArea, "coverageArea", "Location");
         ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
         ValidationSupport.checkReferenceType(network, "network", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1096,7 +1095,7 @@ public class InsurancePlan extends DomainResource {
             super(builder);
             purpose = builder.purpose;
             name = builder.name;
-            telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
+            telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
             address = builder.address;
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -1442,8 +1441,8 @@ public class InsurancePlan extends DomainResource {
         private Coverage(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
-            network = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.network, "network"));
-            benefit = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.benefit, "benefit"));
+            network = Collections.unmodifiableList(ValidationSupport.checkList(builder.network, "network", Reference.class));
+            benefit = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.benefit, "benefit", Benefit.class));
             ValidationSupport.checkReferenceType(network, "network", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -1801,7 +1800,7 @@ public class InsurancePlan extends DomainResource {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
                 requirement = builder.requirement;
-                limit = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.limit, "limit"));
+                limit = Collections.unmodifiableList(ValidationSupport.checkList(builder.limit, "limit", Limit.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -2390,12 +2389,12 @@ public class InsurancePlan extends DomainResource {
 
         private Plan(Builder builder) {
             super(builder);
-            identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+            identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
             type = builder.type;
-            coverageArea = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.coverageArea, "coverageArea"));
-            network = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.network, "network"));
-            generalCost = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.generalCost, "generalCost"));
-            specificCost = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specificCost, "specificCost"));
+            coverageArea = Collections.unmodifiableList(ValidationSupport.checkList(builder.coverageArea, "coverageArea", Reference.class));
+            network = Collections.unmodifiableList(ValidationSupport.checkList(builder.network, "network", Reference.class));
+            generalCost = Collections.unmodifiableList(ValidationSupport.checkList(builder.generalCost, "generalCost", GeneralCost.class));
+            specificCost = Collections.unmodifiableList(ValidationSupport.checkList(builder.specificCost, "specificCost", SpecificCost.class));
             ValidationSupport.checkReferenceType(coverageArea, "coverageArea", "Location");
             ValidationSupport.checkReferenceType(network, "network", "Organization");
             ValidationSupport.requireValueOrChildren(this);
@@ -3226,7 +3225,7 @@ public class InsurancePlan extends DomainResource {
             private SpecificCost(Builder builder) {
                 super(builder);
                 category = ValidationSupport.requireNonNull(builder.category, "category");
-                benefit = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.benefit, "benefit"));
+                benefit = Collections.unmodifiableList(ValidationSupport.checkList(builder.benefit, "benefit", Benefit.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -3514,7 +3513,7 @@ public class InsurancePlan extends DomainResource {
                 private Benefit(Builder builder) {
                     super(builder);
                     type = ValidationSupport.requireNonNull(builder.type, "type");
-                    cost = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.cost, "cost"));
+                    cost = Collections.unmodifiableList(ValidationSupport.checkList(builder.cost, "cost", Cost.class));
                     ValidationSupport.requireValueOrChildren(this);
                 }
 
@@ -3813,7 +3812,7 @@ public class InsurancePlan extends DomainResource {
                         super(builder);
                         type = ValidationSupport.requireNonNull(builder.type, "type");
                         applicability = builder.applicability;
-                        qualifiers = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.qualifiers, "qualifiers"));
+                        qualifiers = Collections.unmodifiableList(ValidationSupport.checkList(builder.qualifiers, "qualifiers", CodeableConcept.class));
                         value = builder.value;
                         ValidationSupport.checkValueSetBinding(applicability, "applicability", "http://hl7.org/fhir/ValueSet/insuranceplan-applicability", "http://terminology.hl7.org/CodeSystem/applicability", "in-network", "out-of-network", "other");
                         ValidationSupport.requireValueOrChildren(this);

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -48,21 +48,22 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
+import com.ibm.fhir.model.type.code.DataAbsentReason;
 import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.NarrativeStatus;
 
-public class FHIRPatchTest extends FHIRServerTestBase {    
+public class FHIRPatchTest extends FHIRServerTestBase {
     @Test(groups = { "fhir-patch" })
     public void testJSONPatchAddOperation() throws Exception {
         WebTarget target = getWebTarget();
-        
+
         // Build a new Patient and then call the 'create' API.
         Patient patient = buildPatient();
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
-        
+
         // Get the patient's logical id value.
         String patientId = getLocationLogicalId(response);
 
@@ -73,11 +74,11 @@ public class FHIRPatchTest extends FHIRServerTestBase {
             name.get(0).toBuilder()
                 .given(string("Jack"))
                 .build()));
-        
+
         JsonArray array = Json.createPatchBuilder()
                 .add("/name/0/given/1", "Jack")
                 .build().toJsonArray();
-        
+
         Entity<JsonArray> patchEntity = Entity.entity(array, FHIRMediaType.APPLICATION_JSON_PATCH);
         response = target.path("Patient/" + patient.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
@@ -88,35 +89,35 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         response = target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
-        
+
         patientBuilder.meta(responsePatient.getMeta());
         Patient updatedPatient = patientBuilder.build();
 
         Assert.assertEquals(updatedPatient, responsePatient);
     }
-    
+
     @Test(groups = { "fhir-patch" })
     public void testJSONPatchRemoveOperation() throws Exception {
         WebTarget target = getWebTarget();
-        
+
         // Build a new Patient and then call the 'create' API.
         Patient patient = buildPatient();
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
-        
+
         // Get the patient's logical id value.
         String patientId = getLocationLogicalId(response);
 
         // create a copy of the patient and update it using the model API
         Patient.Builder patientBuilder = patient.toBuilder();
         patientBuilder.active(null);
-        
+
         JsonArray array = Json.createPatchBuilder()
                 .remove("/active")
                 .build().toJsonArray();
-        
+
         Entity<JsonArray> patchEntity = Entity.entity(array, FHIRMediaType.APPLICATION_JSON_PATCH);
         response = target.path("Patient/" + patient.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
@@ -127,7 +128,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         response = target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
-        
+
         patientBuilder.meta(responsePatient.getMeta());
         Patient updatedPatient = patientBuilder.build();
 
@@ -137,25 +138,25 @@ public class FHIRPatchTest extends FHIRServerTestBase {
     @Test(groups = { "fhir-patch" })
     public void testJSONPatchReplaceOperation() throws Exception {
         WebTarget target = getWebTarget();
-        
+
         // Build a new Patient and then call the 'create' API.
         Patient patient = buildPatient();
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
-        
+
         // Get the patient's logical id value.
         String patientId = getLocationLogicalId(response);
 
         // create a copy of the patient and update it using the model API
         Patient.Builder patientBuilder = patient.toBuilder();
         patientBuilder.active(Boolean.FALSE);
-        
+
         JsonArray array = Json.createPatchBuilder()
                 .replace("/active", false)
                 .build().toJsonArray();
-        
+
         Entity<JsonArray> patchEntity = Entity.entity(array, FHIRMediaType.APPLICATION_JSON_PATCH);
         response = target.path("Patient/" + patient.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
@@ -166,7 +167,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         response = target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
-        
+
         patientBuilder.meta(responsePatient.getMeta());
         Patient updatedPatient = patientBuilder.build();
 
@@ -176,14 +177,14 @@ public class FHIRPatchTest extends FHIRServerTestBase {
     @Test(groups = { "fhir-patch" })
     public void testJSONPatchCopyOperation() throws Exception {
         WebTarget target = getWebTarget();
-        
+
         // Build a new Patient and then call the 'create' API.
         Patient patient = buildPatient();
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
-        
+
         // Get the patient's logical id value.
         String patientId = getLocationLogicalId(response);
 
@@ -194,11 +195,11 @@ public class FHIRPatchTest extends FHIRServerTestBase {
             name.get(0).toBuilder()
                 .family(patient.getName().get(0).getGiven().get(0))
                 .build()));
-        
+
         JsonArray array = Json.createPatchBuilder()
                 .copy("/name/0/family", "/name/0/given/0")
                 .build().toJsonArray();
-        
+
         Entity<JsonArray> patchEntity = Entity.entity(array, FHIRMediaType.APPLICATION_JSON_PATCH);
         response = target.path("Patient/" + patient.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
@@ -209,24 +210,24 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         response = target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
-        
+
         patientBuilder.meta(responsePatient.getMeta());
         Patient updatedPatient = patientBuilder.build();
 
         Assert.assertEquals(updatedPatient, responsePatient);
     }
-    
+
     @Test(groups = { "fhir-patch" })
     public void testJSONPatchMoveOperation() throws Exception {
         WebTarget target = getWebTarget();
-        
+
         // Build a new Patient and then call the 'create' API.
         Patient patient = buildPatient();
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
-        
+
         // Get the patient's logical id value.
         String patientId = getLocationLogicalId(response);
 
@@ -238,11 +239,11 @@ public class FHIRPatchTest extends FHIRServerTestBase {
                 .family(patient.getName().get(0).getGiven().get(0))
                 .given(Collections.emptyList())
                 .build()));
-        
+
         JsonArray array = Json.createPatchBuilder()
                 .move("/name/0/family", "/name/0/given/0")
                 .build().toJsonArray();
-        
+
         Entity<JsonArray> patchEntity = Entity.entity(array, FHIRMediaType.APPLICATION_JSON_PATCH);
         response = target.path("Patient/" + patient.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
@@ -253,24 +254,24 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         response = target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
-        
+
         patientBuilder.meta(responsePatient.getMeta());
         Patient updatedPatient = patientBuilder.build();
 
         Assert.assertEquals(updatedPatient, responsePatient);
     }
-    
+
     @Test(groups = { "fhir-patch" })
     public void testFhirPatchAddOperation() throws Exception {
         WebTarget target = getWebTarget();
-        
+
         // Build a new Patient and then call the 'create' API.
         Patient patient = buildPatient();
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
-        
+
         // Get the patient's logical id value.
         String patientId = getLocationLogicalId(response);
 
@@ -281,7 +282,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
             name.get(0).toBuilder()
                 .given(string("Jack"))
                 .build()));
-        
+
         Parameters patch = Parameters.builder()
                 .parameter(Parameter.builder()
                     .name(string("operation"))
@@ -303,7 +304,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
                         .build())
                     .build())
                 .build();
-        
+
         Entity<Parameters> patchEntity = Entity.entity(patch, FHIRMediaType.APPLICATION_FHIR_JSON);
         response = target.path("Patient/" + patient.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
@@ -314,7 +315,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         response = target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
-        
+
         patientBuilder.meta(responsePatient.getMeta());
         Patient updatedPatient = patientBuilder.build();
 
@@ -324,14 +325,14 @@ public class FHIRPatchTest extends FHIRServerTestBase {
     @Test(groups = { "fhir-patch" })
     public void testFhirPatchInsertOperation() throws Exception {
         WebTarget target = getWebTarget();
-        
+
         // Build a new Patient and then call the 'create' API.
         Patient patient = buildPatient();
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
-        
+
         // Get the patient's logical id value.
         String patientId = getLocationLogicalId(response);
 
@@ -342,7 +343,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
             name.get(0).toBuilder()
                 .given(patient.getName().get(0).getFamily())
                 .build()));
-        
+
         Parameters patch = Parameters.builder()
                 .parameter(Parameter.builder()
                     .name(string("operation"))
@@ -364,7 +365,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
                         .build())
                     .build())
                 .build();
-        
+
         Entity<Parameters> patchEntity = Entity.entity(patch, FHIRMediaType.APPLICATION_FHIR_JSON);
         response = target.path("Patient/" + patient.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
@@ -375,7 +376,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         response = target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
-        
+
         patientBuilder.meta(responsePatient.getMeta());
         Patient updatedPatient = patientBuilder.build();
 
@@ -385,21 +386,21 @@ public class FHIRPatchTest extends FHIRServerTestBase {
     @Test(groups = { "fhir-patch" })
     public void testFhirPatchDeleteOperation() throws Exception {
         WebTarget target = getWebTarget();
-        
+
         // Build a new Patient and then call the 'create' API.
         Patient patient = buildPatient();
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
-        
+
         // Get the patient's logical id value.
         String patientId = getLocationLogicalId(response);
 
         // create a copy of the patient and update it using the model API
         Patient.Builder patientBuilder = patient.toBuilder();
         patientBuilder.active(null);
-        
+
         Parameters patch = Parameters.builder()
                 .parameter(Parameter.builder()
                     .name(string("operation"))
@@ -413,7 +414,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
                         .build())
                     .build())
                 .build();
-        
+
         Entity<Parameters> patchEntity = Entity.entity(patch, FHIRMediaType.APPLICATION_FHIR_JSON);
         response = target.path("Patient/" + patient.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
@@ -424,7 +425,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         response = target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
-        
+
         patientBuilder.meta(responsePatient.getMeta());
         Patient updatedPatient = patientBuilder.build();
 
@@ -434,21 +435,21 @@ public class FHIRPatchTest extends FHIRServerTestBase {
     @Test(groups = { "fhir-patch" })
     public void testFhirPatchReplaceOperation() throws Exception {
         WebTarget target = getWebTarget();
-        
+
         // Build a new Patient and then call the 'create' API.
         Patient patient = buildPatient();
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
-        
+
         // Get the patient's logical id value.
         String patientId = getLocationLogicalId(response);
 
         // create a copy of the patient and update it using the model API
         Patient.Builder patientBuilder = patient.toBuilder();
         patientBuilder.active(Boolean.FALSE);
-        
+
         Parameters patch = Parameters.builder()
                 .parameter(Parameter.builder()
                     .name(string("operation"))
@@ -466,7 +467,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
                         .build())
                     .build())
                 .build();
-        
+
         Entity<Parameters> patchEntity = Entity.entity(patch, FHIRMediaType.APPLICATION_FHIR_JSON);
         response = target.path("Patient/" + patient.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
@@ -477,7 +478,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         response = target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
-        
+
         patientBuilder.meta(responsePatient.getMeta());
         Patient updatedPatient = patientBuilder.build();
 
@@ -487,7 +488,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
     @Test(groups = { "fhir-patch" })
     public void testFhirPatchMoveOperation() throws Exception {
         WebTarget target = getWebTarget();
-        
+
         // Build a new Patient and then call the 'create' API.
         Patient patient = buildPatient();
         // Add a second given name so we have something to move
@@ -500,7 +501,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
-        
+
         // Get the patient's logical id value.
         String patientId = getLocationLogicalId(response);
 
@@ -512,7 +513,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
                 .given(Arrays.asList(patient.getName().get(0).getGiven().get(1),
                                      patient.getName().get(0).getGiven().get(0)))
                 .build()));
-        
+
         Parameters patch = Parameters.builder()
                 .parameter(Parameter.builder()
                     .name(string("operation"))
@@ -534,7 +535,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
                         .build())
                     .build())
                 .build();
-        
+
         Entity<Parameters> patchEntity = Entity.entity(patch, FHIRMediaType.APPLICATION_FHIR_JSON);
         response = target.path("Patient/" + patient.getId())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
@@ -545,16 +546,16 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         response = target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
-        
+
         patientBuilder.meta(responsePatient.getMeta());
         Patient updatedPatient = patientBuilder.build();
 
         Assert.assertEquals(updatedPatient, responsePatient);
     }
-    
+
     @Test(groups = { "fhir-patch" })
     public void testBundlePatch() throws Exception {
-        
+
         WebTarget target = getWebTarget();
         // Build a new Patient and then call the 'create' API.
         Patient patient = buildPatient();
@@ -562,7 +563,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
-               
+
         // Get the patient's logical id value.
         String patientId = getLocationLogicalId(response);
 
@@ -584,7 +585,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
                         .build())
                     .build())
                 .build();
-        
+
         //Delete Patch request for the patient
         Parameters deletePatch = Parameters.builder()
                 .parameter(Parameter.builder()
@@ -599,30 +600,97 @@ public class FHIRPatchTest extends FHIRServerTestBase {
                         .build())
                     .build())
                 .build();
-        
+
         //Creating bundle containing multiple patch request for the patient
         Bundle.Builder patchBundleBuilder=Bundle.builder();
         String patientUrl="Patient/" + patientId;
-        
+
         //Patch request object for the bundle
-        Request req=Request.builder().method(HTTPVerb.PATCH).url(Uri.of(patientUrl)).build();
-        Entry bundleReplaceReq=Entry.builder().resource(replacePatch).request(req).build();
-        
-        Entry bundleDeletePatch=Entry.builder().resource(deletePatch).request(req).build();
-        
-        Bundle patchRequestBundle= patchBundleBuilder.entry(bundleReplaceReq,bundleDeletePatch).type(BundleType.BATCH).build();
+        Request req = Request.builder().method(HTTPVerb.PATCH).url(Uri.of(patientUrl)).build();
+        Entry bundleReplaceReq = Entry.builder().resource(replacePatch).request(req).build();
+        Entry bundleDeletePatch = Entry.builder().resource(deletePatch).request(req).build();
+        Bundle patchRequestBundle = patchBundleBuilder.entry(bundleReplaceReq,bundleDeletePatch).type(BundleType.BATCH).build();
 
         Entity<Bundle> bundleEntity = Entity.entity(patchRequestBundle, FHIRMediaType.APPLICATION_FHIR_JSON);
-      
-        //Call FHRI-Api for the Post operation 
-        Response patchResponce=target.request().post(bundleEntity,Response.class);
-        Bundle responseBundle = patchResponce.readEntity(Bundle.class);
-      
+
+        //Call FHRI-Api for the Post operation
+        Response patchResponse = target.request().post(bundleEntity,Response.class);
+        Bundle responseBundle = patchResponse .readEntity(Bundle.class);
+
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode(),HTTPReturnPreference.MINIMAL);
-        
     }
-    
+
+    @Test(groups = { "fhir-patch" })
+    public void testBundleWithBadPatches() throws Exception {
+
+        WebTarget target = getWebTarget();
+        // Build a new Patient and then call the 'create' API.
+        Patient patient = buildPatient();
+
+        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the patient's logical id value.
+        String patientId = getLocationLogicalId(response);
+
+        //replace patch request for the patient
+        Parameters replacePatch = Parameters.builder()
+                .parameter(Parameter.builder()
+                    .name(string("operation"))
+                    .part(Parameter.builder()
+                        .name(string("type"))
+                        .value(Code.of("replace"))
+                        .build())
+                    .part(Parameter.builder()
+                        .name(string("path"))
+                        .value(string("Patient.active"))
+                        .build())
+                    .part(Parameter.builder()
+                        .name(string("value"))
+                        .value(DataAbsentReason.NOT_APPLICABLE)
+                        .build())
+                    .build())
+                .build();
+
+        //Delete Patch request for the patient
+        Parameters deletePatch = Parameters.builder()
+                .parameter(Parameter.builder()
+                    .name(string("operation"))
+                    .part(Parameter.builder()
+                        .name(string("type"))
+                        .value(Code.of("delete"))
+                        .build())
+                    .part(Parameter.builder()
+                        .name(string("path"))
+                        .value(string("Patient.invalid"))
+                        .build())
+                    .build())
+                .build();
+
+        //Creating bundle containing multiple patch request for the patient
+        Bundle.Builder patchBundleBuilder=Bundle.builder();
+        String patientUrl="Patient/" + patientId;
+
+        //Patch request object for the bundle
+        Request req = Request.builder().method(HTTPVerb.PATCH).url(Uri.of(patientUrl)).build();
+        Entry bundleReplaceReq = Entry.builder().resource(replacePatch).request(req).build();
+        Entry bundleDeletePatch = Entry.builder().resource(deletePatch).request(req).build();
+        Bundle patchRequestBundle = patchBundleBuilder.entry(bundleReplaceReq,bundleDeletePatch).type(BundleType.BATCH).build();
+
+        Entity<Bundle> bundleEntity = Entity.entity(patchRequestBundle, FHIRMediaType.APPLICATION_FHIR_JSON);
+
+        //Call FHRI-Api for the Post operation
+        Response patchResponse = target.request().post(bundleEntity,Response.class);
+        Bundle responseBundle = patchResponse .readEntity(Bundle.class);
+
+        assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
+
+        assertGoodGetResponse(responseBundle.getEntry().get(0), Status.BAD_REQUEST.getStatusCode(), HTTPReturnPreference.OPERATION_OUTCOME);
+        assertGoodGetResponse(responseBundle.getEntry().get(1), Status.BAD_REQUEST.getStatusCode(), HTTPReturnPreference.OPERATION_OUTCOME);
+    }
+
     private void assertGoodGetResponse(Bundle.Entry entry, int expectedStatusCode, HTTPReturnPreference returnPref) throws Exception {
         assertNotNull(entry);
         Bundle.Entry.Response response = entry.getResponse();
@@ -638,24 +706,24 @@ public class FHIRPatchTest extends FHIRServerTestBase {
     }
     private Patient buildPatient() {
         java.lang.String div = "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p></div>";
-        
+
         java.lang.String id = UUID.randomUUID().toString();
-        
+
         Meta meta = Meta.builder()
                 .versionId(Id.of("1"))
                 .lastUpdated(Instant.now(ZoneOffset.UTC))
                 .build();
-        
+
         HumanName name = HumanName.builder()
                 .given(string("John"))
                 .family(string("Doe"))
                 .build();
-        
+
         Narrative text = Narrative.builder()
                 .status(NarrativeStatus.GENERATED)
                 .div(xhtml(div))
                 .build();
-        
+
         return Patient.builder()
                 .id(id)
                 .meta(meta)

@@ -74,7 +74,7 @@ public class EnrollmentResponse extends DomainResource {
 
     private EnrollmentResponse(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = builder.status;
         request = builder.request;
         outcome = builder.outcome;
@@ -85,7 +85,6 @@ public class EnrollmentResponse extends DomainResource {
         ValidationSupport.checkReferenceType(request, "request", "EnrollmentRequest");
         ValidationSupport.checkReferenceType(organization, "organization", "Organization");
         ValidationSupport.checkReferenceType(requestProvider, "requestProvider", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

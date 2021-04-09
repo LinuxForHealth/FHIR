@@ -89,20 +89,19 @@ public class BiologicallyDerivedProduct extends DomainResource {
 
     private BiologicallyDerivedProduct(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         productCategory = builder.productCategory;
         productCode = builder.productCode;
         status = builder.status;
-        request = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.request, "request"));
+        request = Collections.unmodifiableList(ValidationSupport.checkList(builder.request, "request", Reference.class));
         quantity = builder.quantity;
-        parent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parent, "parent"));
+        parent = Collections.unmodifiableList(ValidationSupport.checkList(builder.parent, "parent", Reference.class));
         collection = builder.collection;
-        processing = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.processing, "processing"));
+        processing = Collections.unmodifiableList(ValidationSupport.checkList(builder.processing, "processing", Processing.class));
         manipulation = builder.manipulation;
-        storage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.storage, "storage"));
+        storage = Collections.unmodifiableList(ValidationSupport.checkList(builder.storage, "storage", Storage.class));
         ValidationSupport.checkReferenceType(request, "request", "ServiceRequest");
         ValidationSupport.checkReferenceType(parent, "parent", "BiologicallyDerivedProduct");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

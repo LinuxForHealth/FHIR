@@ -77,14 +77,13 @@ public class ImmunizationRecommendation extends DomainResource {
 
     private ImmunizationRecommendation(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
         date = ValidationSupport.requireNonNull(builder.date, "date");
         authority = builder.authority;
-        recommendation = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.recommendation, "recommendation"));
+        recommendation = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.recommendation, "recommendation", Recommendation.class));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(authority, "authority", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -657,18 +656,18 @@ public class ImmunizationRecommendation extends DomainResource {
 
         private Recommendation(Builder builder) {
             super(builder);
-            vaccineCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.vaccineCode, "vaccineCode"));
+            vaccineCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.vaccineCode, "vaccineCode", CodeableConcept.class));
             targetDisease = builder.targetDisease;
-            contraindicatedVaccineCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contraindicatedVaccineCode, "contraindicatedVaccineCode"));
+            contraindicatedVaccineCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.contraindicatedVaccineCode, "contraindicatedVaccineCode", CodeableConcept.class));
             forecastStatus = ValidationSupport.requireNonNull(builder.forecastStatus, "forecastStatus");
-            forecastReason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.forecastReason, "forecastReason"));
-            dateCriterion = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dateCriterion, "dateCriterion"));
+            forecastReason = Collections.unmodifiableList(ValidationSupport.checkList(builder.forecastReason, "forecastReason", CodeableConcept.class));
+            dateCriterion = Collections.unmodifiableList(ValidationSupport.checkList(builder.dateCriterion, "dateCriterion", DateCriterion.class));
             description = builder.description;
             series = builder.series;
             doseNumber = ValidationSupport.choiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);
             seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
-            supportingImmunization = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingImmunization, "supportingImmunization"));
-            supportingPatientInformation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingPatientInformation, "supportingPatientInformation"));
+            supportingImmunization = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingImmunization, "supportingImmunization", Reference.class));
+            supportingPatientInformation = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingPatientInformation, "supportingPatientInformation", Reference.class));
             ValidationSupport.checkReferenceType(supportingImmunization, "supportingImmunization", "Immunization", "ImmunizationEvaluation");
             ValidationSupport.requireValueOrChildren(this);
         }

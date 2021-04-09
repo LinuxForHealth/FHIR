@@ -140,11 +140,11 @@ public class RequestGroup extends DomainResource {
 
     private RequestGroup(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesCanonical, "instantiatesCanonical"));
-        instantiatesUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesUri, "instantiatesUri"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        replaces = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.replaces, "replaces"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesCanonical, "instantiatesCanonical", Canonical.class));
+        instantiatesUri = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesUri, "instantiatesUri", Uri.class));
+        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
+        replaces = Collections.unmodifiableList(ValidationSupport.checkList(builder.replaces, "replaces", Reference.class));
         groupIdentifier = builder.groupIdentifier;
         status = ValidationSupport.requireNonNull(builder.status, "status");
         intent = ValidationSupport.requireNonNull(builder.intent, "intent");
@@ -154,15 +154,14 @@ public class RequestGroup extends DomainResource {
         encounter = builder.encounter;
         authoredOn = builder.authoredOn;
         author = builder.author;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        action = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.action, "action"));
+        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        action = Collections.unmodifiableList(ValidationSupport.checkList(builder.action, "action", Action.class));
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(author, "author", "Device", "Practitioner", "PractitionerRole");
         ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1312,12 +1311,12 @@ public class RequestGroup extends DomainResource {
             description = builder.description;
             textEquivalent = builder.textEquivalent;
             priority = builder.priority;
-            code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
-            documentation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.documentation, "documentation"));
-            condition = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.condition, "condition"));
-            relatedAction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedAction, "relatedAction"));
+            code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", CodeableConcept.class));
+            documentation = Collections.unmodifiableList(ValidationSupport.checkList(builder.documentation, "documentation", RelatedArtifact.class));
+            condition = Collections.unmodifiableList(ValidationSupport.checkList(builder.condition, "condition", Condition.class));
+            relatedAction = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedAction, "relatedAction", RelatedAction.class));
             timing = ValidationSupport.choiceElement(builder.timing, "timing", DateTime.class, Age.class, Period.class, Duration.class, Range.class, Timing.class);
-            participant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.participant, "participant"));
+            participant = Collections.unmodifiableList(ValidationSupport.checkList(builder.participant, "participant", Reference.class));
             type = builder.type;
             groupingBehavior = builder.groupingBehavior;
             selectionBehavior = builder.selectionBehavior;
@@ -1325,7 +1324,7 @@ public class RequestGroup extends DomainResource {
             precheckBehavior = builder.precheckBehavior;
             cardinalityBehavior = builder.cardinalityBehavior;
             resource = builder.resource;
-            action = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.action, "action"));
+            action = Collections.unmodifiableList(ValidationSupport.checkList(builder.action, "action", RequestGroup.Action.class));
             ValidationSupport.checkReferenceType(participant, "participant", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device");
             ValidationSupport.requireValueOrChildren(this);
         }

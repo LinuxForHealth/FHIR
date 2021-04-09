@@ -189,7 +189,7 @@ public class FHIRConfiguration {
      * Returns the "home" directory for FHIR Server configuration information (this directory will contain
      * the "config" directory, etc.).
      * <p>
-     * The default value of this property is "" which is interpretted to mean the current working directory
+     * The default value of this property is "" which is interpreted to mean the current working directory
      * (which for a running FHIR Server will be $WLP_HOME/wlp/usr/servers/fhir-server).
      */
     public static String getConfigHome() {

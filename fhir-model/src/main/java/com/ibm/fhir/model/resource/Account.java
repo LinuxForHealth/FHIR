@@ -91,21 +91,20 @@ public class Account extends DomainResource {
 
     private Account(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         type = builder.type;
         name = builder.name;
-        subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
+        subject = Collections.unmodifiableList(ValidationSupport.checkList(builder.subject, "subject", Reference.class));
         servicePeriod = builder.servicePeriod;
-        coverage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.coverage, "coverage"));
+        coverage = Collections.unmodifiableList(ValidationSupport.checkList(builder.coverage, "coverage", Coverage.class));
         owner = builder.owner;
         description = builder.description;
-        guarantor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.guarantor, "guarantor"));
+        guarantor = Collections.unmodifiableList(ValidationSupport.checkList(builder.guarantor, "guarantor", Guarantor.class));
         partOf = builder.partOf;
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Device", "Practitioner", "PractitionerRole", "Location", "HealthcareService", "Organization");
         ValidationSupport.checkReferenceType(owner, "owner", "Organization");
         ValidationSupport.checkReferenceType(partOf, "partOf", "Account");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

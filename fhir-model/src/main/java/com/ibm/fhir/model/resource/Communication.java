@@ -143,36 +143,35 @@ public class Communication extends DomainResource {
 
     private Communication(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesCanonical, "instantiatesCanonical"));
-        instantiatesUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesUri, "instantiatesUri"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
-        inResponseTo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.inResponseTo, "inResponseTo"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesCanonical, "instantiatesCanonical", Canonical.class));
+        instantiatesUri = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesUri, "instantiatesUri", Uri.class));
+        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
+        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Reference.class));
+        inResponseTo = Collections.unmodifiableList(ValidationSupport.checkList(builder.inResponseTo, "inResponseTo", Reference.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusReason = builder.statusReason;
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
         priority = builder.priority;
-        medium = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.medium, "medium"));
+        medium = Collections.unmodifiableList(ValidationSupport.checkList(builder.medium, "medium", CodeableConcept.class));
         subject = builder.subject;
         topic = builder.topic;
-        about = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.about, "about"));
+        about = Collections.unmodifiableList(ValidationSupport.checkList(builder.about, "about", Reference.class));
         encounter = builder.encounter;
         sent = builder.sent;
         received = builder.received;
-        recipient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.recipient, "recipient"));
+        recipient = Collections.unmodifiableList(ValidationSupport.checkList(builder.recipient, "recipient", Reference.class));
         sender = builder.sender;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-        payload = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.payload, "payload"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
+        payload = Collections.unmodifiableList(ValidationSupport.checkList(builder.payload, "payload", Payload.class));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
         ValidationSupport.checkReferenceType(inResponseTo, "inResponseTo", "Communication");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(recipient, "recipient", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Group", "CareTeam", "HealthcareService");
         ValidationSupport.checkReferenceType(sender, "sender", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "HealthcareService");
         ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

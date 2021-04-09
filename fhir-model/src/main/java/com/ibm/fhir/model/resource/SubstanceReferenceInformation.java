@@ -62,11 +62,10 @@ public class SubstanceReferenceInformation extends DomainResource {
     private SubstanceReferenceInformation(Builder builder) {
         super(builder);
         comment = builder.comment;
-        gene = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.gene, "gene"));
-        geneElement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.geneElement, "geneElement"));
-        classification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.classification, "classification"));
-        target = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.target, "target"));
-        ValidationSupport.requireChildren(this);
+        gene = Collections.unmodifiableList(ValidationSupport.checkList(builder.gene, "gene", Gene.class));
+        geneElement = Collections.unmodifiableList(ValidationSupport.checkList(builder.geneElement, "geneElement", GeneElement.class));
+        classification = Collections.unmodifiableList(ValidationSupport.checkList(builder.classification, "classification", Classification.class));
+        target = Collections.unmodifiableList(ValidationSupport.checkList(builder.target, "target", Target.class));
     }
 
     /**
@@ -611,7 +610,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             super(builder);
             geneSequenceOrigin = builder.geneSequenceOrigin;
             gene = builder.gene;
-            source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
+            source = Collections.unmodifiableList(ValidationSupport.checkList(builder.source, "source", Reference.class));
             ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -939,7 +938,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             super(builder);
             type = builder.type;
             element = builder.element;
-            source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
+            source = Collections.unmodifiableList(ValidationSupport.checkList(builder.source, "source", Reference.class));
             ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -1269,8 +1268,8 @@ public class SubstanceReferenceInformation extends DomainResource {
             super(builder);
             domain = builder.domain;
             classification = builder.classification;
-            subtype = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subtype, "subtype"));
-            source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
+            subtype = Collections.unmodifiableList(ValidationSupport.checkList(builder.subtype, "subtype", CodeableConcept.class));
+            source = Collections.unmodifiableList(ValidationSupport.checkList(builder.source, "source", Reference.class));
             ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -1664,7 +1663,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             organismType = builder.organismType;
             amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, Range.class, String.class);
             amountType = builder.amountType;
-            source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
+            source = Collections.unmodifiableList(ValidationSupport.checkList(builder.source, "source", Reference.class));
             ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
             ValidationSupport.requireValueOrChildren(this);
         }

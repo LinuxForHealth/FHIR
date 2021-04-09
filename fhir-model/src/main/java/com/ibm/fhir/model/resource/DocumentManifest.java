@@ -90,21 +90,20 @@ public class DocumentManifest extends DomainResource {
     private DocumentManifest(Builder builder) {
         super(builder);
         masterIdentifier = builder.masterIdentifier;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         type = builder.type;
         subject = builder.subject;
         created = builder.created;
-        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
-        recipient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.recipient, "recipient"));
+        author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", Reference.class));
+        recipient = Collections.unmodifiableList(ValidationSupport.checkList(builder.recipient, "recipient", Reference.class));
         source = builder.source;
         description = builder.description;
-        content = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.content, "content"));
-        related = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.related, "related"));
+        content = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.content, "content", Reference.class));
+        related = Collections.unmodifiableList(ValidationSupport.checkList(builder.related, "related", Related.class));
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "Group", "Device");
         ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Organization", "Device", "Patient", "RelatedPerson");
         ValidationSupport.checkReferenceType(recipient, "recipient", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

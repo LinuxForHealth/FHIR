@@ -194,32 +194,31 @@ public class Appointment extends DomainResource {
 
     private Appointment(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         cancelationReason = builder.cancelationReason;
-        serviceCategory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.serviceCategory, "serviceCategory"));
-        serviceType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.serviceType, "serviceType"));
-        specialty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialty, "specialty"));
+        serviceCategory = Collections.unmodifiableList(ValidationSupport.checkList(builder.serviceCategory, "serviceCategory", CodeableConcept.class));
+        serviceType = Collections.unmodifiableList(ValidationSupport.checkList(builder.serviceType, "serviceType", CodeableConcept.class));
+        specialty = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialty, "specialty", CodeableConcept.class));
         appointmentType = builder.appointmentType;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
         priority = builder.priority;
         description = builder.description;
-        supportingInformation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInformation, "supportingInformation"));
+        supportingInformation = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingInformation, "supportingInformation", Reference.class));
         start = builder.start;
         end = builder.end;
         minutesDuration = builder.minutesDuration;
-        slot = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.slot, "slot"));
+        slot = Collections.unmodifiableList(ValidationSupport.checkList(builder.slot, "slot", Reference.class));
         created = builder.created;
         comment = builder.comment;
         patientInstruction = builder.patientInstruction;
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        participant = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.participant, "participant"));
-        requestedPeriod = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.requestedPeriod, "requestedPeriod"));
+        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
+        participant = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.participant, "participant", Participant.class));
+        requestedPeriod = Collections.unmodifiableList(ValidationSupport.checkList(builder.requestedPeriod, "requestedPeriod", Period.class));
         ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Procedure", "Observation", "ImmunizationRecommendation");
         ValidationSupport.checkReferenceType(slot, "slot", "Slot");
         ValidationSupport.checkReferenceType(basedOn, "basedOn", "ServiceRequest");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1526,7 +1525,7 @@ public class Appointment extends DomainResource {
 
         private Participant(Builder builder) {
             super(builder);
-            type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
+            type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
             actor = builder.actor;
             required = builder.required;
             status = ValidationSupport.requireNonNull(builder.status, "status");

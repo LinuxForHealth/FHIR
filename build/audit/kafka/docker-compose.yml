@@ -57,28 +57,28 @@ services:
     volumes:
       - type: bind
         source: ./workarea/volumes/dist/config
-        target: /opt/ol/wlp/usr/servers/fhir-server/config
+        target: /opt/ol/wlp/usr/servers/defaultServer/config
         read_only: true
       - type: bind
         source: ./workarea/volumes/dist/userlib/
-        target: /opt/ol/wlp/usr/servers/fhir-server/userlib
+        target: /opt/ol/wlp/usr/servers/defaultServer/userlib
         read_only: true
     environment:
       - BOOTSTRAP_DB=true
     command: bash -c "
         java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
-          --db-type derby --prop db.database=/opt/ol/wlp/usr/servers/fhir-server/derby/profile --prop db.create=Y
+          --db-type derby --prop db.database=/output/derby/profile --prop db.create=Y
           --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource
           --update-schema &&
         java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
-          --db-type derby --prop db.database=/opt/ol/wlp/usr/servers/fhir-server/derby/reference --prop db.create=Y
+          --db-type derby --prop db.database=/output/derby/reference --prop db.create=Y
           --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Medication,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource
           --update-schema &&
         java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
-          --db-type derby --prop db.database=/opt/ol/wlp/usr/servers/fhir-server/derby/study1 --prop db.create=Y
+          --db-type derby --prop db.database=/output/derby/study1 --prop db.create=Y
           --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Encounter,AllergyIntolerance,Observation,Condition,CarePlan,Provenance,Medication,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource
           --update-schema &&
-        /opt/ol/wlp/bin/server run fhir-server "
+        /opt/ol/wlp/bin/server run"
     healthcheck:
       start_period: 120s
       interval: 10s

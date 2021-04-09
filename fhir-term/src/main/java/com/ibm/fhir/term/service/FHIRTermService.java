@@ -13,11 +13,15 @@ import static com.ibm.fhir.term.util.CodeSystemSupport.normalize;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.CodeSystem;
@@ -36,18 +40,11 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
 import com.ibm.fhir.model.type.code.ConceptSubsumptionOutcome;
+import com.ibm.fhir.term.service.LookupOutcome.Designation;
+import com.ibm.fhir.term.service.LookupOutcome.Property;
+import com.ibm.fhir.term.service.TranslationOutcome.Match;
 import com.ibm.fhir.term.service.provider.RegistryTermServiceProvider;
-import com.ibm.fhir.term.spi.ExpansionParameters;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
-import com.ibm.fhir.term.spi.LookupOutcome;
-import com.ibm.fhir.term.spi.LookupOutcome.Designation;
-import com.ibm.fhir.term.spi.LookupOutcome.Property;
-import com.ibm.fhir.term.spi.LookupParameters;
-import com.ibm.fhir.term.spi.TranslationOutcome;
-import com.ibm.fhir.term.spi.TranslationOutcome.Match;
-import com.ibm.fhir.term.spi.TranslationParameters;
-import com.ibm.fhir.term.spi.ValidationOutcome;
-import com.ibm.fhir.term.spi.ValidationParameters;
 import com.ibm.fhir.term.util.CodeSystemSupport;
 import com.ibm.fhir.term.util.ValueSetSupport;
 
@@ -126,7 +123,9 @@ public class FHIRTermService {
         if (system != null && code != null) {
             java.lang.String url = (version != null) ? system.getValue() + "|" + version : system.getValue();
             CodeSystem codeSystem = CodeSystemSupport.getCodeSystem(url);
-            if (codeSystem != null && CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning())) {
+            if (codeSystem != null &&
+                    (CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning()) ||
+                            codeSystem.getHierarchyMeaning() == null)) {
                 FHIRTermServiceProvider provider = findProvider(codeSystem);
                 if (provider.hasConcept(codeSystem, code)) {
                     return provider.closure(codeSystem, code);
@@ -135,6 +134,78 @@ public class FHIRTermService {
         }
 
         return Collections.emptySet();
+    }
+
+    /**
+     * Generate a map containing the transitive closures for the code system concepts represented by the giving codings
+     *
+     * @param codings
+     *     the codings
+     * @return
+     *     a map of sets containing the transitive closures for the code system concepts represented by the given codings
+     */
+    public Map<Coding, Set<Concept>> closure(Set<Coding> codings) {
+        Map<Coding, Set<Concept>> result = new LinkedHashMap<>();
+
+        Map<CodeSystem, Set<Code>> codeSetMap = new LinkedHashMap<>();
+        Map<CodeSystem, Map<Code, Coding>> codingMapMap = new LinkedHashMap<>();
+
+        for (Coding coding : codings) {
+            Uri system = coding.getSystem();
+            java.lang.String version = (coding.getVersion() != null) ? coding.getVersion().getValue() : null;
+            Code code = coding.getCode();
+
+            if (system == null || code == null) {
+                return Collections.emptyMap();
+            }
+
+            java.lang.String url = (version != null) ? system.getValue() + "|" + version : system.getValue();
+
+            CodeSystem codeSystem = CodeSystemSupport.getCodeSystem(url);
+
+            if (codeSystem == null ||
+                    (!CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning()) &&
+                            codeSystem.getHierarchyMeaning() != null)) {
+                return Collections.emptyMap();
+            }
+
+            codeSetMap.computeIfAbsent(codeSystem, k -> new LinkedHashSet<>()).add(code);
+            codingMapMap.computeIfAbsent(codeSystem, k -> new LinkedHashMap<>()).put(code, coding);
+        }
+
+        for (CodeSystem codeSystem : codeSetMap.keySet()) {
+            Set<Code> codes = codeSetMap.get(codeSystem);
+
+            FHIRTermServiceProvider provider = findProvider(codeSystem);
+            if (!provider.hasConcepts(codeSystem, codes)) {
+                return Collections.emptyMap();
+            }
+
+            Map<Code, Set<Concept>> closureMap = provider.closure(codeSystem, codes);
+
+            for (Code code : closureMap.keySet()) {
+                Coding coding = codingMapMap.get(codeSystem).get(code);
+                Set<Concept> closure = closureMap.get(code);
+                result.put(coding, closure);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Get a map of sets containing {@link CodeSystem.Concept} instances where all structural
+     * hierarchies have been flattened
+     *
+     * @param codeSystem
+     *     the code system
+     * @param codes
+     *     the set of roots of hierarchies containing the Concept instances to be flattened
+     * @return
+     *     a map containing flattened sets of Concept instances for the given trees
+     */
+    public Map<Code, Set<Concept>> closure(CodeSystem codeSystem, Set<Code> codes) {
+        return findProvider(codeSystem).closure(codeSystem, codes);
     }
 
     /**
@@ -185,12 +256,29 @@ public class FHIRTermService {
      * hierarchies have been flattened.
      *
      * @param codeSystem
-     *     the code system
+     *     the code system containing the set of Concept instances to be flattened
      * @return
-     *     flattened list of Concept instances for the given code system
+     *     flattened set of Concept instances for the given code system
      */
     public Set<Concept> getConcepts(CodeSystem codeSystem) {
         return findProvider(codeSystem).getConcepts(codeSystem);
+    }
+
+    /**
+     * Get a set containing {@link R} instances mapped from concepts where all structural
+     * hierarchies have been flattened.
+     *
+     * @param <R>
+     *     the element type of the result set
+     * @param codeSystem
+     *     the code system containing the set of Concept instances to be flattened
+     * @param function
+     *     the function to apply to each element of the result set
+     * @return
+     *     flattened set of {@link R} instances mapped from concepts for the given code system
+     */
+    public <R> Set<R> getConcepts(CodeSystem codeSystem, Function<Concept, ? extends R> function) {
+        return findProvider(codeSystem).getConcepts(codeSystem, function);
     }
 
     /**
@@ -209,6 +297,25 @@ public class FHIRTermService {
     }
 
     /**
+     * Get a set containing {@link R} instances mapped from concepts where all structural
+     * hierarchies have been flattened and filtered by the given set of value set include filters.
+     *
+     * @param <R>
+     *     the element type of the result set
+     * @param codeSystem
+     *     the code system containing the set of Concept instances to be flattened / filtered
+     * @param filters
+     *     the value set include filters
+     * @param function
+     *     the function to apply to each element of the result set
+     * @return
+     *     flattened / filtered set of {@link R} instances mapped from concepts for the given code system
+     */
+    public <R> Set<R> getConcepts(CodeSystem codeSystem, List<Filter> filters, Function<Concept, ? extends R> function) {
+        return findProvider(codeSystem).getConcepts(codeSystem, filters, function);
+    }
+
+    /**
      * Indicates whether the given code system contains a concept with the specified code.
      *
      * @param codeSystem
@@ -220,6 +327,20 @@ public class FHIRTermService {
      */
     public boolean hasConcept(CodeSystem codeSystem, Code code) {
         return findProvider(codeSystem).hasConcept(codeSystem, code);
+    }
+
+    /**
+     * Indicates whether the given code system contains a concept for each of the specified codes.
+     *
+     * @param codeSystem
+     *     the code system
+     * @param codes
+     *     the codes
+     * @return
+     *     true if the given code system contains a concept for each of the specified codes, false otherwise
+     */
+    public boolean hasConcepts(CodeSystem codeSystem, Set<Code> codes) {
+        return findProvider(codeSystem).hasConcepts(codeSystem, codes);
     }
 
     /**
@@ -379,7 +500,7 @@ public class FHIRTermService {
      * @param codingB
      *     the coding "B"
      * @return
-     *     the outcome of the subsumption test
+     *     the outcome of the subsumption test, or null if the relationship could not be tested
      */
     public ConceptSubsumptionOutcome subsumes(Coding codingA, Coding codingB) {
         Uri systemA = codingA.getSystem();

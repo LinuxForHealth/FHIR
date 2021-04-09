@@ -88,11 +88,10 @@ public class SpecimenDefinition extends DomainResource {
         super(builder);
         identifier = builder.identifier;
         typeCollected = builder.typeCollected;
-        patientPreparation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.patientPreparation, "patientPreparation"));
+        patientPreparation = Collections.unmodifiableList(ValidationSupport.checkList(builder.patientPreparation, "patientPreparation", CodeableConcept.class));
         timeAspect = builder.timeAspect;
-        collection = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.collection, "collection"));
-        typeTested = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.typeTested, "typeTested"));
-        ValidationSupport.requireChildren(this);
+        collection = Collections.unmodifiableList(ValidationSupport.checkList(builder.collection, "collection", CodeableConcept.class));
+        typeTested = Collections.unmodifiableList(ValidationSupport.checkList(builder.typeTested, "typeTested", TypeTested.class));
     }
 
     /**
@@ -671,8 +670,8 @@ public class SpecimenDefinition extends DomainResource {
             container = builder.container;
             requirement = builder.requirement;
             retentionTime = builder.retentionTime;
-            rejectionCriterion = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.rejectionCriterion, "rejectionCriterion"));
-            handling = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.handling, "handling"));
+            rejectionCriterion = Collections.unmodifiableList(ValidationSupport.checkList(builder.rejectionCriterion, "rejectionCriterion", CodeableConcept.class));
+            handling = Collections.unmodifiableList(ValidationSupport.checkList(builder.handling, "handling", Handling.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1194,7 +1193,7 @@ public class SpecimenDefinition extends DomainResource {
                 description = builder.description;
                 capacity = builder.capacity;
                 minimumVolume = ValidationSupport.choiceElement(builder.minimumVolume, "minimumVolume", SimpleQuantity.class, String.class);
-                additive = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additive, "additive"));
+                additive = Collections.unmodifiableList(ValidationSupport.checkList(builder.additive, "additive", Additive.class));
                 preparation = builder.preparation;
                 ValidationSupport.requireValueOrChildren(this);
             }

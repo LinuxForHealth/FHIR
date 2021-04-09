@@ -55,7 +55,8 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
         DROP_PROC,
         TABLESPACE,
         ALTER_TABLE_SEQ_CACHE,
-        DROP_PERMISSION
+        DROP_PERMISSION,
+        DROP_VARIABLE
     }
 
     // Just warn once for each unique message key. This cleans up build logs a lot
@@ -395,5 +396,12 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
         } catch (UndefinedNameException x) {
             logger.warning(ddl + "; Sequence not found");
         }
+    }
+
+    @Override
+    public void dropVariable(String schemaName, String variableName) {
+        final String nm = getQualifiedName(schemaName, variableName);
+        final String ddl = "DROP VARIABLE " + nm;
+        warnOnce(MessageKey.DROP_VARIABLE, "Not supported in PostgreSQL: " + ddl);
     }
 }

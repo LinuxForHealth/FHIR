@@ -1118,7 +1118,8 @@ public class CodeGenerator {
 
                     if (isRequired(elementDefinition)) {
                         if (isRepeating(elementDefinition)) {
-                            cb.assign(fieldName, "Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder." + fieldName + ", " + quote(elementName) + "))");
+                            cb.assign(fieldName, "Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder." + fieldName + ", " + quote(elementName) + ", " +
+                                    getFieldType(structureDefinition, elementDefinition, false) + ".class))");
                         } else {
                             if (isChoiceElement(elementDefinition)) {
                                 String types = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
@@ -1129,7 +1130,8 @@ public class CodeGenerator {
                         }
                     } else {
                         if (isRepeating(elementDefinition)) {
-                            cb.assign(fieldName, "Collections.unmodifiableList(ValidationSupport.requireNonNull(builder." + fieldName + ", " + quote(elementName) + "))");
+                            cb.assign(fieldName, "Collections.unmodifiableList(ValidationSupport.checkList(builder." + fieldName + ", " + quote(elementName) + ", " +
+                                    getFieldType(structureDefinition, elementDefinition, false) + ".class))");
                         } else {
                             if (isChoiceElement(elementDefinition)) {
                                 String types = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
@@ -1267,10 +1269,6 @@ public class CodeGenerator {
                     !isXhtml(structureDefinition)) ||
                     nested) {
                 cb.invoke("ValidationSupport", "requireValueOrChildren", args("this"));
-            }
-
-            if (isResource(structureDefinition) && !isAbstract(structureDefinition) && !nested) {
-                cb.invoke("ValidationSupport", "requireChildren", args("this"));
             }
 
             if (isXhtml(structureDefinition)) {
@@ -1988,7 +1986,9 @@ public class CodeGenerator {
             String basePath = elementDefinition.getJsonObject("base").getString("path");
 
             if (isBackboneElement(elementDefinition)) {
-                imports.add("com.ibm.fhir.model.type.BackboneElement");
+                if ("resource".equals(structureDefinition.getString("kind"))) {
+                    imports.add("com.ibm.fhir.model.type.BackboneElement");
+                }
                 imports.add("com.ibm.fhir.model.util.ValidationSupport");
             }
 

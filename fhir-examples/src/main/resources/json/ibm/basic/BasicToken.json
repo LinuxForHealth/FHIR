@@ -42,8 +42,8 @@
     {
       "url": "http://example.org/Coding-validCodeAndSystem",
       "valueCoding": {
-        "system": "http://terminology.hl7.org/CodeSystem/basic-resource-type",
-        "code": "diet"
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+        "code": "AA"
       }
     },
     {
@@ -71,8 +71,8 @@
       "url": "http://example.org/CodeableConcept-validCodeAndSystem",
       "valueCodeableConcept": {
         "coding": [{
-          "system": "http://terminology.hl7.org/CodeSystem/basic-resource-type",
-          "code": "diet"
+          "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+          "code": "AA"
         }]
       }
     },

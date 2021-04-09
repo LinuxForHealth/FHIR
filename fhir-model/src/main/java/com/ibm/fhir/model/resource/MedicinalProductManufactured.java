@@ -68,13 +68,12 @@ public class MedicinalProductManufactured extends DomainResource {
         manufacturedDoseForm = ValidationSupport.requireNonNull(builder.manufacturedDoseForm, "manufacturedDoseForm");
         unitOfPresentation = builder.unitOfPresentation;
         quantity = ValidationSupport.requireNonNull(builder.quantity, "quantity");
-        manufacturer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturer, "manufacturer"));
-        ingredient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.ingredient, "ingredient"));
+        manufacturer = Collections.unmodifiableList(ValidationSupport.checkList(builder.manufacturer, "manufacturer", Reference.class));
+        ingredient = Collections.unmodifiableList(ValidationSupport.checkList(builder.ingredient, "ingredient", Reference.class));
         physicalCharacteristics = builder.physicalCharacteristics;
-        otherCharacteristics = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.otherCharacteristics, "otherCharacteristics"));
+        otherCharacteristics = Collections.unmodifiableList(ValidationSupport.checkList(builder.otherCharacteristics, "otherCharacteristics", CodeableConcept.class));
         ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
         ValidationSupport.checkReferenceType(ingredient, "ingredient", "MedicinalProductIngredient");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

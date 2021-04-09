@@ -209,24 +209,23 @@ public class Consent extends DomainResource {
 
     private Consent(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         scope = ValidationSupport.requireNonNull(builder.scope, "scope");
-        category = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.category, "category"));
+        category = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.category, "category", CodeableConcept.class));
         patient = builder.patient;
         dateTime = builder.dateTime;
-        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
-        organization = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.organization, "organization"));
+        performer = Collections.unmodifiableList(ValidationSupport.checkList(builder.performer, "performer", Reference.class));
+        organization = Collections.unmodifiableList(ValidationSupport.checkList(builder.organization, "organization", Reference.class));
         source = ValidationSupport.choiceElement(builder.source, "source", Attachment.class, Reference.class);
-        policy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.policy, "policy"));
+        policy = Collections.unmodifiableList(ValidationSupport.checkList(builder.policy, "policy", Policy.class));
         policyRule = builder.policyRule;
-        verification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.verification, "verification"));
+        verification = Collections.unmodifiableList(ValidationSupport.checkList(builder.verification, "verification", Verification.class));
         provision = builder.provision;
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(performer, "performer", "Organization", "Patient", "Practitioner", "RelatedPerson", "PractitionerRole");
         ValidationSupport.checkReferenceType(organization, "organization", "Organization");
         ValidationSupport.checkReferenceType(source, "source", "Consent", "DocumentReference", "Contract", "QuestionnaireResponse");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1758,15 +1757,15 @@ public class Consent extends DomainResource {
             super(builder);
             type = builder.type;
             period = builder.period;
-            actor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.actor, "actor"));
-            action = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.action, "action"));
-            securityLabel = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabel, "securityLabel"));
-            purpose = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.purpose, "purpose"));
-            clazz = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.clazz, "class"));
-            code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
+            actor = Collections.unmodifiableList(ValidationSupport.checkList(builder.actor, "actor", Actor.class));
+            action = Collections.unmodifiableList(ValidationSupport.checkList(builder.action, "action", CodeableConcept.class));
+            securityLabel = Collections.unmodifiableList(ValidationSupport.checkList(builder.securityLabel, "securityLabel", Coding.class));
+            purpose = Collections.unmodifiableList(ValidationSupport.checkList(builder.purpose, "purpose", Coding.class));
+            clazz = Collections.unmodifiableList(ValidationSupport.checkList(builder.clazz, "class", Coding.class));
+            code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", CodeableConcept.class));
             dataPeriod = builder.dataPeriod;
-            data = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.data, "data"));
-            provision = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.provision, "provision"));
+            data = Collections.unmodifiableList(ValidationSupport.checkList(builder.data, "data", Data.class));
+            provision = Collections.unmodifiableList(ValidationSupport.checkList(builder.provision, "provision", Consent.Provision.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

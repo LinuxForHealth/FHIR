@@ -107,7 +107,7 @@ public class ImmunizationEvaluation extends DomainResource {
 
     private ImmunizationEvaluation(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
         date = builder.date;
@@ -115,7 +115,7 @@ public class ImmunizationEvaluation extends DomainResource {
         targetDisease = ValidationSupport.requireNonNull(builder.targetDisease, "targetDisease");
         immunizationEvent = ValidationSupport.requireNonNull(builder.immunizationEvent, "immunizationEvent");
         doseStatus = ValidationSupport.requireNonNull(builder.doseStatus, "doseStatus");
-        doseStatusReason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.doseStatusReason, "doseStatusReason"));
+        doseStatusReason = Collections.unmodifiableList(ValidationSupport.checkList(builder.doseStatusReason, "doseStatusReason", CodeableConcept.class));
         description = builder.description;
         series = builder.series;
         doseNumber = ValidationSupport.choiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);
@@ -123,7 +123,6 @@ public class ImmunizationEvaluation extends DomainResource {
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(authority, "authority", "Organization");
         ValidationSupport.checkReferenceType(immunizationEvent, "immunizationEvent", "Immunization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

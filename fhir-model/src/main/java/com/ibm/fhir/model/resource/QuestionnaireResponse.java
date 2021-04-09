@@ -105,8 +105,8 @@ public class QuestionnaireResponse extends DomainResource {
     private QuestionnaireResponse(Builder builder) {
         super(builder);
         identifier = builder.identifier;
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
+        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
+        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Reference.class));
         questionnaire = builder.questionnaire;
         status = ValidationSupport.requireNonNull(builder.status, "status");
         subject = builder.subject;
@@ -114,13 +114,12 @@ public class QuestionnaireResponse extends DomainResource {
         authored = builder.authored;
         author = builder.author;
         source = builder.source;
-        item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
+        item = Collections.unmodifiableList(ValidationSupport.checkList(builder.item, "item", Item.class));
         ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ServiceRequest");
         ValidationSupport.checkReferenceType(partOf, "partOf", "Observation", "Procedure");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(author, "author", "Device", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson", "Organization");
         ValidationSupport.checkReferenceType(source, "source", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -889,8 +888,8 @@ public class QuestionnaireResponse extends DomainResource {
             linkId = ValidationSupport.requireNonNull(builder.linkId, "linkId");
             definition = builder.definition;
             text = builder.text;
-            answer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.answer, "answer"));
-            item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
+            answer = Collections.unmodifiableList(ValidationSupport.checkList(builder.answer, "answer", Answer.class));
+            item = Collections.unmodifiableList(ValidationSupport.checkList(builder.item, "item", QuestionnaireResponse.Item.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1294,7 +1293,7 @@ public class QuestionnaireResponse extends DomainResource {
             private Answer(Builder builder) {
                 super(builder);
                 value = ValidationSupport.choiceElement(builder.value, "value", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class);
-                item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
+                item = Collections.unmodifiableList(ValidationSupport.checkList(builder.item, "item", QuestionnaireResponse.Item.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 

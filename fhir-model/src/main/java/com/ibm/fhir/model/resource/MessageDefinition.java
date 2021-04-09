@@ -165,30 +165,29 @@ public class MessageDefinition extends DomainResource {
     private MessageDefinition(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         version = builder.version;
         name = builder.name;
         title = builder.title;
-        replaces = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.replaces, "replaces"));
+        replaces = Collections.unmodifiableList(ValidationSupport.checkList(builder.replaces, "replaces", Canonical.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         experimental = builder.experimental;
         date = ValidationSupport.requireNonNull(builder.date, "date");
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         purpose = builder.purpose;
         copyright = builder.copyright;
         base = builder.base;
-        parent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parent, "parent"));
+        parent = Collections.unmodifiableList(ValidationSupport.checkList(builder.parent, "parent", Canonical.class));
         event = ValidationSupport.requireChoiceElement(builder.event, "event", Coding.class, Uri.class);
         category = builder.category;
-        focus = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.focus, "focus"));
+        focus = Collections.unmodifiableList(ValidationSupport.checkList(builder.focus, "focus", Focus.class));
         responseRequired = builder.responseRequired;
-        allowedResponse = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.allowedResponse, "allowedResponse"));
-        graph = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.graph, "graph"));
-        ValidationSupport.requireChildren(this);
+        allowedResponse = Collections.unmodifiableList(ValidationSupport.checkList(builder.allowedResponse, "allowedResponse", AllowedResponse.class));
+        graph = Collections.unmodifiableList(ValidationSupport.checkList(builder.graph, "graph", Canonical.class));
     }
 
     /**
