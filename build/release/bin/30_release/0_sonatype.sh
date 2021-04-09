@@ -15,10 +15,10 @@ set -eu -o pipefail
 
 # fhir-examples
 export BUILD_PROFILES="deploy-to-sonatype"
-mvn -T2C deploy -f fhir-examples -P "${BUILD_PROFILES}" -DskipTests
+mvn -T2C deploy:deploy -f fhir-examples -P "${BUILD_PROFILES}" -DskipTests
 
 # fhir-parent
 export BUILD_PROFILES="deploy-to-sonatype"
-mvn -T2C deploy -f fhir-parent -P "${BUILD_PROFILES}" -DskipTests
+mvn -T2C deploy:deploy -f fhir-parent -P "${BUILD_PROFILES}" -DskipTests
 
 # EOF

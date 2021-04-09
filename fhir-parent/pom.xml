@@ -1245,4 +1245,17 @@
             </plugin>
         </plugins>
     </reporting>
+
+    <url>https://github.com/ibm/fhir</url>
+    <organization>
+        <name>IBM</name>
+        <url>https://github.com/ibm/fhir</url>
+    </organization>
+    <issueManagement>
+        <url>https://github.com/ibm/fhir/issues</url>
+    </issueManagement>
+    <ciManagement>
+        <url>https://github.com/ibm/fhir/actions</url>
+    </ciManagement>
+    <description>The IBM® FHIR® Server is a modular Java implementation of version 4 of the HL7 FHIR specification with a focus on performance and configurability.</description>
 </project>
