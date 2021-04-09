@@ -50,6 +50,7 @@ jobs:
     - name: Gather artifacts and materials
       if: always()
       run: |
+        . build/release/global.sh
         bash build/release/50_gather.sh
     - name: Upload Artifacts
       if: always()
