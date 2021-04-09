@@ -8,27 +8,24 @@ set -eu -o pipefail
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-# Runs the build with all the preconfigured profiles with gpg:sign
-# The relevant keys for this signature are published, and can be confirmed at 
-# http://keys.gnupg.net/pks/lookup?search=fhir&fingerprint=on&op=index
+# Runs the build with all the preconfigured profiles
 
 # fhir-examples
 export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-examples").profiles | map(.) | join(",")' build/release/config/release.json)"
-mvn -T2C install source:jar source:test-jar javadoc:jar gpg:sign -f fhir-examples \
+mvn -T2C install source:jar source:test-jar javadoc:jar -f fhir-examples \
         -DadditionalJOption=-Xdoclint:none \
         -f fhir-examples -P "${BUILD_PROFILES}" -DskipTests
 
 # fhir-tools
 export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-tools").profiles | map(.) | join(",")' build/release/config/release.json)"
-mvn -T2C install source:jar source:test-jar javadoc:jar gpg:sign -f fhir-tools \
+mvn -T2C install source:jar source:test-jar javadoc:jar -f fhir-tools \
         -DadditionalJOption=-Xdoclint:none \
         -f fhir-tools -P "${BUILD_PROFILES}" -DskipTests
 
 # fhir-parent
-# we hit 'gpg: signing failed: Cannot allocate memory' when running -T2C
 export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-parent").profiles | map(.) | join(",")' build/release/config/release.json)"
-mvn install -f fhir-parent -DskipTests
-mvn install source:jar source:test-jar javadoc:jar gpg:sign -f fhir-parent \
+mvn -T2C install -f fhir-parent -DskipTests
+mvn -T2C install source:jar source:test-jar javadoc:jar -f fhir-parent \
         -DadditionalJOption=-Xdoclint:none \
         -f fhir-parent -P "${BUILD_PROFILES}" -DskipTests
 
