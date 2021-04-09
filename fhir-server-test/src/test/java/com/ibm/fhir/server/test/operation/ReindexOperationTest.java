@@ -81,7 +81,6 @@ public class ReindexOperationTest extends FHIRServerTestBase {
             .setSocketTimeout(TIMEOUT)
             .build();
 
-
     /**
      * generates a static SSL Connection socket factory.
      * @return
@@ -109,7 +108,7 @@ public class ReindexOperationTest extends FHIRServerTestBase {
         target = target.path("/$reindex");
         Response r = target.request(FHIRMediaType.APPLICATION_FHIR_JSON)
                      .header("X-FHIR-TENANT-ID", "tenant1")
-                     .header("X-FHIR-DSID", "default")
+                     .header("X-FHIR-DSID", "profile")
                      .get(Response.class);
         assertEquals(r.getStatus(), Status.FORBIDDEN.getStatusCode());
     }
@@ -140,6 +139,7 @@ public class ReindexOperationTest extends FHIRServerTestBase {
             HttpPost post = new HttpPost(url);
             post.setHeader("Content-Type", "application/fhir+json");
             post.setHeader("X-FHIR-TENANT-ID", "tenant1");
+            post.setHeader("X-FHIR-DSID", "profile");
 
             List<Parameter> parameters = new ArrayList<>();
             parameters.add(
