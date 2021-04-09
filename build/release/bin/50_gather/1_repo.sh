@@ -22,6 +22,8 @@ do
     mv "${CACHE_FILE}" ${WORKSPACE}/build/release/workarea/release_files/build_files || true
 done
 
+# This is to copy over the pom files uniquely.
+# we mangle the input so it is the <module>_pom.xml
 for CACHE_FILE in $(find . -name 'pom.xml')
 do
     CACHE_F=$(echo ${CACHE_FILE} | sed 's|/| |g' | awk '{print $(NF-1)"_pom.xml"}')

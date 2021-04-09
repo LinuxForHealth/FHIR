@@ -19,11 +19,8 @@ For Version 4.6.1 and earlier, each of the IBM FHIR Server modules are published
 
 After Version 4.6.1, you may declare the dependency without a repository as it points to [Maven Central] [https://repo1.maven.org/maven2/com/ibm/fhir]
 
-To use the artifacts from a Maven project:
+To use the artifacts from a Maven project, declare the dependencies. For example, to use our visitable, thread-safe FHIR R4 object model (including our high-performance parsers and generators), declare a dependency on the `fhir-model` module:
 
-1. Declare the dependencies:
-
-    For example, to use our visitable, thread-safe FHIR R4 object model (including our high-performance parsers and generators), declare a dependency on the `fhir-model` module:
     ```
     ...
     <dependencies>

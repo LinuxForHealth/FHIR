@@ -11,13 +11,11 @@ set -eu -o pipefail
 # https://central.sonatype.org/pages/releasing-the-deployment.html
 # https://central.sonatype.org/publish/publish-maven/
 
+# We've opted not to deploy fhir-tools
+
 # fhir-examples
 export BUILD_PROFILES="deploy-to-sonatype"
 mvn -T2C deploy -f fhir-examples -P "${BUILD_PROFILES}" -DskipTests
-
-# fhir-tools
-export BUILD_PROFILES="deploy-to-sonatype"
-mvn -T2C deploy -f fhir-tools -P "${BUILD_PROFILES}" -DskipTests
 
 # fhir-parent
 export BUILD_PROFILES="deploy-to-sonatype"
