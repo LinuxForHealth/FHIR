@@ -55,7 +55,7 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v2.2.3
       with:
-        name: release-${{ github.tag }}
+        name: release-tag
         path: |
           build/release/workarea/release_files
         if-no-files-found: ignore

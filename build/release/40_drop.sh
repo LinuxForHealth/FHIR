@@ -8,6 +8,6 @@ set -eu -o pipefail
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-bash build/release/bin/40_drop/0_drop.sh
+bash ${WORKSPACE}/build/release/bin/40_drop/0_drop.sh
 
 # EOF

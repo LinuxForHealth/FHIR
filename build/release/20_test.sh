@@ -8,7 +8,7 @@ set -eu -o pipefail
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-bash build/release/bin/20_test/0_check_dependency_security.sh
-bash build/release/bin/20_test/1_code_coverage.sh
+bash ${WORKSPACE}/build/release/bin/20_test/0_check_dependency_security.sh
+bash ${WORKSPACE}/build/release/bin/20_test/1_code_coverage.sh
 
 # EOF

@@ -8,9 +8,9 @@ set -eu -o pipefail
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-bash build/release/bin/30_release/0_sonatype.sh
+bash ${WORKSPACE}/build/release/bin/30_release/0_sonatype.sh
 
 # This should always be last
-bash build/release/bin/30_release/1_dockerhub.sh
+bash ${WORKSPACE}/build/release/bin/30_release/1_dockerhub.sh
 
 # EOF

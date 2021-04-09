@@ -9,8 +9,8 @@
 # build_security_check - Security check from a Project PATH
 # Reference https://github.com/victims/maven-security-versions
 function build_security_check { 
-    mkdir -p build/release/workarea/release_files/
-    SEC_LOGS="build/release/workarea/release_files/fhir-parent-build_security_check.log"
+    mkdir -p ${WORKSPACE}/build/release/workarea/release_files/
+    SEC_LOGS="${WORKSPACE}/build/release/workarea/release_files/fhir-parent-build_security_check.log"
     mvn com.redhat.victims.maven:security-versions:check -f "fhir-parent" --log-file "${SEC_LOGS}"
 
     echo "[Report]: "

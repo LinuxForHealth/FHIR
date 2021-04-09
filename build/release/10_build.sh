@@ -8,9 +8,9 @@ set -eu -o pipefail
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-bash build/release/bin/10_build/0_cache.sh
-bash build/release/bin/10_build/1_clean.sh
-bash build/release/bin/10_build/2_version.sh
-bash build/release/bin/10_build/3_build.sh
+bash ${WORKSPACE}/build/release/bin/10_build/0_cache.sh
+bash ${WORKSPACE}/build/release/bin/10_build/1_clean.sh
+bash ${WORKSPACE}/build/release/bin/10_build/2_version.sh
+bash ${WORKSPACE}/build/release/bin/10_build/3_build.sh
 
 # EOF

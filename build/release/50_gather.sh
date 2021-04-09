@@ -8,8 +8,8 @@ set -eu -o pipefail
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-bash build/release/bin/50_gather/0_release_commit_details.sh
-bash build/release/bin/50_gather/1_repo.sh
-bash build/release/bin/50_gather/2_codecov.sh
+bash ${WORKSPACE}/build/release/bin/50_gather/0_release_commit_details.sh
+bash ${WORKSPACE}/build/release/bin/50_gather/1_repo.sh
+bash ${WORKSPACE}/build/release/bin/50_gather/2_codecov.sh
 
 # EOF
