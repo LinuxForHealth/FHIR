@@ -1184,7 +1184,7 @@
                             <autoReleaseAfterClose>false</autoReleaseAfterClose>
                         </configuration>
                     </plugin>
-                    <plugin>
+                    <!-- plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-install-plugin</artifactId>
                         <version>3.0.0-M1</version>
@@ -1221,7 +1221,7 @@
                                 </configuration>
                             </execution>
                         </executions>
-                    </plugin>
+                    </plugin-->
                 </plugins>
             </build>
 
