@@ -1387,7 +1387,8 @@ public class FHIROpenApiGenerator {
             } else {
                 definition.add("type", "object");
                 if (Resource.class.equals(modelClass)) {
-                    definition.add("discriminator", "resourceType");
+                    JsonObject discriminator = factory.createObjectBuilder().add("propertyName", "resourceType").build();
+                    definition.add("discriminator", discriminator);
                 }
                 definition.add("properties", properties);
                 if (!requiredArray.isEmpty()) {
