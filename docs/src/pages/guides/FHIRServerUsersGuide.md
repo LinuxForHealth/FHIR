@@ -1953,7 +1953,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/capabilityStatementCacheTimeout`|integer|The number of minutes that a tenant's CapabilityStatement is cached for the metadata endpoint. |
 |`fhirServer/core/extendedCodeableConceptValidation`|boolean|A boolean flag which indicates whether extended validation is performed by the server during object construction for code, Coding, CodeableConcept, Quantity, Uri, and String elements which have required bindings to value sets.|
 |`fhirServer/core/disabledOperations`|string|A comma-separated list of operations which are not allowed to run on the IBM FHIR Server, for example, `validate,import`. Note, do not include the dollar sign `$`|
-|`fhirServer/core/defaultPageSize`|integer|Sets the pageSize to use in search when no _count parameter is specified in the request. If a user-specified value exceeds the max page size (1000), then a warning is logged and max page size will be used. If not provided, the default page size (10) is used.|
+|`fhirServer/core/defaultPageSize`|integer|Sets the pageSize to use in search and history when no _count parameter is specified in the request. If a user-specified value exceeds the max page size (1000), then a warning is logged and max page size will be used. If not provided, the default page size (10) is used.|
 |`fhirServer/term/graphTermServiceProvider/enabled`|boolean|Indicates whether the graph term service provider should be used by the FHIR term service to access code system content|
 |`fhirServer/term/graphTermServiceProvider/timeLimit`|integer|Graph traversal time limit (in milliseconds)|
 |`fhirServer/term/graphTermServiceProvider/configuration`|object (name/value pairs)|A JSON object that contains the name/value pairs used to configure the graph database behind the graph term service provider see: [https://docs.janusgraph.org/basics/configuration-reference/](https://docs.janusgraph.org/basics/configuration-reference/)|
@@ -2081,6 +2081,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/conditionalDeleteMaxNumber`|10|
 |`fhirServer/core/capabilityStatementCacheTimeout`|60|
 |`fhirServer/core/extendedCodeableConceptValidation`|true|
+|`fhirServer/core/defaultPageSize`|10|
 |`fhirServer/term/graphTermServiceProvider/enabled`|false|
 |`fhirServer/term/graphTermServiceProvider/timeLimit`|90000|
 |`fhirServer/resources/open`|true|
@@ -2193,6 +2194,7 @@ must restart the server for that change to take effect.
 |`fhirServer/core/capabilityStatementCacheTimeout`|Y|Y|
 |`fhirServer/core/extendedCodeableConceptValidation`|N|N|
 |`fhirServer/core/disabledOperations`|N|N|
+|`fhirServer/core/defaultPageSize`|Y|Y|
 |`fhirServer/term/graphTermServiceProvider/enabled`|N|N|
 |`fhirServer/term/graphTermServiceProvider/timeLimit`|N|N|
 |`fhirServer/term/graphTermServiceProvider/configuration`|N|N|

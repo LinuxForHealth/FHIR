@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.persistence.context;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
@@ -69,10 +68,8 @@ public class FHIRPersistenceContextFactory {
     public static FHIRHistoryContext createHistoryContext() {
         int pageSize = FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_DEFAULT_PAGE_SIZE, FHIRConstants.FHIR_PAGE_SIZE_DEFAULT);
         if (pageSize > SearchConstants.MAX_PAGE_SIZE) {
-            if (log.isLoggable(Level.WARNING)) {
-                log.warning(String.format("Server configuration %s = %d exceeds maximum allowed page size %d; using %d",
-                    FHIRConfiguration.PROPERTY_DEFAULT_PAGE_SIZE, pageSize, SearchConstants.MAX_PAGE_SIZE, SearchConstants.MAX_PAGE_SIZE));
-            }
+            log.warning(String.format("Server configuration %s = %d exceeds maximum allowed page size %d; using %d",
+                FHIRConfiguration.PROPERTY_DEFAULT_PAGE_SIZE, pageSize, SearchConstants.MAX_PAGE_SIZE, SearchConstants.MAX_PAGE_SIZE));
             pageSize = SearchConstants.MAX_PAGE_SIZE;
         }
         
