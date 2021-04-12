@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2021-04-06 12:00:00 -0400
+date:   2021-04-08
 permalink: /conformance/
 ---
 
@@ -321,8 +321,6 @@ Type operations are invoked at `[base]/[resourceType]/$[operation]`
 | [$document](https://hl7.org/fhir/R4/operation-composition-document.html) | Composition | Generate a document | Prototype-level implementation |
 | [$apply](https://hl7.org/fhir/R4/operation-plandefinition-apply.html) | PlanDefinition | Applies a PlanDefinition to a given context | A prototype implementation that performs naive conversion |
 | [$everything](https://www.hl7.org/fhir/operation-patient-everything.html) | Patient | Obtain all resources pertaining to a patient | Current implementation supports obtaining all resources for a patient up to an aggregate total of 10,000 resources (at which point it is recommended to use the `$export` operation). This implementation does not currently support using the `_since` and `_count` query parameters. Pagination is not currently supported. |
-
-Note: the `$everything` operation is not currently packaged with the IBM FHIR Server. To add it to an existing installation, you must build or download the jar from [Bintray](https://bintray.com/ibm-watson-health/ibm-fhir-server-releases/fhir-operation-everything) and add it to your server's `userlib` directory.
 
 ### Instance operations
 Instance operations are invoked at `[base]/[resourceType]/[id]/$[operation]`

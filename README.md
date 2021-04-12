@@ -13,23 +13,14 @@ Note: The Docker image [ibmcom/ibm-fhir-schematool](https://hub.docker.com/r/ibm
 More information on installing and running the server is available in the User Guide at https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide.
 
 ### Building on top of the IBM FHIR Server Modules
-Each of the IBM FHIR Server modules are published to a public Maven repository on [JFrog Bintray](https://bintray.com/ibm-watson-health/ibm-fhir-server-releases).
+Each of the IBM FHIR Server modules are published to Maven Central [repo](https://repo1.maven.org/maven2/com/ibm/fhir/)
 
-To use the artifacts from a Maven project:
-1. Add the repository to your pom.xml:
+For Version 4.6.1 and earlier, each of the IBM FHIR Server modules are published as an archive of the repository.
 
-    ```
-    <repositories>
-        <repository>
-            <id>ibm-fhir</id>
-            <url>https://dl.bintray.com/ibm-watson-health/ibm-fhir-server-releases</url>
-        </repository>
-        ...
-    ```
+After Version 4.6.1, you may declare the dependency without a repository as it points to [Maven Central] [https://repo1.maven.org/maven2/com/ibm/fhir]
 
-2. Declare the dependencies:
+To use the artifacts from a Maven project, declare the dependencies. For example, to use our visitable, thread-safe FHIR R4 object model (including our high-performance parsers and generators), declare a dependency on the `fhir-model` module:
 
-    For example, to use our visitable, thread-safe FHIR R4 object model (including our high-performance parsers and generators), declare a dependency on the `fhir-model` module:
     ```
     ...
     <dependencies>
@@ -38,6 +29,17 @@ To use the artifacts from a Maven project:
           <artifactId>fhir-model</artifactId>
           <version>${fhir.version}</version>
         </dependency>
+        ...
+    ```
+
+Note, if you are using a local repository or private host, you must add the repository to your pom.xml:
+
+    ```
+    <repositories>
+        <repository>
+            <id>ibm-fhir</id>
+            <url>https://myhost.com/ibm-fhir-server-releases</url>
+        </repository>
         ...
     ```
 
@@ -77,7 +79,7 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |fhir-persistence-schema|Classes for deploying and updating the IBM FHIR Server relational database schema|false|
 |fhir-persistence-jdbc|A relational FHIRPersistence implementation that uses JDBC to store and query FHIR resources|false|
 |fhir-persistence-scout|A scale out persistence layer to store and query FHIR resources *experimental* |false|
-|fhir-persistence-proxy|A custom XADataSource implementation for managing distributed transactions across multiple backends|false|
+|fhir-persistence-proxy|A custom XADataSource implementation for managing distributed transactions across multiple backends **No longer included in build**|false|
 |fhir-provider|JAX-RS Providers for FHIR XML and JSON and related patch formats|false|
 |fhir-notification|[Subscription](https://www.hl7.org/fhir/R4/subscription.html) and notification interfaces and helpers|false|
 |fhir-notification-websocket|A fhir-notification implementation that uses WebSockets as described at https://www.hl7.org/fhir/R4/subscription.html#2.46.7.2 |false|

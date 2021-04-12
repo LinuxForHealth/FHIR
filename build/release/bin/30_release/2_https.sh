@@ -3,12 +3,12 @@
 set -eu -o pipefail
 
 ###############################################################################
-# (C) Copyright IBM Corp. 2020
+# (C) Copyright IBM Corp. 2020, 2021
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-# deploys the binaries to bintray
+# deploys the binaries to HTTPS endpoint
 
 # Store the current directory to reset to
 pushd $(pwd) > /dev/null
@@ -33,19 +33,8 @@ popd > /dev/null
 ###############################################################################
 # Function Declarations:
 
-# deploy_bintray - executes mvn with a set of goals
-function deploy_bintray {
-    announce "${FUNCNAME[0]}"
-    PROJECT_PATH="$1"
-    PROFILES="-Pdeploy-bintray,fhir-javadocs"
-    TYPE="${2}"
-
-    mvn ${THREAD_COUNT} -ntp -B ${PROFILES} deploy -f ${PROJECT_PATH} -Dbintray.repo=ibm-fhir-server-${TYPE} -DskipTests -s build/release/.m2/settings.xml -Dmaven.wagon.http.retryHandler.count=3
-    check_and_fail $? "${FUNCNAME[0]} - stopped - ${PROJECT_PATH}"
-}
-
-# upload_to_bintray - uploads to bintray
-function upload_to_bintray {
+# upload_to_https - uploads to HTTPS
+function upload_to_https {
     TYPE="releases"
     MODULE="${1}"
     FILE="${2}"
@@ -55,7 +44,7 @@ function upload_to_bintray {
     echo " "
     echo "Uploading: [${MODULE}][${FILE}]"
     
-    STATUS=$(curl -T "${FILE}" -u${BINTRAY_USERNAME}:${BINTRAY_PASSWORD} -H "X-Bintray-Package:${MODULE}" -H "X-Bintray-Version:${BUILD_VERSION}" https://api.bintray.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o ${OUTPUT_FILE} -w '%{http_code}')
+    STATUS=$(curl -T "${FILE}" -u${HTTPS_USERNAME}:${HTTPS_PASSWORD} -H "X-HTTPS-Package:${MODULE}" -H "X-HTTPS-Version:${BUILD_VERSION}" https://api.HTTPS.com/content/ibm-watson-health/ibm-fhir-server-${TYPE}${FILE_TARGET_PATH} -o ${OUTPUT_FILE} -w '%{http_code}')
     if [ "${STATUS}" -ne "201" ]
     then 
         echo "Debug Information for Upload Failure" 
@@ -84,7 +73,7 @@ function deploy_via_curl {
         then
             FILE="${POM_FILE}"
             FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/${MODULE}-${BUILD_VERSION}.pom"
-            upload_to_bintray "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
+            upload_to_https "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
         fi
 
         # Sources
@@ -92,7 +81,7 @@ function deploy_via_curl {
         do
             FILE="${PROJ}/${SOURCES_JAR}"
             FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/${MODULE}-${BUILD_VERSION}-sources.jar"
-            upload_to_bintray "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
+            upload_to_https "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
         done 
 
         # JavaDoc
@@ -100,7 +89,7 @@ function deploy_via_curl {
         do
             FILE="${PROJ}/${JAVADOC_JAR}"
             FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/${MODULE}-${BUILD_VERSION}-javadoc.jar"
-            upload_to_bintray "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
+            upload_to_https "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
         done
 
         # Tests Jar
@@ -108,7 +97,7 @@ function deploy_via_curl {
         do
             FILE="${PROJ}/${TESTS_JAR}"
             FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/${MODULE}-${BUILD_VERSION}-tests.jar"
-            upload_to_bintray "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
+            upload_to_https "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
         done
 
         # The following files have potentials for MULTIPLE matching files. 
@@ -117,7 +106,7 @@ function deploy_via_curl {
         do
             FILE="${PROJ}/${JAR}"
             FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/${JAR}"
-            upload_to_bintray "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
+            upload_to_https "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
         done
 
         echo "Finished Upload for [${MODULE}]"
@@ -132,12 +121,12 @@ function deploy_zip_files {
     FILE=fhir-cli/target/fhir-cli.zip
     MODULE=fhir-cli
     FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/fhir-cli.zip"
-    upload_to_bintray "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
+    upload_to_https "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
     
     FILE=fhir-validation/target/fhir-validation-distribution.zip
     MODULE=fhir-validation
     FILE_TARGET_PATH="/com/ibm/fhir/${MODULE}/${BUILD_VERSION}/fhir-validation-distribution.zip"
-    upload_to_bintray "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
+    upload_to_https "${MODULE}" "${FILE}" "${FILE_TARGET_PATH}"
 }
 
 ###############################################################################

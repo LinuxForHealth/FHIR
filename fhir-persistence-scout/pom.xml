@@ -10,11 +10,12 @@
         <version>4.7.0-SNAPSHOT</version>
         <relativePath>../fhir-parent</relativePath>
     </parent>
-    
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
-    
+
     <build>
         <plugins>
             <plugin>

@@ -51,7 +51,7 @@ public interface ExportImportBulkData {
      * @param inputFormat
      * @param inputSource
      * @param inputs
-     * @param storageDetail
+     * @param storageDetails
      * @param operationContext used to signal a non-standard response
      * @return
      * @throws FHIROperationException
