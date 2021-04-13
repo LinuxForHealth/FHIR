@@ -12,12 +12,16 @@ import java.time.Instant;
 import com.ibm.fhir.database.utils.query.Alias;
 import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.database.utils.query.WhereFragment;
+import com.ibm.fhir.database.utils.query.node.ACosExpNode;
 import com.ibm.fhir.database.utils.query.node.BigDecimalBindMarkerNode;
 import com.ibm.fhir.database.utils.query.node.BindMarkerNode;
+import com.ibm.fhir.database.utils.query.node.CosExpNode;
 import com.ibm.fhir.database.utils.query.node.DoubleBindMarkerNode;
+import com.ibm.fhir.database.utils.query.node.ExpNode;
 import com.ibm.fhir.database.utils.query.node.InstantBindMarkerNode;
 import com.ibm.fhir.database.utils.query.node.IntegerBindMarkerNode;
 import com.ibm.fhir.database.utils.query.node.LongBindMarkerNode;
+import com.ibm.fhir.database.utils.query.node.SinExpNode;
 import com.ibm.fhir.database.utils.query.node.StringBindMarkerNode;
 
 /**
@@ -114,7 +118,19 @@ public class ExpressionUtils {
         return new InstantBindMarkerNode(value);
     }
 
-    public static BigDecimalBindMarkerNode bind(BigDecimal value) {
+    public static BindMarkerNode bind(BigDecimal value) {
         return new BigDecimalBindMarkerNode(value);
+    }
+
+    public static ExpNode sin(ExpNode arg) {
+        return new SinExpNode(arg);
+    }
+
+    public static ExpNode cos(ExpNode arg) {
+        return new CosExpNode(arg);
+    }
+
+    public static ExpNode acos(ExpNode arg) {
+        return new ACosExpNode(arg);
     }
 }

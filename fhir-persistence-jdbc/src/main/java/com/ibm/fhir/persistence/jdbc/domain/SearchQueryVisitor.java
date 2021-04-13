@@ -80,6 +80,16 @@ public interface SearchQueryVisitor<T> {
     public T addDateParam(T queryData, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException;
 
     /**
+     * Filter the query using the given reference parameter
+     * @param queryData
+     * @param resourceType
+     * @param queryParm
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    public T addReferenceParam(T queryData, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException;
+
+    /**
      * Filter the query using the given location (lat/lng) param
      * @param queryData
      * @param resourceType

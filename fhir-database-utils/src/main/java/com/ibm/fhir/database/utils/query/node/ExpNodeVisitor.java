@@ -72,4 +72,25 @@ public interface ExpNodeVisitor<T> {
      * @return
      */
     T bindMarker(BigDecimal value);
+
+    /**
+     * SQL COS function
+     * @param arg
+     * @return
+     */
+    T cos(T arg);
+
+    /**
+     * SQL ACOS function
+     * @param arg
+     * @return
+     */
+    T acos(T arg);
+
+    /**
+     * SQL SIN function
+     * @param arg
+     * @return
+     */
+    T sin(T arg);
 }

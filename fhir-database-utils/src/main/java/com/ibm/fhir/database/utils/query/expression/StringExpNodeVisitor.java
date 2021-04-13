@@ -350,4 +350,31 @@ public class StringExpNodeVisitor implements ExpNodeVisitor<String> {
         }
         return "?";
    }
+
+    @Override
+    public String cos(String arg) {
+        StringBuilder result = new StringBuilder();
+        result.append("COS(");
+        result.append(arg);
+        result.append(")");
+        return result.toString();
+    }
+
+    @Override
+    public String acos(String arg) {
+        StringBuilder result = new StringBuilder();
+        result.append("ACOS(");
+        result.append(arg);
+        result.append(")");
+        return result.toString();
+    }
+
+    @Override
+    public String sin(String arg) {
+        StringBuilder result = new StringBuilder();
+        result.append("SIN(");
+        result.append(arg);
+        result.append(")");
+        return result.toString();
+    }
 }

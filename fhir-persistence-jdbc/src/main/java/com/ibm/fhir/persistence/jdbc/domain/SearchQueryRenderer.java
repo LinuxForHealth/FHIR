@@ -11,6 +11,8 @@ import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.bind;
 import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.col;
 import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.on;
 import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.string;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.CODE_SYSTEM_ID;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMMON_TOKEN_VALUE_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_PERCENT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_UNDERSCORE;
@@ -22,11 +24,14 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LTE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PERCENT_WILDCARD;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.TOKEN_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNDERSCORE_WILDCARD;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants._LOGICAL_RESOURCES;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants._RESOURCES;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.modifierOperatorMap;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,10 +47,15 @@ import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.util.NewUriModifierUtil;
 import com.ibm.fhir.persistence.jdbc.util.SqlParameterEncoder;
 import com.ibm.fhir.persistence.jdbc.util.type.NewDateParmBehaviorUtil;
+import com.ibm.fhir.persistence.jdbc.util.type.NewLocationParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.NewNumberParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.NewQuantityParmBehaviorUtil;
+import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Type;
+import com.ibm.fhir.search.exception.FHIRSearchException;
+import com.ibm.fhir.search.location.NearLocationHandler;
+import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.util.SearchUtil;
@@ -672,7 +682,29 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
 
     @Override
     public QueryData addLocationParam(QueryData queryData, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException {
-        return null;
+        final String parameterName = queryParm.getCode();
+        final int aliasIndex = queryData.getParameterAlias() + 1;
+        final SelectAdapter query = queryData.getQuery();
+        final String dateValues = resourceType + "_LATLNG_VALUES";
+        final String paramAlias = getParamAlias(aliasIndex);
+        final String lrAlias = getLRAlias(aliasIndex-1);
+        final long parameterNameId = getParameterNameId(parameterName);
+        SelectAdapter exists = Select.select("1");
+        exists.from(dateValues, alias(paramAlias))
+                .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
+                .and(paramAlias, "PARAMETER_NAME_ID").eq(parameterNameId)
+                ;
+
+        final String parameterNameFilter = paramAlias + ".PARAMETER_NAME_ID = " + parameterNameId;
+
+        // add the filter predicate to the exists where clause
+        addLocationFilter(exists, queryParm, paramAlias, parameterNameFilter);
+
+        // Add the exists sub-query we just built to the where clause of the main query
+        query.from().where().and().exists(exists.build());
+
+        // Return the exists sub-query in case there's a need to recurse lower
+        return new QueryData(exists, aliasIndex);
     }
 
     /**
@@ -681,7 +713,17 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
      * @param queryParm
      * @param paramAlias
      */
-    protected void addLocationFilter(SelectAdapter exists, QueryParameter queryParm, String paramAlias) {
+    protected void addLocationFilter(SelectAdapter exists, QueryParameter queryParm, String paramAlias, String populateNameIdSubSegment) throws FHIRPersistenceException {
+        NearLocationHandler handler = new NearLocationHandler();
+        List<Bounding> boundingAreas;
+        try {
+            boundingAreas = handler.generateLocationPositionsFromParameters(Arrays.asList(queryParm));
+        } catch (FHIRSearchException e) {
+            throw new FHIRPersistenceException("input parameter is invalid bounding area, bad prefix, or bad units", e);
+        }
+
+        NewLocationParmBehaviorUtil behaviorUtil = new NewLocationParmBehaviorUtil();
+        behaviorUtil.buildLocationSearchQuery(populateNameIdSubSegment.toString(), exists, boundingAreas, paramAlias);
     }
 
     /**
@@ -737,6 +779,124 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             col = null;
             break;
         }
+    }
+
+
+    @Override
+    public QueryData addReferenceParam(QueryData queryData, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException {
+        // TODO align with addTokenParam
+        // Attach an exists clause to the query
+        final String parameterName = queryParm.getCode();
+        final int aliasIndex = queryData.getParameterAlias() + 1;
+        final SelectAdapter query = queryData.getQuery();
+        final String xxTokenValues = resourceType + "_TOKEN_VALUES_V";
+        final String paramAlias = "P" + aliasIndex;
+        final String lrAlias = "LR" + (aliasIndex-1);
+        SelectAdapter exists = Select.select("1");
+        exists.from(xxTokenValues, alias(paramAlias))
+                .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
+                .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
+                ;
+
+        // add the filter predicate to the exists where clause
+        addReferenceFilter(exists, queryParm, paramAlias);
+
+        // Add the exists sub-query we just built to the where clause of the main query
+        query.from().where().and().exists(exists.build());
+
+        // Return the exists sub-query in case there's a need to recurse lower
+        return new QueryData(exists, aliasIndex);
+
+    }
+
+    /**
+     * Add the filter predicate to the given sub-select
+     * @param exists
+     * @param queryParm
+     * @param paramAlias
+     * @throws FHIRPersistenceException
+     */
+    protected void addReferenceFilter(SelectAdapter exists, QueryParameter queryParm, String paramAlias) throws FHIRPersistenceException {
+        WhereAdapter whereClause = exists.from().where();
+        whereClause.and().leftParen();
+        Operator operator = getOperator(queryParm, EQ);
+
+        String searchValue;
+
+        // We no longer build the query directly here. Instead we just want to build a logical model
+        // which can be easily translated into a query.
+        boolean parmValueProcessed = false;
+        for (QueryParameterValue value : queryParm.getValues()) {
+            String targetResourceType = null;
+            searchValue = SqlParameterEncoder.encode(value.getValueString());
+
+            // Make sure we split out the resource type if it is included in the search value
+            String[] parts = value.getValueString().split("/");
+            if (parts.length == 2) {
+                targetResourceType = parts[0];
+                searchValue = parts[1];
+            }
+
+            // Handle query parm representing this name/value pair construct:
+            // <code>{name}:{Resource Type} = {resource-id}</code>
+            if (queryParm.getModifier() != null && queryParm.getModifier().equals(Modifier.TYPE)) {
+                if (!SearchConstants.Type.REFERENCE.equals(queryParm.getType())) {
+                    // Not a Reference
+                    searchValue =
+                            queryParm.getModifierResourceTypeName() + "/"
+                                    + SqlParameterEncoder.encode(value.getValueString());
+                } else {
+                    // This is a Reference type.
+                    if (parts.length != 2) {
+                        // fallback to get the target resource type using the modifier
+                        targetResourceType = queryParm.getModifierResourceTypeName();
+                    }
+                }
+            }
+
+            // If multiple values are present, we need to OR them together.
+            if (parmValueProcessed) {
+                whereClause.or();
+            } else {
+                parmValueProcessed = true;
+            }
+
+            // If the predicate includes a code-system it will resolve to a single value from
+            // common_token_values. It helps the query optimizer if we include this additional
+            // filter because it can make better cardinality estimates.
+            Long commonTokenValueId = null;
+            if (operator == Operator.EQ && targetResourceType != null) {
+                // targetResourceType is treated as the code-system for references
+                commonTokenValueId = this.identityCache.getCommonTokenValueId(targetResourceType, searchValue);
+            }
+
+            // Build this piece: pX.token_value {operator} search-attribute-value [ AND pX.code_system_id = <n> ]
+            whereClause.col(paramAlias, TOKEN_VALUE).operator(operator).bind(searchValue);
+
+            // add the [optional] condition for the resource type if we have one
+            if (commonTokenValueId != null) {
+                // #1929 improves cardinality estimation
+                // resulting in far better execution plans for many search queries. Because COMMON_TOKEN_VALUE_ID
+                // is the primary key for the common_token_values table, we don't need the CODE_SYSTEM_ID = ? predicate.
+                whereClause.and().col(paramAlias, COMMON_TOKEN_VALUE_ID).eq(commonTokenValueId); // use literal
+            } else if (targetResourceType != null) {
+                // For better performance, use a literal for the resource type code-system-id, not a parameter marker
+                Integer codeSystemIdForResourceType = getCodeSystemId(targetResourceType);
+                whereClause.and(paramAlias, CODE_SYSTEM_ID).eq(nullCheck(codeSystemIdForResourceType));
+            }
+        }
+
+        whereClause.rightParen();
+    }
+
+    /**
+     * Use -1 as a simple substitute for null literal ids because we know -1 will never exist
+     * as a value in the database (for fields populated by sequence values).
+     * @param value
+     * @return
+     */
+    private int nullCheck(Integer value) {
+        return value == null ? -1 : value;
     }
 
     /**
@@ -800,5 +960,38 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         }
 
         return result;
+    }
+
+
+    /**
+     * Map the Modifier in the passed Parameter to a supported query operator. If
+     * the mapping results in the default
+     * operator, override the default operator with the passed operator if the
+     * passed operator is not null.
+     *
+     * @param queryParm
+     *                        - A valid query Parameter.
+     * @param defaultOverride
+     *                        - An operator that should override the default
+     *                        operator.
+     * @return A supported operator.
+     */
+    protected Operator getOperator(QueryParameter queryParm, String defaultOverride) {
+        String operator = defaultOverride;
+        Modifier modifier = queryParm.getModifier();
+
+        if (modifier != null) {
+            operator = modifierOperatorMap.get(modifier);
+        }
+
+        if (operator == null) {
+            if (defaultOverride != null) {
+                operator = defaultOverride;
+            } else {
+                operator = LIKE;
+            }
+        }
+
+        return convert(operator);
     }
 }
