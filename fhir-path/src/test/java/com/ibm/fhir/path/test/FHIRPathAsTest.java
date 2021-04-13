@@ -54,11 +54,11 @@ public class FHIRPathAsTest {
     @Test
     void testResolveAsOperation() throws Exception {
         Patient patient = Patient.builder()
-                                 .generalPractitioner(Reference.builder().reference(string("http://example.com/Practitioner/1234")).build())
+                                 .generalPractitioner(Reference.builder().reference(string("http://example.com/dummyReference")).build())
                                  .build();
 
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
-        Collection<FHIRPathNode> result = evaluator.evaluate(patient, "Patient.generalPractitioner.resolve() as Practitioner");
+        Collection<FHIRPathNode> result = evaluator.evaluate(patient, "Patient.generalPractitioner.resolve() as Basic");
 
         assertEquals(result.size(), 1, "Number of selected nodes");
     }
