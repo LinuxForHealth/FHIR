@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.database.utils.query.expression;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
@@ -18,7 +19,6 @@ public interface BindMarkerNodeVisitor {
     /**
      * Bind the given value for the idx'th parameter. The idx value
      * starts at 1, matching the semantics of the PreparedStatement setXX API.
-     * @param idx
      * @param value
      * @throws DataAccessException
      */
@@ -36,7 +36,6 @@ public interface BindMarkerNodeVisitor {
     /**
      * Bind the given value for the idx'th parameter. The idx value
      * starts at 1, matching the semantics of the PreparedStatement setXX API.
-     * @param idx
      * @param value
      * @throws DataAccessException
      */
@@ -45,7 +44,6 @@ public interface BindMarkerNodeVisitor {
     /**
      * Bind the given value for the idx'th parameter. The idx value
      * starts at 1, matching the semantics of the PreparedStatement setXX API.
-     * @param idx
      * @param value
      * @throws DataAccessException
      */
@@ -54,9 +52,17 @@ public interface BindMarkerNodeVisitor {
     /**
      * Bind the given value for the idx'th parameter. The idx value
      * starts at 1, matching the semantics of the PreparedStatement setXX API.
-     * @param idx
      * @param value
      * @throws DataAccessException
      */
     void bindDouble(Double value);
+
+    /**
+     * Bind the given value for the idx'th parameter. The idx value
+     * starts at 1, matching the semantics of the PreparedStatement setXX API.
+     * @param value
+     * @throws DataAccessException
+     * @param value
+     */
+    void bindBigDecimal(BigDecimal value);
 }

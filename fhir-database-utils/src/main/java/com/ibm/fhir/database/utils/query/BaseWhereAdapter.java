@@ -6,14 +6,16 @@
 
 package com.ibm.fhir.database.utils.query;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 
 import com.ibm.fhir.database.utils.query.expression.ColumnRef;
 import com.ibm.fhir.database.utils.query.expression.LiteralString;
+import com.ibm.fhir.database.utils.query.node.BigDecimalBindMarkerNode;
 import com.ibm.fhir.database.utils.query.node.BindMarkerNode;
-import com.ibm.fhir.database.utils.query.node.ColumnExpNode;
+import com.ibm.fhir.database.utils.query.node.CoalesceExpNode;
 import com.ibm.fhir.database.utils.query.node.ExistsExpNode;
 import com.ibm.fhir.database.utils.query.node.ExpNode;
 import com.ibm.fhir.database.utils.query.node.InstantBindMarkerNode;
@@ -265,6 +267,11 @@ public abstract class BaseWhereAdapter<T> {
     }
 
     // ### GREATER THAN ###
+    public T gt() {
+        predicateParser.gt();
+        return getThis();
+    }
+
     public T gt(ColumnRef ref) {
         predicateParser.gt();
         predicateParser.column(ref.toString());
@@ -296,6 +303,11 @@ public abstract class BaseWhereAdapter<T> {
     }
 
     // ### GREATER THAN EQUAL ###
+    public T gte() {
+        predicateParser.gte();
+        return getThis();
+    }
+
     public T gte(ColumnRef ref) {
         predicateParser.gte();
         predicateParser.column(ref.toString());
@@ -327,6 +339,11 @@ public abstract class BaseWhereAdapter<T> {
     }
 
     // ### LESS THAN ###
+    public T lt() {
+        predicateParser.lt();
+        return getThis();
+    }
+
     public T lt(ColumnRef ref) {
         predicateParser.lt();
         predicateParser.column(ref.toString());
@@ -358,6 +375,11 @@ public abstract class BaseWhereAdapter<T> {
     }
 
     // ### LESS THAN EQUAL ###
+    public T lte() {
+        predicateParser.lte();
+        return getThis();
+    }
+
     public T lte(ColumnRef ref) {
         predicateParser.lte();
         predicateParser.column(ref.toString());
@@ -421,8 +443,19 @@ public abstract class BaseWhereAdapter<T> {
      * @return
      */
     public T notExists(Select correlatedSubSelect) {
-        ColumnExpNode sub = new ColumnExpNode(correlatedSubSelect.toString());
+        SelectExpNode sub = new SelectExpNode(correlatedSubSelect);
         predicateParser.addToken(new NotExistsExpNode(sub));
+        return getThis();
+    }
+
+    /**
+     * Add a COALESCE(c1, c2, ...) function. These should actually be column
+     * expressions, but for now we only need to model them as table.col values
+     * @param columnRefs
+     * @return
+     */
+    public T coalesce(ColumnRef... columnRefs) {
+        predicateParser.addToken(new CoalesceExpNode(columnRefs));
         return getThis();
     }
 
@@ -579,6 +612,11 @@ public abstract class BaseWhereAdapter<T> {
 
     public T bind(Instant param) {
         predicateParser.bindMarker(new InstantBindMarkerNode(param));
+        return getThis();
+    }
+
+    public T bind(BigDecimal value) {
+        predicateParser.bindMarker(new BigDecimalBindMarkerNode(value));
         return getThis();
     }
 

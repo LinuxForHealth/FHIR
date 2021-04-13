@@ -6,10 +6,13 @@
 
 package com.ibm.fhir.database.utils.query.expression;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 import com.ibm.fhir.database.utils.query.Alias;
 import com.ibm.fhir.database.utils.query.Select;
+import com.ibm.fhir.database.utils.query.WhereFragment;
+import com.ibm.fhir.database.utils.query.node.BigDecimalBindMarkerNode;
 import com.ibm.fhir.database.utils.query.node.BindMarkerNode;
 import com.ibm.fhir.database.utils.query.node.DoubleBindMarkerNode;
 import com.ibm.fhir.database.utils.query.node.InstantBindMarkerNode;
@@ -32,16 +35,16 @@ public class ExpressionUtils {
         return new PredicateAdapter();
     }
 
-    public static PredicateAdapter on(String col) {
-        PredicateAdapter pa = new PredicateAdapter();
-        pa.col(col);
-        return pa;
+    public static WhereFragment on(String col) {
+        WhereFragment where = new WhereFragment();
+        where.col(col);
+        return where;
     }
 
-    public static PredicateAdapter on(String tableAlias, String col) {
-        PredicateAdapter pa = new PredicateAdapter();
-        pa.col(tableAlias, col);
-        return pa;
+    public static WhereFragment on(String tableAlias, String col) {
+        WhereFragment where = new WhereFragment();
+        where.col(tableAlias, col);
+        return where;
     }
 
     /**
@@ -72,6 +75,10 @@ public class ExpressionUtils {
      */
     public static ColumnRef col(String ref) {
         return new ColumnRef(ref);
+    }
+
+    public static ColumnRef col(String alias, String name) {
+        return new ColumnRef(alias + "." + name);
     }
 
     /**
@@ -105,5 +112,9 @@ public class ExpressionUtils {
 
     public static BindMarkerNode bind(Instant value) {
         return new InstantBindMarkerNode(value);
+    }
+
+    public static BigDecimalBindMarkerNode bind(BigDecimal value) {
+        return new BigDecimalBindMarkerNode(value);
     }
 }
