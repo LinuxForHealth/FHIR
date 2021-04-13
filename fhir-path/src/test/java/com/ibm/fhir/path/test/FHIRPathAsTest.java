@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,10 +34,10 @@ public class FHIRPathAsTest {
 
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         Collection<FHIRPathNode> result = evaluator.evaluate(patient, "Patient.deceased as dateTime");
-        
+
         assertEquals(result.size(), 0, "Number of selected nodes");
     }
-    
+
     @Test
     void testAsFunction() throws Exception {
         Condition condition = Condition.builder()
@@ -47,29 +47,29 @@ public class FHIRPathAsTest {
 
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         Collection<FHIRPathNode> result = evaluator.evaluate(condition, "Condition.onset.as(Age) | Condition.onset.as(Range)");
-        
+
         assertEquals(result.size(), 0, "Number of selected nodes");
     }
-    
+
     @Test
     void testResolveAsOperation() throws Exception {
         Patient patient = Patient.builder()
-                                 .generalPractitioner(Reference.builder().reference(string("http://example.com/dummyReference")).build())
+                                 .generalPractitioner(Reference.builder().reference(string("http://example.com/Practitioner/1234")).build())
                                  .build();
 
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
-        Collection<FHIRPathNode> result = evaluator.evaluate(patient, "Patient.generalPractitioner.resolve() as Basic");
+        Collection<FHIRPathNode> result = evaluator.evaluate(patient, "Patient.generalPractitioner.resolve() as Practitioner");
 
         assertEquals(result.size(), 1, "Number of selected nodes");
     }
-    
+
     @Test
     void testArrayAsOperation() throws Exception {
         Observation.Component component = Observation.Component.builder()
                 .code(CodeableConcept.builder().text(string("value")).build())
                 .value(Quantity.builder().value(Decimal.of(1)).build())
                 .build();
-        
+
         Observation obs = Observation.builder()
                 .status(ObservationStatus.AMENDED)
                 .code(CodeableConcept.builder().text(string("value")).build())
@@ -79,7 +79,7 @@ public class FHIRPathAsTest {
 
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         Collection<FHIRPathNode> result = evaluator.evaluate(obs, "Observation.component.value as Quantity");
-        
+
         assertEquals(result.size(), 2, "Number of selected nodes");
     }
 }

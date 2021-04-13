@@ -12,9 +12,11 @@ import static org.testng.AssertJUnit.assertNotNull;
 
 import java.util.List;
 
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.resource.Device;
 import com.ibm.fhir.model.resource.Encounter;
 import com.ibm.fhir.model.resource.Observation;
@@ -32,13 +34,14 @@ import com.ibm.fhir.model.util.ModelSupport;
  * There will be a subclass in each persistence project.
  */
 public abstract class AbstractCompartmentTest extends AbstractPersistenceTest {
-    Patient savedPatient;
-    Device savedDevice;
-    Encounter savedEncounter;
-    Practitioner savedPractitioner;
-    RelatedPerson savedRelatedPerson;
-    Observation savedObservation;
-    Observation savedObservation2;
+    private static Patient savedPatient;
+    private static Device savedDevice;
+    private static Encounter savedEncounter;
+    private static Practitioner savedPractitioner;
+    private static RelatedPerson savedRelatedPerson;
+    private static Observation savedObservation;
+    private static Observation savedObservation2;
+    private static boolean checkReferenceTypes = true;
 
     /**
      * Builds and saves an Observation with the following references:
@@ -56,6 +59,8 @@ public abstract class AbstractCompartmentTest extends AbstractPersistenceTest {
      */
     @BeforeClass
     public void createResources() throws Exception {
+        checkReferenceTypes = FHIRModelConfig.getCheckReferenceTypes();
+        FHIRModelConfig.setCheckReferenceTypes(false);
         Observation.Builder observationBuilder = ((Observation) TestUtil.readExampleResource("json/ibm/minimal/Observation-1.json")).toBuilder();
         Observation.Builder observation2Builder = ((Observation) TestUtil.readExampleResource("json/ibm/minimal/Observation-1.json")).toBuilder();
 
@@ -94,6 +99,34 @@ public abstract class AbstractCompartmentTest extends AbstractPersistenceTest {
         assertNotNull(savedObservation2.getMeta());
         assertNotNull(savedObservation2.getMeta().getVersionId().getValue());
         assertEquals("1", savedObservation2.getMeta().getVersionId().getValue());
+    }
+
+    @AfterClass
+    public void deleteResources() throws Exception {
+        Resource[] resources = {savedPatient, savedDevice, savedEncounter, savedPractitioner,
+                savedRelatedPerson, savedObservation, savedObservation2};
+
+        if (persistence.isDeleteSupported()) {
+            if (persistence.isTransactional()) {
+                persistence.getTransaction().begin();
+            }
+
+            try {
+                for (Resource resource : resources) {
+                    persistence.delete(getDefaultPersistenceContext(), resource.getClass(), resource.getId());
+                }
+            } catch (Throwable t) {
+                if (persistence.isTransactional()) {
+                    persistence.getTransaction().setRollbackOnly();
+                }
+                throw t;
+            } finally {
+                if (persistence.isTransactional()) {
+                    persistence.getTransaction().end();
+                }
+            }
+        }
+        FHIRModelConfig.setCheckReferenceTypes(checkReferenceTypes);
     }
 
     private Reference buildReference(Resource resource) {

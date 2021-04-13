@@ -24,6 +24,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.Device;
 import com.ibm.fhir.model.resource.Encounter;
@@ -61,13 +62,16 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
     private static Organization savedOrg1;
     private static Organization savedOrg2;
     private static Organization savedOrg3;
-    Instant now = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static boolean checkReferenceTypes = true;
+    private static Instant now = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     /**
      * Loads up and saves a bunch of resources with various references to one another
      */
     @BeforeClass
     public void createResources() throws Exception {
+        checkReferenceTypes = FHIRModelConfig.getCheckReferenceTypes();
+        FHIRModelConfig.setCheckReferenceTypes(false);
         Organization org = TestUtil.getMinimalResource(ResourceType.ORGANIZATION, Format.JSON);
         Encounter encounter = TestUtil.getMinimalResource(ResourceType.ENCOUNTER, Format.JSON);
         Observation observation = TestUtil.getMinimalResource(ResourceType.OBSERVATION, Format.JSON);
@@ -185,6 +189,7 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
                 }
             }
         }
+        FHIRModelConfig.setCheckReferenceTypes(checkReferenceTypes);
     }
 
     /**

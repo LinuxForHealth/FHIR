@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2021
-lastupdated: "2021-03-10"
+lastupdated: "2021-04-13"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -2594,7 +2594,7 @@ For more information about topics related to configuring a FHIR server, see the 
 
 - <b id="f5">5</b>
 
-    An external reference is a reference to a resource which is meaningful outside a particular request bundle.  The value typically includes the resource type and the resource identifier, and could  be an absolute or relative URL. Examples:  `https://fhirserver1:9443/fhir-server/api/v4/Patient/12345`, `Patient/12345`, etc. [↩](#a5)
+    An external reference is a reference to a resource which is meaningful outside a particular request bundle.  The value typically includes the resource type and the resource identifier, and could be an absolute or relative URL. Examples:  `https://fhirserver1:9443/fhir-server/api/v4/Patient/12345`, `Patient/12345`, etc.  Requiring relative URLs to include a valid resource type can be configured via the `fhirServer/core/checkReferenceTypes` config property. For more information, see [Section 5.1 Configuration properties reference](#51-configuration-properties-reference). [↩](#a5)
 
 - <b id="f6">6</b>
 
