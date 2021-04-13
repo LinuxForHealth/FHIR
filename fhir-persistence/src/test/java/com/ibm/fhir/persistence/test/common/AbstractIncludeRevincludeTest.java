@@ -87,7 +87,7 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         // a Patient that will be used as a reference within an Observation
         savedPatient1 = persistence.create(getDefaultPersistenceContext(), patient).getResource();
 
-        // an Observation with a reference to a patient and reference to another observation
+        // an Observation with a reference to a patient and a logical ID-only reference to another observation
         savedObservation2 = observation.toBuilder()
                                         .subject(reference("Patient/" + savedPatient1.getId()))
                                         .hasMember(reference(savedObservation1.getId()))

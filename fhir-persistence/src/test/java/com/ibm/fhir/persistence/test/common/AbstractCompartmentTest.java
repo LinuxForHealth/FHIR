@@ -68,6 +68,7 @@ public abstract class AbstractCompartmentTest extends AbstractPersistenceTest {
         savedPatient = persistence.create(getDefaultPersistenceContext(), patient).getResource();
         observationBuilder.subject(buildReference(savedPatient));
         observationBuilder.performer(buildReference(savedPatient));
+        // a logical ID-only reference to a patient
         observation2Builder.subject(Reference.builder().reference(string(savedPatient.getId())).build());
 
         Device device = TestUtil.readExampleResource("json/ibm/minimal/Device-1.json");
