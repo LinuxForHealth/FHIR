@@ -13,9 +13,13 @@ import java.util.List;
 
 import com.ibm.fhir.database.utils.query.expression.ColumnRef;
 import com.ibm.fhir.database.utils.query.expression.LiteralString;
+import com.ibm.fhir.database.utils.query.node.ACosExpNode;
 import com.ibm.fhir.database.utils.query.node.BigDecimalBindMarkerNode;
 import com.ibm.fhir.database.utils.query.node.BindMarkerNode;
 import com.ibm.fhir.database.utils.query.node.CoalesceExpNode;
+import com.ibm.fhir.database.utils.query.node.ColumnExpNode;
+import com.ibm.fhir.database.utils.query.node.CosExpNode;
+import com.ibm.fhir.database.utils.query.node.DoubleBindMarkerNode;
 import com.ibm.fhir.database.utils.query.node.ExistsExpNode;
 import com.ibm.fhir.database.utils.query.node.ExpNode;
 import com.ibm.fhir.database.utils.query.node.InstantBindMarkerNode;
@@ -24,6 +28,7 @@ import com.ibm.fhir.database.utils.query.node.LongBindMarkerNode;
 import com.ibm.fhir.database.utils.query.node.NotExistsExpNode;
 import com.ibm.fhir.database.utils.query.node.PredicateParser;
 import com.ibm.fhir.database.utils.query.node.SelectExpNode;
+import com.ibm.fhir.database.utils.query.node.SinExpNode;
 import com.ibm.fhir.database.utils.query.node.StringBindMarkerNode;
 
 /**
@@ -448,6 +453,27 @@ public abstract class BaseWhereAdapter<T> {
         return getThis();
     }
 
+    public T mult() {
+        predicateParser.mult();
+        return getThis();
+    }
+
+    public T add() {
+        predicateParser.add();
+        return getThis();
+    }
+
+    public T sub() {
+        predicateParser.sub();
+        return getThis();
+    }
+
+    public T div() {
+        predicateParser.div();
+        return getThis();
+    }
+
+
     /**
      * Add a COALESCE(c1, c2, ...) function. These should actually be column
      * expressions, but for now we only need to model them as table.col values
@@ -456,6 +482,37 @@ public abstract class BaseWhereAdapter<T> {
      */
     public T coalesce(ColumnRef... columnRefs) {
         predicateParser.addToken(new CoalesceExpNode(columnRefs));
+        return getThis();
+    }
+
+    public T sin(ExpNode arg) {
+        predicateParser.addToken(new SinExpNode(arg));
+        return getThis();
+    }
+
+    public T sin(ColumnRef arg) {
+        predicateParser.addToken(new SinExpNode(new ColumnExpNode(arg.getRef())));
+        return getThis();
+    }
+
+
+    public T cos(ExpNode arg) {
+        predicateParser.addToken(new CosExpNode(arg));
+        return getThis();
+    }
+
+    public T cos(ColumnRef arg) {
+        predicateParser.addToken(new CosExpNode(new ColumnExpNode(arg.getRef())));
+        return getThis();
+    }
+
+    public T acos(ExpNode arg) {
+        predicateParser.addToken(new ACosExpNode(arg));
+        return getThis();
+    }
+
+    public T acos(ColumnRef arg) {
+        predicateParser.addToken(new ACosExpNode(new ColumnExpNode(arg.getRef())));
         return getThis();
     }
 
@@ -607,6 +664,11 @@ public abstract class BaseWhereAdapter<T> {
 
     public T bind(Integer param) {
         predicateParser.bindMarker(new IntegerBindMarkerNode(param));
+        return getThis();
+    }
+
+    public T bind(Double param) {
+        predicateParser.bindMarker(new DoubleBindMarkerNode(param));
         return getThis();
     }
 
