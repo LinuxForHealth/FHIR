@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.database.utils.query;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -151,4 +152,26 @@ public class BindVisitor implements BindMarkerNodeVisitor {
             throw translator.translate(x);
         }
     }
+
+    @Override
+    public void bindBigDecimal(BigDecimal value) {
+        int idx = parameterIndex++;
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("setBigDecimal(" + idx + ", " + value + ")");
+        }
+
+        try {
+            if (value != null) {
+                statement.setBigDecimal(idx, value);
+            } else {
+                statement.setNull(idx, Types.DECIMAL);
+            }
+        } catch (SQLException x) {
+            if (logger.isLoggable(Level.FINER)) {
+                logger.log(Level.FINER, "value=" + value, x);
+            }
+            throw translator.translate(x);
+        }
+    }
+
 }

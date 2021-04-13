@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.database.utils.query;
 
-import com.ibm.fhir.database.utils.query.expression.PredicateAdapter;
 import com.ibm.fhir.database.utils.query.node.ExpNode;
 
 /**
@@ -48,8 +47,8 @@ public class FromAdapter {
         return this;
     }
 
-    public FromAdapter innerJoin(String tableName, Alias alias, PredicateAdapter joinOnPredicate) {
-        this.select.addInnerJoin(tableName, alias, joinOnPredicate.build());
+    public FromAdapter innerJoin(String tableName, Alias alias, WhereFragment joinOnPredicate) {
+        this.select.addInnerJoin(tableName, alias, joinOnPredicate.getExpression());
         return this;
     }
 

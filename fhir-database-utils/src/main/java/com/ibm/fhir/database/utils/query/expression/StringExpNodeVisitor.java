@@ -6,10 +6,13 @@
 
 package com.ibm.fhir.database.utils.query.expression;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.query.Select;
+import com.ibm.fhir.database.utils.query.node.BigDecimalBindMarkerNode;
 import com.ibm.fhir.database.utils.query.node.BindMarkerNode;
 import com.ibm.fhir.database.utils.query.node.DoubleBindMarkerNode;
 import com.ibm.fhir.database.utils.query.node.ExpNode;
@@ -329,4 +332,22 @@ public class StringExpNodeVisitor implements ExpNodeVisitor<String> {
         // simply render the sub-select statement as a string
         return select.toString();
     }
+
+    @Override
+    public String coalesce(List<ColumnRef> columnRefs) {
+        final String argsList = columnRefs.stream().map(Object::toString).collect(Collectors.joining(","));
+        StringBuilder result = new StringBuilder();
+        result.append("COALESCE(");
+        result.append(argsList);
+        result.append(")");
+        return result.toString();
+   }
+
+    @Override
+    public String bindMarker(BigDecimal value) {
+        if (this.bindMarkers != null) {
+            bindMarkers.add(new BigDecimalBindMarkerNode(value));
+        }
+        return "?";
+   }
 }

@@ -49,7 +49,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.query.Select;
-import com.ibm.fhir.database.utils.query.SelectAdapter;
 import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
@@ -58,6 +57,9 @@ import com.ibm.fhir.persistence.jdbc.connection.QueryHints;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
+import com.ibm.fhir.persistence.jdbc.domain.ChainedSearchParam;
+import com.ibm.fhir.persistence.jdbc.domain.MissingSearchParam;
+import com.ibm.fhir.persistence.jdbc.domain.QueryData;
 import com.ibm.fhir.persistence.jdbc.domain.SearchCountQuery;
 import com.ibm.fhir.persistence.jdbc.domain.SearchDataQuery;
 import com.ibm.fhir.persistence.jdbc.domain.SearchQuery;
@@ -205,8 +207,8 @@ public class NewQueryBuilder {
         final int offset = (searchContext.getPageNumber()-1) * searchContext.getPageSize();
         final int rowsPerPage = searchContext.getPageSize();
         SearchQueryRenderer renderer = new SearchQueryRenderer(this.identityCache, offset, rowsPerPage);
-        SelectAdapter sa = domainModel.visit(renderer);
-        return sa.build();
+        QueryData queryData = domainModel.visit(renderer);
+        return queryData.getQuery().build();
     }
 
     /**
@@ -328,7 +330,6 @@ public class NewQueryBuilder {
 
         try {
             if (Modifier.MISSING.equals(queryParm.getModifier())) {
-                // TODO
                 processMissingParm(domainModel, resourceType, queryParm, paramTableAlias, logicalRsrcTableAlias, endOfChain);
             }
             // NOTE: The special logic needed to process NEAR query parms for the Location resource type is
@@ -343,7 +344,7 @@ public class NewQueryBuilder {
                     if (queryParm.isReverseChained()) {
                         processReverseChainedReferenceParm(domainModel, resourceType, queryParm);
                     } else if (queryParm.isChained()) {
-                        processChainedReferenceParm(domainModel, queryParm);
+                        processChainedReferenceParm(domainModel, resourceType, queryParm);
                     } else if (queryParm.isInclusionCriteria()) {
                         // TODO
                         // processInclusionCriteria(domainModel, queryParm);
@@ -626,120 +627,8 @@ public class NewQueryBuilder {
      *                  - A Parameter representing a chained query.
      * @throws Exception
      */
-    protected void processChainedReferenceParm(SearchQuery domainModel, QueryParameter queryParm) throws Exception {
-        final String METHODNAME = "processChainedReferenceParm";
-        log.entering(CLASSNAME, METHODNAME, queryParm.toString());
-
-        QueryParameter currentParm;
-        int refParmIndex = 0;
-        String chainedResourceVar = null;
-        String chainedLogicalResourceVar = null;
-        String chainedParmVar = null;
-        String resourceTypeName = null;
-        StringBuilder whereClauseSegment = new StringBuilder();
-        List<Object> bindVariables = new ArrayList<>();
-        SqlQueryData queryData;
-
-        currentParm = queryParm;
-        while (currentParm != null) {
-            QueryParameter nextParameter = currentParm.getNextParameter();
-            if (nextParameter != null) {
-                if (refParmIndex == 0) {
-                    // Must build this first piece using px placeholder table alias, which will be replaced with a
-                    // generated value in the buildQuery() method. The CODE_SYSTEM_ID filter is added for issue #1366
-                    // due to the normalization of token values
-                    // Build this piece:P1.PARAMETER_NAME_ID = x AND AND P1.CODE_SYSTEM_ID = x AND (p1.TOKEN_VALUE IN
-                    // TODO this.populateNameIdSubSegment(whereClauseSegment, currentParm.getCode(), PARAMETER_TABLE_ALIAS);
-
-                    // The resource type of the reference is encoded as the code system associated with the token value
-                    // so we need to add a filter to ensure we don't match logical-ids for other resource types
-                    // Note if the match is for any resource, we simply don't filter on the resource type
-                    final String codeSystemName = currentParm.getModifierResourceTypeName();
-                    if (codeSystemName != null && !codeSystemName.equals("*")) {
-                        Integer codeSystemId = identityCache.getCodeSystemId(codeSystemName);
-                        whereClauseSegment.append(AND).append(PARAMETER_TABLE_ALIAS).append(DOT).append(CODE_SYSTEM_ID).append(EQ)
-                                .append(nullCheck(codeSystemId));
-                    }
-
-                    whereClauseSegment.append(AND);
-                    whereClauseSegment.append(LEFT_PAREN);
-                    whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(DOT).append(TOKEN_VALUE).append(IN);
-
-                    // Add an object to the model representing the first node in the chain
-                    // currentChainObject =
-                } else {
-                    // Build this piece: CP1.PARAMETER_NAME_ID = x AND CP1.TOKEN_VALUE IN
-                    // currentChainObject = appendMidChainParm(currentChainObject, whereClauseSegment, currentParm, chainedParmVar);
-                }
-
-                refParmIndex++;
-                chainedResourceVar        = CR + refParmIndex;
-                chainedLogicalResourceVar = CLR + refParmIndex;
-                chainedParmVar            = CP + refParmIndex;
-
-                // The * is a wildcard for any resource type. This occurs only in the case where a reference parameter
-                // chain was built to represent a compartment search with chained inclusion criteria that includes a
-                // wildcard.
-                //
-                // For this situation, a separate method is called, and further processing of the chain by this method
-                // is halted.
-                if (currentParm.getModifierResourceTypeName().equals("*")) {
-                    this.processWildcardChainedRefParm(domainModel, currentParm, chainedResourceVar, chainedLogicalResourceVar,
-                            chainedParmVar, whereClauseSegment, bindVariables);
-                    break;
-                }
-                resourceTypeName = currentParm.getModifierResourceTypeName();
-                // Build this piece: (SELECT 'resource-type-name' || '/' || CLRx.LOGICAL_ID ...
-                // since #1366, we no longer need to prepend the resource-type-name
-                whereClauseSegment.append(LEFT_PAREN);
-                appendInnerSelect(whereClauseSegment, currentParm, resourceTypeName,
-                        chainedResourceVar, chainedLogicalResourceVar, chainedParmVar);
-
-//                whereClauseSegment.append(" /* #processChainedReferenceParm-1 */ ");
-//                whereClauseSegment.append(chainedLogicalResourceVar).append(DOT).append(IS_DELETED_NO).append(AND);
-
-            } else {
-                // This logic processes the LAST parameter in the chain.
-                // Build this piece: CPx.PARAMETER_NAME_ID = x AND CPx.TOKEN_VALUE = ?
-                // TODO do we need to filter the code-system here too?
-                if (chainedParmVar == null) {
-                    chainedParmVar = CP + 1;
-                }
-                Class<?> chainedResourceType = ModelSupport.getResourceType(resourceTypeName);
-
-                String code = currentParm.getCode();
-                SqlQueryData sqlQueryData;
-                if ("_id".equals(code)) {
-                    // The code '_id' is only going to be the end of the change as it is a base element.
-                    // We know at this point this is an '_id' and at the tail of the parameter chain
-                    sqlQueryData = buildChainedIdClause(currentParm, chainedParmVar);
-                } else if ("_lastUpdated".equals(code)) {
-                    // Build the rest: (LAST_UPDATED <operator> ?)
-                    LastUpdatedParmBehaviorUtil util = new LastUpdatedParmBehaviorUtil(chainedLogicalResourceVar);
-                    StringBuilder lastUpdatedWhereClause = new StringBuilder();
-                    util.executeBehavior(lastUpdatedWhereClause, currentParm);
-
-                    sqlQueryData = new SqlQueryData(lastUpdatedWhereClause.toString(), util.getBindVariables());
-                        // issue-2011 LAST_UPDATED now in both XXX_resources and XXX_logical_resources so we need an alias
-//                    sqlQueryData = new SqlQueryData(lastUpdatedWhereClause.toString()
-//                        .replaceAll(LastUpdatedParmBehaviorUtil.LAST_UPDATED_COLUMN_NAME,
-//                            chainedLogicalResourceVar + DOT + LastUpdatedParmBehaviorUtil.LAST_UPDATED_COLUMN_NAME), util.getBindVariables());
-                } else {
-                    // TODO
-                    // processQueryParameter(domainModel, chainedResourceType, currentParm, chainedParmVar, chainedLogicalResourceVar, true);
-                }
-            }
-            currentParm = currentParm.getNextParameter();
-        }
-
-        // Finally, ensure the correct number of right parens are inserted to balance the where clause segment.
-        int rightParensRequired = queryParm.getChain().size() + 2;
-        for (int i = 0; i < rightParensRequired; i++) {
-            whereClauseSegment.append(RIGHT_PAREN);
-        }
-
-        // queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
-        log.exiting(CLASSNAME, METHODNAME, whereClauseSegment.toString());
+    protected void processChainedReferenceParm(SearchQuery domainModel, Class<?> resourceType, QueryParameter queryParm) throws Exception {
+        domainModel.add(new ChainedSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
     }
 
     /*
@@ -1197,69 +1086,22 @@ public class NewQueryBuilder {
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
         QueryParameter rootParameter = null;
-
+        // TODO chained inclusions are done as a separate query
         // Transform the passed query parm into a chained parameter representation.
         rootParameter = SearchUtil.parseChainedInclusionCriteria(queryParm);
         // Call method to process the Parameter built by this method as a chained parameter.
-        processChainedReferenceParm(domainModel, rootParameter);
+        // processChainedReferenceParm(domainModel, rootParameter);
 
         log.exiting(CLASSNAME, METHODNAME);
 
     }
 
-    private SqlQueryData processMissingParm(SearchQuery domainModel, Class<?> resourceType, QueryParameter queryParm, String paramTableAlias, String logicalRsrcTableAlias, boolean endOfChain)
+    private void processMissingParm(SearchQuery domainModel, Class<?> resourceType, QueryParameter queryParm, String paramTableAlias, String logicalRsrcTableAlias, boolean endOfChain)
             throws FHIRPersistenceException {
         final String METHODNAME = "processMissingParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
-
-        // boolean to track whether the user has requested the resources missing this parameter (true) or not missing it
-        // (false)
-        Boolean missing = null;
-        for (QueryParameterValue parameterValue : queryParm.getValues()) {
-            if (missing == null) {
-                missing = Boolean.parseBoolean(parameterValue.getValueCode());
-            } else {
-                // multiple values would be very unusual, but I suppose we should handle it like an "or"
-                if (missing != Boolean.parseBoolean(parameterValue.getValueCode())) {
-                    // user has requested both missing and not missing values for this field which makes no sense
-                    log.warning("Processing query with conflicting values for query param with 'missing' modifier");
-                    // TODO: What does returning null do here? We should handle this better.
-                    return null;
-                }
-            }
-        }
-
-        StringBuilder whereClauseSegment = new StringBuilder();
-        if (!endOfChain) {
-            whereClauseSegment.append(WHERE);
-        }
-
-        // Build this piece of the segment. Use EXISTS instead of SELECT DISTINCT for much better performance
-        // missing:     NOT EXISTS (SELECT 1 FROM pTABLE_NAME_PLACEHOLDER AS pX WHERE pX.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID)
-        // not missing:     EXISTS (SELECT 1 FROM pTABLE_NAME_PLACEHOLDER AS pX WHERE pX.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID)
-        if (missing == null || missing) {
-            whereClauseSegment.append(NOT);
-        }
-        whereClauseSegment.append(EXISTS);
-
-        List<Object> bindVariables = new ArrayList<>();
-        if (Type.COMPOSITE.equals(queryParm.getType())) {
-            populateCompositeSelectSubSegment(domainModel, queryParm, resourceType, paramTableAlias, logicalRsrcTableAlias);
-//            whereClauseSegment.append(compositeQueryData.getQueryString());
-//            bindVariables.addAll(compositeQueryData.getBindVariables());
-        } else {
-            // PARAMETER_TABLE_NAME_PLACEHOLDER is replaced by the actual table name for the resource type by QuerySegmentAggregator.buildWhereClause(...)
-            String valuesTable = !ModelSupport.isAbstract(resourceType) ? QuerySegmentAggregator.tableName(resourceType.getSimpleName(), queryParm) : PARAMETER_TABLE_NAME_PLACEHOLDER;
-            String subqueryTableAlias =  endOfChain ? (paramTableAlias + "_param0") : paramTableAlias;
-            whereClauseSegment.append("(SELECT 1 FROM " + valuesTable + AS + subqueryTableAlias + WHERE);
-            this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), subqueryTableAlias);
-            whereClauseSegment.append(AND).append(subqueryTableAlias).append(".LOGICAL_RESOURCE_ID = ").append(logicalRsrcTableAlias).append(".LOGICAL_RESOURCE_ID"); // correlate the [NOT] EXISTS subquery
-            whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
-        }
-
-        SqlQueryData queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
-        log.exiting(CLASSNAME, METHODNAME);
-        return queryData;
+        domainModel.add(new MissingSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
+        log.exiting(CLASSNAME, METHODNAME, queryParm.toString());
     }
 
     /**

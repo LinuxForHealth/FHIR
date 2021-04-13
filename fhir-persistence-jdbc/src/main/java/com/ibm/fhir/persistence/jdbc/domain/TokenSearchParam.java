@@ -6,13 +6,9 @@
 
 package com.ibm.fhir.persistence.jdbc.domain;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.database.utils.query.Operator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
 import com.ibm.fhir.search.parameters.QueryParameter;
 
 /**
@@ -31,20 +27,12 @@ public class TokenSearchParam extends SearchParam {
     }
 
     @Override
-    public <T> T visit(T query, SearchQueryVisitor<T> visitor) throws FHIRPersistenceException {
+    public <T> T visit(T queryData, SearchQueryVisitor<T> visitor) throws FHIRPersistenceException {
 
         QueryParameter queryParm = getQueryParameter();
-        final String METHODNAME = "processTokenParm";
+        final String METHODNAME = "visit";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
-        StringBuilder whereClauseSegment = new StringBuilder();
-        final Operator operator = getOperator();
-        // String operator = this.getOperator(queryParm, EQ);
-        boolean parmValueProcessed = false;
-        SqlQueryData queryData;
-        List<Object> bindVariables = new ArrayList<>();
-
-        // TODO, obviously
-        return visitor.addTokenParam(query, getRootResourceType(), -1, -1L);
+        return visitor.addTokenParam(queryData, getRootResourceType(), queryParm);
     }
 }

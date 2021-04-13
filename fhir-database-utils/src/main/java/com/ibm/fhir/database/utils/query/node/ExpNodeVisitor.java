@@ -6,10 +6,12 @@
 
 package com.ibm.fhir.database.utils.query.node;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 
 import com.ibm.fhir.database.utils.query.Select;
+import com.ibm.fhir.database.utils.query.expression.ColumnRef;
 
 /**
  * A visitor for processing expression trees (SQL predicate statements). This
@@ -58,4 +60,16 @@ public interface ExpNodeVisitor<T> {
      * @return
      */
     T select(Select select);
+
+    /**
+     * Render a COALESCE(...) function
+     * @param columnRefs
+     * @return
+     */
+    T coalesce(List<ColumnRef> columnRefs);
+    /**
+     * @param value
+     * @return
+     */
+    T bindMarker(BigDecimal value);
 }
