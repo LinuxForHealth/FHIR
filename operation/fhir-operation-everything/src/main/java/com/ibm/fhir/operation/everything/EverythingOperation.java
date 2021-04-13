@@ -9,8 +9,6 @@ import static com.ibm.fhir.model.util.ModelSupport.FHIR_DATE;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_INSTANT;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_STRING;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -25,9 +23,6 @@ import javax.ws.rs.core.MultivaluedMap;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.exception.FHIROperationException;
-import com.ibm.fhir.model.format.Format;
-import com.ibm.fhir.model.parser.FHIRParser;
-import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.Bundle.Entry.Search;
@@ -43,6 +38,7 @@ import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.SearchEntryMode;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
+import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.exception.FHIRSearchException;
@@ -104,11 +100,6 @@ public class EverythingOperation extends AbstractOperation {
     private static final String PATIENT = Patient.class.getSimpleName();
 
     /**
-     * The file with the operation definition
-     */
-    private static final String OPERATION_DEFINITION_FILE = "everything.json";
-
-    /**
      * The maximum number of cumulative resources from all compartments for a given patient.
      */
     private static final int MAX_OVERALL_RESOURCES = 10000;
@@ -150,13 +141,8 @@ public class EverythingOperation extends AbstractOperation {
 
     @Override
     protected OperationDefinition buildOperationDefinition() {
-        try (InputStream in = getClass().getClassLoader().getResourceAsStream(OPERATION_DEFINITION_FILE)) {
-            return FHIRParser.parser(Format.JSON).parse(in);
-        } catch (FHIRParserException e) {
-            throw new Error("There has been a parsing error in the operation definition of the $everything operation.", e);
-        } catch (IOException e) {
-            throw new Error("There has been an IO error reading the operation definition of the $everything operation.", e);
-        }
+        return FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/OperationDefinition/Patient-everything",
+                OperationDefinition.class);
     }
 
     @Override
