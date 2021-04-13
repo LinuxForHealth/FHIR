@@ -30,8 +30,6 @@ import com.ibm.fhir.model.type.code.AdministrativeGender;
 public class SearchReferenceTest extends FHIRServerTestBase {
 
     @SuppressWarnings("unused")
-    private String patientResourceIdWithReferenceId;
-    @SuppressWarnings("unused")
     private String patientResourceIdWithReferenceTypeId;
     @SuppressWarnings("unused")
     private String patientResourceIdWithReferenceUrl;
@@ -96,7 +94,8 @@ public class SearchReferenceTest extends FHIRServerTestBase {
     public void testCreatePatient() throws Exception {
         // references without an explicit type will be interpreted as literals (e.g. externals) not local references
         // we will not infer their type, which means that searches specifying a type will not match them by design
-        patientResourceIdWithReferenceId = createPatientWithReference("organization", "3001", null);
+        // Not allowed by default (see: `fhirServer/core/checkReferenceTypes` config parameter)
+        // patientResourceIdWithReferenceId = createPatientWithReference("organization", "3001", null);
 
         // relative reference
         patientResourceIdWithReferenceTypeId = createPatientWithReference("organization", "Organization/3002", null);
@@ -132,15 +131,7 @@ public class SearchReferenceTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        assertTrue(bundle.getEntry().size() >= 1);
-        Patient p = null;
-        for (Bundle.Entry entry : bundle.getEntry()) {
-            if (entry.getResource() != null && entry.getResource() instanceof Patient) {
-                p = (Patient) entry.getResource();
-            }
-        }
-        assertNotNull(p);
-        assertEquals("3001", p.getManagingOrganization().getReference().getValue());
+        assertTrue(bundle.getEntry().size() == 0);
     }
 
     @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
@@ -152,7 +143,6 @@ public class SearchReferenceTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-
         assertTrue(bundle.getEntry().size() == 0);
     }
 
