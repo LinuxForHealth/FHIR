@@ -39,6 +39,7 @@ import javax.json.JsonObject;
 import javax.json.JsonValue;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
+import javax.ws.rs.ProcessingException;
 import javax.ws.rs.RuntimeType;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -50,11 +51,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.core.annotation.Cacheable;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.CodeSystem.Concept.Designation;
 import com.ibm.fhir.model.resource.CodeSystem.Concept.Property;
 import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.ValueSet;
@@ -87,7 +90,6 @@ public class RemoteTermServiceProvider implements FHIRTermServiceProvider {
             ClientBuilder cb = ClientBuilder.newBuilder();
 
             cb.register(new FHIRProvider(RuntimeType.CLIENT));
-
             cb.register(new FHIRJsonProvider(RuntimeType.CLIENT));
 
             if (configuration.getBasicAuth() != null) {
@@ -117,6 +119,7 @@ public class RemoteTermServiceProvider implements FHIRTermServiceProvider {
         }
     }
 
+    @Cacheable
     @Override
     public Set<Concept> closure(CodeSystem codeSystem, Code code) {
         return getConcepts(codeSystem, Collections.singletonList(Filter.builder()
@@ -126,6 +129,7 @@ public class RemoteTermServiceProvider implements FHIRTermServiceProvider {
             .build()));
     }
 
+    @Cacheable
     @Override
     public Concept getConcept(CodeSystem codeSystem, Code code) {
         WebTarget target = client.target(base);
@@ -139,26 +143,24 @@ public class RemoteTermServiceProvider implements FHIRTermServiceProvider {
         if (response.getStatus() == Status.OK.getStatusCode()) {
             Parameters parameters = response.readEntity(Parameters.class);
             return toConcept(code, parameters);
-        } else {
-            if (response.hasEntity()) {
-                OperationOutcome outcome = response.readEntity(OperationOutcome.class);
-                throw new FHIRTermServiceException("An error occurred", outcome.getIssue());
-            }
         }
 
-        return null;
+        throw errorOccurred(response, "CodeSystem $lookup");
     }
 
+    @Cacheable
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem) {
         return getConcepts(codeSystem, Collections.emptyList());
     }
 
+    @Cacheable
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters) {
         return getConcepts(codeSystem, filters, Function.identity());
     }
 
+    @Cacheable
     @Override
     public <R> Set<R> getConcepts(CodeSystem codeSystem, List<Filter> filters, Function<Concept, ? extends R> function) {
         Parameters parameters = buildValueSetExpandParameters(codeSystem, filters);
@@ -182,16 +184,12 @@ public class RemoteTermServiceProvider implements FHIRTermServiceProvider {
             }
 
             return result;
-        } else {
-            if (response.hasEntity()) {
-                OperationOutcome outcome = response.readEntity(OperationOutcome.class);
-                throw new FHIRTermServiceException("An error occurred", outcome.getIssue());
-            }
         }
 
-        return Collections.emptySet();
+        throw errorOccurred(response, "ValueSet $expand");
     }
 
+    @Cacheable
     @Override
     public boolean hasConcept(CodeSystem codeSystem, Code code) {
         WebTarget target = client.target(base);
@@ -226,6 +224,7 @@ public class RemoteTermServiceProvider implements FHIRTermServiceProvider {
         return false;
     }
 
+    @Cacheable
     @Override
     public boolean subsumes(CodeSystem codeSystem, Code codeA, Code codeB) {
         WebTarget target = client.target(base);
@@ -245,14 +244,9 @@ public class RemoteTermServiceProvider implements FHIRTermServiceProvider {
                 ConceptSubsumptionOutcome outcome = ConceptSubsumptionOutcome.of(outcomeParameter.getValue().as(FHIR_STRING).getValue());
                 return ConceptSubsumptionOutcome.SUBSUMES.equals(outcome) || ConceptSubsumptionOutcome.EQUIVALENT.equals(outcome);
             }
-        } else {
-            if (response.hasEntity()) {
-                OperationOutcome outcome = response.readEntity(OperationOutcome.class);
-                throw new FHIRTermServiceException("An error occurred", outcome.getIssue());
-            }
         }
 
-        return false;
+        throw errorOccurred(response, "CodeSystem $subsumes");
     }
 
     public void close() {
@@ -288,6 +282,17 @@ public class RemoteTermServiceProvider implements FHIRTermServiceProvider {
                     .build())
                 .build())
             .build();
+    }
+
+    private FHIRTermServiceException errorOccurred(Response response, String op) {
+        OperationOutcome outcome = null;
+        try {
+            outcome = response.readEntity(OperationOutcome.class);
+        } catch (IllegalArgumentException | ProcessingException e) {
+            log.log(Level.SEVERE, "An error occurred while reading the entity", e);
+        }
+        List<Issue> issues = (outcome != null) ? outcome.getIssue() : Collections.emptyList();
+        return new FHIRTermServiceException("An error occurred during the " + op + " operation", issues);
     }
 
     private KeyStore loadKeyStoreFile(Configuration.TrustStore trustStore) {

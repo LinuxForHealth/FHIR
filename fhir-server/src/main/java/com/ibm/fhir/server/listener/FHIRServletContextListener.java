@@ -46,6 +46,7 @@ import org.owasp.encoder.Encode;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
+import com.ibm.fhir.core.util.CachingProxy;
 import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.lang.util.LanguageRegistryUtil;
 import com.ibm.fhir.model.util.FHIRUtil;
@@ -66,6 +67,7 @@ import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration
 import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.Supports;
 import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.TrustStore;
 import com.ibm.fhir.term.service.FHIRTermService;
+import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
 
 @WebListener("IBM FHIR Server Servlet Context Listener")
 public class FHIRServletContextListener implements ServletContextListener {
@@ -266,7 +268,7 @@ public class FHIRServletContextListener implements ServletContextListener {
                             Configuration configuration = builder.build();
 
                             RemoteTermServiceProvider remoteTermServiceProvider = new RemoteTermServiceProvider(configuration);
-                            FHIRTermService.getInstance().addProvider(remoteTermServiceProvider);
+                            FHIRTermService.getInstance().addProvider(CachingProxy.newInstance(FHIRTermServiceProvider.class, remoteTermServiceProvider));
                             remoteTermServiceProviders.add(remoteTermServiceProvider);
                         } catch (Exception e) {
                             log.log(Level.WARNING, "Unable to create RemoteTermServiceProvider from configuration property group: " + remoteTermServiceProviderPropertyGroup, e);

@@ -7,6 +7,10 @@
 package com.ibm.fhir.term.remote.provider.test;
 
 import java.util.Set;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -15,6 +19,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.MissingOptionException;
 import org.apache.commons.cli.Options;
 
+import com.ibm.fhir.core.util.CachingProxy;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.type.Code;
@@ -26,10 +31,17 @@ import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration
 import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.BasicAuth;
 import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.Supports;
 import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.TrustStore;
+import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
 import com.ibm.fhir.term.util.CodeSystemSupport;
 
 public class RemoteTermServiceProviderTest {
     public static void main(String[] args) {
+        Logger logger = Logger.getLogger(CachingProxy.class.getName());
+        logger.setLevel(Level.FINEST);
+        Handler handler = new ConsoleHandler();
+        handler.setLevel(Level.FINEST);
+        logger.addHandler(handler);
+
         Options options = null;
         RemoteTermServiceProvider snomedProvider = null;
         RemoteTermServiceProvider loincProvider = null;
@@ -52,6 +64,8 @@ public class RemoteTermServiceProviderTest {
 
             snomedProvider = new RemoteTermServiceProvider(snomedConfig);
 
+            FHIRTermServiceProvider cachingSnomedProvider = CachingProxy.newInstance(FHIRTermServiceProvider.class, snomedProvider);
+
             CodeSystem snomed = CodeSystem.builder()
                 .url(Uri.of("http://snomed.info/sct"))
                 .status(PublicationStatus.ACTIVE)
@@ -62,7 +76,10 @@ public class RemoteTermServiceProviderTest {
 
             System.out.println(snomedConcept);
 
-            Set<Concept> concepts = snomedProvider.closure(snomed, Code.of("403190006"));
+            Set<Concept> concepts = cachingSnomedProvider.closure(snomed, Code.of("403190006"));
+            concepts.forEach(System.out::println);
+
+            concepts = cachingSnomedProvider.closure(snomed, Code.of("403190006"));
             concepts.forEach(System.out::println);
 
             System.out.println("hasConcept: " + snomedProvider.hasConcept(snomed, Code.of("403190006")));
