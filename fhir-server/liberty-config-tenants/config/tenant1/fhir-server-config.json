@@ -1,6 +1,9 @@
 {
     "__comment": "FHIR Server configuration for mythical tenant id 'tenant1'",
     "fhirServer": {
+        "core": {
+            "checkReferenceTypes": false
+        },
         "resources": {
             "open": true,
             "Observation": {

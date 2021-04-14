@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -51,10 +51,10 @@ public class ProfileConstraintTest {
         Coverage coverage = Coverage.builder()
                 .status(CoverageStatus.ACTIVE)
                 .beneficiary(Reference.builder()
-                    .reference(string("none"))
+                    .display(string("none"))
                     .build())
                 .payor(Reference.builder()
-                    .reference(string("none"))
+                    .display(string("none"))
                     .build())
                 .period(Period.builder()
                     .start(DateTime.of("2020-01-01"))

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -55,6 +55,9 @@ public final class ValidationSupport {
     private static final int RESOURCE_TYPE_GROUP = 4;
     private static final int MIN_STRING_LENGTH = 1;
     private static final int MAX_STRING_LENGTH = 1048576; // 1024 * 1024 = 1MB
+    private static final String LOCAL_REF_PREFIX = "urn:";
+    private static final String HTTP_PREFIX = "http:";
+    private static final String HTTPS_PREFIX = "https:";
     private static final String FHIR_XHTML_XSD = "fhir-xhtml.xsd";
     private static final String FHIR_XML_XSD = "xml.xsd";
     private static final String FHIR_XMLDSIG_CORE_SCHEMA_XSD = "xmldsig-core-schema.xsd";
@@ -672,54 +675,58 @@ public final class ValidationSupport {
     }
 
     /**
+     * Checks that the reference contains valid resource type values.
+     * @param reference the reference
+     * @param elementName the element name
+     * @param referenceTypes the valid resource types for the reference
      * @throws IllegalStateException if the resource type found in the reference value does not match the specified Reference.type value
      *                               or is not one of the allowed reference types for that element
      */
     public static void checkReferenceType(Reference reference, String elementName, String... referenceTypes) {
-        boolean checkReferenceTypes = FHIRModelConfig.getCheckReferenceTypes();
-        if (reference != null && checkReferenceTypes) {
-            String referenceType = getReferenceType(reference);
-            if (referenceType != null && !ModelSupport.isResourceType(referenceType)) {
-                throw new IllegalStateException(
-                    String.format("Resource type found in Reference.type: '%s' for element: '%s' must be a valid resource type name",
-                        referenceType, elementName));
-            }
-            List<String> referenceTypeList = Arrays.asList(referenceTypes);
+        if (reference == null || !FHIRModelConfig.getCheckReferenceTypes()) {
+            return;
+        }
 
-            // If there is an explicit Reference.type, ensure its an allowed type
-            if (referenceType != null && !referenceTypeList.contains(referenceType)) {
-                throw new IllegalStateException(
-                        String.format("Resource type found in Reference.type: '%s' for element: '%s' must be one of: %s",
-                            referenceType, elementName, referenceTypeList.toString()));
+        String resourceType = null;
+        String referenceReference = getReferenceReference(reference);
+        List<String> referenceTypeList = Arrays.asList(referenceTypes);
+
+        if (referenceReference != null && !referenceReference.startsWith("#") && !referenceReference.startsWith(LOCAL_REF_PREFIX)
+                && !referenceReference.startsWith(HTTP_PREFIX) && !referenceReference.startsWith(HTTPS_PREFIX)) {
+            Matcher matcher = REFERENCE_PATTERN.matcher(referenceReference);
+            if (matcher.matches()) {
+                resourceType = matcher.group(RESOURCE_TYPE_GROUP);
             }
 
-            String referenceReference = getReferenceReference(reference);
-            String resourceType = null;
-
-            if (referenceReference != null && !referenceReference.startsWith("#")) {
-                Matcher matcher = REFERENCE_PATTERN.matcher(referenceReference);
-                if (matcher.matches()) {
-                    resourceType = matcher.group(RESOURCE_TYPE_GROUP);
-                    // If there is an explicit Reference.type, check that the resourceType pattern matches it
-                    if (referenceType != null && !resourceType.equals(referenceType)) {
-                        throw new IllegalStateException(
-                                String.format("Resource type found in reference value: '%s' for element: '%s' does not match Reference.type: %s",
-                                    referenceReference, elementName, referenceType));
-                    }
-                }
-            }
-
+            // resourceType is required in the reference value
             if (resourceType == null) {
-                resourceType = referenceType;
+                throw new IllegalStateException(String.format("Invalid reference value or resource type not found in reference value: '%s' for element: '%s'", referenceReference, elementName));
             }
 
-            // If we've successfully inferred a type, check that its an allowed value
-            if (resourceType != null) {
-                if (!referenceTypeList.contains(resourceType)) {
-                    throw new IllegalStateException(
-                            String.format("Resource type found in reference value: '%s' for element: '%s' must be one of: %s",
-                                referenceReference, elementName, referenceTypeList.toString()));
-                }
+            if (!ModelSupport.isResourceType(resourceType)) {
+                throw new IllegalStateException(String.format("Resource type found in reference value: '%s' for element: '%s' must be a valid resource type name", referenceReference, elementName));
+            }
+
+            // If there is a resourceType in the reference value, check that it's an allowed value
+            if (!referenceTypeList.contains(resourceType)) {
+                throw new IllegalStateException(String.format("Resource type found in reference value: '%s' for element: '%s' must be one of: %s", referenceReference, elementName, referenceTypeList.toString()));
+            }
+        }
+
+        String referenceType = getReferenceType(reference);
+        if (referenceType != null) {
+            if (!ModelSupport.isResourceType(referenceType)) {
+                throw new IllegalStateException(String.format("Resource type found in Reference.type: '%s' for element: '%s' must be a valid resource type name", referenceType, elementName));
+            }
+
+            // If there is an explicit Reference.type, ensure it's an allowed type
+            if (!referenceTypeList.contains(referenceType)) {
+                throw new IllegalStateException(String.format("Resource type found in Reference.type: '%s' for element: '%s' must be one of: %s", referenceType, elementName, referenceTypeList.toString()));
+            }
+
+            // If there is an explicit Reference.type, check that the resourceType pattern matches it
+            if (resourceType != null && !resourceType.equals(referenceType)) {
+                throw new IllegalStateException(String.format("Resource type found in reference value: '%s' for element: '%s' does not match Reference.type: %s", referenceReference, elementName, referenceType));
             }
         }
     }
