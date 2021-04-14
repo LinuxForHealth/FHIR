@@ -50,6 +50,7 @@ import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.PropertyType;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.term.config.FHIRTermConfig;
 import com.ibm.fhir.term.exception.FHIRTermException;
 import com.ibm.fhir.term.service.FHIRTermService;
 
@@ -189,6 +190,9 @@ public final class CodeSystemSupport {
     }
 
     public static Set<java.lang.String> getAncestorsAndSelf(CodeSystem codeSystem, Code code) {
+        if (!FHIRTermConfig.isCachingEnabled()) {
+            return computeAncestorsAndSelf(codeSystem, code);
+        }
         return ANCESTORS_AND_SELF_CACHE.computeIfAbsent(code.getValue(), k -> computeAncestorsAndSelf(codeSystem, code));
     }
 
@@ -422,6 +426,9 @@ public final class CodeSystemSupport {
     }
 
     public static Set<java.lang.String> getDescendantsAndSelf(CodeSystem codeSystem, Code code) {
+        if (!FHIRTermConfig.isCachingEnabled()) {
+            return computeDescendantsAndSelf(codeSystem, code);
+        }
         return DESCENDANTS_AND_SELF_CACHE.computeIfAbsent(code.getValue(), k -> computeDescendantsAndSelf(codeSystem, code));
     }
 
@@ -496,6 +503,9 @@ public final class CodeSystemSupport {
      *     true if the code system with the given is case sensitive, false otherwise
      */
     public static boolean isCaseSensitive(java.lang.String url) {
+        if (!FHIRTermConfig.isCachingEnabled()) {
+            return isCaseSensitive(getCodeSystem(url));
+        }
         return CASE_SENSITIVITY_CACHE.computeIfAbsent(url, k -> isCaseSensitive(getCodeSystem(url)));
     }
 

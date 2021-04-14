@@ -41,6 +41,7 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
+import com.ibm.fhir.term.config.FHIRTermConfig;
 import com.ibm.fhir.term.service.FHIRTermService;
 
 /**
@@ -74,6 +75,32 @@ public final class ValueSetSupport {
                 .build();
         }
         return valueSet;
+    }
+
+    /**
+     * Get the code set map for the given value set.
+     *
+     * @param valueSet
+     *     the value set
+     * @return
+     *     the code set map for the given value set, or an empty map if no such code set map exists
+     */
+    public static Map<java.lang.String, Set<java.lang.String>> getCodeSetMap(ValueSet valueSet) {
+        if (valueSet.getUrl() == null || valueSet.getVersion() == null || !FHIRTermConfig.isCachingEnabled()) {
+            return computeCodeSetMap(valueSet);
+        }
+        java.lang.String url = valueSet.getUrl().getValue() + "|" + valueSet.getVersion().getValue();
+        return CODE_SET_MAP_CACHE.computeIfAbsent(url, k -> computeCodeSetMap(valueSet));
+    }
+
+    /**
+     * Get the code set map cache.
+     *
+     * @return
+     *     the code set map cache
+     */
+    public static Map<java.lang.String, Map<java.lang.String, Set<java.lang.String>>> getCodeSetMapCache() {
+        return CODE_SET_MAP_CACHE;
     }
 
     /**
@@ -272,14 +299,6 @@ public final class ValueSetSupport {
         }
 
         return !codeSystemContains.isEmpty() ? codeSystemContains : valueSetContains;
-    }
-
-    public static Map<java.lang.String, Set<java.lang.String>> getCodeSetMap(ValueSet valueSet) {
-        if (valueSet.getUrl() == null || valueSet.getVersion() == null) {
-            return computeCodeSetMap(valueSet);
-        }
-        java.lang.String url = valueSet.getUrl().getValue() + "|" + valueSet.getVersion().getValue();
-        return CODE_SET_MAP_CACHE.computeIfAbsent(url, k -> computeCodeSetMap(valueSet));
     }
 
     private static java.lang.String getCodeSystemReference(Include includeOrExclude) {

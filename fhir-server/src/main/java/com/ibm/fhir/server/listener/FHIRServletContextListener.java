@@ -8,9 +8,6 @@ package com.ibm.fhir.server.listener;
 
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_CHECK_REFERENCE_TYPES;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_CONFIGURATION;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_ENABLED;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_TIME_LIMIT;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_CONNECTIONPROPS;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_TOPICNAME;
@@ -59,6 +56,7 @@ import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.operation.FHIROperationRegistry;
 import com.ibm.fhir.server.registry.ServerRegistryResourceProvider;
 import com.ibm.fhir.server.util.FHIROperationUtil;
+import com.ibm.fhir.term.config.FHIRTermConfig;
 import com.ibm.fhir.term.graph.provider.GraphTermServiceProvider;
 import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider;
 import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration;
@@ -204,23 +202,31 @@ public class FHIRServletContextListener implements ServletContextListener {
                 FHIRRegistry.getInstance().addProvider(new ServerRegistryResourceProvider(persistenceHelper));
             }
 
-            Boolean graphTermServiceProviderEnabled = fhirConfig.getBooleanProperty(PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_ENABLED, Boolean.FALSE);
-            if (graphTermServiceProviderEnabled) {
-                log.info("Adding GraphTermServiceProvider...");
-                PropertyGroup propertyGroup = fhirConfig.getPropertyGroup(PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_CONFIGURATION);
-                if (propertyGroup == null) {
-                    log.log(Level.WARNING, "GraphTermServiceProvider configuration not found");
-                } else {
-                    Map<String, Object> map = new HashMap<>();
-                    propertyGroup.getProperties().stream().forEach(entry -> map.put(entry.getName(), entry.getValue()));
-                    int timeLimit = fhirConfig.getIntProperty(PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_TIME_LIMIT, GraphTermServiceProvider.DEFAULT_TIME_LIMIT);
-                    graphTermServiceProvider = new GraphTermServiceProvider(new MapConfiguration(map), timeLimit);
-                    FHIRTermService.getInstance().addProvider(graphTermServiceProvider);
-                }
-            }
-
+            // Configure terminology service capabilities
             PropertyGroup termPropertyGroup = fhirConfig.getPropertyGroup("fhirServer/term");
             if (termPropertyGroup != null) {
+                FHIRTermConfig.setCachingEnabled(fhirConfig.getBooleanProperty("cachingEnabled", Boolean.TRUE));
+
+                // Configure graph term service provider
+                PropertyGroup graphTermServiceProviderPropertyGroup = termPropertyGroup.getPropertyGroup("graphTermServiceProvider");
+                if (graphTermServiceProviderPropertyGroup != null) {
+                    Boolean enabled = graphTermServiceProviderPropertyGroup.getBooleanProperty("enabled", Boolean.FALSE);
+                    if (enabled) {
+                        log.info("Adding GraphTermServiceProvider...");
+                        PropertyGroup configurationPropertyGroup = graphTermServiceProviderPropertyGroup.getPropertyGroup("configuration");
+                        if (configurationPropertyGroup == null) {
+                            log.log(Level.WARNING, "GraphTermServiceProvider configuration not found");
+                        } else {
+                            Map<String, Object> map = new HashMap<>();
+                            configurationPropertyGroup.getProperties().stream().forEach(entry -> map.put(entry.getName(), entry.getValue()));
+                            int timeLimit = graphTermServiceProviderPropertyGroup.getIntProperty("timeLimit", GraphTermServiceProvider.DEFAULT_TIME_LIMIT);
+                            graphTermServiceProvider = new GraphTermServiceProvider(new MapConfiguration(map), timeLimit);
+                            FHIRTermService.getInstance().addProvider(graphTermServiceProvider);
+                        }
+                    }
+                }
+
+                // Configure remote term service providers
                 Object[] remoteTermServiceProvidersArray = termPropertyGroup.getArrayProperty("remoteTermServiceProviders");
                 if (remoteTermServiceProvidersArray != null) {
                     for (Object remoteTermServiceProviderObject : remoteTermServiceProvidersArray) {
