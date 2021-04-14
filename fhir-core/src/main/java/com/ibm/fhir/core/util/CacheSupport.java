@@ -7,10 +7,12 @@
 package com.ibm.fhir.core.util;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import com.ibm.fhir.core.annotation.Cacheable;
 
 public final class CacheSupport {
     private CacheSupport() { }
@@ -35,5 +37,10 @@ public final class CacheSupport {
                 .expireAfterWrite(duration, unit)
                 .build();
         return cache.asMap();
+    }
+
+    public static <K, V> Map<K, V> createCache(Cacheable cacheable) {
+        Objects.requireNonNull(cacheable, "cacheable");
+        return createCache(cacheable.maximumSize(), cacheable.duration(), cacheable.unit());
     }
 }

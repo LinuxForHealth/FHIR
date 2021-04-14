@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.core.util;
 
+import static com.ibm.fhir.core.util.CacheSupport.createCache;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -87,10 +89,6 @@ public class CachingProxy {
                 }
                 throw e;
             }
-        }
-
-        private <K, V> Map<K, V> createCache(Cacheable cacheable) {
-            return CacheSupport.createCache(cacheable.maximumSize(), cacheable.duration(), cacheable.unit());
         }
 
         private Method computeTargetMethod(Method method) {
