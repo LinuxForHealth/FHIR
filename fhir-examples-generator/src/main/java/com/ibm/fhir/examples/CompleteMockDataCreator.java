@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -251,9 +251,9 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                     else if (builder instanceof Reference.Builder && method.getName().equals("reference")) {
                         // References with specific target profiles
                         if (referenceTargetProfile != null) {
-                            argument = string(referenceTargetProfile + "/" + podam.manufacturePojo(String.class));
+                            argument = string(referenceTargetProfile + "/" + podam.manufacturePojo(String.class).replace("_", "-"));
                         } else {
-                            argument = string("Basic/" + podam.manufacturePojo(String.class));
+                            argument = string("Basic/" + podam.manufacturePojo(String.class).replace("_", "-"));
                         }
                     }
 

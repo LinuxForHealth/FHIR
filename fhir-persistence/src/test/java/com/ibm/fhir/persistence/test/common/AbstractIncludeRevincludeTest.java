@@ -24,6 +24,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.resource.Device;
 import com.ibm.fhir.model.resource.DeviceRequest;
 import com.ibm.fhir.model.resource.Encounter;
@@ -58,12 +59,15 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
     private static Device savedDevice1;
     private static Organization savedOrg1;
     private static DeviceRequest savedDeviceRequest1;
+    private static boolean checkReferenceTypes = true;
 
     /**
      * Loads up and saves a bunch of resources with various references to one another
      */
     @BeforeClass
     public void createResources() throws Exception {
+        checkReferenceTypes = FHIRModelConfig.getCheckReferenceTypes();
+        FHIRModelConfig.setCheckReferenceTypes(false);
         Organization org = TestUtil.readExampleResource("json/ibm/minimal/Organization-1.json");
         Encounter encounter = TestUtil.readExampleResource("json/ibm/minimal/Encounter-1.json");
         Observation observation = TestUtil.readExampleResource("json/ibm/minimal/Observation-1.json");
@@ -192,6 +196,7 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
                 }
             }
         }
+        FHIRModelConfig.setCheckReferenceTypes(checkReferenceTypes);
     }
 
     /**

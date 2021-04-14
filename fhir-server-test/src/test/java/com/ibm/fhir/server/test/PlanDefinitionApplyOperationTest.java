@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -150,7 +150,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
 
     @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = "loadTestData")
     public void testSubjectPatient() {
-        List<String> subjects = Arrays.asList(patientId);
+        List<String> subjects = Arrays.asList("Patient/" + patientId);
 
         // Valid - Instance Level.
         // ApplyOperationResult result =
@@ -158,7 +158,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         // null, practitionerId, null, null, null, null, null, null);
 
         Response response =
-                doPost(FHIRMediaType.APPLICATION_FHIR_JSON, false, false, planDefinitionId, subjects, null, practitionerId, "my-org", "user-type", "user-language", "user-task-context", "my-setting", "my-setting-context");
+                doPost(FHIRMediaType.APPLICATION_FHIR_JSON, false, false, planDefinitionId, subjects, null, null, "Organization/my-org", "user-type", "user-language", "user-task-context", "my-setting", "my-setting-context");
         assertEquals(response.getStatus(), 200);
 
         CarePlan carePlan = response.readEntity(CarePlan.class);
@@ -171,7 +171,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
     public Response doPost(String mimeType, boolean root, boolean invalid, String planDefinition, List<String> subject, String encounter, String practitioner,
         String organization, String userType, String userLanguage, String userTaskContext, String setting, String settingContext) {
 
-        Parameters parameters = generateParameters(planDefinitionId, subject, null, practitionerId, null, null, null, null, null, null);
+        Parameters parameters = generateParameters(planDefinitionId, subject, null, practitioner, null, null, null, null, null, null);
         WebTarget target = getWebTarget();
 
         // valid && root by default
