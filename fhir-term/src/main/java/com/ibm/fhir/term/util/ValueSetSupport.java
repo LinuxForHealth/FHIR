@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.term.util;
 
-import static com.ibm.fhir.core.util.LRUCache.createLRUCache;
+import static com.ibm.fhir.core.util.CacheSupport.createCache;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.term.util.CodeSystemSupport.getCodeSystem;
 import static com.ibm.fhir.term.util.CodeSystemSupport.isCaseSensitive;
@@ -50,7 +50,7 @@ public final class ValueSetSupport {
     private static final Logger log = Logger.getLogger(ValueSetSupport.class.getName());
 
     private static final java.lang.String VERSION_UNKNOWN = "<version unknown>";
-    private static final Map<java.lang.String, Map<java.lang.String, Set<java.lang.String>>> CODE_SET_MAP_CACHE = createLRUCache(1024);
+    private static final Map<java.lang.String, Map<java.lang.String, Set<java.lang.String>>> CODE_SET_MAP_CACHE = createCache(1024);
 
     private ValueSetSupport() { }
 

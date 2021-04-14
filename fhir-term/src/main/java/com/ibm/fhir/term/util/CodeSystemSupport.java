@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.term.util;
 
-import static com.ibm.fhir.core.util.LRUCache.createLRUCache;
+import static com.ibm.fhir.core.util.CacheSupport.createCache;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_BOOLEAN;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_INTEGER;
@@ -122,10 +122,10 @@ public final class CodeSystemSupport {
         }
     };
 
-    private static final Map<java.lang.String, java.lang.Boolean> CASE_SENSITIVITY_CACHE = createLRUCache(2048);
+    private static final Map<java.lang.String, java.lang.Boolean> CASE_SENSITIVITY_CACHE = createCache(2048);
     private static final Pattern IN_COMBINING_DIACRITICAL_MARKS_PATTERN = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-    private static final Map<java.lang.String, Set<java.lang.String>> ANCESTORS_AND_SELF_CACHE = createLRUCache(128);
-    private static final Map<java.lang.String, Set<java.lang.String>> DESCENDANTS_AND_SELF_CACHE = createLRUCache(128);
+    private static final Map<java.lang.String, Set<java.lang.String>> ANCESTORS_AND_SELF_CACHE = createCache(128);
+    private static final Map<java.lang.String, Set<java.lang.String>> DESCENDANTS_AND_SELF_CACHE = createCache(128);
 
     private CodeSystemSupport() { }
 

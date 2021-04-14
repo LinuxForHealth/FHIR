@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.core.util;
 
-import static com.ibm.fhir.core.util.LRUCache.createLRUCache;
+import static com.ibm.fhir.core.util.CacheSupport.createCache;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  * A utility class for working with URLs
  */
 public class URLSupport {
-    private static final Map<String, URL> URL_CACHE = createLRUCache(128);
+    private static final Map<String, URL> URL_CACHE = createCache(128);
 
     private URLSupport() { }
 

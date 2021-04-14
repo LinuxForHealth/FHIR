@@ -54,7 +54,6 @@ import com.ibm.fhir.notification.websocket.impl.FHIRNotificationServiceEndpointC
 import com.ibm.fhir.notifications.kafka.impl.FHIRNotificationKafkaPublisher;
 import com.ibm.fhir.notifications.nats.impl.FHIRNotificationNATSPublisher;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
-import com.ibm.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.operation.FHIROperationRegistry;
@@ -202,9 +201,7 @@ public class FHIRServletContextListener implements ServletContextListener {
             Boolean serverRegistryResourceProviderEnabled = fhirConfig.getBooleanProperty(PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED, Boolean.FALSE);
             if (serverRegistryResourceProviderEnabled) {
                 log.info("Registering ServerRegistryResourceProvider...");
-                ServerRegistryResourceProvider provider = new ServerRegistryResourceProvider(persistenceHelper);
-                FHIRRegistry.getInstance().addProvider(provider);
-                FHIRPersistenceInterceptorMgr.getInstance().addInterceptor(provider);
+                FHIRRegistry.getInstance().addProvider(new ServerRegistryResourceProvider(persistenceHelper));
             }
 
             Boolean graphTermServiceProviderEnabled = fhirConfig.getBooleanProperty(PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_ENABLED, Boolean.FALSE);

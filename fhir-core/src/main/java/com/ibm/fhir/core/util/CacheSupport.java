@@ -14,9 +14,7 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.ibm.fhir.core.annotation.Cacheable;
 
-public final class CacheSupport {
-    private CacheSupport() { }
-
+public class CacheSupport {
     public static <K, V> Map<K, V> createCache(int maximumSize) {
         Cache<K, V> cache = Caffeine.newBuilder()
                 .maximumSize(maximumSize)
