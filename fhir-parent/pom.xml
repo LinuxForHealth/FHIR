@@ -503,7 +503,8 @@
             <dependency>
                 <groupId>com.github.ben-manes.caffeine</groupId>
                 <artifactId>caffeine</artifactId>
-                <version>3.0.1</version>
+                <!-- upgrade to 3.x after we discontinue Java 8 support -->
+                <version>2.9.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
