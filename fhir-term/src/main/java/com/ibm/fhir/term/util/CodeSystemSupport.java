@@ -58,6 +58,10 @@ import com.ibm.fhir.term.service.FHIRTermService;
  * A utility class for working with FHIR code systems
  */
 public final class CodeSystemSupport {
+    public static final java.lang.String ANCESTORS_AND_SELF_CACHE_NAME = "com.ibm.fhir.term.util.CodeSystemSupport.ancestorsAndSelfCache";
+    public static final java.lang.String DESCENDANTS_AND_SELF_CACHE_NAME = "com.ibm.fhir.term.util.CodeSystemSupport.descendantsAndSelfCache";
+    public static final java.lang.String CASE_SENSITIVITY_CACHE_NAME = "com.ibm.fhir.term.util.CodeSystemSupport.caseSensitivityCache";
+
     /**
      * A function that maps a code system concept to its code value
      */
@@ -123,10 +127,10 @@ public final class CodeSystemSupport {
         }
     };
 
-    private static final Map<java.lang.String, java.lang.Boolean> CASE_SENSITIVITY_CACHE = createCache(2048);
+    private static final Map<java.lang.String, java.lang.Boolean> CASE_SENSITIVITY_CACHE = createCache(CASE_SENSITIVITY_CACHE_NAME, 2048);
     private static final Pattern IN_COMBINING_DIACRITICAL_MARKS_PATTERN = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-    private static final Map<java.lang.String, Set<java.lang.String>> ANCESTORS_AND_SELF_CACHE = createCache(128);
-    private static final Map<java.lang.String, Set<java.lang.String>> DESCENDANTS_AND_SELF_CACHE = createCache(128);
+    private static final Map<java.lang.String, Set<java.lang.String>> ANCESTORS_AND_SELF_CACHE = createCache(ANCESTORS_AND_SELF_CACHE_NAME, 128);
+    private static final Map<java.lang.String, Set<java.lang.String>> DESCENDANTS_AND_SELF_CACHE = createCache(DESCENDANTS_AND_SELF_CACHE_NAME, 128);
 
     private CodeSystemSupport() { }
 
@@ -190,7 +194,7 @@ public final class CodeSystemSupport {
     }
 
     public static Set<java.lang.String> getAncestorsAndSelf(CodeSystem codeSystem, Code code) {
-        if (!FHIRTermConfig.isCachingEnabled()) {
+        if (FHIRTermConfig.isCachingDisabled()) {
             return computeAncestorsAndSelf(codeSystem, code);
         }
         return ANCESTORS_AND_SELF_CACHE.computeIfAbsent(code.getValue(), k -> computeAncestorsAndSelf(codeSystem, code));
@@ -426,7 +430,7 @@ public final class CodeSystemSupport {
     }
 
     public static Set<java.lang.String> getDescendantsAndSelf(CodeSystem codeSystem, Code code) {
-        if (!FHIRTermConfig.isCachingEnabled()) {
+        if (FHIRTermConfig.isCachingDisabled()) {
             return computeDescendantsAndSelf(codeSystem, code);
         }
         return DESCENDANTS_AND_SELF_CACHE.computeIfAbsent(code.getValue(), k -> computeDescendantsAndSelf(codeSystem, code));
@@ -503,7 +507,7 @@ public final class CodeSystemSupport {
      *     true if the code system with the given is case sensitive, false otherwise
      */
     public static boolean isCaseSensitive(java.lang.String url) {
-        if (!FHIRTermConfig.isCachingEnabled()) {
+        if (FHIRTermConfig.isCachingDisabled()) {
             return isCaseSensitive(getCodeSystem(url));
         }
         return CASE_SENSITIVITY_CACHE.computeIfAbsent(url, k -> isCaseSensitive(getCodeSystem(url)));

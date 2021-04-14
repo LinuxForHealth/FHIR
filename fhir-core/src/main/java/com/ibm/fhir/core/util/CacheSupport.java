@@ -22,10 +22,26 @@ public class CacheSupport {
         return cache.asMap();
     }
 
+    public static <K, V> Map<K, V> createCache(String name, int maximumSize) {
+        Cache<K, V> cache = Caffeine.newBuilder()
+                .maximumSize(maximumSize)
+                .build();
+        CacheManager.getInstance().addCache(name, cache);
+        return cache.asMap();
+    }
+
     public static <K, V> Map<K, V> createCache(int duration, TimeUnit unit) {
         Cache<K, V> cache = Caffeine.newBuilder()
                 .expireAfterWrite(duration, unit)
                 .build();
+        return cache.asMap();
+    }
+
+    public static <K, V> Map<K, V> createCache(String name, int duration, TimeUnit unit) {
+        Cache<K, V> cache = Caffeine.newBuilder()
+                .expireAfterWrite(duration, unit)
+                .build();
+        CacheManager.getInstance().addCache(name, cache);
         return cache.asMap();
     }
 
@@ -34,6 +50,15 @@ public class CacheSupport {
                 .maximumSize(maximumSize)
                 .expireAfterWrite(duration, unit)
                 .build();
+        return cache.asMap();
+    }
+
+    public static <K, V> Map<K, V> createCache(String name, int maximumSize, int duration, TimeUnit unit) {
+        Cache<K, V> cache = Caffeine.newBuilder()
+                .maximumSize(maximumSize)
+                .expireAfterWrite(duration, unit)
+                .build();
+        CacheManager.getInstance().addCache(name, cache);
         return cache.asMap();
     }
 

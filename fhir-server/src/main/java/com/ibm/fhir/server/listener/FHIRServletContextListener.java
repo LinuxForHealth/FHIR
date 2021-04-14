@@ -205,7 +205,7 @@ public class FHIRServletContextListener implements ServletContextListener {
             // Configure terminology service capabilities
             PropertyGroup termPropertyGroup = fhirConfig.getPropertyGroup("fhirServer/term");
             if (termPropertyGroup != null) {
-                FHIRTermConfig.setCachingEnabled(fhirConfig.getBooleanProperty("cachingEnabled", Boolean.TRUE));
+                FHIRTermConfig.setCachingDisabled(fhirConfig.getBooleanProperty("cachingDisabled", Boolean.FALSE));
 
                 // Configure graph term service provider
                 PropertyGroup graphTermServiceProviderPropertyGroup = termPropertyGroup.getPropertyGroup("graphTermServiceProvider");

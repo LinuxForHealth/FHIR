@@ -48,10 +48,12 @@ import com.ibm.fhir.term.service.FHIRTermService;
  * A utility class for expanding FHIR value sets
  */
 public final class ValueSetSupport {
+    public static final java.lang.String CODE_SET_MAP_CACHE_NAME = "com.ibm.fhir.term.util.ValueSetSupport.codeSetMapCache";
+
     private static final Logger log = Logger.getLogger(ValueSetSupport.class.getName());
 
     private static final java.lang.String VERSION_UNKNOWN = "<version unknown>";
-    private static final Map<java.lang.String, Map<java.lang.String, Set<java.lang.String>>> CODE_SET_MAP_CACHE = createCache(1024);
+    private static final Map<java.lang.String, Map<java.lang.String, Set<java.lang.String>>> CODE_SET_MAP_CACHE = createCache(CODE_SET_MAP_CACHE_NAME, 1024);
 
     private ValueSetSupport() { }
 
@@ -86,21 +88,11 @@ public final class ValueSetSupport {
      *     the code set map for the given value set, or an empty map if no such code set map exists
      */
     public static Map<java.lang.String, Set<java.lang.String>> getCodeSetMap(ValueSet valueSet) {
-        if (valueSet.getUrl() == null || valueSet.getVersion() == null || !FHIRTermConfig.isCachingEnabled()) {
+        if (valueSet.getUrl() == null || valueSet.getVersion() == null || FHIRTermConfig.isCachingDisabled()) {
             return computeCodeSetMap(valueSet);
         }
         java.lang.String url = valueSet.getUrl().getValue() + "|" + valueSet.getVersion().getValue();
         return CODE_SET_MAP_CACHE.computeIfAbsent(url, k -> computeCodeSetMap(valueSet));
-    }
-
-    /**
-     * Get the code set map cache.
-     *
-     * @return
-     *     the code set map cache
-     */
-    public static Map<java.lang.String, Map<java.lang.String, Set<java.lang.String>>> getCodeSetMapCache() {
-        return CODE_SET_MAP_CACHE;
     }
 
     /**
