@@ -6,8 +6,6 @@
 
 package com.ibm.fhir.core.util;
 
-import static com.ibm.fhir.core.util.LRUCache.createLRUCache;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -66,13 +64,12 @@ public class CachingProxy {
                 Method targetMethod = targetMethodCache.computeIfAbsent(method, k -> computeTargetMethod(method));
                 if (isCacheable(targetMethod)) {
                     Cacheable cacheable = targetMethod.getAnnotation(Cacheable.class);
-                    int maxEntries = cacheable.maxEntries();
                     Class<? extends CacheKey.Generator> keyGeneratorClass = cacheable.keyGeneratorClass();
 
                     CacheKey.Generator keyGenerator = getKeyGenerator(keyGeneratorClass, target, targetMethod, args);
                     CacheKey key = keyGenerator.generate(target, targetMethod, args);
 
-                    Map<CacheKey, Object> resultCache = resultCacheMap.computeIfAbsent(targetMethod, k -> createLRUCache(maxEntries));
+                    Map<CacheKey, Object> resultCache = resultCacheMap.computeIfAbsent(targetMethod, k -> createCache(cacheable));
                     Object result = resultCache.computeIfAbsent(key, k -> computeResult(targetMethod, args));
 
                     return (result != NULL) ? result : null;
@@ -90,6 +87,10 @@ public class CachingProxy {
                 }
                 throw e;
             }
+        }
+
+        private <K, V> Map<K, V> createCache(Cacheable cacheable) {
+            return CacheSupport.createCache(cacheable.maximumSize(), cacheable.duration(), cacheable.unit());
         }
 
         private Method computeTargetMethod(Method method) {
