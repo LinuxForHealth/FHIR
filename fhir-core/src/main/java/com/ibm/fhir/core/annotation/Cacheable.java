@@ -18,8 +18,8 @@ import com.ibm.fhir.core.util.CacheKey;
 @Retention(RUNTIME)
 @Target(METHOD)
 public @interface Cacheable {
-    long maximumSize() default 128;
-    long duration() default 1;
+    int maximumSize() default 128;
+    int duration() default 1;
     TimeUnit unit() default TimeUnit.HOURS;
     Class<? extends CacheKey.Generator> keyGeneratorClass() default CacheKey.Generator.class;
 }

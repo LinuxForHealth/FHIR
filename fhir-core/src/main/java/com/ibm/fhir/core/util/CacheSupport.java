@@ -15,21 +15,21 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 public final class CacheSupport {
     private CacheSupport() { }
 
-    public static <K, V> Map<K, V> createCache(long maximumSize) {
+    public static <K, V> Map<K, V> createCache(int maximumSize) {
         Cache<K, V> cache = Caffeine.newBuilder()
                 .maximumSize(maximumSize)
                 .build();
         return cache.asMap();
     }
 
-    public static <K, V> Map<K, V> createCache(long duration, TimeUnit unit) {
+    public static <K, V> Map<K, V> createCache(int duration, TimeUnit unit) {
         Cache<K, V> cache = Caffeine.newBuilder()
                 .expireAfterWrite(duration, unit)
                 .build();
         return cache.asMap();
     }
 
-    public static <K, V> Map<K, V> createCache(long maximumSize, long duration, TimeUnit unit) {
+    public static <K, V> Map<K, V> createCache(int maximumSize, int duration, TimeUnit unit) {
         Cache<K, V> cache = Caffeine.newBuilder()
                 .maximumSize(maximumSize)
                 .expireAfterWrite(duration, unit)
