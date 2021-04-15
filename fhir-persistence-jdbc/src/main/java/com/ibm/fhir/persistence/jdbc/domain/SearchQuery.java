@@ -19,6 +19,9 @@ public abstract class SearchQuery {
     private final String rootResourceType;
     private final List<SearchParam> searchParams = new ArrayList<>();
 
+    // A list of non-parameter related extensions (e.g. location processing)
+    private final List<SearchExtension> extensions = new ArrayList<>();
+
     /**
      * Public constructor
      * @param rootResourceType
@@ -44,6 +47,14 @@ public abstract class SearchQuery {
     }
 
     /**
+     * Add the search extension to the model
+     * @param ext
+     */
+    public void add(SearchExtension ext) {
+        this.extensions.add(ext);
+    }
+
+    /**
      * Get the root query and attach the parameter filters to it
      * @param <T>
      * @param visitor
@@ -51,8 +62,14 @@ public abstract class SearchQuery {
      */
     public <T> T visit(SearchQueryVisitor<T> visitor) throws FHIRPersistenceException {
         T query = getRoot(visitor);
+
+        // Pre-process any extensions before we process the parameters
+        for (SearchExtension ext: this.extensions) {
+            ext.visit(query, visitor);
+        }
+
         for (SearchParam sp: this.searchParams) {
-            query = sp.visit(query, visitor);
+            sp.visit(query, visitor);
         }
         return query;
     }

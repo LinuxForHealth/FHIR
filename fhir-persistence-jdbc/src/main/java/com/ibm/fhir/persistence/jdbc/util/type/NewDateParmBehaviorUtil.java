@@ -18,8 +18,7 @@ import java.time.Instant;
 
 import com.ibm.fhir.database.utils.query.Operator;
 import com.ibm.fhir.database.utils.query.Select;
-import com.ibm.fhir.database.utils.query.SelectAdapter;
-import com.ibm.fhir.database.utils.query.WhereAdapter;
+import com.ibm.fhir.database.utils.query.WhereFragment;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
@@ -39,9 +38,8 @@ public class NewDateParmBehaviorUtil {
         // No Operation
     }
 
-    public void executeBehavior(SelectAdapter exists, QueryParameter queryParm, String tableAlias) {
-        WhereAdapter whereClauseSegment = exists.from().where();
-        whereClauseSegment.and().leftParen();
+    public void executeBehavior(WhereFragment whereClauseSegment, QueryParameter queryParm, String tableAlias) {
+        whereClauseSegment.leftParen();
 
         boolean parmValueProcessed = false;
         for (QueryParameterValue value : queryParm.getValues()) {
@@ -80,7 +78,7 @@ public class NewDateParmBehaviorUtil {
      * @param lowerBound
      * @param upperBound
      */
-    public void buildPredicates(WhereAdapter whereClauseSegment, String tableAlias,
+    public void buildPredicates(WhereFragment whereClauseSegment, String tableAlias,
             Prefix prefix, Instant lowerBound, Instant upperBound) {
         switch (prefix) {
         case EB:
@@ -148,7 +146,7 @@ public class NewDateParmBehaviorUtil {
      * @param operator
      * @param bound
      */
-    public void buildCommonClause(WhereAdapter whereClauseSegment, String tableAlias,
+    public void buildCommonClause(WhereFragment whereClauseSegment, String tableAlias,
             String columnNameLowOrHigh, String operator, Instant bound) {
 
         // TODO convert string to operator
@@ -165,7 +163,7 @@ public class NewDateParmBehaviorUtil {
      * @param lowerBound
      * @param upperBound
      */
-    public void buildEqualsRangeClause(WhereAdapter whereClauseSegment,
+    public void buildEqualsRangeClause(WhereFragment whereClauseSegment,
             String tableAlias, Instant lowerBound, Instant upperBound) {
 
         whereClauseSegment.col(tableAlias, DATE_START).gte(bind(lowerBound));
@@ -182,7 +180,7 @@ public class NewDateParmBehaviorUtil {
      * @param lowerBound
      * @param upperBound
      */
-    public void buildApproxRangeClause(WhereAdapter whereClauseSegment,
+    public void buildApproxRangeClause(WhereFragment whereClauseSegment,
             String tableAlias, Instant lowerBound, Instant upperBound) {
 
         whereClauseSegment.col(tableAlias, DATE_END).gte(bind(lowerBound));
@@ -199,7 +197,7 @@ public class NewDateParmBehaviorUtil {
      * @param lowerBound
      * @param upperBound
      */
-    public void buildNotEqualsRangeClause(WhereAdapter whereClauseSegment,
+    public void buildNotEqualsRangeClause(WhereFragment whereClauseSegment,
             String tableAlias, Instant lowerBound, Instant upperBound) {
 
         whereClauseSegment.leftParen();

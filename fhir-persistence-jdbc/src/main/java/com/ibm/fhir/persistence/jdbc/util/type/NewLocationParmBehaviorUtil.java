@@ -14,8 +14,6 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LONGITUDE_VALUE;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.ibm.fhir.database.utils.query.SelectAdapter;
-import com.ibm.fhir.database.utils.query.WhereAdapter;
 import com.ibm.fhir.database.utils.query.WhereFragment;
 import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.location.bounding.BoundingBox;
@@ -40,11 +38,9 @@ public class NewLocationParmBehaviorUtil {
      * @param bindVariables
      * @param boundingAreas
      */
-    public void buildLocationSearchQuery(String populateNameIdSubSegment, SelectAdapter whereClauseSegment,
+    public void buildLocationSearchQuery(WhereFragment whereClauseSegment,
             List<Bounding> boundingAreas, String paramTableAlias) {
         int instance = 0;
-
-        WhereAdapter where = whereClauseSegment.from().where();
 
         boolean first = true;
         int processed = 0;
@@ -54,19 +50,16 @@ public class NewLocationParmBehaviorUtil {
             if (instance == area.instance()) {
                 processed++;
                 if (instance > 0) {
-                    where.rightParen().and().leftParen();
+                    whereClauseSegment.rightParen().and().leftParen();
                 }
 
-                // Build this piece of the segment:
-                // (P1.PARAMETER_NAME_ID = x AND (
-                where.col(populateNameIdSubSegment).and();
                 instance++;
                 first = true;
             }
 
             if (!first) {
                 // If this is not the first, we want to make this a co-joined set of conditions.
-                where.or();
+                whereClauseSegment.or();
             } else {
                 first = false;
             }
@@ -77,7 +70,7 @@ public class NewLocationParmBehaviorUtil {
                 buildQueryForBoundingRadius(whereClauseSegment, paramTableAlias, (BoundingRadius)area);
                 break;
             case MISSING:
-                buildQueryForBoundingMissing(populateNameIdSubSegment, whereClauseSegment, (BoundingMissing) area);
+                buildQueryForBoundingMissing(whereClauseSegment, (BoundingMissing) area);
                 break;
             case BOX:
             default:
@@ -88,12 +81,12 @@ public class NewLocationParmBehaviorUtil {
 
         if (processed > 0) {
             for (int i = 0; i < processed; i++) {
-                where.rightParen();
+                whereClauseSegment.rightParen();
             }
         }
     }
 
-    public void buildQueryForBoundingMissing(String populateNameIdSubSegment, SelectAdapter whereClauseSegment,
+    public void buildQueryForBoundingMissing(WhereFragment whereClauseSegment,
             BoundingMissing missingArea) {
         // No Operation - the main logic is contained in the process Missing parameter
     }
@@ -105,13 +98,12 @@ public class NewLocationParmBehaviorUtil {
      * @param bindVariables
      * @param boundingBox
      */
-    public void buildQueryForBoundingBox(SelectAdapter whereClauseSegment,
+    public void buildQueryForBoundingBox(WhereFragment whereClauseSegment,
             BoundingBox boundingBox, String paramTableAlias) {
-        WhereAdapter where = whereClauseSegment.from().where();
 
         // Now build the piece that compares the BoundingBox longitude and latitude values
         // to the persisted longitude and latitude parameters.
-        where.leftParen()
+        whereClauseSegment.leftParen()
         // LAT <= ? --- LAT >= MIN_LAT
         .col(paramTableAlias, LATITUDE_VALUE).gte().bind(boundingBox.getMinLatitude())
         // LAT <= ? --- LAT <= MAX_LAT
@@ -133,11 +125,9 @@ public class NewLocationParmBehaviorUtil {
      * @param bindVariables
      * @param boundingBox
      */
-    public void buildQueryForBoundingRadius(SelectAdapter whereClauseSegment, String paramAlias,
+    public void buildQueryForBoundingRadius(WhereFragment whereClauseSegment, String paramAlias,
             BoundingRadius boundingRadius) {
         // This section of code is based on code from http://janmatuschek.de/LatitudeLongitudeBoundingCoordinates
-        WhereAdapter where = whereClauseSegment.from().where();
-
         // ACOS(SIN(boundingRadiusLatitude) * SIN(LATITUDE_VALUE) + COS(boundingRadiusLatitude) * COS(LATITUDE_VALUE) * COS(LONGITUDE_VALUE)
         WhereFragment arcRadius = new WhereFragment();
         arcRadius
@@ -151,7 +141,7 @@ public class NewLocationParmBehaviorUtil {
             .mult()
             .acos(col(paramAlias, LONGITUDE_VALUE));
 
-        where.leftParen()
+        whereClauseSegment.leftParen()
         .col(paramAlias, LATITUDE_VALUE).lte().bind(boundingRadius.getLatitude())
         .and()
         .col(paramAlias, LATITUDE_VALUE).gte().bind(boundingRadius.getLatitude())
@@ -161,6 +151,6 @@ public class NewLocationParmBehaviorUtil {
         .col(paramAlias, LONGITUDE_VALUE).gte().bind(boundingRadius.getLongitude())
         // Check the ARC Radius
         .and().acos(arcRadius.getExpression()).lte().bind(boundingRadius.getRadius());
-        where.rightParen();
+        whereClauseSegment.rightParen();
     }
 }
