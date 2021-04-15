@@ -44,9 +44,13 @@ public class IPHandler {
         try {
             ip = Inet4Address.getLocalHost().getHostAddress();
         } catch (UnknownHostException e) {
-            log.log(Level.SEVERE, "Failure acquiring local host IP address", e);
+            // Defaulting to the localhost, as the machine's name is not registered in the local lookup/dns.
+            log.log(Level.SEVERE, "Failure acquiring local host IP address - be sure the name is registered in the name resolution service", e);
+            ip = "127.0.0.1";
         } catch (NumberFormatException e) {
-            log.log(Level.SEVERE, "Failure parsing local host IP address '" + ip + "'", e);
+            // Defaulting to the localhost, as the machine's name is not registered in the local lookup/dns.
+            log.log(Level.SEVERE, "Failure parsing local host IP address '" + ip + "' - be sure the name is registered in the name resolution service" , e);
+            ip = "127.0.0.1";
         }
         return ip;
     }
