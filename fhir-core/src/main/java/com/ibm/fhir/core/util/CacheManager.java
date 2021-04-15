@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.github.benmanes.caffeine.cache.Cache;
+import com.github.benmanes.caffeine.cache.stats.CacheStats;
 
 public final class CacheManager {
     private static final CacheManager INSTANCE = new CacheManager();
@@ -39,5 +40,14 @@ public final class CacheManager {
     public void removeCache(String name) {
         Objects.requireNonNull(name, "name");
         cacheMap.remove(name);
+    }
+
+    public CacheStats getCacheStats(String name) {
+        Objects.requireNonNull(name, "name");
+        Cache<?, ?> cache = cacheMap.get(name);
+        if (cache != null) {
+            return cache.stats();
+        }
+        return null;
     }
 }
