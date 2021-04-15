@@ -44,10 +44,13 @@ import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchComparator;
 import com.ibm.fhir.model.type.code.SearchModifierCode;
 import com.ibm.fhir.model.type.code.SearchParamType;
+import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.JsonSupport;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.path.FHIRPathNode;
@@ -750,7 +753,7 @@ public class SearchUtil {
         for (Entry<String, List<String>> entry : queryParameters.entrySet()) {
             String name = entry.getKey();
             if (isSearchSingletonParameter(name) && entry.getValue().size() > 1) {
-                manageException("Search parameter '" + name + "' is specified multiple times", lenient);
+                manageException("Search parameter '" + name + "' is specified multiple times", IssueType.INVALID, context, false);
             }
         }
 
@@ -767,16 +770,27 @@ public class SearchUtil {
                 String resTypes = queryParameters.get(SearchConstants.RESOURCE_TYPE).get(0);
                 List<String> tmpResourceTypes = Arrays.asList(resTypes.split("\\s*,\\s*"));
                 for (String resType : tmpResourceTypes) {
-                    if (ModelSupport.isConcreteResourceType(resType)) {
-                        resourceTypes.add(resType);
-                    } else {
-                        manageException("_type search parameter has invalid resource type: " + resType, lenient);
-                        continue;
+                    try {
+                        if (ModelSupport.isConcreteResourceType(resType)) {
+                            resourceTypes.add(resType);
+                        } else {
+                            manageException("_type search parameter has invalid resource type: " + resType, IssueType.INVALID, context, true);
+                            continue;
+                        }
+                    } catch (FHIRSearchException se) {
+                        // If we're in lenient mode and there was an issue parsing the resource type then log and move on to the next one.
+                        if (lenient) {
+                            String msg = "Resource type '" + resType + "' for _type search parameter ignored";
+                            log.log(Level.FINE, msg, se);
+                            context.addOutcomeIssue(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.INVALID, msg));
+                        } else {
+                            throw se;
+                        }
                     }
                 }
             }
             else {
-                manageException("_type search parameter is only supported with system search", lenient);
+                manageException("_type search parameter is only supported with system search", IssueType.NOT_SUPPORTED, context, false);
             }
         }
 
@@ -794,7 +808,7 @@ public class SearchUtil {
                 List<String> params = entry.getValue();
 
                 if (isSearchResultParameter(name)) {
-                    parseSearchResultParameter(resourceType, context, name, params, lenient);
+                    parseSearchResultParameter(resourceType, context, name, params);
                 } else if (isGeneralParameter(name) ) {
                     // we'll handle it somewhere else, so just ignore it here
                 } else if (isReverseChainedParameter(name)) {
@@ -804,16 +818,16 @@ public class SearchUtil {
                         throw SearchExceptionUtil.buildNewInvalidSearchException("system search not supported with _has.");
                     }
                     for (String reverseChainedParameterValueString : params) {
-                        parameters.add(parseReverseChainedParameter(resourceType, name, reverseChainedParameterValueString));
+                        parameters.add(parseReverseChainedParameter(resourceType, name, reverseChainedParameterValueString, context));
                     }
                 } else if (isChainedParameter(name)) {
                     List<String> chainedParemeters = params;
                     for (String chainedParameterString : chainedParemeters) {
                         QueryParameter chainedParameter;
                         if (isMultiResTypeSearch) {
-                            chainedParameter = parseChainedParameter(resourceTypes, name, chainedParameterString);
+                            chainedParameter = parseChainedParameter(resourceTypes, name, chainedParameterString, context);
                         } else {
-                            chainedParameter = parseChainedParameter(resourceType, name, chainedParameterString);
+                            chainedParameter = parseChainedParameter(resourceType, name, chainedParameterString, context);
                         }
                         parameters.add(chainedParameter);
                     }
@@ -832,12 +846,12 @@ public class SearchUtil {
                       for (String resType: resourceTypes) {
                           // Get the search parameter from our filtered set of applicable SPs for this resource type.
                           searchParameter = getSearchParameter(resType, parameterCode);
-                          throwSearchParameterExceptionIfNull(searchParameter, parameterCode, resType);
+                          throwSearchParameterExceptionIfNull(searchParameter, parameterCode, resType, context);
                       }
                     } else {
                         // Get the search parameter from our filtered set of applicable SPs for this resource type.
                         searchParameter = getSearchParameter(resourceType.getSimpleName(), parameterCode);
-                        throwSearchParameterExceptionIfNull(searchParameter, parameterCode, resourceType.getSimpleName());
+                        throwSearchParameterExceptionIfNull(searchParameter, parameterCode, resourceType.getSimpleName(), context);
                     }
 
                     // Get the type of parameter so that we can use it to parse the value.
@@ -891,12 +905,9 @@ public class SearchUtil {
                 // There's a number of places that throw within this try block. In all cases we want the same behavior:
                 // If we're in lenient mode and there was an issue parsing the query parameter then log and move on to the next one.
                 if (lenient) {
-                    // TODO add this to the list of supplemental warnings?
-                    if (log.isLoggable(Level.FINE)) {
-                        String msg = "Error while parsing search parameter '" + name + "' for resource type " +
-                                resourceType.getSimpleName();
-                        log.log(Level.FINE, msg, se);
-                    }
+                    String msg = "Search parameter '" + name + "' for resource type '" + resourceType.getSimpleName() + "' ignored";
+                    log.log(Level.FINE, msg, se);
+                    context.addOutcomeIssue(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.INCOMPLETE, msg));
                 } else {
                     throw se;
                 }
@@ -913,14 +924,14 @@ public class SearchUtil {
             if (!context.getIncludeParameters().isEmpty() || !context.getRevIncludeParameters().isEmpty()) {
                 // _include and _revinclude parameters cannot be mixed with _summary=text
                 if (SummaryValueSet.TEXT.equals(context.getSummaryParameter())) {
-                    manageException("_include and _revinclude are not supported with '_summary=text'", lenient);
+                    manageException("_include and _revinclude are not supported with '_summary=text'", IssueType.NOT_SUPPORTED, context, false);
+                    manageException("_include and _revinclude parameters are ignored", IssueType.INCOMPLETE, context, false);
                     context.getIncludeParameters().clear();
                     context.getRevIncludeParameters().clear();
                 } else {
                     checkInclusionIterateParameters(resourceType.getSimpleName(), context, lenient);
                 }
             }
-
         } catch (FHIRSearchException se) {
             throw se;
         } catch (Exception e) {
@@ -1633,7 +1644,7 @@ public class SearchUtil {
     }
 
     private static void parseSearchResultParameter(Class<?> resourceType, FHIRSearchContext context, String name,
-            List<String> values, boolean lenient) throws FHIRSearchException {
+            List<String> values) throws FHIRSearchException {
         String resourceTypeName = resourceType.getSimpleName();
         try {
             String first = values.get(0);
@@ -1660,12 +1671,12 @@ public class SearchUtil {
             } else if (SearchConstants.SORT.equals(name) && first != null) {
                 // in R4, we only look for _sort
                 // Only first value is used, which matches behavior of other parameters that are supposed to be specified at most once
-                sort.parseSortParameter(resourceTypeName, context, first, lenient);
+                sort.parseSortParameter(resourceTypeName, context, first);
             } else if (name.startsWith(SearchConstants.INCLUDE) || name.startsWith(SearchConstants.REVINCLUDE)) {
-                parseInclusionParameter(resourceType, context, name, values, lenient);
+                parseInclusionParameter(resourceType, context, name, values, context.isLenient());
             } else if (SearchConstants.ELEMENTS.equals(name) && first != null) {
                 // Only first value is used, which matches behavior of other parameters that are supposed to be specified at most once
-                parseElementsParameter(resourceType, context, first, lenient);
+                parseElementsParameter(resourceType, context, first);
             } else if (SearchConstants.SUMMARY.equals(name) && first != null) {
                 context.setSummaryParameter(SummaryValueSet.from(first));
             } else if (SearchConstants.TOTAL.equals(name) && first != null) {
@@ -1686,7 +1697,7 @@ public class SearchUtil {
         return code.startsWith(SearchConstants.HAS);
     }
 
-    private static QueryParameter parseChainedParameter(HashSet<String> resourceTypes, String name, String valuesString)
+    private static QueryParameter parseChainedParameter(HashSet<String> resourceTypes, String name, String valuesString, FHIRSearchContext context)
             throws Exception {
         QueryParameter rootParameter = null;
         Class<?> resourceType = null;
@@ -1734,7 +1745,7 @@ public class SearchUtil {
                 Set<String> modifierResourceTypeNameForResourceTypes = new HashSet<>();
                 for (String resTypeName: resourceTypes) {
                     searchParameter = getSearchParameter(ModelSupport.getResourceType(resTypeName), parameterName);
-                    throwSearchParameterExceptionIfNull(searchParameter, parameterName, resTypeName);
+                    throwSearchParameterExceptionIfNull(searchParameter, parameterName, resTypeName, context);
 
                     type = Type.fromValue(searchParameter.getType().getValue());
                     if (!Type.REFERENCE.equals(type) && currentIndex < lastIndex) {
@@ -1798,7 +1809,7 @@ public class SearchUtil {
             if (checkForLogicalId) {
                 // For last search parameter, if type REFERENCE and not scoped to single target resource type, check if
                 // value is logical ID only. If so, throw an exception.
-                checkQueryParameterValuesForLogicalIdOnly(rootParameter.getChain().getLast().getCode(), valueList);
+                checkQueryParameterValuesForLogicalIdOnly(rootParameter.getChain().getLast().getCode(), valueList, context);
             }
 
             rootParameter.getChain().getLast().getValues().addAll(valueList);
@@ -1811,7 +1822,7 @@ public class SearchUtil {
         return rootParameter;
     }
 
-    private static QueryParameter parseChainedParameter(Class<?> resourceType, String name, String valuesString)
+    private static QueryParameter parseChainedParameter(Class<?> resourceType, String name, String valuesString, FHIRSearchContext context)
             throws Exception {
 
         QueryParameter rootParameter = null;
@@ -1856,7 +1867,7 @@ public class SearchUtil {
                 }
 
                 searchParameter = getSearchParameter(resourceType, parameterName);
-                throwSearchParameterExceptionIfNull(searchParameter, parameterName, resourceType.getSimpleName());
+                throwSearchParameterExceptionIfNull(searchParameter, parameterName, resourceType.getSimpleName(), context);
 
                 type = Type.fromValue(searchParameter.getType().getValue());
                 if (!Type.REFERENCE.equals(type) && currentIndex < lastIndex) {
@@ -1913,7 +1924,7 @@ public class SearchUtil {
             if (checkForLogicalId) {
                 // For last search parameter, if type REFERENCE and not scoped to single target resource type, check if
                 // value is logical ID only. If so, throw an exception.
-                checkQueryParameterValuesForLogicalIdOnly(rootParameter.getChain().getLast().getCode(), valueList);
+                checkQueryParameterValuesForLogicalIdOnly(rootParameter.getChain().getLast().getCode(), valueList, context);
             }
 
             rootParameter.getChain().getLast().getValues().addAll(valueList);
@@ -1946,10 +1957,12 @@ public class SearchUtil {
      *     Reverse chain search parameter string.
      * @param valuesString
      *     String containing the final search value.
+     * @param context
+     *     Search context.
      * @return QueryParameter
      *     The root of a parameter chain for the reverse chain criteria.
      */
-    private static QueryParameter parseReverseChainedParameter(Class<?> resourceType, String reverseChainParameterString, String valuesString) throws Exception {
+    private static QueryParameter parseReverseChainedParameter(Class<?> resourceType, String reverseChainParameterString, String valuesString, FHIRSearchContext context) throws Exception {
 
         QueryParameter rootParameter = null;
 
@@ -1985,7 +1998,7 @@ public class SearchUtil {
                 // Validate reference search parameter
                 String referenceSearchParameterName = subcomponents.get(1);
                 SearchParameter referenceSearchParameter = getSearchParameter(referencedByResourceType, referenceSearchParameterName);
-                throwSearchParameterExceptionIfNull(referenceSearchParameter, referenceSearchParameterName, referencedByResourceTypeName);
+                throwSearchParameterExceptionIfNull(referenceSearchParameter, referenceSearchParameterName, referencedByResourceTypeName, context);
                 if (!Type.REFERENCE.equals(Type.fromValue(referenceSearchParameter.getType().getValue()))) {
                     throw SearchExceptionUtil.buildNewInvalidSearchException(
                         String.format(PARAMETER_TYPE_NOT_REFERENCE_FOR_REVERSE_CHAIN_SEARCH, referenceSearchParameterName));
@@ -2012,7 +2025,7 @@ public class SearchUtil {
                     // Add last search parameter
                     String parameterName = subcomponents.get(2);
                     if (isChainedParameter(parameterName)) {
-                        QueryParameter lastParameter = parseChainedParameter(referencedByResourceType, parameterName, valuesString);
+                        QueryParameter lastParameter = parseChainedParameter(referencedByResourceType, parameterName, valuesString, context);
                         if (rootParameter.getChain().isEmpty()) {
                             rootParameter.setNextParameter(lastParameter);
                         } else {
@@ -2031,7 +2044,7 @@ public class SearchUtil {
                         }
 
                         SearchParameter searchParameter = getSearchParameter(referencedByResourceType, parameterName);
-                        throwSearchParameterExceptionIfNull(searchParameter, parameterName, referencedByResourceTypeName);
+                        throwSearchParameterExceptionIfNull(searchParameter, parameterName, referencedByResourceTypeName, context);
                         Type type = Type.fromValue(searchParameter.getType().getValue());
 
                         if (modifierName != null) {
@@ -2059,7 +2072,7 @@ public class SearchUtil {
                         if (Type.REFERENCE == type && searchParameter.getTarget().size() > 1 && modifierResourceTypeName == null) {
                             // For last search parameter, if type REFERENCE and not scoped to single target resource type, check if
                             // value is logical ID only. If so, throw an exception.
-                            checkQueryParameterValuesForLogicalIdOnly(parameterName, valueList);
+                            checkQueryParameterValuesForLogicalIdOnly(parameterName, valueList, context);
                         }
 
                         QueryParameter lastParameter = new QueryParameter(type, parameterName, modifier, modifierResourceTypeName, valueList);
@@ -2190,7 +2203,7 @@ public class SearchUtil {
             } catch (IllegalArgumentException e) {}
             if (!Modifier.ITERATE.equals(modifier)) {
                 // Invalid modifier
-                manageException("Modifier ':" + modifierString + "' is not valid for " + parameterName, lenient);
+                manageException("Modifier ':" + modifierString + "' is not valid for " + parameterName, IssueType.INVALID, context, true);
                 return;
             }
             inclusionKeyword = parameterName;
@@ -2198,93 +2211,105 @@ public class SearchUtil {
 
         for (String inclusionValue : inclusionValues) {
 
-            // Parse value into 3 parts: joinResourceType, searchParameterName, searchParameterTargetType
-            inclusionValueParts = inclusionValue.split(":");
-            if (inclusionValueParts.length < 2) {
-                manageException("A value for _include or _revinclude must have at least 2 parts separated by a colon.", lenient);
-                continue;
-            }
-            joinResourceType = inclusionValueParts[0];
-            searchParameterName = inclusionValueParts[1];
-            resourceTypeAndParameterName = joinResourceType + ":" + searchParameterName;
-            searchParameterTargetType = inclusionValueParts.length == 3 ? inclusionValueParts[2] : null;
-
-            if (SearchConstants.INCLUDE.equals(inclusionKeyword)) {
-
-                // For _include parameter, join resource type must match resource type being searched.
-                // For :iterate, we'll check after all include/revinclude parameters have been parsed.
-                if (!Modifier.ITERATE.equals(modifier) && !joinResourceType.equals(resourceType.getSimpleName())) {
-                    manageException("The join resource type must match the resource type being searched.", lenient);
+            try {
+                // Parse value into 3 parts: joinResourceType, searchParameterName, searchParameterTargetType
+                inclusionValueParts = inclusionValue.split(":");
+                if (inclusionValueParts.length < 2) {
+                    manageException("A value for _include or _revinclude must have at least 2 parts separated by a colon.", IssueType.INVALID, context, true);
                     continue;
                 }
+                joinResourceType = inclusionValueParts[0];
+                searchParameterName = inclusionValueParts[1];
+                resourceTypeAndParameterName = joinResourceType + ":" + searchParameterName;
+                searchParameterTargetType = inclusionValueParts.length == 3 ? inclusionValueParts[2] : null;
 
-                // Check allowed _include values
-                if (allowedIncludes != null && !allowedIncludes.contains(inclusionValue) && !allowedIncludes.contains(resourceTypeAndParameterName)) {
-                    manageException("'" + inclusionValue + "' is not a valid _include parameter value for resource type '"
-                            + resourceType.getSimpleName() + "'", lenient);
-                    continue;
-                }
-            }
+                if (SearchConstants.INCLUDE.equals(inclusionKeyword)) {
 
-            if (SearchConstants.REVINCLUDE.equals(inclusionKeyword)) {
+                    // For _include parameter, join resource type must match resource type being searched.
+                    // For :iterate, we'll check after all include/revinclude parameters have been parsed.
+                    if (!Modifier.ITERATE.equals(modifier) && !joinResourceType.equals(resourceType.getSimpleName())) {
+                        manageException("The join resource type must match the resource type being searched.", IssueType.INVALID, context, true);
+                        continue;
+                    }
 
-                // For _revinclude parameter, join resource type must be valid resource type
-                if (!ModelSupport.isResourceType(joinResourceType)) {
-                    manageException("'" + joinResourceType + "' is not a valid resource type.", lenient);
-                    continue;
-                }
-
-                // For _revinclude parameter, target resource type, if specified, must match resource type being searched.
-                // For :iterate, we'll check after all include/revinclude parameters have been parsed.
-                if (!Modifier.ITERATE.equals(modifier) && searchParameterTargetType != null && !searchParameterTargetType.equals(resourceType.getSimpleName())) {
-                    manageException("The search parameter target type must match the resource type being searched.", lenient);
-                    continue;
+                    // Check allowed _include values
+                    if (allowedIncludes != null && !allowedIncludes.contains(inclusionValue) && !allowedIncludes.contains(resourceTypeAndParameterName)) {
+                        manageException("'" + inclusionValue + "' is not a valid _include parameter value for resource type '"
+                                + resourceType.getSimpleName() + "'", IssueType.INVALID, context, true);
+                        continue;
+                    }
                 }
 
-                // Check allowed _revinclude values
-                if (allowedRevIncludes != null && !allowedRevIncludes.contains(inclusionValue) && !allowedRevIncludes.contains(resourceTypeAndParameterName)) {
-                    manageException("'" + inclusionValue + "' is not a valid _revinclude parameter value for resource type '"
-                            + resourceType.getSimpleName() + "'", lenient);
-                    continue;
-                }
-            }
+                if (SearchConstants.REVINCLUDE.equals(inclusionKeyword)) {
 
-            // Ensure that the Inclusion Parameter being parsed is a valid search parameter of type 'reference'.
-            Map<String, SearchParameter> searchParametersMap;
-            if (SearchConstants.WILDCARD.equals(searchParameterName)) {
-                searchParametersMap = getInclusionWildcardSearchParameters(resourceType.getSimpleName(), joinResourceType,
-                    searchParameterTargetType, inclusionKeyword, modifier);
-                if (searchParametersMap.isEmpty()) {
-                    log.fine("No valid inclusion parameters found for wildcard search.");
-                }
-            } else {
-                SearchParameter searchParm = getSearchParameter(joinResourceType, searchParameterName);
-                if (searchParm == null) {
-                    manageException("Undefined Inclusion Parameter: " + inclusionValue, lenient);
-                    continue;
-                }
-                if (!SearchParamType.REFERENCE.equals(searchParm.getType())) {
-                    manageException("Inclusion Parameter must be of type 'reference'. The passed Inclusion Parameter is of type '"
-                            + searchParm.getType().getValue() + "': " + inclusionValue, lenient);
-                    continue;
-                }
-                if (searchParameterTargetType != null && !isValidTargetType(searchParameterTargetType, searchParm)) {
-                    manageException("Search parameter target type '" + searchParameterTargetType +
-                        "' is not valid for inclusion search parameter '" + searchParm.getCode() + "'", lenient);
-                    continue;
-                }
-                searchParametersMap = Collections.singletonMap(searchParameterName, searchParm);
-            }
+                    // For _revinclude parameter, join resource type must be valid resource type
+                    if (!ModelSupport.isResourceType(joinResourceType)) {
+                        manageException("'" + joinResourceType + "' is not a valid resource type.", IssueType.INVALID, context, true);
+                        continue;
+                    }
 
-            List<InclusionParameter> inclusionParameters = new ArrayList<>();
-            for (SearchParameter searchParameter : searchParametersMap.values()) {
-                inclusionParameters.addAll(buildInclusionParameters(resourceType, joinResourceType,
-                    searchParameter, searchParameterTargetType, modifier, inclusionKeyword, lenient));
-            }
-            if (SearchConstants.INCLUDE.equals(inclusionKeyword)) {
-                context.getIncludeParameters().addAll(inclusionParameters);
-            } else {
-                context.getRevIncludeParameters().addAll(inclusionParameters);
+                    // For _revinclude parameter, target resource type, if specified, must match resource type being searched.
+                    // For :iterate, we'll check after all include/revinclude parameters have been parsed.
+                    if (!Modifier.ITERATE.equals(modifier) && searchParameterTargetType != null && !searchParameterTargetType.equals(resourceType.getSimpleName())) {
+                        manageException("The search parameter target type must match the resource type being searched.", IssueType.INVALID, context, true);
+                        continue;
+                    }
+
+                    // Check allowed _revinclude values
+                    if (allowedRevIncludes != null && !allowedRevIncludes.contains(inclusionValue) && !allowedRevIncludes.contains(resourceTypeAndParameterName)) {
+                        manageException("'" + inclusionValue + "' is not a valid _revinclude parameter value for resource type '"
+                                + resourceType.getSimpleName() + "'", IssueType.INVALID, context, true);
+                        continue;
+                    }
+                }
+
+                // Ensure that the Inclusion Parameter being parsed is a valid search parameter of type 'reference'.
+                Map<String, SearchParameter> searchParametersMap;
+                if (SearchConstants.WILDCARD.equals(searchParameterName)) {
+                    searchParametersMap = getInclusionWildcardSearchParameters(resourceType.getSimpleName(), joinResourceType,
+                        searchParameterTargetType, inclusionKeyword, modifier);
+                    if (searchParametersMap.isEmpty()) {
+                        log.fine("No valid inclusion parameters found for wildcard search.");
+                    }
+                } else {
+                    SearchParameter searchParm = getSearchParameter(joinResourceType, searchParameterName);
+                    if (searchParm == null) {
+                        manageException("Undefined Inclusion Parameter: " + inclusionValue, IssueType.INVALID, context, true);
+                        continue;
+                    }
+                    if (!SearchParamType.REFERENCE.equals(searchParm.getType())) {
+                        manageException("Inclusion Parameter must be of type 'reference'. The passed Inclusion Parameter is of type '"
+                                + searchParm.getType().getValue() + "': " + inclusionValue, IssueType.INVALID, context, true);
+                        continue;
+                    }
+                    if (searchParameterTargetType != null && !isValidTargetType(searchParameterTargetType, searchParm)) {
+                        manageException("Search parameter target type '" + searchParameterTargetType +
+                            "' is not valid for inclusion search parameter '" + searchParm.getCode() + "'", IssueType.INVALID, context, true);
+                        continue;
+                    }
+                    searchParametersMap = Collections.singletonMap(searchParameterName, searchParm);
+                }
+
+                List<InclusionParameter> inclusionParameters = new ArrayList<>();
+                for (SearchParameter searchParameter : searchParametersMap.values()) {
+                    inclusionParameters.addAll(buildInclusionParameters(resourceType, joinResourceType,
+                        searchParameter, searchParameterTargetType, modifier, inclusionKeyword, context));
+                }
+                if (SearchConstants.INCLUDE.equals(inclusionKeyword)) {
+                    context.getIncludeParameters().addAll(inclusionParameters);
+                } else {
+                    context.getRevIncludeParameters().addAll(inclusionParameters);
+                }
+            } catch (FHIRSearchException se) {
+                // There's a number of places that throw within this try block. In all cases we want the same behavior:
+                // If we're in lenient mode and there was an issue parsing the inclusion parameter then log and move on to the next one.
+                if (lenient) {
+                    String msg = "Inclusion parameter '" + inclusionKeyword + "' with value '" + inclusionValue + "' ignored";
+                    log.log(Level.FINE, msg, se);
+                    context.addOutcomeIssue(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.INVALID, msg));
+                } else {
+                    throw se;
+                }
             }
         }
     }
@@ -2352,13 +2377,13 @@ public class SearchUtil {
      * @param searchParameterTargetType the inclusion parameter target resource type
      * @param modifier the inclusion keyword modifier
      * @param inclusionKeyword the inclusion keyword (_include or _revinclude)
-     * @param lenient the validation level
+     * @param FHIRSearchContext the context
      * @return a list of InclusionParameter objects
      * @throws FHIRSearchException
      */
     private static List<InclusionParameter> buildInclusionParameters(Class<?> resourceType, String joinResourceType,
         SearchParameter searchParm, String searchParameterTargetType, Modifier modifier, String inclusionKeyword,
-        boolean lenient) throws FHIRSearchException {
+        FHIRSearchContext context) throws FHIRSearchException {
 
         List<InclusionParameter> inclusionParameters = new ArrayList<>();
         String searchParameterCode = searchParm.getCode().getValue();
@@ -2382,7 +2407,7 @@ public class SearchUtil {
                     inclusionParameters
                         .add(new InclusionParameter(joinResourceType, searchParameterCode, resourceType.getSimpleName(), modifier, false));
                 } else {
-                    manageException(INVALID_TARGET_TYPE_EXCEPTION, lenient);
+                    manageException(INVALID_TARGET_TYPE_EXCEPTION, IssueType.INVALID, context, true);
                 }
             }
         } else {
@@ -2420,26 +2445,38 @@ public class SearchUtil {
      * elementsParameters collection contained in
      * the passed FHIRSearchContext.
      *
-     * @param lenient
-     *                Whether to ignore unknown or unsupported elements
+     * @param resourceType the resource type
+     * @param context the search context
+     * @param elements the elements
      * @throws Exception
      */
     private static void parseElementsParameter(Class<?> resourceType, FHIRSearchContext context,
-            String elements, boolean lenient) throws Exception {
+            String elements) throws Exception {
 
         Set<String> resourceFieldNames = JsonSupport.getElementNames(resourceType);
 
         // For other parameters, we pass the comma-separated list of values to the PL
         // but for elements, we need to process that here
         for (String elementName : elements.split(SearchConstants.BACKSLASH_NEGATIVE_LOOKBEHIND + ",")) {
-            if (elementName.startsWith("_")) {
-                throw SearchExceptionUtil.buildNewInvalidSearchException("Invalid element name: " + elementName);
+            try {
+                if (elementName.startsWith("_")) {
+                    throw SearchExceptionUtil.buildNewInvalidSearchException("Invalid element name: " + elementName);
+                }
+                if (!resourceFieldNames.contains(elementName)) {
+                    manageException("Unknown element name: " + elementName, IssueType.INVALID, context, true);
+                    continue;
+                }
+                context.addElementsParameter(elementName);
+            } catch (FHIRSearchException se) {
+                // If we're in lenient mode and there was an issue parsing the element then log and move on to the next one.
+                if (context.isLenient()) {
+                    String msg = "Element name '" + elementName + "' for resource type '" + resourceType.getSimpleName() + "' ignored";
+                    log.log(Level.FINE, msg, se);
+                    context.addOutcomeIssue(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.INCOMPLETE, msg));
+                } else {
+                    throw se;
+                }
             }
-            if (!resourceFieldNames.contains(elementName)) {
-                manageException("Unknown element name: " + elementName, lenient);
-                continue;
-            }
-            context.addElementsParameter(elementName);
         }
     }
 
@@ -2480,14 +2517,20 @@ public class SearchUtil {
      *
      * @param message
      *     The error message.
-     * @param lenient
-     *     A flag indicating lenient or strict mode.
+     * @param issueType
+     *     The issue type.
+     * @param context
+     *     The search context.
+     * @param alwaysThrow
+     *     Determine whether exception should be thrown even if in lenient mode.
      * @throws FHIRSearchException
      */
-    private static void manageException(String message, boolean lenient) throws FHIRSearchException {
-        if (lenient) {
+    private static void manageException(String message, IssueType issueType, FHIRSearchContext context, boolean alwaysThrow) throws FHIRSearchException {
+        if (context.isLenient()) {
             log.fine(message);
-        } else {
+            context.addOutcomeIssue(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, issueType, message));
+        }
+        if (!context.isLenient() || alwaysThrow) {
             throw SearchExceptionUtil.buildNewInvalidSearchException(message);
         }
     }
@@ -2569,11 +2612,17 @@ public class SearchUtil {
      * @param searchParameter the search parameter to check
      * @param parameterCode   the search parameter code
      * @param resourceType    the resource type the search parameter was specified for
+     * @param context         the context
      * @throws FHIRSearchException
      */
-    private static void throwSearchParameterExceptionIfNull(SearchParameter searchParameter, String parameterCode, String resourceType) throws FHIRSearchException {
+    private static void throwSearchParameterExceptionIfNull(SearchParameter searchParameter, String parameterCode, String resourceType, FHIRSearchContext context) throws FHIRSearchException {
         if (searchParameter == null) {
-            throw SearchExceptionUtil.buildNewInvalidSearchException(String.format(SEARCH_PARAMETER_NOT_FOUND, parameterCode, resourceType));
+            String msg = String.format(SEARCH_PARAMETER_NOT_FOUND, parameterCode, resourceType);
+            if (context.isLenient()) {
+                log.fine(msg);
+                context.addOutcomeIssue(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.INVALID, msg));
+            }
+            throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
         }
     }
 
@@ -2582,14 +2631,19 @@ public class SearchUtil {
      *
      * @param parameterCode the search parameter code
      * @param values        the list of parameter values to check
+     * @param context       the context
      * @throws FHIRSearchException
      */
-    private static void checkQueryParameterValuesForLogicalIdOnly(String parameterCode, List<QueryParameterValue> values) throws FHIRSearchException {
+    private static void checkQueryParameterValuesForLogicalIdOnly(String parameterCode, List<QueryParameterValue> values, FHIRSearchContext context) throws FHIRSearchException {
         for (QueryParameterValue value : values) {
             ReferenceValue refVal = ReferenceUtil.createReferenceValueFrom(value.getValueString(), null, ReferenceUtil.getBaseUrl(null));
             if (refVal.getType() == ReferenceType.LITERAL_RELATIVE && refVal.getTargetResourceType() == null) {
-                throw SearchExceptionUtil.buildNewInvalidSearchException(
-                    String.format(LOGICAL_ID_VALUE_NOT_ALLOWED_FOR_REFERENCE_SEARCH, parameterCode, value.getValueString()));
+                String msg = String.format(LOGICAL_ID_VALUE_NOT_ALLOWED_FOR_REFERENCE_SEARCH, parameterCode, value.getValueString());
+                if (context.isLenient()) {
+                    log.fine(msg);
+                    context.addOutcomeIssue(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.INVALID, msg));
+                }
+                throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
             }
         }
     }

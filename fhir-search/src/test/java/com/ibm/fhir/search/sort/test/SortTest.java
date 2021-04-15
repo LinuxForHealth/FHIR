@@ -31,6 +31,7 @@ import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.context.FHIRSearchContextFactory;
+import com.ibm.fhir.search.context.impl.FHIRSearchContextImpl;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.sort.Sort;
 import com.ibm.fhir.search.test.BaseSearchTest;
@@ -42,7 +43,8 @@ import com.ibm.fhir.search.util.SearchUtil;
  */
 public class SortTest extends BaseSearchTest {
 
-    final static Sort sort = new Sort();
+    private static final Sort sort = new Sort();
+    private static final FHIRSearchContext context = new FHIRSearchContextImpl();
 
     /**
      * Tests an invalid direction modifier on the _sort query parameter.
@@ -70,24 +72,24 @@ public class SortTest extends BaseSearchTest {
 
     @Test(expectedExceptions = {})
     public void testCheckSystemLevelWithNonSystem() throws Exception {
-        sort.checkSystemLevel("Patient", "sortParmCode");
+        sort.checkSystemLevel("Patient", "sortParmCode", context);
         assertTrue(true);
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
     public void testCheckSystemLevelWithResource() throws Exception {
-        sort.checkSystemLevel("Resource", "sortParmCode");
+        sort.checkSystemLevel("Resource", "sortParmCode", context);
     }
 
     @Test(expectedExceptions = {})
     public void testCheckSystemLevelWithResourceId() throws Exception {
-        sort.checkSystemLevel("Resource", "_id");
+        sort.checkSystemLevel("Resource", "_id", context);
         assertTrue(true);
     }
 
     @Test(expectedExceptions = {})
     public void testCheckSystemLevelWithResourceLastUpdated() throws Exception {
-        sort.checkSystemLevel("Resource", "_lastUpdated");
+        sort.checkSystemLevel("Resource", "_lastUpdated", context);
         assertTrue(true);
     }
 
@@ -96,19 +98,21 @@ public class SortTest extends BaseSearchTest {
         String resourceTypeName = "TestResource";
         String sortParmCode = "LoggingCode";
         SearchParameter sortParmProxy = null;
-        boolean lenient = false;
+        context.setLenient(false);
 
-        assertTrue(sort.isUndefinedOrLenient(resourceTypeName, sortParmCode, sortParmProxy, lenient));
+        assertTrue(sort.isUndefinedOrLenient(resourceTypeName, sortParmCode, sortParmProxy, context));
     }
 
-    @Test(expectedExceptions = {})
+    @Test(expectedExceptions = { FHIRSearchException.class })
     public void testIsUndefinedOrLenientAsNoSPAndLenient() throws Exception {
         String resourceTypeName = "TestResource";
         String sortParmCode = "LoggingCode";
         SearchParameter sortParmProxy = null;
-        boolean lenient = true;
+        context.setLenient(true);
+        context.getOutcomeIssues().clear();
 
-        assertTrue(sort.isUndefinedOrLenient(resourceTypeName, sortParmCode, sortParmProxy, lenient));
+        assertTrue(sort.isUndefinedOrLenient(resourceTypeName, sortParmCode, sortParmProxy, context));
+        assertEquals(2, context.getOutcomeIssues().size());
     }
 
     @Test(expectedExceptions = {})
@@ -121,11 +125,12 @@ public class SortTest extends BaseSearchTest {
                         .base(Arrays.asList(ResourceType.ACCOUNT)).type(SearchParamType.NUMBER)
                         .expression(string("test")).build();
 
-        boolean lenient = true;
-        assertFalse(sort.isUndefinedOrLenient(resourceTypeName, sortParmCode, sortParmProxy, lenient));
+        context.setLenient(true);
+        context.getOutcomeIssues().clear();
+        assertFalse(sort.isUndefinedOrLenient(resourceTypeName, sortParmCode, sortParmProxy, context));
 
-        lenient = false;
-        assertFalse(sort.isUndefinedOrLenient(resourceTypeName, sortParmCode, sortParmProxy, lenient));
+        context.setLenient(false);
+        assertFalse(sort.isUndefinedOrLenient(resourceTypeName, sortParmCode, sortParmProxy, context));
     }
 
     @Test(expectedExceptions = { IllegalArgumentException.class })
@@ -152,9 +157,9 @@ public class SortTest extends BaseSearchTest {
         Class<?> resourceType = Patient.class;
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
         String sortQueryParmValue = "_id";
-        boolean lenient = false;
+        context.setLenient(false);
 
-        sort.parseSortParameter(resourceType, context, sortQueryParmValue, lenient);
+        sort.parseSortParameter(resourceType, context, sortQueryParmValue);
         assertEquals(context.getSortParameters().size(), 1);
         assertEquals(context.getSortParameters().get(0).getDirection().value(), '+');
     }
@@ -164,9 +169,9 @@ public class SortTest extends BaseSearchTest {
         Class<?> resourceType = Patient.class;
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
         String sortQueryParmValue = "-_id";
-        boolean lenient = false;
+        context.setLenient(false);
 
-        sort.parseSortParameter(resourceType, context, sortQueryParmValue, lenient);
+        sort.parseSortParameter(resourceType, context, sortQueryParmValue);
         assertEquals(context.getSortParameters().size(), 1);
         assertEquals(context.getSortParameters().get(0).getDirection().value(), '-');
     }
@@ -176,9 +181,9 @@ public class SortTest extends BaseSearchTest {
         Class<?> resourceType = Resource.class;
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
         String sortQueryParmValue = "-_id";
-        boolean lenient = false;
+        context.setLenient(false);
 
-        sort.parseSortParameter(resourceType, context, sortQueryParmValue, lenient);
+        sort.parseSortParameter(resourceType, context, sortQueryParmValue);
         assertEquals(context.getSortParameters().size(), 1);
         assertEquals(context.getSortParameters().get(0).getDirection().value(), '-');
     }
@@ -188,8 +193,8 @@ public class SortTest extends BaseSearchTest {
         Class<?> resourceType = Observation.class;
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
         String sortQueryParmValue = "-component-code2";
-        boolean lenient = false;
-        sort.parseSortParameter(resourceType, context, sortQueryParmValue, lenient);
+        context.setLenient(false);
+        sort.parseSortParameter(resourceType, context, sortQueryParmValue);
     }
 
     @Test(expectedExceptions = {})
@@ -197,9 +202,10 @@ public class SortTest extends BaseSearchTest {
         Class<?> resourceType = Observation.class;
         FHIRSearchContext context = FHIRSearchContextFactory.createSearchContext();
         String sortQueryParmValue = "-component-code2";
-        boolean lenient = true;
-        sort.parseSortParameter(resourceType, context, sortQueryParmValue, lenient);
+        context.setLenient(true);
+        sort.parseSortParameter(resourceType, context, sortQueryParmValue);
 
         assertTrue(context.getSortParameters().isEmpty());
+        assertEquals(2, context.getOutcomeIssues().size());
     }
 }
