@@ -6,6 +6,11 @@
 
 package com.ibm.fhir.server.registry;
 
+import static com.ibm.fhir.core.util.CacheKey.key;
+import static com.ibm.fhir.core.util.CacheSupport.createCacheAsMap;
+
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -18,6 +23,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.util.CacheKey;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.StructureDefinition;
@@ -40,6 +47,8 @@ public class ServerRegistryResourceProvider implements FHIRRegistryResourceProvi
 
     private final PersistenceHelper persistenceHelper;
 
+    private final Map<CacheKey, List<FHIRRegistryResource>> registryResourceCache = createCacheAsMap(1024, Duration.of(1, ChronoUnit.MINUTES));
+
     public ServerRegistryResourceProvider(PersistenceHelper persistenceHelper) {
         try {
             this.persistenceHelper = Objects.requireNonNull(persistenceHelper);
@@ -50,7 +59,10 @@ public class ServerRegistryResourceProvider implements FHIRRegistryResourceProvi
 
     @Override
     public FHIRRegistryResource getRegistryResource(Class<? extends Resource> resourceType, String url, String version) {
-        List<FHIRRegistryResource> registryResources = getRegistryResources(resourceType, url);
+        String tenantId = FHIRRequestContext.get().getTenantId();
+        String dataStoreId = FHIRRequestContext.get().getDataStoreId();
+        CacheKey key = key(tenantId, dataStoreId, url);
+        List<FHIRRegistryResource> registryResources = registryResourceCache.computeIfAbsent(key, k -> computeRegistryResources(resourceType, url));
         if (!registryResources.isEmpty()) {
             if (version != null) {
                 Version v = Version.from(version);
@@ -108,7 +120,7 @@ public class ServerRegistryResourceProvider implements FHIRRegistryResourceProvi
         return getRegistryResources(SearchParameter.class, queryParameters);
     }
 
-    private List<FHIRRegistryResource> getRegistryResources(Class<? extends Resource> resourceType, String url) {
+    private List<FHIRRegistryResource> computeRegistryResources(Class<? extends Resource> resourceType, String url) {
         FHIRTransactionHelper transactionHelper = null;
         try {
             FHIRPersistence persistence = persistenceHelper.getFHIRPersistenceImplementation();

@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.path.evaluator;
 
-import static com.ibm.fhir.core.util.CacheSupport.createCache;
+import static com.ibm.fhir.core.util.CacheSupport.createCacheAsMap;
 import static com.ibm.fhir.path.FHIRPathDateTimeValue.dateTimeValue;
 import static com.ibm.fhir.path.FHIRPathDateValue.dateValue;
 import static com.ibm.fhir.path.FHIRPathDecimalValue.decimalValue;
@@ -97,7 +97,7 @@ public class FHIRPathEvaluator {
     public static final Collection<FHIRPathNode> SINGLETON_FALSE = singleton(FHIRPathBooleanValue.FALSE);
 
     private static final int EXPRESSION_CONTEXT_CACHE_MAX_ENTRIES = 512;
-    private static final Map<String, ExpressionContext> EXPRESSION_CONTEXT_CACHE = createCache(EXPRESSION_CONTEXT_CACHE_MAX_ENTRIES);
+    private static final Map<String, ExpressionContext> EXPRESSION_CONTEXT_CACHE = createCacheAsMap(EXPRESSION_CONTEXT_CACHE_MAX_ENTRIES);
 
     private final EvaluatingVisitor visitor = new EvaluatingVisitor();
 
@@ -283,10 +283,10 @@ public class FHIRPathEvaluator {
         private static final String SYSTEM_NAMESPACE = "System";
 
         private static final int IDENTIFIER_CACHE_MAX_ENTRIES = 2048;
-        private static final Map<String, Collection<FHIRPathNode>> IDENTIFIER_CACHE = createCache(IDENTIFIER_CACHE_MAX_ENTRIES);
+        private static final Map<String, Collection<FHIRPathNode>> IDENTIFIER_CACHE = createCacheAsMap(IDENTIFIER_CACHE_MAX_ENTRIES);
 
         private static final int LITERAL_CACHE_MAX_ENTRIES = 128;
-        private static final Map<String, Collection<FHIRPathNode>> LITERAL_CACHE = createCache(LITERAL_CACHE_MAX_ENTRIES);
+        private static final Map<String, Collection<FHIRPathNode>> LITERAL_CACHE = createCacheAsMap(LITERAL_CACHE_MAX_ENTRIES);
 
         private EvaluationContext evaluationContext;
         private final Stack<Collection<FHIRPathNode>> contextStack = new Stack<>();

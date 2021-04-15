@@ -231,6 +231,10 @@ public class FHIRServletContextListener implements ServletContextListener {
                 if (remoteTermServiceProvidersArray != null) {
                     for (Object remoteTermServiceProviderObject : remoteTermServiceProvidersArray) {
                         PropertyGroup remoteTermServiceProviderPropertyGroup = (PropertyGroup) remoteTermServiceProviderObject;
+                        Boolean enabled = remoteTermServiceProviderPropertyGroup.getBooleanProperty("enabled", Boolean.FALSE);
+                        if (!enabled) {
+                            continue;
+                        }
                         try {
                             Configuration.Builder builder = Configuration.builder();
 

@@ -6,7 +6,8 @@
 
 package com.ibm.fhir.term.util;
 
-import static com.ibm.fhir.core.util.CacheSupport.createCache;
+import static com.ibm.fhir.core.util.CacheKey.key;
+import static com.ibm.fhir.core.util.CacheManager.createCacheAsMap;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_BOOLEAN;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_INTEGER;
@@ -31,6 +32,8 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.util.CacheKey;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
@@ -60,7 +63,6 @@ import com.ibm.fhir.term.service.FHIRTermService;
 public final class CodeSystemSupport {
     public static final java.lang.String ANCESTORS_AND_SELF_CACHE_NAME = "com.ibm.fhir.term.util.CodeSystemSupport.ancestorsAndSelfCache";
     public static final java.lang.String DESCENDANTS_AND_SELF_CACHE_NAME = "com.ibm.fhir.term.util.CodeSystemSupport.descendantsAndSelfCache";
-    public static final java.lang.String CASE_SENSITIVITY_CACHE_NAME = "com.ibm.fhir.term.util.CodeSystemSupport.caseSensitivityCache";
 
     /**
      * A function that maps a code system concept to its code value
@@ -127,10 +129,9 @@ public final class CodeSystemSupport {
         }
     };
 
-    private static final Map<java.lang.String, java.lang.Boolean> CASE_SENSITIVITY_CACHE = createCache(CASE_SENSITIVITY_CACHE_NAME, 2048);
     private static final Pattern IN_COMBINING_DIACRITICAL_MARKS_PATTERN = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-    private static final Map<java.lang.String, Set<java.lang.String>> ANCESTORS_AND_SELF_CACHE = createCache(ANCESTORS_AND_SELF_CACHE_NAME, 128);
-    private static final Map<java.lang.String, Set<java.lang.String>> DESCENDANTS_AND_SELF_CACHE = createCache(DESCENDANTS_AND_SELF_CACHE_NAME, 128);
+    private static final Map<CacheKey, Set<java.lang.String>> ANCESTORS_AND_SELF_CACHE = createCacheAsMap(ANCESTORS_AND_SELF_CACHE_NAME, 128);
+    private static final Map<CacheKey, Set<java.lang.String>> DESCENDANTS_AND_SELF_CACHE = createCacheAsMap(DESCENDANTS_AND_SELF_CACHE_NAME, 128);
 
     private CodeSystemSupport() { }
 
@@ -197,7 +198,8 @@ public final class CodeSystemSupport {
         if (FHIRTermConfig.isCachingDisabled()) {
             return computeAncestorsAndSelf(codeSystem, code);
         }
-        return ANCESTORS_AND_SELF_CACHE.computeIfAbsent(code.getValue(), k -> computeAncestorsAndSelf(codeSystem, code));
+        CacheKey key = key(FHIRRequestContext.get().getTenantId(), codeSystem, code);
+        return ANCESTORS_AND_SELF_CACHE.computeIfAbsent(key, k -> computeAncestorsAndSelf(codeSystem, code));
     }
 
     /**
@@ -433,7 +435,8 @@ public final class CodeSystemSupport {
         if (FHIRTermConfig.isCachingDisabled()) {
             return computeDescendantsAndSelf(codeSystem, code);
         }
-        return DESCENDANTS_AND_SELF_CACHE.computeIfAbsent(code.getValue(), k -> computeDescendantsAndSelf(codeSystem, code));
+        CacheKey key = key(FHIRRequestContext.get().getTenantId(), codeSystem, code);
+        return DESCENDANTS_AND_SELF_CACHE.computeIfAbsent(key, k -> computeDescendantsAndSelf(codeSystem, code));
     }
 
     /**
@@ -507,10 +510,7 @@ public final class CodeSystemSupport {
      *     true if the code system with the given is case sensitive, false otherwise
      */
     public static boolean isCaseSensitive(java.lang.String url) {
-        if (FHIRTermConfig.isCachingDisabled()) {
-            return isCaseSensitive(getCodeSystem(url));
-        }
-        return CASE_SENSITIVITY_CACHE.computeIfAbsent(url, k -> isCaseSensitive(getCodeSystem(url)));
+        return isCaseSensitive(getCodeSystem(url));
     }
 
     /**

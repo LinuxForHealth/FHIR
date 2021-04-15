@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.core.util;
 
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -41,15 +40,5 @@ public class CacheKey {
 
     public static CacheKey key(Object... values) {
         return new CacheKey(values);
-    }
-
-    public interface Generator {
-        public static final Generator DEFAULT = new Generator() {
-            @Override
-            public CacheKey generate(Object target, Method method, Object[] args) {
-                return key(method, args);
-            }
-        };
-        CacheKey generate(Object target, Method method, Object[] args);
     }
 }

@@ -6,7 +6,8 @@
 
 package com.ibm.fhir.term.util;
 
-import static com.ibm.fhir.core.util.CacheSupport.createCache;
+import static com.ibm.fhir.core.util.CacheKey.key;
+import static com.ibm.fhir.core.util.CacheManager.createCacheAsMap;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.term.util.CodeSystemSupport.getCodeSystem;
 import static com.ibm.fhir.term.util.CodeSystemSupport.isCaseSensitive;
@@ -25,6 +26,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.util.CacheKey;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.Resource;
@@ -53,7 +56,7 @@ public final class ValueSetSupport {
     private static final Logger log = Logger.getLogger(ValueSetSupport.class.getName());
 
     private static final java.lang.String VERSION_UNKNOWN = "<version unknown>";
-    private static final Map<java.lang.String, Map<java.lang.String, Set<java.lang.String>>> CODE_SET_MAP_CACHE = createCache(CODE_SET_MAP_CACHE_NAME, 1024);
+    private static final Map<CacheKey, Map<java.lang.String, Set<java.lang.String>>> CODE_SET_MAP_CACHE = createCacheAsMap(CODE_SET_MAP_CACHE_NAME, 1024);
 
     private ValueSetSupport() { }
 
@@ -92,7 +95,8 @@ public final class ValueSetSupport {
             return computeCodeSetMap(valueSet);
         }
         java.lang.String url = valueSet.getUrl().getValue() + "|" + valueSet.getVersion().getValue();
-        return CODE_SET_MAP_CACHE.computeIfAbsent(url, k -> computeCodeSetMap(valueSet));
+        CacheKey key = key(FHIRRequestContext.get().getTenantId(), url);
+        return CODE_SET_MAP_CACHE.computeIfAbsent(key, k -> computeCodeSetMap(valueSet));
     }
 
     /**

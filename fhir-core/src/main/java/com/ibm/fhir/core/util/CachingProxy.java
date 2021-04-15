@@ -6,19 +6,19 @@
 
 package com.ibm.fhir.core.util;
 
-import static com.ibm.fhir.core.util.CacheSupport.createCache;
+import static com.ibm.fhir.core.util.CacheKey.key;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.time.Duration;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.core.annotation.Cacheable;
-import com.ibm.fhir.core.util.CacheKey.Generator;
 
 public class CachingProxy {
     private static final Logger log = Logger.getLogger(CachingProxy.class.getName());
@@ -42,6 +42,16 @@ public class CachingProxy {
         return false;
     }
 
+    public interface KeyGenerator {
+        public static final KeyGenerator DEFAULT = new KeyGenerator() {
+            @Override
+            public CacheKey generate(Object target, Method method, Object[] args) {
+                return key(method, args);
+            }
+        };
+        CacheKey generate(Object target, Method method, Object[] args);
+    }
+
     private static boolean isCacheable(Method method) {
         return method.isAnnotationPresent(Cacheable.class);
     }
@@ -52,7 +62,7 @@ public class CachingProxy {
         private final Object target;
         private final Class<?> targetClass;
         private final Map<Method, Method> targetMethodCache = new ConcurrentHashMap<>();
-        private final Map<Class<? extends CacheKey.Generator>, CacheKey.Generator> keyGeneratorCache = new ConcurrentHashMap<>();
+        private final Map<Class<? extends KeyGenerator>, KeyGenerator> keyGeneratorCache = new ConcurrentHashMap<>();
         private final Map<Method, Map<CacheKey, Object>> resultCacheMap = new ConcurrentHashMap<>();
 
         public CachingInvocationHandler(Object target) {
@@ -66,12 +76,12 @@ public class CachingProxy {
                 Method targetMethod = targetMethodCache.computeIfAbsent(method, k -> computeTargetMethod(method));
                 if (isCacheable(targetMethod)) {
                     Cacheable cacheable = targetMethod.getAnnotation(Cacheable.class);
-                    Class<? extends CacheKey.Generator> keyGeneratorClass = cacheable.keyGeneratorClass();
+                    Class<? extends KeyGenerator> keyGeneratorClass = cacheable.keyGeneratorClass();
 
-                    CacheKey.Generator keyGenerator = getKeyGenerator(keyGeneratorClass, target, targetMethod, args);
+                    KeyGenerator keyGenerator = getKeyGenerator(keyGeneratorClass, target, targetMethod, args);
                     CacheKey key = keyGenerator.generate(target, targetMethod, args);
 
-                    Map<CacheKey, Object> resultCache = resultCacheMap.computeIfAbsent(targetMethod, k -> createCache(cacheable));
+                    Map<CacheKey, Object> resultCache = resultCacheMap.computeIfAbsent(targetMethod, k -> createCacheAsMap(cacheable));
                     Object result = resultCache.computeIfAbsent(key, k -> computeResult(targetMethod, args));
 
                     return (result != NULL) ? result : null;
@@ -99,19 +109,23 @@ public class CachingProxy {
             }
         }
 
-        private CacheKey.Generator getKeyGenerator(Class<? extends CacheKey.Generator> keyGeneratorClass, Object target, Method targetMethod, Object[] args) {
-            if (CacheKey.Generator.class.equals(keyGeneratorClass)) {
-                return CacheKey.Generator.DEFAULT;
+        private KeyGenerator getKeyGenerator(Class<? extends KeyGenerator> keyGeneratorClass, Object target, Method targetMethod, Object[] args) {
+            if (KeyGenerator.class.equals(keyGeneratorClass)) {
+                return KeyGenerator.DEFAULT;
             }
             return keyGeneratorCache.computeIfAbsent(keyGeneratorClass, k -> computeKeyGenerator(keyGeneratorClass));
         }
 
-        private CacheKey.Generator computeKeyGenerator(Class<? extends Generator> keyGeneratorClass) {
+        private KeyGenerator computeKeyGenerator(Class<? extends KeyGenerator> keyGeneratorClass) {
             try {
                 return keyGeneratorClass.getDeclaredConstructor().newInstance();
             } catch (Exception e) {
                 throw wrap(e);
             }
+        }
+
+        private <K, V> Map<K, V> createCacheAsMap(Cacheable cacheable) {
+            return CacheSupport.createCacheAsMap(cacheable.maximumSize(), Duration.of(cacheable.duration(), cacheable.unit().toChronoUnit()));
         }
 
         private Object computeResult(Method targetMethod, Object[] args) {
