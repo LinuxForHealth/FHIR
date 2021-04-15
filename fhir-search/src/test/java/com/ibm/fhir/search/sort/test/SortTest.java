@@ -8,7 +8,6 @@ package com.ibm.fhir.search.sort.test;
 
 import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -100,7 +99,7 @@ public class SortTest extends BaseSearchTest {
         SearchParameter sortParmProxy = null;
         context.setLenient(false);
 
-        assertTrue(sort.isUndefinedOrLenient(resourceTypeName, sortParmCode, sortParmProxy, context));
+        sort.checkIfUndefined(resourceTypeName, sortParmCode, sortParmProxy, context);
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
@@ -111,8 +110,12 @@ public class SortTest extends BaseSearchTest {
         context.setLenient(true);
         context.getOutcomeIssues().clear();
 
-        assertTrue(sort.isUndefinedOrLenient(resourceTypeName, sortParmCode, sortParmProxy, context));
-        assertEquals(2, context.getOutcomeIssues().size());
+        try {
+            sort.checkIfUndefined(resourceTypeName, sortParmCode, sortParmProxy, context);
+        } catch (FHIRSearchException e) {
+            assertEquals(1, context.getOutcomeIssues().size());
+            throw e;
+        }
     }
 
     @Test(expectedExceptions = {})
@@ -126,11 +129,10 @@ public class SortTest extends BaseSearchTest {
                         .expression(string("test")).build();
 
         context.setLenient(true);
-        context.getOutcomeIssues().clear();
-        assertFalse(sort.isUndefinedOrLenient(resourceTypeName, sortParmCode, sortParmProxy, context));
+        sort.checkIfUndefined(resourceTypeName, sortParmCode, sortParmProxy, context);
 
         context.setLenient(false);
-        assertFalse(sort.isUndefinedOrLenient(resourceTypeName, sortParmCode, sortParmProxy, context));
+        sort.checkIfUndefined(resourceTypeName, sortParmCode, sortParmProxy, context);
     }
 
     @Test(expectedExceptions = { IllegalArgumentException.class })

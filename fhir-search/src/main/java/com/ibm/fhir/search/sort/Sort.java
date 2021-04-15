@@ -114,15 +114,14 @@ public class Sort {
                 // Per the FHIR spec, the _sort parameter value is a search parameter. We need to determine what
                 // type of search parameter.
                 SearchParameter sortParmProxy = SearchUtil.getSearchParameter(resourceTypeName, sortParmCode);
-                if (!isUndefinedOrLenient(resourceTypeName, sortParmCode, sortParmProxy, context)) {
-                    SearchConstants.Type sortParmType =
-                            SearchConstants.Type.fromValue(sortParmProxy.getType().getValue());
-                    SortParameter sortParm = new SortParameter(sortParmCode, sortParmType, sortDirection);
+                checkIfUndefined(resourceTypeName, sortParmCode, sortParmProxy, context);
 
-                    checkSystemLevel(resourceTypeName, sortParm.getCode(), context);
+                SearchConstants.Type sortParmType =
+                        SearchConstants.Type.fromValue(sortParmProxy.getType().getValue());
+                SortParameter sortParm = new SortParameter(sortParmCode, sortParmType, sortDirection);
+                checkSystemLevel(resourceTypeName, sortParm.getCode(), context);
 
-                    context.getSortParameters().add(sortParm);
-                }
+                context.getSortParameters().add(sortParm);
             } catch (FHIRSearchException se) {
                 // If we're in lenient mode and there was an issue parsing the _sort parameter value then log and move on to the next one.
                 if (context.isLenient()) {
@@ -137,46 +136,45 @@ public class Sort {
     }
 
     /**
-     * checks to see if undefined as a SearchParameter or Lenient
+     * Checks to see if undefined as a SearchParameter.
      *
      * @param resourceTypeName the resource type
      * @param sortParmCode the sort value
      * @param sortParmProxy the search parameter
      * @param context the context
-     * @return true or false
-     * @throws FHIRSearchException
+     * @throws FHIRSearchException if search parameter is undefined
      */
-    public boolean isUndefinedOrLenient(String resourceTypeName, String sortParmCode, SearchParameter sortParmProxy,
+    public void checkIfUndefined(String resourceTypeName, String sortParmCode, SearchParameter sortParmProxy,
             FHIRSearchContext context) throws FHIRSearchException {
-        boolean result = sortParmProxy == null;
-        if (result) {
+        if (sortParmProxy == null) {
             String msg = buildUndefinedSortParamMessage(resourceTypeName, sortParmCode);
             if (context.isLenient()) {
                 log.fine(msg);
                 context.addOutcomeIssue(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.INVALID, msg));
             }
+            // Always throw a FHIRSearchException which is caught by parseSortParameter
             throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
         }
-        return result;
     }
 
     /**
-     * check system level searches with DESC/ASC are ONLY with _id and _lastUpdated
+     * Check system level searches with DESC/ASC are ONLY with _id and _lastUpdated.
      *
      * @param resourceTypeName one of the FHIR Resources, and must be a non-null
      *                         value
      * @param code             the code to check.
      * @param context          the context
-     * @throws FHIRSearchException
+     * @throws FHIRSearchException if system level search and code is not system level
      */
     public void checkSystemLevel(String resourceTypeName, String code, FHIRSearchContext context) throws FHIRSearchException {
-        if ("Resource".compareTo(resourceTypeName) == 0
+        if ("Resource".equals(resourceTypeName)
                 && !SYSTEM_LEVEL_SORT_PARAMETER_NAMES.contains(code)) {
             String msg = buildNewInvalidSearchExceptionMessage(code);
             if (context.isLenient()) {
                 log.fine(msg);
                 context.addOutcomeIssue(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.INVALID, msg));
             }
+            // Always throw a FHIRSearchException which is caught by parseSortParameter
             throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
         }
     }
