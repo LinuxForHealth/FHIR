@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.provider.util;
+package com.ibm.fhir.server.util;
 
 import java.nio.charset.StandardCharsets;
 
