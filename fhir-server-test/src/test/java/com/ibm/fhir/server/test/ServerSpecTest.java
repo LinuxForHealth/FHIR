@@ -323,13 +323,10 @@ public class ServerSpecTest extends FHIRServerTestBase {
         savedObservation = responseObs;
     }
 
-
-
     // Test: create an invalid observation
     @Test(groups = { "server-spec" })
     public void testCreateObservationErrorInvalidResource() throws Exception {
         WebTarget target = getWebTarget();
-
 
         JsonObject observation = BUILDER_FACTORY.createObjectBuilder().add("resourceType", "Observation")
                 .build();
@@ -337,7 +334,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         Entity<JsonObject> entity = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Observation").request().post(entity, Response.class);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
-        assertValidationOperationOutcome(response.readEntity(OperationOutcome.class), "Missing required element: 'status'");
+        assertValidationOperationOutcome(response.readEntity(OperationOutcome.class), "Missing required element: &#39;status&#39;");
     }
 
     // Test: include incorrect resource type in request body.
@@ -642,7 +639,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle historyBundle = response.getResource(Bundle.class);
         assertNotNull(historyBundle);
-        assertEquals(2, historyBundle.getTotal().getValue().intValue());
+        assertEquals(2, historyBundle.getTotal().getValue());
 
         // A search that results in multiple matches should result in a 412 status code.
         FHIRParameters multipleMatches = new FHIRParameters().searchParam("status", "final");

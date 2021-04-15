@@ -226,7 +226,7 @@ public class FHIRUtil {
         String causedBy = "";
         while (e != null) {
             msgs.append(causedBy + e.getClass().getSimpleName() + ": "
-                    + (e.getMessage() != null ? e.getMessage().replaceAll("<", "&lt;").replaceAll(">", "&gt;") : "<null message>"));
+                    + (e.getMessage() != null ? e.getMessage().replaceAll("<", "&lt;").replaceAll(">", "&gt;") : "&lt;null message&gt;"));
             e = e.getCause();
             causedBy = System.lineSeparator() + "Caused by: ";
 
