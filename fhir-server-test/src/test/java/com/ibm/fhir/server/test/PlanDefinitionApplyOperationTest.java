@@ -158,7 +158,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         // null, practitionerId, null, null, null, null, null, null);
 
         Response response =
-                doPost(FHIRMediaType.APPLICATION_FHIR_JSON, false, false, planDefinitionId, subjects, null, null, "Organization/my-org", "user-type", "user-language", "user-task-context", "my-setting", "my-setting-context");
+                doPost(FHIRMediaType.APPLICATION_FHIR_JSON, false, false, planDefinitionId, subjects, null, "Practitioner/" + practitionerId, "Organization/my-org", "user-type", "user-language", "user-task-context", "my-setting", "my-setting-context");
         assertEquals(response.getStatus(), 200);
 
         CarePlan carePlan = response.readEntity(CarePlan.class);

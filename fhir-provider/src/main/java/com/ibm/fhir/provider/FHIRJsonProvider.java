@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -45,16 +45,19 @@ import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 
+/**
+ * Maps entity streams to/from javax.json objects
+ */
 @Consumes({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
 @Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON })
 public class FHIRJsonProvider implements MessageBodyReader<JsonObject>, MessageBodyWriter<JsonObject> {
     private static final Logger log = Logger.getLogger(FHIRJsonProvider.class.getName());
-    
+
     private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
     private static final JsonWriterFactory JSON_WRITER_FACTORY = Json.createWriterFactory(null);
-    
+
     private final RuntimeType runtimeType;
-    
+
     public FHIRJsonProvider(RuntimeType runtimeType) {
         this.runtimeType = Objects.requireNonNull(runtimeType);
     }
@@ -66,7 +69,7 @@ public class FHIRJsonProvider implements MessageBodyReader<JsonObject>, MessageB
 
     @Override
     public JsonObject readFrom(Class<JsonObject> type, Type genericType, Annotation[] annotations, MediaType mediaType,
-        MultivaluedMap<String, String> httpHeaders, InputStream entityStream) throws IOException, WebApplicationException {
+            MultivaluedMap<String, String> httpHeaders, InputStream entityStream) throws IOException, WebApplicationException {
         log.entering(this.getClass().getName(), "readFrom");
         try (JsonReader reader = JSON_READER_FACTORY.createReader(nonClosingInputStream(entityStream))) {
             return reader.readObject();
@@ -92,7 +95,7 @@ public class FHIRJsonProvider implements MessageBodyReader<JsonObject>, MessageB
 
     @Override
     public void writeTo(JsonObject t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType,
-        MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
+            MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
         log.entering(this.getClass().getName(), "writeTo");
         try (JsonWriter writer = JSON_WRITER_FACTORY.createWriter(nonClosingOutputStream(entityStream))) {
             writer.writeObject(t);

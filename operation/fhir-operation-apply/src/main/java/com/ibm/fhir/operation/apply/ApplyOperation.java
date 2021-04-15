@@ -266,7 +266,6 @@ public class ApplyOperation extends AbstractOperation {
             if (!altSubjectsRefs.isEmpty()) {
                 builder.supportingInfo(altSubjectsRefs);
             }
-
         }
 
         // Encounter
@@ -274,14 +273,9 @@ public class ApplyOperation extends AbstractOperation {
             builder.encounter(Reference.builder().reference(string(encounter)).build());
         }
 
-        // Practitioner - the following block is used as there may be a cardinality of 0..* in the future.
-        List<Reference> careTeam = new ArrayList<>();
+        // Practitioner maps to a contributor
         if (practitioner != null) {
-            careTeam.add(Reference.builder().reference(string(practitioner)).build());
-        }
-
-        if (!careTeam.isEmpty()) {
-            builder.careTeam(careTeam);
+            builder.contributor(Reference.builder().reference(string(practitioner)).build());
         }
 
         // Organization
