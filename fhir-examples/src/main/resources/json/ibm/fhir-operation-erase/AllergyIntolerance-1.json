@@ -1,0 +1,289 @@
+{
+    "resourceType": "AllergyIntolerance",
+    "implicitRules": "PqcepZFmhX",
+    "language": "en-US",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "identifier": [
+        {
+            "use": "temp",
+            "type": {
+                "coding": [
+                    {
+                        "system": "DabLUEtgqi",
+                        "version": "rwLV0yzWEj",
+                        "code": "5loHHpS0_C",
+                        "display": "SJblMI97sv",
+                        "userSelected": true
+                    }
+                ],
+                "text": "rGdyrWMYMm"
+            },
+            "system": "T2ywsWVuCN",
+            "value": "CfG86ANz9L",
+            "period": {
+                "start": "2021-04-12T14:34:28.79-05:00",
+                "end": "2021-04-12T14:34:28.791-05:00"
+            }
+        }
+    ],
+    "clinicalStatus": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical",
+                "version": "4.0.1",
+                "code": "active",
+                "display": "Active",
+                "userSelected": false
+            }
+        ],
+        "text": "active"
+    },
+    "verificationStatus": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification",
+                "version": "4.0.1",
+                "code": "unconfirmed",
+                "display": "Unconfirmed",
+                "userSelected": false
+            }
+        ],
+        "text": "unconfirmed"
+    },
+    "type": "allergy",
+    "category": [
+        "medication"
+    ],
+    "criticality": "low",
+    "code": {
+        "coding": [
+            {
+                "system": "B550aT_bBE",
+                "version": "AYO4z7uCgO",
+                "code": "kUVJfWWkCl",
+                "display": "CRXI93vANJ",
+                "userSelected": true
+            }
+        ],
+        "text": "qrJ7tGIPYV"
+    },
+    "patient": {
+        "reference": "Patient/uvAb3p0pFF",
+        "type": "Patient",
+        "identifier": {
+            "use": "official",
+            "type": {
+                "coding": [
+                    {
+                        "system": "TzH_JZ04E7",
+                        "version": "fn5Yz6Mk4c",
+                        "code": "fvfjx8Ba3U",
+                        "display": "6PjT2erM8x",
+                        "userSelected": true
+                    }
+                ],
+                "text": "JQMjrB2sdM"
+            },
+            "system": "UW6HjoEyUK",
+            "value": "SBcOp8aqg2",
+            "period": {
+                "start": "2021-04-12T14:34:28.788-05:00",
+                "end": "2021-04-12T14:34:28.789-05:00"
+            }
+        },
+        "display": "clnG9AQdbN"
+    },
+    "encounter": {
+        "reference": "Encounter/mNqhSBSRB6",
+        "type": "Encounter",
+        "identifier": {
+            "use": "secondary",
+            "type": {
+                "coding": [
+                    {
+                        "system": "0OYWnTjvc1",
+                        "version": "LeS2XCKY_E",
+                        "code": "VINq7huFf1",
+                        "display": "nnLF2fbO3o",
+                        "userSelected": true
+                    }
+                ],
+                "text": "Z8Lmadx_1C"
+            },
+            "system": "N9AcFdVNts",
+            "value": "TD8uFWukA9",
+            "period": {
+                "start": "2021-04-12T14:34:28.802-05:00",
+                "end": "2021-04-12T14:34:28.802-05:00"
+            }
+        },
+        "display": "tUlC1YSbUn"
+    },
+    "onsetDateTime": "2021-04-12T14:34:28.8-05:00",
+    "recordedDate": "2021-04-12T14:34:28.788-05:00",
+    "recorder": {
+        "reference": "Practitioner/3dI9xoEOpM",
+        "type": "Practitioner",
+        "identifier": {
+            "use": "usual",
+            "type": {
+                "coding": [
+                    {
+                        "system": "z1lxeqTFow",
+                        "version": "09hgCr5Cuc",
+                        "code": "1OzzWDqUQk",
+                        "display": "A9R5e589F7",
+                        "userSelected": true
+                    }
+                ],
+                "text": "XhXymeS78D"
+            },
+            "system": "WbCQZaPgQl",
+            "value": "3CAW5FdRvx",
+            "period": {
+                "start": "2021-04-12T14:34:28.787-05:00",
+                "end": "2021-04-12T14:34:28.787-05:00"
+            }
+        },
+        "display": "tauzbSFE4b"
+    },
+    "asserter": {
+        "reference": "Patient/nwVjqyPs48",
+        "type": "Patient",
+        "identifier": {
+            "use": "official",
+            "type": {
+                "coding": [
+                    {
+                        "system": "zcSUUWvI8G",
+                        "version": "TdFUTauMPq",
+                        "code": "XzT7HYH8xA",
+                        "display": "FnQg8mwpkj",
+                        "userSelected": true
+                    }
+                ],
+                "text": "SvlThabVTO"
+            },
+            "system": "DG5Pi8jirD",
+            "value": "6L8aCN6G0T",
+            "period": {
+                "start": "2021-04-12T14:34:28.794-05:00",
+                "end": "2021-04-12T14:34:28.794-05:00"
+            }
+        },
+        "display": "8xDGEfkneu"
+    },
+    "lastOccurrence": "2021-04-12T14:34:28.801-05:00",
+    "note": [
+        {
+            "authorReference": {
+                "reference": "Practitioner/4v3C5KH2Se",
+                "type": "Practitioner",
+                "identifier": {
+                    "use": "secondary",
+                    "type": {
+                        "coding": [
+                            {
+                                "system": "noVVFmskKB",
+                                "version": "1CFxoKln3T",
+                                "code": "TCHwtVH5JX",
+                                "display": "DOOsqJIxMi",
+                                "userSelected": true
+                            }
+                        ],
+                        "text": "g_L5QBvTNm"
+                    },
+                    "system": "GCwKJGlu2L",
+                    "value": "suSytJ57FM",
+                    "period": {
+                        "start": "2021-04-12T14:34:28.793-05:00",
+                        "end": "2021-04-12T14:34:28.793-05:00"
+                    }
+                },
+                "display": "CqFe8Kyeeh"
+            },
+            "time": "2021-04-12T14:34:28.794-05:00",
+            "text": "5PhNlq1xyD"
+        }
+    ],
+    "reaction": [
+        {
+            "substance": {
+                "coding": [
+                    {
+                        "system": "enMeNaN4P4",
+                        "version": "O_U6MeHAxD",
+                        "code": "P8t7DsKCm5",
+                        "display": "MuHFdAq8Kp",
+                        "userSelected": true
+                    }
+                ],
+                "text": "6L2ZzhKRNO"
+            },
+            "manifestation": [
+                {
+                    "coding": [
+                        {
+                            "system": "6YrpJBSOAA",
+                            "version": "oA4VzSBOAa",
+                            "code": "8dWXsREwdW",
+                            "display": "SE6SYmx0ll",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "c66SAv60ch"
+                }
+            ],
+            "description": "Xe4n48m55J",
+            "onset": "2021-04-12T14:34:28.798-05:00",
+            "severity": "severe",
+            "exposureRoute": {
+                "coding": [
+                    {
+                        "system": "g8wTEKUiFh",
+                        "version": "ZFe9KsPKfy",
+                        "code": "HTq40hALLQ",
+                        "display": "YtMhjRZUiT",
+                        "userSelected": true
+                    }
+                ],
+                "text": "SvQ9BlEJbH"
+            },
+            "note": [
+                {
+                    "authorReference": {
+                        "reference": "Practitioner/FvUOPAxRyb",
+                        "type": "Practitioner",
+                        "identifier": {
+                            "use": "usual",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "SGudiz_jro",
+                                        "version": "NVgE1rR5MX",
+                                        "code": "mydFS1QrVt",
+                                        "display": "IL_UclodkE",
+                                        "userSelected": true
+                                    }
+                                ],
+                                "text": "DvkNzpbwQI"
+                            },
+                            "system": "ATkO74Uw7L",
+                            "value": "JuhNNDyXAc",
+                            "period": {
+                                "start": "2021-04-12T14:34:28.797-05:00",
+                                "end": "2021-04-12T14:34:28.797-05:00"
+                            }
+                        },
+                        "display": "iewsi63VR0"
+                    },
+                    "time": "2021-04-12T14:34:28.798-05:00",
+                    "text": "Yzh0Hk8jjo"
+                }
+            ]
+        }
+    ]
+}

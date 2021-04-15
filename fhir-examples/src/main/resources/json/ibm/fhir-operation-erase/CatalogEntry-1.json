@@ -1,0 +1,203 @@
+{
+    "resourceType": "CatalogEntry",
+    "meta": {
+        "versionId": "zItXjRQ1Gy",
+        "lastUpdated": "2021-04-12T14:34:33.068-05:00",
+        "source": "HF1vGiefXR",
+        "profile": [
+            "4nD5aPn0B5"
+        ],
+        "security": [
+            {
+                "system": "nl0uOVinT5",
+                "version": "5P6JENc6OC",
+                "code": "WpMpudO01w",
+                "display": "6DgH3g6e3n",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "ro3x2MLNZc",
+                "version": "c5IZzDMwPd",
+                "code": "ATxTyCvrWx",
+                "display": "PBmLZj5ECO",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "r1HKRdIqN4",
+    "language": "en-US",
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "identifier": [
+        {
+            "use": "secondary",
+            "type": {
+                "coding": [
+                    {
+                        "system": "dY7H9Y5eGL",
+                        "version": "gDUvlLkOqf",
+                        "code": "uv6TmJWQ5R",
+                        "display": "9b3qQzKHr3",
+                        "userSelected": true
+                    }
+                ],
+                "text": "ZVocBataZR"
+            },
+            "system": "bV1lolK_Si",
+            "value": "Bl2_VfwcZz",
+            "period": {
+                "start": "2021-04-12T14:34:33.063-05:00",
+                "end": "2021-04-12T14:34:33.063-05:00"
+            }
+        }
+    ],
+    "type": {
+        "coding": [
+            {
+                "system": "jjrkWMPqvc",
+                "version": "ivujjJCX6w",
+                "code": "vnzsfJ3ygC",
+                "display": "07uEiNoapn",
+                "userSelected": true
+            }
+        ],
+        "text": "fT5MYNcE0J"
+    },
+    "orderable": true,
+    "referencedItem": {
+        "reference": "Medication/QwtJjdASoo",
+        "type": "Medication",
+        "identifier": {
+            "use": "official",
+            "type": {
+                "coding": [
+                    {
+                        "system": "89_aCADHXB",
+                        "version": "uq5RFBS3NA",
+                        "code": "pxA1LcumrH",
+                        "display": "lyeyHPt9lL",
+                        "userSelected": true
+                    }
+                ],
+                "text": "fRYNKL1A2W"
+            },
+            "system": "KDtYGFnHfe",
+            "value": "JUbeUfMFqs",
+            "period": {
+                "start": "2021-04-12T14:34:33.064-05:00",
+                "end": "2021-04-12T14:34:33.064-05:00"
+            }
+        },
+        "display": "CzUxJumNqK"
+    },
+    "additionalIdentifier": [
+        {
+            "use": "usual",
+            "type": {
+                "coding": [
+                    {
+                        "system": "SKHSCsLhMe",
+                        "version": "tlWPyfph0p",
+                        "code": "u8Ph5ipSxG",
+                        "display": "PqHoF1Mwd4",
+                        "userSelected": true
+                    }
+                ],
+                "text": "QQBoyEXcKj"
+            },
+            "system": "W53O4be0r1",
+            "value": "kgqaCV3TtJ",
+            "period": {
+                "start": "2021-04-12T14:34:33.065-05:00",
+                "end": "2021-04-12T14:34:33.065-05:00"
+            }
+        }
+    ],
+    "classification": [
+        {
+            "coding": [
+                {
+                    "system": "MzWQy0bJQA",
+                    "version": "daxuWfX6n3",
+                    "code": "3xPpjMjdst",
+                    "display": "SJqUsEulnQ",
+                    "userSelected": true
+                }
+            ],
+            "text": "mYHsgN0ZrJ"
+        }
+    ],
+    "status": "active",
+    "validityPeriod": {
+        "start": "2021-04-12T14:34:33.065-05:00",
+        "end": "2021-04-12T14:34:33.065-05:00"
+    },
+    "validTo": "2021-04-12T14:34:33.065-05:00",
+    "lastUpdated": "2021-04-12T14:34:33.064-05:00",
+    "additionalCharacteristic": [
+        {
+            "coding": [
+                {
+                    "system": "Ncw9TeAik_",
+                    "version": "fhZ4N2q4Ke",
+                    "code": "6NYmwN5SEu",
+                    "display": "CjxZpuvYPh",
+                    "userSelected": true
+                }
+            ],
+            "text": "X_RW8dXXWE"
+        }
+    ],
+    "additionalClassification": [
+        {
+            "coding": [
+                {
+                    "system": "KZLXYB2OBe",
+                    "version": "zwu6rpxXZY",
+                    "code": "oaXGxGX8Hr",
+                    "display": "44bw05gS29",
+                    "userSelected": true
+                }
+            ],
+            "text": "0Vv7Cc360G"
+        }
+    ],
+    "relatedEntry": [
+        {
+            "relationtype": "is-replaced-by",
+            "item": {
+                "reference": "CatalogEntry/L49RQZ9i-A",
+                "type": "CatalogEntry",
+                "identifier": {
+                    "use": "official",
+                    "type": {
+                        "coding": [
+                            {
+                                "system": "DHjoMFBPL7",
+                                "version": "R5ugW9Xs_j",
+                                "code": "iriv50ZJTh",
+                                "display": "JrIF0u8E_9",
+                                "userSelected": true
+                            }
+                        ],
+                        "text": "OBur3uffpi"
+                    },
+                    "system": "KyKDJDxE_Y",
+                    "value": "VdpJnXitDt",
+                    "period": {
+                        "start": "2021-04-12T14:34:33.067-05:00",
+                        "end": "2021-04-12T14:34:33.067-05:00"
+                    }
+                },
+                "display": "LP7Wnb7K2i"
+            }
+        }
+    ]
+}

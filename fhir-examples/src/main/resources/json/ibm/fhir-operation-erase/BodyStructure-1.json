@@ -1,0 +1,139 @@
+{
+    "resourceType": "BodyStructure",
+    "meta": {
+        "versionId": "EaxfBhLDHC",
+        "lastUpdated": "2021-04-12T14:34:33.056-05:00",
+        "source": "Abl85f6Hlh",
+        "profile": [
+            "vg9rN0D48S"
+        ],
+        "security": [
+            {
+                "system": "ruQe05zvdW",
+                "version": "MRdZZFWVum",
+                "code": "1Felxrezch",
+                "display": "oS7oxiCR1q",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "zLQ566diLO",
+                "version": "tNCJAAghrr",
+                "code": "p5uXf6BSgr",
+                "display": "f6iJekAkck",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "IZi0_PoSYk",
+    "language": "en-US",
+    "text": {
+        "status": "extensions",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "identifier": [
+        {
+            "use": "old",
+            "type": {
+                "coding": [
+                    {
+                        "system": "syMbCqYFo_",
+                        "version": "Xv5PnjxCPj",
+                        "code": "ycOEEyFonP",
+                        "display": "FdcVtQ3yOL",
+                        "userSelected": true
+                    }
+                ],
+                "text": "BnZh7UA2DK"
+            },
+            "system": "5FIk4gueai",
+            "value": "Z_E35VzXCA",
+            "period": {
+                "start": "2021-04-12T14:34:33.053-05:00",
+                "end": "2021-04-12T14:34:33.053-05:00"
+            }
+        }
+    ],
+    "active": true,
+    "morphology": {
+        "coding": [
+            {
+                "system": "6chPGcrDo5",
+                "version": "GoFHuxA3a5",
+                "code": "fgm17VeEus",
+                "display": "1Ph30xW_k1",
+                "userSelected": true
+            }
+        ],
+        "text": "fU0xlnZDNV"
+    },
+    "location": {
+        "coding": [
+            {
+                "system": "L3SS9ZHykK",
+                "version": "TGUYDcfWbY",
+                "code": "ZC_iAjLLVj",
+                "display": "o0Zt7Xli87",
+                "userSelected": true
+            }
+        ],
+        "text": "Q_JkpkxDAB"
+    },
+    "locationQualifier": [
+        {
+            "coding": [
+                {
+                    "system": "DUNG5ffTlE",
+                    "version": "TeZcy6cQly",
+                    "code": "iodO0Cggxc",
+                    "display": "A7nd3ywenh",
+                    "userSelected": true
+                }
+            ],
+            "text": "rjHony_1lg"
+        }
+    ],
+    "description": "l0wWbEHMwa",
+    "image": [
+        {
+            "contentType": "j4bioinMwv",
+            "language": "en-US",
+            "data": "F3EMeF4=",
+            "url": "vioE8i4Sss",
+            "size": 1008024459,
+            "hash": "VmUjTi4=",
+            "title": "rKOAPoRfrl",
+            "creation": "2021-04-12T14:34:33.055-05:00"
+        }
+    ],
+    "patient": {
+        "reference": "Patient/Nrz3xwhpMz",
+        "type": "Patient",
+        "identifier": {
+            "use": "temp",
+            "type": {
+                "coding": [
+                    {
+                        "system": "L68APVPU5I",
+                        "version": "KBaOnbcHhs",
+                        "code": "Bmmg9MdJA4",
+                        "display": "LLeJsDHnVu",
+                        "userSelected": true
+                    }
+                ],
+                "text": "6Ij1TvrxHn"
+            },
+            "system": "3hTkmeJ397",
+            "value": "eeZhteYSxC",
+            "period": {
+                "start": "2021-04-12T14:34:33.052-05:00",
+                "end": "2021-04-12T14:34:33.052-05:00"
+            }
+        },
+        "display": "xpui6xozX3"
+    }
+}

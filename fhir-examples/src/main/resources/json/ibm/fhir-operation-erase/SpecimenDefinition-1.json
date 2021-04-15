@@ -1,0 +1,240 @@
+{
+    "resourceType": "SpecimenDefinition",
+    "meta": {
+        "versionId": "PV5EV5WhZH",
+        "lastUpdated": "2021-04-12T14:34:37.671-05:00",
+        "source": "YdFPSj6leF",
+        "profile": [
+            "8Detqt2Nuk"
+        ],
+        "security": [
+            {
+                "system": "IA0UylP2XH",
+                "version": "D1BJr7g8tw",
+                "code": "I3zPcOLcj3",
+                "display": "3WEYB_CTQx",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "DSZP79V5Lk",
+                "version": "Jb0hzEWfFI",
+                "code": "jXSXA06Gq1",
+                "display": "GGTVUX5y5g",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "AfHK04FVDw",
+    "language": "en-US",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "identifier": {
+        "use": "usual",
+        "type": {
+            "coding": [
+                {
+                    "system": "1qWstFSjen",
+                    "version": "a0eRbS4p1e",
+                    "code": "oQe4ZNm4uq",
+                    "display": "sqfWeC3ymZ",
+                    "userSelected": true
+                }
+            ],
+            "text": "kntxQXp8Ju"
+        },
+        "system": "cb08MREtwY",
+        "value": "bBAt7ctDVx",
+        "period": {
+            "start": "2021-04-12T14:34:37.67-05:00",
+            "end": "2021-04-12T14:34:37.67-05:00"
+        }
+    },
+    "typeCollected": {
+        "coding": [
+            {
+                "system": "DGcggC7Ryb",
+                "version": "7yWgUEdkuw",
+                "code": "Mlh4ebYBIQ",
+                "display": "54KWf2mpax",
+                "userSelected": true
+            }
+        ],
+        "text": "vUOrVMdJJ_"
+    },
+    "patientPreparation": [
+        {
+            "coding": [
+                {
+                    "system": "O8iyxp9b6a",
+                    "version": "gpA_6Jhghc",
+                    "code": "4glgmRmktX",
+                    "display": "svLeRXDBMU",
+                    "userSelected": true
+                }
+            ],
+            "text": "apv_shQ6lZ"
+        }
+    ],
+    "timeAspect": "UhwCMzpVQG",
+    "collection": [
+        {
+            "coding": [
+                {
+                    "system": "_6Qc_rklml",
+                    "version": "MfEp7Q1Igh",
+                    "code": "H2xkzsMfVO",
+                    "display": "F_HkG8ebq5",
+                    "userSelected": true
+                }
+            ],
+            "text": "sOjjdekVgU"
+        }
+    ],
+    "typeTested": [
+        {
+            "isDerived": true,
+            "type": {
+                "coding": [
+                    {
+                        "system": "TsQs7JRxve",
+                        "version": "JqCuy6V9uK",
+                        "code": "iAgh72hGlV",
+                        "display": "fqVRN71ZxD",
+                        "userSelected": true
+                    }
+                ],
+                "text": "XfysJ6amGJ"
+            },
+            "preference": "alternate",
+            "container": {
+                "material": {
+                    "coding": [
+                        {
+                            "system": "e0QIqdunOY",
+                            "version": "LSH1tCaVUO",
+                            "code": "E7ye2xwANe",
+                            "display": "TxfTWrvYtO",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "jQ7RDolSIm"
+                },
+                "type": {
+                    "coding": [
+                        {
+                            "system": "zjBFiRW90b",
+                            "version": "GAAyv29XwI",
+                            "code": "YSekpbHHAl",
+                            "display": "j0RJrXQlki",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "yZE8nOrkVQ"
+                },
+                "cap": {
+                    "coding": [
+                        {
+                            "system": "4CzKfKzb4n",
+                            "version": "b2tAaVBnoT",
+                            "code": "ygN2uKg2I2",
+                            "display": "NtONOoRT5t",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "3dgm4q9rwm"
+                },
+                "description": "ydqSZEK3yn",
+                "capacity": {
+                    "value": 31125283625,
+                    "unit": "4XMMgz1C0d",
+                    "system": "TLCvlaOpSp",
+                    "code": "fG9uiEDd1e"
+                },
+                "minimumVolumeQuantity": {
+                    "value": 314760322629,
+                    "unit": "L5ktA8XBSY",
+                    "system": "_6LeGef7f2",
+                    "code": "BcajIyM6VB"
+                },
+                "additive": [
+                    {
+                        "additiveCodeableConcept": {
+                            "coding": [
+                                {
+                                    "system": "cNpniOPeAG",
+                                    "version": "CZBYfkUTvl",
+                                    "code": "ot5f0HohxF",
+                                    "display": "aNKqowUeUW",
+                                    "userSelected": true
+                                }
+                            ],
+                            "text": "cHaYLpE8l_"
+                        }
+                    }
+                ],
+                "preparation": "iyhOoPj3jo"
+            },
+            "requirement": "C_oJBCxeBg",
+            "retentionTime": {
+                "value": 232187242088,
+                "comparator": "<",
+                "unit": "yp8govk1qO",
+                "system": "http://unitsofmeasure.org",
+                "code": "h"
+            },
+            "rejectionCriterion": [
+                {
+                    "coding": [
+                        {
+                            "system": "6YnHfqgQL9",
+                            "version": "MVSDYtYtPj",
+                            "code": "RYfquzbZ7r",
+                            "display": "8_ffyp90Pq",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "j4k3hiJaZS"
+                }
+            ],
+            "handling": [
+                {
+                    "temperatureQualifier": {
+                        "coding": [
+                            {
+                                "system": "dK8TCKE58m",
+                                "version": "rD1z99v6tr",
+                                "code": "0t81H4wAfF",
+                                "display": "RjPHNFzROO",
+                                "userSelected": true
+                            }
+                        ],
+                        "text": "pj32x3rd_s"
+                    },
+                    "temperatureRange": {
+                        "low": {
+                            "value": 164623878952,
+                            "unit": "lJ8EezaFZD",
+                            "system": "S5scUlYRlf",
+                            "code": "l3WDMdyE5P"
+                        }
+                    },
+                    "maxDuration": {
+                        "value": 532928403982,
+                        "comparator": ">",
+                        "unit": "CPWTySXmyh",
+                        "system": "http://unitsofmeasure.org",
+                        "code": "h"
+                    },
+                    "instruction": "Wu7vXthZx8"
+                }
+            ]
+        }
+    ]
+}

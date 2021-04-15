@@ -1,0 +1,137 @@
+{
+    "resourceType": "Schedule",
+    "meta": {
+        "versionId": "cBiBNLNGW3",
+        "lastUpdated": "2021-04-12T14:34:32.739-05:00",
+        "source": "O7NTnCU7F3",
+        "profile": [
+            "MCCwWxZC4v"
+        ],
+        "security": [
+            {
+                "system": "8xjzOFl6mj",
+                "version": "yikGABVSwH",
+                "code": "sS8p08PHpK",
+                "display": "fZORImQo7M",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "rjXiGObhxE",
+                "version": "27bhOiWXif",
+                "code": "eIy1NrjswF",
+                "display": "ArqpN6Qoaw",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "KG27ZZncZr",
+    "language": "en-US",
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "identifier": [
+        {
+            "use": "usual",
+            "type": {
+                "coding": [
+                    {
+                        "system": "nqqUyQd36B",
+                        "version": "Gm7wajbaVc",
+                        "code": "v6Z4OPdJOv",
+                        "display": "VnCXeU8UiM",
+                        "userSelected": true
+                    }
+                ],
+                "text": "ftXdYWrpsB"
+            },
+            "system": "txDXcNBgdD",
+            "value": "XCylm6xr8H",
+            "period": {
+                "start": "2021-04-12T14:34:32.737-05:00",
+                "end": "2021-04-12T14:34:32.737-05:00"
+            }
+        }
+    ],
+    "active": true,
+    "serviceCategory": [
+        {
+            "coding": [
+                {
+                    "system": "E78Y1K7q6I",
+                    "version": "Yxqdi0rw79",
+                    "code": "KU9wVFNuac",
+                    "display": "HQ6N2ws9Qj",
+                    "userSelected": true
+                }
+            ],
+            "text": "bEvD0VQT9c"
+        }
+    ],
+    "serviceType": [
+        {
+            "coding": [
+                {
+                    "system": "zDTyfH96Un",
+                    "version": "HosKeX4DDX",
+                    "code": "PeGYAfilga",
+                    "display": "4D4HKhEXog",
+                    "userSelected": true
+                }
+            ],
+            "text": "QLjCgnpdh8"
+        }
+    ],
+    "specialty": [
+        {
+            "coding": [
+                {
+                    "system": "cOOZRHqqE8",
+                    "version": "5MY6JHTazr",
+                    "code": "Ea7a8nSBlK",
+                    "display": "9t4WHxvqMV",
+                    "userSelected": true
+                }
+            ],
+            "text": "xkdWnkw6S_"
+        }
+    ],
+    "actor": [
+        {
+            "reference": "Patient/zLP4ROX9Ck",
+            "type": "Patient",
+            "identifier": {
+                "use": "temp",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "HN5IjpysvI",
+                            "version": "jDpgRfPp0q",
+                            "code": "P_PA7XIQ18",
+                            "display": "lBJmN9kYI_",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "AzRzmE7wxy"
+                },
+                "system": "LtmB4ZqXWj",
+                "value": "qBKMA6KHB0",
+                "period": {
+                    "start": "2021-04-12T14:34:32.738-05:00",
+                    "end": "2021-04-12T14:34:32.738-05:00"
+                }
+            },
+            "display": "VFcT0xEtgZ"
+        }
+    ],
+    "planningHorizon": {
+        "start": "2021-04-12T14:34:32.74-05:00",
+        "end": "2021-04-12T14:34:32.74-05:00"
+    },
+    "comment": "oH3PcdW5zL"
+}

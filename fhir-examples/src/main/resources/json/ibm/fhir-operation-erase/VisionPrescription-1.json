@@ -1,0 +1,212 @@
+{
+    "resourceType": "VisionPrescription",
+    "meta": {
+        "versionId": "5h2wUBQ0Fk",
+        "lastUpdated": "2021-04-12T14:34:28.1-05:00",
+        "source": "wiJE8L2i2H",
+        "profile": [
+            "3wA9z5I0de"
+        ],
+        "security": [
+            {
+                "system": "v93V5O8aHi",
+                "version": "4tjEVdHNRW",
+                "code": "ADBzqqqy7t",
+                "display": "qpAUKKHH7_",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "o8odcUhXI3",
+                "version": "XD7o3ar5UA",
+                "code": "Us9xEyiJDx",
+                "display": "IHY_UmkY3j",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "zwqrDOntq1",
+    "language": "en-US",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "identifier": [
+        {
+            "use": "old",
+            "type": {
+                "coding": [
+                    {
+                        "system": "UQcNx9SowI",
+                        "version": "wxg5BN5s0V",
+                        "code": "MXNH7ggEuU",
+                        "display": "EkKY5e8ddZ",
+                        "userSelected": true
+                    }
+                ],
+                "text": "yDUU_f9ehW"
+            },
+            "system": "cRIkByNFrr",
+            "value": "jKpeT6b5h9",
+            "period": {
+                "start": "2021-04-12T14:34:28.098-05:00",
+                "end": "2021-04-12T14:34:28.098-05:00"
+            }
+        }
+    ],
+    "status": "entered-in-error",
+    "created": "2021-04-12T14:34:28.096-05:00",
+    "patient": {
+        "reference": "Patient/Wtj6F634G7",
+        "type": "Patient",
+        "identifier": {
+            "use": "usual",
+            "type": {
+                "coding": [
+                    {
+                        "system": "YhiL7s7kkf",
+                        "version": "i9uGGKfmcr",
+                        "code": "Ejnjv3tlLM",
+                        "display": "1IxZlDaNc7",
+                        "userSelected": true
+                    }
+                ],
+                "text": "02Ip8dcKT4"
+            },
+            "system": "lvqeYxCc5L",
+            "value": "DvXH0_Cekp",
+            "period": {
+                "start": "2021-04-12T14:34:28.097-05:00",
+                "end": "2021-04-12T14:34:28.097-05:00"
+            }
+        },
+        "display": "NMnsh5PVW8"
+    },
+    "encounter": {
+        "reference": "Encounter/k1ROf5ViGI",
+        "type": "Encounter",
+        "identifier": {
+            "use": "temp",
+            "type": {
+                "coding": [
+                    {
+                        "system": "IQ8rUGyluT",
+                        "version": "9TDd5LiqQH",
+                        "code": "VXGpCiBBA4",
+                        "display": "GZF_B1eWid",
+                        "userSelected": true
+                    }
+                ],
+                "text": "pzvTsAK2lw"
+            },
+            "system": "HddMiZiSXc",
+            "value": "kaIbfQtNkt",
+            "period": {
+                "start": "2021-04-12T14:34:28.099-05:00",
+                "end": "2021-04-12T14:34:28.099-05:00"
+            }
+        },
+        "display": "d7SrSe1eXI"
+    },
+    "dateWritten": "2021-04-12T14:34:28.101-05:00",
+    "prescriber": {
+        "reference": "Practitioner/w4rNuNcMS2",
+        "type": "Practitioner",
+        "identifier": {
+            "use": "old",
+            "type": {
+                "coding": [
+                    {
+                        "system": "g5fZCbdXje",
+                        "version": "1HthwBrIML",
+                        "code": "tZ9i6vhsS4",
+                        "display": "JghneQAVC7",
+                        "userSelected": true
+                    }
+                ],
+                "text": "R1SgSacoet"
+            },
+            "system": "MbWXXofvod",
+            "value": "p1EjhReuVP",
+            "period": {
+                "start": "2021-04-12T14:34:28.101-05:00",
+                "end": "2021-04-12T14:34:28.101-05:00"
+            }
+        },
+        "display": "HwV3PmHBkb"
+    },
+    "lensSpecification": [
+        {
+            "product": {
+                "coding": [
+                    {
+                        "system": "l9dQrdJYA1",
+                        "version": "WVLvxSF3p2",
+                        "code": "TcoHyJ2Pby",
+                        "display": "hFWaxTqHq1",
+                        "userSelected": true
+                    }
+                ],
+                "text": "RjeG2KedzW"
+            },
+            "eye": "left",
+            "sphere": 159921407340,
+            "cylinder": 335715768832,
+            "axis": 363935215,
+            "prism": [
+                {
+                    "amount": 378062386265,
+                    "base": "down"
+                }
+            ],
+            "add": 253995676674,
+            "power": 242017261319,
+            "backCurve": 439987883847,
+            "diameter": 541284137238,
+            "duration": {
+                "value": 478487324023,
+                "unit": "H2u3hHcL1l",
+                "system": "n2AOHn3aNU",
+                "code": "0LtsktHt6J"
+            },
+            "color": "VLqMScChKP",
+            "brand": "9bZn0mZNbH",
+            "note": [
+                {
+                    "authorReference": {
+                        "reference": "Practitioner/RQJwCDcfMK",
+                        "type": "Practitioner",
+                        "identifier": {
+                            "use": "official",
+                            "type": {
+                                "coding": [
+                                    {
+                                        "system": "1UReB77WQ6",
+                                        "version": "jwd2055xQg",
+                                        "code": "YHjgCWgtLf",
+                                        "display": "VVy3bIatnF",
+                                        "userSelected": true
+                                    }
+                                ],
+                                "text": "NjoipTiTaE"
+                            },
+                            "system": "fI1juodBrQ",
+                            "value": "DzftCp74So",
+                            "period": {
+                                "start": "2021-04-12T14:34:28.103-05:00",
+                                "end": "2021-04-12T14:34:28.103-05:00"
+                            }
+                        },
+                        "display": "s9s6RfFtmS"
+                    },
+                    "time": "2021-04-12T14:34:28.104-05:00",
+                    "text": "GYYK8TBTaV"
+                }
+            ]
+        }
+    ]
+}

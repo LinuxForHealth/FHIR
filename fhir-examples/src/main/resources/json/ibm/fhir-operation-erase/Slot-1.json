@@ -1,0 +1,146 @@
+{
+    "resourceType": "Slot",
+    "meta": {
+        "versionId": "eCqGJaHzpO",
+        "lastUpdated": "2021-04-12T14:34:25.075-05:00",
+        "source": "i4_2yWdxFs",
+        "profile": [
+            "mar3lGks08"
+        ],
+        "security": [
+            {
+                "system": "KsxEhDI9GR",
+                "version": "M3c1k0dYER",
+                "code": "fEslntWnD3",
+                "display": "693Ywrq4gi",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "_gTrrtfvjg",
+                "version": "rygowlSLPZ",
+                "code": "TXSWjjsoKt",
+                "display": "rjf5PBwK9p",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "r_K9RNbnRg",
+    "language": "en-US",
+    "text": {
+        "status": "empty",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "identifier": [
+        {
+            "use": "official",
+            "type": {
+                "coding": [
+                    {
+                        "system": "zk3yrpgR77",
+                        "version": "YqNVUoq2VG",
+                        "code": "hAPJJ8kSbo",
+                        "display": "SfsL93wuy9",
+                        "userSelected": true
+                    }
+                ],
+                "text": "xRxYlmwGUt"
+            },
+            "system": "D4WXfqXpxg",
+            "value": "GSzi_t3YNn",
+            "period": {
+                "start": "2021-04-12T14:34:25.071-05:00",
+                "end": "2021-04-12T14:34:25.072-05:00"
+            }
+        }
+    ],
+    "serviceCategory": [
+        {
+            "coding": [
+                {
+                    "system": "4pHhUonKDt",
+                    "version": "19BfJzGcaY",
+                    "code": "XBpSPCz2OZ",
+                    "display": "Tr3ivuC6F2",
+                    "userSelected": true
+                }
+            ],
+            "text": "Sb6S4kaXry"
+        }
+    ],
+    "serviceType": [
+        {
+            "coding": [
+                {
+                    "system": "FLD931QXqI",
+                    "version": "4J8ge92wDe",
+                    "code": "VRueFiXfmy",
+                    "display": "eMaFGMLrZ_",
+                    "userSelected": true
+                }
+            ],
+            "text": "fDW23aZCNj"
+        }
+    ],
+    "specialty": [
+        {
+            "coding": [
+                {
+                    "system": "5Tmb1b_h5n",
+                    "version": "IpKpLq6Lp_",
+                    "code": "fAYGExx23n",
+                    "display": "EpL9RO4_vI",
+                    "userSelected": true
+                }
+            ],
+            "text": "K1M64rwyK3"
+        }
+    ],
+    "appointmentType": {
+        "coding": [
+            {
+                "system": "t6bpCkvWF2",
+                "version": "zINwvlsf9U",
+                "code": "2sRZjNgbCA",
+                "display": "02VNoHvGkt",
+                "userSelected": true
+            }
+        ],
+        "text": "4ZdIxAge2r"
+    },
+    "schedule": {
+        "reference": "Schedule/1Ot6SvBEfT",
+        "type": "Schedule",
+        "identifier": {
+            "use": "usual",
+            "type": {
+                "coding": [
+                    {
+                        "system": "smDpzjkvuJ",
+                        "version": "LK843h3AJS",
+                        "code": "3m3azp7aqq",
+                        "display": "RI7_upKmhP",
+                        "userSelected": true
+                    }
+                ],
+                "text": "3cJSY4VNJt"
+            },
+            "system": "fGf_jReVVV",
+            "value": "SODxaO31BP",
+            "period": {
+                "start": "2021-04-12T14:34:25.072-05:00",
+                "end": "2021-04-12T14:34:25.072-05:00"
+            }
+        },
+        "display": "u7Z90VSyhB"
+    },
+    "status": "busy-unavailable",
+    "start": "2021-04-12T14:34:25.074-05:00",
+    "end": "2021-04-12T14:34:25.076-05:00",
+    "overbooked": true,
+    "comment": "tAZXLaQi5A"
+}

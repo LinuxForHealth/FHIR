@@ -1,0 +1,163 @@
+{
+    "resourceType": "ExampleScenario",
+    "meta": {
+        "versionId": "DjVZLOiGHu",
+        "lastUpdated": "2021-04-12T14:34:33.789-05:00",
+        "source": "P6HkL3f9qI",
+        "profile": [
+            "KHDnKWJ5XR"
+        ],
+        "security": [
+            {
+                "system": "IKfm6jeQTU",
+                "version": "KKqp6iML71",
+                "code": "uSiWQWrZF2",
+                "display": "4SyyeD6NGP",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "IOf1TgEluO",
+                "version": "smQx_VQ526",
+                "code": "p8Z8DrMbVG",
+                "display": "2PY_HK4R1_",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "2XYZiRZ5Du",
+    "language": "en-US",
+    "text": {
+        "status": "additional",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "url": "P7lupmcwIf",
+    "identifier": [
+        {
+            "use": "old",
+            "type": {
+                "coding": [
+                    {
+                        "system": "VHXQzg5nSr",
+                        "version": "Rbi7RtpNYW",
+                        "code": "wgExW6_raG",
+                        "display": "LPvcqAK5vm",
+                        "userSelected": true
+                    }
+                ],
+                "text": "EskxRvI6Cf"
+            },
+            "system": "uKAPiOMEw1",
+            "value": "NJaWSoWdgL",
+            "period": {
+                "start": "2021-04-12T14:34:33.777-05:00",
+                "end": "2021-04-12T14:34:33.777-05:00"
+            }
+        }
+    ],
+    "version": "9Y8Z7oEgPR",
+    "name": "VHNuICrBoc",
+    "status": "active",
+    "experimental": true,
+    "date": "2021-04-12T14:34:33.788-05:00",
+    "publisher": "MNtQF8B6Yz",
+    "contact": [
+        {
+            "name": "FSjVwPPTXF",
+            "telecom": [
+                {
+                    "system": "fax",
+                    "value": "P_HnMR1YWw",
+                    "use": "work",
+                    "rank": 609335941,
+                    "period": {
+                        "start": "2021-04-12T14:34:33.778-05:00",
+                        "end": "2021-04-12T14:34:33.778-05:00"
+                    }
+                }
+            ]
+        }
+    ],
+    "useContext": [
+        {
+            "code": {
+                "system": "XCrjXuIeS3",
+                "version": "OD8pjiFXIk",
+                "code": "5crmoRFROJ",
+                "display": "vxV0TlcAUu",
+                "userSelected": true
+            },
+            "valueCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "8bjWoc_TZf",
+                        "version": "x781jR4JE1",
+                        "code": "8wewUA2k7z",
+                        "display": "o8QemELPRu",
+                        "userSelected": true
+                    }
+                ],
+                "text": "80H20aErF_"
+            }
+        }
+    ],
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "8OTo3dy5Yc",
+                    "version": "mGmEqru5Nw",
+                    "code": "uA4Bgl39ky",
+                    "display": "hW4eSTxYgX",
+                    "userSelected": true
+                }
+            ],
+            "text": "Y6_EbL336n"
+        }
+    ],
+    "copyright": "M_8Y06mH9Q",
+    "purpose": "ZvNPgLMRyE",
+    "actor": [
+        {
+            "actorId": "xkXppUp0M8",
+            "type": "person",
+            "name": "HQntPLn2pQ",
+            "description": "tgTpiixFv1"
+        }
+    ],
+    "instance": [
+        {
+            "resourceId": "8pP8V2hlAl",
+            "resourceType": "CommunicationRequest",
+            "name": "HyTZtHWkd4",
+            "description": "sN93VxOQGZ",
+            "version": [
+                {
+                    "versionId": "SNT6VLJolb",
+                    "description": "8RvXCy9yHL"
+                }
+            ],
+            "containedInstance": [
+                {
+                    "resourceId": "yI5cTbI8tx",
+                    "versionId": "bQ9cXgqHIn"
+                }
+            ]
+        }
+    ],
+    "process": [
+        {
+            "title": "vQJw1x8Wkx",
+            "description": "HjKWGHC0mo",
+            "preConditions": "jX14Iy5ZSa",
+            "postConditions": "mBJEBDAsTS"
+        }
+    ],
+    "workflow": [
+        "cpo_FvtMhg"
+    ]
+}

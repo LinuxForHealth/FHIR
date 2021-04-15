@@ -1,0 +1,281 @@
+{
+    "resourceType": "CapabilityStatement",
+    "meta": {
+        "versionId": "XmngMKE3MJ",
+        "lastUpdated": "2021-04-12T14:34:35.908-05:00",
+        "source": "8qDPXP0PfE",
+        "profile": [
+            "rNK1WjuQYh"
+        ],
+        "security": [
+            {
+                "system": "bWEcsGqjTd",
+                "version": "pMm1j6hfKx",
+                "code": "lojvTQjFoc",
+                "display": "KtU6HCJkSi",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "ogCtziWVK1",
+                "version": "enZVX25nNx",
+                "code": "aZmKmMcm0k",
+                "display": "eZJLzp9oEh",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "rX06MDa9ab",
+    "language": "en-US",
+    "text": {
+        "status": "extensions",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "url": "FVe3UpI7aJ",
+    "version": "ogjL_11T09",
+    "name": "yNgdvBJVEh",
+    "title": "8yafW_sJJa",
+    "status": "retired",
+    "experimental": true,
+    "date": "2021-04-12T14:34:35.908-05:00",
+    "publisher": "BsNSs78U1B",
+    "contact": [
+        {
+            "name": "yB1BDwQb1j",
+            "telecom": [
+                {
+                    "system": "phone",
+                    "value": "FV_xIJNj52",
+                    "use": "work",
+                    "rank": 501270782,
+                    "period": {
+                        "start": "2021-04-12T14:34:35.906-05:00",
+                        "end": "2021-04-12T14:34:35.906-05:00"
+                    }
+                }
+            ]
+        }
+    ],
+    "description": "WVriF4diMt",
+    "useContext": [
+        {
+            "code": {
+                "system": "wcrufzoVzm",
+                "version": "Kj2wxlfuu6",
+                "code": "dOsxTUwLB4",
+                "display": "vR7xoexPa_",
+                "userSelected": true
+            },
+            "valueCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "MPsGIZR9yC",
+                        "version": "wiZh58MnKL",
+                        "code": "ORkhTk717T",
+                        "display": "2fN6PeZ0bu",
+                        "userSelected": true
+                    }
+                ],
+                "text": "pwuPhNGQou"
+            }
+        }
+    ],
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "zp0n8L8ul0",
+                    "version": "x_FbMy97Xm",
+                    "code": "KqTpFX0eJU",
+                    "display": "_zf3xUv7dX",
+                    "userSelected": true
+                }
+            ],
+            "text": "hJaHTuhRjx"
+        }
+    ],
+    "purpose": "hMR2WC69GM",
+    "copyright": "YIjLRu6tmJ",
+    "kind": "instance",
+    "instantiates": [
+        "ov8KTsW2Fk"
+    ],
+    "imports": [
+        "bJVAMyjQQ3"
+    ],
+    "software": {
+        "name": "UT5hk6FoZ3",
+        "version": "jOnjsYO_wH",
+        "releaseDate": "2021-04-12T14:34:35.886-05:00"
+    },
+    "implementation": {
+        "description": "hf4IcWEK5Z",
+        "url": "ONCct88W9C",
+        "custodian": {
+            "reference": "Organization/8eGiCubuPO",
+            "type": "Organization",
+            "identifier": {
+                "use": "usual",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "L6yT7vE7ml",
+                            "version": "BdCNwKOo8K",
+                            "code": "z2TYI4SNnh",
+                            "display": "3d87Z0uEr9",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "C6rcBWS1rc"
+                },
+                "system": "exU0eaRl4X",
+                "value": "FV2fULujwX",
+                "period": {
+                    "start": "2021-04-12T14:34:35.905-05:00",
+                    "end": "2021-04-12T14:34:35.905-05:00"
+                }
+            },
+            "display": "llbgC7pJ9I"
+        }
+    },
+    "fhirVersion": "0.5.0",
+    "format": [
+        "lN3pBHzF9t"
+    ],
+    "patchFormat": [
+        "b05jbsg6s0"
+    ],
+    "implementationGuide": [
+        "rwl6_e6hLw"
+    ],
+    "rest": [
+        {
+            "mode": "client",
+            "documentation": "mS7cfc18c_",
+            "security": {
+                "cors": true,
+                "service": [
+                    {
+                        "coding": [
+                            {
+                                "system": "HYG4E5eSd9",
+                                "version": "Nev7XxktIL",
+                                "code": "GwwE4f4ZLs",
+                                "display": "rDyoWSSRDN",
+                                "userSelected": true
+                            }
+                        ],
+                        "text": "z70xND1fBu"
+                    }
+                ],
+                "description": "xvjM5DBlvC"
+            },
+            "resource": [
+                {
+                    "type": "TestReport",
+                    "profile": "SADmydIFWx",
+                    "supportedProfile": [
+                        "R5OrMGFMKx"
+                    ],
+                    "documentation": "gKJIVb6VlY",
+                    "interaction": [
+                        {
+                            "code": "vread",
+                            "documentation": "9FEUGN8hO8"
+                        }
+                    ],
+                    "versioning": "versioned",
+                    "readHistory": true,
+                    "updateCreate": true,
+                    "conditionalCreate": true,
+                    "conditionalRead": "full-support",
+                    "conditionalUpdate": true,
+                    "conditionalDelete": "multiple",
+                    "referencePolicy": [
+                        "logical"
+                    ],
+                    "searchInclude": [
+                        "T09la8op31"
+                    ],
+                    "searchRevInclude": [
+                        "RUcNJR6C8O"
+                    ],
+                    "searchParam": [
+                        {
+                            "name": "I9vvguUKM4",
+                            "definition": "zBc5s1mobY",
+                            "type": "special",
+                            "documentation": "xoR9PGmwFk"
+                        }
+                    ],
+                    "operation": [
+                        {
+                            "name": "1M0QGV5koj",
+                            "definition": "RxMQSWfV85",
+                            "documentation": "vWeTxp1kLm"
+                        }
+                    ]
+                }
+            ],
+            "interaction": [
+                {
+                    "code": "history-system",
+                    "documentation": "Roh_LYTA6z"
+                }
+            ],
+            "searchParam": [
+                {
+                    "name": "T3V599e5NN",
+                    "definition": "snQ3cMDPg5",
+                    "type": "reference",
+                    "documentation": "lTpahM93fI"
+                }
+            ],
+            "operation": [
+                {
+                    "name": "goIubeCcyv",
+                    "definition": "exUSX2SF2P",
+                    "documentation": "OCXe0b1bFd"
+                }
+            ],
+            "compartment": [
+                "PR3odK7mBX"
+            ]
+        }
+    ],
+    "messaging": [
+        {
+            "endpoint": [
+                {
+                    "protocol": {
+                        "system": "MimKOlymZA",
+                        "version": "Ay_G30_hai",
+                        "code": "wBWMBGLttN",
+                        "display": "D20b2nLBWt",
+                        "userSelected": true
+                    },
+                    "address": "SkIakWwI_G"
+                }
+            ],
+            "reliableCache": 1049748079,
+            "documentation": "OiIN23ZUyM",
+            "supportedMessage": [
+                {
+                    "mode": "receiver",
+                    "definition": "Vz7yddlLpg"
+                }
+            ]
+        }
+    ],
+    "document": [
+        {
+            "mode": "producer",
+            "documentation": "eAYrSNoOJe",
+            "profile": "2Nk0uNR_c1"
+        }
+    ]
+}

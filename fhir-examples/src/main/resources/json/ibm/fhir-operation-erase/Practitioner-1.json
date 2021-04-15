@@ -1,0 +1,206 @@
+{
+    "resourceType": "Practitioner",
+    "meta": {
+        "versionId": "MMfJpwFyD3",
+        "lastUpdated": "2021-04-12T14:34:34.372-05:00",
+        "source": "HzHFfk2R0E",
+        "profile": [
+            "pU7AzjAZyX"
+        ],
+        "security": [
+            {
+                "system": "lVqVaUwOoo",
+                "version": "FCK1K0WUJm",
+                "code": "flOrLgsF3t",
+                "display": "N8J3DH8UxH",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "kakWWOGreA",
+                "version": "UOxXXND_CY",
+                "code": "_RYMNiwSUS",
+                "display": "9URNpd36Sm",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "Qrd5N98TZq",
+    "language": "en-US",
+    "text": {
+        "status": "extensions",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "identifier": [
+        {
+            "use": "official",
+            "type": {
+                "coding": [
+                    {
+                        "system": "9Gauggvfwk",
+                        "version": "3pipA1k6pn",
+                        "code": "EnMuV_Wfwn",
+                        "display": "BRQ0TDwrcL",
+                        "userSelected": true
+                    }
+                ],
+                "text": "lMuU1752CP"
+            },
+            "system": "mXNBaYSZVD",
+            "value": "OL2lefjYCT",
+            "period": {
+                "start": "2021-04-12T14:34:34.365-05:00",
+                "end": "2021-04-12T14:34:34.365-05:00"
+            }
+        }
+    ],
+    "active": true,
+    "name": [
+        {
+            "use": "usual",
+            "text": "hTXHPtZf6N",
+            "family": "Sx0SuaR4dO",
+            "given": [
+                "Ng0lTC8NaH"
+            ],
+            "prefix": [
+                "lH2vo_sTq5"
+            ],
+            "suffix": [
+                "lqT1BPvQ8R"
+            ],
+            "period": {
+                "start": "2021-04-12T14:34:34.37-05:00",
+                "end": "2021-04-12T14:34:34.371-05:00"
+            }
+        }
+    ],
+    "telecom": [
+        {
+            "system": "other",
+            "value": "oS8VodV61R",
+            "use": "old",
+            "rank": 64078089,
+            "period": {
+                "start": "2021-04-12T14:34:34.368-05:00",
+                "end": "2021-04-12T14:34:34.368-05:00"
+            }
+        }
+    ],
+    "address": [
+        {
+            "use": "billing",
+            "type": "both",
+            "text": "A0ZKGZ8oCu",
+            "line": [
+                "O5s1tH7Z3B"
+            ],
+            "city": "4v6R4aXWZZ",
+            "district": "h47uLIAafi",
+            "state": "0ZvEKLTtA5",
+            "postalCode": "LOEvssJY5R",
+            "country": "w3j5fOEP1z",
+            "period": {
+                "start": "2021-04-12T14:34:34.371-05:00",
+                "end": "2021-04-12T14:34:34.371-05:00"
+            }
+        }
+    ],
+    "gender": "female",
+    "birthDate": "2021-04-12",
+    "photo": [
+        {
+            "contentType": "sQGe1hkZ8Y",
+            "language": "en-US",
+            "data": "VDY6C0Y=",
+            "url": "UqgTm625pv",
+            "size": 1933338089,
+            "hash": "AUUVMhQ=",
+            "title": "kpyxqLI6ZS",
+            "creation": "2021-04-12T14:34:34.364-05:00"
+        }
+    ],
+    "qualification": [
+        {
+            "identifier": [
+                {
+                    "use": "old",
+                    "type": {
+                        "coding": [
+                            {
+                                "system": "S3RH26fyLh",
+                                "version": "7Y9NyX4xRr",
+                                "code": "rqFLMXwyfE",
+                                "display": "MljZ4hfXbX",
+                                "userSelected": true
+                            }
+                        ],
+                        "text": "ux7jnsmfS1"
+                    },
+                    "system": "ZYGQUjFnqR",
+                    "value": "bbQs4HGXWX",
+                    "period": {
+                        "start": "2021-04-12T14:34:34.367-05:00",
+                        "end": "2021-04-12T14:34:34.367-05:00"
+                    }
+                }
+            ],
+            "code": {
+                "coding": [
+                    {
+                        "system": "GOmWpBbZma",
+                        "version": "PyNn4U8umX",
+                        "code": "Va1S4B_dM1",
+                        "display": "Fe1tuK8MfN",
+                        "userSelected": true
+                    }
+                ],
+                "text": "9Zh5mSZGX1"
+            },
+            "period": {
+                "start": "2021-04-12T14:34:34.366-05:00",
+                "end": "2021-04-12T14:34:34.367-05:00"
+            },
+            "issuer": {
+                "reference": "Organization/pM1KeOsJrA",
+                "type": "Organization",
+                "identifier": {
+                    "use": "official",
+                    "type": {
+                        "coding": [
+                            {
+                                "system": "5Vy8nelgEL",
+                                "version": "2nX3NP1H20",
+                                "code": "t4LiUitYg5",
+                                "display": "qRvJ8dYkco",
+                                "userSelected": true
+                            }
+                        ],
+                        "text": "aqUL4FJ9cf"
+                    },
+                    "system": "CGwncY0ss4",
+                    "value": "A7gOFtg7nx",
+                    "period": {
+                        "start": "2021-04-12T14:34:34.368-05:00",
+                        "end": "2021-04-12T14:34:34.368-05:00"
+                    }
+                },
+                "display": "KehrJgcdID"
+            }
+        }
+    ],
+    "communication": [
+        {
+            "coding": [
+                {
+                    "system": "urn:ietf:bcp:47",
+                    "code": "en-US"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,219 @@
+{
+    "resourceType": "ChargeItemDefinition",
+    "meta": {
+        "versionId": "S1FW3dhZS0",
+        "lastUpdated": "2021-04-12T14:34:34.527-05:00",
+        "source": "2fFGBDArgQ",
+        "profile": [
+            "DSCtDiPzYf"
+        ],
+        "security": [
+            {
+                "system": "zoGcYrWXU8",
+                "version": "07jLueHkeV",
+                "code": "1PBAiKxHdx",
+                "display": "Ppll7DLbo5",
+                "userSelected": true
+            }
+        ],
+        "tag": [
+            {
+                "system": "EKE9TUHjq8",
+                "version": "lO0PQMWSSC",
+                "code": "9KMy2lel1l",
+                "display": "Uoo9bm02c1",
+                "userSelected": true
+            },
+            {
+                "code": "ibm/complete-mock"
+            }
+        ]
+    },
+    "implicitRules": "dFwuLlkY61",
+    "language": "en-US",
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"></div>"
+    },
+    "url": "iSljjb1fp5",
+    "identifier": [
+        {
+            "use": "usual",
+            "type": {
+                "coding": [
+                    {
+                        "system": "sJqq6klKTN",
+                        "version": "6Q3M82hglx",
+                        "code": "GB1WIgx12W",
+                        "display": "JQasygPfje",
+                        "userSelected": true
+                    }
+                ],
+                "text": "ZhVKsb_KqE"
+            },
+            "system": "nVDnFlcvDg",
+            "value": "rL3K0AtqDn",
+            "period": {
+                "start": "2021-04-12T14:34:34.521-05:00",
+                "end": "2021-04-12T14:34:34.522-05:00"
+            }
+        }
+    ],
+    "version": "nWpBMpGosi",
+    "title": "eY5D6mC6UU",
+    "derivedFromUri": [
+        "qN8UoA9tHv"
+    ],
+    "partOf": [
+        "1WtT1fvZ6k"
+    ],
+    "replaces": [
+        "hH0cquoHWo"
+    ],
+    "status": "unknown",
+    "experimental": true,
+    "date": "2021-04-12T14:34:34.526-05:00",
+    "publisher": "F2NJIMHRez",
+    "contact": [
+        {
+            "name": "PWbzDQB4S7",
+            "telecom": [
+                {
+                    "system": "other",
+                    "value": "yfIuLKSsQL",
+                    "use": "work",
+                    "rank": 1935855283,
+                    "period": {
+                        "start": "2021-04-12T14:34:34.523-05:00",
+                        "end": "2021-04-12T14:34:34.523-05:00"
+                    }
+                }
+            ]
+        }
+    ],
+    "description": "NntjymIfCw",
+    "useContext": [
+        {
+            "code": {
+                "system": "LBYEWtXelB",
+                "version": "a2UZ5pKDOl",
+                "code": "x6nru79A5T",
+                "display": "UvE_EsgR1c",
+                "userSelected": true
+            },
+            "valueCodeableConcept": {
+                "coding": [
+                    {
+                        "system": "DqP9gFLQtD",
+                        "version": "t7tj1uJ_Ld",
+                        "code": "Fq0AGgBh1x",
+                        "display": "nLA91fx4AF",
+                        "userSelected": true
+                    }
+                ],
+                "text": "j6GaSqkZjD"
+            }
+        }
+    ],
+    "jurisdiction": [
+        {
+            "coding": [
+                {
+                    "system": "kMKd2neSO3",
+                    "version": "j9HGBtmCAs",
+                    "code": "QzIj2yT2Tg",
+                    "display": "8jzQnCcaiE",
+                    "userSelected": true
+                }
+            ],
+            "text": "VQQK9thkSU"
+        }
+    ],
+    "copyright": "BJ0hUt_qXp",
+    "approvalDate": "2021-04-12",
+    "lastReviewDate": "2021-04-12",
+    "effectivePeriod": {
+        "start": "2021-04-12T14:34:34.514-05:00",
+        "end": "2021-04-12T14:34:34.514-05:00"
+    },
+    "code": {
+        "coding": [
+            {
+                "system": "HaokVs2Qqr",
+                "version": "_mq8fLR0rV",
+                "code": "cEt8V_uoe8",
+                "display": "ZvOz_oYH6E",
+                "userSelected": true
+            }
+        ],
+        "text": "ACqrJ0DC49"
+    },
+    "instance": [
+        {
+            "reference": "Medication/9mEyhuK7zx",
+            "type": "Medication",
+            "identifier": {
+                "use": "secondary",
+                "type": {
+                    "coding": [
+                        {
+                            "system": "asj5Obe6kt",
+                            "version": "8I9mk27ukv",
+                            "code": "jQnypoVxeo",
+                            "display": "pJ32Qo1rL0",
+                            "userSelected": true
+                        }
+                    ],
+                    "text": "CzdThcXdix"
+                },
+                "system": "Hu4FwCyMR4",
+                "value": "0v_HqA6xWv",
+                "period": {
+                    "start": "2021-04-12T14:34:34.524-05:00",
+                    "end": "2021-04-12T14:34:34.524-05:00"
+                }
+            },
+            "display": "OLP1kU2iil"
+        }
+    ],
+    "applicability": [
+        {
+            "description": "wJAg0iZvKK",
+            "language": "cOheniaPpb",
+            "expression": "tsOF114_3e"
+        }
+    ],
+    "propertyGroup": [
+        {
+            "applicability": [
+                {
+                    "description": "ossXNDwLtO",
+                    "language": "FeG6bLWywf",
+                    "expression": "wQEnJfZ4ic"
+                }
+            ],
+            "priceComponent": [
+                {
+                    "type": "deduction",
+                    "code": {
+                        "coding": [
+                            {
+                                "system": "WGq8qKSu1X",
+                                "version": "uu7Mi5wexM",
+                                "code": "xBAVpaTczr",
+                                "display": "y9QFwMsZKf",
+                                "userSelected": true
+                            }
+                        ],
+                        "text": "uaE3JiHWhs"
+                    },
+                    "factor": 311239658311,
+                    "amount": {
+                        "value": 57428637554,
+                        "currency": "OrxXqzFbUN"
+                    }
+                }
+            ]
+        }
+    ]
+}
