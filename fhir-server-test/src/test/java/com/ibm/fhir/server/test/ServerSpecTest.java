@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -639,7 +639,7 @@ public class ServerSpecTest extends FHIRServerTestBase {
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle historyBundle = response.getResource(Bundle.class);
         assertNotNull(historyBundle);
-        assertEquals(2, historyBundle.getTotal().getValue());
+        assertEquals(2, historyBundle.getTotal().getValue() * 1); // Testng complained about ambiguity.
 
         // A search that results in multiple matches should result in a 412 status code.
         FHIRParameters multipleMatches = new FHIRParameters().searchParam("status", "final");
