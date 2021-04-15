@@ -21,14 +21,18 @@ public class QueryData {
     // The current parameterAlias.
     private final int parameterAlias;
 
+    // The resource type associated with this part of the query
+    private final String resourceType;
+
     /**
      * Public constructor
      * @param query
      * @param parameterAlias
      */
-    public QueryData(SelectAdapter query, int parameterAlias) {
+    public QueryData(SelectAdapter query, int parameterAlias, String resourceType) {
         this.query = query;
         this.parameterAlias = parameterAlias;
+        this.resourceType = resourceType;
     }
 
     /**
@@ -43,5 +47,12 @@ public class QueryData {
      */
     public int getParameterAlias() {
         return parameterAlias;
+    }
+
+    /**
+     * @return the resourceType
+     */
+    public String getResourceType() {
+        return resourceType;
     }
 }

@@ -138,7 +138,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         SelectAdapter select = Select.select("COUNT(*)");
         select.from(xxLogicalResources, alias(lrAliasName))
             .where(lrAliasName, IS_DELETED).eq(string("N"));
-        return new QueryData(select, aliasIndex);
+        return new QueryData(select, aliasIndex, rootResourceType);
     }
 
     @Override
@@ -155,7 +155,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         select.from(xxLogicalResources, alias(lrAliasName))
             .innerJoin(xxResources, alias("R"), on(lrAliasName, "CURRENT_RESOURCE_ID").eq("R", "RESOURCE_ID"))
             .where(lrAliasName, IS_DELETED).eq().literal("N");
-        return new QueryData(select, aliasIndex);
+        return new QueryData(select, aliasIndex, rootResourceType);
     }
 
     @Override
@@ -181,7 +181,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         query.from().where().and().exists(exists.build());
 
         // Return the exists sub-query in case there's a need to recurse lower
-        return new QueryData(exists, aliasIndex);
+        return new QueryData(exists, aliasIndex, resourceType);
     }
 
     /**
@@ -256,7 +256,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         // so we need to AND the exists
         queryData.getQuery().from().where().and().exists(filterQuery);
 
-        return new QueryData(exists, aliasIndex);
+        return new QueryData(exists, aliasIndex, resourceType);
     }
 
 
@@ -408,10 +408,11 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         final String parameterName = queryParm.getCode();
         final int aliasIndex = queryData.getParameterAlias() + 1;
         final String paramTableName = paramValuesTableName(resourceType, queryParm.getType());
+        final String lrAlias = getLRAlias(aliasIndex-1);
         final String paramAlias = "P" + aliasIndex;
         SelectAdapter exists = Select.select("1");
         exists.from(paramTableName, alias(paramAlias))
-                .where(paramAlias, "LOGICAL_RESOURCE_ID").eq("LR", "LOGICAL_RESOURCE_ID") // correlate with the main query
+                .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
                 .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
                 ;
 
@@ -425,7 +426,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             // parameter should be not missing...i.e. it exists
             query.from().where().and().exists(exists.build());
         }
-        return new QueryData(exists, aliasIndex);
+        return new QueryData(exists, aliasIndex, resourceType);
     }
 
     /**
@@ -468,7 +469,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     }
 
     @Override
-    public QueryData addChained(QueryData queryData, QueryParameter currentParm, String sourceResourceType) throws FHIRPersistenceException {
+    public QueryData addChained(QueryData queryData, QueryParameter currentParm) throws FHIRPersistenceException {
         // Each chained element is added as a nested EXISTS clause which joins the reference parameter
         // (stored as a token-value) with the target XX_LOGICAL_RESOURCES table.
         // AND EXISTS (SELECT 1
@@ -480,6 +481,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         //                AND P1.CODE_SYSTEM_ID = 4321                         -- code-system for Device
         //                AND LR1.IS_DELETED = 'N'                             -- referenced Device is not deleted
         //              WHERE P1.LOGICAL_RESOURCE_ID = LR0.LOGICAL_RESOURCE_ID -- correlate parameter to parent
+        final String sourceResourceType = queryData.getResourceType();
         final SelectAdapter currentSubQuery = queryData.getQuery();
         final int aliasIndex = queryData.getParameterAlias() + 1;
         final String targetResourceType = currentParm.getModifierResourceTypeName();
@@ -505,11 +507,11 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
 
         // Return the exists sub-select so that it can be used as the basis for the next
         // link in the chain
-        return new QueryData(exists, aliasIndex);
+        return new QueryData(exists, aliasIndex, targetResourceType);
     }
 
     @Override
-    public QueryData addReverseChained(QueryData queryData, QueryParameter currentParm, String refResourceType) throws FHIRPersistenceException {
+    public QueryData addReverseChained(QueryData queryData, QueryParameter currentParm) throws FHIRPersistenceException {
         // For reverse chaining, we write an exists with correlated sub-query
         // by connecting the token-value (reference) back to the parent query LOGICAL_ID.
         // We also include a local xx_LOGICAL_RESOURCES table, in case the next
@@ -522,6 +524,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         //        AND P1.CODE_SYSTEM_ID = 6             -- 'code system for Patient references'
         //      WHERE LR0.LOGICAL_ID = P1.TOKEN_VALUE   -- 'Patient.LOGICAL_ID = Observation.patient'
         //        AND LR0.VERSION_ID = COALESCE(P1.REF_VERSION_ID, LR0.VERSION_ID)
+        final String refResourceType = queryData.getResourceType();
         final SelectAdapter currentSubQuery = queryData.getQuery();
         final int aliasIndex = queryData.getParameterAlias() + 1;
         final String resourceTypeName = currentParm.getModifierResourceTypeName();
@@ -545,12 +548,11 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
 
         // Return the exists sub-select so that it can be used as the basis for the next
         // link in the chain
-        return new QueryData(exists, queryData.getParameterAlias()+1);
+        return new QueryData(exists, queryData.getParameterAlias()+1, resourceTypeName);
     }
 
     @Override
     public void addFilter(QueryData queryData, QueryParameter currentParm) throws FHIRPersistenceException {
-        // TODO...still needed?
         SelectAdapter currentSubQuery = queryData.getQuery();
         // A simple filter added as an exists clause to the current query
         // AND EXISTS (SELECT 1
@@ -566,10 +568,8 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         exists.from(paramTable, alias(paramAlias))
             .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(parentAlias, "LOGICAL_RESOURCE_ID")
             .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(currentParm.getCode()))
-            ;
+            .and(paramFilter(currentParm, paramAlias).getExpression());
 
-        QueryData filter = new QueryData(exists, aliasIndex);
-        addParamFilterValue(filter, currentParm);
 
         // Add an exists clause to the where clause of the current query
         currentSubQuery.from().where().and().exists(exists.build());
@@ -598,7 +598,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         query.from().where().and().exists(exists.build());
 
         // Return the exists sub-query in case there's a need to recurse lower
-        return new QueryData(exists, aliasIndex);
+        return new QueryData(exists, aliasIndex, resourceType);
     }
 
     /**
@@ -636,7 +636,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         query.from().where().and().exists(exists.build());
 
         // Return the exists sub-query in case there's a need to recurse lower
-        return new QueryData(exists, aliasIndex);
+        return new QueryData(exists, aliasIndex, resourceType);
     }
 
     /**
@@ -674,7 +674,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         query.from().where().and().exists(exists.build());
 
         // Return the exists sub-query in case there's a need to recurse lower
-        return new QueryData(exists, aliasIndex);
+        return new QueryData(exists, aliasIndex, resourceType);
     }
 
     /**
@@ -713,7 +713,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         query.from().where().and().exists(exists.build());
 
         // Return the exists sub-query in case there's a need to recurse lower
-        return new QueryData(exists, aliasIndex);
+        return new QueryData(exists, aliasIndex, resourceType);
     }
 
     /**
@@ -757,44 +757,6 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         return "LR" + aliasIndex;
     }
 
-    /**
-     * @param exists
-     * @param currentParm
-     * @param paramAlias
-     */
-    private void addParamFilterValue(QueryData exists, QueryParameter currentParm) {
-        // Add the filter value for the parameter to the current exists statement. This
-        // statement already contains a WHERE predicate, so we just need to AND the
-        // expression we need.
-        String col;
-        switch (currentParm.getType()) {
-        case URI:
-        case STRING:
-            col = "STR_VALUE";
-            break;
-        case NUMBER:
-            col = "NUMBER_VALUE";
-            break;
-        case QUANTITY:
-            col = "QUANTITY_LOW";
-            break;
-        case DATE:
-            col = "DATE_VALUE";
-            break;
-        case SPECIAL:
-            col = "LATLNG_VALUES";
-            break;
-        case REFERENCE:
-        case TOKEN:
-            col = "TOKEN_VALUE";
-            break;
-        case COMPOSITE:
-            col = null;
-            break;
-        }
-    }
-
-
     @Override
     public QueryData addReferenceParam(QueryData queryData, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException {
         // TODO align with addTokenParam
@@ -819,7 +781,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         query.from().where().and().exists(exists.build());
 
         // Return the exists sub-query in case there's a need to recurse lower
-        return new QueryData(exists, aliasIndex);
+        return new QueryData(exists, aliasIndex, resourceType);
 
     }
 
@@ -942,7 +904,6 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     @Override
     public QueryData addCompositeParam(QueryData queryData, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException {
         final int aliasIndex = queryData.getParameterAlias() + 1;
-        final SelectAdapter query = queryData.getQuery();
         final String lrAlias = "LR" + (aliasIndex-1);
 
         // Each value gets its own EXISTS clause which we combine together
