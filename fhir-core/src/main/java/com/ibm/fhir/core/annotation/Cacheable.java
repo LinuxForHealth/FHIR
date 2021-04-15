@@ -11,7 +11,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-import java.util.concurrent.TimeUnit;
+import java.time.temporal.ChronoUnit;
 
 import com.ibm.fhir.core.util.CachingProxy.KeyGenerator;
 
@@ -20,6 +20,6 @@ import com.ibm.fhir.core.util.CachingProxy.KeyGenerator;
 public @interface Cacheable {
     int maximumSize() default 128;
     int duration() default 1;
-    TimeUnit unit() default TimeUnit.HOURS;
+    ChronoUnit unit() default ChronoUnit.HOURS;
     Class<? extends KeyGenerator> keyGeneratorClass() default KeyGenerator.class;
 }

@@ -125,7 +125,7 @@ public class CachingProxy {
         }
 
         private <K, V> Map<K, V> createCacheAsMap(Cacheable cacheable) {
-            return CacheSupport.createCacheAsMap(cacheable.maximumSize(), Duration.of(cacheable.duration(), cacheable.unit().toChronoUnit()));
+            return CacheSupport.createCacheAsMap(cacheable.maximumSize(), Duration.of(cacheable.duration(), cacheable.unit()));
         }
 
         private Object computeResult(Method targetMethod, Object[] args) {
