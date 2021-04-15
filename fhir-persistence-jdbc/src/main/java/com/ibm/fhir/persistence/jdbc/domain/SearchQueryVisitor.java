@@ -140,20 +140,18 @@ public interface SearchQueryVisitor<T> {
      * @param currentSubQuery
      * @param currentParm
      * @param aliasIndex
-     * @param sourceResourceType
      * @return
      */
-    T addChained(T currentSubQuery, QueryParameter currentParm, String sourceResourceType) throws FHIRPersistenceException;
+    T addChained(T currentSubQuery, QueryParameter currentParm) throws FHIRPersistenceException;
 
     /**
      * Add a reverse chain subquery element as part of a chained parameter search
      * @param currentSubQuery
      * @param currentParm
      * @param aliasIndex
-     * @oaram refResourceType the resource type of the target reference
      * @return
      */
-    T addReverseChained(T currentSubQuery, QueryParameter currentParm, String refResourceType) throws FHIRPersistenceException;
+    T addReverseChained(T currentSubQuery, QueryParameter currentParm) throws FHIRPersistenceException;
 
     /**
      * Add a filter predicate to the given chained sub-query element. This must be

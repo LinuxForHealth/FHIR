@@ -6,11 +6,10 @@
 
 package com.ibm.fhir.persistence.jdbc.domain;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.parameters.QueryParameter;
 
 /**
@@ -35,21 +34,11 @@ public class ChainedSearchParam extends SearchParam {
         QueryParameter currentParm = getQueryParameter();
         logger.entering(CLASSNAME, METHODNAME, currentParm.toString());
 
-        int refParmIndex = 0;
-        String chainedResourceVar = null;
-        String chainedLogicalResourceVar = null;
-        String chainedParmVar = null;
-        String resourceTypeName = null;
-        StringBuilder whereClauseSegment = new StringBuilder();
-        List<Object> bindVariables = new ArrayList<>();
-
         // The query representing the last exists to be added, to
         // which we'll add the final filter if there is one
         T currentSubQuery = query;
 
-        // For tracking the table alias names in the query. The value 0 represents
-        // the aliases used for the root query (xx_LOGICAL_RESOURCES AS LR0)
-        int aliasIndex = 0; // for tracking table alias names in the query
+        // Walk the parameter chain, nesting an EXISTS clause each time
         while (currentParm != null) {
             QueryParameter nextParm = currentParm.getNextParameter();
 
@@ -69,17 +58,28 @@ public class ChainedSearchParam extends SearchParam {
 
     private <T> T addChained(T currentSubQuery, SearchQueryVisitor<T> visitor, QueryParameter currentParm) throws FHIRPersistenceException {
         // Ask the visitor to attach an exists sub-query to the currentSubQuery
-        final String sourceResourceType = "TODO";
-        return visitor.addChained(currentSubQuery, currentParm, sourceResourceType);
+        return visitor.addChained(currentSubQuery, currentParm);
     }
 
     private <T> T addReverseChained(T currentSubQuery, SearchQueryVisitor<T> visitor, QueryParameter currentParm) throws FHIRPersistenceException {
-        final String refResourceType = "TODO";
-        return visitor.addReverseChained(currentSubQuery, currentParm, refResourceType);
+        return visitor.addReverseChained(currentSubQuery, currentParm);
     }
 
+    /**
+     * Add a final filter to the last element of the chain (the current query). This could be a simple parameter
+     * filter, or a composite (which is slightly more complex, and could be multiple EXISTS).
+     * @param <T>
+     * @param currentSubQuery
+     * @param visitor
+     * @param currentParm
+     * @throws FHIRPersistenceException
+     */
     private <T> void addFinalFilter(T currentSubQuery, SearchQueryVisitor<T> visitor, QueryParameter currentParm) throws FHIRPersistenceException {
-        visitor.addFilter(currentSubQuery, currentParm);
+        if (currentParm.getType() == Type.COMPOSITE) {
+            visitor.addCompositeParam(currentSubQuery, currentParm.getModifierResourceTypeName(), currentParm);
+        } else {
+            visitor.addFilter(currentSubQuery, currentParm);
+        }
     }
 
     /*
