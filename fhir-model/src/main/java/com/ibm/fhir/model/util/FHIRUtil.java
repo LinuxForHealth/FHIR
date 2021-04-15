@@ -225,7 +225,8 @@ public class FHIRUtil {
         Throwable e = exception;
         String causedBy = "";
         while (e != null) {
-            msgs.append(causedBy + e.getClass().getSimpleName() + ": " + (e.getMessage() != null ? e.getMessage() : "<null message>"));
+            msgs.append(causedBy + e.getClass().getSimpleName() + ": "
+                    + (e.getMessage() != null ? e.getMessage().replaceAll("<", "&lt;").replaceAll(">", "&gt;") : "<null message>"));
             e = e.getCause();
             causedBy = System.lineSeparator() + "Caused by: ";
 
