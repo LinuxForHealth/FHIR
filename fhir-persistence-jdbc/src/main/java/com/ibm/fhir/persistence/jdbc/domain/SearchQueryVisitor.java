@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.persistence.jdbc.domain;
 
+import java.util.List;
+
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.search.parameters.QueryParameter;
 
@@ -110,6 +112,16 @@ public interface SearchQueryVisitor<T> {
     T addMissingParam(T query, String rootResourceType, QueryParameter queryParm, boolean isMissing) throws FHIRPersistenceException;
 
     /**
+     * Add a composite query parameter filter to the query
+     * @param query
+     * @param resourceType
+     * @param queryParm
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    T addCompositeParam(T query, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException;
+
+    /**
      * Add sorting (order by) to the query
      * @param query
      * @return
@@ -151,4 +163,11 @@ public interface SearchQueryVisitor<T> {
      * @param aliasIndex
      */
     void addFilter(T currentSubQuery, QueryParameter currentParm) throws FHIRPersistenceException;
+
+    /**
+     * @param queryData
+     * @param queryParameters
+     * @return
+     */
+    T addLocationPosition(T queryData, List<QueryParameter> queryParameters) throws FHIRPersistenceException;
 }

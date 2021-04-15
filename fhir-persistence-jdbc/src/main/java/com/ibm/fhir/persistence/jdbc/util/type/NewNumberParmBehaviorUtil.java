@@ -20,7 +20,7 @@ import java.util.Set;
 
 import com.ibm.fhir.database.utils.query.Operator;
 import com.ibm.fhir.database.utils.query.Select;
-import com.ibm.fhir.database.utils.query.WhereAdapter;
+import com.ibm.fhir.database.utils.query.WhereFragment;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.parameters.QueryParameter;
@@ -39,7 +39,7 @@ public class NewNumberParmBehaviorUtil {
         // No operation
     }
 
-    public static void executeBehavior(WhereAdapter whereClauseSegment, QueryParameter queryParm,
+    public static void executeBehavior(WhereFragment whereClauseSegment, QueryParameter queryParm,
             String tableAlias)
             throws FHIRPersistenceException {
         // If there are multiple parameter values, these will be OR'd together, so we
@@ -93,7 +93,7 @@ public class NewNumberParmBehaviorUtil {
      * @param prefix
      * @param value
      */
-    public static void addValue(WhereAdapter whereClauseSegment, String tableAlias,
+    public static void addValue(WhereFragment whereClauseSegment, String tableAlias,
             String columnBase, Prefix prefix, BigDecimal value) {
 
         BigDecimal lowerBound = generateLowerBound(value);
@@ -176,7 +176,7 @@ public class NewNumberParmBehaviorUtil {
      * @param operator
      * @param value
      */
-    public static void buildCommonClause(WhereAdapter whereClauseSegment, String tableAlias,
+    public static void buildCommonClause(WhereFragment whereClauseSegment, String tableAlias,
             String columnName, String columnNameLowOrHigh, String operator, BigDecimal value, BigDecimal bound) {
 
         // TODO get operator from string
@@ -199,7 +199,7 @@ public class NewNumberParmBehaviorUtil {
      * @param operator
      * @param value
      */
-    public static void buildEbOrSaClause(WhereAdapter whereClauseSegment, String tableAlias,
+    public static void buildEbOrSaClause(WhereFragment whereClauseSegment, String tableAlias,
             String columnName, String columnNameLowOrHigh, String operator, BigDecimal value, BigDecimal bound) {
 
         // TODO
@@ -207,7 +207,7 @@ public class NewNumberParmBehaviorUtil {
         whereClauseSegment.col(tableAlias, columnNameLowOrHigh).operator(op).bind(value);
     }
 
-    public static void buildEqualsRangeClause(WhereAdapter whereClauseSegment, String tableAlias,
+    public static void buildEqualsRangeClause(WhereFragment whereClauseSegment, String tableAlias,
            String columnBase, BigDecimal lowerBound, BigDecimal upperBound) {
 
         whereClauseSegment.leftParen();
@@ -221,7 +221,7 @@ public class NewNumberParmBehaviorUtil {
         whereClauseSegment.rightParen();
     }
 
-    public static void buildApproxRangeClause(WhereAdapter whereClauseSegment, String tableAlias,
+    public static void buildApproxRangeClause(WhereFragment whereClauseSegment, String tableAlias,
             String columnBase, BigDecimal lowerBound, BigDecimal upperBound, BigDecimal value) {
         BigDecimal factor = value.multiply(FACTOR);
 
@@ -236,7 +236,7 @@ public class NewNumberParmBehaviorUtil {
         whereClauseSegment.rightParen();
     }
 
-    public static void buildNotEqualsRangeClause(WhereAdapter whereClauseSegment, String tableAlias,
+    public static void buildNotEqualsRangeClause(WhereFragment whereClauseSegment, String tableAlias,
             String columnBase, BigDecimal lowerBound, BigDecimal upperBound) {
 
         whereClauseSegment.leftParen();

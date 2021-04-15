@@ -13,7 +13,7 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.QUANTITY_VALUE;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.ibm.fhir.database.utils.query.WhereAdapter;
+import com.ibm.fhir.database.utils.query.WhereFragment;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
@@ -37,7 +37,7 @@ public class NewQuantityParmBehaviorUtil {
         this.identityCache = identityCache;
     }
 
-    public void executeBehavior(WhereAdapter whereClauseSegment, QueryParameter queryParm,
+    public void executeBehavior(WhereFragment whereClauseSegment, QueryParameter queryParm,
             String tableAlias) throws FHIRPersistenceException {
         // Start the Clause
         // Query: AND ((
@@ -92,7 +92,7 @@ public class NewQuantityParmBehaviorUtil {
      * @param system
      * @throws FHIRPersistenceException
      */
-    public void addSystemIfPresent(WhereAdapter whereClauseSegment, String tableAlias, String system) throws FHIRPersistenceException {
+    public void addSystemIfPresent(WhereFragment whereClauseSegment, String tableAlias, String system) throws FHIRPersistenceException {
         /*
          * <code>GET
          * [base]/Observation?value-quantity=5.4|http://unitsofmeasure.org|mg</code>
@@ -134,7 +134,7 @@ public class NewQuantityParmBehaviorUtil {
      * @param bindVariables
      * @param code
      */
-    public void addCodeIfPresent(WhereAdapter whereClauseSegment, String tableAlias, String code) {
+    public void addCodeIfPresent(WhereFragment whereClauseSegment, String tableAlias, String code) {
         // Include code if present.
         if (isPresent(code)) {
             whereClauseSegment.and(tableAlias, CODE).eq().bind(code);

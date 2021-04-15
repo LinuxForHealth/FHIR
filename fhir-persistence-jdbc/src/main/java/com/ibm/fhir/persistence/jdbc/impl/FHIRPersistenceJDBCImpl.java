@@ -642,7 +642,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(cache, resourceDao, parameterDao, rrd);
 
             checkModifiers(searchContext, isSystemLevelSearch(resourceType));
-            queryBuilder = new NewQueryBuilder(parameterDao, resourceDao, connectionStrategy.getQueryHints(), identityCache);
+            queryBuilder = new NewQueryBuilder(connectionStrategy.getQueryHints(), identityCache);
 
             // Skip count query if _total=none
             if (!TotalValueSet.NONE.equals(searchContext.getTotalParameter())) {

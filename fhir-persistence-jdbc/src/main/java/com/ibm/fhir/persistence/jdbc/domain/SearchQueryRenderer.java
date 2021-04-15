@@ -16,19 +16,12 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMMON_TOKEN_VALUE_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_PERCENT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_UNDERSCORE;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.GT;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.GTE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.IS_DELETED;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LIKE;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LT;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LTE;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PERCENT_WILDCARD;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.TOKEN_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNDERSCORE_WILDCARD;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants._LOGICAL_RESOURCES;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants._RESOURCES;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.modifierOperatorMap;
 
 import java.util.Arrays;
 import java.util.List;
@@ -45,11 +38,13 @@ import com.ibm.fhir.database.utils.query.node.ExpNode;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.util.NewUriModifierUtil;
+import com.ibm.fhir.persistence.jdbc.util.QuerySegmentAggregator;
 import com.ibm.fhir.persistence.jdbc.util.SqlParameterEncoder;
 import com.ibm.fhir.persistence.jdbc.util.type.NewDateParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.NewLocationParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.NewNumberParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.NewQuantityParmBehaviorUtil;
+import com.ibm.fhir.persistence.jdbc.util.type.OperatorUtil;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Type;
@@ -156,9 +151,9 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         // The core data query joining together the logical resources table
         // with the resources table for the current Query
         // parameters are bolted on as exists statements in the WHERE clause
-        SelectAdapter select = Select.select("R.RESOURCE_ID", "R.LOGICAL_RESOURCE_ID", "R.VERSION_ID", "R.LAST_UPDATED", "R.IS_DELETED", "R.DATA", "LR.LOGICAL_ID");
+        SelectAdapter select = Select.select("R.RESOURCE_ID", "R.LOGICAL_RESOURCE_ID", "R.VERSION_ID", "R.LAST_UPDATED", "R.IS_DELETED", "R.DATA", "LR0.LOGICAL_ID");
         select.from(xxLogicalResources, alias(lrAliasName))
-            .innerJoin(xxResources, alias("R"), on("LR", "CURRENT_RESOURCE_ID").eq("R", "RESOURCE_ID"))
+            .innerJoin(xxResources, alias("R"), on(lrAliasName, "CURRENT_RESOURCE_ID").eq("R", "RESOURCE_ID"))
             .where(lrAliasName, IS_DELETED).eq().literal("N");
         return new QueryData(select, aliasIndex);
     }
@@ -179,7 +174,8 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                 ;
 
         // add the filter predicate to the exists where clause
-        addTokenFilter(exists, queryParm, paramAlias);
+        ExpNode filter = getTokenFilter(queryParm, paramAlias).getExpression();
+        exists.from().where().and(filter);
 
         // Add the exists sub-query we just built to the where clause of the main query
         query.from().where().and().exists(exists.build());
@@ -189,16 +185,16 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     }
 
     /**
-     * Add the filter predicate for the given token query parameter
+     * Get the filter predicate for the given token query parameter
      * @param paramExists the exists select statement to which we need to AND the filter predicate
      * @param queryParm the token query parameter
      * @param paramAlias the alias used for the token values table
      * @throws FHIRPersistenceException
      */
-    protected void addTokenFilter(SelectAdapter paramExists, QueryParameter queryParm, String paramAlias) throws FHIRPersistenceException {
-        WhereAdapter where = paramExists.from().where();
+    protected WhereFragment getTokenFilter(QueryParameter queryParm, String paramAlias) throws FHIRPersistenceException {
+        WhereFragment where = new WhereFragment();
         boolean first = true;
-        where.and().leftParen();
+        where.leftParen();
         for (QueryParameterValue pv: queryParm.getValues()) {
             if (first) {
                 first = false;
@@ -208,17 +204,21 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             final String codeSystem = pv.getValueSystem();
             final String tokenValue = pv.getValueCode();
             Long commonTokenValueId = identityCache.getCommonTokenValueId(codeSystem, tokenValue);
-            if (commonTokenValueId != null) {
+            if (commonTokenValueId != null && !codeSystem.equals("*")) {
                 // Optimization where we have a single value. Use the literal (not a bind variable)
                 // to give the optimizer more info
                 where.and(paramAlias, "COMMON_TOKEN_VALUE_ID").eq(commonTokenValueId);
             } else {
                 // add bind variables for the code system and token-value
-                where.and(paramAlias, "CODE_SYSTEM").eq().bind(codeSystem);
+                if (!codeSystem.equals("*")) {
+                    where.and(paramAlias, "CODE_SYSTEM").eq().bind(codeSystem);
+                }
                 where.and(paramAlias, "TOKEN_VALUE").eq().bind(tokenValue);
             }
         }
         where.rightParen();
+
+        return where;
     }
 
     /**
@@ -249,7 +249,8 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         }
 
         // Add the (non-trivial) filter predicate for string parameters
-        addStringFilter(exists, queryParm, paramAlias);
+        ExpNode filter = getStringFilter(queryParm, paramAlias).getExpression();
+        exists.from().where().and(filter);
 
         // Add the exists to the where clause of the main query which already has a predicate
         // so we need to AND the exists
@@ -267,7 +268,8 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
      * @return
      * @throws FHIRPersistenceException
      */
-    protected void addStringFilter(SelectAdapter paramExists, QueryParameter queryParm, String paramAlias) throws FHIRPersistenceException {
+    protected WhereFragment getStringFilter(QueryParameter queryParm, String paramAlias) throws FHIRPersistenceException {
+
         // Process the values from the queryParameter to produce
         // the predicates we need to pass to the visitor (which is
         // responsible for building the full query).
@@ -278,6 +280,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             logger.fine("addStringParam: " + parameterName + ", op=" + operator.name() + ", modifier=" + queryParm.getModifier());
         }
         WhereFragment whereFragment = new WhereFragment();
+        whereFragment.leftParen();
 
         boolean multiple = false;
         for (QueryParameterValue value : queryParm.getValues()) {
@@ -363,15 +366,14 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             }
         }
 
-
-        // Now we've constructed the predicate, attach it to the exists where clause
+        whereFragment.rightParen();
         final ExpNode filter = whereFragment.getExpression();
 
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("filter[" + parameterName + "] := " + StringExpNodeVisitor.stringify(filter));
+            logger.fine("string filter[" + parameterName + "] := " + StringExpNodeVisitor.stringify(filter));
         }
 
-        paramExists.from().where().and(filter);
+        return whereFragment;
     }
 
     /**
@@ -388,7 +390,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
 
     @Override
     public QueryData addSorting(QueryData queryData) {
-        queryData.getQuery().from().orderBy("LR.LOGICAL_RESOURCE_ID");
+        queryData.getQuery().from().orderBy("LR0.LOGICAL_RESOURCE_ID");
         return queryData;
     }
 
@@ -548,6 +550,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
 
     @Override
     public void addFilter(QueryData queryData, QueryParameter currentParm) throws FHIRPersistenceException {
+        // TODO...still needed?
         SelectAdapter currentSubQuery = queryData.getQuery();
         // A simple filter added as an exists clause to the current query
         // AND EXISTS (SELECT 1
@@ -588,7 +591,8 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                 ;
 
         // add the filter predicate to the exists where clause
-        addNumberFilter(exists, queryParm, paramAlias);
+        ExpNode filter = getNumberFilter(queryParm, paramAlias).getExpression();
+        exists.from().where().and(filter);
 
         // Add the exists sub-query we just built to the where clause of the main query
         query.from().where().and().exists(exists.build());
@@ -598,14 +602,15 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     }
 
     /**
-     * Add a filter predicate to the given exists sub-query
+     * Get a filter predicate for the given number query parameter
      * @param exists
      * @param queryParm
      * @param paramAlias
      */
-    protected void addNumberFilter(SelectAdapter exists, QueryParameter queryParm, String paramAlias) throws FHIRPersistenceException {
-        WhereAdapter where = exists.from().where();
+    protected WhereFragment getNumberFilter(QueryParameter queryParm, String paramAlias) throws FHIRPersistenceException {
+        WhereFragment where = new WhereFragment();
         NewNumberParmBehaviorUtil.executeBehavior(where, queryParm, paramAlias);
+        return where;
     }
 
     @Override
@@ -624,7 +629,8 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                 ;
 
         // add the filter predicate to the exists where clause
-        addQuantityFilter(exists, queryParm, paramAlias);
+        ExpNode filter = getQuantityFilter(queryParm, paramAlias).getExpression();
+        exists.from().where().and(filter);
 
         // Add the exists sub-query we just built to the where clause of the main query
         query.from().where().and().exists(exists.build());
@@ -639,10 +645,11 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
      * @param queryParm
      * @param paramAlias
      */
-    protected void addQuantityFilter(SelectAdapter exists, QueryParameter queryParm, String paramAlias) throws FHIRPersistenceException {
+    protected WhereFragment getQuantityFilter(QueryParameter queryParm, String paramAlias) throws FHIRPersistenceException {
+        WhereFragment where = new WhereFragment();
         NewQuantityParmBehaviorUtil behaviorUtil = new NewQuantityParmBehaviorUtil(this.identityCache);
-        WhereAdapter where = exists.from().where();
         behaviorUtil.executeBehavior(where, queryParm, paramAlias);
+        return where;
     }
 
     @Override
@@ -660,7 +667,8 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                 ;
 
         // add the filter predicate to the exists where clause
-        addDateFilter(exists, queryParm, paramAlias);
+        ExpNode filter = getDateFilter(queryParm, paramAlias).getExpression();
+        exists.from().where().and(filter);
 
         // Add the exists sub-query we just built to the where clause of the main query
         query.from().where().and().exists(exists.build());
@@ -675,9 +683,11 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
      * @param queryParm
      * @param paramAlias
      */
-    protected void addDateFilter(SelectAdapter exists, QueryParameter queryParm, String paramAlias) {
+    protected WhereFragment getDateFilter(QueryParameter queryParm, String paramAlias) {
+        WhereFragment where = new WhereFragment();
         NewDateParmBehaviorUtil util = new NewDateParmBehaviorUtil();
-        util.executeBehavior(exists, queryParm, paramAlias);
+        util.executeBehavior(where, queryParm, paramAlias);
+        return where;
     }
 
     @Override
@@ -695,10 +705,9 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                 .and(paramAlias, "PARAMETER_NAME_ID").eq(parameterNameId)
                 ;
 
-        final String parameterNameFilter = paramAlias + ".PARAMETER_NAME_ID = " + parameterNameId;
-
         // add the filter predicate to the exists where clause
-        addLocationFilter(exists, queryParm, paramAlias, parameterNameFilter);
+        ExpNode filter = getLocationFilter(queryParm, paramAlias).getExpression();
+        exists.from().where().and(filter);
 
         // Add the exists sub-query we just built to the where clause of the main query
         query.from().where().and().exists(exists.build());
@@ -713,7 +722,9 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
      * @param queryParm
      * @param paramAlias
      */
-    protected void addLocationFilter(SelectAdapter exists, QueryParameter queryParm, String paramAlias, String populateNameIdSubSegment) throws FHIRPersistenceException {
+    protected WhereFragment getLocationFilter(QueryParameter queryParm, String paramAlias) throws FHIRPersistenceException {
+        WhereFragment where = new WhereFragment();
+
         NearLocationHandler handler = new NearLocationHandler();
         List<Bounding> boundingAreas;
         try {
@@ -723,7 +734,9 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         }
 
         NewLocationParmBehaviorUtil behaviorUtil = new NewLocationParmBehaviorUtil();
-        behaviorUtil.buildLocationSearchQuery(populateNameIdSubSegment.toString(), exists, boundingAreas, paramAlias);
+        behaviorUtil.buildLocationSearchQuery(where, boundingAreas, paramAlias);
+
+        return where;
     }
 
     /**
@@ -799,7 +812,8 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                 ;
 
         // add the filter predicate to the exists where clause
-        addReferenceFilter(exists, queryParm, paramAlias);
+        ExpNode filter = getReferenceFilter(queryParm, paramAlias).getExpression();
+        exists.from().where().and(filter);
 
         // Add the exists sub-query we just built to the where clause of the main query
         query.from().where().and().exists(exists.build());
@@ -816,9 +830,9 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
      * @param paramAlias
      * @throws FHIRPersistenceException
      */
-    protected void addReferenceFilter(SelectAdapter exists, QueryParameter queryParm, String paramAlias) throws FHIRPersistenceException {
-        WhereAdapter whereClause = exists.from().where();
-        whereClause.and().leftParen();
+    protected WhereFragment getReferenceFilter(QueryParameter queryParm, String paramAlias) throws FHIRPersistenceException {
+        WhereFragment whereClause = new WhereFragment();
+        whereClause.leftParen();
         Operator operator = getOperator(queryParm, EQ);
 
         String searchValue;
@@ -887,6 +901,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         }
 
         whereClause.rightParen();
+        return whereClause;
     }
 
     /**
@@ -904,64 +919,8 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
      * @return
      */
     protected Operator getOperator(QueryParameter queryParameter) {
-        String operator = LIKE;
-        Modifier modifier = queryParameter.getModifier();
-
-        // In the case where a URI, we need specific behavior/manipulation
-        // so that URI defaults to EQ, unless... BELOW
-        if (Type.URI.equals(queryParameter.getType())) {
-            if (modifier != null && Modifier.BELOW.equals(modifier)) {
-                operator = LIKE;
-            } else {
-                operator = EQ;
-            }
-        } else if (modifier != null) {
-            operator = modifierOperatorMap.get(modifier);
-        }
-
-        if (operator == null) {
-            operator = LIKE;
-        }
-
-        return convert(operator);
+        return OperatorUtil.getOperator(queryParameter);
     }
-
-    /**
-     * Convert the operator string value to its enum equivalent
-     * @param op
-     * @return
-     */
-    private Operator convert(String op) {
-        final Operator result;
-        switch (op) {
-        case LIKE:
-            result = Operator.LIKE;
-            break;
-        case EQ:
-            result = Operator.EQ;
-            break;
-        case NE:
-            result = Operator.NE;
-            break;
-        case LT:
-            result = Operator.LT;
-            break;
-        case LTE:
-            result = Operator.LTE;
-            break;
-        case GT:
-            result = Operator.GT;
-            break;
-        case GTE:
-            result = Operator.GTE;
-            break;
-        default:
-            throw new IllegalArgumentException("Operator not supported: " + op);
-        }
-
-        return result;
-    }
-
 
     /**
      * Map the Modifier in the passed Parameter to a supported query operator. If
@@ -977,21 +936,134 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
      * @return A supported operator.
      */
     protected Operator getOperator(QueryParameter queryParm, String defaultOverride) {
-        String operator = defaultOverride;
-        Modifier modifier = queryParm.getModifier();
+        return OperatorUtil.getOperator(queryParm, defaultOverride);
+    }
 
-        if (modifier != null) {
-            operator = modifierOperatorMap.get(modifier);
-        }
+    @Override
+    public QueryData addCompositeParam(QueryData queryData, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException {
+        final int aliasIndex = queryData.getParameterAlias() + 1;
+        final SelectAdapter query = queryData.getQuery();
+        final String lrAlias = "LR" + (aliasIndex-1);
 
-        if (operator == null) {
-            if (defaultOverride != null) {
-                operator = defaultOverride;
-            } else {
-                operator = LIKE;
+        // Each value gets its own EXISTS clause which we combine together
+        // with OR. The whole thing needs to be wrapped in parens to ensure
+        // the correct precedence.
+        // AND ( EXISTS (...) OR EXISTS (...)
+        final WhereAdapter where = queryData.getQuery().from().where();
+        where.and().leftParen();
+        boolean first = true;
+        String firstTableAlias = null;
+
+        // Each query parm value gets its own EXISTS OR'd together
+        for (QueryParameterValue compositeValue : queryParm.getValues()) {
+            SelectAdapter exists = Select.select("1");
+
+            List<QueryParameter> components = compositeValue.getComponent();
+            for (int componentNum = 1; componentNum <= components.size(); componentNum++) {
+                QueryParameter component = components.get(componentNum - 1);
+                String valuesTable = QuerySegmentAggregator.tableName(resourceType, component);
+                String componentTableAlias = "comp" + componentNum;
+                String parameterName = component.getCode();
+
+                if (componentNum == 1) {
+                    exists.from(valuesTable, alias(componentTableAlias))
+                    .where(componentTableAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
+                    .and(componentTableAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
+                    .and(paramFilter(component, componentTableAlias).getExpression());
+                    ;
+
+                    // Capture the alias for the first table - used to join additional composite parameter tables
+                    firstTableAlias = componentTableAlias;
+                } else {
+                    // Join to the first parameter table
+                    exists.from().innerJoin(valuesTable, alias(componentTableAlias),
+                        on(componentTableAlias, "LOGICAL_RESOURCE_ID").eq(firstTableAlias, "LOGICAL_RESOURCE_ID")
+                        .and(componentTableAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
+                        .and(componentTableAlias, "COMPOSITE_ID").eq(firstTableAlias, "COMPOSITE_ID")
+                        .and(paramFilter(component, componentTableAlias).getExpression()));
+                }
             }
+
+            // Add the exists sub-query we just built to the where clause of the main query
+            if (first) {
+                first = false;
+            } else {
+                where.or();
+            }
+            where.exists(exists.build());
         }
 
-        return convert(operator);
+        // AND ( EXISTS (...) OR EXISTS (...) )  <== close the paren
+        where.rightParen();
+        // The only thing we can return which makes any sense is the original query
+        return queryData;
+    }
+
+    /**
+     * Get the filter predicate expression for the given query parameter taking into account its type,
+     * modifiers etc.
+     * @param paramTableAlias
+     * @param queryParm
+     * @return a valid expression
+     */
+    private WhereFragment paramFilter(QueryParameter queryParm, String paramTableAlias) throws FHIRPersistenceException {
+        final WhereFragment result;
+
+        switch (queryParm.getType()) {
+        case URI:
+        case STRING:
+            result = getStringFilter(queryParm, paramTableAlias);
+            break;
+        case NUMBER:
+            result = getNumberFilter(queryParm, paramTableAlias);
+            break;
+        case QUANTITY:
+            result = getQuantityFilter(queryParm, paramTableAlias);
+            break;
+        case DATE:
+            result = getDateFilter(queryParm, paramTableAlias);
+            break;
+        case SPECIAL:
+            result = getLocationFilter(queryParm, paramTableAlias);
+            break;
+        case REFERENCE:
+            result = getReferenceFilter(queryParm, paramTableAlias);
+            break;
+        case TOKEN:
+            result = getTokenFilter(queryParm, paramTableAlias);
+            break;
+        default:
+            result = null;
+            break;
+        }
+
+        if (result == null) {
+            throw new FHIRPersistenceException("Nested composite parameters are not supported");
+        }
+
+        return result;
+    }
+
+    @Override
+    public QueryData addLocationPosition(QueryData queryData, List<QueryParameter> queryParameters) throws FHIRPersistenceException {
+        // Special handling for location position extension logic
+        NearLocationHandler handler = new NearLocationHandler();
+        List<Bounding> boundingAreas;
+        try {
+            boundingAreas = handler.generateLocationPositionsFromParameters(queryParameters);
+        } catch (FHIRSearchException e) {
+            throw new FHIRPersistenceException("input parameter is invalid bounding area, bad prefix, or bad units", e);
+        }
+
+        if (!boundingAreas.isEmpty()) {
+            buildLocationQuerySegment(queryData.getQuery(), boundingAreas);
+        }
+
+        return null;
+    }
+
+    protected void buildLocationQuerySegment(SelectAdapter query, List<Bounding> boundingAreas) {
+        // TODO
+        throw new IllegalStateException("unsupported");
     }
 }
