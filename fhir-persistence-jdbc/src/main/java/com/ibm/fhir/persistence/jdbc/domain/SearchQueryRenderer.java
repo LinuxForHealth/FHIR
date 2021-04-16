@@ -253,18 +253,13 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                 .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
                 ;
 
-        Select filterQuery = exists.build();
-        if (logger.isLoggable(Level.FINE)) {
-            logger.fine("string param EXISTS: " + filterQuery.toDebugString());
-        }
-
         // Add the (non-trivial) filter predicate for string parameters
         ExpNode filter = getStringFilter(queryParm, paramAlias).getExpression();
         exists.from().where().and(filter);
 
         // Add the exists to the where clause of the main query which already has a predicate
         // so we need to AND the exists
-        queryData.getQuery().from().where().and().exists(filterQuery);
+        queryData.getQuery().from().where().and().exists(exists.build());
 
         return new QueryData(exists, aliasIndex, resourceType);
     }
