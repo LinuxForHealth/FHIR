@@ -47,6 +47,8 @@ public class ExpandOperation extends AbstractTermOperation {
             throw e;
         } catch (FHIRTermServiceException e) {
             throw new FHIROperationException(e.getMessage(), e.getCause()).withIssue(e.getIssues());
+        } catch (UnsupportedOperationException e) {
+            throw buildExceptionWithIssue(e.getMessage(), IssueType.NOT_SUPPORTED, e);
         } catch (Exception e) {
             throw new FHIROperationException("An error occurred during the ValueSet expand operation", e);
         }

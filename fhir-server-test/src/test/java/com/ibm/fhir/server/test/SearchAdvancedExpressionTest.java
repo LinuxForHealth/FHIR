@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,10 +32,10 @@ public class SearchAdvancedExpressionTest extends FHIRServerTestBase {
     public void testCreateEncounter() throws Exception {
         WebTarget target = getWebTarget();
 
-        // Build a new Procedure and then call the 'create' API.
-        Encounter procedure = TestUtil.readExampleResource("json/spec/encounter-example-f203-20130311.json");
+        // Build a new Encounter and then call the 'create' API.
+        Encounter encounter = TestUtil.readExampleResource("json/spec/encounter-example-f203-20130311.json");
 
-        Entity<Encounter> entity = Entity.entity(procedure, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Entity<Encounter> entity = Entity.entity(encounter, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Encounter")
                 .request()
                 .header("X-FHIR-TENANT-ID", "tenant1")

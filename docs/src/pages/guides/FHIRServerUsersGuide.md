@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2021
-lastupdated: "2021-03-10"
+lastupdated: "2021-04-13"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -779,13 +779,12 @@ To use the FHIR Client from your application, specify the `fhir-client` artifact
 For examples on how to use the IBM FHIR Client, look for tests like `com.ibm.fhir.client.test.mains.FHIRClientSample` from the `fhir-client` project in git. Additionally, the FHIR Client is heavilly used from our integration tests in `fhir-server-test`.
 
 ## 4.7 FHIR command-line interface (fhir-cli)
-The FHIR command-line interface (fhir-cli for short) is a command that can be used to invoke FHIR REST API operations from the command line. The compressed file for installing the fhir-cli tool zip is part of the FHIR server installation in `${WLP_HOME}/fhir/client/fhir-cli.zip`, and the `fhir-cli.zip` file is also available from [Bintray server](
-https://dl.bintray.com/ibm-watson-health/ibm-fhir-server-releases/com/ibm/fhir/fhir-cli/).
+The FHIR command-line interface (fhir-cli for short) is a command that can be used to invoke FHIR REST API operations from the command line. The compressed file for installing the fhir-cli tool is available from [Maven Central](https://repo1.maven.org/maven2/com/ibm/fhir/fhir-cli/).
 
 ### 4.7.1 Installing fhir-cli
 Because the fhir-cli tool is intended to be used by clients that need to access the FHIR server, it has its own installation process separate from the server. To install the fhir-cli tool, complete the following steps:
 
-1.  Obtain the `fhir-cli.zip` file from the FHIR server installation zip or Bintray.
+1.  Obtain the `fhir-cli.zip` file from the FHIR server installation zip or Maven.
 2.  Decompress the `fhir-cli.zip` file into a directory of your choosing, for example:
 
     ```
@@ -1953,6 +1952,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/capabilityStatementCacheTimeout`|integer|The number of minutes that a tenant's CapabilityStatement is cached for the metadata endpoint. |
 |`fhirServer/core/extendedCodeableConceptValidation`|boolean|A boolean flag which indicates whether extended validation is performed by the server during object construction for code, Coding, CodeableConcept, Quantity, Uri, and String elements which have required bindings to value sets.|
 |`fhirServer/core/disabledOperations`|string|A comma-separated list of operations which are not allowed to run on the IBM FHIR Server, for example, `validate,import`. Note, do not include the dollar sign `$`|
+|`fhirServer/core/defaultPageSize`|integer|Sets the pageSize to use in search and history when no _count parameter is specified in the request. If a user-specified value exceeds the max page size (1000), then a warning is logged and max page size will be used. If not provided, the default page size (10) is used.|
 |`fhirServer/term/graphTermServiceProvider/enabled`|boolean|Indicates whether the graph term service provider should be used by the FHIR term service to access code system content|
 |`fhirServer/term/graphTermServiceProvider/timeLimit`|integer|Graph traversal time limit (in milliseconds)|
 |`fhirServer/term/graphTermServiceProvider/configuration`|object (name/value pairs)|A JSON object that contains the name/value pairs used to configure the graph database behind the graph term service provider see: [https://docs.janusgraph.org/basics/configuration-reference/](https://docs.janusgraph.org/basics/configuration-reference/)|
@@ -2080,6 +2080,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/conditionalDeleteMaxNumber`|10|
 |`fhirServer/core/capabilityStatementCacheTimeout`|60|
 |`fhirServer/core/extendedCodeableConceptValidation`|true|
+|`fhirServer/core/defaultPageSize`|10|
 |`fhirServer/term/graphTermServiceProvider/enabled`|false|
 |`fhirServer/term/graphTermServiceProvider/timeLimit`|90000|
 |`fhirServer/resources/open`|true|
@@ -2192,6 +2193,7 @@ must restart the server for that change to take effect.
 |`fhirServer/core/capabilityStatementCacheTimeout`|Y|Y|
 |`fhirServer/core/extendedCodeableConceptValidation`|N|N|
 |`fhirServer/core/disabledOperations`|N|N|
+|`fhirServer/core/defaultPageSize`|Y|Y|
 |`fhirServer/term/graphTermServiceProvider/enabled`|N|N|
 |`fhirServer/term/graphTermServiceProvider/timeLimit`|N|N|
 |`fhirServer/term/graphTermServiceProvider/configuration`|N|N|
@@ -2592,7 +2594,7 @@ For more information about topics related to configuring a FHIR server, see the 
 
 - <b id="f5">5</b>
 
-    An external reference is a reference to a resource which is meaningful outside a particular request bundle.  The value typically includes the resource type and the resource identifier, and could  be an absolute or relative URL. Examples:  `https://fhirserver1:9443/fhir-server/api/v4/Patient/12345`, `Patient/12345`, etc. [↩](#a5)
+    An external reference is a reference to a resource which is meaningful outside a particular request bundle.  The value typically includes the resource type and the resource identifier, and could be an absolute or relative URL. Examples:  `https://fhirserver1:9443/fhir-server/api/v4/Patient/12345`, `Patient/12345`, etc.  Requiring relative URLs to include a valid resource type can be configured via the `fhirServer/core/checkReferenceTypes` config property. For more information, see [Section 5.1 Configuration properties reference](#51-configuration-properties-reference). [↩](#a5)
 
 - <b id="f6">6</b>
 

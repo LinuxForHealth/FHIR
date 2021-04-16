@@ -3,6 +3,9 @@
     "fhirServer": {
         "search": {
             "useStoredCompartmentParam": false
+        },
+        "core": {
+            "defaultPageSize": 5000
         }
     }
 }

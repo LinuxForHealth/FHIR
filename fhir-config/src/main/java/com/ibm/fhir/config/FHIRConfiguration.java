@@ -36,6 +36,7 @@ public class FHIRConfiguration {
     public static final String PROPERTY_CAPABILITY_STATEMENT_CACHE = "fhirServer/core/capabilityStatementCacheTimeout";
     public static final String PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION = "fhirServer/core/extendedCodeableConceptValidation";
     public static final String PROPERTY_DISABLED_OPERATIONS = "fhirServer/core/disabledOperations";
+    public static final String PROPERTY_DEFAULT_PAGE_SIZE = "fhirServer/core/defaultPageSize";
 
     // Terminology service properties
     public static final String PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_ENABLED = "fhirServer/term/graphTermServiceProvider/enabled";

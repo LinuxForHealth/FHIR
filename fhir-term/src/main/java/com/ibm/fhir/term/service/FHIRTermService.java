@@ -103,6 +103,17 @@ public class FHIRTermService {
         providers.add(provider);
     }
 
+    /**
+     * Get a set containing {@link CodeSystem.Concept} instances where all structural
+     * hierarchies have been flattened.
+     *
+     * @param codeSystem
+     *     the code system
+     * @param code
+     *     the root of the hierarchy containing the Concept instances to be flattened
+     * @return
+     *     flattened set of Concept instances for the given tree
+     */
     public Set<Concept> closure(CodeSystem codeSystem, Code code) {
         return findProvider(codeSystem).closure(codeSystem, code);
     }

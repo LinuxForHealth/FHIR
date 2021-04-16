@@ -1,31 +1,10 @@
 ###############################################################################
-# (C) Copyright IBM Corp. 2019, 2020
+# (C) Copyright IBM Corp. 2019, 2021
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################     
 
-# Travis Build
-
-# **SKIPPING BUILD via Travis** 
-#   To skip the build use: 
-#   [skip <KEYWORD>]
-#   ci, travis, travis ci, travis-ci, or travisci
-#   Example: [skip travis] Update README
-# 
-# Job Lifecycle https://docs.travis-ci.com/user/job-lifecycle/
-
-# Environment Variables 
-# https://docs.travis-ci.com/user/environment-variables/#convenience-variables
-
-# Dist Limits - https://docs.travis-ci.com/user/reference/overview/
-
 ################################################################################################################
-# Define the environment variables in this block: 
-# JAVA_HOME is already set.
-# BINTRAY_PASSWORD and BINTRAY_USERNAME are specified in repository settings.
-
-################################################################################################################
-# Setup the basics (distribution/addon/jdk/java)
 language: java
 
 # Setup the distribution with git-lfs addon
@@ -33,8 +12,6 @@ language: java
 # details on image https://docs.travis-ci.com/user/reference/bionic/#jvm-clojure-groovy-java-scala-images
 dist: bionic
 
-# Use JDKs per https://github.com/IBM/FHIR/wiki/Setting-up-for-development
-# switch to 'trusty' to enable openjdk8 - https://docs.travis-ci.com/user/reference/trusty/#jvm-clojure-groovy-java-scala-images
 jdk:
 - openjdk11
 
@@ -42,37 +19,22 @@ jdk:
 matrix: 
   fast_finish: true
 
-################################################################################################################
 # GIT Settings: 
 branches:
   except:
   - gh-pages
 
-################################################################################################################
 # Make sure we are all up to date
 before_install:
   - sudo apt-get update || true
   - sudo apt-get install git-lfs 
 
-# originally using stages, it spins up many worker threads. 
-# in this case, we've opted for conditional usage using BASH scripts. 
-# URL - https://github.com/travis-ci/travis-conditions and https://docs.travis-ci.com/user/environment-variables/ 
-# these are useful. 
 # Build and Release for Git Tag
 script: 
   - |
     if [[ "${TRAVIS_EVENT_TYPE}" == "push" && "${TRAVIS_TAG}" != "" ]]
     then 
-      bash build/release/bootstrap-env.sh
-      . ./build/release/bootstrap.env
-      bash build/release/version.sh
-      bash build/release/clean.sh
-      travis_wait 30 bash build/release/build.sh
-      bash build/release/code-coverage.sh
-      bash build/release/release.sh
-      bash build/release/sync-maven-central.sh
-      bash build/release/release-commit-details.sh
-      bash build/release/diagnostics.sh
+      echo "Not Used"
     fi
 
 notifications:
