@@ -85,6 +85,16 @@ public final class FHIRCacheManager {
         return false;
     }
 
+    public static void removeCache(String cacheName) {
+        if (cacheName != null) {
+            String tenantId = FHIRRequestContext.get().getTenantId();
+            Map<String, Cache<?, ?>> tenantCacheMap = TENANT_CACHE_MAPS.get(tenantId);
+            if (tenantCacheMap != null) {
+                tenantCacheMap.remove(cacheName);
+            }
+        }
+    }
+
     private static <K, V> Cache<K, V> createCache(Configuration configuration) {
         if (Objects.nonNull(configuration.getMaximumSize()) && Objects.nonNull(configuration.getDuration())) {
             return Caffeine.newBuilder()

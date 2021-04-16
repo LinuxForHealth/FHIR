@@ -7,7 +7,6 @@
 package com.ibm.fhir.server.test;
 
 import static com.ibm.fhir.model.type.String.string;
-
 import static org.testng.Assert.fail;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
@@ -74,6 +73,7 @@ public abstract class FHIRServerTestBase {
     protected FHIRClient client = null;
 
     // Default values for test properties.
+    private static final String DEFAULT_REST_BASE_URL = "https://localhost:9443/fhir-server/api/v4";
     private static final String DEFAULT_WEBSOCKET_URL = "wss://localhost:9443/fhir-server/api/v4/notification";
     private static final String DEFAULT_KAFKA_CONNINFO = "localhost:9092";
     private static final String DEFAULT_KAFKA_TOPICNAME = "fhirNotifications";
@@ -87,6 +87,7 @@ public abstract class FHIRServerTestBase {
     private static final String DEFAULT_PASSWORD = "change-password";
 
     // Constants that define test property names.
+    private static final String PROPNAME_REST_BASE_URL = "fhirclient.rest.base.url";
     private static final String PROPNAME_WEBSOCKET_URL = "test.websocket.url";
     private static final String PROPNAME_KAFKA_CONNINFO = "test.kafka.connectionInfo";
     private static final String PROPNAME_KAFKA_TOPICNAME = "test.kafka.topicName";
@@ -95,6 +96,7 @@ public abstract class FHIRServerTestBase {
     private static final String PROPNAME_SSL_ENGINE_CONFIGURATOR = "org.glassfish.tyrus.client.sslEngineConfigurator";
 
     // These are values of test-specific properties.
+    private String restBaseUrl = null;
     private String websocketUrl = null;
     private String kafkaConnectionInfo = null;
     private String kafkaTopicName = null;
@@ -114,6 +116,10 @@ public abstract class FHIRServerTestBase {
 
     private CapabilityStatement conformanceStmt = null;
 
+    protected String getRestBaseURL() {
+        return restBaseUrl;
+    }
+
     protected String getWebSocketURL() {
         return websocketUrl;
     }
@@ -126,19 +132,19 @@ public abstract class FHIRServerTestBase {
         return kafkaTopicName;
     }
 
-    private String getFhirUser() {
+    protected String getFhirUser() {
         return fhirUser;
     }
 
-    private String getFhirPassword() {
+    protected String getFhirPassword() {
         return fhirPassword;
     }
 
-    private String getTsLocation() {
+    protected String getTsLocation() {
         return tsLocation;
     }
 
-    private String getTsPassword() {
+    protected String getTsPassword() {
         return tsPassword;
     }
 
@@ -186,6 +192,7 @@ public abstract class FHIRServerTestBase {
         // Create our FHIRClient instance based on the properties we just read in.
         client = FHIRClientFactory.getClient(properties);
 
+        restBaseUrl = getProperty(properties, PROPNAME_REST_BASE_URL, DEFAULT_REST_BASE_URL);
         websocketUrl = getProperty(properties, PROPNAME_WEBSOCKET_URL, DEFAULT_WEBSOCKET_URL);
 
         // Retrieve the info needed by a Kafka consumer.
@@ -722,7 +729,7 @@ public abstract class FHIRServerTestBase {
 
     /**
      * Assert the the given {@link Bundle} is of the expected {@link BundleType} and has the expected entry count.
-     * 
+     *
      * @param bundle the bundle to tet
      * @param expectedType
      * @param expectedEntryCount

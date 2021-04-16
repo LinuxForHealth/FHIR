@@ -71,6 +71,12 @@
             <artifactId>fhir-examples</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-term-remote</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
         <!-- Use the Grizzly container instead due to https://github.com/eclipse-ee4j/tyrus/issues/676 -->
         <!-- <dependency>
             <groupId>org.glassfish.tyrus.bundles</groupId>
