@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.database.utils.query.node;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
@@ -14,16 +13,50 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
- * Collects ExpNode elements and hold in a List, allowing the lookahead we need
- * to support precedence when parsing the expression
+ * Basically follows Dijkstra's shunting yard algorithm to ensure
+ * correct handling of operator precedence as the expression nodes
+ * are added
  */
 public class PredicateParser {
     private static final Logger logger = Logger.getLogger(PredicateParser.class.getName());
 
     private static final String NEWLINE = System.lineSeparator();
 
-    // collect expression tokens as a list
-    private final List<ExpNode> tokens = new ArrayList<>();
+    // Stacks used to hold expression nodes until they are ready to be shunted
+    private final Stack<ExpNode> operatorStack = new Stack<>();
+    private final Stack<ExpNode> operandStack = new Stack<>();
+
+    // The final expression node after we've parsed it
+    private ExpNode parsedExpression = null;
+
+    /**
+     * Assumes there are no more expression nodes, so process any operators remaining
+     * on the stack. Sets the parsedExpression value so this can be called more than once
+     * @return
+     */
+    public ExpNode parse() {
+        if (this.parsedExpression == null) {
+            // finish processing any remaining operators on the stack
+            while (!operatorStack.isEmpty()) {
+                ExpNode operator = operatorStack.pop();
+                operator.popOperands(operandStack);
+                operandStack.push(operator);
+            }
+
+            // stack should contain a single node which represents the root of the expression tree
+            if (operandStack.size() == 1) {
+                this.parsedExpression = operandStack.pop();
+            } else {
+                StringBuilder msg = new StringBuilder();
+                msg.append("Invalid expression - parse failed.")
+                    .append(NEWLINE).append("Current state:").append(NEWLINE).append(parserState());
+                logger.severe(msg.toString());
+                throw new IllegalStateException("Invalid expression");
+            }
+        }
+
+        return this.parsedExpression;
+    }
 
     /**
      * Parse the collected tokens returning the root expression node.
@@ -32,78 +65,57 @@ public class PredicateParser {
      *           these are included when the query is rendered to a string.
      * @return
      */
-    public ExpNode parse() {
+    private void addNode(ExpNode token) {
         // We're not evaluating the expression here, just parsing it properly
         // into an expression tree matching precedence rules
-        Stack<ExpNode> operatorStack = new Stack<>();
-        Stack<ExpNode> operandStack = new Stack<>();
+        if (this.parsedExpression != null) {
+            throw new IllegalStateException("Cannot modify an expression after calling parse()");
+        }
 
-        int idx = 0;
         try {
-            while (idx < tokens.size()) {
-                ExpNode token = tokens.get(idx++);
-                if (token.isOperand()) {
-                    operandStack.push(token);
-                } else if (token.isLeftParen()) {
-                    operatorStack.push(token);
-                } else if (token.isRightParen()) {
-                    // Keep resolving the stack until we hit the matching open paren pushed earlier
-                    while (!operatorStack.peek().isLeftParen()) {
-                        ExpNode operator = operatorStack.pop();
-                        // The operator knows how many operands it needs
-                        operator.popOperands(operandStack);
+            if (token.isOperand()) {
+                operandStack.push(token);
+            } else if (token.isLeftParen()) {
+                operatorStack.push(token);
+            } else if (token.isRightParen()) {
+                // Keep resolving the stack until we hit the matching open paren pushed earlier
+                while (!operatorStack.peek().isLeftParen()) {
+                    ExpNode operator = operatorStack.pop();
+                    // The operator knows how many operands it needs
+                    operator.popOperands(operandStack);
 
-                        // The operator now becomes an operand for the next operator
-                        operandStack.push(operator);
-                    }
-
-                    // In order to correctly render the statement as a string, we need to
-                    // wrap the node we've just built in a ParenExpNode
-                    operandStack.push(new ParenExpNode(operandStack.pop()));
-
-                    // discard the left paren node still on the operatorStack
-                    operatorStack.pop();
-                } else if (token.isOperator()) {
-                    // Keep processing the current stack while the precedence of the operators is
-                    // higher than the node
-                    while (!operatorStack.isEmpty() && !operatorStack.peek().isLeftParen() && operatorStack.peek().precedence() <= token.precedence()) {
-                        ExpNode operator = operatorStack.pop();
-                        operator.popOperands(operandStack);
-                        operandStack.push(operator);
-                    }
-                    operatorStack.push(token);
-                } else {
-                    // This is a programming error, not an invalid expression
-                    throw new IllegalStateException("Invalid ExpNode token implementation: [" + token.getClass().getName() + "] '" + token.toString() + "'");
+                    // The operator now becomes an operand for the next operator
+                    operandStack.push(operator);
                 }
+
+                // In order to correctly render the statement as a string, we need to
+                // wrap the node we've just built in a ParenExpNode
+                operandStack.push(new ParenExpNode(operandStack.pop()));
+
+                // discard the left paren node still on the operatorStack
+                operatorStack.pop();
+            } else if (token.isOperator()) {
+                // Keep processing the current stack while the precedence of the operators is
+                // higher than the node
+                while (!operatorStack.isEmpty() && !operatorStack.peek().isLeftParen() && operatorStack.peek().precedence() <= token.precedence()) {
+                    ExpNode operator = operatorStack.pop();
+                    operator.popOperands(operandStack);
+                    operandStack.push(operator);
+                }
+                operatorStack.push(token);
+            } else {
+                // This is a programming error, not an invalid expression
+                throw new IllegalStateException("Invalid ExpNode token implementation: [" + token.getClass().getName() + "] '" + token.toString() + "'");
             }
 
-            while (!operatorStack.isEmpty()) {
-                ExpNode operator = operatorStack.pop();
-                operator.popOperands(operandStack);
-                operandStack.push(operator);
-            }
         } catch (Exception x) {
             // probably an empty stack. Dump the state of the parser
             StringBuilder msg = new StringBuilder();
-            msg.append("parse failed on token [" + (idx+1) + "]: ").append(x.getMessage())
-                .append(NEWLINE).append("              tokens := ").append(toTokenString())
-                .append(NEWLINE).append(" operandStack.size() := ").append(operandStack.size())
-                .append(NEWLINE).append("operatorStack.size() := ").append(operatorStack.size());
+            msg.append("parse failed: " + x.getMessage())
+                .append(NEWLINE).append("Current state:").append(NEWLINE).append(parserState());
             logger.severe(msg.toString());
             throw x;
         }
-
-        // stack should contain a single node which represents the root of the expression tree
-        final ExpNode result;
-        if (!operandStack.isEmpty()) {
-            result = operandStack.pop();
-        } else {
-            // nothing to process
-            result = null;
-        }
-
-        return result;
     }
 
     /**
@@ -111,21 +123,17 @@ public class PredicateParser {
      * We don't use the visitor, because the expression node might not be fully configured
      * @return
      */
-    public String toTokenString() {
+    public String parserState() {
         final StringBuilder result = new StringBuilder();
-        for (ExpNode token: this.tokens) {
-            if (result.length() > 0) {
-                result.append(" ");
-            }
 
-            if (token != null) {
-                result.append(token.getClass().getSimpleName()).append("(");
-                result.append(token.toString());
-                result.append(")");
-            } else {
-                // I don't think we can have null tokens...but
-                result.append("~");
-            }
+        int posn = 0;
+        for (ExpNode token: this.operatorStack) {
+            result.append(String.format("operator[%3d]: [%20s] %s\n", posn++, token.getClass().getSimpleName(), token.toString()));
+        }
+        result.append(NEWLINE);
+        posn = 0;
+        for (ExpNode token: this.operandStack) {
+            result.append(String.format(" operand[%3d]: [%20s] %s\n", posn++, token.getClass().getSimpleName(), token.toString()));
         }
 
         return result.toString();
@@ -136,105 +144,105 @@ public class PredicateParser {
      * @param columnName
      */
     public void column(String columnName) {
-        tokens.add(new ColumnExpNode(columnName));
+        addNode(new ColumnExpNode(columnName));
     }
 
     public void column(String tableAlias, String columnName) {
-        tokens.add(new ColumnExpNode(tableAlias, columnName));
+        addNode(new ColumnExpNode(tableAlias, columnName));
     }
 
     public void literal(String str) {
-        tokens.add(new StringExpNode(str));
+        addNode(new StringExpNode(str));
     }
 
     public void literal(Double dbl) {
-        tokens.add(new DoubleExpNode(dbl));
+        addNode(new DoubleExpNode(dbl));
     }
 
     public void literal(Long lng) {
-        tokens.add(new LongExpNode(lng));
+        addNode(new LongExpNode(lng));
     }
 
     /**
      * Push an and node to the stack, taking into account precedence
      */
     public void and() {
-        tokens.add(new AndExpNode());
+        addNode(new AndExpNode());
     }
 
     /**
      * Push an or node to the stack, taking into account precedence
      */
     public void or() {
-        tokens.add(new OrExpNode());
+        addNode(new OrExpNode());
     }
 
     public void eq() {
-        tokens.add(new EqExpNode());
+        addNode(new EqExpNode());
     }
 
     public void like() {
-        tokens.add(new LikeExpNode());
+        addNode(new LikeExpNode());
     }
 
     public void escape() {
-        tokens.add(new EscapeExpNode());
+        addNode(new EscapeExpNode());
     }
 
     public void neq() {
-        tokens.add(new NeqExpNode());
+        addNode(new NeqExpNode());
     }
 
     public void gt() {
-        tokens.add(new GreaterExpNode());
+        addNode(new GreaterExpNode());
     }
 
     public void gte() {
-        tokens.add(new GreaterEqExpNode());
+        addNode(new GreaterEqExpNode());
     }
 
     public void lt() {
-        tokens.add(new LessExpNode());
+        addNode(new LessExpNode());
     }
 
     public void lte() {
-        tokens.add(new LessEqExpNode());
+        addNode(new LessEqExpNode());
     }
 
     public void not() {
-        tokens.add(new NotExpNode());
+        addNode(new NotExpNode());
     }
 
     public void between() {
-        tokens.add(new BetweenExpNode());
+        addNode(new BetweenExpNode());
     }
 
     public void add() {
-        tokens.add(new AddExpNode());
+        addNode(new AddExpNode());
     }
 
     public void sub() {
-        tokens.add(new SubExpNode());
+        addNode(new SubExpNode());
     }
 
     public void mult() {
-        tokens.add(new MultExpNode());
+        addNode(new MultExpNode());
     }
 
     public void div() {
-        tokens.add(new DivExpNode());
+        addNode(new DivExpNode());
     }
 
     public void leftParen() {
-        tokens.add(new LeftParenExpNode());
+        addNode(new LeftParenExpNode());
     }
 
     public void rightParen() {
-        tokens.add(new RightParenExpNode());
+        addNode(new RightParenExpNode());
     }
 
     public void bindMarker(BindMarkerNode node) {
-        tokens.add(node);
+        addNode(node);
     }
 
     /**
@@ -245,7 +253,7 @@ public class PredicateParser {
      */
     public void inLiteral(String[] inList) {
         List<ExpNode> args = Arrays.asList(inList).stream().map(v -> new StringExpNode(v)).collect(Collectors.toList());
-        tokens.add(new InListExpNode(args));
+        addNode(new InListExpNode(args));
     }
 
     /**
@@ -254,7 +262,7 @@ public class PredicateParser {
      */
     public void inLiteral(Long[] inList) {
         List<ExpNode> args = Arrays.asList(inList).stream().map(v -> new LongExpNode(v)).collect(Collectors.toList());
-        tokens.add(new InListExpNode(args));
+        addNode(new InListExpNode(args));
     }
 
     /**
@@ -263,7 +271,7 @@ public class PredicateParser {
      */
     public void inString(List<String> inList) {
         List<ExpNode> args = inList.stream().map(v -> new StringBindMarkerNode(v)).collect(Collectors.toList());
-        tokens.add(new InListExpNode(args));
+        addNode(new InListExpNode(args));
     }
 
     /**
@@ -272,7 +280,7 @@ public class PredicateParser {
      */
     public void inLong(List<Long> inList) {
         List<ExpNode> args = inList.stream().map(v -> new LongBindMarkerNode(v)).collect(Collectors.toList());
-        tokens.add(new InListExpNode(args));
+        addNode(new InListExpNode(args));
     }
 
     /**
@@ -283,9 +291,9 @@ public class PredicateParser {
      */
     public void addToken(ExpNode token) {
         if (token.isOperand()) {
-            tokens.add(token);
+            addNode(token);
         } else {
-            tokens.add(new ParenExpNode(token));
+            addNode(new ParenExpNode(token));
         }
     }
 
@@ -293,13 +301,13 @@ public class PredicateParser {
      * Add an IS NOT NULL node to the expression tokens
      */
     public void isNotNull() {
-        tokens.add(new IsNotNullExpNode());
+        addNode(new IsNotNullExpNode());
     }
 
     /**
      * Add an IS NULL node to the expression tokens
      */
     public void isNull() {
-        tokens.add(new IsNullExpNode());
+        addNode(new IsNullExpNode());
     }
 }
