@@ -6,10 +6,10 @@
 
 package com.ibm.fhir.cache.manager;
 
-import static com.ibm.fhir.core.util.CacheKey.key;
-
+import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.github.benmanes.caffeine.cache.Cache;
@@ -17,26 +17,27 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.stats.CacheStats;
 import com.ibm.fhir.cache.configuration.Configuration;
 import com.ibm.fhir.config.FHIRRequestContext;
-import com.ibm.fhir.core.util.CacheKey;
 
 public final class FHIRCacheManager {
-    private static final Map<CacheKey, Cache<?, ?>> MANAGED_CACHE_MAP = new ConcurrentHashMap<>();
+    private static final Map<String, Map<String, Cache<?, ?>>> TENANT_CACHE_MAPS = new ConcurrentHashMap<>();
 
     private FHIRCacheManager() { }
 
     @SuppressWarnings("unchecked")
     public static <K, V> Cache<K, V> getCache(String cacheName) {
         Objects.requireNonNull(cacheName, "cacheName");
-        CacheKey key = key(FHIRRequestContext.get().getTenantId(), cacheName);
-        return (Cache<K, V>) MANAGED_CACHE_MAP.get(key);
+        String tenantId = FHIRRequestContext.get().getTenantId();
+        Map<String, Cache<?, ?>> tenantCacheMap = TENANT_CACHE_MAPS.getOrDefault(tenantId, Collections.emptyMap());
+        return (Cache<K, V>) tenantCacheMap.get(cacheName);
     }
 
     @SuppressWarnings("unchecked")
     public static <K, V> Cache<K, V> getCache(String cacheName, Configuration configuration) {
         Objects.requireNonNull(cacheName, "cacheName");
         Objects.requireNonNull(configuration, "configuration");
-        CacheKey key = key(FHIRRequestContext.get().getTenantId(), cacheName);
-        return (Cache<K, V>) MANAGED_CACHE_MAP.computeIfAbsent(key, k -> createCache(configuration));
+        String tenantId = FHIRRequestContext.get().getTenantId();
+        Map<String, Cache<?, ?>> tenantCacheMap = TENANT_CACHE_MAPS.computeIfAbsent(tenantId, k -> new ConcurrentHashMap<>());
+        return (Cache<K, V>) tenantCacheMap.computeIfAbsent(cacheName, k -> createCache(configuration));
     }
 
     public static <K, V> Map<K, V> getCacheAsMap(String cacheName) {
@@ -50,6 +51,11 @@ public final class FHIRCacheManager {
         Objects.requireNonNull(configuration, "configuration");
         Cache<K, V> cache = getCache(cacheName, configuration);
         return cache.asMap();
+    }
+
+    public Set<String> getCacheNames() {
+        String tenantId = FHIRRequestContext.get().getTenantId();
+        return TENANT_CACHE_MAPS.getOrDefault(tenantId, Collections.emptyMap()).keySet();
     }
 
     public static CacheStats getCacheStats(String cacheName) {
@@ -73,8 +79,8 @@ public final class FHIRCacheManager {
 
     public static boolean isManaged(String cacheName) {
         if (cacheName != null) {
-            CacheKey key = key(FHIRRequestContext.get().getTenantId(), cacheName);
-            return MANAGED_CACHE_MAP.containsKey(key);
+            String tenantId = FHIRRequestContext.get().getTenantId();
+            return TENANT_CACHE_MAPS.getOrDefault(tenantId, Collections.emptyMap()).containsKey(cacheName);
         }
         return false;
     }
