@@ -7,7 +7,6 @@
 package com.ibm.fhir.term.util;
 
 import static com.ibm.fhir.core.util.CacheKey.key;
-import static com.ibm.fhir.core.util.CacheManager.createCacheAsMap;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_BOOLEAN;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_INTEGER;
@@ -32,7 +31,8 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.cache.configuration.Configuration;
+import com.ibm.fhir.cache.manager.FHIRCacheManager;
 import com.ibm.fhir.core.util.CacheKey;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
@@ -63,6 +63,8 @@ import com.ibm.fhir.term.service.FHIRTermService;
 public final class CodeSystemSupport {
     public static final java.lang.String ANCESTORS_AND_SELF_CACHE_NAME = "com.ibm.fhir.term.util.CodeSystemSupport.ancestorsAndSelfCache";
     public static final java.lang.String DESCENDANTS_AND_SELF_CACHE_NAME = "com.ibm.fhir.term.util.CodeSystemSupport.descendantsAndSelfCache";
+    public static final Configuration ANCESTORS_AND_SELF_CACHE_CONFIG = Configuration.of(128);
+    public static final Configuration DESCENDANTS_AND_SELF_CACHE_CONFIG = Configuration.of(128);
 
     /**
      * A function that maps a code system concept to its code value
@@ -130,8 +132,6 @@ public final class CodeSystemSupport {
     };
 
     private static final Pattern IN_COMBINING_DIACRITICAL_MARKS_PATTERN = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-    private static final Map<CacheKey, Set<java.lang.String>> ANCESTORS_AND_SELF_CACHE = createCacheAsMap(ANCESTORS_AND_SELF_CACHE_NAME, 128);
-    private static final Map<CacheKey, Set<java.lang.String>> DESCENDANTS_AND_SELF_CACHE = createCacheAsMap(DESCENDANTS_AND_SELF_CACHE_NAME, 128);
 
     private CodeSystemSupport() { }
 
@@ -198,8 +198,9 @@ public final class CodeSystemSupport {
         if (FHIRTermConfig.isCachingDisabled()) {
             return computeAncestorsAndSelf(codeSystem, code);
         }
-        CacheKey key = key(FHIRRequestContext.get().getTenantId(), codeSystem, code);
-        return ANCESTORS_AND_SELF_CACHE.computeIfAbsent(key, k -> computeAncestorsAndSelf(codeSystem, code));
+        CacheKey key = key(codeSystem, code);
+        Map<CacheKey, Set<java.lang.String>> cacheAsMap = FHIRCacheManager.getCacheAsMap(ANCESTORS_AND_SELF_CACHE_NAME, ANCESTORS_AND_SELF_CACHE_CONFIG);
+        return cacheAsMap.computeIfAbsent(key, k -> computeAncestorsAndSelf(codeSystem, code));
     }
 
     /**
@@ -435,8 +436,9 @@ public final class CodeSystemSupport {
         if (FHIRTermConfig.isCachingDisabled()) {
             return computeDescendantsAndSelf(codeSystem, code);
         }
-        CacheKey key = key(FHIRRequestContext.get().getTenantId(), codeSystem, code);
-        return DESCENDANTS_AND_SELF_CACHE.computeIfAbsent(key, k -> computeDescendantsAndSelf(codeSystem, code));
+        CacheKey key = key(codeSystem, code);
+        Map<CacheKey, Set<java.lang.String>> cacheAsMap = FHIRCacheManager.getCacheAsMap(DESCENDANTS_AND_SELF_CACHE_NAME, DESCENDANTS_AND_SELF_CACHE_CONFIG);
+        return cacheAsMap.computeIfAbsent(key, k -> computeDescendantsAndSelf(codeSystem, code));
     }
 
     /**
