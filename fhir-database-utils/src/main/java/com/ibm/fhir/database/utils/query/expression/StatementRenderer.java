@@ -6,7 +6,10 @@
 
 package com.ibm.fhir.database.utils.query.expression;
 
+import java.util.List;
+
 import com.ibm.fhir.database.utils.query.FromClause;
+import com.ibm.fhir.database.utils.query.FromItem;
 import com.ibm.fhir.database.utils.query.GroupByClause;
 import com.ibm.fhir.database.utils.query.HavingClause;
 import com.ibm.fhir.database.utils.query.OrderByClause;
@@ -67,4 +70,16 @@ public interface StatementRenderer<T> {
      * @return
      */
     T like(T left, T right);
+    /**
+     * @param items
+     * @return
+     */
+    T from(List<FromItem> items);
+
+    /**
+     * Render the given item
+     * @param item
+     * @return
+     */
+    T fromItem(FromItem item);
 }

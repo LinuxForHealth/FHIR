@@ -29,12 +29,23 @@ import com.ibm.fhir.database.utils.query.node.StringBindMarkerNode;
 public class StringExpNodeVisitor implements ExpNodeVisitor<String> {
     private final List<BindMarkerNode> bindMarkers;
 
+    // Pretty-print the SQL statement for improved readability
+    private final boolean pretty;
+
+    public static final String NEWLINE = System.lineSeparator();
+
     /**
      * Simple rendering of the expression tree to a string, ignoring
      * the bind marker values
      */
     public StringExpNodeVisitor() {
         this.bindMarkers = null;
+        this.pretty = false;
+    }
+
+    public StringExpNodeVisitor(boolean pretty) {
+        this.bindMarkers = null;
+        this.pretty = pretty;
     }
 
     /**
@@ -43,6 +54,7 @@ public class StringExpNodeVisitor implements ExpNodeVisitor<String> {
      */
     public StringExpNodeVisitor(List<BindMarkerNode> collectBindMarkersInto) {
         this.bindMarkers = collectBindMarkersInto;
+        this.pretty = false;
     }
 
     /**
@@ -51,7 +63,7 @@ public class StringExpNodeVisitor implements ExpNodeVisitor<String> {
      * @return
      */
     public static String stringify(ExpNode exp) {
-        return exp.visit(new StringExpNodeVisitor());
+        return exp.visit(new StringExpNodeVisitor(true));
     }
 
     @Override
@@ -67,6 +79,9 @@ public class StringExpNodeVisitor implements ExpNodeVisitor<String> {
     public String and(String left, String right) {
         StringBuilder result = new StringBuilder();
         result.append(left);
+        if (pretty) {
+            result.append(NEWLINE).append("        ");
+        }
         result.append(" AND ");
         result.append(right);
         return result.toString();
@@ -76,6 +91,9 @@ public class StringExpNodeVisitor implements ExpNodeVisitor<String> {
     public String or(String left, String right) {
         StringBuilder result = new StringBuilder();
         result.append(left);
+        if (pretty) {
+            result.append(NEWLINE).append("         "); // 10 spaces
+        }
         result.append(" OR ");
         result.append(right);
         return result.toString();
@@ -84,6 +102,9 @@ public class StringExpNodeVisitor implements ExpNodeVisitor<String> {
     @Override
     public String not(String exp) {
         StringBuilder result = new StringBuilder();
+        if (pretty) {
+            result.append(NEWLINE).append("        "); // 9 spaces
+        }
         result.append("NOT ");
         result.append(exp);
         return result.toString();
@@ -307,18 +328,20 @@ public class StringExpNodeVisitor implements ExpNodeVisitor<String> {
     }
 
     @Override
-    public String like(String expr) {
+    public String like(String left, String right) {
         StringBuilder result = new StringBuilder();
-        result.append("LIKE ");
-        result.append(expr);
+        result.append(left);
+        result.append(" LIKE ");
+        result.append(right);
         return result.toString();
     }
 
     @Override
-    public String escape(String expr) {
+    public String escape(String left, String right) {
         StringBuilder result = new StringBuilder();
-        result.append("ESCAPE ");
-        result.append(expr);
+        result.append(left); // a like expression
+        result.append(" ESCAPE ");
+        result.append(right); // the escape chars
         return result.toString();
     }
 
@@ -329,8 +352,10 @@ public class StringExpNodeVisitor implements ExpNodeVisitor<String> {
             select.visit(this);
         }
 
-        // simply render the sub-select statement as a string
-        return select.toString();
+        // Render the sub-statement as a string
+        // TODO this should all be one render
+        StringStatementRenderer renderer = new StringStatementRenderer(null, pretty);
+        return select.render(renderer);
     }
 
     @Override

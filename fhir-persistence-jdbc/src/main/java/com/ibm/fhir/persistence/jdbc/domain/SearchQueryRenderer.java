@@ -27,6 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.query.Operator;
 import com.ibm.fhir.database.utils.query.Select;
@@ -41,6 +42,7 @@ import com.ibm.fhir.persistence.jdbc.util.NewUriModifierUtil;
 import com.ibm.fhir.persistence.jdbc.util.QuerySegmentAggregator;
 import com.ibm.fhir.persistence.jdbc.util.SqlParameterEncoder;
 import com.ibm.fhir.persistence.jdbc.util.type.NewDateParmBehaviorUtil;
+import com.ibm.fhir.persistence.jdbc.util.type.NewLastUpdatedParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.NewLocationParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.NewNumberParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.NewQuantityParmBehaviorUtil;
@@ -192,7 +194,13 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
      * @throws FHIRPersistenceException
      */
     protected WhereFragment getTokenFilter(QueryParameter queryParm, String paramAlias) throws FHIRPersistenceException {
+        final String parameterName = queryParm.getCode();
+
         WhereFragment where = new WhereFragment();
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("getTokenFilter: '" + parameterName + "'");
+        }
+
         boolean first = true;
         where.leftParen();
         for (QueryParameterValue pv: queryParm.getValues()) {
@@ -207,13 +215,15 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             if (commonTokenValueId != null && !codeSystem.equals("*")) {
                 // Optimization where we have a single value. Use the literal (not a bind variable)
                 // to give the optimizer more info
-                where.and(paramAlias, "COMMON_TOKEN_VALUE_ID").eq(commonTokenValueId);
+                where.col(paramAlias, "COMMON_TOKEN_VALUE_ID").eq(commonTokenValueId);
             } else {
                 // add bind variables for the code system and token-value
                 if (!codeSystem.equals("*")) {
-                    where.and(paramAlias, "CODE_SYSTEM").eq().bind(codeSystem);
+                    Integer codeSystemId = identityCache.getCodeSystemId(codeSystem);
+                    where.col(paramAlias, "CODE_SYSTEM_ID").eq().bind(nullCheck(codeSystemId));
+                    where.and(); // for the AND TOKEN_VALUE = ...
                 }
-                where.and(paramAlias, "TOKEN_VALUE").eq().bind(tokenValue);
+                where.col(paramAlias, "TOKEN_VALUE").eq().bind(tokenValue);
             }
         }
         where.rightParen();
@@ -277,7 +287,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         final String parameterName = queryParm.getCode();
 
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("addStringParam: " + parameterName + ", op=" + operator.name() + ", modifier=" + queryParm.getModifier());
+            logger.fine("getStringFilter: " + parameterName + ", op=" + operator.name() + ", modifier=" + queryParm.getModifier());
         }
         WhereFragment whereFragment = new WhereFragment();
         whereFragment.leftParen();
@@ -299,7 +309,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
 
                 if (Modifier.CONTAINS.equals(queryParm.getModifier())) {
                     String searchValue = PERCENT_WILDCARD + tempSearchValue + PERCENT_WILDCARD;
-                    whereFragment.col(STR_VALUE_LCASE).like(bind(searchValue)).escape("+");
+                    whereFragment.col(paramAlias, STR_VALUE_LCASE).like(bind(searchValue)).escape("+");
                 } else {
                     // If there is not a CONTAINS modifier on the query parm, construct
                     // a 'starts with' search value.
@@ -311,19 +321,20 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                             searchValue = tempSearchValue + "/" + PERCENT_WILDCARD;
 
                             whereFragment.leftParen()
-                            .col(STR_VALUE).eq(bind(tempSearchValue))
-                            .or(STR_VALUE).like(bind(searchValue)).escape("+")
+                            .col(paramAlias, STR_VALUE).eq(bind(tempSearchValue))
+                            .or(paramAlias, STR_VALUE).like(bind(searchValue)).escape("+")
                             .rightParen();
 
                         } else if (queryParm.getModifier() == Modifier.ABOVE) {
                             NewUriModifierUtil.generateAboveValuesQuery(whereFragment, STR_VALUE, searchValue);
                         } else {
                             // neither above nor below, so an exact match for URI
-                            whereFragment.col(STR_VALUE).eq(bind(searchValue));
+                            whereFragment.col(paramAlias, STR_VALUE).eq(bind(searchValue));
                         }
                     } else {
                         // Simple STARTS WITH
-                        whereFragment.col(STR_VALUE).like(bind(searchValue)).escape("+");
+                        logger.fine("LIKE: " + searchValue);
+                        whereFragment.col(paramAlias, STR_VALUE).like(bind(searchValue)).escape("+");
                     }
                 }
             } else if (queryParm.getType() == Type.URI) {
@@ -337,8 +348,8 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                     String searchValue = tempSearchValue + "/" + PERCENT_WILDCARD;
 
                     whereFragment.leftParen()
-                    .col(STR_VALUE).eq(bind(tempSearchValue))
-                    .or(STR_VALUE).like(bind(searchValue)).escape("+")
+                    .col(paramAlias, STR_VALUE).eq(bind(tempSearchValue))
+                    .or(paramAlias, STR_VALUE).like(bind(searchValue)).escape("+")
                     .rightParen();
 
                 } else if (queryParm.getModifier() == Modifier.ABOVE) {
@@ -347,12 +358,12 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                 } else {
                     // neither above nor below, so an exact match for URI
                     String searchValue = SqlParameterEncoder.encode(value.getValueString());
-                    whereFragment.col(STR_VALUE).eq(bind(searchValue));
+                    whereFragment.col(paramAlias, STR_VALUE).eq(bind(searchValue));
                 }
             } else if (operator == Operator.EQ) {
                 // Exact match
                 String searchValue = SqlParameterEncoder.encode(value.getValueString());
-                whereFragment.col(STR_VALUE).eq(bind(searchValue));
+                whereFragment.col(paramAlias, STR_VALUE).eq(bind(searchValue));
             } else {
                 // For anything other than an exact match, we search against the STR_VALUE_LCASE column in the
                 // Resource's string values table.
@@ -361,7 +372,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                 // Build this piece: pX.str_value_lcase {operator} search-attribute-value
                 String searchValue = SqlParameterEncoder.encode(value.getValueString());
                 searchValue = SearchUtil.normalizeForSearch(searchValue);
-                whereFragment.col(STR_VALUE_LCASE).operator(operator).bind(searchValue);
+                whereFragment.col(paramAlias, STR_VALUE_LCASE).operator(operator).bind(searchValue);
                 addEscapeIfRequired(whereFragment, operator);
             }
         }
@@ -490,13 +501,14 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         final String paramAlias = "P" + aliasIndex;
         final String lrAlias = "LR" + aliasIndex;
         final String parentAlias = "LR" + (queryData.getParameterAlias());
+        final Integer codeSystemIdForTargetResourceType = getCodeSystemId(targetResourceType);
         SelectAdapter exists = Select.select("1");
         exists.from(tokenValues, alias(paramAlias))
               .innerJoin(xxLogicalResources, alias(lrAlias),
                     on(lrAlias, "LOGICAL_ID").eq(paramAlias, "TOKEN_VALUE")
-                    .and(lrAlias, "VERSION_ID").eq().coalesce(col(paramAlias, "REF_VERSION_ID"), col(parentAlias, "VERSION_ID"))
+                    .and(lrAlias, "VERSION_ID").eq().coalesce(col(paramAlias, "REF_VERSION_ID"), col(lrAlias, "VERSION_ID"))
                     .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(currentParm.getCode()))
-                    .and(paramAlias, "CODE_SYSTEM_ID").eq(getCodeSystemId(targetResourceType))
+                    .and(paramAlias, "CODE_SYSTEM_ID").eq(nullCheck(codeSystemIdForTargetResourceType))
                     .and(lrAlias, "IS_DELETED").eq().literal("N")
                     )
               .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(parentAlias, "LOGICAL_RESOURCE_ID") // correlate with the parent query
@@ -533,12 +545,14 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         final String paramAlias = "P" + aliasIndex;
         final String lrAlias = "LR" + aliasIndex;
         final String parentAlias = "LR" + (aliasIndex-1);
+        final Integer codeSystemIdForRefResourceType = getCodeSystemId(refResourceType);
+
         SelectAdapter exists = Select.select("1");
         exists.from(xxLogicalResources, alias(lrAlias))
               .innerJoin(tokenValues, alias(paramAlias),
                     on(lrAlias, "LOGICAL_RESOURCE_ID").eq(paramAlias, "LOGICAL_RESOURCE_ID")
                     .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(currentParm.getCode()))
-                    .and(paramAlias, "CODE_SYSTEM_ID").eq(getCodeSystemId(refResourceType)))
+                    .and(paramAlias, "CODE_SYSTEM_ID").eq(nullCheck(codeSystemIdForRefResourceType)))
               .where(parentAlias, "LOGICAL_ID").eq(paramAlias, "TOKEN_VALUE") // correlate with the main query
                 .and(parentAlias, "VERSION_ID").eq().coalesce(col(paramAlias, "REF_VERSION_ID"), col(parentAlias, "VERSION_ID"))
               ;
@@ -553,26 +567,58 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
 
     @Override
     public void addFilter(QueryData queryData, QueryParameter currentParm) throws FHIRPersistenceException {
-        SelectAdapter currentSubQuery = queryData.getQuery();
-        // A simple filter added as an exists clause to the current query
-        // AND EXISTS (SELECT 1
-        //               FROM fhirdata.Patient_STR_VALUES AS P3                 -- 'Patient string parameters'
-        //              WHERE P3.LOGICAL_RESOURCE_ID = LR2.LOGICAL_RESOURCE_ID  -- 'correlate to parent'
-        //                AND P3.PARAMETER_NAME_ID = 123                        -- 'name parameter'
-        //                AND P3.STR_VALUE = 'Jones')                           -- 'name filter'
-        final int aliasIndex = queryData.getParameterAlias() + 1;
-        final String paramTable = paramValuesTableName(currentParm.getModifierResourceTypeName(), currentParm.getType());
-        final String paramAlias = getParamAlias(aliasIndex);
-        final String parentAlias = getLRAlias(aliasIndex-1);
-        SelectAdapter exists = Select.select("1");
-        exists.from(paramTable, alias(paramAlias))
-            .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(parentAlias, "LOGICAL_RESOURCE_ID")
-            .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(currentParm.getCode()))
-            .and(paramFilter(currentParm, paramAlias).getExpression());
+        final SelectAdapter currentSubQuery = queryData.getQuery();
+        final String code = currentParm.getCode();
+        final String parentAlias = getLRAlias(queryData.getParameterAlias());
+
+        if ("_id".equals(code)) {
+            addIdFilter(queryData, currentParm);
+        } else if ("_lastUpdated".equals(code)) {
+            // Compute the _lastUpdated filter predicate for the given query parameter
+            NewLastUpdatedParmBehaviorUtil util = new NewLastUpdatedParmBehaviorUtil(parentAlias);
+            WhereFragment filter = new WhereFragment();
+            util.executeBehavior(filter, currentParm);
+
+            // Add the filter predicate to the where clause of the base query
+            currentSubQuery.from().where().and(filter.getExpression());
+        } else {
+            // A simple filter added as an exists clause to the current query
+            // AND EXISTS (SELECT 1
+            //               FROM fhirdata.Patient_STR_VALUES AS P3                 -- 'Patient string parameters'
+            //              WHERE P3.LOGICAL_RESOURCE_ID = LR2.LOGICAL_RESOURCE_ID  -- 'correlate to parent'
+            //                AND P3.PARAMETER_NAME_ID = 123                        -- 'name parameter'
+            //                AND P3.STR_VALUE = 'Jones')                           -- 'name filter'
+            final int aliasIndex = queryData.getParameterAlias() + 1;
+            final String paramTable = paramValuesTableName(queryData.getResourceType(), currentParm.getType());
+            final String paramAlias = getParamAlias(aliasIndex);
+            SelectAdapter exists = Select.select("1");
+            exists.from(paramTable, alias(paramAlias))
+                .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(parentAlias, "LOGICAL_RESOURCE_ID")
+                .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(currentParm.getCode()))
+                .and(paramFilter(currentParm, paramAlias).getExpression());
 
 
-        // Add an exists clause to the where clause of the current query
-        currentSubQuery.from().where().and().exists(exists.build());
+            // Add an exists clause to the where clause of the current query
+            currentSubQuery.from().where().and().exists(exists.build());
+        }
+    }
+
+    /**
+     * Add a filter on the LOGICAL_ID for the given query parameter values
+     * @param queryData
+     */
+    protected void addIdFilter(QueryData queryData, QueryParameter queryParm) throws FHIRPersistenceException {
+        final SelectAdapter currentSubQuery = queryData.getQuery();
+        final String parentAlias = getLRAlias(queryData.getParameterAlias());
+        List<String> values = queryParm.getValues().stream().map(p -> p.getValueCode()).collect(Collectors.toList());
+        if (values.size() == 1) {
+            currentSubQuery.from().where().and(parentAlias, "LOGICAL_ID").eq().bind(values.get(0));
+        } else if (values.size() > 1) {
+            // the values are converted to bind-markers, so this is secure
+            currentSubQuery.from().where().and(parentAlias, "LOGICAL_ID").in(values);
+        } else {
+            throw new FHIRPersistenceException("_id parameter value list is empty");
+        }
     }
 
     @Override

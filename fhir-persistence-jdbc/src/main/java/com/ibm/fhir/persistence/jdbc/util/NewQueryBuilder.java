@@ -28,6 +28,8 @@ import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.domain.ChainedSearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.CompositeSearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.DateSearchParam;
+import com.ibm.fhir.persistence.jdbc.domain.IdSearchParam;
+import com.ibm.fhir.persistence.jdbc.domain.LastUpdatedSearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.LocationSearchExtension;
 import com.ibm.fhir.persistence.jdbc.domain.LocationSearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.MissingSearchParam;
@@ -258,8 +260,13 @@ public class NewQueryBuilder {
             }
             // NOTE: The special logic needed to process NEAR query parms for the Location resource type is
             // found in method processLocationPosition(). This method will not handle those.
+            final String code = queryParm.getCode();
             if (LocationUtil.isLocation(resourceType, queryParm)) {
                 domainModel.add(new LocationSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
+            } else if ("_id".equals(code)) {
+                domainModel.add(new IdSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
+            } else if ("_lastUpdated".equals(code)) {
+                domainModel.add(new LastUpdatedSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
             } else {
                 final Type type = queryParm.getType();
                 switch (type) {

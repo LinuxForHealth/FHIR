@@ -32,20 +32,16 @@ public class QueryUtil {
      */
     public static PreparedStatement prepareSelect(Connection connection, Select select, IDatabaseTranslator translator) throws SQLException {
 
-        if (logger.isLoggable(Level.FINE)) {
-            // Log a readable version of the statement with bind markers
-            // substituted with their actual values
-            logger.fine("debugSelect := " + select.toDebugString());
-        }
-
         // Render the statement to a database-specific string
-        final StringStatementRenderer statementRenderer = new StringStatementRenderer(translator);
+        final StringStatementRenderer statementRenderer = new StringStatementRenderer(translator, true);
         final String query = select.render(statementRenderer);
         final List<BindMarkerNode> bindMarkers = new ArrayList<>();
         select.gatherBindMarkers(bindMarkers);
 
-        logger.fine("     query string: " + query);
-        logger.fine("bind marker count: " + bindMarkers.size());
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("bind marker count: " + bindMarkers.size());
+            logger.fine("     query string: " + query);
+        }
 
         // The caller is responsible for closing the statement
         PreparedStatement ps = connection.prepareStatement(query);

@@ -8,13 +8,15 @@ package com.ibm.fhir.database.utils.query.node;
 
 
 /**
- * Represents a LIKE <string-exp> | <bind-var> in a SQL predicate expression
+ * Represents a <col> LIKE <string-exp> | <bind-var> in a SQL predicate expression
  */
-public class LikeExpNode extends UnaryExpNode {
+public class LikeExpNode extends BinaryExpNode {
 
     @Override
     public <T> T visit(ExpNodeVisitor<T> visitor) {
-        return visitor.like(getExpr().visit(visitor));
+        T leftValue = getLeft().visit(visitor);
+        T rightValue = getRight().visit(visitor);
+        return visitor.like(leftValue, rightValue);
     }
 
     @Override

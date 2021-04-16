@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.database.utils.query;
 
+import com.ibm.fhir.database.utils.query.expression.StringStatementRenderer;
+
 /**
  * Represents a table referenced in the from list
  */
@@ -32,5 +34,11 @@ public class SelectRowSource implements RowSource {
         result.append(")");
 
         return result.toString();
+    }
+
+    @Override
+    public String toPrettyString(boolean pretty) {
+        StringStatementRenderer renderer = new StringStatementRenderer(null, pretty);
+        return select.render(renderer);
     }
 }

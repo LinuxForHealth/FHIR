@@ -69,12 +69,20 @@ public class FromJoin extends FromItem {
 
     @Override
     public String toString() {
-        final StringExpNodeVisitor visitor = new StringExpNodeVisitor();
+        return toPrettyString(false);
+    }
+
+    @Override
+    public String toPrettyString(boolean pretty) {
+        final StringExpNodeVisitor visitor = new StringExpNodeVisitor(pretty);
         final String joinOnStr = joinOnPredicate.visit(visitor);
         StringBuilder result = new StringBuilder();
         result.append(joinType.toString());
         result.append(" ");
-        result.append(super.toString());
+        result.append(super.toPrettyString(pretty));
+        if (pretty) {
+            result.append(StringExpNodeVisitor.NEWLINE).append("         ");
+        }
         result.append(" ON ");
         result.append(joinOnStr);
 

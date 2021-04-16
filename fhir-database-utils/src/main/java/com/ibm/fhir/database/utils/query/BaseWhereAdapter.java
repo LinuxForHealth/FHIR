@@ -563,7 +563,8 @@ public abstract class BaseWhereAdapter<T> {
 
     /**
      * Thanks to type erasure we can only have one type of list here. No overloading.
-     * String is the most likely type of field, so we go with that.
+     * String is the most likely type of field, so we go with that. Uses bind-markers,
+     * not literals.
      * @param inList
      * @return
      */
