@@ -55,4 +55,9 @@ public class TableRowSource implements RowSource {
 
         return result.toString();
     }
+
+    @Override
+    public String toPrettyString(boolean pretty) {
+        return toString();
+    }
 }

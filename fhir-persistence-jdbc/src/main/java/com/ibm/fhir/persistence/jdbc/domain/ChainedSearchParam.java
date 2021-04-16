@@ -52,6 +52,8 @@ public class ChainedSearchParam extends SearchParam {
                 logger.warning("intermediate chained search parameter must be chained or reverse-chained, not " + currentParm);
                 throw new FHIRPersistenceException("Invalid search parameter chain");
             }
+
+            currentParm = nextParm;
         }
         return query;
     }

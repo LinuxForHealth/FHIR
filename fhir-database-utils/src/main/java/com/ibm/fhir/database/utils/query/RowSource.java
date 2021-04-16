@@ -20,4 +20,11 @@ public interface RowSource {
     default Alias getImpliedAlias() {
         return null;
     }
+
+    /**
+     * Render the object as a string
+     * @param pretty pretty-print the return value if true
+     * @return
+     */
+    String toPrettyString(boolean pretty);
 }

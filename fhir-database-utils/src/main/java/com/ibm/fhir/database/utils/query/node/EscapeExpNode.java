@@ -11,11 +11,13 @@ package com.ibm.fhir.database.utils.query.node;
  * Represents an ESCAPE '+' expression in a SQL predicate expression
  * for use with LIKE
  */
-public class EscapeExpNode extends UnaryExpNode {
+public class EscapeExpNode extends BinaryExpNode {
 
     @Override
     public <T> T visit(ExpNodeVisitor<T> visitor) {
-        return visitor.escape(getExpr().visit(visitor));
+        T leftValue = getLeft().visit(visitor);
+        T rightValue = getRight().visit(visitor);
+        return visitor.escape(leftValue, rightValue);
     }
 
     @Override

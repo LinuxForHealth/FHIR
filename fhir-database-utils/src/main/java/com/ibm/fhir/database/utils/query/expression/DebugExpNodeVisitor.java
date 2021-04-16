@@ -24,6 +24,7 @@ public class DebugExpNodeVisitor extends StringExpNodeVisitor {
      * the bind marker values
      */
     public DebugExpNodeVisitor() {
+        super(true); // pretty-print the expression
     }
 
     @Override

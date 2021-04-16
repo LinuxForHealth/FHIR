@@ -45,8 +45,8 @@ public interface ExpNodeVisitor<T> {
     T isNotNull(T expr);
     T between(T leftValue, T rightValue);
     T in(List<T> args);
-    T like(T expr);
-    T escape(T expr);
+    T like(T left, T right);
+    T escape(T left, T right);
 
     // Support for different bindMarker types
     T bindMarker(Double value);

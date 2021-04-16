@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ibm.fhir.database.utils.query.FromJoin.JoinType;
+import com.ibm.fhir.database.utils.query.expression.StatementRenderer;
 import com.ibm.fhir.database.utils.query.node.ExpNode;
 
 /**
@@ -80,6 +81,18 @@ public class FromClause {
             result.append(nextElement.toString());
         }
         return result.toString();
+    }
+
+    /**
+     * Render this FROM clause using the given renderer
+     * @param <T>
+     * @param renderer
+     * @return
+     */
+    public <T> T render(StatementRenderer<T> renderer) {
+        // Need to pass the items list to the renderer because of the complexity of
+        // handling ansi and non-ansi style joins together
+        return renderer.from(items);
     }
 
     /**

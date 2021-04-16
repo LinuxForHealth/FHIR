@@ -52,8 +52,12 @@ public class FromItem {
 
     @Override
     public String toString() {
+        return toPrettyString(false);
+    }
+
+    public String toPrettyString(boolean pretty) {
         StringBuilder result = new StringBuilder();
-        result.append(rowSource.toString());
+        result.append(rowSource.toPrettyString(pretty));
 
         // the alias can be null - it's not always needed, but recommended
         Alias aliasName = getAlias();

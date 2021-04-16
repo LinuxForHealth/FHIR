@@ -9,9 +9,13 @@ package com.ibm.fhir.database.utils.query.expression;
 import static com.ibm.fhir.database.utils.query.SqlConstants.FROM;
 import static com.ibm.fhir.database.utils.query.SqlConstants.SELECT;
 import static com.ibm.fhir.database.utils.query.SqlConstants.SPACE;
+import static com.ibm.fhir.database.utils.query.SqlConstants.WHERE;
+
+import java.util.List;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.query.FromClause;
+import com.ibm.fhir.database.utils.query.FromItem;
 import com.ibm.fhir.database.utils.query.GroupByClause;
 import com.ibm.fhir.database.utils.query.HavingClause;
 import com.ibm.fhir.database.utils.query.OrderByClause;
@@ -24,18 +28,24 @@ import com.ibm.fhir.database.utils.query.WhereClause;
  */
 public class StringStatementRenderer implements StatementRenderer<String> {
 
+    private static final String NEWLINE = System.lineSeparator();
+
     // fixed for now...perhaps a variable in the future
     private final char escapeChar = '+';
 
     // translator to handle SQL differences among databases
     private final IDatabaseTranslator translator;
 
+    // pretty-print the statement for easier debug
+    private final boolean pretty;
+
     /**
      * Public constructor
      * @param translator
      */
-    public StringStatementRenderer(IDatabaseTranslator translator) {
+    public StringStatementRenderer(IDatabaseTranslator translator, boolean pretty) {
         this.translator = translator;
+        this.pretty = pretty;
     }
 
     @Override
@@ -95,29 +105,54 @@ public class StringStatementRenderer implements StatementRenderer<String> {
     public String select(SelectList selectList, FromClause fromClause, WhereClause whereClause, GroupByClause groupByClause, HavingClause havingClause,
         OrderByClause orderByClause, PaginationClause paginationClause) {
 
+        StringExpNodeVisitor whereClauseRenderer = new StringExpNodeVisitor(this.pretty);
+
         StringBuilder result = new StringBuilder();
+        if (this.pretty) {
+            result.append(NEWLINE).append("      "); // 6 spaces
+        }
         result.append(SELECT);
         result.append(SPACE).append(selectList.toString());
-        result.append(SPACE).append(FROM);
-        result.append(SPACE).append(fromClause.toString());
+        result.append(SPACE);
+        if (this.pretty) {
+            result.append(NEWLINE).append("        "); // 8 spaces
+        }
+        result.append(FROM);
+        result.append(SPACE).append(fromClause.render(this));
 
         if (whereClause != null) {
-            result.append(SPACE).append(whereClause.toString());
+            if (this.pretty) {
+                result.append(NEWLINE).append("       ");
+            }
+            result.append(WHERE);
+            result.append(SPACE).append(whereClause.visit(whereClauseRenderer));
         }
 
         if (groupByClause != null) {
+            if (this.pretty) {
+                result.append(NEWLINE).append("    ");
+            }
             result.append(SPACE).append(groupByClause.toString());
         }
 
         if (havingClause != null) {
+            if (this.pretty) {
+                result.append(NEWLINE).append("    ");
+            }
             result.append(SPACE).append(havingClause.toString());
         }
 
         if (orderByClause != null) {
+            if (this.pretty) {
+                result.append(NEWLINE).append("   ");
+            }
             result.append(SPACE).append(orderByClause.toString());
         }
 
         if (paginationClause != null) {
+            if (this.pretty) {
+                result.append(NEWLINE).append("");
+            }
             result.append(SPACE).append(paginationClause.getSqlString(this.translator));
         }
 
@@ -153,4 +188,32 @@ public class StringStatementRenderer implements StatementRenderer<String> {
         result.append(" ESCAPE '" + this.escapeChar + "'");
         return result.toString();
    }
+
+    @Override
+    public String from(List<FromItem> items) {
+        StringBuilder result = new StringBuilder();
+        FromItem element = items.get(0);
+        result.append(fromItem(element));
+        for (int i=1; i<items.size(); i++) {
+            FromItem nextElement = items.get(i);
+            if (nextElement.isAnsiJoin()) {
+                result.append(" "); // e.g. INNER JOIN ... ON ...
+                if (this.pretty) {
+                    result.append(NEWLINE).append("  ");
+                }
+            } else {
+                result.append(", ");
+                if (this.pretty) {
+                    result.append(NEWLINE).append("             ");
+                }
+            }
+            result.append(fromItem(nextElement));
+        }
+        return result.toString();
+    }
+
+    @Override
+    public String fromItem(FromItem item) {
+        return item.toPrettyString(this.pretty);
+    }
 }
