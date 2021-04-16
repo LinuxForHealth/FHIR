@@ -9,6 +9,7 @@ package com.ibm.fhir.cache.manager;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
+import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -16,17 +17,25 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.stats.CacheStats;
 import com.ibm.fhir.cache.configuration.Configuration;
-import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.TenantIdProvider;
 
 public final class FHIRCacheManager {
     private static final Map<String, Map<String, Cache<?, ?>>> TENANT_CACHE_MAPS = new ConcurrentHashMap<>();
+    private static final TenantIdProvider TENANT_ID_PROVIDER = getTenantIdProvider();
 
     private FHIRCacheManager() { }
+
+    private static TenantIdProvider getTenantIdProvider() {
+        for (TenantIdProvider provider : ServiceLoader.load(TenantIdProvider.class)) {
+            return provider;
+        }
+        return TenantIdProvider.DEFAULT;
+    }
 
     @SuppressWarnings("unchecked")
     public static <K, V> Cache<K, V> getCache(String cacheName) {
         Objects.requireNonNull(cacheName, "cacheName");
-        String tenantId = FHIRRequestContext.get().getTenantId();
+        String tenantId = TENANT_ID_PROVIDER.getTenantId();
         Map<String, Cache<?, ?>> tenantCacheMap = TENANT_CACHE_MAPS.getOrDefault(tenantId, Collections.emptyMap());
         return (Cache<K, V>) tenantCacheMap.get(cacheName);
     }
@@ -35,7 +44,7 @@ public final class FHIRCacheManager {
     public static <K, V> Cache<K, V> getCache(String cacheName, Configuration configuration) {
         Objects.requireNonNull(cacheName, "cacheName");
         Objects.requireNonNull(configuration, "configuration");
-        String tenantId = FHIRRequestContext.get().getTenantId();
+        String tenantId = TENANT_ID_PROVIDER.getTenantId();
         Map<String, Cache<?, ?>> tenantCacheMap = TENANT_CACHE_MAPS.computeIfAbsent(tenantId, k -> new ConcurrentHashMap<>());
         return (Cache<K, V>) tenantCacheMap.computeIfAbsent(cacheName, k -> createCache(configuration));
     }
@@ -54,7 +63,7 @@ public final class FHIRCacheManager {
     }
 
     public Set<String> getCacheNames() {
-        String tenantId = FHIRRequestContext.get().getTenantId();
+        String tenantId = TENANT_ID_PROVIDER.getTenantId();
         return TENANT_CACHE_MAPS.getOrDefault(tenantId, Collections.emptyMap()).keySet();
     }
 
@@ -79,7 +88,7 @@ public final class FHIRCacheManager {
 
     public static boolean isManaged(String cacheName) {
         if (cacheName != null) {
-            String tenantId = FHIRRequestContext.get().getTenantId();
+            String tenantId = TENANT_ID_PROVIDER.getTenantId();
             return TENANT_CACHE_MAPS.getOrDefault(tenantId, Collections.emptyMap()).containsKey(cacheName);
         }
         return false;
@@ -87,7 +96,7 @@ public final class FHIRCacheManager {
 
     public static void removeCache(String cacheName) {
         if (cacheName != null) {
-            String tenantId = FHIRRequestContext.get().getTenantId();
+            String tenantId = TENANT_ID_PROVIDER.getTenantId();
             Map<String, Cache<?, ?>> tenantCacheMap = TENANT_CACHE_MAPS.get(tenantId);
             if (tenantCacheMap != null) {
                 tenantCacheMap.remove(cacheName);
