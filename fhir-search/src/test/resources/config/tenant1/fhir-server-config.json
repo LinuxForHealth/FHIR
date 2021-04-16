@@ -23,6 +23,9 @@
                     "name": "http://hl7.org/fhir/SearchParameter/Patient-name"
                 }
             }
+        },
+        "core": {
+            "defaultPageSize": 500
         }
     }
 }

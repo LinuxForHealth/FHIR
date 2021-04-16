@@ -226,7 +226,6 @@ public class BulkDataExportUtil {
 
     /**
      * gets the defaults for the patient compartment.
-     * @param types
      * @return
      * @throws FHIROperationException
      */

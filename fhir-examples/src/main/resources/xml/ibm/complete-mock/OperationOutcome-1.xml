@@ -1,48 +1,48 @@
 <OperationOutcome xmlns="http://hl7.org/fhir">
   <meta>
-    <versionId value="q63JAUPuUM"/>
-    <lastUpdated value="2020-11-04T11:22:40.494613-05:00"/>
-    <source value="lwnaIGbKJn"/>
-    <profile value="XGQPxL1j9k"/>
+    <versionId value="BnpJOa5-Sb"/>
+    <lastUpdated value="2021-04-12T14:34:36.061-05:00"/>
+    <source value="BCL3d5NERb"/>
+    <profile value="xSempdez3Y"/>
     <security>
-      <system value="sPgaKWp0jQ"/>
-      <version value="wZHLBfjatw"/>
-      <code value="DMQqy4R3E8"/>
-      <display value="mmxOeLn3hG"/>
+      <system value="tczS7uP8XL"/>
+      <version value="IXKbCw05qO"/>
+      <code value="NvDP1hL64Y"/>
+      <display value="_r1z5oJld1"/>
       <userSelected value="true"/>
     </security>
     <tag>
-      <system value="MtLYCBYPWS"/>
-      <version value="8Ak7HZQrke"/>
-      <code value="0DRWc7UuJB"/>
-      <display value="6NXvm6cEoG"/>
+      <system value="2qqXHsE1Mx"/>
+      <version value="lybFyQ1tBj"/>
+      <code value="Q9w075fYd3"/>
+      <display value="Nm2QqbYibP"/>
       <userSelected value="true"/>
     </tag>
     <tag>
       <code value="ibm/complete-mock"/>
     </tag>
   </meta>
-  <implicitRules value="siFyYo720q"/>
+  <implicitRules value="l8KHk6qOt4"/>
   <language value="en-US"/>
   <text>
-    <status value="generated"/>
+    <status value="additional"/>
     <div xmlns="http://www.w3.org/1999/xhtml"></div>
   </text>
   <issue>
-    <severity value="fatal"/>
-    <code value="required"/>
+    <severity value="warning"/>
+    <code value="business-rule"/>
     <details>
       <coding>
-        <system value="YAwo1XN_fv"/>
-        <version value="9ycWn1vQBR"/>
-        <code value="Y4ci7ASL_1"/>
-        <display value="lq_CJ5bq6Z"/>
+        <system value="eQgFofRHmJ"/>
+        <version value="T524HDk5Za"/>
+        <code value="tC_7iQg31j"/>
+        <display value="s0bLc4W5KE"/>
         <userSelected value="true"/>
       </coding>
-      <text value="aWHd4ZkhaW"/>
+      <text value="BfBVppHmsh"/>
     </details>
-    <diagnostics value="yew1JE2w0X"/>
-    <location value="ZDqBVS3Xgx"/>
-    <expression value="yYfbNaNi8V"/>
+    <diagnostics value="EcvPDGbK0q"/>
+    <location value="GK5ihTmfe6"/>
+    <expression value="Uidx_swV4Z"/>
   </issue>
 </OperationOutcome>

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -91,8 +91,10 @@ public class FHIROperationRegistry {
         List<Issue> issues = FHIRValidator.validator().validate(opDef);
         if (!issues.isEmpty()) {
             for (Issue issue : issues) {
-                log.info("Issue: " + issue.getCode().getValue() + ":"
-            + issue.getSeverity().getValue() + ":" + issue.getDetails().getText().getValue());
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Issue: " + issue.getCode().getValue() + ":"
+                            + issue.getSeverity().getValue() + ":" + issue.getDetails().getText().getValue());
+                }
                 if (issue.getSeverity().equals(IssueSeverity.ERROR)
                         || issue.getSeverity().equals(IssueSeverity.FATAL)) {
                     return false;

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018,2019
+ * (C) Copyright IBM Corp. 2018, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,6 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.ws.rs.RuntimeType;
 import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -32,7 +33,7 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.config.FHIRConfiguration;
 
 public class FHIRProviderTest {
-    
+
     /*
      * generate multivalued map
      * @param value
@@ -246,29 +247,35 @@ public class FHIRProviderTest {
 
     @Test
     public void isPrettyDefaultsFalse() {
-
         HttpHeaders headers = createHeaders();
+        FHIRProvider fhirProvider = new FHIRProvider(RuntimeType.SERVER);
 
         // when empty
-        assertFalse(FHIRProvider.isPretty(headers, generatePrettyParameterUriInfo("false")));
+        assertFalse(fhirProvider.isPretty(headers, generatePrettyParameterUriInfo("false")));
+
         // when populated but misspelled
         headers.getRequestHeaders().putSingle(FHIRConfiguration.DEFAULT_PRETTY_RESPONSE_HEADER_NAME, "nottrue");
-        assertFalse(FHIRProvider.isPretty(headers, generatePrettyParameterUriInfo("false")));
+        assertFalse(fhirProvider.isPretty(headers, generatePrettyParameterUriInfo("false")));
     }
 
     @Test
     public void isPrettyTrueForTrue() {
         HttpHeaders headers = createHeaders();
+        FHIRProvider fhirProvider = new FHIRProvider(RuntimeType.SERVER);
+
+        // when populated to true
         headers.getRequestHeaders().putSingle(FHIRConfiguration.DEFAULT_PRETTY_RESPONSE_HEADER_NAME, "true");
-        assertTrue(FHIRProvider.isPretty(headers, generatePrettyParameterUriInfo("false")));
+        assertTrue(fhirProvider.isPretty(headers, generatePrettyParameterUriInfo("false")));
     }
 
     @Test
     public void isPrettyFalseForFalse() {
         HttpHeaders headers = createHeaders();
-        headers.getRequestHeaders().putSingle(FHIRConfiguration.DEFAULT_PRETTY_RESPONSE_HEADER_NAME, "false");
+        FHIRProvider fhirProvider = new FHIRProvider(RuntimeType.SERVER);
 
-        assertFalse(FHIRProvider.isPretty(headers, generatePrettyParameterUriInfo("false")));
+        // when populated to true
+        headers.getRequestHeaders().putSingle(FHIRConfiguration.DEFAULT_PRETTY_RESPONSE_HEADER_NAME, "false");
+        assertFalse(fhirProvider.isPretty(headers, generatePrettyParameterUriInfo("false")));
     }
 
     private static HttpHeaders createHeaders() {

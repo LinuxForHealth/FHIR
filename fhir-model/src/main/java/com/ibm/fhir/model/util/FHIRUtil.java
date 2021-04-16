@@ -159,6 +159,9 @@ public class FHIRUtil {
 
     public static OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity severity, IssueType code, String details,
             String expression) {
+        if (details == null || details.isEmpty()) {
+            details = "<no details>";
+        }
         if (expression == null || expression.isEmpty()) {
             expression = "<no expression>";
         }
