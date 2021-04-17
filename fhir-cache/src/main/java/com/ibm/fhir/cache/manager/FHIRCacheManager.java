@@ -25,11 +25,9 @@ public final class FHIRCacheManager {
 
     private FHIRCacheManager() { }
 
-    private static TenantIdProvider getTenantIdProvider() {
-        for (TenantIdProvider provider : ServiceLoader.load(TenantIdProvider.class)) {
-            return provider;
-        }
-        return TenantIdProvider.DEFAULT;
+    public Set<String> getCacheNames() {
+        String tenantId = TENANT_ID_PROVIDER.getTenantId();
+        return TENANT_CACHE_MAPS.getOrDefault(tenantId, Collections.emptyMap()).keySet();
     }
 
     @SuppressWarnings("unchecked")
@@ -60,11 +58,6 @@ public final class FHIRCacheManager {
         Objects.requireNonNull(configuration, "configuration");
         Cache<K, V> cache = getCache(cacheName, configuration);
         return cache.asMap();
-    }
-
-    public Set<String> getCacheNames() {
-        String tenantId = TENANT_ID_PROVIDER.getTenantId();
-        return TENANT_CACHE_MAPS.getOrDefault(tenantId, Collections.emptyMap()).keySet();
     }
 
     public static CacheStats getCacheStats(String cacheName) {
@@ -122,5 +115,12 @@ public final class FHIRCacheManager {
                 .expireAfterWrite(configuration.getDuration())
                 .recordStats()
                 .build();
+    }
+
+    private static TenantIdProvider getTenantIdProvider() {
+        for (TenantIdProvider provider : ServiceLoader.load(TenantIdProvider.class)) {
+            return provider;
+        }
+        return TenantIdProvider.DEFAULT;
     }
 }
