@@ -76,9 +76,8 @@ public class CachingProxy {
                 Method targetMethod = targetMethodCache.computeIfAbsent(method, k -> computeTargetMethod(method));
                 if (isCacheable(targetMethod)) {
                     Cacheable cacheable = targetMethod.getAnnotation(Cacheable.class);
-                    Class<? extends KeyGenerator> keyGeneratorClass = cacheable.keyGeneratorClass();
 
-                    KeyGenerator keyGenerator = getKeyGenerator(keyGeneratorClass);
+                    KeyGenerator keyGenerator = getKeyGenerator(cacheable.keyGeneratorClass());
                     CacheKey key = keyGenerator.generate(target, targetMethod, args);
 
                     Map<CacheKey, Object> resultCache = resultCacheMap.computeIfAbsent(targetMethod, k -> createCacheAsMap(cacheable));
