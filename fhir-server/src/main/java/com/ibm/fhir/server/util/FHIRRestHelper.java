@@ -84,11 +84,13 @@ import com.ibm.fhir.path.patch.FHIRPathPatch;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
+import com.ibm.fhir.persistence.ResourceEraseRecord;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
+import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
@@ -1161,7 +1163,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     public Bundle doBundle(Bundle inputBundle, Map<String, String> requestProperties) throws Exception {
         log.entering(this.getClass().getName(), "doBundle");
 
-        // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
 
         try {
@@ -1868,6 +1869,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         MultivaluedMap<String, String> queryParams = requestURL.getQueryParameters();
         Resource resource = null;
 
+        FHIRRequestContext requestContext = FHIRRequestContext.get();
+
         // Process a GET (read, vread, history, search, etc.).
         // Determine the type of request from the path tokens.
         if (pathTokens.length > 0 && pathTokens[pathTokens.length - 1].startsWith("$")) {
@@ -1880,14 +1883,29 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             switch (pathTokens.length) {
             case 1:
                 operationContext = FHIROperationContext.createSystemOperationContext();
+                operationContext.setProperty(FHIROperationContext.PROPNAME_URI_INFO, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_URI_INFO));
+                operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_HEADERS, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_HTTP_HEADERS));
+                operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, "GET");
+                operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_SECURITY_CONTEXT));
+                operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_HTTP_REQUEST));
                 resource = doInvoke(operationContext, null, null, null, operationName, null, queryParams, null);
                 break;
             case 2:
                 operationContext = FHIROperationContext.createResourceTypeOperationContext();
+                operationContext.setProperty(FHIROperationContext.PROPNAME_URI_INFO, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_URI_INFO));
+                operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_HEADERS, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_HTTP_HEADERS));
+                operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, "GET");
+                operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_SECURITY_CONTEXT));
+                operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_HTTP_REQUEST));
                 resource = doInvoke(operationContext, pathTokens[0], null, null, operationName, null, queryParams, null);
                 break;
             case 3:
                 operationContext = FHIROperationContext.createInstanceOperationContext();
+                operationContext.setProperty(FHIROperationContext.PROPNAME_URI_INFO, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_URI_INFO));
+                operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_HEADERS, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_HTTP_HEADERS));
+                operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, "GET");
+                operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_SECURITY_CONTEXT));
+                operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_HTTP_REQUEST));
                 resource = doInvoke(operationContext, pathTokens[0], pathTokens[1], null, operationName, null, queryParams, null);
                 break;
             default:
@@ -1965,6 +1983,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         MultivaluedMap<String, String> queryParams = requestURL.getQueryParameters();
         Resource resource = null;
 
+        FHIRRequestContext requestContext = FHIRRequestContext.get();
+
         // Process a POST (create or search, or custom operation).
         if (pathTokens.length > 0 && pathTokens[pathTokens.length - 1].startsWith("$")) {
             // This is a custom operation request
@@ -1980,14 +2000,29 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             switch (pathTokens.length) {
             case 1:
                 operationContext = FHIROperationContext.createSystemOperationContext();
+                operationContext.setProperty(FHIROperationContext.PROPNAME_URI_INFO, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_URI_INFO));
+                operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_HEADERS, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_HTTP_HEADERS));
+                operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, "POST");
+                operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_SECURITY_CONTEXT));
+                operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_HTTP_REQUEST));
                 result = doInvoke(operationContext, null, null, null, operationName, resource, queryParams, null);
                 break;
             case 2:
                 operationContext = FHIROperationContext.createResourceTypeOperationContext();
+                operationContext.setProperty(FHIROperationContext.PROPNAME_URI_INFO, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_URI_INFO));
+                operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_HEADERS, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_HTTP_HEADERS));
+                operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, "POST");
+                operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_SECURITY_CONTEXT));
+                operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_HTTP_REQUEST));
                 result = doInvoke(operationContext, pathTokens[0], null, null, operationName, resource, queryParams, null);
                 break;
             case 3:
                 operationContext = FHIROperationContext.createInstanceOperationContext();
+                operationContext.setProperty(FHIROperationContext.PROPNAME_URI_INFO, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_URI_INFO));
+                operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_HEADERS, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_HTTP_HEADERS));
+                operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, "POST");
+                operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_SECURITY_CONTEXT));
+                operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_HTTP_REQUEST));
                 result = doInvoke(operationContext, pathTokens[0], pathTokens[1], null, operationName, resource, queryParams, null);
                 break;
             default:
@@ -2240,7 +2275,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // after the resource validation. )
             if (response.getStatus().equals(SC_OK_STRING)
                     && request.getMethod().equals(httpMethod)) {
-                indices.add(Integer.valueOf(i));
+                indices.add(i);
             }
         }
         return indices;
@@ -3024,7 +3059,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @return A list of validation errors and warnings
      * @throws FHIRValidationException
      */
-    private List<Issue>  validateResource(Resource resource) throws FHIRValidationException {
+    private List<Issue> validateResource(Resource resource) throws FHIRValidationException {
         List<String> profiles = null;
         List<String> profilesWithoutVersion = null;
 
@@ -3363,5 +3398,36 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         bundleBuilder.type(BundleType.HISTORY);
 
         return bundleBuilder.build();
+    }
+
+    @Override
+    public ResourceEraseRecord doErase(FHIROperationContext operationContext, EraseDTO eraseBean) throws FHIROperationException {
+        // @implNote doReindex has a nice pattern to handle some retries in case of deadlock exceptions
+        final int TX_ATTEMPTS = 5;
+        int attempt = 1;
+        ResourceEraseRecord eraseRecord = new ResourceEraseRecord();
+        do {
+            FHIRTransactionHelper txn = null;
+            try {
+                txn = new FHIRTransactionHelper(getTransaction());
+                txn.begin();
+                eraseRecord = persistence.erase(eraseBean);
+                attempt = TX_ATTEMPTS; // end the retry loop
+            } catch (FHIRPersistenceDataAccessException x) {
+                if (x.isTransactionRetryable() && attempt < TX_ATTEMPTS) {
+                    log.info("attempt #" + attempt + " failed, retrying transaction");
+                } else {
+                    throw new FHIROperationException("Error during $erase", x);
+                }
+            } catch (Exception x) {
+                attempt = TX_ATTEMPTS; // end the retry loop
+                throw new FHIROperationException("Error during $erase", x);
+            } finally {
+                if (txn != null) {
+                    txn.end();
+                }
+            }
+        } while (attempt++ < TX_ATTEMPTS);
+        return eraseRecord;
     }
 }

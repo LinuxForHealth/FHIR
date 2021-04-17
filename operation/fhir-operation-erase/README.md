@@ -15,10 +15,11 @@ This document outlines the design and acceptance criteria for the fhir-operation
 |------|-----|-----|
 |`patient`|optional|the patient id to add to the Audit Event|
 |`reason`|optional|the textual reason to add to the Audit Event|
+|`timeout`|optional|the maximum time used to process the $erase operation|
 
 **HTTP Response Codes**
 
-- 200 OK - The resource is permamently deleted.
+- 200 OK - The resource is permanently deleted.
 - 400 BAD_REQUEST - The request is malformed.
 - 401 NOT_AUTHENTICATED - The users is not authenticated.
 - 403 NOT_AUTHORIZED - The user is not an administrator in the FHIR_ADMIN group.

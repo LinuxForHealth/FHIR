@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,6 +19,7 @@ import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationDefinition;
+import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
@@ -40,6 +41,7 @@ import com.ibm.fhir.model.type.code.FHIRAllTypes;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.OperationParameterUse;
+import com.ibm.fhir.model.util.FHIRUtil;
 
 public final class FHIROperationUtil {
     public static final String ENV_DISABLED_OPERATIONS = "DISABLED_OPERATIONS";
@@ -168,7 +170,7 @@ public final class FHIROperationUtil {
         return parametersBuilder.build();
     }
 
-    public static Parameters getOutputParameters(Resource resource) throws Exception {
+    public static Parameters getOutputParameters(Resource resource) {
         return Parameters.builder()
                 .parameter(Parameter.builder()
                     .name(string("return"))
@@ -221,5 +223,16 @@ public final class FHIROperationUtil {
 
         operationException.setIssues(issues);
         return operationException;
+    }
+
+    public static FHIROperationException buildExceptionWithIssue(final String msg, IssueType issueType)
+        throws FHIROperationException {
+        return buildExceptionWithIssue(msg, issueType, null);
+    }
+
+    public static FHIROperationException buildExceptionWithIssue(final String msg, IssueType issueType, final Throwable cause)
+        throws FHIROperationException {
+        OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
+        return new FHIROperationException(msg, cause).withIssue(ooi);
     }
 }

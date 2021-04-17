@@ -14,7 +14,7 @@
   "description": "The erase operation remove a speicfic instance of a resource",
   "code": "erase",
   "system": false,
-  "type": false,
+  "type": true,
   "affectsState": true,
   "instance": true,
   "resource": [
@@ -170,17 +170,49 @@
       "name": "patient",
       "use": "in",
       "min": 0,
-      "max": "1",
-      "documentation": "The patient identifier used in audit log",
+      "max": "*",
+      "documentation": "The patient identifier used in audit log. Maximum size is 1024 characters.",
       "type": "string"
     },
     {
       "name": "reason",
       "use": "in",
       "min": 0,
-      "max": "1",
+      "max": "*",
       "documentation": "The reason for the erasure of the Resource instance and all of its versions. Maximum size is 1024 characters.",
       "type": "string"
+    },
+    {
+      "name": "logicalId",
+      "use": "in",
+      "min": 0,
+      "max": "*",
+      "documentation": "The specific logicalId that is to be deleted, ignored if $erase is performed on an Resource instance.",
+      "type": "string"
+    },
+    {
+      "name": "version",
+      "use": "in",
+      "min": 0,
+      "max": "*",
+      "documentation": "The specific version that is to be deleted.",
+      "type": "integer"
+    },
+    {
+      "name": "timeout",
+      "use": "in",
+      "min": 0,
+      "max": "*",
+      "documentation": "The maximum goldilocks time in seconds the $erase operation should execute.",
+      "type": "integer"
+    },
+    {
+      "name": "count",
+      "use": "in",
+      "min": 0,
+      "max": "*",
+      "documentation": "The number of versions to erase (starting at the earliest to latest).",
+      "type": "integer"
     }
   ]
 }

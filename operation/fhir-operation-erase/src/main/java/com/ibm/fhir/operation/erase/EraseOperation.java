@@ -14,39 +14,87 @@ import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.operation.erase.impl.Erase;
-import com.ibm.fhir.operation.erase.impl.EraseFactory;
+import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.operation.erase.adapter.ResourceEraseRecordAdapter;
+import com.ibm.fhir.operation.erase.audit.EraseOperationAuditLogger;
+import com.ibm.fhir.operation.erase.impl.EraseRest;
+import com.ibm.fhir.operation.erase.impl.EraseRestFactory;
+import com.ibm.fhir.persistence.ResourceEraseRecord;
+import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.server.operation.spi.AbstractOperation;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.server.util.FHIROperationUtil;
 
 /**
- * Custom Operation to Erase a specific instance of the FHIR Resource and it's history and values table on
- * the IBM FHIR Server.
+ * Custom Operation to Erase a specific instance or instance-version of the FHIR
+ * Resource and it's history and values table supported by the IBM FHIR Server.
  */
 public class EraseOperation extends AbstractOperation {
+    private ResourceEraseRecordAdapter adapter = new ResourceEraseRecordAdapter();
+
     public EraseOperation() {
         super();
     }
 
     @Override
     protected OperationDefinition buildOperationDefinition() {
-        try (InputStream in = getClass().getClassLoader().getResourceAsStream("erase.json")) {
-            return FHIRParser.parser(Format.JSON).parse(in);
-        } catch (Exception e) {
-            throw new Error(e);
-        }
+        FHIRParser parser = FHIRParser.parser(Format.JSON);
+        return generateOperationDefinition(parser);
     }
 
     @Override
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType,
             String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper) throws FHIROperationException {
-        Erase erase = EraseFactory.getInstance(operationContext, resourceHelper, parameters, resourceType, logicalId, versionId);
-        erase.authorize(); // Should be executed first so it is the first error before enabled check.
+        // Create the audit, so we get the start time.
+        EraseOperationAuditLogger audit = new EraseOperationAuditLogger(operationContext);
+
+        EraseRest erase = EraseRestFactory.getInstance(operationContext, parameters, resourceType, logicalId);
+
+        // Authorize should be executed first so it is the first error before enabled check.
+        erase.authorize();
         erase.enabled();
-        erase.verifyMethod();
-        erase.verifyParameters();
-        erase.exists();
-        return erase.erase();
+        EraseDTO eraseBean = erase.verify();
+
+        try {
+            ResourceEraseRecord eraseRecord = resourceHelper.doErase(operationContext, eraseBean);
+            // Checks to see if it's not found
+            if (ResourceEraseRecord.Status.NOT_FOUND == eraseRecord.getStatus()) {
+                FHIROperationException notFoundEx = FHIROperationUtil.buildExceptionWithIssue("Resource not found", IssueType.NOT_FOUND);
+                audit.error(parameters, notFoundEx, eraseBean);
+                throw notFoundEx;
+            } else if (ResourceEraseRecord.Status.NOT_SUPPORTED_GREATER == eraseRecord.getStatus()) {
+                FHIROperationException badVersion = FHIROperationUtil.buildExceptionWithIssue("Resource Version specified is greater than version found", IssueType.INVALID);
+                audit.error(parameters, badVersion, eraseBean);
+                throw badVersion;
+            } else if (ResourceEraseRecord.Status.NOT_SUPPORTED_LATEST == eraseRecord.getStatus()) {
+                FHIROperationException badVersion = FHIROperationUtil.buildExceptionWithIssue("Resource Version specified is latest version found", IssueType.INVALID);
+                audit.error(parameters, badVersion, eraseBean);
+                throw badVersion;
+            }
+
+            // Adapt to the output type and log it.
+            Parameters response = adapter.adapt(eraseRecord, eraseBean);
+            audit.audit(response, eraseBean);
+
+            return response;
+        } catch (FHIROperationException e) {
+            audit.error(parameters, e, eraseBean);
+            throw e;
+        }
+    }
+
+    /**
+     * Parser generates the OperationDefinition
+     * @implNote this is broken down into a separate method to facilitate testing.
+     * @param parser
+     * @return
+     */
+    public OperationDefinition generateOperationDefinition(FHIRParser parser) {
+        try (InputStream in = getClass().getClassLoader().getResourceAsStream("erase.json")) {
+            return parser.parse(in);
+        } catch (Exception e) {
+            throw new Error(e);
+        }
     }
 }

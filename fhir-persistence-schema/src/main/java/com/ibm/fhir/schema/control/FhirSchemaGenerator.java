@@ -116,6 +116,7 @@ public class FhirSchemaGenerator {
     private static final String ADD_PARAMETER_NAME = "ADD_PARAMETER_NAME";
     private static final String ADD_RESOURCE_TYPE = "ADD_RESOURCE_TYPE";
     private static final String ADD_ANY_RESOURCE = "ADD_ANY_RESOURCE";
+    private static final String ERASE_RESOURCE = "ERASE_RESOURCE";
 
     // The tags we use to separate the schemas
     public static final String SCHEMA_GROUP_TAG = "SCHEMA_GROUP";
@@ -427,6 +428,14 @@ public class FhirSchemaGenerator {
                 Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
                 procedurePrivileges);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
+        pd = model.addProcedure(this.schemaName,
+            ERASE_RESOURCE,
+            FhirSchemaVersion.V0013.vid(),
+            () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ERASE_RESOURCE.toLowerCase() + ".sql", null),
+            Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
+            procedurePrivileges);
+        pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
     }
 
     public void buildDatabaseSpecificArtifactsPostgres(PhysicalDataModel model) {
@@ -463,6 +472,13 @@ public class FhirSchemaGenerator {
                 () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ADD_ANY_RESOURCE.toLowerCase()
                         + ".sql", null),
                 Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete), procedurePrivileges);
+        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
+        fd = model.addFunction(this.schemaName,
+            ERASE_RESOURCE,
+            FhirSchemaVersion.V0013.vid(),
+            () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ERASE_RESOURCE.toLowerCase() + ".sql", null),
+            Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete), procedurePrivileges);
         fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
     }
 

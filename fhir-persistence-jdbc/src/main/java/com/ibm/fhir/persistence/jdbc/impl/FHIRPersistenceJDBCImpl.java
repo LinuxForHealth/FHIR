@@ -85,10 +85,12 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
+import com.ibm.fhir.persistence.ResourceEraseRecord;
 import com.ibm.fhir.persistence.ResourcePayload;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
+import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
@@ -109,6 +111,7 @@ import com.ibm.fhir.persistence.jdbc.connection.SchemaNameFromProps;
 import com.ibm.fhir.persistence.jdbc.connection.SchemaNameImpl;
 import com.ibm.fhir.persistence.jdbc.connection.SchemaNameSupplier;
 import com.ibm.fhir.persistence.jdbc.connection.SetTenantAction;
+import com.ibm.fhir.persistence.jdbc.dao.EraseResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.ReindexResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
@@ -1392,7 +1395,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         // This loop builds a Map where key=resourceId, and value=its proper position in the returned sorted collection.
         for(int i = 0; i < sortedIdList.size(); i++) {
             resourceId = sortedIdList.get(i);
-            idPositionMap.put(Long.valueOf(resourceId), Integer.valueOf(i));
+            idPositionMap.put(resourceId, i);
         }
 
         resourceDTOList = this.getResourceDTOs(resourceDao, resourceType, sortedIdList);
@@ -2311,5 +2314,49 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             log.log(Level.SEVERE, fx.getMessage(), e);
             throw fx;
         }
+    }
+
+    @Override
+    public ResourceEraseRecord erase(EraseDTO eraseDto) throws FHIRPersistenceException {
+        final String METHODNAME = "erase";
+        log.entering(CLASSNAME, METHODNAME);
+
+        ResourceEraseRecord eraseRecord = new ResourceEraseRecord(true);
+        try (Connection connection = openConnection()) {
+            IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
+            IResourceReferenceDAO rrd = makeResourceReferenceDAO(connection);
+            EraseResourceDAO eraseDao = new EraseResourceDAO(connection, translator, schemaNameSupplier.getSchemaForRequestContext(connection), connectionStrategy.getFlavor(), this.cache, rrd);
+            eraseDao.erase(eraseRecord, eraseDto);
+        } catch(FHIRPersistenceResourceNotFoundException e) {
+            throw e;
+        } catch(FHIRPersistenceException e) {
+            // Other Perisstence exceptions are implied, such as FHIRPersistenceFKVException.
+            getTransaction().setRollbackOnly();
+            throw e;
+        } catch (DataAccessException dax) {
+            getTransaction().setRollbackOnly();
+
+            // It's possible this is a deadlock exception, in which case it could be considered retryable
+            if (dax.isTransactionRetryable()) {
+                log.log(Level.SEVERE, "retryable error", dax);
+                FHIRPersistenceDataAccessException fpx = new FHIRPersistenceDataAccessException("Data access error while performing a erase operation.");
+                fpx.setTransactionRetryable(true);
+                throw fpx;
+            } else {
+                log.log(Level.SEVERE, "non-retryable error", dax);
+                throw new FHIRPersistenceDataAccessException("Data access error while performing a erase operation.");
+            }
+        } catch(Throwable e) {
+            getTransaction().setRollbackOnly();
+            // don't chain the exception to avoid leaking secrets
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a erase operation.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
+        }
+        finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+
+        return eraseRecord;
     }
 }

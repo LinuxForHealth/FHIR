@@ -571,7 +571,7 @@ public class RestAuditLogger {
      *  The response status.
      * @return AuditLogEntry - an initialized audit log entry.
      */
-    private static AuditLogEntry populateAuditLogEntry(AuditLogEntry entry, HttpServletRequest request, Resource resource,
+    protected static AuditLogEntry populateAuditLogEntry(AuditLogEntry entry, HttpServletRequest request, Resource resource,
             Date startTime, Date endTime, Response.Status responseStatus) {
         final String METHODNAME = "populateAuditLogEntry";
         log.entering(CLASSNAME, METHODNAME);
@@ -633,7 +633,7 @@ public class RestAuditLogger {
      *            A valid type of audit log event
      * @return AuditLogEntry with the minimum required fields populated.
      */
-    private static AuditLogEntry initLogEntry(AuditLogEventType eventType) {
+    protected static AuditLogEntry initLogEntry(AuditLogEventType eventType) {
         final String METHODNAME = "initLogEntry";
         log.entering(CLASSNAME, METHODNAME);
 

@@ -527,6 +527,18 @@
                 <artifactId>logback-core</artifactId>
                 <version>1.2.3</version>
             </dependency>
+            <!-- 
+            Note, we can't use this until we upgrade the Open Liberty server
+            <dependency>
+                <groupId>jakarta.enterprise.concurrent</groupId>
+                <artifactId>jakarta.enterprise.concurrent-api</artifactId>
+                <version>2.0.0</version>
+            </dependency> -->
+            <dependency>
+                <groupId>javax.enterprise.concurrent</groupId>
+                <artifactId>javax.enterprise.concurrent-api</artifactId>
+                <version>1.1</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

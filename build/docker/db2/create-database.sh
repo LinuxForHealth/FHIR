@@ -26,6 +26,7 @@ else
   # Was: CATALOGCACHE_SZ 300 1.2M
   # Now: CATALOGCACHE_SZ 3000  12M
   su - db2inst1 -c "db2 update db cfg for fhirdb using CATALOGCACHE_SZ 3000"
+  su - db2inst1 -c "db2 update db cfg for fhirdb using logfilsiz 60000"
 fi
 
 # To be properly idempotent, we always want to execute this, just in case it failed the first time
