@@ -78,7 +78,7 @@ public class CachingProxy {
                     Cacheable cacheable = targetMethod.getAnnotation(Cacheable.class);
                     Class<? extends KeyGenerator> keyGeneratorClass = cacheable.keyGeneratorClass();
 
-                    KeyGenerator keyGenerator = getKeyGenerator(keyGeneratorClass, target, targetMethod, args);
+                    KeyGenerator keyGenerator = getKeyGenerator(keyGeneratorClass);
                     CacheKey key = keyGenerator.generate(target, targetMethod, args);
 
                     Map<CacheKey, Object> resultCache = resultCacheMap.computeIfAbsent(targetMethod, k -> createCacheAsMap(cacheable));
@@ -109,7 +109,7 @@ public class CachingProxy {
             }
         }
 
-        private KeyGenerator getKeyGenerator(Class<? extends KeyGenerator> keyGeneratorClass, Object target, Method targetMethod, Object[] args) {
+        private KeyGenerator getKeyGenerator(Class<? extends KeyGenerator> keyGeneratorClass) {
             if (KeyGenerator.class.equals(keyGeneratorClass)) {
                 return KeyGenerator.DEFAULT;
             }
