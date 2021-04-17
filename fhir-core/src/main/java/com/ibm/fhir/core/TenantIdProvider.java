@@ -6,12 +6,22 @@
 
 package com.ibm.fhir.core;
 
+import java.util.ServiceLoader;
+
 public interface TenantIdProvider {
-    public static final TenantIdProvider DEFAULT = new TenantIdProvider() {
+    static final TenantIdProvider DEFAULT = new TenantIdProvider() {
         @Override
         public String getTenantId() {
             return "default";
         }
     };
+
     String getTenantId();
+
+    static TenantIdProvider provider() {
+        for (TenantIdProvider provider : ServiceLoader.load(TenantIdProvider.class)) {
+            return provider;
+        }
+        return DEFAULT;
+    }
 }

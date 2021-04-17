@@ -24,7 +24,7 @@ public class FHIRCacheManagerTest {
         Assert.assertNotNull(cache);
 
         cache.asMap().put("1", 1);
-        Thread.sleep(1000);
+        Thread.sleep(1500);
         cache.cleanUp();
         Assert.assertTrue(cache.asMap().isEmpty());
 

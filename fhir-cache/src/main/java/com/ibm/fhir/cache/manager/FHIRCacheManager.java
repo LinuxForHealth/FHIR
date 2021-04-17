@@ -9,7 +9,6 @@ package com.ibm.fhir.cache.manager;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
-import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -21,7 +20,7 @@ import com.ibm.fhir.core.TenantIdProvider;
 
 public final class FHIRCacheManager {
     private static final Map<String, Map<String, Cache<?, ?>>> TENANT_CACHE_MAPS = new ConcurrentHashMap<>();
-    private static final TenantIdProvider TENANT_ID_PROVIDER = getTenantIdProvider();
+    private static final TenantIdProvider TENANT_ID_PROVIDER = TenantIdProvider.provider();
 
     private FHIRCacheManager() { }
 
@@ -115,12 +114,5 @@ public final class FHIRCacheManager {
                 .expireAfterWrite(configuration.getDuration())
                 .recordStats()
                 .build();
-    }
-
-    private static TenantIdProvider getTenantIdProvider() {
-        for (TenantIdProvider provider : ServiceLoader.load(TenantIdProvider.class)) {
-            return provider;
-        }
-        return TenantIdProvider.DEFAULT;
     }
 }

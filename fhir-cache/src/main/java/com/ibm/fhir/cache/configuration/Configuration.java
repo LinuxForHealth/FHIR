@@ -55,12 +55,10 @@ public class Configuration {
     }
 
     public static Configuration of(long maximumSize) {
-        Objects.requireNonNull(maximumSize, "maximumSize");
         return new Configuration(maximumSize);
     }
 
     public static Configuration of(long maximumSize, Duration duration) {
-        Objects.requireNonNull(maximumSize, "maximumSize");
         Objects.requireNonNull(duration, "duration");
         return new Configuration(maximumSize, duration);
     }
