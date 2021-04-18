@@ -16,12 +16,11 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Logger;
 
 import com.ibm.fhir.core.annotation.Cacheable;
 
-public class CachingProxy {
-    private static final Logger log = Logger.getLogger(CachingProxy.class.getName());
+public final class CachingProxy {
+    private CachingProxy() { }
 
     public static <T> T newInstance(Class<T> interfaceClass, T target) {
         Objects.requireNonNull(interfaceClass, "interfaceClass");
@@ -43,7 +42,7 @@ public class CachingProxy {
     }
 
     public interface KeyGenerator {
-        public static final KeyGenerator DEFAULT = new KeyGenerator() {
+        static final KeyGenerator DEFAULT = new KeyGenerator() {
             @Override
             public CacheKey generate(Object target, Method method, Object[] args) {
                 return key(method, args);
@@ -129,7 +128,6 @@ public class CachingProxy {
 
         private Object computeResult(Method targetMethod, Object[] args) {
             try {
-                log.finest(() -> "Result cache miss for target method: " + targetMethod);
                 Object result = targetMethod.invoke(target, args);
                 return (result != null) ? result : NULL;
             } catch (Exception e) {
