@@ -14,13 +14,13 @@ import org.testng.annotations.Test;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.stats.CacheStats;
-import com.ibm.fhir.cache.manager.FHIRCacheManager;
-import com.ibm.fhir.cache.manager.FHIRCacheManager.Configuration;
+import com.ibm.fhir.cache.CacheManager;
+import com.ibm.fhir.cache.CacheManager.Configuration;
 
 public class FHIRCacheManagerTest {
     @Test
     public void testTimeBasedEvictionCache() throws InterruptedException {
-        Cache<String, Integer> cache = FHIRCacheManager.getCache("testCache", Configuration.of(Duration.of(1000, ChronoUnit.MILLIS)));
+        Cache<String, Integer> cache = CacheManager.getCache("testCache", Configuration.of(Duration.of(1000, ChronoUnit.MILLIS)));
         Assert.assertNotNull(cache);
 
         cache.asMap().put("1", 1);
@@ -28,13 +28,13 @@ public class FHIRCacheManagerTest {
         cache.cleanUp();
         Assert.assertTrue(cache.asMap().isEmpty());
 
-        FHIRCacheManager.removeCache("testCache");
-        Assert.assertNull(FHIRCacheManager.getCache("testCache"));
+        CacheManager.removeCache("testCache");
+        Assert.assertNull(CacheManager.getCache("testCache"));
     }
 
     @Test
     public void testSizeBasedEvictionCache() throws InterruptedException {
-        Cache<String, Integer> cache = FHIRCacheManager.getCache("testCache", Configuration.of(1));
+        Cache<String, Integer> cache = CacheManager.getCache("testCache", Configuration.of(1));
         Assert.assertNotNull(cache);
 
         cache.asMap().put("1", 1);
@@ -44,13 +44,13 @@ public class FHIRCacheManagerTest {
         Assert.assertNull(cache.asMap().get("1"));
         Assert.assertEquals(cache.asMap().get("2"), Integer.valueOf(2));
 
-        FHIRCacheManager.removeCache("testCache");
-        Assert.assertNull(FHIRCacheManager.getCache("testCache"));
+        CacheManager.removeCache("testCache");
+        Assert.assertNull(CacheManager.getCache("testCache"));
     }
 
     @Test
     public void testCacheStats() {
-        Cache<String, Integer> cache = FHIRCacheManager.getCache("testCache", Configuration.of(128));
+        Cache<String, Integer> cache = CacheManager.getCache("testCache", Configuration.of(128));
         Assert.assertNotNull(cache);
         Assert.assertTrue(cache.policy().isRecordingStats());
 
@@ -67,7 +67,7 @@ public class FHIRCacheManagerTest {
         Assert.assertEquals(cacheStats.hitCount(), 1);
         Assert.assertEquals(cacheStats.missCount(), 1);
 
-        FHIRCacheManager.removeCache("testCache");
-        Assert.assertNull(FHIRCacheManager.getCache("testCache"));
+        CacheManager.removeCache("testCache");
+        Assert.assertNull(CacheManager.getCache("testCache"));
     }
 }

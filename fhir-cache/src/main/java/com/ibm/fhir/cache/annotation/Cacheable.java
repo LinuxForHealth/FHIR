@@ -13,8 +13,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.time.temporal.ChronoUnit;
 
-import com.ibm.fhir.cache.util.CachingProxy;
-import com.ibm.fhir.cache.util.CachingProxy.KeyGenerator;
+import com.ibm.fhir.cache.CachingProxy;
+import com.ibm.fhir.cache.CachingProxy.KeyGenerator;
 
 /**
  * This annotation is applied to methods that may have their results cached using a Java dynamic proxy instance.

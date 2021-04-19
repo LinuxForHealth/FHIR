@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.cache.manager;
+package com.ibm.fhir.cache;
 
 import java.time.Duration;
 import java.util.Collections;
@@ -21,11 +21,11 @@ import com.ibm.fhir.core.TenantIdProvider;
 /**
  * A class used to create and manage cache instances on a per tenant basis
  */
-public final class FHIRCacheManager {
+public final class CacheManager {
     private static final Map<String, Map<String, Cache<?, ?>>> TENANT_CACHE_MAPS = new ConcurrentHashMap<>();
     private static final TenantIdProvider TENANT_ID_PROVIDER = TenantIdProvider.provider();
 
-    private FHIRCacheManager() { }
+    private CacheManager() { }
 
     /**
      * Get the cache names for the current tenant.
@@ -194,7 +194,7 @@ public final class FHIRCacheManager {
     }
 
     /**
-     * A configuration class used by FHIRCacheManager to create managed cache instances with size and/or time-based eviction policies
+     * A configuration class used by the cache manager to create managed cache instances with size and/or time-based eviction policies
      */
     public static class Configuration {
         private final Integer maximumSize;

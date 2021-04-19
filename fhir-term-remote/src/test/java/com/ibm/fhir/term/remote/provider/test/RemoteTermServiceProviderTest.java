@@ -19,7 +19,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.MissingOptionException;
 import org.apache.commons.cli.Options;
 
-import com.ibm.fhir.cache.util.CachingProxy;
+import com.ibm.fhir.cache.CachingProxy;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.type.Code;

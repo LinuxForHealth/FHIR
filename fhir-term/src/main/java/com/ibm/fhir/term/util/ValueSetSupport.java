@@ -24,8 +24,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.cache.manager.FHIRCacheManager;
-import com.ibm.fhir.cache.manager.FHIRCacheManager.Configuration;
+import com.ibm.fhir.cache.CacheManager;
+import com.ibm.fhir.cache.CacheManager.Configuration;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.Resource;
@@ -92,7 +92,7 @@ public final class ValueSetSupport {
             return computeCodeSetMap(valueSet);
         }
         java.lang.String url = valueSet.getUrl().getValue() + "|" + valueSet.getVersion().getValue();
-        Map<java.lang.String, Map<java.lang.String, Set<java.lang.String>>> cacheAsMap = FHIRCacheManager.getCacheAsMap(CODE_SET_MAP_CACHE_NAME, CODE_SET_MAP_CACHE_CONFIG);
+        Map<java.lang.String, Map<java.lang.String, Set<java.lang.String>>> cacheAsMap = CacheManager.getCacheAsMap(CODE_SET_MAP_CACHE_NAME, CODE_SET_MAP_CACHE_CONFIG);
         return cacheAsMap.computeIfAbsent(url, k -> computeCodeSetMap(valueSet));
     }
 

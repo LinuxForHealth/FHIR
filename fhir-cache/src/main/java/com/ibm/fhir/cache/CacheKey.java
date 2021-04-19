@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.cache.util;
+package com.ibm.fhir.cache;
 
 import java.util.Arrays;
 import java.util.Objects;

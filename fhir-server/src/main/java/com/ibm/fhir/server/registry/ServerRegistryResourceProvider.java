@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.server.registry;
 
-import static com.ibm.fhir.cache.util.CacheKey.key;
+import static com.ibm.fhir.cache.CacheKey.key;
 import static com.ibm.fhir.cache.util.CacheSupport.createCacheAsMap;
 
 import java.time.Duration;
@@ -23,7 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import com.ibm.fhir.cache.util.CacheKey;
+import com.ibm.fhir.cache.CacheKey;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;

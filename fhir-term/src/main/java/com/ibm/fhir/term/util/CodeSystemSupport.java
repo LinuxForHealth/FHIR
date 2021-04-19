@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.term.util;
 
-import static com.ibm.fhir.cache.util.CacheKey.key;
+import static com.ibm.fhir.cache.CacheKey.key;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_BOOLEAN;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_INTEGER;
@@ -31,9 +31,9 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import com.ibm.fhir.cache.manager.FHIRCacheManager;
-import com.ibm.fhir.cache.manager.FHIRCacheManager.Configuration;
-import com.ibm.fhir.cache.util.CacheKey;
+import com.ibm.fhir.cache.CacheKey;
+import com.ibm.fhir.cache.CacheManager;
+import com.ibm.fhir.cache.CacheManager.Configuration;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
@@ -199,7 +199,7 @@ public final class CodeSystemSupport {
             return computeAncestorsAndSelf(codeSystem, code);
         }
         CacheKey key = key(codeSystem, code);
-        Map<CacheKey, Set<java.lang.String>> cacheAsMap = FHIRCacheManager.getCacheAsMap(ANCESTORS_AND_SELF_CACHE_NAME, ANCESTORS_AND_SELF_CACHE_CONFIG);
+        Map<CacheKey, Set<java.lang.String>> cacheAsMap = CacheManager.getCacheAsMap(ANCESTORS_AND_SELF_CACHE_NAME, ANCESTORS_AND_SELF_CACHE_CONFIG);
         return cacheAsMap.computeIfAbsent(key, k -> computeAncestorsAndSelf(codeSystem, code));
     }
 
@@ -437,7 +437,7 @@ public final class CodeSystemSupport {
             return computeDescendantsAndSelf(codeSystem, code);
         }
         CacheKey key = key(codeSystem, code);
-        Map<CacheKey, Set<java.lang.String>> cacheAsMap = FHIRCacheManager.getCacheAsMap(DESCENDANTS_AND_SELF_CACHE_NAME, DESCENDANTS_AND_SELF_CACHE_CONFIG);
+        Map<CacheKey, Set<java.lang.String>> cacheAsMap = CacheManager.getCacheAsMap(DESCENDANTS_AND_SELF_CACHE_NAME, DESCENDANTS_AND_SELF_CACHE_CONFIG);
         return cacheAsMap.computeIfAbsent(key, k -> computeDescendantsAndSelf(codeSystem, code));
     }
 
