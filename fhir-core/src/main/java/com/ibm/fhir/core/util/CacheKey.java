@@ -9,6 +9,9 @@ package com.ibm.fhir.core.util;
 import java.util.Arrays;
 import java.util.Objects;
 
+/**
+ * A general purpose cache key class used to created composite keys
+ */
 public class CacheKey {
     private final Object[] values;
     private final int hashCode;
@@ -38,6 +41,14 @@ public class CacheKey {
         return Arrays.deepEquals(values, other.values);
     }
 
+    /**
+     * A factory method for creating CacheKey instances from a one or more values
+     *
+     * @param values
+     *     the values
+     * @return
+     *     the CacheKey instance
+     */
     public static CacheKey key(Object... values) {
         return new CacheKey(values);
     }

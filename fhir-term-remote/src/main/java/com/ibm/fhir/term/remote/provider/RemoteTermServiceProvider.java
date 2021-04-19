@@ -74,6 +74,11 @@ import com.ibm.fhir.provider.FHIRProvider;
 import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
 
+/**
+ * An implementation of the {@link FHIRTermServiceProvider} interface that connects to an external service using a REST client to access code system content.
+ *
+ * <p>The external service must implement the FHIR REST terminology APIs documented <a href="http://hl7.org/fhir/terminology-service.html">here</a>
+ */
 public class RemoteTermServiceProvider implements FHIRTermServiceProvider {
     private static final Logger log = Logger.getLogger(RemoteTermServiceProvider.class.getName());
 
@@ -249,6 +254,9 @@ public class RemoteTermServiceProvider implements FHIRTermServiceProvider {
         throw errorOccurred(response, "CodeSystem $subsumes");
     }
 
+    /**
+     * Close the client associated with this remote term service provider.
+     */
     public void close() {
         log.info("Closing client...");
         try {
@@ -262,6 +270,12 @@ public class RemoteTermServiceProvider implements FHIRTermServiceProvider {
         }
     }
 
+    /**
+     * Get the configuration used to create this remote term service provider.
+     *
+     * @return
+     *     the configuration
+     */
     public Configuration getConfiguration() {
         return configuration;
     }
@@ -404,6 +418,9 @@ public class RemoteTermServiceProvider implements FHIRTermServiceProvider {
         return base.startsWith("https:");
     }
 
+    /**
+     * A class used to configure a remote term service provider
+     */
     public static class Configuration {
         public static final int DEFAULT_HTTP_TIMEOUT = 60000;
         public static final boolean DEFAULT_HOSTNAME_VERIFICATION_ENABLED = true;
@@ -543,6 +560,9 @@ public class RemoteTermServiceProvider implements FHIRTermServiceProvider {
             }
         }
 
+        /**
+         * A class that represents the trust store details used by the REST client
+         */
         public static class TrustStore {
             public static final String DEFAULT_TYPE = "pkcs12";
 
@@ -633,6 +653,9 @@ public class RemoteTermServiceProvider implements FHIRTermServiceProvider {
             }
         }
 
+        /**
+         * A class that represents the basic authentication details used by the REST client
+         */
         public static class BasicAuth {
             private final String username;
             private final String password;
@@ -707,6 +730,9 @@ public class RemoteTermServiceProvider implements FHIRTermServiceProvider {
             }
         }
 
+        /**
+         * A class that represents the code system(s) supported by a remote term service provider
+         */
         public static class Supports {
             private final String system;
             private final String version;

@@ -19,9 +19,25 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import com.ibm.fhir.core.annotation.Cacheable;
 
+/**
+ * A Java dynamic proxy that caches method results based on the presence of a @Cacheable annotation
+ */
 public final class CachingProxy {
     private CachingProxy() { }
 
+    /**
+     * Create a new proxy instance that implements the provided interface and delegates to a caching
+     * invocation handler.
+     *
+     * @param <T>
+     *     the type of the proxy instance
+     * @param interfaceClass
+     *     the interface class
+     * @param target
+     *     the target
+     * @return
+     *     a new proxy instance that implements the provided interface
+     */
     public static <T> T newInstance(Class<T> interfaceClass, T target) {
         Objects.requireNonNull(interfaceClass, "interfaceClass");
         Objects.requireNonNull(target, "target");
@@ -31,6 +47,14 @@ public final class CachingProxy {
             new CachingInvocationHandler(target)));
     }
 
+    /**
+     * Indicates whether the provided class has at least one method with the @Cacheable annotation
+     *
+     * @param targetClass
+     *     the target class
+     * @return
+     *     true if the provided class has at least one method with the @Cacheable annotation, false otherwise
+     */
     public static boolean hasCacheableMethod(Class<?> targetClass) {
         Objects.requireNonNull(targetClass, "targetClass");
         for (Method method : targetClass.getMethods()) {
@@ -41,13 +65,32 @@ public final class CachingProxy {
         return false;
     }
 
+    /**
+     * An interface for generating cache keys used by the caching invocation handler to cache method results
+     */
     public interface KeyGenerator {
+        /**
+         * Default implementation uses the method and argument parameters to generate a cache key
+         */
         static final KeyGenerator DEFAULT = new KeyGenerator() {
             @Override
             public CacheKey generate(Object target, Method method, Object[] args) {
                 return key(method, args);
             }
         };
+
+        /**
+         * Generate a cache key for the provided target object, method, and arguments.
+         *
+         * @param target
+         *     the target object
+         * @param method
+         *     the target method
+         * @param args
+         *     the arguments passed to the target method
+         * @return
+         *     a cache key instance
+         */
         CacheKey generate(Object target, Method method, Object[] args);
     }
 
