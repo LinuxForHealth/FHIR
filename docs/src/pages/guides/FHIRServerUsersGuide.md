@@ -1959,11 +1959,12 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/term/graphTermServiceProvider/configuration`|object (name/value pairs)|A JSON object that contains the name/value pairs used to configure the graph database behind the graph term service provider see: [https://docs.janusgraph.org/basics/configuration-reference/](https://docs.janusgraph.org/basics/configuration-reference/)|
 |`fhirServer/term/remoteTermServiceProvider/enabled`|boolean|Indicates whether this remote term service provider should be used by the FHIR term service to access code system content|
 |`fhirServer/term/remoteTermServiceProvider/base`|string|The base URL for this remote term service provider|
-|`fhirServer/term/remoteTermServiceProvider/basicAuth/username`|string|The basic authentication username for this remote term service provider|
-|`fhirServer/term/remoteTermServiceProvider/basicAuth/password`|string|The basic authentication password for this remote term service provider|
 |`fhirServer/term/remoteTermServiceProvider/trustStore/location`|string|The trust store location for this remote term service provider|
 |`fhirServer/term/remoteTermServiceProvider/trustStore/password`|string|The trust store password for this remote term service provider|
 |`fhirServer/term/remoteTermServiceProvider/trustStore/type`|string|The trust store type (e.g. pkcs12) for this remote term service provider|
+|`fhirServer/term/remoteTermServiceProvider/basicAuth/username`|string|The basic authentication username for this remote term service provider|
+|`fhirServer/term/remoteTermServiceProvider/basicAuth/password`|string|The basic authentication password for this remote term service provider|
+|`fhirServer/term/remoteTermServiceProvider/httpTimeout`|integer|The HTTP read timeout for this remote term service provider (in milliseconds)|
 |`fhirServer/term/remoteTermServiceProvider/supports/system`|string|The system URI supported by this remote term service provider, NOTE: there can be more than one `supports` element|
 |`fhirServer/term/remoteTermServiceProvider/supports/version`|string|The system version supported by this remote term service provider|
 |`fhirServer/resources/open`|boolean|Whether resources that are not explicitly listed in the configuration should be supported by the FHIR Server REST layer. When open is set to `false`, only the resources listed in fhir-server-config.json are supported.|
@@ -2095,6 +2096,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/term/graphTermServiceProvider/enabled`|false|
 |`fhirServer/term/graphTermServiceProvider/timeLimit`|90000|
 |`fhirServer/term/remoteTermServiceProvider/enabled`|false|
+|`fhirServer/term/remoteTermServiceProvider/httpTimeout`|60000|
 |`fhirServer/resources/open`|true|
 |`fhirServer/resources/Resource/interactions`|null (all interactions supported)|
 |`fhirServer/resources/Resource/searchParameters`|null (all global search parameters supported)|
@@ -2212,8 +2214,9 @@ must restart the server for that change to take effect.
 |`fhirServer/term/graphTermServiceProvider/configuration`|N|N|
 |`fhirServer/term/remoteTermServiceProvider/enabled`|N|N|
 |`fhirServer/term/remoteTermServiceProvider/base`|N|N|
+|`fhirServer/term/remoteTermServiceProvider/trustStore`|N|N
 |`fhirServer/term/remoteTermServiceProvider/basicAuth`|N|N|
-|`fhirServer/term/remoteTermServiceProvider/trustStore`|N|N|
+|`fhirServer/term/remoteTermServiceProvider/httpTimeout`|N|N|
 |`fhirServer/term/remoteTermServiceProvider/supports`|N|N|
 |`fhirServer/resources/open`|Y|Y|
 |`fhirServer/resources/Resource/interactions`|Y|Y|

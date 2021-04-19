@@ -149,11 +149,13 @@ Example configuration:
 
 ``` json
             "remoteTermServiceProviders": [{
+                "enabled": true,
                 "base": "https://snowstorm-fhir.snomedtools.org/fhir",
                 "supports": [{
                     "system": "http://snomed.info/sct"
                 }]
             },{
+                "enabled": true,
                 "base": "https://fhir.loinc.org",
                 "basicAuth": {
                     "username": "loincUsername",

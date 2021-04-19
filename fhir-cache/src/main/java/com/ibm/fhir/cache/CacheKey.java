@@ -17,7 +17,11 @@ public class CacheKey {
     private final int hashCode;
 
     private CacheKey(Object[] values) {
-        this.values = Objects.requireNonNull(values, "values");
+        Objects.requireNonNull(values, "values");
+        if (values.length == 0) {
+            throw new IllegalStateException("CacheKey values array length cannot be zero");
+        }
+        this.values = values;
         hashCode = Arrays.deepHashCode(values);
     }
 
@@ -42,7 +46,7 @@ public class CacheKey {
     }
 
     /**
-     * A factory method for creating CacheKey instances from a one or more values
+     * A factory method for creating CacheKey instances from one or more values
      *
      * @param values
      *     the values
