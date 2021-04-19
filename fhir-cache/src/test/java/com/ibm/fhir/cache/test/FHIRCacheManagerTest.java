@@ -14,8 +14,8 @@ import org.testng.annotations.Test;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.stats.CacheStats;
-import com.ibm.fhir.cache.configuration.Configuration;
 import com.ibm.fhir.cache.manager.FHIRCacheManager;
+import com.ibm.fhir.cache.manager.FHIRCacheManager.Configuration;
 
 public class FHIRCacheManagerTest {
     @Test

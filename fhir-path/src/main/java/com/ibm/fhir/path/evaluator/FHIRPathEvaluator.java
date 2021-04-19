@@ -1,12 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.path.evaluator;
 
-import static com.ibm.fhir.core.util.CacheSupport.createCacheAsMap;
+import static com.ibm.fhir.cache.util.CacheSupport.createCacheAsMap;
 import static com.ibm.fhir.path.FHIRPathDateTimeValue.dateTimeValue;
 import static com.ibm.fhir.path.FHIRPathDateValue.dateValue;
 import static com.ibm.fhir.path.FHIRPathDecimalValue.decimalValue;

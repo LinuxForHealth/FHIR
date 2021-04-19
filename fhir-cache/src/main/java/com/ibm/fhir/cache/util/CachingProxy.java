@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.core.util;
+package com.ibm.fhir.cache.util;
 
-import static com.ibm.fhir.core.util.CacheKey.key;
+import static com.ibm.fhir.cache.util.CacheKey.key;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.ibm.fhir.core.annotation.Cacheable;
+import com.ibm.fhir.cache.annotation.Cacheable;
 
 /**
  * A Java dynamic proxy that caches method results based on the presence of a @Cacheable annotation

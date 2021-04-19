@@ -50,8 +50,8 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.ibm.fhir.cache.annotation.Cacheable;
 import com.ibm.fhir.core.FHIRMediaType;
-import com.ibm.fhir.core.annotation.Cacheable;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.CodeSystem.Concept.Designation;

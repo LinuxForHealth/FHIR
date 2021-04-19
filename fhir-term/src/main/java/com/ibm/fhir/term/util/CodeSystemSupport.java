@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.term.util;
 
-import static com.ibm.fhir.core.util.CacheKey.key;
+import static com.ibm.fhir.cache.util.CacheKey.key;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_BOOLEAN;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_INTEGER;
@@ -31,9 +31,9 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import com.ibm.fhir.cache.configuration.Configuration;
 import com.ibm.fhir.cache.manager.FHIRCacheManager;
-import com.ibm.fhir.core.util.CacheKey;
+import com.ibm.fhir.cache.manager.FHIRCacheManager.Configuration;
+import com.ibm.fhir.cache.util.CacheKey;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;

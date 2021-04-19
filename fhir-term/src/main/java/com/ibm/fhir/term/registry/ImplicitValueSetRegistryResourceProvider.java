@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.term.registry;
 
-import static com.ibm.fhir.core.util.CacheSupport.createCacheAsMap;
+import static com.ibm.fhir.cache.util.CacheSupport.createCacheAsMap;
 
 import java.util.Collection;
 import java.util.Collections;

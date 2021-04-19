@@ -24,8 +24,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.cache.configuration.Configuration;
 import com.ibm.fhir.cache.manager.FHIRCacheManager;
+import com.ibm.fhir.cache.manager.FHIRCacheManager.Configuration;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.Resource;

@@ -4,13 +4,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.core.util;
+package com.ibm.fhir.cache.util;
 
 import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * A general purpose cache key class used to created composite keys
+ * A general purpose cache key class used to create composite keys
  */
 public class CacheKey {
     private final Object[] values;

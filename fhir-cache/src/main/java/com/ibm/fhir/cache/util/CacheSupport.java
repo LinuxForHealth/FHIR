@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.core.util;
+package com.ibm.fhir.cache.util;
 
 import java.time.Duration;
 import java.util.Map;
@@ -31,6 +31,30 @@ public final class CacheSupport {
      *     the cache instance
      */
     public static <K, V> Cache<K, V> createCache(Duration duration) {
+        return createCache(duration, false);
+    }
+
+    /**
+     * Create a cache with a time-based eviction policy
+     *
+     * @param <K>
+     *     the key type
+     * @param <V>
+     *     the value type
+     * @param duration
+     *     the duration of entries after they are written to the cache
+     * @param recordStats
+     *     specifies whether stats should be recorded for the cache
+     * @return
+     *     the cache instance
+     */
+    public static <K, V> Cache<K, V> createCache(Duration duration, boolean recordStats) {
+        if (recordStats) {
+            return Caffeine.newBuilder()
+                    .expireAfterWrite(duration)
+                    .recordStats()
+                    .build();
+        }
         return Caffeine.newBuilder()
                 .expireAfterWrite(duration)
                 .build();
@@ -49,6 +73,30 @@ public final class CacheSupport {
      *     the cache instance
      */
     public static <K, V> Cache<K, V> createCache(int maximumSize) {
+        return createCache(maximumSize, false);
+    }
+
+    /**
+     * Create a cache with a size-based eviction policy
+     *
+     * @param <K>
+     *     the key type
+     * @param <V>
+     *     the value type
+     * @param maximumSize
+     *     the maximum size of the cache before entries are evicted
+     * @param recordStats
+     *     specifies whether stats should be recorded for the cache
+     * @return
+     *     the cache instance
+     */
+    public static <K, V> Cache<K, V> createCache(int maximumSize, boolean recordStats) {
+        if (recordStats) {
+            return Caffeine.newBuilder()
+                    .maximumSize(maximumSize)
+                    .recordStats()
+                    .build();
+        }
         return Caffeine.newBuilder()
                 .maximumSize(maximumSize)
                 .build();
@@ -69,6 +117,33 @@ public final class CacheSupport {
      *     the cache instance
      */
     public static <K, V> Cache<K, V> createCache(int maximumSize, Duration duration) {
+        return createCache(maximumSize, duration, false);
+    }
+
+    /**
+     * Create a cache with both size and time-based eviction policies
+     *
+     * @param <K>
+     *     the key type
+     * @param <V>
+     *     the value type
+     * @param maximumSize
+     *     the maximum size of the cache before entries are evicted
+     * @param duration
+     *     the duration of entries after they are written to the cache
+     * @param recordStats
+     *     specifies whether stats should be recorded for the cache
+     * @return
+     *     the cache instance
+     */
+    public static <K, V> Cache<K, V> createCache(int maximumSize, Duration duration, boolean recordStats) {
+        if (recordStats) {
+            return Caffeine.newBuilder()
+                    .maximumSize(maximumSize)
+                    .expireAfterWrite(duration)
+                    .recordStats()
+                    .build();
+        }
         return Caffeine.newBuilder()
                 .maximumSize(maximumSize)
                 .expireAfterWrite(duration)

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.core.annotation;
+package com.ibm.fhir.cache.annotation;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -13,8 +13,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.time.temporal.ChronoUnit;
 
-import com.ibm.fhir.core.util.CachingProxy;
-import com.ibm.fhir.core.util.CachingProxy.KeyGenerator;
+import com.ibm.fhir.cache.util.CachingProxy;
+import com.ibm.fhir.cache.util.CachingProxy.KeyGenerator;
 
 /**
  * This annotation is applied to methods that may have their results cached using a Java dynamic proxy instance.

@@ -6,8 +6,6 @@
 
 package com.ibm.fhir.core.util;
 
-import static com.ibm.fhir.core.util.CacheSupport.createCacheAsMap;
-
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -24,8 +22,6 @@ import java.util.stream.Collectors;
  * A utility class for working with URLs
  */
 public class URLSupport {
-    private static final Map<String, URL> URL_CACHE = createCacheAsMap(128);
-
     private URLSupport() { }
 
     /**
@@ -158,7 +154,11 @@ public class URLSupport {
      *     URL
      */
     public static URL getURL(String url) {
-        return URL_CACHE.computeIfAbsent(url, k -> computeURL(url));
+        try {
+            return new URL(url);
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -245,13 +245,5 @@ public class URLSupport {
                     // map supplier
                     LinkedHashMap::new),
                 Collections::unmodifiableMap));
-    }
-
-    private static URL computeURL(String url) {
-        try {
-            return new URL(url);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException (e);
-        }
     }
 }

@@ -40,10 +40,10 @@ import javax.websocket.server.ServerContainer;
 import org.apache.commons.configuration.MapConfiguration;
 import org.owasp.encoder.Encode;
 
+import com.ibm.fhir.cache.util.CachingProxy;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
-import com.ibm.fhir.core.util.CachingProxy;
 import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.lang.util.LanguageRegistryUtil;
 import com.ibm.fhir.model.util.FHIRUtil;
