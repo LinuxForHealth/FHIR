@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.term.registry;
 
-import static com.ibm.fhir.core.util.LRUCache.createLRUCache;
+import static com.ibm.fhir.cache.util.CacheSupport.createCacheAsMap;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -21,7 +21,7 @@ import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
  * An abstract base class for implicit registry resource provider implementations (e.g. SNOMED, LOINC, etc.)
  */
 public abstract class ImplicitValueSetRegistryResourceProvider implements FHIRRegistryResourceProvider {
-    private static final Map<String, FHIRRegistryResource> IMPLICIT_VALUE_SET_REGISTRY_RESOURCE_CACHE = createLRUCache(1024);
+    private static final Map<String, FHIRRegistryResource> IMPLICIT_VALUE_SET_REGISTRY_RESOURCE_CACHE = createCacheAsMap(1024);
 
     @Override
     public Collection<FHIRRegistryResource> getProfileResources(String type) {

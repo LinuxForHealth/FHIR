@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.term.util;
 
-import static com.ibm.fhir.core.util.LRUCache.createLRUCache;
+import static com.ibm.fhir.cache.CacheKey.key;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_BOOLEAN;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_INTEGER;
@@ -31,6 +31,9 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.cache.CacheKey;
+import com.ibm.fhir.cache.CacheManager;
+import com.ibm.fhir.cache.CacheManager.Configuration;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
@@ -50,6 +53,7 @@ import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.PropertyType;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.term.config.FHIRTermConfig;
 import com.ibm.fhir.term.exception.FHIRTermException;
 import com.ibm.fhir.term.service.FHIRTermService;
 
@@ -57,6 +61,11 @@ import com.ibm.fhir.term.service.FHIRTermService;
  * A utility class for working with FHIR code systems
  */
 public final class CodeSystemSupport {
+    public static final java.lang.String ANCESTORS_AND_SELF_CACHE_NAME = "com.ibm.fhir.term.util.CodeSystemSupport.ancestorsAndSelfCache";
+    public static final java.lang.String DESCENDANTS_AND_SELF_CACHE_NAME = "com.ibm.fhir.term.util.CodeSystemSupport.descendantsAndSelfCache";
+    public static final Configuration ANCESTORS_AND_SELF_CACHE_CONFIG = Configuration.of(128);
+    public static final Configuration DESCENDANTS_AND_SELF_CACHE_CONFIG = Configuration.of(128);
+
     /**
      * A function that maps a code system concept to its code value
      */
@@ -122,10 +131,7 @@ public final class CodeSystemSupport {
         }
     };
 
-    private static final Map<java.lang.String, java.lang.Boolean> CASE_SENSITIVITY_CACHE = createLRUCache(2048);
     private static final Pattern IN_COMBINING_DIACRITICAL_MARKS_PATTERN = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-    private static final Map<java.lang.String, Set<java.lang.String>> ANCESTORS_AND_SELF_CACHE = createLRUCache(128);
-    private static final Map<java.lang.String, Set<java.lang.String>> DESCENDANTS_AND_SELF_CACHE = createLRUCache(128);
 
     private CodeSystemSupport() { }
 
@@ -189,7 +195,12 @@ public final class CodeSystemSupport {
     }
 
     public static Set<java.lang.String> getAncestorsAndSelf(CodeSystem codeSystem, Code code) {
-        return ANCESTORS_AND_SELF_CACHE.computeIfAbsent(code.getValue(), k -> computeAncestorsAndSelf(codeSystem, code));
+        if (FHIRTermConfig.isCachingDisabled()) {
+            return computeAncestorsAndSelf(codeSystem, code);
+        }
+        CacheKey key = key(codeSystem, code);
+        Map<CacheKey, Set<java.lang.String>> cacheAsMap = CacheManager.getCacheAsMap(ANCESTORS_AND_SELF_CACHE_NAME, ANCESTORS_AND_SELF_CACHE_CONFIG);
+        return cacheAsMap.computeIfAbsent(key, k -> computeAncestorsAndSelf(codeSystem, code));
     }
 
     /**
@@ -422,7 +433,12 @@ public final class CodeSystemSupport {
     }
 
     public static Set<java.lang.String> getDescendantsAndSelf(CodeSystem codeSystem, Code code) {
-        return DESCENDANTS_AND_SELF_CACHE.computeIfAbsent(code.getValue(), k -> computeDescendantsAndSelf(codeSystem, code));
+        if (FHIRTermConfig.isCachingDisabled()) {
+            return computeDescendantsAndSelf(codeSystem, code);
+        }
+        CacheKey key = key(codeSystem, code);
+        Map<CacheKey, Set<java.lang.String>> cacheAsMap = CacheManager.getCacheAsMap(DESCENDANTS_AND_SELF_CACHE_NAME, DESCENDANTS_AND_SELF_CACHE_CONFIG);
+        return cacheAsMap.computeIfAbsent(key, k -> computeDescendantsAndSelf(codeSystem, code));
     }
 
     /**
@@ -496,7 +512,7 @@ public final class CodeSystemSupport {
      *     true if the code system with the given is case sensitive, false otherwise
      */
     public static boolean isCaseSensitive(java.lang.String url) {
-        return CASE_SENSITIVITY_CACHE.computeIfAbsent(url, k -> isCaseSensitive(getCodeSystem(url)));
+        return isCaseSensitive(getCodeSystem(url));
     }
 
     /**

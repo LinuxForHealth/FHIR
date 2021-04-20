@@ -71,11 +71,13 @@
         <module>../fhir-core</module>
         <module>../fhir-database-utils</module>
         <module>../fhir-config</module>
+        <module>../fhir-cache</module>
         <module>../fhir-model</module>
         <module>../fhir-audit</module>
         <module>../fhir-registry</module>
         <module>../fhir-term</module>
         <module>../fhir-term-graph</module>
+        <module>../fhir-term-remote</module>
         <module>../fhir-path</module>
         <module>../fhir-profile</module>
         <module>../fhir-validation</module>
@@ -525,6 +527,12 @@
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-core</artifactId>
                 <version>1.2.3</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.ben-manes.caffeine</groupId>
+                <artifactId>caffeine</artifactId>
+                <!-- upgrade to 3.x after we discontinue Java 8 support -->
+                <version>2.9.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

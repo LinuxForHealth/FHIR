@@ -8,9 +8,6 @@ package com.ibm.fhir.server.listener;
 
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_CHECK_REFERENCE_TYPES;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_CONFIGURATION;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_ENABLED;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_TIME_LIMIT;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_CONNECTIONPROPS;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_TOPICNAME;
@@ -27,6 +24,7 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TRUSTSTORE_PW;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +40,7 @@ import javax.websocket.server.ServerContainer;
 import org.apache.commons.configuration.MapConfiguration;
 import org.owasp.encoder.Encode;
 
+import com.ibm.fhir.cache.CachingProxy;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
@@ -52,14 +51,20 @@ import com.ibm.fhir.notification.websocket.impl.FHIRNotificationServiceEndpointC
 import com.ibm.fhir.notifications.kafka.impl.FHIRNotificationKafkaPublisher;
 import com.ibm.fhir.notifications.nats.impl.FHIRNotificationNATSPublisher;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
-import com.ibm.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.operation.FHIROperationRegistry;
 import com.ibm.fhir.server.registry.ServerRegistryResourceProvider;
 import com.ibm.fhir.server.util.FHIROperationUtil;
+import com.ibm.fhir.term.config.FHIRTermConfig;
 import com.ibm.fhir.term.graph.provider.GraphTermServiceProvider;
+import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider;
+import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration;
+import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.BasicAuth;
+import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.Supports;
+import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.TrustStore;
 import com.ibm.fhir.term.service.FHIRTermService;
+import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
 
 @WebListener("IBM FHIR Server Servlet Context Listener")
 public class FHIRServletContextListener implements ServletContextListener {
@@ -75,6 +80,8 @@ public class FHIRServletContextListener implements ServletContextListener {
     private static FHIRNotificationNATSPublisher natsPublisher = null;
 
     private GraphTermServiceProvider graphTermServiceProvider;
+
+    private List<RemoteTermServiceProvider> remoteTermServiceProviders = new ArrayList<>();
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
@@ -192,25 +199,10 @@ public class FHIRServletContextListener implements ServletContextListener {
             Boolean serverRegistryResourceProviderEnabled = fhirConfig.getBooleanProperty(PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED, Boolean.FALSE);
             if (serverRegistryResourceProviderEnabled) {
                 log.info("Registering ServerRegistryResourceProvider...");
-                ServerRegistryResourceProvider provider = new ServerRegistryResourceProvider(persistenceHelper);
-                FHIRRegistry.getInstance().addProvider(provider);
-                FHIRPersistenceInterceptorMgr.getInstance().addInterceptor(provider);
+                FHIRRegistry.getInstance().addProvider(new ServerRegistryResourceProvider(persistenceHelper));
             }
 
-            Boolean graphTermServiceProviderEnabled = fhirConfig.getBooleanProperty(PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_ENABLED, Boolean.FALSE);
-            if (graphTermServiceProviderEnabled) {
-                log.info("Adding GraphTermServiceProvider...");
-                PropertyGroup propertyGroup = fhirConfig.getPropertyGroup(PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_CONFIGURATION);
-                if (propertyGroup == null) {
-                    log.log(Level.WARNING, "GraphTermServiceProvider configuration not found");
-                } else {
-                    Map<String, Object> map = new HashMap<>();
-                    propertyGroup.getProperties().stream().forEach(entry -> map.put(entry.getName(), entry.getValue()));
-                    int timeLimit = fhirConfig.getIntProperty(PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_TIME_LIMIT, GraphTermServiceProvider.DEFAULT_TIME_LIMIT);
-                    graphTermServiceProvider = new GraphTermServiceProvider(new MapConfiguration(map), timeLimit);
-                    FHIRTermService.getInstance().addProvider(graphTermServiceProvider);
-                }
-            }
+            configureTermServiceCapabilities(fhirConfig);
 
             // Finally, set our "initComplete" flag to true.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.TRUE);
@@ -249,11 +241,99 @@ public class FHIRServletContextListener implements ServletContextListener {
             if (graphTermServiceProvider != null) {
                 graphTermServiceProvider.getGraph().close();
             }
+
+            for (RemoteTermServiceProvider remoteTermServiceProvider : remoteTermServiceProviders) {
+                remoteTermServiceProvider.close();
+            }
         } catch (Exception e) {
             // Ignore it
         } finally {
             if (log.isLoggable(Level.FINER)) {
                 log.exiting(FHIRServletContextListener.class.getName(), "contextDestroyed");
+            }
+        }
+    }
+
+    private void configureTermServiceCapabilities(PropertyGroup fhirConfig) throws Exception {
+        // Configure terminology service capabilities
+        PropertyGroup termPropertyGroup = fhirConfig.getPropertyGroup("fhirServer/term");
+        if (termPropertyGroup != null) {
+            FHIRTermConfig.setCachingDisabled(fhirConfig.getBooleanProperty("cachingDisabled", Boolean.FALSE));
+
+            // Configure graph term service provider
+            PropertyGroup graphTermServiceProviderPropertyGroup = termPropertyGroup.getPropertyGroup("graphTermServiceProvider");
+            if (graphTermServiceProviderPropertyGroup != null) {
+                Boolean enabled = graphTermServiceProviderPropertyGroup.getBooleanProperty("enabled", Boolean.FALSE);
+                if (enabled) {
+                    log.info("Adding GraphTermServiceProvider...");
+                    PropertyGroup configurationPropertyGroup = graphTermServiceProviderPropertyGroup.getPropertyGroup("configuration");
+                    if (configurationPropertyGroup == null) {
+                        log.log(Level.WARNING, "GraphTermServiceProvider configuration not found");
+                    } else {
+                        Map<String, Object> map = new HashMap<>();
+                        configurationPropertyGroup.getProperties().stream().forEach(entry -> map.put(entry.getName(), entry.getValue()));
+                        int timeLimit = graphTermServiceProviderPropertyGroup.getIntProperty("timeLimit", GraphTermServiceProvider.DEFAULT_TIME_LIMIT);
+                        graphTermServiceProvider = new GraphTermServiceProvider(new MapConfiguration(map), timeLimit);
+                        FHIRTermService.getInstance().addProvider(graphTermServiceProvider);
+                    }
+                }
+            }
+
+            // Configure remote term service providers
+            Object[] remoteTermServiceProvidersArray = termPropertyGroup.getArrayProperty("remoteTermServiceProviders");
+            if (remoteTermServiceProvidersArray != null) {
+                for (Object remoteTermServiceProviderObject : remoteTermServiceProvidersArray) {
+                    PropertyGroup remoteTermServiceProviderPropertyGroup = (PropertyGroup) remoteTermServiceProviderObject;
+                    Boolean enabled = remoteTermServiceProviderPropertyGroup.getBooleanProperty("enabled", Boolean.FALSE);
+                    if (!enabled) {
+                        continue;
+                    }
+                    try {
+                        Configuration.Builder builder = Configuration.builder();
+
+                        builder.base(remoteTermServiceProviderPropertyGroup.getStringProperty("base"));
+
+                        PropertyGroup trustStorePropertyGroup = remoteTermServiceProviderPropertyGroup.getPropertyGroup("trustStore");
+                        if (trustStorePropertyGroup != null) {
+                            builder.trustStore(TrustStore.builder()
+                                .location(trustStorePropertyGroup.getStringProperty("location"))
+                                .password(trustStorePropertyGroup.getStringProperty("password"))
+                                .type(trustStorePropertyGroup.getStringProperty("type", TrustStore.DEFAULT_TYPE))
+                                .build());
+                        }
+
+                        builder.hostnameVerificationEnabled(remoteTermServiceProviderPropertyGroup.getBooleanProperty("hostnameVerificationEnabled", Configuration.DEFAULT_HOSTNAME_VERIFICATION_ENABLED));
+
+                        PropertyGroup basicAuthPropertyGroup = remoteTermServiceProviderPropertyGroup.getPropertyGroup("basicAuth");
+                        if (basicAuthPropertyGroup != null) {
+                            builder.basicAuth(BasicAuth.builder()
+                                .username(basicAuthPropertyGroup.getStringProperty("username"))
+                                .password(basicAuthPropertyGroup.getStringProperty("password"))
+                                .build());
+                        }
+
+                        builder.httpTimeout(remoteTermServiceProviderPropertyGroup.getIntProperty("httpTimeout", Configuration.DEFAULT_HTTP_TIMEOUT));
+
+                        Object[] supportsArray = remoteTermServiceProviderPropertyGroup.getArrayProperty("supports");
+                        if (supportsArray != null) {
+                            for (Object supportsObject : supportsArray) {
+                                PropertyGroup supportsPropertyGroup = (PropertyGroup) supportsObject;
+                                builder.supports(Supports.builder()
+                                    .system(supportsPropertyGroup.getStringProperty("system"))
+                                    .version(supportsPropertyGroup.getStringProperty("version"))
+                                    .build());
+                            }
+                        }
+
+                        Configuration configuration = builder.build();
+
+                        RemoteTermServiceProvider remoteTermServiceProvider = new RemoteTermServiceProvider(configuration);
+                        FHIRTermService.getInstance().addProvider(CachingProxy.newInstance(FHIRTermServiceProvider.class, remoteTermServiceProvider));
+                        remoteTermServiceProviders.add(remoteTermServiceProvider);
+                    } catch (Exception e) {
+                        log.log(Level.WARNING, "Unable to create RemoteTermServiceProvider from configuration property group: " + remoteTermServiceProviderPropertyGroup, e);
+                    }
+                }
             }
         }
     }
