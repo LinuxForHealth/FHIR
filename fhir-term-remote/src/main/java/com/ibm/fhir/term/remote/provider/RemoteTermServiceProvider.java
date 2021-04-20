@@ -29,6 +29,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
@@ -125,6 +126,22 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
         }
     }
 
+    /**
+     * Close the client associated with this remote term service provider.
+     */
+    public void close() {
+        log.info("Closing client...");
+        try {
+            if (client != null) {
+                client.close();
+            }
+        } catch (Exception e) {
+          log.log(Level.SEVERE, "An error occured while closing client", e);
+        } finally {
+            client = null;
+        }
+    }
+
     @Cacheable
     @Override
     public Set<Concept> closure(CodeSystem codeSystem, Code code) {
@@ -133,6 +150,12 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
             .op(FilterOperator.IS_A)
             .value(code)
             .build()));
+    }
+
+    @Cacheable
+    @Override
+    public Map<Code, Set<Concept>> closure(CodeSystem codeSystem, Set<Code> codes) {
+        return super.closure(codeSystem, codes);
     }
 
     @Cacheable
@@ -174,6 +197,12 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem) {
         return getConcepts(codeSystem, Collections.emptyList());
+    }
+
+    @Cacheable
+    @Override
+    public <R> Set<R> getConcepts(CodeSystem codeSystem, Function<Concept, ? extends R> function) {
+        return getConcepts(codeSystem, Collections.emptyList(), function);
     }
 
     @Cacheable
@@ -220,6 +249,16 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
         }
     }
 
+    /**
+     * Get the configuration used to create this remote term service provider.
+     *
+     * @return
+     *     the configuration
+     */
+    public Configuration getConfiguration() {
+        return configuration;
+    }
+
     @Cacheable
     @Override
     public boolean hasConcept(CodeSystem codeSystem, Code code) {
@@ -260,6 +299,13 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
         }
     }
 
+    @Cacheable
+    @Override
+    public boolean hasConcepts(CodeSystem codeSystem, Set<Code> codes) {
+        return super.hasConcepts(codeSystem, codes);
+    }
+
+    @Cacheable
     @Override
     public boolean isSupported(CodeSystem codeSystem) {
         checkArgument(codeSystem);
@@ -316,32 +362,6 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 response.close();
             }
         }
-    }
-
-    /**
-     * Close the client associated with this remote term service provider.
-     */
-    public void close() {
-        log.info("Closing client...");
-        try {
-            if (client != null) {
-                client.close();
-            }
-        } catch (Exception e) {
-          log.log(Level.SEVERE, "An error occured while closing client", e);
-        } finally {
-            client = null;
-        }
-    }
-
-    /**
-     * Get the configuration used to create this remote term service provider.
-     *
-     * @return
-     *     the configuration
-     */
-    public Configuration getConfiguration() {
-        return configuration;
     }
 
     private Parameters buildValueSetExpandParameters(CodeSystem codeSystem, List<Filter> filters) {
@@ -505,30 +525,6 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
             supports = Collections.unmodifiableList(builder.supports);
         }
 
-        public String getBase() {
-            return base;
-        }
-
-        public TrustStore getTrustStore() {
-            return trustStore;
-        }
-
-        public boolean isHostnameVerificationEnabled() {
-            return hostnameVerificationEnabled;
-        }
-
-        public BasicAuth getBasicAuth() {
-            return basicAuth;
-        }
-
-        public int getHttpTimeout() {
-            return httpTimeout;
-        }
-
-        public List<Supports> getSupports() {
-            return supports;
-        }
-
         @Override
         public boolean equals(Object obj) {
             if (this == obj) {
@@ -549,9 +545,33 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                     Objects.equals(supports, other.supports);
         }
 
+        public String getBase() {
+            return base;
+        }
+
+        public BasicAuth getBasicAuth() {
+            return basicAuth;
+        }
+
+        public int getHttpTimeout() {
+            return httpTimeout;
+        }
+
+        public List<Supports> getSupports() {
+            return supports;
+        }
+
+        public TrustStore getTrustStore() {
+            return trustStore;
+        }
+
         @Override
         public int hashCode() {
             return Objects.hash(base, trustStore, hostnameVerificationEnabled, basicAuth, httpTimeout, supports);
+        }
+
+        public boolean isHostnameVerificationEnabled() {
+            return hostnameVerificationEnabled;
         }
 
         public Builder toBuilder() {
@@ -560,6 +580,83 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
 
         public static Builder builder() {
             return new Builder();
+        }
+
+        /**
+         * A class that represents the basic authentication details used by the REST client
+         */
+        public static class BasicAuth {
+            private final String username;
+            private final String password;
+
+            private BasicAuth(Builder builder) {
+                username = Objects.requireNonNull(builder.username, "username");
+                password = Objects.requireNonNull(builder.password, "password");
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                BasicAuth other = (BasicAuth) obj;
+                return Objects.equals(username, other.username) &&
+                        Objects.equals(password, other.password);
+            }
+
+            public String getPassword() {
+                return password;
+            }
+
+            public String getUsername() {
+                return username;
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(username, password);
+            }
+
+            public Builder toBuilder() {
+                return new Builder().from(this);
+            }
+
+            public static Builder builder() {
+                return new Builder();
+            }
+
+            public static class Builder {
+                private String username;
+                private String password;
+
+                private Builder() { }
+
+                public BasicAuth build() {
+                    return new BasicAuth(this);
+                }
+
+                public Builder password(String password) {
+                    this.password = password;
+                    return this;
+                }
+
+                public Builder username(String username) {
+                    this.username = username;
+                    return this;
+                }
+
+                protected Builder from(BasicAuth basicAuth) {
+                    username = basicAuth.username;
+                    password = basicAuth.password;
+                    return this;
+                }
+            }
         }
 
         public static class Builder {
@@ -577,9 +674,13 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 return this;
             }
 
-            public Builder trustStore(TrustStore trustStore) {
-                this.trustStore = trustStore;
+            public Builder basicAuth(BasicAuth basicAuth) {
+                this.basicAuth = basicAuth;
                 return this;
+            }
+
+            public Configuration build() {
+                return new Configuration(this);
             }
 
             public Builder hostnameVerificationEnabled(boolean hostnameVerificationEnabled) {
@@ -587,13 +688,13 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 return this;
             }
 
-            public Builder basicAuth(BasicAuth basicAuth) {
-                this.basicAuth = basicAuth;
+            public Builder httpTimeout(int httpTimeout) {
+                this.httpTimeout = httpTimeout;
                 return this;
             }
 
-            public Builder httpTimeout(int httpTimeout) {
-                this.httpTimeout = httpTimeout;
+            public Builder supports(Collection<Supports> supports) {
+                this.supports = new ArrayList<>(supports);
                 return this;
             }
 
@@ -604,13 +705,9 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 return this;
             }
 
-            public Builder supports(Collection<Supports> supports) {
-                this.supports = new ArrayList<>(supports);
+            public Builder trustStore(TrustStore trustStore) {
+                this.trustStore = trustStore;
                 return this;
-            }
-
-            public Configuration build() {
-                return new Configuration(this);
             }
 
             protected Builder from(Configuration configuration) {
@@ -621,6 +718,83 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 httpTimeout = configuration.httpTimeout;
                 supports.addAll(configuration.supports);
                 return this;
+            }
+        }
+
+        /**
+         * A class that represents the code system(s) supported by a remote term service provider
+         */
+        public static class Supports {
+            private final String system;
+            private final String version;
+
+            public Supports(Builder builder) {
+                system = Objects.requireNonNull(builder.system, "system");
+                version = builder.version;
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Supports other = (Supports) obj;
+                return Objects.equals(system, other.system) &&
+                        Objects.equals(version, other.version);
+            }
+
+            public String getSystem() {
+                return system;
+            }
+
+            public String getVersion() {
+                return version;
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(system, version);
+            }
+
+            public Builder toBuilder() {
+                return new Builder().from(this);
+            }
+
+            public static Builder builder() {
+                return new Builder();
+            }
+
+            public static class Builder {
+                private String system;
+                private String version;
+
+                private Builder() { }
+
+                public Supports build() {
+                    return new Supports(this);
+                }
+
+                public Builder system(String system) {
+                    this.system = system;
+                    return this;
+                }
+
+                public Builder version(String version) {
+                    this.version = version;
+                    return this;
+                }
+
+                protected Builder from(Supports supports) {
+                    system = supports.system;
+                    version = supports.version;
+                    return this;
+                }
             }
         }
 
@@ -640,18 +814,6 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 this.type = Objects.requireNonNull(builder.type, "type");
             }
 
-            public String getLocation() {
-                return location;
-            }
-
-            public String getPassword() {
-                return password;
-            }
-
-            public String getType() {
-                return type;
-            }
-
             @Override
             public boolean equals(Object obj) {
                 if (this == obj) {
@@ -667,6 +829,18 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 return Objects.equals(location, other.location) &&
                         Objects.equals(password, other.password) &&
                         Objects.equals(type, other.type);
+            }
+
+            public String getLocation() {
+                return location;
+            }
+
+            public String getPassword() {
+                return password;
+            }
+
+            public String getType() {
+                return type;
             }
 
             @Override
@@ -689,6 +863,10 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
 
                 private Builder() { }
 
+                public TrustStore build() {
+                    return new TrustStore(this);
+                }
+
                 public Builder location(String location) {
                     this.location = location;
                     return this;
@@ -704,168 +882,10 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                     return this;
                 }
 
-                public TrustStore build() {
-                    return new TrustStore(this);
-                }
-
                 protected Builder from(TrustStore trustStore) {
                     location = trustStore.location;
                     password = trustStore.password;
                     type = trustStore.type;
-                    return this;
-                }
-            }
-        }
-
-        /**
-         * A class that represents the basic authentication details used by the REST client
-         */
-        public static class BasicAuth {
-            private final String username;
-            private final String password;
-
-            private BasicAuth(Builder builder) {
-                username = Objects.requireNonNull(builder.username, "username");
-                password = Objects.requireNonNull(builder.password, "password");
-            }
-
-            public String getUsername() {
-                return username;
-            }
-
-            public String getPassword() {
-                return password;
-            }
-
-            @Override
-            public boolean equals(Object obj) {
-                if (this == obj) {
-                    return true;
-                }
-                if (obj == null) {
-                    return false;
-                }
-                if (getClass() != obj.getClass()) {
-                    return false;
-                }
-                BasicAuth other = (BasicAuth) obj;
-                return Objects.equals(username, other.username) &&
-                        Objects.equals(password, other.password);
-            }
-
-            @Override
-            public int hashCode() {
-                return Objects.hash(username, password);
-            }
-
-            public Builder toBuilder() {
-                return new Builder().from(this);
-            }
-
-            public static Builder builder() {
-                return new Builder();
-            }
-
-            public static class Builder {
-                private String username;
-                private String password;
-
-                private Builder() { }
-
-                public Builder username(String username) {
-                    this.username = username;
-                    return this;
-                }
-
-                public Builder password(String password) {
-                    this.password = password;
-                    return this;
-                }
-
-                public BasicAuth build() {
-                    return new BasicAuth(this);
-                }
-
-                protected Builder from(BasicAuth basicAuth) {
-                    username = basicAuth.username;
-                    password = basicAuth.password;
-                    return this;
-                }
-            }
-        }
-
-        /**
-         * A class that represents the code system(s) supported by a remote term service provider
-         */
-        public static class Supports {
-            private final String system;
-            private final String version;
-
-            public Supports(Builder builder) {
-                system = Objects.requireNonNull(builder.system, "system");
-                version = builder.version;
-            }
-
-            public String getSystem() {
-                return system;
-            }
-
-            public String getVersion() {
-                return version;
-            }
-
-            @Override
-            public boolean equals(Object obj) {
-                if (this == obj) {
-                    return true;
-                }
-                if (obj == null) {
-                    return false;
-                }
-                if (getClass() != obj.getClass()) {
-                    return false;
-                }
-                Supports other = (Supports) obj;
-                return Objects.equals(system, other.system) &&
-                        Objects.equals(version, other.version);
-            }
-
-            @Override
-            public int hashCode() {
-                return Objects.hash(system, version);
-            }
-
-            public Builder toBuilder() {
-                return new Builder().from(this);
-            }
-
-            public static Builder builder() {
-                return new Builder();
-            }
-
-            public static class Builder {
-                private String system;
-                private String version;
-
-                private Builder() { }
-
-                public Builder system(String system) {
-                    this.system = system;
-                    return this;
-                }
-
-                public Builder version(String version) {
-                    this.version = version;
-                    return this;
-                }
-
-                public Supports build() {
-                    return new Supports(this);
-                }
-
-                protected Builder from(Supports supports) {
-                    system = supports.system;
-                    version = supports.version;
                     return this;
                 }
             }

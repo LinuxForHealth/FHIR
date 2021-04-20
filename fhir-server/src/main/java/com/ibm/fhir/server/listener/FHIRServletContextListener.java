@@ -258,7 +258,8 @@ public class FHIRServletContextListener implements ServletContextListener {
         // Configure terminology service capabilities
         PropertyGroup termPropertyGroup = fhirConfig.getPropertyGroup("fhirServer/term");
         if (termPropertyGroup != null) {
-            FHIRTermConfig.setCachingDisabled(fhirConfig.getBooleanProperty("cachingDisabled", Boolean.FALSE));
+            Boolean cachingDisabled = fhirConfig.getBooleanProperty("cachingDisabled", Boolean.FALSE);
+            FHIRTermConfig.setCachingDisabled(cachingDisabled);
 
             // Configure graph term service provider
             PropertyGroup graphTermServiceProviderPropertyGroup = termPropertyGroup.getPropertyGroup("graphTermServiceProvider");
@@ -274,7 +275,7 @@ public class FHIRServletContextListener implements ServletContextListener {
                         configurationPropertyGroup.getProperties().stream().forEach(entry -> map.put(entry.getName(), entry.getValue()));
                         int timeLimit = graphTermServiceProviderPropertyGroup.getIntProperty("timeLimit", GraphTermServiceProvider.DEFAULT_TIME_LIMIT);
                         graphTermServiceProvider = new GraphTermServiceProvider(new MapConfiguration(map), timeLimit);
-                        FHIRTermService.getInstance().addProvider(graphTermServiceProvider);
+                        FHIRTermService.getInstance().addProvider(cachingDisabled ? graphTermServiceProvider : CachingProxy.newInstance(FHIRTermServiceProvider.class, graphTermServiceProvider));
                     }
                 }
             }
@@ -328,7 +329,7 @@ public class FHIRServletContextListener implements ServletContextListener {
                         Configuration configuration = builder.build();
 
                         RemoteTermServiceProvider remoteTermServiceProvider = new RemoteTermServiceProvider(configuration);
-                        FHIRTermService.getInstance().addProvider(CachingProxy.newInstance(FHIRTermServiceProvider.class, remoteTermServiceProvider));
+                        FHIRTermService.getInstance().addProvider(cachingDisabled ? remoteTermServiceProvider : CachingProxy.newInstance(FHIRTermServiceProvider.class, remoteTermServiceProvider));
                         remoteTermServiceProviders.add(remoteTermServiceProvider);
                     } catch (Exception e) {
                         log.log(Level.WARNING, "Unable to create RemoteTermServiceProvider from configuration property group: " + remoteTermServiceProviderPropertyGroup, e);
