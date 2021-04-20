@@ -194,6 +194,16 @@ public final class CodeSystemSupport {
         return result;
     }
 
+    /**
+     * Get all of the concepts, from the provided code system, that subsume the concept with the specified code.
+     *
+     * @param codeSystem
+     *     the code system
+     * @param code
+     *     the code
+     * @return
+     *     a set containing the code value for all concepts that subsume the concept with the specified code
+     */
     public static Set<java.lang.String> getAncestorsAndSelf(CodeSystem codeSystem, Code code) {
         if (FHIRTermConfig.isCachingDisabled()) {
             return computeAncestorsAndSelf(codeSystem, code);
@@ -432,6 +442,16 @@ public final class CodeSystemSupport {
         return result;
     }
 
+    /**
+     * Get all of the concepts, from the provided code system, that are subsumed by the concept with the specified code.
+     *
+     * @param codeSystem
+     *     the code system
+     * @param code
+     *     the code
+     * @return
+     *     a set containing the code value for all concepts that are subsumed by the concept with the specified code
+     */
     public static Set<java.lang.String> getDescendantsAndSelf(CodeSystem codeSystem, Code code) {
         if (FHIRTermConfig.isCachingDisabled()) {
             return computeDescendantsAndSelf(codeSystem, code);
