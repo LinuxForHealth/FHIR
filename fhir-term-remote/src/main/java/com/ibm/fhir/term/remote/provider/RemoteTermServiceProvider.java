@@ -525,6 +525,30 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
             supports = Collections.unmodifiableList(builder.supports);
         }
 
+        public String getBase() {
+            return base;
+        }
+
+        public TrustStore getTrustStore() {
+            return trustStore;
+        }
+
+        public boolean isHostnameVerificationEnabled() {
+            return hostnameVerificationEnabled;
+        }
+
+        public BasicAuth getBasicAuth() {
+            return basicAuth;
+        }
+
+        public int getHttpTimeout() {
+            return httpTimeout;
+        }
+
+        public List<Supports> getSupports() {
+            return supports;
+        }
+
         @Override
         public boolean equals(Object obj) {
             if (this == obj) {
@@ -545,33 +569,9 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                     Objects.equals(supports, other.supports);
         }
 
-        public String getBase() {
-            return base;
-        }
-
-        public BasicAuth getBasicAuth() {
-            return basicAuth;
-        }
-
-        public int getHttpTimeout() {
-            return httpTimeout;
-        }
-
-        public List<Supports> getSupports() {
-            return supports;
-        }
-
-        public TrustStore getTrustStore() {
-            return trustStore;
-        }
-
         @Override
         public int hashCode() {
             return Objects.hash(base, trustStore, hostnameVerificationEnabled, basicAuth, httpTimeout, supports);
-        }
-
-        public boolean isHostnameVerificationEnabled() {
-            return hostnameVerificationEnabled;
         }
 
         public Builder toBuilder() {
@@ -580,6 +580,161 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
 
         public static Builder builder() {
             return new Builder();
+        }
+
+        public static class Builder {
+            private String base;
+            private TrustStore trustStore;
+            private boolean hostnameVerificationEnabled = DEFAULT_HOSTNAME_VERIFICATION_ENABLED;
+            private BasicAuth basicAuth;
+            private int httpTimeout = DEFAULT_HTTP_TIMEOUT;
+            private List<Supports> supports = new ArrayList<>();
+        
+            private Builder() { }
+        
+            public Builder base(String base) {
+                this.base = base;
+                return this;
+            }
+        
+            public Builder basicAuth(BasicAuth basicAuth) {
+                this.basicAuth = basicAuth;
+                return this;
+            }
+        
+            public Configuration build() {
+                return new Configuration(this);
+            }
+        
+            public Builder hostnameVerificationEnabled(boolean hostnameVerificationEnabled) {
+                this.hostnameVerificationEnabled = hostnameVerificationEnabled;
+                return this;
+            }
+        
+            public Builder httpTimeout(int httpTimeout) {
+                this.httpTimeout = httpTimeout;
+                return this;
+            }
+        
+            public Builder supports(Collection<Supports> supports) {
+                this.supports = new ArrayList<>(supports);
+                return this;
+            }
+        
+            public Builder supports(Supports... supports) {
+                for (Supports value : supports) {
+                    this.supports.add(value);
+                }
+                return this;
+            }
+        
+            public Builder trustStore(TrustStore trustStore) {
+                this.trustStore = trustStore;
+                return this;
+            }
+        
+            protected Builder from(Configuration configuration) {
+                base = configuration.base;
+                trustStore = configuration.trustStore;
+                hostnameVerificationEnabled = configuration.hostnameVerificationEnabled;
+                basicAuth = configuration.basicAuth;
+                httpTimeout = configuration.httpTimeout;
+                supports.addAll(configuration.supports);
+                return this;
+            }
+        }
+
+        /**
+         * A class that represents the trust store details used by the REST client
+         */
+        public static class TrustStore {
+            public static final String DEFAULT_TYPE = "pkcs12";
+        
+            private String location;
+            private String password;
+            private String type;
+        
+            private TrustStore(Builder builder) {
+                this.location = Objects.requireNonNull(builder.location, "location");
+                this.password = Objects.requireNonNull(builder.password, "password");
+                this.type = Objects.requireNonNull(builder.type, "type");
+            }
+        
+            public String getLocation() {
+                return location;
+            }
+        
+            public String getPassword() {
+                return password;
+            }
+        
+            public String getType() {
+                return type;
+            }
+        
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                TrustStore other = (TrustStore) obj;
+                return Objects.equals(location, other.location) &&
+                        Objects.equals(password, other.password) &&
+                        Objects.equals(type, other.type);
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(location, password, type);
+            }
+        
+            public Builder toBuilder() {
+                return new Builder().from(this);
+            }
+        
+            public static Builder builder() {
+                return new Builder();
+            }
+        
+            public static class Builder {
+                private String location;
+                private String password;
+                private String type = DEFAULT_TYPE;
+        
+                private Builder() { }
+        
+                public TrustStore build() {
+                    return new TrustStore(this);
+                }
+        
+                public Builder location(String location) {
+                    this.location = location;
+                    return this;
+                }
+        
+                public Builder password(String password) {
+                    this.password = password;
+                    return this;
+                }
+        
+                public Builder type(String type) {
+                    this.type = type;
+                    return this;
+                }
+        
+                protected Builder from(TrustStore trustStore) {
+                    location = trustStore.location;
+                    password = trustStore.password;
+                    type = trustStore.type;
+                    return this;
+                }
+            }
         }
 
         /**
@@ -592,6 +747,14 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
             private BasicAuth(Builder builder) {
                 username = Objects.requireNonNull(builder.username, "username");
                 password = Objects.requireNonNull(builder.password, "password");
+            }
+
+            public String getUsername() {
+                return username;
+            }
+
+            public String getPassword() {
+                return password;
             }
 
             @Override
@@ -608,14 +771,6 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 BasicAuth other = (BasicAuth) obj;
                 return Objects.equals(username, other.username) &&
                         Objects.equals(password, other.password);
-            }
-
-            public String getPassword() {
-                return password;
-            }
-
-            public String getUsername() {
-                return username;
             }
 
             @Override
@@ -659,68 +814,6 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
             }
         }
 
-        public static class Builder {
-            private String base;
-            private TrustStore trustStore;
-            private boolean hostnameVerificationEnabled = DEFAULT_HOSTNAME_VERIFICATION_ENABLED;
-            private BasicAuth basicAuth;
-            private int httpTimeout = DEFAULT_HTTP_TIMEOUT;
-            private List<Supports> supports = new ArrayList<>();
-
-            private Builder() { }
-
-            public Builder base(String base) {
-                this.base = base;
-                return this;
-            }
-
-            public Builder basicAuth(BasicAuth basicAuth) {
-                this.basicAuth = basicAuth;
-                return this;
-            }
-
-            public Configuration build() {
-                return new Configuration(this);
-            }
-
-            public Builder hostnameVerificationEnabled(boolean hostnameVerificationEnabled) {
-                this.hostnameVerificationEnabled = hostnameVerificationEnabled;
-                return this;
-            }
-
-            public Builder httpTimeout(int httpTimeout) {
-                this.httpTimeout = httpTimeout;
-                return this;
-            }
-
-            public Builder supports(Collection<Supports> supports) {
-                this.supports = new ArrayList<>(supports);
-                return this;
-            }
-
-            public Builder supports(Supports... supports) {
-                for (Supports value : supports) {
-                    this.supports.add(value);
-                }
-                return this;
-            }
-
-            public Builder trustStore(TrustStore trustStore) {
-                this.trustStore = trustStore;
-                return this;
-            }
-
-            protected Builder from(Configuration configuration) {
-                base = configuration.base;
-                trustStore = configuration.trustStore;
-                hostnameVerificationEnabled = configuration.hostnameVerificationEnabled;
-                basicAuth = configuration.basicAuth;
-                httpTimeout = configuration.httpTimeout;
-                supports.addAll(configuration.supports);
-                return this;
-            }
-        }
-
         /**
          * A class that represents the code system(s) supported by a remote term service provider
          */
@@ -731,6 +824,14 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
             public Supports(Builder builder) {
                 system = Objects.requireNonNull(builder.system, "system");
                 version = builder.version;
+            }
+
+            public String getSystem() {
+                return system;
+            }
+
+            public String getVersion() {
+                return version;
             }
 
             @Override
@@ -747,14 +848,6 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 Supports other = (Supports) obj;
                 return Objects.equals(system, other.system) &&
                         Objects.equals(version, other.version);
-            }
-
-            public String getSystem() {
-                return system;
-            }
-
-            public String getVersion() {
-                return version;
             }
 
             @Override
@@ -793,99 +886,6 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 protected Builder from(Supports supports) {
                     system = supports.system;
                     version = supports.version;
-                    return this;
-                }
-            }
-        }
-
-        /**
-         * A class that represents the trust store details used by the REST client
-         */
-        public static class TrustStore {
-            public static final String DEFAULT_TYPE = "pkcs12";
-
-            private String location;
-            private String password;
-            private String type;
-
-            private TrustStore(Builder builder) {
-                this.location = Objects.requireNonNull(builder.location, "location");
-                this.password = Objects.requireNonNull(builder.password, "password");
-                this.type = Objects.requireNonNull(builder.type, "type");
-            }
-
-            @Override
-            public boolean equals(Object obj) {
-                if (this == obj) {
-                    return true;
-                }
-                if (obj == null) {
-                    return false;
-                }
-                if (getClass() != obj.getClass()) {
-                    return false;
-                }
-                TrustStore other = (TrustStore) obj;
-                return Objects.equals(location, other.location) &&
-                        Objects.equals(password, other.password) &&
-                        Objects.equals(type, other.type);
-            }
-
-            public String getLocation() {
-                return location;
-            }
-
-            public String getPassword() {
-                return password;
-            }
-
-            public String getType() {
-                return type;
-            }
-
-            @Override
-            public int hashCode() {
-                return Objects.hash(location, password, type);
-            }
-
-            public Builder toBuilder() {
-                return new Builder().from(this);
-            }
-
-            public static Builder builder() {
-                return new Builder();
-            }
-
-            public static class Builder {
-                private String location;
-                private String password;
-                private String type = DEFAULT_TYPE;
-
-                private Builder() { }
-
-                public TrustStore build() {
-                    return new TrustStore(this);
-                }
-
-                public Builder location(String location) {
-                    this.location = location;
-                    return this;
-                }
-
-                public Builder password(String password) {
-                    this.password = password;
-                    return this;
-                }
-
-                public Builder type(String type) {
-                    this.type = type;
-                    return this;
-                }
-
-                protected Builder from(TrustStore trustStore) {
-                    location = trustStore.location;
-                    password = trustStore.password;
-                    type = trustStore.type;
                     return this;
                 }
             }
