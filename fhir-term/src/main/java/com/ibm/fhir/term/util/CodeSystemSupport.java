@@ -181,7 +181,7 @@ public final class CodeSystemSupport {
      *     the code system concept that matches the specified code, or null if not such concept exists
      */
     public static Concept findConcept(CodeSystem codeSystem, Concept concept, Code code) {
-        if (concept.getCode().equals(code) || (!isCaseSensitive(codeSystem)) && normalize(concept.getCode().getValue()).equals(normalize(code.getValue()))) {
+        if (concept.getCode().equals(code) || (!isCaseSensitive(codeSystem) && normalize(concept.getCode().getValue()).equals(normalize(code.getValue())))) {
             return concept;
         }
         Concept result = null;
