@@ -29,6 +29,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
@@ -125,6 +126,22 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
         }
     }
 
+    /**
+     * Close the client associated with this remote term service provider.
+     */
+    public void close() {
+        log.info("Closing client...");
+        try {
+            if (client != null) {
+                client.close();
+            }
+        } catch (Exception e) {
+          log.log(Level.SEVERE, "An error occured while closing client", e);
+        } finally {
+            client = null;
+        }
+    }
+
     @Cacheable
     @Override
     public Set<Concept> closure(CodeSystem codeSystem, Code code) {
@@ -133,6 +150,12 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
             .op(FilterOperator.IS_A)
             .value(code)
             .build()));
+    }
+
+    @Cacheable
+    @Override
+    public Map<Code, Set<Concept>> closure(CodeSystem codeSystem, Set<Code> codes) {
+        return super.closure(codeSystem, codes);
     }
 
     @Cacheable
@@ -174,6 +197,12 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem) {
         return getConcepts(codeSystem, Collections.emptyList());
+    }
+
+    @Cacheable
+    @Override
+    public <R> Set<R> getConcepts(CodeSystem codeSystem, Function<Concept, ? extends R> function) {
+        return getConcepts(codeSystem, Collections.emptyList(), function);
     }
 
     @Cacheable
@@ -220,6 +249,16 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
         }
     }
 
+    /**
+     * Get the configuration used to create this remote term service provider.
+     *
+     * @return
+     *     the configuration
+     */
+    public Configuration getConfiguration() {
+        return configuration;
+    }
+
     @Cacheable
     @Override
     public boolean hasConcept(CodeSystem codeSystem, Code code) {
@@ -260,6 +299,13 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
         }
     }
 
+    @Cacheable
+    @Override
+    public boolean hasConcepts(CodeSystem codeSystem, Set<Code> codes) {
+        return super.hasConcepts(codeSystem, codes);
+    }
+
+    @Cacheable
     @Override
     public boolean isSupported(CodeSystem codeSystem) {
         checkArgument(codeSystem);
@@ -316,32 +362,6 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 response.close();
             }
         }
-    }
-
-    /**
-     * Close the client associated with this remote term service provider.
-     */
-    public void close() {
-        log.info("Closing client...");
-        try {
-            if (client != null) {
-                client.close();
-            }
-        } catch (Exception e) {
-          log.log(Level.SEVERE, "An error occured while closing client", e);
-        } finally {
-            client = null;
-        }
-    }
-
-    /**
-     * Get the configuration used to create this remote term service provider.
-     *
-     * @return
-     *     the configuration
-     */
-    public Configuration getConfiguration() {
-        return configuration;
     }
 
     private Parameters buildValueSetExpandParameters(CodeSystem codeSystem, List<Filter> filters) {

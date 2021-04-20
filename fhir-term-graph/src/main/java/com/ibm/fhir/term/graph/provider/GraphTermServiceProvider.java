@@ -36,6 +36,7 @@ import org.apache.tinkerpop.gremlin.process.traversal.step.filter.TimeLimitStep;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.janusgraph.core.attribute.Text;
 
+import com.ibm.fhir.cache.annotation.Cacheable;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.CodeSystem.Concept.Designation;
@@ -93,6 +94,7 @@ public class GraphTermServiceProvider extends AbstractTermServiceProvider {
     }
 
     @SuppressWarnings("unchecked")
+    @Cacheable
     @Override
     public Set<Concept> closure(CodeSystem codeSystem, Code code) {
         checkArguments(codeSystem, code);
@@ -117,17 +119,26 @@ public class GraphTermServiceProvider extends AbstractTermServiceProvider {
         return concepts;
     }
 
+    @Cacheable
+    @Override
+    public Map<Code, Set<Concept>> closure(CodeSystem codeSystem, Set<Code> codes) {
+        return super.closure(codeSystem, codes);
+    }
+
+    @Cacheable
     @Override
     public Concept getConcept(CodeSystem codeSystem, Code code) {
         checkArguments(codeSystem, code);
         return getConcept(codeSystem, code, true, true);
     }
 
+    @Cacheable
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem) {
         return getConcepts(codeSystem, Function.identity());
     }
 
+    @Cacheable
     @Override
     public <R> Set<R> getConcepts(CodeSystem codeSystem, Function<Concept, ? extends R> function) {
         checkArguments(codeSystem, function);
@@ -146,11 +157,13 @@ public class GraphTermServiceProvider extends AbstractTermServiceProvider {
         return concepts;
     }
 
+    @Cacheable
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters) {
         return getConcepts(codeSystem, filters, Function.identity());
     }
 
+    @Cacheable
     @Override
     public <R> Set<R> getConcepts(CodeSystem codeSystem, List<Filter> filters, Function<Concept, ? extends R> function) {
         checkArguments(codeSystem, filters);
@@ -219,18 +232,27 @@ public class GraphTermServiceProvider extends AbstractTermServiceProvider {
         return timeLimit;
     }
 
+    @Cacheable
     @Override
     public boolean hasConcept(CodeSystem codeSystem, Code code) {
         checkArguments(codeSystem, code);
         return whereCodeSystem(hasCode(vertices(), code.getValue(), isCaseSensitive(codeSystem)), codeSystem).hasNext();
     }
 
+    @Cacheable
+    @Override
+    public boolean hasConcepts(CodeSystem codeSystem, Set<Code> codes) {
+        return super.hasConcepts(codeSystem, codes);
+    }
+
+    @Cacheable
     @Override
     public boolean isSupported(CodeSystem codeSystem) {
         checkArgument(codeSystem);
         return hasVersion(hasUrl(vertices(), codeSystem.getUrl()), codeSystem.getVersion()).hasNext();
     }
 
+    @Cacheable
     @Override
     public boolean subsumes(CodeSystem codeSystem, Code codeA, Code codeB) {
         checkArguments(codeSystem, codeA, codeB);
