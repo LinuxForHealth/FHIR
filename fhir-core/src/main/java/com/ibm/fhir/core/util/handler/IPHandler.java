@@ -47,7 +47,6 @@ public class IPHandler {
             // Defaulting to the localhost, as the machine's name is not registered in the local lookup/dns.
             log.log(Level.SEVERE, "Failure acquiring local host IP address - be sure the name is registered in the name resolution service", e);
             ip = "127.0.0.1";
-            ip = "127.0.0.1";
         }
         return ip;
     }
