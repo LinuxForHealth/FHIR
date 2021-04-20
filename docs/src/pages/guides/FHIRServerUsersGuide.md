@@ -1965,7 +1965,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/term/remoteTermServiceProvider/basicAuth/username`|string|The basic authentication username for this remote term service provider|
 |`fhirServer/term/remoteTermServiceProvider/basicAuth/password`|string|The basic authentication password for this remote term service provider|
 |`fhirServer/term/remoteTermServiceProvider/httpTimeout`|integer|The HTTP read timeout for this remote term service provider (in milliseconds)|
-|`fhirServer/term/remoteTermServiceProvider/supports/system`|string|The system URI supported by this remote term service provider, NOTE: there can be more than one `supports` element|
+|`fhirServer/term/remoteTermServiceProvider/supports`|array of objects|The supports element is an array of objects|
+|`fhirServer/term/remoteTermServiceProvider/supports/system`|string|The system URI supported by this remote term service provider|
 |`fhirServer/term/remoteTermServiceProvider/supports/version`|string|The system version supported by this remote term service provider|
 |`fhirServer/resources/open`|boolean|Whether resources that are not explicitly listed in the configuration should be supported by the FHIR Server REST layer. When open is set to `false`, only the resources listed in fhir-server-config.json are supported.|
 |`fhirServer/resources/Resource/interactions`|string list|A list of strings that represent the RESTful interactions (create, read, vread, update, patch, delete, history, and/or search) supported for resource types. Omitting this property is equivalent to supporting all FHIR interactions for the supported resources. An empty list, `[]`, can be used to indicate that no REST methods are supported. This property can be overridden for specific resource types via the `fhirServer/resources/<resourceType>/interactions` property.|
