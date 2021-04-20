@@ -597,17 +597,18 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 return this;
             }
         
-            public Builder basicAuth(BasicAuth basicAuth) {
-                this.basicAuth = basicAuth;
+            public Builder trustStore(TrustStore trustStore) {
+                this.trustStore = trustStore;
                 return this;
             }
-        
-            public Configuration build() {
-                return new Configuration(this);
-            }
-        
+
             public Builder hostnameVerificationEnabled(boolean hostnameVerificationEnabled) {
                 this.hostnameVerificationEnabled = hostnameVerificationEnabled;
+                return this;
+            }
+
+            public Builder basicAuth(BasicAuth basicAuth) {
+                this.basicAuth = basicAuth;
                 return this;
             }
         
@@ -615,22 +616,21 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 this.httpTimeout = httpTimeout;
                 return this;
             }
-        
-            public Builder supports(Collection<Supports> supports) {
-                this.supports = new ArrayList<>(supports);
-                return this;
-            }
-        
+
             public Builder supports(Supports... supports) {
                 for (Supports value : supports) {
                     this.supports.add(value);
                 }
                 return this;
             }
-        
-            public Builder trustStore(TrustStore trustStore) {
-                this.trustStore = trustStore;
+
+            public Builder supports(Collection<Supports> supports) {
+                this.supports = new ArrayList<>(supports);
                 return this;
+            }
+
+            public Configuration build() {
+                return new Configuration(this);
             }
         
             protected Builder from(Configuration configuration) {
@@ -709,10 +709,6 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
         
                 private Builder() { }
         
-                public TrustStore build() {
-                    return new TrustStore(this);
-                }
-        
                 public Builder location(String location) {
                     this.location = location;
                     return this;
@@ -728,6 +724,10 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                     return this;
                 }
         
+                public TrustStore build() {
+                    return new TrustStore(this);
+                }
+
                 protected Builder from(TrustStore trustStore) {
                     location = trustStore.location;
                     password = trustStore.password;
@@ -792,8 +792,9 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
 
                 private Builder() { }
 
-                public BasicAuth build() {
-                    return new BasicAuth(this);
+                public Builder username(String username) {
+                    this.username = username;
+                    return this;
                 }
 
                 public Builder password(String password) {
@@ -801,9 +802,8 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                     return this;
                 }
 
-                public Builder username(String username) {
-                    this.username = username;
-                    return this;
+                public BasicAuth build() {
+                    return new BasicAuth(this);
                 }
 
                 protected Builder from(BasicAuth basicAuth) {
@@ -869,10 +869,6 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
 
                 private Builder() { }
 
-                public Supports build() {
-                    return new Supports(this);
-                }
-
                 public Builder system(String system) {
                     this.system = system;
                     return this;
@@ -881,6 +877,10 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 public Builder version(String version) {
                     this.version = version;
                     return this;
+                }
+
+                public Supports build() {
+                    return new Supports(this);
                 }
 
                 protected Builder from(Supports supports) {
