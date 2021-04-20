@@ -589,14 +589,14 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
             private BasicAuth basicAuth;
             private int httpTimeout = DEFAULT_HTTP_TIMEOUT;
             private List<Supports> supports = new ArrayList<>();
-        
+
             private Builder() { }
-        
+
             public Builder base(String base) {
                 this.base = base;
                 return this;
             }
-        
+
             public Builder trustStore(TrustStore trustStore) {
                 this.trustStore = trustStore;
                 return this;
@@ -611,7 +611,7 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 this.basicAuth = basicAuth;
                 return this;
             }
-        
+
             public Builder httpTimeout(int httpTimeout) {
                 this.httpTimeout = httpTimeout;
                 return this;
@@ -632,7 +632,7 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
             public Configuration build() {
                 return new Configuration(this);
             }
-        
+
             protected Builder from(Configuration configuration) {
                 base = configuration.base;
                 trustStore = configuration.trustStore;
@@ -649,29 +649,29 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
          */
         public static class TrustStore {
             public static final String DEFAULT_TYPE = "pkcs12";
-        
+
             private String location;
             private String password;
             private String type;
-        
+
             private TrustStore(Builder builder) {
                 this.location = Objects.requireNonNull(builder.location, "location");
                 this.password = Objects.requireNonNull(builder.password, "password");
                 this.type = Objects.requireNonNull(builder.type, "type");
             }
-        
+
             public String getLocation() {
                 return location;
             }
-        
+
             public String getPassword() {
                 return password;
             }
-        
+
             public String getType() {
                 return type;
             }
-        
+
             @Override
             public boolean equals(Object obj) {
                 if (this == obj) {
@@ -693,37 +693,37 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
             public int hashCode() {
                 return Objects.hash(location, password, type);
             }
-        
+
             public Builder toBuilder() {
                 return new Builder().from(this);
             }
-        
+
             public static Builder builder() {
                 return new Builder();
             }
-        
+
             public static class Builder {
                 private String location;
                 private String password;
                 private String type = DEFAULT_TYPE;
-        
+
                 private Builder() { }
-        
+
                 public Builder location(String location) {
                     this.location = location;
                     return this;
                 }
-        
+
                 public Builder password(String password) {
                     this.password = password;
                     return this;
                 }
-        
+
                 public Builder type(String type) {
                     this.type = type;
                     return this;
                 }
-        
+
                 public TrustStore build() {
                     return new TrustStore(this);
                 }
