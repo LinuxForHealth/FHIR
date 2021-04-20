@@ -1963,6 +1963,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/term/remoteTermServiceProviders/trustStore/location`|string|The trust store location for this remote term service provider|
 |`fhirServer/term/remoteTermServiceProviders/trustStore/password`|string|The trust store password for this remote term service provider|
 |`fhirServer/term/remoteTermServiceProviders/trustStore/type`|string|The trust store type (e.g. pkcs12) for this remote term service provider|
+|`fhirServer/term/remoteTermServiceProviders/hostnameVerificationEnabled`|boolean|Indicates whether hostname verification should be performed when using SSL transport|
 |`fhirServer/term/remoteTermServiceProviders/basicAuth/username`|string|The basic authentication username for this remote term service provider|
 |`fhirServer/term/remoteTermServiceProviders/basicAuth/password`|string|The basic authentication password for this remote term service provider|
 |`fhirServer/term/remoteTermServiceProviders/httpTimeout`|integer|The HTTP read timeout for this remote term service provider (in milliseconds)|
@@ -2098,6 +2099,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/term/graphTermServiceProvider/enabled`|false|
 |`fhirServer/term/graphTermServiceProvider/timeLimit`|90000|
 |`fhirServer/term/remoteTermServiceProviders/enabled`|false|
+|`fhirServer/term/remoteTermServiceProviders/hostnameVerificationEnabled`|true|
 |`fhirServer/term/remoteTermServiceProviders/httpTimeout`|60000|
 |`fhirServer/resources/open`|true|
 |`fhirServer/resources/Resource/interactions`|null (all interactions supported)|
@@ -2216,7 +2218,8 @@ must restart the server for that change to take effect.
 |`fhirServer/term/graphTermServiceProvider/configuration`|N|N|
 |`fhirServer/term/remoteTermServiceProviders/enabled`|N|N|
 |`fhirServer/term/remoteTermServiceProviders/base`|N|N|
-|`fhirServer/term/remoteTermServiceProviders/trustStore`|N|N
+|`fhirServer/term/remoteTermServiceProviders/trustStore`|N|N|
+|`fhirServer/term/remoteTermServiceProviders/hostnameVerificationEnabled`|N|N|
 |`fhirServer/term/remoteTermServiceProviders/basicAuth`|N|N|
 |`fhirServer/term/remoteTermServiceProviders/httpTimeout`|N|N|
 |`fhirServer/term/remoteTermServiceProviders/supports`|N|N|
