@@ -23,15 +23,17 @@ import com.ibm.fhir.term.util.CodeSystemSupport;
 /**
  * Registry-based implementation of the {@link FHIRTermServiceProvider} interface using {@link CodeSystemSupport}
  */
-public class RegistryTermServiceProvider implements FHIRTermServiceProvider {
+public class RegistryTermServiceProvider extends AbstractTermServiceProvider {
     @Override
     public Set<Concept> closure(CodeSystem codeSystem, Code code) {
+        checkArguments(codeSystem, code);
         Concept concept = CodeSystemSupport.findConcept(codeSystem, code);
         return CodeSystemSupport.getConcepts(concept);
     }
 
     @Override
     public Concept getConcept(CodeSystem codeSystem, Code code) {
+        checkArguments(codeSystem, code);
         Concept concept = CodeSystemSupport.findConcept(codeSystem, code);
         if (concept != null) {
             // child concepts are removed for consistency with the other providers
@@ -47,6 +49,7 @@ public class RegistryTermServiceProvider implements FHIRTermServiceProvider {
 
     @Override
     public <R> Set<R> getConcepts(CodeSystem codeSystem, Function<Concept, ? extends R> function) {
+        checkArguments(codeSystem, function);
         return CodeSystemSupport.getConcepts(codeSystem, function);
     }
 
@@ -57,6 +60,7 @@ public class RegistryTermServiceProvider implements FHIRTermServiceProvider {
 
     @Override
     public <R> Set<R> getConcepts(CodeSystem codeSystem, List<Filter> filters, Function<Concept, ? extends R> function) {
+        checkArguments(codeSystem, filters, function);
         try {
             return CodeSystemSupport.getConcepts(codeSystem, filters, function);
         } catch (FHIRTermException e) {
@@ -71,11 +75,13 @@ public class RegistryTermServiceProvider implements FHIRTermServiceProvider {
 
     @Override
     public boolean isSupported(CodeSystem codeSystem) {
+        checkArgument(codeSystem);
         return CodeSystemContentMode.COMPLETE.equals(codeSystem.getContent());
     }
 
     @Override
     public boolean subsumes(CodeSystem codeSystem, Code codeA, Code codeB) {
+        checkArguments(codeSystem, codeA, codeB);
         Concept concept = CodeSystemSupport.findConcept(codeSystem, codeA);
         return (CodeSystemSupport.findConcept(codeSystem, concept, codeB) != null);
     }

@@ -72,6 +72,7 @@ import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.provider.FHIRJsonProvider;
 import com.ibm.fhir.provider.FHIRProvider;
 import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
+import com.ibm.fhir.term.service.provider.AbstractTermServiceProvider;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
 
 /**
@@ -79,7 +80,7 @@ import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
  *
  * <p>The external service must implement the FHIR REST terminology APIs documented <a href="http://hl7.org/fhir/terminology-service.html">here</a>
  */
-public class RemoteTermServiceProvider implements FHIRTermServiceProvider {
+public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
     private static final Logger log = Logger.getLogger(RemoteTermServiceProvider.class.getName());
 
     private final Configuration configuration;
@@ -137,20 +138,36 @@ public class RemoteTermServiceProvider implements FHIRTermServiceProvider {
     @Cacheable
     @Override
     public Concept getConcept(CodeSystem codeSystem, Code code) {
-        WebTarget target = client.target(base);
+        checkArguments(codeSystem, code);
 
-        Response response = target.path("CodeSystem").path("$lookup")
-            .queryParam("system", codeSystem.getUrl().getValue())
-            .queryParam("code", code.getValue())
-            .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-            .get();
+        Response response = null;
+        try {
+            WebTarget target = client.target(base);
 
-        if (response.getStatus() == Status.OK.getStatusCode()) {
-            Parameters parameters = response.readEntity(Parameters.class);
-            return toConcept(code, parameters);
+            response = (codeSystem.getVersion() != null) ?
+                target.path("CodeSystem").path("$lookup")
+                    .queryParam("system", codeSystem.getUrl().getValue())
+                    .queryParam("version", codeSystem.getVersion().getValue())
+                    .queryParam("code", code.getValue())
+                    .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .get() :
+                target.path("CodeSystem").path("$lookup")
+                    .queryParam("system", codeSystem.getUrl().getValue())
+                    .queryParam("code", code.getValue())
+                    .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .get();
+
+            if (response.getStatus() == Status.OK.getStatusCode()) {
+                Parameters parameters = response.readEntity(Parameters.class);
+                return toConcept(code, parameters);
+            }
+
+            throw errorOccurred(response, "CodeSystem $lookup");
+        } finally {
+            if (response != null) {
+                response.close();
+            }
         }
-
-        throw errorOccurred(response, "CodeSystem $lookup");
     }
 
     @Cacheable
@@ -168,57 +185,85 @@ public class RemoteTermServiceProvider implements FHIRTermServiceProvider {
     @Cacheable
     @Override
     public <R> Set<R> getConcepts(CodeSystem codeSystem, List<Filter> filters, Function<Concept, ? extends R> function) {
+        checkArguments(codeSystem, filters, function);
+
         Parameters parameters = buildValueSetExpandParameters(codeSystem, filters);
 
-        WebTarget target = client.target(base);
+        Response response = null;
+        try {
+            WebTarget target = client.target(base);
 
-        Response response = target.path("ValueSet").path("$expand")
+            response = target.path("ValueSet").path("$expand")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .post(Entity.entity(parameters, FHIRMediaType.APPLICATION_FHIR_JSON));
 
-        if (response.getStatus() == Status.OK.getStatusCode()) {
-            JsonObject valueSet = response.readEntity(JsonObject.class);
-            JsonObject expansion = valueSet.getJsonObject("expansion");
+            if (response.getStatus() == Status.OK.getStatusCode()) {
+                JsonObject valueSet = response.readEntity(JsonObject.class);
+                JsonObject expansion = valueSet.getJsonObject("expansion");
 
-            Set<R> result = expansion.containsKey("total") ?
-                new LinkedHashSet<>(expansion.getInt("total")) :
-                new LinkedHashSet<>();
+                Set<R> result = expansion.containsKey("total") ?
+                    new LinkedHashSet<>(expansion.getInt("total")) :
+                    new LinkedHashSet<>();
 
-            for (JsonValue contains : expansion.getJsonArray("contains")) {
-                result.add(function.apply(toConcept(contains.asJsonObject())));
+                for (JsonValue contains : expansion.getJsonArray("contains")) {
+                    result.add(function.apply(toConcept(contains.asJsonObject())));
+                }
+
+                return result;
             }
 
-            return result;
+            throw errorOccurred(response, "ValueSet $expand");
+        } finally {
+            if (response != null) {
+                response.close();
+            }
         }
-
-        throw errorOccurred(response, "ValueSet $expand");
     }
 
     @Cacheable
     @Override
     public boolean hasConcept(CodeSystem codeSystem, Code code) {
-        WebTarget target = client.target(base);
+        checkArguments(codeSystem, code);
 
-        Response response = target.path("CodeSystem")
-            .path("$validate-code")
-            .queryParam("url", codeSystem.getUrl().getValue())
-            .queryParam("code", code.getValue())
-            .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-            .get();
+        Response response = null;
+        try {
+            WebTarget target = client.target(base);
 
-        if (response.getStatus() == Status.OK.getStatusCode()) {
-            Parameters parameters = response.readEntity(Parameters.class);
-            Parameter resultParameter = getParameter(parameters, "result");
-            if (resultParameter != null && FHIR_BOOLEAN.isInstance(resultParameter.getValue())) {
-                return Boolean.TRUE.equals(resultParameter.getValue().as(FHIR_BOOLEAN).getValue());
+            response = (codeSystem.getVersion() != null) ?
+                target.path("CodeSystem")
+                    .path("$validate-code")
+                    .queryParam("url", codeSystem.getUrl().getValue())
+                    .queryParam("version", codeSystem.getVersion().getValue())
+                    .queryParam("code", code.getValue())
+                    .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .get() :
+                target.path("CodeSystem")
+                    .path("$validate-code")
+                    .queryParam("url", codeSystem.getUrl().getValue())
+                    .queryParam("code", code.getValue())
+                    .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .get();
+
+            if (response.getStatus() == Status.OK.getStatusCode()) {
+                Parameters parameters = response.readEntity(Parameters.class);
+                Parameter resultParameter = getParameter(parameters, "result");
+                if (resultParameter != null && FHIR_BOOLEAN.isInstance(resultParameter.getValue())) {
+                    return Boolean.TRUE.equals(resultParameter.getValue().as(FHIR_BOOLEAN).getValue());
+                }
+            }
+
+            return false;
+        } finally {
+            if (response != null) {
+                response.close();
             }
         }
-
-        return false;
     }
 
     @Override
     public boolean isSupported(CodeSystem codeSystem) {
+        checkArgument(codeSystem);
+
         for (Configuration.Supports supports : configuration.getSupports()) {
             if (supports.getSystem().equals(codeSystem.getUrl().getValue()) &&
                     (supports.getVersion() == null || codeSystem.getVersion() == null ||
@@ -226,32 +271,51 @@ public class RemoteTermServiceProvider implements FHIRTermServiceProvider {
                 return true;
             }
         }
+
         return false;
     }
 
     @Cacheable
     @Override
     public boolean subsumes(CodeSystem codeSystem, Code codeA, Code codeB) {
-        WebTarget target = client.target(base);
+        checkArguments(codeSystem, codeA, codeB);
 
-        Response response = target.path("CodeSystem")
-            .path("$subsumes")
-            .queryParam("system", codeSystem.getUrl().getValue())
-            .queryParam("codeA", codeA.getValue())
-            .queryParam("codeB", codeB.getValue())
-            .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-            .get();
+        Response response = null;
+        try {
+            WebTarget target = client.target(base);
 
-        if (response.getStatus() == Status.OK.getStatusCode()) {
-            Parameters parameters = response.readEntity(Parameters.class);
-            Parameter outcomeParameter = getParameter(parameters, "outcome");
-            if (outcomeParameter != null && FHIR_STRING.isInstance(outcomeParameter.getValue())) {
-                ConceptSubsumptionOutcome outcome = ConceptSubsumptionOutcome.of(outcomeParameter.getValue().as(FHIR_STRING).getValue());
-                return ConceptSubsumptionOutcome.SUBSUMES.equals(outcome) || ConceptSubsumptionOutcome.EQUIVALENT.equals(outcome);
+            response = (codeSystem.getVersion() != null) ?
+                target.path("CodeSystem")
+                    .path("$subsumes")
+                    .queryParam("system", codeSystem.getUrl().getValue())
+                    .queryParam("version", codeSystem.getVersion().getValue())
+                    .queryParam("codeA", codeA.getValue())
+                    .queryParam("codeB", codeB.getValue())
+                    .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .get() :
+                target.path("CodeSystem")
+                    .path("$subsumes")
+                    .queryParam("system", codeSystem.getUrl().getValue())
+                    .queryParam("codeA", codeA.getValue())
+                    .queryParam("codeB", codeB.getValue())
+                    .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .get();
+
+            if (response.getStatus() == Status.OK.getStatusCode()) {
+                Parameters parameters = response.readEntity(Parameters.class);
+                Parameter outcomeParameter = getParameter(parameters, "outcome");
+                if (outcomeParameter != null && FHIR_STRING.isInstance(outcomeParameter.getValue())) {
+                    ConceptSubsumptionOutcome outcome = ConceptSubsumptionOutcome.of(outcomeParameter.getValue().as(FHIR_STRING).getValue());
+                    return ConceptSubsumptionOutcome.SUBSUMES.equals(outcome) || ConceptSubsumptionOutcome.EQUIVALENT.equals(outcome);
+                }
+            }
+
+            throw errorOccurred(response, "CodeSystem $subsumes");
+        } finally {
+            if (response != null) {
+                response.close();
             }
         }
-
-        throw errorOccurred(response, "CodeSystem $subsumes");
     }
 
     /**

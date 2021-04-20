@@ -56,13 +56,14 @@ import com.ibm.fhir.model.type.code.PropertyType;
 import com.ibm.fhir.term.graph.FHIRTermGraph;
 import com.ibm.fhir.term.graph.factory.FHIRTermGraphFactory;
 import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
+import com.ibm.fhir.term.service.provider.AbstractTermServiceProvider;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
 import com.ibm.fhir.term.util.CodeSystemSupport;
 
 /**
  * Graph-based implementation of the {@link FHIRTermServiceProvider} interface using {@link FHIRTermGraph}
  */
-public class GraphTermServiceProvider implements FHIRTermServiceProvider {
+public class GraphTermServiceProvider extends AbstractTermServiceProvider {
     public static final int DEFAULT_TIME_LIMIT = 90000;   // 90 seconds
     private static final int DEFAULT_COUNT = 1000;
 
@@ -129,7 +130,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
 
     @Override
     public <R> Set<R> getConcepts(CodeSystem codeSystem, Function<Concept, ? extends R> function) {
-        checkArgument(codeSystem);
+        checkArguments(codeSystem, function);
 
         Set<R> concepts = new LinkedHashSet<>(getCount(codeSystem));
 
@@ -479,43 +480,6 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
                 whereCodeSystem(g.where(__.out("property_").has(getPropertyKey(type), Text.textRegex(value.getValue()))), codeSystem);
         }
         throw filterNotApplied(filter);
-    }
-
-    private void checkArgument(Code code, String message) {
-        requireNonNull(code, message);
-        requireNonNull(code.getValue(), "Code.value");
-    }
-
-    private void checkArgument(CodeSystem codeSystem) {
-        requireNonNull(codeSystem, "codeSystem");
-        requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
-    }
-
-    private void checkArgument(Filter filter) {
-        requireNonNull(filter, "filter");
-        requireNonNull(filter.getProperty(), "Filter.property");
-        requireNonNull(filter.getProperty().getValue(), "Filter.property.value");
-        requireNonNull(filter.getOp(), "Filter.op");
-        requireNonNull(filter.getOp().getValue(), "Filter.op.value");
-        requireNonNull(filter.getValue(), "Filter.value");
-        requireNonNull(filter.getValue().getValue(), "Filter.value.value");
-    }
-
-    private void checkArguments(CodeSystem codeSystem, Code code) {
-        checkArgument(codeSystem);
-        checkArgument(code, "code");
-    }
-
-    private void checkArguments(CodeSystem codeSystem, Code codeA, Code codeB) {
-        checkArgument(codeSystem);
-        checkArgument(codeA, "codeA");
-        checkArgument(codeB, "codeB");
-    }
-
-    private void checkArguments(CodeSystem codeSystem, List<Filter> filters) {
-        checkArgument(codeSystem);
-        requireNonNull(filters, "filters");
-        filters.forEach(filter -> checkArgument(filter));
     }
 
     private void checkTimeLimit(TimeLimitStep<?> timeLimitStep) {
