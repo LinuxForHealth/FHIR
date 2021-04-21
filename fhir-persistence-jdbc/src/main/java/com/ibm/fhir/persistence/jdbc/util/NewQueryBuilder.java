@@ -29,6 +29,7 @@ import com.ibm.fhir.persistence.jdbc.domain.ChainedSearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.CompositeSearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.DateSearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.IdSearchParam;
+import com.ibm.fhir.persistence.jdbc.domain.InclusionSearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.LastUpdatedSearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.LocationSearchExtension;
 import com.ibm.fhir.persistence.jdbc.domain.LocationSearchParam;
@@ -279,8 +280,7 @@ public class NewQueryBuilder {
                     } else if (queryParm.isChained()) {
                         domainModel.add(new ChainedSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
                     } else if (queryParm.isInclusionCriteria()) {
-                        // TODO
-                        // processInclusionCriteria(domainModel, queryParm);
+                        domainModel.add(new InclusionSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
                     } else {
                         domainModel.add(new ReferenceSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
                     }

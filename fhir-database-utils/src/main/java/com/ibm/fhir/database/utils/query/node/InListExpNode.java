@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
  * node types and bind markers).
  */
 public class InListExpNode implements ExpNode {
+    private ExpNode leftNode;
     private final List<ExpNode> inList;
 
     /**
@@ -40,7 +41,9 @@ public class InListExpNode implements ExpNode {
         for (ExpNode n: inList) {
             args.add(n.visit(visitor));
         }
-        return visitor.in(args);
+
+        T leftValue = this.leftNode.visit(visitor);
+        return visitor.in(leftValue, args);
     }
 
     @Override
@@ -50,18 +53,23 @@ public class InListExpNode implements ExpNode {
 
     @Override
     public void popOperands(Stack<ExpNode> stack) {
+        // We only pop one value from the stack, because the values list is
+        // part of this node, not a separate expression
+        this.leftNode = stack.pop();
     }
 
     @Override
-    public boolean isOperand() {
-        // for the purposes of parsing, we treat this entire node as a single operand
-        // because currently the list of args needs to be built separately, not by the
-        // parser.
+    public boolean isOperator() {
         return true;
     }
 
     @Override
     public String toString() {
-        return this.inList.stream().map(Object::toString).collect(Collectors.joining(","));
+        final StringBuilder result = new StringBuilder();
+        result.append(leftNode.toString());
+        result.append(" IN (");
+        result.append(this.inList.stream().map(Object::toString).collect(Collectors.joining(",")));
+        result.append(")");
+        return result.toString();
     }
 }

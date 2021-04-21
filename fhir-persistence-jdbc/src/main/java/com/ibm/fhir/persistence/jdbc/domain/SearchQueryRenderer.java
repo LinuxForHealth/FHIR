@@ -166,7 +166,11 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         final String parameterName = queryParm.getCode();
         final int aliasIndex = queryData.getParameterAlias() + 1;
         final SelectAdapter query = queryData.getQuery();
-        final String xxTokenValues = resourceType + "_TOKEN_VALUES_V";
+
+        // Previously we joined to _TOKEN_VALUES_V, but this caused performance issues due to poor
+        // cardinality estimation (PostgreSQL) so to get around this, we grab the common_token_value_id
+        // values first, then use these to join directly to _RESOURCE_TOKEN_REFS
+        final String xxTokenValues = resourceType + "_RESOURCE_TOKEN_REFS";
         final String paramAlias = "P" + aliasIndex;
         final String lrAlias = "LR" + (aliasIndex-1);
         SelectAdapter exists = Select.select("1");
@@ -211,19 +215,27 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             }
             final String codeSystem = pv.getValueSystem();
             final String tokenValue = pv.getValueCode();
-            Long commonTokenValueId = identityCache.getCommonTokenValueId(codeSystem, tokenValue);
-            if (commonTokenValueId != null && !codeSystem.equals("*")) {
-                // Optimization where we have a single value. Use the literal (not a bind variable)
-                // to give the optimizer more info
-                where.col(paramAlias, "COMMON_TOKEN_VALUE_ID").eq(commonTokenValueId);
-            } else {
-                // add bind variables for the code system and token-value
-                if (!codeSystem.equals("*")) {
-                    Integer codeSystemId = identityCache.getCodeSystemId(codeSystem);
-                    where.col(paramAlias, "CODE_SYSTEM_ID").eq().bind(nullCheck(codeSystemId));
-                    where.and(); // for the AND TOKEN_VALUE = ...
+
+            if (codeSystem == null || codeSystem.equals("*")) {
+                // Do not filter against code-system, which means we may have more than one matching
+                // common_token_value_id value. For performance-reasons we join against the
+                // xx_RESOURCE_TOKEN_REFS directly, which means we need a list of matching
+                // COMMON_TOKEN_VALUE_ID values to specify in an in-list
+                List<Long> ctvList = this.identityCache.getCommonTokenValueIdList(tokenValue);
+                logger.fine("common_token_values('" + tokenValue + "') := " + ctvList.toString());
+                if (ctvList.isEmpty()) {
+                    // use -1...resulting in no data
+                    where.col(paramAlias, "COMMON_TOKEN_VALUE_ID").eq(-1L);
+                } else if (ctvList.size() == 1) {
+                    where.col(paramAlias, "COMMON_TOKEN_VALUE_ID").eq(ctvList.get(0));
+                } else {
+                    where.col(paramAlias, "COMMON_TOKEN_VALUE_ID").inLiteralLong(ctvList);
                 }
-                where.col(paramAlias, "TOKEN_VALUE").eq().bind(tokenValue);
+            } else {
+                // should map to a single common_token_value_id, if it exists
+                final Long commonTokenValueId = identityCache.getCommonTokenValueId(codeSystem, tokenValue);
+                logger.fine("common_token_value_id('" + codeSystem + "', '" + tokenValue + "') := " + commonTokenValueId);
+                where.col(paramAlias, "COMMON_TOKEN_VALUE_ID").eq(nullCheck(commonTokenValueId));
             }
         }
         where.rightParen();
@@ -465,7 +477,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             break;
         case REFERENCE:
         case TOKEN:
-            name.append("_TOKEN_VALUES_V"); // uses view to hide new issue #1366 schema
+            name.append("_RESOURCE_TOKEN_REFS"); // bypass the xx_TOKEN_VALUES_V for performance reasons
             break;
         case COMPOSITE:
             name.append("_LOGICAL_RESOURCES");
@@ -491,7 +503,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         final SelectAdapter currentSubQuery = queryData.getQuery();
         final int aliasIndex = queryData.getParameterAlias() + 1;
         final String targetResourceType = currentParm.getModifierResourceTypeName();
-        final String tokenValues = sourceResourceType + "_TOKEN_VALUES_V";
+        final String tokenValues = sourceResourceType + "_TOKEN_VALUES_V"; // because we need TOKEN_VALUE
         final String xxLogicalResources = targetResourceType + "_LOGICAL_RESOURCES";
         final String paramAlias = "P" + aliasIndex;
         final String lrAlias = "LR" + aliasIndex;
@@ -596,6 +608,57 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             // Add an exists clause to the where clause of the current query
             currentSubQuery.from().where().and().exists(exists.build());
         }
+    }
+
+    /**
+     * Get a simple filter predicate which can be used in the WHERE clause of a search query.
+     * This is used at the "leaf level" of parameter processing, where the queryParm relates
+     * to a single parameter (i.e. it is the caller's responsibility to handle chaining and
+     * other more complex behavior.
+     * @param queryData
+     * @param queryParm
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    protected WhereFragment getFilterPredicate(QueryData queryData, QueryParameter queryParm) throws FHIRPersistenceException {
+        WhereFragment filter = new WhereFragment();
+
+        final String code = queryParm.getCode();
+        final String parentAlias = getLRAlias(queryData.getParameterAlias());
+
+        if ("_id".equals(code)) {
+            List<String> values = queryParm.getValues().stream().map(p -> p.getValueCode()).collect(Collectors.toList());
+            if (values.size() == 1) {
+                filter.col(parentAlias, "LOGICAL_ID").eq().bind(values.get(0));
+            } else if (values.size() > 1) {
+                // the values are converted to bind-markers, so this is secure
+                filter.col(parentAlias, "LOGICAL_ID").in(values);
+            } else {
+                throw new FHIRPersistenceException("_id parameter value list is empty");
+            }
+        } else if ("_lastUpdated".equals(code)) {
+            // Compute the _lastUpdated filter predicate for the given query parameter
+            NewLastUpdatedParmBehaviorUtil util = new NewLastUpdatedParmBehaviorUtil(parentAlias);
+            util.executeBehavior(filter, queryParm);
+        } else {
+            // A simple filter added as an exists clause to the current query
+            // AND EXISTS (SELECT 1
+            //               FROM fhirdata.Patient_STR_VALUES AS P3                 -- 'Patient string parameters'
+            //              WHERE P3.LOGICAL_RESOURCE_ID = LR2.LOGICAL_RESOURCE_ID  -- 'correlate to parent'
+            //                AND P3.PARAMETER_NAME_ID = 123                        -- 'name parameter'
+            //                AND P3.STR_VALUE = 'Jones')                           -- 'name filter'
+            final int aliasIndex = queryData.getParameterAlias() + 1;
+            final String paramTable = paramValuesTableName(queryData.getResourceType(), queryParm.getType());
+            final String paramAlias = getParamAlias(aliasIndex);
+            SelectAdapter exists = Select.select("1");
+            exists.from(paramTable, alias(paramAlias))
+                .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(parentAlias, "LOGICAL_RESOURCE_ID")
+                .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(code))
+                .and(paramFilter(queryParm, paramAlias).getExpression());
+            filter.exists(exists.build());
+        }
+
+        return filter;
     }
 
     /**
@@ -881,25 +944,36 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             // If the predicate includes a code-system it will resolve to a single value from
             // common_token_values. It helps the query optimizer if we include this additional
             // filter because it can make better cardinality estimates.
-            Long commonTokenValueId = null;
-            if (operator == Operator.EQ && targetResourceType != null) {
-                // targetResourceType is treated as the code-system for references
-                commonTokenValueId = this.identityCache.getCommonTokenValueId(targetResourceType, searchValue);
-            }
+            if (operator == Operator.EQ) {
+                if (targetResourceType != null) {
+                    // targetResourceType is treated as the code-system for references
+                    // #1929 improves cardinality estimation
+                    // resulting in far better execution plans for many search queries. Because COMMON_TOKEN_VALUE_ID
+                    // is the primary key for the common_token_values table, we don't need the CODE_SYSTEM_ID = ? predicate.
+                    Long commonTokenValueId = this.identityCache.getCommonTokenValueId(targetResourceType, searchValue);
+                    whereClause.col(paramAlias, COMMON_TOKEN_VALUE_ID).eq(nullCheck(commonTokenValueId)); // use literal
+                } else {
+                    // grab the list of all matching common_token_value_id values
+                    List<Long> ctvList = this.identityCache.getCommonTokenValueIdList(searchValue);
+                    if (ctvList.isEmpty()) {
+                        // use -1...resulting in no data
+                        whereClause.col(paramAlias, "COMMON_TOKEN_VALUE_ID").eq(-1L);
+                    } else if (ctvList.size() == 1) {
+                        whereClause.col(paramAlias, "COMMON_TOKEN_VALUE_ID").eq(ctvList.get(0));
+                    } else {
+                        whereClause.col(paramAlias, "COMMON_TOKEN_VALUE_ID").inLiteralLong(ctvList);
+                    }
+                }
+            } else {
+                // inequality, so can't use discrete common_token_value_ids
+                whereClause.col(paramAlias, TOKEN_VALUE).operator(operator).bind(searchValue);
 
-            // Build this piece: pX.token_value {operator} search-attribute-value [ AND pX.code_system_id = <n> ]
-            whereClause.col(paramAlias, TOKEN_VALUE).operator(operator).bind(searchValue);
-
-            // add the [optional] condition for the resource type if we have one
-            if (commonTokenValueId != null) {
-                // #1929 improves cardinality estimation
-                // resulting in far better execution plans for many search queries. Because COMMON_TOKEN_VALUE_ID
-                // is the primary key for the common_token_values table, we don't need the CODE_SYSTEM_ID = ? predicate.
-                whereClause.and().col(paramAlias, COMMON_TOKEN_VALUE_ID).eq(commonTokenValueId); // use literal
-            } else if (targetResourceType != null) {
-                // For better performance, use a literal for the resource type code-system-id, not a parameter marker
-                Integer codeSystemIdForResourceType = getCodeSystemId(targetResourceType);
-                whereClause.and(paramAlias, CODE_SYSTEM_ID).eq(nullCheck(codeSystemIdForResourceType));
+                // add the [optional] condition for the resource type if we have one
+                if (targetResourceType != null) {
+                    // For better performance, use a literal for the resource type code-system-id, not a parameter marker
+                    Integer codeSystemIdForResourceType = getCodeSystemId(targetResourceType);
+                    whereClause.and(paramAlias, CODE_SYSTEM_ID).eq(nullCheck(codeSystemIdForResourceType));
+                }
             }
         }
 
@@ -915,6 +989,16 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
      */
     private int nullCheck(Integer value) {
         return value == null ? -1 : value;
+    }
+
+    /**
+     * Use -1 as a simple substitute for null literal ids because we know -1 will never exist
+     * as a value in the database (for fields populated by sequence values).
+     * @param value
+     * @return
+     */
+    private long nullCheck(Long value) {
+        return value == null ? -1L : value;
     }
 
     /**
@@ -1067,5 +1151,27 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     protected void buildLocationQuerySegment(SelectAdapter query, List<Bounding> boundingAreas) {
         // TODO
         throw new IllegalStateException("unsupported");
+    }
+
+    @Override
+    public QueryData addInclusionParam(QueryData queryData, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException {
+        final WhereAdapter where = queryData.getQuery().from().where();
+        where.and().leftParen();
+
+        // TODO...chained stuff...but check out if this is still a requirement for R4
+        QueryParameter currentParm = queryParm;
+        while (currentParm != null) {
+            // Add an exists clause for the given parameter
+            WhereFragment filter = getFilterPredicate(queryData, queryParm);
+            where.filter(filter.getExpression());
+
+            currentParm = currentParm.getNextParameter();
+            if (currentParm != null) {
+                where.or();
+            }
+        }
+
+        where.rightParen();
+        return queryData;
     }
 }
