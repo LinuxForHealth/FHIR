@@ -39,6 +39,7 @@ import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
+import com.ibm.fhir.model.type.code.SearchEntryMode;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.server.test.FHIRServerTestBase;
 import com.ibm.fhir.server.test.SearchAllTest;
@@ -494,7 +495,10 @@ public class SearchPerformanceTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        assertTrue(bundle.getEntry().size() == 1);
+        assertEquals(1, bundle.getTotal().getValue().intValue());
+        assertEquals(2, bundle.getEntry().size());
+        assertEquals(SearchEntryMode.MATCH, SearchEntryMode.of(bundle.getEntry().get(0).getSearch().getMode().getValue()));
+        assertEquals(SearchEntryMode.OUTCOME, SearchEntryMode.of(bundle.getEntry().get(1).getSearch().getMode().getValue()));
     }
 
     @Test(groups = { "server-search-performance" }, dependsOnMethods = {
@@ -512,7 +516,10 @@ public class SearchPerformanceTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
-        assertTrue(bundle.getEntry().size() == 1);
+        assertEquals(1, bundle.getTotal().getValue().intValue());
+        assertEquals(2, bundle.getEntry().size());
+        assertEquals(SearchEntryMode.MATCH, SearchEntryMode.of(bundle.getEntry().get(0).getSearch().getMode().getValue()));
+        assertEquals(SearchEntryMode.OUTCOME, SearchEntryMode.of(bundle.getEntry().get(1).getSearch().getMode().getValue()));
     }
 
     @Test(groups = { "server-search-performance" })

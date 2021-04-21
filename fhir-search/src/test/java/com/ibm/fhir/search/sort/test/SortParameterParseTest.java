@@ -102,6 +102,7 @@ public class SortParameterParseTest extends BaseSearchTest {
         String selfUri =
                 SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), searchContext);
         assertFalse(selfUri.contains(queryString), selfUri + " contain unexpected " + queryString);
+        assertEquals(2, searchContext.getOutcomeIssues().size());
     }
 
     @Test(expectedExceptions = FHIRSearchException.class)

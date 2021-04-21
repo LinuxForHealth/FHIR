@@ -2569,6 +2569,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 }
             }
             List<Issue> issues = new ArrayList<>();
+            if (searchContext.getOutcomeIssues() != null) {
+                issues.addAll(searchContext.getOutcomeIssues());
+            }
             if (!chainedSearchParameters.isEmpty() || !logicalIdReferenceSearchParameters.isEmpty()) {
                 // Check 'match' resources for versioned references in chain search parameter fields and
                 // multiple resource types with matching logical ID in reference search parameter fields.

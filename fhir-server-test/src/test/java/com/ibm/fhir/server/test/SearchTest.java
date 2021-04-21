@@ -63,6 +63,7 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.SearchEntryMode;
 import com.ibm.fhir.model.util.FHIRUtil;
 
 public class SearchTest extends FHIRServerTestBase {
@@ -551,6 +552,51 @@ public class SearchTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().isEmpty());
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })
+    public void testSearchPatientInvalidSearchParameter_lenient() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient").queryParam("unknown", "unknown").request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("Prefer", "handling=lenient")
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+        assertTrue(bundle.getEntry().get(bundle.getEntry().size()-1).getSearch().getMode().getValueAsEnumConstant() == SearchEntryMode.ValueSet.OUTCOME);
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })
+    public void testSearchPatientInvalidElements_lenient() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient").queryParam("elements", "unknown").request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("Prefer", "handling=lenient")
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+        assertTrue(bundle.getEntry().get(bundle.getEntry().size()-1).getSearch().getMode().getValueAsEnumConstant() == SearchEntryMode.ValueSet.OUTCOME);
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })
+    public void testSearchPatientInvalidSort_lenient() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient").queryParam("sort", "unknown").request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("Prefer", "handling=lenient")
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+        assertTrue(bundle.getEntry().get(bundle.getEntry().size()-1).getSearch().getMode().getValueAsEnumConstant() == SearchEntryMode.ValueSet.OUTCOME);
     }
 
     @Test(groups = { "server-search" })
