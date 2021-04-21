@@ -1673,7 +1673,7 @@ public class SearchUtil {
                 // Only first value is used, which matches behavior of other parameters that are supposed to be specified at most once
                 sort.parseSortParameter(resourceTypeName, context, first);
             } else if (name.startsWith(SearchConstants.INCLUDE) || name.startsWith(SearchConstants.REVINCLUDE)) {
-                parseInclusionParameter(resourceType, context, name, values, context.isLenient());
+                parseInclusionParameter(resourceType, context, name, values);
             } else if (SearchConstants.ELEMENTS.equals(name) && first != null) {
                 // Only first value is used, which matches behavior of other parameters that are supposed to be specified at most once
                 parseElementsParameter(resourceType, context, first);
@@ -2176,12 +2176,9 @@ public class SearchUtil {
      * @param inclusionValues
      *     the inclusion values, each containing joinResourceType, searchParameterName,
      *     and optionally searchParameterTargetType, colon-delimited
-     * @param lenient
-     *     the validation level
      * @throws Exception
      */
-    private static void parseInclusionParameter(Class<?> resourceType, FHIRSearchContext context, String inclusionKeyword, List<String> inclusionValues,
-        boolean lenient) throws Exception {
+    private static void parseInclusionParameter(Class<?> resourceType, FHIRSearchContext context, String inclusionKeyword, List<String> inclusionValues) throws Exception {
 
         String[] inclusionValueParts;
         String joinResourceType;
@@ -2303,7 +2300,7 @@ public class SearchUtil {
             } catch (FHIRSearchException se) {
                 // There's a number of places that throw within this try block. In all cases we want the same behavior:
                 // If we're in lenient mode and there was an issue parsing the inclusion parameter then log and move on to the next one.
-                if (lenient) {
+                if (context.isLenient()) {
                     String msg = "Inclusion parameter '" + inclusionKeyword + "' with value '" + inclusionValue + "' ignored";
                     log.log(Level.FINE, msg, se);
                     context.addOutcomeIssue(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.INVALID, msg));
