@@ -319,9 +319,10 @@ public class StringExpNodeVisitor implements ExpNodeVisitor<String> {
     }
 
     @Override
-    public String in(List<String> args) {
+    public String in(String left, List<String> args) {
         StringBuilder result = new StringBuilder();
-        result.append("IN (");
+        result.append(left);
+        result.append(" IN (");
         result.append(String.join(",", args));
         result.append(")");
         return result.toString();

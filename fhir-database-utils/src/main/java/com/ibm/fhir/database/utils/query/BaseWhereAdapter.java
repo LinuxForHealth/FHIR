@@ -593,6 +593,17 @@ public abstract class BaseWhereAdapter<T> {
         return getThis();
     }
 
+    /**
+     * Add IN (123, 124, ...) for a literal list of Long values
+     * @param inList
+     * @return
+     */
+    public T inLiteralLong(List<Long> inList) {
+        final Long[] literals = inList.stream().toArray(Long[]::new);
+        predicateParser.inLiteral(literals);
+        return getThis();
+    }
+
     // ### LIKE ###
     public T like() {
         predicateParser.like();
@@ -650,6 +661,16 @@ public abstract class BaseWhereAdapter<T> {
     public T escape(BindMarkerNode bindMarker) {
         predicateParser.escape();
         predicateParser.bindMarker(bindMarker);
+        return getThis();
+    }
+
+    /**
+     * Add the expression directly without any other operator
+     * @param filter
+     * @return
+     */
+    public T filter(ExpNode filter) {
+        predicateParser.addToken(filter);
         return getThis();
     }
 

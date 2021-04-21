@@ -122,6 +122,16 @@ public interface SearchQueryVisitor<T> {
     T addCompositeParam(T query, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException;
 
     /**
+     * Special case to handle inclusion related to compartment-based searches
+     * @param query
+     * @param resourceType
+     * @param queryParm
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    T addInclusionParam(T query, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException;
+
+    /**
      * Add sorting (order by) to the query
      * @param query
      * @return

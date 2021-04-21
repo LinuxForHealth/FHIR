@@ -180,7 +180,7 @@ public class NewNumberParmBehaviorUtil {
             String columnName, String columnNameLowOrHigh, String operator, BigDecimal value, BigDecimal bound) {
 
         // TODO get operator from string
-        Operator op = null;
+        Operator op = OperatorUtil.convert(operator);
         whereClauseSegment.leftParen();
         whereClauseSegment.col(tableAlias, columnName).operator(op).bind(value);
         whereClauseSegment.or();
@@ -202,8 +202,7 @@ public class NewNumberParmBehaviorUtil {
     public static void buildEbOrSaClause(WhereFragment whereClauseSegment, String tableAlias,
             String columnName, String columnNameLowOrHigh, String operator, BigDecimal value, BigDecimal bound) {
 
-        // TODO
-        Operator op = null;
+        Operator op = OperatorUtil.convert(operator);
         whereClauseSegment.col(tableAlias, columnNameLowOrHigh).operator(op).bind(value);
     }
 

@@ -44,7 +44,7 @@ public interface ExpNodeVisitor<T> {
     T isNull(T expr);
     T isNotNull(T expr);
     T between(T leftValue, T rightValue);
-    T in(List<T> args);
+    T in(T leftValue, List<T> args);
     T like(T left, T right);
     T escape(T left, T right);
 

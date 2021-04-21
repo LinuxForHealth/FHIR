@@ -149,8 +149,7 @@ public class NewDateParmBehaviorUtil {
     public void buildCommonClause(WhereFragment whereClauseSegment, String tableAlias,
             String columnNameLowOrHigh, String operator, Instant bound) {
 
-        // TODO convert string to operator
-        Operator op = null;
+        Operator op = OperatorUtil.convert(operator);
         whereClauseSegment.col(tableAlias, columnNameLowOrHigh).operator(op).bind(bound);
     }
 
