@@ -36,9 +36,9 @@ curl -L https://raw.githubusercontent.com/IBM/FHIR/main/fhir-server-test/src/tes
 
 ``` sh
 curl -k --location --request POST 'https://localhost:9443/fhir-server/api/v4' \
---header 'Content-Type: application/fhir+json' \
---header "Authorization: Basic ${DUMMY_PASSWORD}" \
---data-binary  "@Antonia30_Acosta403.json" -o response.json
+    --header 'Content-Type: application/fhir+json' \
+    --user "fhiruser:${DUMMY_PASSWORD}" \
+    --data-binary  "@Antonia30_Acosta403.json" -o response.json
 ```
 
 3. Scan the response.json for any status that is not `"status": "201"`.  For example, the status is in the family of User Request Error or Server Side Error.
@@ -63,7 +63,7 @@ curl -k --location --request POST 'https://localhost:9443/fhir-server/api/v4' \
 ``` sh
 curl -k --location --request GET 'https://localhost:9443/fhir-server/api/v4/Patient/178f4a3f869-6abfe1e6-3a4a-4c9a-81a8-fb8c6263e003/$everything' \
     --header 'Content-Type: application/fhir+json' \
-    --header "Authorization: Basic ${DUMMY_PASSWORD}"
+    --user "fhiruser:${DUMMY_PASSWORD}" \
 ```
 
 * Response *
@@ -98,7 +98,7 @@ curl -k --location --request GET 'https://localhost:9443/fhir-server/api/v4/Pati
 ``` sh
 curl -k --location --request GET 'https://localhost:9443/fhir-server/api/v4/Patient/178f4a3f869-6abfe1e6-3a4a-4c9a-81a8-fb8c6263e003/$everything?_type=CarePlan,CareTeam&_since=2021-01-01T00:00:00Z&_count=1' \
     --header 'Content-Type: application/fhir+json' \
-    --header "Authorization: Basic ${DUMMY_PASSWORD}" -o care.json
+    --user "fhiruser:${DUMMY_PASSWORD}" -o care.json
 ```
 
 * Response *
