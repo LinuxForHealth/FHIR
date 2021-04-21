@@ -185,7 +185,7 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 return toConcept(code, parameters);
             }
 
-            throw errorOccurred(response, "CodeSystem $lookup");
+            return null;
         } finally {
             if (response != null) {
                 response.close();

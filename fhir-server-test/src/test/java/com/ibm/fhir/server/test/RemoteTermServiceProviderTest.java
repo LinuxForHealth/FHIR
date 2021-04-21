@@ -9,6 +9,7 @@ package com.ibm.fhir.server.test;
 import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 import java.util.Collections;
@@ -84,6 +85,12 @@ public class RemoteTermServiceProviderTest extends FHIRServerTestBase {
         Concept concept = provider.getConcept(codeSystem, Code.of("a"));
         assertNotNull(concept);
         assertEquals(concept.getCode(), Code.of("a"));
+    }
+
+    @Test(dependsOnMethods = { "testCreateCodeSystem", "testCreateRemoteTermServiceProvider" })
+    public void testRemoteTermServiceProviderGetConceptNotFound() {
+        Concept concept = provider.getConcept(codeSystem, Code.of("zzz"));
+        assertNull(concept);
     }
 
     @Test(dependsOnMethods = { "testCreateCodeSystem", "testCreateRemoteTermServiceProvider" })
