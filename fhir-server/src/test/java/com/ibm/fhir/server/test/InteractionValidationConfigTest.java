@@ -1051,7 +1051,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            FHIRRestOperationResponse response = helper.doUpdate("Patient", "1", patient, null, null, null, false);
+            FHIRRestOperationResponse response = helper.doUpdate("Patient", "1", patient, null, null, null, false, false);
             assertEquals(ALL_OK, response.getOperationOutcome());
         } catch (FHIROperationException e) {
             fail();
@@ -1079,8 +1079,8 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            FHIRRestOperationResponse response = helper.doUpdate("Encounter", "1", encounter, null, null, null, false);
-            assertEquals(ALL_OK, response.getOperationOutcome());
+            FHIRRestOperationResponse response = helper.doUpdate("Encounter", "1", encounter, null, null, null, false, false);
+            assertEquals(response.getOperationOutcome(), ALL_OK);
         } catch (FHIROperationException e) {
             fail();
         }
@@ -1107,8 +1107,8 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            FHIRRestOperationResponse response = helper.doUpdate("Encounter", "1", encounter, null, null, null, false);
-            assertEquals(ALL_OK, response.getOperationOutcome());
+            FHIRRestOperationResponse response = helper.doUpdate("Encounter", "1", encounter, null, null, null, false, false);
+            assertEquals(response.getOperationOutcome(), ALL_OK);
         } catch (FHIROperationException e) {
             fail();
         }
@@ -1134,7 +1134,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doUpdate("Patient", "1", patient, null, null, null, false);
+            helper.doUpdate("Patient", "1", patient, null, null, null, false, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
@@ -1167,7 +1167,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doUpdate("Encounter", "1", encounter, null, null, null, false);
+            helper.doUpdate("Encounter", "1", encounter, null, null, null, false, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
@@ -1200,7 +1200,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doUpdate("Encounter", "1", encounter, null, null, null, false);
+            helper.doUpdate("Encounter", "1", encounter, null, null, null, false, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
@@ -1240,7 +1240,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doUpdate("Procedure", "1", procedure, null, null, null, false);
+            helper.doUpdate("Procedure", "1", procedure, null, null, null, false, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
@@ -1267,7 +1267,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doUpdate("Practitioner", "1", practitioner, null, null, null, false);
+            helper.doUpdate("Practitioner", "1", practitioner, null, null, null, false, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
@@ -1291,7 +1291,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doPatch("Patient", "1", null, null, null, null);
+            helper.doPatch("Patient", "1", null, null, null, null, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
@@ -1315,7 +1315,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doPatch("Encounter", "1", null, null, null, null);
+            helper.doPatch("Encounter", "1", null, null, null, null, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
@@ -1339,7 +1339,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doPatch("Procedure", "1", null, null, null, null);
+            helper.doPatch("Procedure", "1", null, null, null, null, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
@@ -1363,7 +1363,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doPatch("Encounter", "1", null, null, null, null);
+            helper.doPatch("Encounter", "1", null, null, null, null, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
@@ -1390,7 +1390,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doPatch("Practitioner", "1", null, null, null, null);
+            helper.doPatch("Practitioner", "1", null, null, null, null, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results

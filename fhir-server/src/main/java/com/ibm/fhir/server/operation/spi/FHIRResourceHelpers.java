@@ -22,8 +22,10 @@ import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
  * implementations.
  */
 public interface FHIRResourceHelpers {
-    // Useful constant for indicating the need to validate a resource
+    // Constant for indicating the need to validate a resource
     public static final boolean DO_VALIDATION = true;
+    // Constant for indicating whether an update can be skipped when the requested update resource matches the existing one
+    public static final boolean SKIPPABLE_UPDATE = true;
 
     /**
      * Performs the heavy lifting associated with a 'create' interaction. Validates the resource.
@@ -74,11 +76,15 @@ public interface FHIRResourceHelpers {
      *            an optional "If-Match" header value to request a version-aware update
      * @param searchQueryString
      *            an optional search query string to request a conditional update
+     * @param skippableUpdate
+     *            if true, and the resource content in the update matches the existing resource on the server, then skip the update;
+     *            if false, then always attempt the update
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
-    default FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue, String searchQueryString, Map<String, String> requestProperties) throws Exception {
-        return doUpdate(type, id, newResource, ifMatchValue, searchQueryString, requestProperties, DO_VALIDATION);
+    default FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue,
+            String searchQueryString, Map<String, String> requestProperties, boolean skippableUpdate) throws Exception {
+        return doUpdate(type, id, newResource, ifMatchValue, searchQueryString, requestProperties, skippableUpdate, DO_VALIDATION);
     }
 
     /**
@@ -94,12 +100,16 @@ public interface FHIRResourceHelpers {
      *            an optional "If-Match" header value to request a version-aware update
      * @param searchQueryString
      *            an optional search query string to request a conditional update
+     * @param skippableUpdate
+     *            if true, and the resource content in the update matches the existing resource on the server, then skip the update;
+     *            if false, then always attempt the update
      * @param doValidation
      *            if true, validate the resource; if false, assume the resource has already been validated
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
-    public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue, String searchQueryString, Map<String, String> requestProperties, boolean doValidation) throws Exception;
+    public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue,
+            String searchQueryString, Map<String, String> requestPropertie, boolean skippableUpdate, boolean doValidation) throws Exception;
 
     /**
      * Performs a patch operation (a new version of the Resource will be stored).
@@ -114,10 +124,14 @@ public interface FHIRResourceHelpers {
      *            an optional "If-Match" header value to request a version-aware update
      * @param searchQueryString
      *            an optional search query string to request a conditional update
+     * @param skippableUpdate
+     *            if true, and the result of the patch matches the existing resource on the server, then skip the update;
+     *            if false, then always attempt the update
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
-    public FHIRRestOperationResponse doPatch(String type, String id, FHIRPatch patch, String ifMatchValue, String searchQueryString, Map<String, String> requestProperties) throws Exception;
+    public FHIRRestOperationResponse doPatch(String type, String id, FHIRPatch patch, String ifMatchValue,
+            String searchQueryString, Map<String, String> requestProperties, boolean skippableUpdate) throws Exception;
 
 
     /**
@@ -144,7 +158,8 @@ public interface FHIRResourceHelpers {
      * @return the Resource
      * @throws Exception
      */
-    public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted, Map<String, String> requestProperties, Resource contextResource, MultivaluedMap<String, String> queryParameters) throws Exception;
+    public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted, Map<String, String> requestProperties,
+            Resource contextResource, MultivaluedMap<String, String> queryParameters) throws Exception;
 
     /**
      * Performs a 'read' operation to retrieve a Resource.
@@ -156,7 +171,8 @@ public interface FHIRResourceHelpers {
      * @return the Resource
      * @throws Exception
      */
-    public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted, Map<String, String> requestProperties, Resource contextResource) throws Exception;
+    public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted, Map<String, String> requestProperties,
+            Resource contextResource) throws Exception;
 
     /**
      * Performs a 'vread' operation by retrieving the specified version of a Resource.
@@ -174,7 +190,8 @@ public interface FHIRResourceHelpers {
      * @return the Resource
      * @throws Exception
      */
-    public Resource doVRead(String type, String id, String versionId, Map<String, String> requestProperties, MultivaluedMap<String, String> queryParameters) throws Exception;
+    public Resource doVRead(String type, String id, String versionId, Map<String, String> requestProperties,
+            MultivaluedMap<String, String> queryParameters) throws Exception;
 
     /**
      * Performs a 'vread' operation by retrieving the specified version of a Resource.
@@ -206,7 +223,8 @@ public interface FHIRResourceHelpers {
      * @return a Bundle containing the history of the specified Resource
      * @throws Exception
      */
-    public Bundle doHistory(String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri, Map<String, String> requestProperties) throws Exception;
+    public Bundle doHistory(String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri,
+            Map<String, String> requestProperties) throws Exception;
 
     /**
      * Implement the system level history operation to obtain a list of changes to resources
@@ -230,8 +248,8 @@ public interface FHIRResourceHelpers {
      * @return a Bundle containing the search result set
      * @throws Exception
      */
-    public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri, Map<String, String> requestProperties, Resource contextResource)
-        throws Exception;
+    public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters,
+            String requestUri, Map<String, String> requestProperties, Resource contextResource) throws Exception;
 
 
     /**
@@ -258,7 +276,7 @@ public interface FHIRResourceHelpers {
      * @throws Exception
      */
     public Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId, String operationName,
-        Resource resource, MultivaluedMap<String, String> queryParameters, Map<String, String> requestProperties) throws Exception;
+            Resource resource, MultivaluedMap<String, String> queryParameters, Map<String, String> requestProperties) throws Exception;
 
     /**
      * Processes a bundled request (batch or transaction type).
