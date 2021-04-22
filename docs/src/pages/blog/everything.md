@@ -6,7 +6,7 @@ date:   2021-04-21
 ---
 
 # Introducing the IBM FHIR Server - $everything operation
-In [IBM FHIR Server 4.7.0](https://github.com/IBM/FHIR/releases/tag/4.7.0), the IBM FHIR Server team turned on the `Patient/$everything` operation. In [IBM FHIR Server 4.6.1](https://github.com/IBM/FHIR/releases/tag/4.6.1), an external contributor and an IBMer, [Luis García](https://github.com/luisgarcc) implemented  the operation [#1044](https://github.com/IBM/FHIR/issues/1044). 
+In [IBM FHIR Server 4.7.0](https://github.com/IBM/FHIR/releases/tag/4.7.0), the IBM FHIR Server team turned on the `Patient/$everything` operation. We have this feature thanks to external contributor and an IBMer, [Luis García](https://github.com/luisgarcc) who implemented  the operation [#1044](https://github.com/IBM/FHIR/issues/1044). 
 
 So what do you get with `Patient/$everything`? Well, following the HL7 FHIR R4 [specification](http://hl7.org/fhir/patient-operation-everything.html), you get an operation that returns a "searchset" bundle with the information related to a patient in the context it is invoked. In the IBM FHIR Server's case, the server returns whatever resources are related to the Patient - e.g. practitioners, medications, locations, organizations etc.  You also get support for `Patient/[id]/$everything` where the `[ID]` is the logical id specific to a patient.
 
