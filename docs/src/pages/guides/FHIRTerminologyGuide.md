@@ -163,3 +163,7 @@ Example configuration:
                 }]
             }]
 ```
+
+## FHIR Terminology Service Diagram
+
+![fhir-term-service-diagram.png](fhir-term-service-diagram.png)
