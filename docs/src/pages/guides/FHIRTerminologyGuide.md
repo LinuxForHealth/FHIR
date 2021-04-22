@@ -148,7 +148,7 @@ Example configurations:
 
 The FHIR term remote module [fhir-term-remote](https://github.com/IBM/FHIR/tree/main/fhir-term-remote) provides an implementation of `FHIRTermServiceProvider` that connects to an external service using a REST client to access code system content. The external service must implement the FHIR REST terminology APIs documented [here](http://hl7.org/fhir/terminology-service.html). Remote term service providers may be enabled / configured through the `fhir-server-config.json` file per the configuration properties specified in the [FHIR Server User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#51-configuration-properties-reference).
 
-Example configuration:
+Example configurations:
 
 
 ``` json
