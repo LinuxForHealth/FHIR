@@ -64,7 +64,7 @@ public class Update extends FHIRResource {
     @PUT
     @Path("{type}/{id}")
     public Response update(@PathParam("type") String type, @PathParam("id") String id, Resource resource,
-            @HeaderParam(HttpHeaders.IF_MATCH) String ifMatch, @HeaderParam(FHIRConstants.UPDATE_IF_MODIFIED_HEADER) Boolean onlyIfModified) {
+            @HeaderParam(HttpHeaders.IF_MATCH) String ifMatch, @HeaderParam(FHIRConstants.UPDATE_IF_MODIFIED_HEADER) boolean onlyIfModified) {
         log.entering(this.getClass().getName(), "update(String,String,Resource)");
         Date startTime = new Date();
         Response.Status status = null;
@@ -74,7 +74,7 @@ public class Update extends FHIRResource {
             checkInitComplete();
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            ior = helper.doUpdate(type, id, resource, ifMatch, null, null, onlyIfModified != null ? onlyIfModified : false);
+            ior = helper.doUpdate(type, id, resource, ifMatch, null, null, onlyIfModified);
 
             ResponseBuilder response =
                     Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
@@ -117,7 +117,7 @@ public class Update extends FHIRResource {
     @PUT
     @Path("{type}")
     public Response conditionalUpdate(@PathParam("type") String type, Resource resource, @HeaderParam(HttpHeaders.IF_MATCH) String ifMatch,
-            @HeaderParam(FHIRConstants.UPDATE_IF_MODIFIED_HEADER) Boolean onlyIfModified) {
+            @HeaderParam(FHIRConstants.UPDATE_IF_MODIFIED_HEADER) boolean onlyIfModified) {
         log.entering(this.getClass().getName(), "conditionalUpdate(String,Resource)");
         Date startTime = new Date();
         Response.Status status = null;
@@ -134,7 +134,7 @@ public class Update extends FHIRResource {
             }
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            ior = helper.doUpdate(type, null, resource, ifMatch, searchQueryString, null, onlyIfModified != null ? onlyIfModified : false);
+            ior = helper.doUpdate(type, null, resource, ifMatch, searchQueryString, null, onlyIfModified);
 
             ResponseBuilder response =
                     Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));

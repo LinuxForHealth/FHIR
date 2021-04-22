@@ -305,22 +305,22 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         // Validate that interaction is allowed for given resource type
         validateInteraction(Interaction.PATCH.value(), type);
 
-        return doPatchOrUpdate(type, id, patch, null, ifMatchValue, searchQueryString, requestProperties, DO_VALIDATION, skippableUpdate);
+        return doPatchOrUpdate(type, id, patch, null, ifMatchValue, searchQueryString, requestProperties, skippableUpdate, DO_VALIDATION);
     }
 
     @Override
     public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue,
-            String searchQueryString, Map<String, String> requestProperties, boolean doValidation, boolean skippableUpdate) throws Exception {
+            String searchQueryString, Map<String, String> requestProperties, boolean skippableUpdate, boolean doValidation) throws Exception {
 
         // Validate that interaction is allowed for given resource type
         validateInteraction(Interaction.UPDATE.value(), type);
 
-        return doPatchOrUpdate(type, id, null, newResource, ifMatchValue, searchQueryString, requestProperties, doValidation, skippableUpdate);
+        return doPatchOrUpdate(type, id, null, newResource, ifMatchValue, searchQueryString, requestProperties, skippableUpdate, doValidation);
     }
 
     private FHIRRestOperationResponse doPatchOrUpdate(String type, String id, FHIRPatch patch,
             Resource newResource, String ifMatchValue, String searchQueryString,
-            Map<String, String> requestProperties, boolean doValidation, boolean skippableUpdate) throws Exception {
+            Map<String, String> requestProperties, boolean skippableUpdate, boolean doValidation) throws Exception {
         log.entering(this.getClass().getName(), "doPatchOrUpdate");
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
@@ -449,7 +449,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             List<Issue> warnings = doValidation ? new ArrayList<>(validateInput(newResource)) : new ArrayList<>() ;
 
             // Perform the "version-aware" update check, and also find out if the resource was deleted.
-            boolean skipUpdate = false;
             boolean isDeleted = false;
             if (ior.getPrevResource() != null) {
                 performVersionAwareUpdateCheck(ior.getPrevResource(), ifMatchValue);
@@ -463,11 +462,29 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 if (skippableUpdate && !isDeleted) {
                     ResourceFingerprintVisitor fingerprinter = new ResourceFingerprintVisitor();
                     ior.getPrevResource().accept(fingerprinter);
-                    SaltHash currentResourceSaltHash = fingerprinter.getSaltAndHash();
+                    SaltHash baseline = fingerprinter.getSaltAndHash();
 
-                    fingerprinter.reset();
+                    fingerprinter = new ResourceFingerprintVisitor(baseline);
                     newResource.accept(fingerprinter);
-                    skipUpdate = fingerprinter.getSaltAndHash().equals(currentResourceSaltHash);
+                    if (fingerprinter.getSaltAndHash().equals(baseline)) {
+                        txn.commit();
+                        txn = null;
+
+                        ior.setResource(ior.getPrevResource());
+                        ior.setStatus(Status.OK);
+                        ior.setLocationURI(FHIRUtil.buildLocationURI(type, ior.getPrevResource()));
+                        ior.setOperationOutcome(OperationOutcome.builder()
+                                .issue(Issue.builder()
+                                    .severity(IssueSeverity.INFORMATION)
+                                    .code(IssueType.INFORMATIONAL)
+                                    .details(CodeableConcept.builder()
+                                        .text(string("Update resource matches the existing resource; skipping the update"))
+                                        .build())
+                                    .build())
+                                .build());
+
+                        return ior; // early exit
+                    }
                 }
             }
 
@@ -503,7 +520,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             ior.setOperationOutcome(FHIRUtil.buildOperationOutcome(warnings));
 
             // Build our location URI and add it to the interceptor event structure since it is now known.
-            ior.setLocationURI(FHIRUtil.buildLocationURI(ModelSupport.getTypeName(newResource.getClass()), newResource));
+            ior.setLocationURI(FHIRUtil.buildLocationURI(type, newResource));
             event.getProperties().put(FHIRPersistenceEvent.PROPNAME_RESOURCE_LOCATION_URI, ior.getLocationURI().toString());
 
             // Invoke the 'afterUpdate' interceptor methods.

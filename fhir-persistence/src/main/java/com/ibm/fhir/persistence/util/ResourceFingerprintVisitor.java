@@ -37,7 +37,7 @@ public class ResourceFingerprintVisitor extends PathAwareVisitor {
     // The name of the resource we first encounter
     private String currentResourceName;
 
-    private MessageDigest digest;
+    private final MessageDigest digest;
 
     // for tracking array elements
     int index;
@@ -52,7 +52,8 @@ public class ResourceFingerprintVisitor extends PathAwareVisitor {
         try {
             digest = MessageDigest.getInstance("SHA-256");
             digest.update(salt);
-        } catch (NoSuchAlgorithmException x) {
+        }
+        catch (NoSuchAlgorithmException x) {
             throw new IllegalStateException(x);
         }
     }
@@ -76,7 +77,8 @@ public class ResourceFingerprintVisitor extends PathAwareVisitor {
         try {
             digest = MessageDigest.getInstance("SHA-256");
             digest.update(salt);
-        } catch (NoSuchAlgorithmException x) {
+        }
+        catch (NoSuchAlgorithmException x) {
             throw new IllegalStateException(x);
         }
     }
@@ -87,17 +89,6 @@ public class ResourceFingerprintVisitor extends PathAwareVisitor {
      */
     public SaltHash getSaltAndHash() {
         return new SaltHash(salt, digest.digest());
-    }
-
-    @Override
-    public final void reset() {
-        super.reset();
-        try {
-            digest = MessageDigest.getInstance("SHA-256");
-            digest.update(salt);
-        } catch (NoSuchAlgorithmException x) {
-            throw new IllegalStateException(x);
-        }
     }
 
     @Override
