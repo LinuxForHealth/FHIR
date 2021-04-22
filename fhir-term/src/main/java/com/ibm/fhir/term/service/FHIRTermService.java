@@ -148,7 +148,7 @@ public class FHIRTermService {
     }
 
     /**
-     * Generate a map containing the transitive closures for the code system concepts represented by the giving codings
+     * Generate a map containing the transitive closures for the code system concepts represented by the given codings
      *
      * @param codings
      *     the codings
