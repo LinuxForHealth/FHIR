@@ -1,32 +1,42 @@
 ---
 slug:  "/FHIR/guides/FHIRTerminologyGuide/"
 title: "FHIR Terminology Guide"
-date:  "2021-03-30"
+date:  "2021-04-22"
 ---
 
 ## Overview
 
 The IBM FHIR Server Terminology module ([fhir-term](https://github.com/IBM/FHIR/tree/main/fhir-term)) provides a FHIR terminology service provider interface (SPI) and a default implementation that implements terminology services using `CodeSystem`, `ValueSet`, and `ConceptMap` resources that have been made available through the FHIR registry module ([fhir-registry](https://github.com/IBM/FHIR/tree/main/fhir-registry)).
 
+## FHIR Terminology Service Diagram
+
+![fhir-term-service-diagram.png](fhir-term-service-diagram.png)
+
 ## FHIR Terminology Service Provider Interface (SPI)
 
-The FHIR Terminology Service Provider interface provides a mechanism for implementers to provide terminology capabilities via the Java ServiceLoader. The interface includes method signatures for `closure`, `getConcept`, `getConcepts`, `hasConcept`, `isSupported` and `subsumes`:
+The FHIR Terminology Service Provider interface provides a mechanism for implementers to provide terminology capabilities via the Java ServiceLoader. The interface includes method signatures for `closure`, `getConcept`, `getConcepts`, `hasConcept`, `hasConcepts`, `isSupported` and `subsumes`:
 
 ```java
 public interface FHIRTermServiceProvider {
     Set<Concept> closure(CodeSystem codeSystem, Code code);
+    Map<Code, Set<Concept>> closure(CodeSystem codeSystem, Set<Code> codes);
     Concept getConcept(CodeSystem codeSystem, Code code);
     Set<Concept> getConcepts(CodeSystem codeSystem);
+    <R> Set<R> getConcepts(CodeSystem codeSystem, Function<Concept, ? extends R> function);
     Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters);
+    <R> Set<R> getConcepts(CodeSystem codeSystem, List<Filter> filters, Function<Concept, ? extends R> function);
     boolean hasConcept(CodeSystem codeSystem, Code code);
+    boolean hasConcepts(CodeSystem codeSystem, Set<Code> codes);
     boolean isSupported(CodeSystem codeSystem);
     boolean subsumes(CodeSystem codeSystem, Code codeA, Code codeB);
 }
 ```
 
-## Default Terminology Service Provider Implementation
+NOTE: `closure(CodeSystem, Set)`, `getConcepts(CodeSystem, Function)`, `getConcepts(CodeSystem, List, Function)` and `hasConcepts(CodeSystem, Set)` all have default implementations in the `FHIRTermServiceProvider` interface.
 
-The default implementation of `FHIRTermServiceProvider` ([DefaultTermServiceProvider](https://github.com/IBM/FHIR/blob/main/fhir-term/src/main/java/com/ibm/fhir/term/service/provider/DefaultTermServiceProvider.java)) leverages terminology resources (`CodeSystem`, `ValueSet`, and `ConceptMap`) that have been made available through the FHIR registry module ([fhir-registry](https://github.com/IBM/FHIR/tree/main/fhir-registry)). It supports `CodeSystem` resources with *complete* content (`CodeSystem.content = 'complete'`) and `ValueSet` resources that reference `CodeSystem` resources that have complete content.
+## Registry Terminology Service Provider Implementation
+
+The default implementation of `FHIRTermServiceProvider` ([RegistryTermServiceProvider](https://github.com/IBM/FHIR/blob/main/fhir-term/src/main/java/com/ibm/fhir/term/service/provider/RegistryTermServiceProvider.java)) leverages terminology resources (`CodeSystem`, `ValueSet`, and `ConceptMap`) that have been made available through the FHIR registry module ([fhir-registry](https://github.com/IBM/FHIR/tree/main/fhir-registry)). It supports `CodeSystem` resources with *complete* content (`CodeSystem.content = 'complete'`) and `ValueSet` resources that reference `CodeSystem` resources that have complete content.
 
 ## FHIR Terminology Service Singleton facade
 
@@ -99,14 +109,27 @@ Additionally, the FHIRPath functions `subsumedBy` and `subsumes` have been imple
 
 ## Graph Terminology Service Provider Implementation (experimental)
 
-The FHIR term graph module [fhir-term-graph](https://github.com/IBM/FHIR/tree/main/fhir-term-graph) provides an implementation of `FHIRTermServiceProvider` that is backed by a graph database ([JanusGraph](https://janusgraph.org)). The module also contains term graph loaders for SNOMED-CT Release Format 2 (RF2) files (SnomedTermGraphLoader), UMLS Rich Release Format (RRF) files (UMLSTermGraphLoader), and FHIR CodeSystem resources (CodeSystemTermGraphLoader). The graph term service provider may be enabled / configured through the `fhir-server-config.json` file per the configuration properties specified in the [FHIR Server User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#51-configuration-properties-reference).
+The FHIR term graph module [fhir-term-graph](https://github.com/IBM/FHIR/tree/main/fhir-term-graph) provides an implementation of `FHIRTermServiceProvider` that is backed by a graph database ([JanusGraph](https://janusgraph.org)). The module also contains term graph loaders for SNOMED-CT Release Format 2 (RF2) files (SnomedTermGraphLoader), UMLS Rich Release Format (RRF) files (UMLSTermGraphLoader), and FHIR CodeSystem resources (CodeSystemTermGraphLoader). Graph term service providers may be enabled / configured through the `fhir-server-config.json` file per the configuration properties specified in the [FHIR Server User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#51-configuration-properties-reference).
 
-Example configuration for Apache Cassandra + ElasticSearch:
+Example configurations:
 
 ``` json
-            "__comment": "Configuration for Apache Cassandra + ElasticSearch",
-            "graphTermServiceProvider": {
+            "graphTermServiceProviders": [{
+                "__comment": "Configuration for Berkeley DB Java Edition + Lucene",
                 "enabled": false,
+                "configuration": {
+                    "storage.backend": "berkeleyje",
+                    "storage.directory": "data/graph",
+                    "index.search.backend": "lucene",
+                    "index.search.hostname": "data/searchindex",
+                    "storage.read-only": true,
+                    "query.batch": true,
+                    "query.batch-property-prefetch": true,
+                    "query.fast-property": true
+                }
+            },{
+                "__comment": "Configuration for Apache Cassandra + ElasticSearch",
+                "enabled": true,
                 "timeLimit": 10000,
                 "configuration": {
                     "storage.backend": "cql",
@@ -118,43 +141,26 @@ Example configuration for Apache Cassandra + ElasticSearch:
                     "query.batch-property-prefetch": true,
                     "query.fast-property": true
                 }
-            }
-```
-
-Example configuration for Berkeley DB Java Edition + Lucene:
-
-``` json
-            "__comment": "Configuration for Berkeley DB Java Edition + Lucene",
-            "graphTermServiceProvider": {
-                "enabled": true,
-                "configuration": {
-                    "storage.backend": "berkeleyje",
-                    "storage.directory": "data/graph",
-                    "index.search.backend": "lucene",
-                    "index.search.hostname": "data/searchindex",
-                    "storage.read-only": true,
-                    "query.batch": true,
-                    "query.batch-property-prefetch": true,
-                    "query.fast-property": true
-                }
-            }
+            }],
 ```
 
 ## Remote Terminology Service Provider Implementation (experimental)
 
 The FHIR term remote module [fhir-term-remote](https://github.com/IBM/FHIR/tree/main/fhir-term-remote) provides an implementation of `FHIRTermServiceProvider` that connects to an external service using a REST client to access code system content. The external service must implement the FHIR REST terminology APIs documented [here](http://hl7.org/fhir/terminology-service.html). Remote term service providers may be enabled / configured through the `fhir-server-config.json` file per the configuration properties specified in the [FHIR Server User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#51-configuration-properties-reference).
 
-Example configuration:
+Example configurations:
 
 
 ``` json
             "remoteTermServiceProviders": [{
+                "__comment": "Configuration for public SNOMED-CT endpoint",
                 "enabled": true,
                 "base": "https://snowstorm-fhir.snomedtools.org/fhir",
                 "supports": [{
                     "system": "http://snomed.info/sct"
                 }]
             },{
+                "__comment": "Configuration for public LOINC endpoint",
                 "enabled": true,
                 "base": "https://fhir.loinc.org",
                 "basicAuth": {

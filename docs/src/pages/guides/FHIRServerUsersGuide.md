@@ -1954,9 +1954,10 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/disabledOperations`|string|A comma-separated list of operations which are not allowed to run on the IBM FHIR Server, for example, `validate,import`. Note, do not include the dollar sign `$`|
 |`fhirServer/core/defaultPageSize`|integer|Sets the pageSize to use in search and history when no _count parameter is specified in the request. If a user-specified value exceeds the max page size (1000), then a warning is logged and max page size will be used. If not provided, the default page size (10) is used.|
 |`fhirServer/term/disableCaching`|boolean|Indicates whether caching is disabled for the FHIR terminology module, this includes caching in `CodeSystemSupport`, `ValueSetSupport`, `GraphTermServiceProvider`, and `RemoteTermServiceProvider`|
-|`fhirServer/term/graphTermServiceProvider/enabled`|boolean|Indicates whether the graph term service provider should be used by the FHIR term service to access code system content|
-|`fhirServer/term/graphTermServiceProvider/timeLimit`|integer|Graph traversal time limit (in milliseconds)|
-|`fhirServer/term/graphTermServiceProvider/configuration`|object (name/value pairs)|A JSON object that contains the name/value pairs used to configure the graph database behind the graph term service provider see: [https://docs.janusgraph.org/basics/configuration-reference/](https://docs.janusgraph.org/basics/configuration-reference/)|
+|`fhirServer/term/graphTermServiceProviders`|array of objects|The `graphTermServiceProviders` element is an array of objects|
+|`fhirServer/term/graphTermServiceProviders/enabled`|boolean|Indicates whether the graph term service provider should be used by the FHIR term service to access code system content|
+|`fhirServer/term/graphTermServiceProviders/timeLimit`|integer|Graph traversal time limit (in milliseconds)|
+|`fhirServer/term/graphTermServiceProviders/configuration`|object (name/value pairs)|A JSON object that contains the name/value pairs used to configure the graph database behind the graph term service provider see: [https://docs.janusgraph.org/basics/configuration-reference/](https://docs.janusgraph.org/basics/configuration-reference/)|
 |`fhirServer/term/remoteTermServiceProviders`|array of objects|The `remoteTermServiceProviders` element is an array of objects|
 |`fhirServer/term/remoteTermServiceProviders/enabled`|boolean|Indicates whether this remote term service provider should be used by the FHIR term service to access code system content|
 |`fhirServer/term/remoteTermServiceProviders/base`|string|The base URL for this remote term service provider|
@@ -2096,8 +2097,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/extendedCodeableConceptValidation`|true|
 |`fhirServer/core/defaultPageSize`|10|
 |`fhirServer/term/cachingDisabled`|false|
-|`fhirServer/term/graphTermServiceProvider/enabled`|false|
-|`fhirServer/term/graphTermServiceProvider/timeLimit`|90000|
+|`fhirServer/term/graphTermServiceProviders/enabled`|false|
+|`fhirServer/term/graphTermServiceProviders/timeLimit`|90000|
 |`fhirServer/term/remoteTermServiceProviders/enabled`|false|
 |`fhirServer/term/remoteTermServiceProviders/hostnameVerificationEnabled`|true|
 |`fhirServer/term/remoteTermServiceProviders/httpTimeout`|60000|
@@ -2213,9 +2214,9 @@ must restart the server for that change to take effect.
 |`fhirServer/core/disabledOperations`|N|N|
 |`fhirServer/core/defaultPageSize`|Y|Y|
 |`fhirServer/term/cachingDisabled`|N|N|
-|`fhirServer/term/graphTermServiceProvider/enabled`|N|N|
-|`fhirServer/term/graphTermServiceProvider/timeLimit`|N|N|
-|`fhirServer/term/graphTermServiceProvider/configuration`|N|N|
+|`fhirServer/term/graphTermServiceProviders/enabled`|N|N|
+|`fhirServer/term/graphTermServiceProviders/timeLimit`|N|N|
+|`fhirServer/term/graphTermServiceProviders/configuration`|N|N|
 |`fhirServer/term/remoteTermServiceProviders/enabled`|N|N|
 |`fhirServer/term/remoteTermServiceProviders/base`|N|N|
 |`fhirServer/term/remoteTermServiceProviders/trustStore`|N|N|
@@ -2328,6 +2329,8 @@ must restart the server for that change to take effect.
 
 ### 5.2.1 Background
 As stated earlier, the FHIR server is installed with a default configuration in `server.xml` which includes the definition of a keystore (`fhirKeyStore.p12`) and a truststore (`fhirTrustStore.p12`)<sup id="a7">[7](#f7)</sup>. These files are provided only as examples and while they may suffice in a test environment, the FHIR server deployer should generate a new keystore and truststore for any installations where security is a concern. Review the information in the following topics to learn how to configure a secure keystore and truststore.
+
+Additionally, the server has a trustDefault.xml config dropin that references the SEC_TLS_TRUSTDEFAULTCERTS variable (defaultValue = true) to indicate whether or not the JVM truststore should be used in combination with the configured trust store.
 
 ### 5.2.2 WebApp security
 By default, the FHIR server REST API is only available via HTTPS on port 9443 and is protected by HTTP basic authentication.
