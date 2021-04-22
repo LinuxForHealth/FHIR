@@ -151,7 +151,7 @@ public class EverythingOperation extends AbstractOperation {
 
         Patient patient = null;
         try {
-            patient = (Patient) resourceHelper.doRead(PATIENT, logicalId, false, false, null, null);
+            patient = (Patient) resourceHelper.doRead(PATIENT, logicalId, false, false, null);
         } catch (FHIRPersistenceResourceDeletedException fde) {
             FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Patient with ID '" + logicalId + "' does not exist.", IssueType.NOT_FOUND);
             throw exceptionWithIssue;
@@ -189,7 +189,7 @@ public class EverythingOperation extends AbstractOperation {
             Bundle results = null;
             int currentResourceCount = 0;
             try {
-                results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, searchParameters, null, null, null);
+                results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, searchParameters, null, null);
                 currentResourceCount = results.getTotal().getValue();
                 totalResourceCount += currentResourceCount;
                 LOG.finest("Got " + compartmentType + " resources " + currentResourceCount + " for a total of " + totalResourceCount);
@@ -214,7 +214,7 @@ public class EverythingOperation extends AbstractOperation {
                     LOG.finest("Retrieving page " + page + " of the " + compartmentType + " resources for patient " + logicalId);
                     try {
                         searchParameters.putSingle(SearchConstants.PAGE, page++ + "");
-                        results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, searchParameters, null, null, null);
+                        results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, searchParameters, null, null);
                     } catch (Exception e) {
                         FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving $everything resources page '" + page + "' of type '" + compartmentType + "' for patient " + logicalId, IssueType.EXCEPTION);
                         LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);

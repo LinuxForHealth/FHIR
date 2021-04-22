@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -25,8 +24,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
-import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -43,12 +40,6 @@ import com.ibm.fhir.server.util.RestAuditLogger;
 @RequestScoped
 public class Search extends FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(Search.class.getName());
-
-    // The JWT of the current caller. Since this is a request scoped resource, the
-    // JWT will be injected for each JAX-RS request. The injection is performed by
-    // the mpJwt feature.
-    @Inject
-    private JsonWebToken jwt;
 
     public Search() throws Exception {
         super();
@@ -79,7 +70,7 @@ public class Search extends FHIRResource {
 
             queryParameters = uriInfo.getQueryParameters();
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            bundle = helper.doSearch(type, null, null, queryParameters, getRequestUri(), null, null);
+            bundle = helper.doSearch(type, null, null, queryParameters, getRequestUri(), null);
             status = Status.OK;
             return Response.status(status).entity(bundle).build();
         } catch (FHIROperationException e) {
@@ -127,7 +118,7 @@ public class Search extends FHIRResource {
 
             queryParameters = uriInfo.getQueryParameters();
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            bundle = helper.doSearch(type, compartment, compartmentId, queryParameters, getRequestUri(), null, null);
+            bundle = helper.doSearch(type, compartment, compartmentId, queryParameters, getRequestUri(), null);
             status = Status.OK;
             return Response.status(status).entity(bundle).build();
         } catch (FHIROperationException e) {
@@ -173,7 +164,7 @@ public class Search extends FHIRResource {
 
             queryParameters = uriInfo.getQueryParameters();
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            bundle = helper.doSearch("Resource", null, null, queryParameters, getRequestUri(), null, null);
+            bundle = helper.doSearch("Resource", null, null, queryParameters, getRequestUri(), null);
             status = Status.OK;
             return Response.status(status).entity(bundle).build();
         } catch (FHIROperationException e) {
