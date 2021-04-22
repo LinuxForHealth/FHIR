@@ -7,7 +7,6 @@
 package com.ibm.fhir.server.operation.spi;
 
 import java.time.Instant;
-import java.util.Map;
 
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -36,13 +35,11 @@ public interface FHIRResourceHelpers {
      *            the Resource to be stored.
      * @param ifNoneExist
      *            whether to create the resource if none exists
-     * @param requestProperties
-     *            additional request properties which supplement the HTTP headers associated with this request
      * @return a FHIRRestOperationResponse object containing the results of the operation
      * @throws Exception
      */
-    default FHIRRestOperationResponse doCreate(String type, Resource resource, String ifNoneExist, Map<String, String> requestProperties) throws Exception {
-        return doCreate(type, resource, ifNoneExist, requestProperties, DO_VALIDATION);
+    default FHIRRestOperationResponse doCreate(String type, Resource resource, String ifNoneExist) throws Exception {
+        return doCreate(type, resource, ifNoneExist, DO_VALIDATION);
     }
 
     /**
@@ -54,14 +51,12 @@ public interface FHIRResourceHelpers {
      *            the Resource to be stored.
      * @param ifNoneExist
      *            whether to create the resource if none exists
-     * @param requestProperties
-     *            additional request properties which supplement the HTTP headers associated with this request
      * @param doValidation
      *            if true, validate the resource; if false, assume the resource has already been validated
      * @return a FHIRRestOperationResponse object containing the results of the operation
      * @throws Exception
      */
-    public FHIRRestOperationResponse doCreate(String type, Resource resource, String ifNoneExist, Map<String, String> requestProperties, boolean doValidation) throws Exception;
+    FHIRRestOperationResponse doCreate(String type, Resource resource, String ifNoneExist, boolean doValidation) throws Exception;
 
     /**
      * Performs an update operation (a new version of the Resource will be stored). Validates the resource.
@@ -83,8 +78,8 @@ public interface FHIRResourceHelpers {
      * @throws Exception
      */
     default FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue,
-            String searchQueryString, Map<String, String> requestProperties, boolean skippableUpdate) throws Exception {
-        return doUpdate(type, id, newResource, ifMatchValue, searchQueryString, requestProperties, skippableUpdate, DO_VALIDATION);
+            String searchQueryString, boolean skippableUpdate) throws Exception {
+        return doUpdate(type, id, newResource, ifMatchValue, searchQueryString, skippableUpdate, DO_VALIDATION);
     }
 
     /**
@@ -108,8 +103,8 @@ public interface FHIRResourceHelpers {
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
-    public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue,
-            String searchQueryString, Map<String, String> requestPropertie, boolean skippableUpdate, boolean doValidation) throws Exception;
+    FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue,
+            String searchQueryString, boolean skippableUpdate, boolean doValidation) throws Exception;
 
     /**
      * Performs a patch operation (a new version of the Resource will be stored).
@@ -130,8 +125,8 @@ public interface FHIRResourceHelpers {
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
-    public FHIRRestOperationResponse doPatch(String type, String id, FHIRPatch patch, String ifMatchValue,
-            String searchQueryString, Map<String, String> requestProperties, boolean skippableUpdate) throws Exception;
+    FHIRRestOperationResponse doPatch(String type, String id, FHIRPatch patch, String ifMatchValue,
+            String searchQueryString, boolean skippableUpdate) throws Exception;
 
 
     /**
@@ -144,7 +139,7 @@ public interface FHIRResourceHelpers {
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
-    public FHIRRestOperationResponse doDelete(String type, String id, String searchQueryString, Map<String, String> requestProperties) throws Exception;
+    FHIRRestOperationResponse doDelete(String type, String id, String searchQueryString) throws Exception;
 
     /**
      * Performs a 'read' operation to retrieve a Resource.
@@ -153,26 +148,58 @@ public interface FHIRResourceHelpers {
      *            the resource type associated with the Resource to be retrieved
      * @param id
      *            the id of the Resource to be retrieved
+     * @param throwExcOnNull
+     *            whether to throw an exception on null
+     * @param includeDeleted
+     *            allow the read, even if the resource has been deleted
+     * @param contextResource
+     *            the resource
      * @param queryParameters
      *            for supporting _elements and _summary for resource read
      * @return the Resource
      * @throws Exception
      */
-    public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted, Map<String, String> requestProperties,
-            Resource contextResource, MultivaluedMap<String, String> queryParameters) throws Exception;
+    default Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
+            Resource contextResource) throws Exception {
+        return doRead(type, id, throwExcOnNull, includeDeleted, contextResource, null);
+    }
 
     /**
-     * Performs a 'read' operation to retrieve a Resource.
+     * Performs a 'read' operation to retrieve a Resource with select query parameters.
      *
      * @param type
      *            the resource type associated with the Resource to be retrieved
      * @param id
      *            the id of the Resource to be retrieved
+     * @param throwExcOnNull
+     *            whether to throw an exception on null
+     * @param includeDeleted
+     *            allow the read, even if the resource has been deleted
+     * @param contextResource
+     *            the resource
+     * @param queryParameters
+     *            for supporting _elements and _summary for resource read
      * @return the Resource
      * @throws Exception
      */
-    public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted, Map<String, String> requestProperties,
-            Resource contextResource) throws Exception;
+    Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
+            Resource contextResource, MultivaluedMap<String, String> queryParameters) throws Exception;
+
+    /**
+     * Performs a 'vread' operation by retrieving the specified version of a Resource with no query parameters
+     *
+     * @param type
+     *            the resource type associated with the Resource to be retrieved
+     * @param id
+     *            the id of the Resource to be retrieved
+     * @param versionId
+     *            the version id of the Resource to be retrieved
+     * @return the Resource
+     * @throws Exception
+     */
+    default Resource doVRead(String type, String id, String versionId) throws Exception {
+        return doVRead(type, id, versionId, null);
+    }
 
     /**
      * Performs a 'vread' operation by retrieving the specified version of a Resource.
@@ -183,31 +210,12 @@ public interface FHIRResourceHelpers {
      *            the id of the Resource to be retrieved
      * @param versionId
      *            the version id of the Resource to be retrieved
-     * @param requestProperties
-     *            additional request properties which supplement the HTTP headers associated with this request
      * @param queryParameters
      *            for supporting _elements and _summary for resource vread
      * @return the Resource
      * @throws Exception
      */
-    public Resource doVRead(String type, String id, String versionId, Map<String, String> requestProperties,
-            MultivaluedMap<String, String> queryParameters) throws Exception;
-
-    /**
-     * Performs a 'vread' operation by retrieving the specified version of a Resource.
-     *
-     * @param type
-     *            the resource type associated with the Resource to be retrieved
-     * @param id
-     *            the id of the Resource to be retrieved
-     * @param versionId
-     *            the version id of the Resource to be retrieved
-     * @param requestProperties
-     *            additional request properties which supplement the HTTP headers associated with this request
-     * @return the Resource
-     * @throws Exception
-     */
-    public Resource doVRead(String type, String id, String versionId, Map<String, String> requestProperties) throws Exception;
+    Resource doVRead(String type, String id, String versionId, MultivaluedMap<String, String> queryParameters) throws Exception;
 
     /**
      * Performs the work of retrieving versions of a Resource.
@@ -219,12 +227,10 @@ public interface FHIRResourceHelpers {
      * @param queryParameters
      *            a Map containing the query parameters from the request URL
      * @param requestUri
-     * @param requestProperties
      * @return a Bundle containing the history of the specified Resource
      * @throws Exception
      */
-    public Bundle doHistory(String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri,
-            Map<String, String> requestProperties) throws Exception;
+    Bundle doHistory(String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception;
 
     /**
      * Implement the system level history operation to obtain a list of changes to resources
@@ -232,24 +238,32 @@ public interface FHIRResourceHelpers {
      * @param queryParameters
      *            a Map containing the query parameters from the request URL
      * @param requestUri
-     * @param requestProperties
+     *            the request URI
      * @return a Bundle containing the history of the specified Resource
      * @throws Exception
      */
-    public Bundle doHistory(MultivaluedMap<String, String> queryParameters, String requestUri, Map<String, String> requestProperties) throws Exception;
+    Bundle doHistory(MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception;
 
     /**
      * Performs heavy lifting associated with a 'search' operation.
      *
      * @param type
      *            the resource type associated with the search
+     * @param compartment
+     *            the compartment type to search in, or null if not a compartment search
+     * @param compartmentId
+     *            the specific compartment to search in, or null if not a compartment search
      * @param queryParameters
      *            a Map containing the query parameters from the request URL
+     * @param requestUri
+     *            the request URI
+     * @param contextResource
+     *            the resource context
      * @return a Bundle containing the search result set
      * @throws Exception
      */
-    public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters,
-            String requestUri, Map<String, String> requestProperties, Resource contextResource) throws Exception;
+    Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters,
+            String requestUri, Resource contextResource) throws Exception;
 
 
     /**
@@ -270,13 +284,11 @@ public interface FHIRResourceHelpers {
      * @param queryParameters
      *            query parameters may be passed instead of a Parameters resource for certain custom operations invoked
      *            via GET
-     * @param requestProperties
-     *            additional request properties which supplement the HTTP headers associated with this request
      * @return a Resource that represents the response to the custom operation
      * @throws Exception
      */
-    public Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId, String operationName,
-            Resource resource, MultivaluedMap<String, String> queryParameters, Map<String, String> requestProperties) throws Exception;
+    Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId, String operationName,
+            Resource resource, MultivaluedMap<String, String> queryParameters) throws Exception;
 
     /**
      * Processes a bundled request (batch or transaction type).
@@ -285,9 +297,9 @@ public interface FHIRResourceHelpers {
      *            the request Bundle
      * @return the response Bundle
      */
-    public Bundle doBundle(Bundle bundle, Map<String, String> requestProperties) throws Exception;
+    Bundle doBundle(Bundle bundle) throws Exception;
 
-    public FHIRPersistenceTransaction getTransaction() throws Exception;
+    FHIRPersistenceTransaction getTransaction() throws Exception;
 
     /**
      * Invoke the FHIR persistence reindex operation for a randomly chosen resource which was
@@ -299,5 +311,5 @@ public interface FHIRResourceHelpers {
      * @return number of resources reindexed (0 if no resources were found to reindex)
      * @throws Exception
      */
-    public int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, String resourceLogicalId) throws Exception;
+    int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, String resourceLogicalId) throws Exception;
 }

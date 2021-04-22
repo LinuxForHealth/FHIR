@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -74,7 +74,7 @@ public class Batch extends FHIRResource {
             }
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            responseBundle = helper.doBundle(inputBundle, null);
+            responseBundle = helper.doBundle(inputBundle);
             status = Status.OK;
             return Response.ok(responseBundle).build();
         } catch (FHIRRestBundledRequestException e) {

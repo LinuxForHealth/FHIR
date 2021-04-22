@@ -68,7 +68,7 @@ public class VRead extends FHIRResource {
             MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            Resource resource = helper.doVRead(type, id, vid, null, queryParameters);
+            Resource resource = helper.doVRead(type, id, vid, queryParameters);
             status = Status.OK;
             ResponseBuilder response = Response.ok().entity(resource);
             response = addHeaders(response, resource);

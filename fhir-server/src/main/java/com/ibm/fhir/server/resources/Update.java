@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -74,7 +74,7 @@ public class Update extends FHIRResource {
             checkInitComplete();
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            ior = helper.doUpdate(type, id, resource, ifMatch, null, null, onlyIfModified);
+            ior = helper.doUpdate(type, id, resource, ifMatch, null, onlyIfModified);
 
             ResponseBuilder response =
                     Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
@@ -134,7 +134,7 @@ public class Update extends FHIRResource {
             }
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            ior = helper.doUpdate(type, null, resource, ifMatch, searchQueryString, null, onlyIfModified);
+            ior = helper.doUpdate(type, null, resource, ifMatch, searchQueryString, onlyIfModified);
 
             ResponseBuilder response =
                     Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));

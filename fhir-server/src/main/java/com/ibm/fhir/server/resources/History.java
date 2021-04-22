@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -64,7 +64,7 @@ public class History extends FHIRResource {
             checkInitComplete();
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            bundle = helper.doHistory(type, id, uriInfo.getQueryParameters(), getRequestUri(), null);
+            bundle = helper.doHistory(type, id, uriInfo.getQueryParameters(), getRequestUri());
             status = Status.OK;
             return Response.status(status).entity(bundle).build();
         } catch (FHIROperationException e) {
@@ -97,7 +97,7 @@ public class History extends FHIRResource {
             checkInitComplete();
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            bundle = helper.doHistory(uriInfo.getQueryParameters(), getRequestUri(), null);
+            bundle = helper.doHistory(uriInfo.getQueryParameters(), getRequestUri());
             status = Status.OK;
             return Response.status(status).entity(bundle).build();
         } catch (FHIROperationException e) {

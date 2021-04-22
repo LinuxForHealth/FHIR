@@ -79,7 +79,7 @@ public class Search extends FHIRResource {
 
             queryParameters = uriInfo.getQueryParameters();
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            bundle = helper.doSearch(type, null, null, queryParameters, getRequestUri(), null, null);
+            bundle = helper.doSearch(type, null, null, queryParameters, getRequestUri(), null);
             status = Status.OK;
             return Response.status(status).entity(bundle).build();
         } catch (FHIROperationException e) {
@@ -127,7 +127,7 @@ public class Search extends FHIRResource {
 
             queryParameters = uriInfo.getQueryParameters();
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            bundle = helper.doSearch(type, compartment, compartmentId, queryParameters, getRequestUri(), null, null);
+            bundle = helper.doSearch(type, compartment, compartmentId, queryParameters, getRequestUri(), null);
             status = Status.OK;
             return Response.status(status).entity(bundle).build();
         } catch (FHIROperationException e) {
@@ -173,7 +173,7 @@ public class Search extends FHIRResource {
 
             queryParameters = uriInfo.getQueryParameters();
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            bundle = helper.doSearch("Resource", null, null, queryParameters, getRequestUri(), null, null);
+            bundle = helper.doSearch("Resource", null, null, queryParameters, getRequestUri(), null);
             status = Status.OK;
             return Response.status(status).entity(bundle).build();
         } catch (FHIROperationException e) {

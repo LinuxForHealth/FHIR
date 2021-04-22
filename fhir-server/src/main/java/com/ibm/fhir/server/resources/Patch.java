@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -86,7 +86,7 @@ public class Patch extends FHIRResource {
             FHIRPatch patch = createPatch(array);
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            ior = helper.doPatch(type, id, patch, ifMatch, null, null, onlyIfModified);
+            ior = helper.doPatch(type, id, patch, ifMatch, null, onlyIfModified);
 
             status = ior.getStatus();
             ResponseBuilder response = Response.status(status)
@@ -143,7 +143,7 @@ public class Patch extends FHIRResource {
             }
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            ior = helper.doPatch(type, id, patch, ifMatch, null, null, onlyIfModified);
+            ior = helper.doPatch(type, id, patch, ifMatch, null, onlyIfModified);
 
             ResponseBuilder response =
                     Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
@@ -206,7 +206,7 @@ public class Patch extends FHIRResource {
             }
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            ior = helper.doPatch(type, null, patch, ifMatch, searchQueryString, null, onlyIfModified);
+            ior = helper.doPatch(type, null, patch, ifMatch, searchQueryString, onlyIfModified);
 
             ResponseBuilder response =
                     Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
@@ -274,7 +274,7 @@ public class Patch extends FHIRResource {
             }
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            ior = helper.doPatch(type, null, patch, ifMatch, searchQueryString, null, onlyIfModified);
+            ior = helper.doPatch(type, null, patch, ifMatch, searchQueryString, onlyIfModified);
 
             status = ior.getStatus();
             ResponseBuilder response = Response.status(status)

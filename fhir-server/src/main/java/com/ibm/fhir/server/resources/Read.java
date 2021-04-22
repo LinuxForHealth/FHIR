@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -73,7 +73,7 @@ public class Read extends FHIRResource {
             long modifiedSince = parseIfModifiedSince();
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            Resource resource = helper.doRead(type, id, true, false, null, null, queryParameters);
+            Resource resource = helper.doRead(type, id, true, false, null, queryParameters);
             int version2Match = -1;
             // Support ETag value with or without " (and W/)
             // e.g:  1, "1", W/1, W/"1" (the first format is used by TouchStone)

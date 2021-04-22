@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -46,7 +46,7 @@ import com.ibm.fhir.server.util.RestAuditLogger;
 @RequestScoped
 public class Create extends FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(Create.class.getName());
-    
+
     // The JWT of the current caller. Since this is a request scoped resource, the
     // JWT will be injected for each JAX-RS request. The injection is performed by
     // the mpJwt feature.
@@ -80,7 +80,7 @@ public class Create extends FHIRResource {
             checkInitComplete();
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            ior = helper.doCreate(type, resource, ifNoneExist, null);
+            ior = helper.doCreate(type, resource, ifNoneExist);
 
             ResponseBuilder response =
                     Response.created(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));

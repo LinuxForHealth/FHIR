@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -67,7 +67,7 @@ public class Delete extends FHIRResource {
             checkInitComplete();
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            ior = helper.doDelete(type, id, null, null);
+            ior = helper.doDelete(type, id, null);
             status = ior.getStatus();
             return buildResponse(ior);
         } catch (FHIRPersistenceNotSupportedException e) {
@@ -111,7 +111,7 @@ public class Delete extends FHIRResource {
             }
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            ior = helper.doDelete(type, null, searchQueryString, null);
+            ior = helper.doDelete(type, null, searchQueryString);
             status = ior.getStatus();
             return buildResponse(ior);
         } catch (FHIRPersistenceNotSupportedException e) {
