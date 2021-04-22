@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.util;
+package com.ibm.fhir.model.util;
 
 import java.util.Arrays;
 import java.util.Base64;

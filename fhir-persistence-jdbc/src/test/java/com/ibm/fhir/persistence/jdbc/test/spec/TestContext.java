@@ -9,9 +9,9 @@ package com.ibm.fhir.persistence.jdbc.test.spec;
 import java.util.function.Supplier;
 
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.util.SaltHash;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
-import com.ibm.fhir.persistence.util.SaltHash;
 
 /**
  * context maintained as each operation is applied

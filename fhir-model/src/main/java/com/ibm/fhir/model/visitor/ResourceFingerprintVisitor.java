@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.persistence.util;
+package com.ibm.fhir.model.visitor;
 
 import java.math.BigDecimal;
 import java.nio.ByteBuffer;
@@ -19,7 +19,7 @@ import java.time.YearMonth;
 import java.time.ZonedDateTime;
 
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.visitor.PathAwareVisitor;
+import com.ibm.fhir.model.util.SaltHash;
 
 /**
  * Compute a cryptographic hash of the visited nodes, skipping those which
