@@ -99,14 +99,27 @@ Additionally, the FHIRPath functions `subsumedBy` and `subsumes` have been imple
 
 ## Graph Terminology Service Provider Implementation (experimental)
 
-The FHIR term graph module [fhir-term-graph](https://github.com/IBM/FHIR/tree/main/fhir-term-graph) provides an implementation of `FHIRTermServiceProvider` that is backed by a graph database ([JanusGraph](https://janusgraph.org)). The module also contains term graph loaders for SNOMED-CT Release Format 2 (RF2) files (SnomedTermGraphLoader), UMLS Rich Release Format (RRF) files (UMLSTermGraphLoader), and FHIR CodeSystem resources (CodeSystemTermGraphLoader). The graph term service provider may be enabled / configured through the `fhir-server-config.json` file per the configuration properties specified in the [FHIR Server User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#51-configuration-properties-reference).
+The FHIR term graph module [fhir-term-graph](https://github.com/IBM/FHIR/tree/main/fhir-term-graph) provides an implementation of `FHIRTermServiceProvider` that is backed by a graph database ([JanusGraph](https://janusgraph.org)). The module also contains term graph loaders for SNOMED-CT Release Format 2 (RF2) files (SnomedTermGraphLoader), UMLS Rich Release Format (RRF) files (UMLSTermGraphLoader), and FHIR CodeSystem resources (CodeSystemTermGraphLoader). Graph term service providers may be enabled / configured through the `fhir-server-config.json` file per the configuration properties specified in the [FHIR Server User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#51-configuration-properties-reference).
 
-Example configuration for Apache Cassandra + ElasticSearch:
+Example configurations:
 
 ``` json
-            "__comment": "Configuration for Apache Cassandra + ElasticSearch",
-            "graphTermServiceProvider": {
+            "graphTermServiceProviders": [{
+                "__comment": "Configuration for Berkeley DB Java Edition + Lucene",
                 "enabled": false,
+                "configuration": {
+                    "storage.backend": "berkeleyje",
+                    "storage.directory": "data/graph",
+                    "index.search.backend": "lucene",
+                    "index.search.hostname": "data/searchindex",
+                    "storage.read-only": true,
+                    "query.batch": true,
+                    "query.batch-property-prefetch": true,
+                    "query.fast-property": true
+                }
+            },{
+                "__comment": "Configuration for Apache Cassandra + ElasticSearch",
+                "enabled": true,
                 "timeLimit": 10000,
                 "configuration": {
                     "storage.backend": "cql",
@@ -118,26 +131,7 @@ Example configuration for Apache Cassandra + ElasticSearch:
                     "query.batch-property-prefetch": true,
                     "query.fast-property": true
                 }
-            }
-```
-
-Example configuration for Berkeley DB Java Edition + Lucene:
-
-``` json
-            "__comment": "Configuration for Berkeley DB Java Edition + Lucene",
-            "graphTermServiceProvider": {
-                "enabled": true,
-                "configuration": {
-                    "storage.backend": "berkeleyje",
-                    "storage.directory": "data/graph",
-                    "index.search.backend": "lucene",
-                    "index.search.hostname": "data/searchindex",
-                    "storage.read-only": true,
-                    "query.batch": true,
-                    "query.batch-property-prefetch": true,
-                    "query.fast-property": true
-                }
-            }
+            }],
 ```
 
 ## Remote Terminology Service Provider Implementation (experimental)
@@ -149,12 +143,14 @@ Example configuration:
 
 ``` json
             "remoteTermServiceProviders": [{
+                "__comment": "Configuration for public SNOMED-CT endpoint",
                 "enabled": true,
                 "base": "https://snowstorm-fhir.snomedtools.org/fhir",
                 "supports": [{
                     "system": "http://snomed.info/sct"
                 }]
             },{
+                "__comment": "Configuration for public LOINC endpoint",
                 "enabled": true,
                 "base": "https://fhir.loinc.org",
                 "basicAuth": {
