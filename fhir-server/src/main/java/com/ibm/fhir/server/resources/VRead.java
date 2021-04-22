@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -25,8 +24,6 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
-
-import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -44,12 +41,6 @@ import com.ibm.fhir.server.util.RestAuditLogger;
 @RequestScoped
 public class VRead extends FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(VRead.class.getName());
-
-    // The JWT of the current caller. Since this is a request scoped resource, the
-    // JWT will be injected for each JAX-RS request. The injection is performed by
-    // the mpJwt feature.
-    @Inject
-    private JsonWebToken jwt;
 
     public VRead() throws Exception {
         super();
