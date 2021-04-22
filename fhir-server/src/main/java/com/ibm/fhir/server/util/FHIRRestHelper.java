@@ -97,6 +97,8 @@ import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.util.FHIRPersistenceUtil;
+import com.ibm.fhir.persistence.util.ResourceFingerprintVisitor;
+import com.ibm.fhir.persistence.util.SaltHash;
 import com.ibm.fhir.profile.ProfileSupport;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SummaryValueSet;
@@ -298,27 +300,27 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
     @Override
     public FHIRRestOperationResponse doPatch(String type, String id, FHIRPatch patch, String ifMatchValue,
-            String searchQueryString, Map<String, String> requestProperties) throws Exception {
+            String searchQueryString, Map<String, String> requestProperties, boolean skippableUpdate) throws Exception {
 
         // Validate that interaction is allowed for given resource type
         validateInteraction(Interaction.PATCH.value(), type);
 
-        return doPatchOrUpdate(type, id, patch, null, ifMatchValue, searchQueryString, requestProperties, DO_VALIDATION);
+        return doPatchOrUpdate(type, id, patch, null, ifMatchValue, searchQueryString, requestProperties, DO_VALIDATION, skippableUpdate);
     }
 
     @Override
     public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue,
-            String searchQueryString, Map<String, String> requestProperties, boolean doValidation) throws Exception {
+            String searchQueryString, Map<String, String> requestProperties, boolean doValidation, boolean skippableUpdate) throws Exception {
 
         // Validate that interaction is allowed for given resource type
         validateInteraction(Interaction.UPDATE.value(), type);
 
-        return doPatchOrUpdate(type, id, null, newResource, ifMatchValue, searchQueryString, requestProperties, doValidation);
+        return doPatchOrUpdate(type, id, null, newResource, ifMatchValue, searchQueryString, requestProperties, doValidation, skippableUpdate);
     }
 
     private FHIRRestOperationResponse doPatchOrUpdate(String type, String id, FHIRPatch patch,
             Resource newResource, String ifMatchValue, String searchQueryString,
-            Map<String, String> requestProperties, boolean doValidation) throws Exception {
+            Map<String, String> requestProperties, boolean doValidation, boolean skippableUpdate) throws Exception {
         log.entering(this.getClass().getName(), "doPatchOrUpdate");
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
@@ -447,6 +449,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             List<Issue> warnings = doValidation ? new ArrayList<>(validateInput(newResource)) : new ArrayList<>() ;
 
             // Perform the "version-aware" update check, and also find out if the resource was deleted.
+            boolean skipUpdate = false;
             boolean isDeleted = false;
             if (ior.getPrevResource() != null) {
                 performVersionAwareUpdateCheck(ior.getPrevResource(), ifMatchValue);
@@ -455,6 +458,16 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     doRead(type, id, (patch != null), false, requestProperties, newResource, null, false);
                 } catch (FHIRPersistenceResourceDeletedException e) {
                     isDeleted = true;
+                }
+
+                if (skippableUpdate && !isDeleted) {
+                    ResourceFingerprintVisitor fingerprinter = new ResourceFingerprintVisitor();
+                    ior.getPrevResource().accept(fingerprinter);
+                    SaltHash currentResourceSaltHash = fingerprinter.getSaltAndHash();
+
+                    fingerprinter.reset();
+                    newResource.accept(fingerprinter);
+                    skipUpdate = fingerprinter.getSaltAndHash().equals(currentResourceSaltHash);
                 }
             }
 
@@ -1829,7 +1842,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         if (requestEntry.getResource().is(Parameters.class)) {
             Parameters parameters = requestEntry.getResource().as(Parameters.class);
             FHIRPatch patch = FHIRPathPatch.from(parameters);
-            ior = doPatch(resourceType, resourceId, patch, null, null, null);
+            ior = doPatch(resourceType, resourceId, patch, null, null, null, !SKIPPABLE_UPDATE);
 
             // Process and replace bundle entry.
             Bundle.Entry resultEntry =
@@ -2043,7 +2056,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 ior = doCreate(pathTokens[0], resource, ifNoneExist, null, !DO_VALIDATION);
             } else {
                 resource = resource.toBuilder().id(resourceId).build();
-                ior = doUpdate(pathTokens[0], resourceId, resource, null, null, null, !DO_VALIDATION);
+                ior = doUpdate(pathTokens[0], resourceId, resource, null, null, null, !DO_VALIDATION, !SKIPPABLE_UPDATE);
             }
 
             // Get the updated resource from FHIRRestOperationResponse which has the correct ID, meta, etc.
@@ -2127,7 +2140,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         if (requestEntry.getRequest().getIfMatch() != null) {
             ifMatchBundleValue = requestEntry.getRequest().getIfMatch().getValue();
         }
-        FHIRRestOperationResponse ior = doUpdate(type, id, resource, ifMatchBundleValue, requestURL.getQuery(), null, !DO_VALIDATION);
+        FHIRRestOperationResponse ior = doUpdate(type, id, resource, ifMatchBundleValue, requestURL.getQuery(), null, !DO_VALIDATION, !SKIPPABLE_UPDATE);
 
         // If this was a conditional update, and if a local identifier was present and not already mapped to its external identifier, add mapping.
         if (pathTokens.length == 1) {

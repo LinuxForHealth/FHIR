@@ -51,7 +51,7 @@ public class PathAwareVisitor extends DefaultVisitor {
      *
      * Invoke this method when visiting has failed and you want to clear the path in order to re-use the visitor.
      */
-    public final void reset() {
+    protected void reset() {
         if (!pathStack.isEmpty()) {
             pathStack.clear();
         }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,37 +24,35 @@ import com.ibm.fhir.model.visitor.PathAwareVisitor;
 /**
  * Compute a cryptographic hash of the visited nodes, skipping those which
  * may be altered by the persistence layer.
-
  */
 public class ResourceFingerprintVisitor extends PathAwareVisitor {
-    
+
     // 32 bytes chosen as a matching entropy of SHA-256
     private static final int BYTES_FOR_256_BITS = 256 / 8;
     private static final SecureRandom RANDOM = new SecureRandom();
 
     // the salt we use for computing the hash
     private final byte[] salt;
-    
+
     // The name of the resource we first encounter
     private String currentResourceName;
-    
-    private final MessageDigest digest;
-    
+
+    private MessageDigest digest;
+
     // for tracking array elements
     int index;
-    
+
     /**
      * Public constructor. Uses the given salt
      * @param salt
      */
     public ResourceFingerprintVisitor(byte[] salt) {
         this.salt = salt;
-        
+
         try {
             digest = MessageDigest.getInstance("SHA-256");
             digest.update(salt);
-        }
-        catch (NoSuchAlgorithmException x) {
+        } catch (NoSuchAlgorithmException x) {
             throw new IllegalStateException(x);
         }
     }
@@ -67,40 +65,48 @@ public class ResourceFingerprintVisitor extends PathAwareVisitor {
     public ResourceFingerprintVisitor(SaltHash baseline) {
         this(baseline.getSalt());
     }
-    
+
     /**
      * Public constructor. Generates a new salt
      */
     public ResourceFingerprintVisitor() {
         this.salt = new byte[BYTES_FOR_256_BITS];
         RANDOM.nextBytes(salt);
-        
+
         try {
             digest = MessageDigest.getInstance("SHA-256");
             digest.update(salt);
-        }
-        catch (NoSuchAlgorithmException x) {
+        } catch (NoSuchAlgorithmException x) {
             throw new IllegalStateException(x);
         }
     }
-    
 
     /**
-     * Compute the digest and return the result along with the salt that
-     * was used
+     * Compute the digest and return the result along with the salt that was used
      * @return
      */
     public SaltHash getSaltAndHash() {
         return new SaltHash(salt, digest.digest());
     }
-    
+
+    @Override
+    public final void reset() {
+        super.reset();
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+            digest.update(salt);
+        } catch (NoSuchAlgorithmException x) {
+            throw new IllegalStateException(x);
+        }
+    }
+
     @Override
     protected void doVisitStart(String elementName, int elementIndex, Resource resource) {
         if (this.currentResourceName == null) {
             this.currentResourceName = resource.getClass().getSimpleName();
         }
     }
-    
+
     @Override
     public void visit(java.lang.String elementName, byte[] value) {
         if (includePath()) {
@@ -108,7 +114,7 @@ public class ResourceFingerprintVisitor extends PathAwareVisitor {
             digest.update(value);
         }
     }
-    
+
     @Override
     public void visit(java.lang.String elementName, BigDecimal value) {
         if (includePath()) {
@@ -122,7 +128,7 @@ public class ResourceFingerprintVisitor extends PathAwareVisitor {
             updateDigest(getPath(), value.toString());
         }
     }
-    
+
     @Override
     public void visit(java.lang.String elementName, java.lang.Integer value) {
         if (includePath()) {
@@ -146,7 +152,7 @@ public class ResourceFingerprintVisitor extends PathAwareVisitor {
     }
     @Override
     public void doVisit(java.lang.String elementName, java.lang.String value) {
-        // exclude the id and meta.versionId values from the fingerprint 
+        // exclude the id and meta.versionId values from the fingerprint
         // because they are injected by FHIR. NOTE: startsWith is important
         // because we need to ignore any extension fields which may be
         // present
@@ -173,9 +179,9 @@ public class ResourceFingerprintVisitor extends PathAwareVisitor {
         if (includePath()) {
             updateDigest(getPath(), value.toString());
         }
-        
+
     }
-    
+
     /**
      * Update the digest with the name/value pair
      * @param name
@@ -185,7 +191,7 @@ public class ResourceFingerprintVisitor extends PathAwareVisitor {
         digest.update(name.getBytes(StandardCharsets.UTF_8));
         digest.update(value.getBytes(StandardCharsets.UTF_8));
     }
-    
+
     /**
      * Test whether or not the current path value should be included in the fingerprint
      * @return
@@ -196,6 +202,6 @@ public class ResourceFingerprintVisitor extends PathAwareVisitor {
         String lastUpdatedName = currentResourceName + ".meta.lastUpdated";
         String path = getPath();
         return !path.startsWith(idName) && !path.startsWith(versionIdName) && !path.startsWith(lastUpdatedName);
-        
+
     }
 }
