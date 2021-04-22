@@ -42,6 +42,8 @@ In `lenient` mode, the client must [check the self uri](https://www.hl7.org/fhir
 
 Note: In addition to controlling whether or not the server returns an error for unexpected search parameters, the handling preference is also used to control whether or not the server will return an error for unexpected elements in the JSON representation of a Resource as defined at https://www.hl7.org/fhir/json.html.
 
+Additionally, the IBM FHIR Server supports a custom header, `X-FHIR-UPDATE-IF-MODIFIED`, for clients to opt in to a specific update optimization. See Section 5.2. Conditional Update of the [Performance Guide](guides/FHIRPerformanceGuide) for more information.
+
 Finally, the IBM FHIR Server supports multi-tenancy through custom headers as defined at https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#49-multi-tenancy. By default, the server will look for a tenantId in a `X-FHIR-TENANT-ID` header and a datastoreId in the `X-FHIR-DSID` header, and use `default` for either one if the headers are not present.
 
 ### General parameters

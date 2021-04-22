@@ -2591,6 +2591,7 @@ IBM FHIR Server Supports the following custom HTTP Headers:
 |`X-FHIR-TENANT-ID`|Specifies which tenant config should be used for the request. Default is `default`. The header name can be overridden via config property `fhirServer/core/tenantIdHeaderName`.|
 |`X-FHIR-DSID`|Specifies which datastore config should be used for the request. Default is `default`. The header name can be overridden via config property `fhirServer/core/dataSourceIdHeaderName`.|
 |`X-FHIR-FORWARDED-URL`|The original (user-facing) request URL; used for constructing absolute URLs within the server response. Only enabled when explicitly configured in the default fhir-server-config.json. If either the config property or the header itself is missing, the server will use the actual request URL. The header name can be overridden via config property `fhirServer/core/originalRequestUriHeaderName`.|
+|`X-FHIR-UPDATE-IF-MODIFIED`|When set to true, for update and patch requests, the server will perform a resource comparison and only perform the update if the contents of the resource have changed. For all other values, the update will be executed as normal.|
 
 # 6 Related topics
 For more information about topics related to configuring a FHIR server, see the following documentation:
