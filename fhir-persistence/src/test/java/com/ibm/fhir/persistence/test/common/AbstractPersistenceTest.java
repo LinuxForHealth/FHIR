@@ -175,8 +175,13 @@ public abstract class AbstractPersistenceTest {
                     // ignore the chained part and just verify the reference param is there
                     paramName = key.split("\\.")[0];
                 }
-                // strip any modifiers
-                final String finalParamName = paramName.split(":")[0];
+                // strip any modifiers, unless :of-type
+                final String finalParamName;
+                if (key.endsWith(":of-type")) {
+                    finalParamName = key;
+                } else {
+                    finalParamName = paramName.split(":")[0];
+                }
 
                 assertTrue(searchContext.getSearchParameters().stream().anyMatch(t -> t.getCode().equals(finalParamName)),
                     "Search parameter '" + key + "' was not successfully parsed into a search parameter");

@@ -598,6 +598,22 @@
             "xpathUsage": "normal"
         }
     },{
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Coding-validCaseInsensitiveCodeAndSystem",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-Coding-validCaseInsensitiveCodeAndSystem",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-Coding-validCaseInsensitiveCodeAndSystem",
+            "name": "Coding-validCaseInsensitiveCodeAndSystem",
+            "status": "active",
+            "description": "test param",
+            "code": "Coding-validCaseInsensitiveCodeAndSystem",
+            "base": ["Basic"],
+            "type": "token",
+            "expression": "Basic.extension.where(url='http://example.org/Coding-validCaseInsensitiveCodeAndSystem').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/Coding-validCaseInsensitiveCodeAndSystem']/f:valueCoding",
+            "xpathUsage": "normal"
+        }
+    },{
         "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-CodeableConcept-validCodeAndSystem",
         "resource": {
             "resourceType": "SearchParameter",
@@ -611,6 +627,38 @@
             "type": "token",
             "expression": "Basic.extension.where(url='http://example.org/CodeableConcept-validCodeAndSystem').value",
             "xpath": "f:Basic/f:extension[@url='http://example.org/CodeableConcept-validCodeAndSystem']/f:valueCodeableConcept",
+            "xpathUsage": "normal"
+        }
+    },{
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Identifier-validValueAndSystem",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-Identifier-validValueAndSystem",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-Identifier-validValueAndSystem",
+            "name": "Identifier-validValueAndSystem",
+            "status": "active",
+            "description": "test param",
+            "code": "Identifier-validValueAndSystem",
+            "base": ["Basic"],
+            "type": "token",
+            "expression": "Basic.extension.where(url='http://example.org/Identifier-validValueAndSystem').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/Identifier-validValueAndSystem']/f:valueIdentifier",
+            "xpathUsage": "normal"
+        }
+    },{
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-Identifier-validType",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-Identifier-validType",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-Identifier-validType",
+            "name": "Identifier-validType",
+            "status": "active",
+            "description": "test param",
+            "code": "Identifier-validType",
+            "base": ["Basic"],
+            "type": "token",
+            "expression": "Basic.extension.where(url='http://example.org/Identifier-validType').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/Identifier-validType']/f:valueIdentifier",
             "xpathUsage": "normal"
         }
     }]
