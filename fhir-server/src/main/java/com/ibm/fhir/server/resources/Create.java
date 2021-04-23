@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
@@ -25,8 +24,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
-
-import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.FHIRMediaType;
@@ -46,12 +43,6 @@ import com.ibm.fhir.server.util.RestAuditLogger;
 @RequestScoped
 public class Create extends FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(Create.class.getName());
-    
-    // The JWT of the current caller. Since this is a request scoped resource, the
-    // JWT will be injected for each JAX-RS request. The injection is performed by
-    // the mpJwt feature.
-    @Inject
-    private JsonWebToken jwt;
 
     /**
      * This HL7-defined extension header supports "conditional create", allowing a client to create a new resource only if some equivalent
@@ -80,7 +71,7 @@ public class Create extends FHIRResource {
             checkInitComplete();
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            ior = helper.doCreate(type, resource, ifNoneExist, null);
+            ior = helper.doCreate(type, resource, ifNoneExist);
 
             ResponseBuilder response =
                     Response.created(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));

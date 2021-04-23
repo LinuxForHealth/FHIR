@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -45,13 +46,20 @@ import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
 import com.ibm.fhir.model.type.code.FilterOperator;
 import com.ibm.fhir.model.type.code.PropertyType;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * The CodeSystem resource is used to declare the existence of and describe a code system or code system supplement and 
  * its key properties, and optionally define a part or all of its content.
+ * 
+ * <p>Maturity level: FMM5 (Normative)
  */
+@Maturity(
+    level = 5,
+    status = StandardsStatus.ValueSet.NORMATIVE
+)
 @Constraint(
     id = "csd-0",
     level = "Warning",
@@ -172,7 +180,7 @@ public class CodeSystem extends DomainResource {
     private CodeSystem(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         version = builder.version;
         name = builder.name;
         title = builder.title;
@@ -180,10 +188,10 @@ public class CodeSystem extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         purpose = builder.purpose;
         copyright = builder.copyright;
         caseSensitive = builder.caseSensitive;
@@ -194,10 +202,9 @@ public class CodeSystem extends DomainResource {
         content = ValidationSupport.requireNonNull(builder.content, "content");
         supplements = builder.supplements;
         count = builder.count;
-        filter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.filter, "filter"));
-        property = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.property, "property"));
-        concept = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.concept, "concept"));
-        ValidationSupport.requireChildren(this);
+        filter = Collections.unmodifiableList(ValidationSupport.checkList(builder.filter, "filter", Filter.class));
+        property = Collections.unmodifiableList(ValidationSupport.checkList(builder.property, "property", Property.class));
+        concept = Collections.unmodifiableList(ValidationSupport.checkList(builder.concept, "concept", Concept.class));
     }
 
     /**
@@ -1496,7 +1503,7 @@ public class CodeSystem extends DomainResource {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
             description = builder.description;
-            operator = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.operator, "operator"));
+            operator = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.operator, "operator", FilterOperator.class));
             value = ValidationSupport.requireNonNull(builder.value, "value");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -2214,9 +2221,9 @@ public class CodeSystem extends DomainResource {
             code = ValidationSupport.requireNonNull(builder.code, "code");
             display = builder.display;
             definition = builder.definition;
-            designation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.designation, "designation"));
-            property = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.property, "property"));
-            concept = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.concept, "concept"));
+            designation = Collections.unmodifiableList(ValidationSupport.checkList(builder.designation, "designation", Designation.class));
+            property = Collections.unmodifiableList(ValidationSupport.checkList(builder.property, "property", Property.class));
+            concept = Collections.unmodifiableList(ValidationSupport.checkList(builder.concept, "concept", CodeSystem.Concept.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

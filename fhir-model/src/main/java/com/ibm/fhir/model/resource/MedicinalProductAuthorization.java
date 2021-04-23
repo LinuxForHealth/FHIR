@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -30,12 +31,19 @@ import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * The regulatory authorization of a medicinal product.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductAuthorization extends DomainResource {
     @Summary
@@ -78,10 +86,10 @@ public class MedicinalProductAuthorization extends DomainResource {
 
     private MedicinalProductAuthorization(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         subject = builder.subject;
-        country = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.country, "country"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        country = Collections.unmodifiableList(ValidationSupport.checkList(builder.country, "country", CodeableConcept.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         status = builder.status;
         statusDate = builder.statusDate;
         restoreDate = builder.restoreDate;
@@ -90,14 +98,13 @@ public class MedicinalProductAuthorization extends DomainResource {
         dateOfFirstAuthorization = builder.dateOfFirstAuthorization;
         internationalBirthDate = builder.internationalBirthDate;
         legalBasis = builder.legalBasis;
-        jurisdictionalAuthorization = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdictionalAuthorization, "jurisdictionalAuthorization"));
+        jurisdictionalAuthorization = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdictionalAuthorization, "jurisdictionalAuthorization", JurisdictionalAuthorization.class));
         holder = builder.holder;
         regulator = builder.regulator;
         procedure = builder.procedure;
         ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "MedicinalProductPackaged");
         ValidationSupport.checkReferenceType(holder, "holder", "Organization");
         ValidationSupport.checkReferenceType(regulator, "regulator", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -992,9 +999,9 @@ public class MedicinalProductAuthorization extends DomainResource {
 
         private JurisdictionalAuthorization(Builder builder) {
             super(builder);
-            identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+            identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
             country = builder.country;
-            jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+            jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
             legalStatusOfSupply = builder.legalStatusOfSupply;
             validityPeriod = builder.validityPeriod;
             ValidationSupport.requireValueOrChildren(this);
@@ -1397,7 +1404,7 @@ public class MedicinalProductAuthorization extends DomainResource {
             identifier = builder.identifier;
             type = ValidationSupport.requireNonNull(builder.type, "type");
             date = ValidationSupport.choiceElement(builder.date, "date", Period.class, DateTime.class);
-            application = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.application, "application"));
+            application = Collections.unmodifiableList(ValidationSupport.checkList(builder.application, "application", MedicinalProductAuthorization.Procedure.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

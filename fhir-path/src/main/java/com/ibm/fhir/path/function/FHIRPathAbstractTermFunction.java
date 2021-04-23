@@ -1,11 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.path.function;
 
+import static com.ibm.fhir.core.util.URLSupport.parseQuery;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_STRING;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getElementNode;
@@ -17,13 +18,9 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.isResourceNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isSingleton;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isStringValue;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -123,7 +120,7 @@ public abstract class FHIRPathAbstractTermFunction extends FHIRPathAbstractFunct
     protected Parameters getParameters(List<Collection<FHIRPathNode>> arguments) {
         if (arguments.size() == getMaxArity()) {
             String params = getString(arguments.get(arguments.size() - 1));
-            Map<String, List<String>> queryParameters = parse(params);
+            Map<String, List<String>> queryParameters = parseQuery(params);
             return buildParameters(queryParameters);
         }
         return EMPTY_PARAMETERS;
@@ -182,35 +179,5 @@ public abstract class FHIRPathAbstractTermFunction extends FHIRPathAbstractFunct
                     .value(elementFactory.apply(value))
                     .build())
                 .collect(Collectors.toList());
-    }
-
-    private Map<String, List<String>> parse(String params) {
-        return Arrays.stream(params.split("&"))
-                .map(pair -> Arrays.asList(pair.split("=", 2)))
-                .collect(Collectors.collectingAndThen(
-                    Collectors.toMap(
-                        // key mapping function
-                        pair -> decode(pair.get(0)),
-                        // value mapping function
-                        pair -> Collections.unmodifiableList(Arrays.stream(pair.get(1).split(","))
-                            .map(s -> decode(s))
-                            .collect(Collectors.toList())),
-                        // merge function
-                        (u, v) -> {
-                            List<String> merged = new ArrayList<>(u);
-                            merged.addAll(v);
-                            return Collections.unmodifiableList(merged);
-                        },
-                        // map supplier
-                        LinkedHashMap::new),
-                    Collections::unmodifiableMap));
-    }
-
-    private String decode(String s) {
-        try {
-            return URLDecoder.decode(s, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

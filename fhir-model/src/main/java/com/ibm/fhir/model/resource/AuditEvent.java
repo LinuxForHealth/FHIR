@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -39,13 +40,20 @@ import com.ibm.fhir.model.type.code.AuditEventAction;
 import com.ibm.fhir.model.type.code.AuditEventAgentNetworkType;
 import com.ibm.fhir.model.type.code.AuditEventOutcome;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A record of an event made for purposes of maintaining a security log. Typical uses include detection of intrusion 
  * attempts and monitoring for inappropriate usage.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "sev-1",
     level = "Rule",
@@ -201,17 +209,16 @@ public class AuditEvent extends DomainResource {
     private AuditEvent(Builder builder) {
         super(builder);
         type = ValidationSupport.requireNonNull(builder.type, "type");
-        subtype = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subtype, "subtype"));
+        subtype = Collections.unmodifiableList(ValidationSupport.checkList(builder.subtype, "subtype", Coding.class));
         action = builder.action;
         period = builder.period;
         recorded = ValidationSupport.requireNonNull(builder.recorded, "recorded");
         outcome = builder.outcome;
         outcomeDesc = builder.outcomeDesc;
-        purposeOfEvent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.purposeOfEvent, "purposeOfEvent"));
-        agent = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.agent, "agent"));
+        purposeOfEvent = Collections.unmodifiableList(ValidationSupport.checkList(builder.purposeOfEvent, "purposeOfEvent", CodeableConcept.class));
+        agent = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.agent, "agent", Agent.class));
         source = ValidationSupport.requireNonNull(builder.source, "source");
-        entity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.entity, "entity"));
-        ValidationSupport.requireChildren(this);
+        entity = Collections.unmodifiableList(ValidationSupport.checkList(builder.entity, "entity", Entity.class));
     }
 
     /**
@@ -988,16 +995,16 @@ public class AuditEvent extends DomainResource {
         private Agent(Builder builder) {
             super(builder);
             type = builder.type;
-            role = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.role, "role"));
+            role = Collections.unmodifiableList(ValidationSupport.checkList(builder.role, "role", CodeableConcept.class));
             who = builder.who;
             altId = builder.altId;
             name = builder.name;
             requestor = ValidationSupport.requireNonNull(builder.requestor, "requestor");
             location = builder.location;
-            policy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.policy, "policy"));
+            policy = Collections.unmodifiableList(ValidationSupport.checkList(builder.policy, "policy", Uri.class));
             media = builder.media;
             network = builder.network;
-            purposeOfUse = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.purposeOfUse, "purposeOfUse"));
+            purposeOfUse = Collections.unmodifiableList(ValidationSupport.checkList(builder.purposeOfUse, "purposeOfUse", CodeableConcept.class));
             ValidationSupport.checkReferenceType(who, "who", "PractitionerRole", "Practitioner", "Organization", "Device", "Patient", "RelatedPerson");
             ValidationSupport.checkReferenceType(location, "location", "Location");
             ValidationSupport.requireValueOrChildren(this);
@@ -1901,7 +1908,7 @@ public class AuditEvent extends DomainResource {
             super(builder);
             site = builder.site;
             observer = ValidationSupport.requireNonNull(builder.observer, "observer");
-            type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
+            type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", Coding.class));
             ValidationSupport.checkReferenceType(observer, "observer", "PractitionerRole", "Practitioner", "Organization", "Device", "Patient", "RelatedPerson");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -2269,11 +2276,11 @@ public class AuditEvent extends DomainResource {
             type = builder.type;
             role = builder.role;
             lifecycle = builder.lifecycle;
-            securityLabel = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabel, "securityLabel"));
+            securityLabel = Collections.unmodifiableList(ValidationSupport.checkList(builder.securityLabel, "securityLabel", Coding.class));
             name = builder.name;
             description = builder.description;
             query = builder.query;
-            detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
+            detail = Collections.unmodifiableList(ValidationSupport.checkList(builder.detail, "detail", Detail.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

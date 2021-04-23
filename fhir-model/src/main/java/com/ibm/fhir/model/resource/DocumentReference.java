@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -37,6 +38,7 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.DocumentReferenceStatus;
 import com.ibm.fhir.model.type.code.DocumentRelationshipType;
 import com.ibm.fhir.model.type.code.ReferredDocumentStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -44,7 +46,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * A reference to a document of any kind for any purpose. Provides metadata about the document so that the document can 
  * be discovered and managed. The scope of a document is any seralized object with a mime-type, so includes formal 
  * patient centric documents (CDA), cliical notes, scanned paper, and non-patient specific documents like policy text.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "documentReference-0",
     level = "Warning",
@@ -143,26 +151,25 @@ public class DocumentReference extends DomainResource {
     private DocumentReference(Builder builder) {
         super(builder);
         masterIdentifier = builder.masterIdentifier;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         docStatus = builder.docStatus;
         type = builder.type;
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
         subject = builder.subject;
         date = builder.date;
-        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
+        author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", Reference.class));
         authenticator = builder.authenticator;
         custodian = builder.custodian;
-        relatesTo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatesTo, "relatesTo"));
+        relatesTo = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatesTo, "relatesTo", RelatesTo.class));
         description = builder.description;
-        securityLabel = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabel, "securityLabel"));
-        content = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.content, "content"));
+        securityLabel = Collections.unmodifiableList(ValidationSupport.checkList(builder.securityLabel, "securityLabel", CodeableConcept.class));
+        content = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.content, "content", Content.class));
         context = builder.context;
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "Group", "Device");
         ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Organization", "Device", "Patient", "RelatedPerson");
         ValidationSupport.checkReferenceType(authenticator, "authenticator", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.checkReferenceType(custodian, "custodian", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1732,13 +1739,13 @@ public class DocumentReference extends DomainResource {
 
         private Context(Builder builder) {
             super(builder);
-            encounter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.encounter, "encounter"));
-            event = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.event, "event"));
+            encounter = Collections.unmodifiableList(ValidationSupport.checkList(builder.encounter, "encounter", Reference.class));
+            event = Collections.unmodifiableList(ValidationSupport.checkList(builder.event, "event", CodeableConcept.class));
             period = builder.period;
             facilityType = builder.facilityType;
             practiceSetting = builder.practiceSetting;
             sourcePatientInfo = builder.sourcePatientInfo;
-            related = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.related, "related"));
+            related = Collections.unmodifiableList(ValidationSupport.checkList(builder.related, "related", Reference.class));
             ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter", "EpisodeOfCare");
             ValidationSupport.checkReferenceType(sourcePatientInfo, "sourcePatientInfo", "Patient");
             ValidationSupport.requireValueOrChildren(this);

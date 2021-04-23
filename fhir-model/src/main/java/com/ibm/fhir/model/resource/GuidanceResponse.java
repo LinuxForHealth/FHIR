@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -34,13 +35,20 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.GuidanceResponseStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A guidance response is the formal response to a guidance request, including any output parameters returned by the 
  * evaluation, as well as the description of any proposed actions to be taken.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class GuidanceResponse extends DomainResource {
     @Summary
@@ -84,20 +92,20 @@ public class GuidanceResponse extends DomainResource {
     private GuidanceResponse(Builder builder) {
         super(builder);
         requestIdentifier = builder.requestIdentifier;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         module = ValidationSupport.requireChoiceElement(builder.module, "module", Uri.class, Canonical.class, CodeableConcept.class);
         status = ValidationSupport.requireNonNull(builder.status, "status");
         subject = builder.subject;
         encounter = builder.encounter;
         occurrenceDateTime = builder.occurrenceDateTime;
         performer = builder.performer;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        evaluationMessage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.evaluationMessage, "evaluationMessage"));
+        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        evaluationMessage = Collections.unmodifiableList(ValidationSupport.checkList(builder.evaluationMessage, "evaluationMessage", Reference.class));
         outputParameters = builder.outputParameters;
         result = builder.result;
-        dataRequirement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dataRequirement, "dataRequirement"));
+        dataRequirement = Collections.unmodifiableList(ValidationSupport.checkList(builder.dataRequirement, "dataRequirement", DataRequirement.class));
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(performer, "performer", "Device");
@@ -105,7 +113,6 @@ public class GuidanceResponse extends DomainResource {
         ValidationSupport.checkReferenceType(evaluationMessage, "evaluationMessage", "OperationOutcome");
         ValidationSupport.checkReferenceType(outputParameters, "outputParameters", "Parameters");
         ValidationSupport.checkReferenceType(result, "result", "CarePlan", "RequestGroup");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

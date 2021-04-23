@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -39,13 +40,20 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.DaysOfWeek;
 import com.ibm.fhir.model.type.code.LocationMode;
 import com.ibm.fhir.model.type.code.LocationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Details and position information for a physical place where services are provided and resources and participants may 
  * be stored, found, contained, or accommodated.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "location-0",
     level = "Warning",
@@ -128,27 +136,26 @@ public class Location extends DomainResource {
 
     private Location(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = builder.status;
         operationalStatus = builder.operationalStatus;
         name = builder.name;
-        alias = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.alias, "alias"));
+        alias = Collections.unmodifiableList(ValidationSupport.checkList(builder.alias, "alias", String.class));
         description = builder.description;
         mode = builder.mode;
-        type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
-        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
+        type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
+        telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
         address = builder.address;
         physicalType = builder.physicalType;
         position = builder.position;
         managingOrganization = builder.managingOrganization;
         partOf = builder.partOf;
-        hoursOfOperation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.hoursOfOperation, "hoursOfOperation"));
+        hoursOfOperation = Collections.unmodifiableList(ValidationSupport.checkList(builder.hoursOfOperation, "hoursOfOperation", HoursOfOperation.class));
         availabilityExceptions = builder.availabilityExceptions;
-        endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
+        endpoint = Collections.unmodifiableList(ValidationSupport.checkList(builder.endpoint, "endpoint", Reference.class));
         ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
         ValidationSupport.checkReferenceType(partOf, "partOf", "Location");
         ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1440,7 +1447,7 @@ public class Location extends DomainResource {
 
         private HoursOfOperation(Builder builder) {
             super(builder);
-            daysOfWeek = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.daysOfWeek, "daysOfWeek"));
+            daysOfWeek = Collections.unmodifiableList(ValidationSupport.checkList(builder.daysOfWeek, "daysOfWeek", DaysOfWeek.class));
             allDay = builder.allDay;
             openingTime = builder.openingTime;
             closingTime = builder.closingTime;

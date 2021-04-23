@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -36,6 +37,7 @@ import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ImagingStudyStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -44,7 +46,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * includes a set of Service-Object Pair Instances (SOP Instances - images or other data) acquired or produced in a 
  * common context. A series is of only one modality (e.g. X-ray, CT, MR, ultrasound), but a study may have multiple 
  * series of different modalities.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "imagingStudy-0",
     level = "Warning",
@@ -167,26 +175,26 @@ public class ImagingStudy extends DomainResource {
 
     private ImagingStudy(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        modality = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modality, "modality"));
+        modality = Collections.unmodifiableList(ValidationSupport.checkList(builder.modality, "modality", Coding.class));
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
         encounter = builder.encounter;
         started = builder.started;
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
+        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
         referrer = builder.referrer;
-        interpreter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.interpreter, "interpreter"));
-        endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
+        interpreter = Collections.unmodifiableList(ValidationSupport.checkList(builder.interpreter, "interpreter", Reference.class));
+        endpoint = Collections.unmodifiableList(ValidationSupport.checkList(builder.endpoint, "endpoint", Reference.class));
         numberOfSeries = builder.numberOfSeries;
         numberOfInstances = builder.numberOfInstances;
         procedureReference = builder.procedureReference;
-        procedureCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.procedureCode, "procedureCode"));
+        procedureCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.procedureCode, "procedureCode", CodeableConcept.class));
         location = builder.location;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
         description = builder.description;
-        series = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.series, "series"));
+        series = Collections.unmodifiableList(ValidationSupport.checkList(builder.series, "series", Series.class));
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Device", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ServiceRequest", "Appointment", "AppointmentResponse", "Task");
@@ -196,7 +204,6 @@ public class ImagingStudy extends DomainResource {
         ValidationSupport.checkReferenceType(procedureReference, "procedureReference", "Procedure");
         ValidationSupport.checkReferenceType(location, "location", "Location");
         ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "Media", "DiagnosticReport", "DocumentReference");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1473,13 +1480,13 @@ public class ImagingStudy extends DomainResource {
             modality = ValidationSupport.requireNonNull(builder.modality, "modality");
             description = builder.description;
             numberOfInstances = builder.numberOfInstances;
-            endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
+            endpoint = Collections.unmodifiableList(ValidationSupport.checkList(builder.endpoint, "endpoint", Reference.class));
             bodySite = builder.bodySite;
             laterality = builder.laterality;
-            specimen = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specimen, "specimen"));
+            specimen = Collections.unmodifiableList(ValidationSupport.checkList(builder.specimen, "specimen", Reference.class));
             started = builder.started;
-            performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
-            instance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instance, "instance"));
+            performer = Collections.unmodifiableList(ValidationSupport.checkList(builder.performer, "performer", Performer.class));
+            instance = Collections.unmodifiableList(ValidationSupport.checkList(builder.instance, "instance", Instance.class));
             ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
             ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
             ValidationSupport.requireValueOrChildren(this);

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -36,13 +37,20 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.DetectedIssueSeverity;
 import com.ibm.fhir.model.type.code.DetectedIssueStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Indicates an actual or potential clinical issue with or between one or more active or proposed clinical actions for a 
  * patient; e.g. Drug-drug interaction, Ineffective treatment frequency, Procedure-condition conflict, etc.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "detectedIssue-0",
     level = "Warning",
@@ -108,21 +116,20 @@ public class DetectedIssue extends DomainResource {
 
     private DetectedIssue(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         code = builder.code;
         severity = builder.severity;
         patient = builder.patient;
         identified = ValidationSupport.choiceElement(builder.identified, "identified", DateTime.class, Period.class);
         author = builder.author;
-        implicated = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.implicated, "implicated"));
-        evidence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.evidence, "evidence"));
+        implicated = Collections.unmodifiableList(ValidationSupport.checkList(builder.implicated, "implicated", Reference.class));
+        evidence = Collections.unmodifiableList(ValidationSupport.checkList(builder.evidence, "evidence", Evidence.class));
         detail = builder.detail;
         reference = builder.reference;
-        mitigation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.mitigation, "mitigation"));
+        mitigation = Collections.unmodifiableList(ValidationSupport.checkList(builder.mitigation, "mitigation", Mitigation.class));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Device");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -913,8 +920,8 @@ public class DetectedIssue extends DomainResource {
 
         private Evidence(Builder builder) {
             super(builder);
-            code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
-            detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
+            code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", CodeableConcept.class));
+            detail = Collections.unmodifiableList(ValidationSupport.checkList(builder.detail, "detail", Reference.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

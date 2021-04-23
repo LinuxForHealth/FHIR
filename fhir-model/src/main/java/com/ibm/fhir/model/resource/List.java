@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -34,12 +35,19 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ListMode;
 import com.ibm.fhir.model.type.code.ListStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A list is a curated collection of resources.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "lst-1",
     level = "Rule",
@@ -139,7 +147,7 @@ public class List extends DomainResource {
 
     private List(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         mode = ValidationSupport.requireNonNull(builder.mode, "mode");
         title = builder.title;
@@ -149,13 +157,12 @@ public class List extends DomainResource {
         date = builder.date;
         source = builder.source;
         orderedBy = builder.orderedBy;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        entry = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.entry, "entry"));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        entry = Collections.unmodifiableList(ValidationSupport.checkList(builder.entry, "entry", Entry.class));
         emptyReason = builder.emptyReason;
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Location");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(source, "source", "Practitioner", "PractitionerRole", "Patient", "Device");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

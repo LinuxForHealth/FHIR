@@ -7,18 +7,17 @@
     <parent>
         <groupId>com.ibm.fhir</groupId>
         <artifactId>fhir-parent</artifactId>
-        <version>4.6.0-SNAPSHOT</version>
+        <version>4.7.0-SNAPSHOT</version>
         <relativePath>../fhir-parent</relativePath>
     </parent>
 
     <artifactId>fhir-server-test</artifactId>
 
     <properties>
-
-        <!-- We don't want maven to automatically run our tests since they 
-            require a server -->
+        <!-- We don't want maven to automatically run our tests since they require a server -->
         <skipTests>true</skipTests>
         <surefire.suiteXmlFiles>src/test/java/testng.xml</surefire.suiteXmlFiles>
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <dependencies>
@@ -58,6 +57,7 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-notification-kafka</artifactId>
             <version>${project.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -68,6 +68,12 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-examples</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-term-remote</artifactId>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <!-- Use the Grizzly container instead due to https://github.com/eclipse-ee4j/tyrus/issues/676 -->
@@ -105,6 +111,7 @@
                     <artifactId>jboss-rmi-api_1.0_spec</artifactId>
                 </exclusion>
             </exclusions>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.skyscreamer</groupId>
@@ -119,6 +126,7 @@
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.ibm.fhir</groupId>
@@ -130,6 +138,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-nop</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

@@ -24,6 +24,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.resource.Device;
 import com.ibm.fhir.model.resource.DeviceRequest;
 import com.ibm.fhir.model.resource.Encounter;
@@ -53,15 +54,20 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
     private static Observation savedObservation5;
     private static Observation savedObservation6;
     private static Encounter savedEncounter1;
+    private static Encounter savedEncounter2;
+    private static Encounter savedEncounter3;
     private static Device savedDevice1;
     private static Organization savedOrg1;
     private static DeviceRequest savedDeviceRequest1;
+    private static boolean checkReferenceTypes = true;
 
     /**
      * Loads up and saves a bunch of resources with various references to one another
      */
     @BeforeClass
     public void createResources() throws Exception {
+        checkReferenceTypes = FHIRModelConfig.getCheckReferenceTypes();
+        FHIRModelConfig.setCheckReferenceTypes(false);
         Organization org = TestUtil.readExampleResource("json/ibm/minimal/Organization-1.json");
         Encounter encounter = TestUtil.readExampleResource("json/ibm/minimal/Encounter-1.json");
         Observation observation = TestUtil.readExampleResource("json/ibm/minimal/Observation-1.json");
@@ -120,8 +126,11 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         savedObservation5 = observation.toBuilder().subject(reference("Patient/" + savedPatient3.getId())).build();
         savedObservation5 = persistence.create(getDefaultPersistenceContext(), savedObservation5).getResource();
 
-        // a Device with a reference to a patient
-        savedDevice1 = device.toBuilder().patient(reference("Patient/" + savedPatient3.getId())).build();
+        // a Device with a reference to a patient and an organization
+        savedDevice1 = device.toBuilder()
+                                    .patient(reference("Patient/" + savedPatient3.getId()))
+                                    .owner(reference("Organization/" + savedOrg1.getId()))
+                                    .build();
         savedDevice1 = persistence.create(getDefaultPersistenceContext(), savedDevice1).getResource();
         // update the device
         savedDevice1 = savedDevice1.toBuilder().manufacturer(string("Updated Manufacturer")).build();
@@ -146,13 +155,26 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
                 .code(reference("Device/" + savedDevice1.getId()))
                 .build();
         savedDeviceRequest1 = persistence.create(getDefaultPersistenceContext(), savedDeviceRequest1).getResource();
+
+        // an Encounter with a reference to another encounter
+        savedEncounter2 = encounter.toBuilder()
+                                        .partOf(reference("Encounter/" + savedEncounter1.getId()))
+                                        .build();
+        savedEncounter2 = persistence.create(getDefaultPersistenceContext(), savedEncounter2).getResource();
+
+        // an Encounter with a reference to another encounter
+        savedEncounter3 = encounter.toBuilder()
+                                        .partOf(reference("Encounter/" + savedEncounter2.getId()))
+                                        .build();
+        savedEncounter3 = persistence.create(getDefaultPersistenceContext(), savedEncounter3).getResource();
     }
 
     @AfterClass
     public void deleteResources() throws Exception {
         Resource[] resources = {savedPatient1, savedPatient2, savedPatient3, savedPatient4,
                 savedObservation1, savedObservation2, savedObservation3, savedObservation4, savedObservation5,
-                savedObservation6, savedEncounter1, savedDevice1, savedOrg1, savedDeviceRequest1};
+                savedObservation6, savedEncounter1, savedEncounter2, savedEncounter3, savedDevice1,
+                savedOrg1, savedDeviceRequest1};
 
         if (persistence.isDeleteSupported()) {
             if (persistence.isTransactional()) {
@@ -174,6 +196,7 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
                 }
             }
         }
+        FHIRModelConfig.setCheckReferenceTypes(checkReferenceTypes);
     }
 
     /**
@@ -202,6 +225,7 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
     public void testIncludedData() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         queryParms.put("_id", Collections.singletonList(savedObservation2.getId()));
+        queryParms.put("patient", Collections.singletonList("Patient/" + savedPatient1.getId()));
         queryParms.put("_include", Collections.singletonList("Observation:patient"));
         List<Resource> resources = runQueryTest(Observation.class, queryParms);
         assertNotNull(resources);
@@ -300,7 +324,7 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
 
     /**
      * This test queries a Patient and requests the inclusion of a referenced Patient.
-     * The referenced Patient is the same resoure as the Patient referencing it, so
+     * The referenced Patient is the same resource as the Patient referencing it, so
      * will not be returned because it is a duplicate resource.
      * @throws Exception
      */
@@ -824,6 +848,306 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
         resources = runQueryTest(Patient.class, queryParms);
         // check the second page
         checkIncludeAndRevIncludeResources(resources, 2);
+    }
+
+    /**
+     * This test queries Encounters with iterative inclusion of Encounter's child
+     * Encounters.
+     * It should return savedEncounter1, savedEncounter2, and savedEncounter3.
+     * @throws Exception
+     */
+    @Test
+    public void testIncludeIteratePrimary() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedEncounter3.getId()));
+        queryParms.put("_include:iterate", Collections.singletonList("Encounter:part-of"));
+        List<Resource> resources = runQueryTest(Encounter.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(3, resources.size());
+        for (Resource resource : resources) {
+            assertTrue(resource.getId().equals(savedEncounter3.getId()) ||
+                resource.getId().equals(savedEncounter2.getId()) ||
+                resource.getId().equals(savedEncounter1.getId()));
+        }
+    }
+
+    /**
+     * This test queries Encounters with iterative inclusion of Encounter's parent
+     * Encounters.
+     * It should return savedEncounter1, savedEncounter2, and savedEncounter3.
+     * @throws Exception
+     */
+    @Test
+    public void testRevIncludeIteratePrimary() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedEncounter1.getId()));
+        queryParms.put("_revinclude:iterate", Collections.singletonList("Encounter:part-of"));
+        List<Resource> resources = runQueryTest(Encounter.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(3, resources.size());
+        for (Resource resource : resources) {
+            assertTrue(resource.getId().equals(savedEncounter3.getId()) ||
+                resource.getId().equals(savedEncounter2.getId()) ||
+                resource.getId().equals(savedEncounter1.getId()));
+        }
+    }
+
+    /**
+     * This test queries Device with inclusion of referenced Patient and iterative
+     * inclusion of Patient's referenced Organization.
+     * It should return savedDevice1, savedPatient3, and savedOrg1.
+     * @throws Exception
+     */
+    @Test
+    public void testIncludeIterateOneDeep() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedDevice1.getId()));
+        queryParms.put("_include:iterate", Collections.singletonList("Patient:organization"));
+        queryParms.put("_include", Collections.singletonList("Device:patient"));
+        List<Resource> resources = runQueryTest(Device.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(3, resources.size());
+        for (Resource resource : resources) {
+            if (resource instanceof Device) {
+                assertEquals(savedDevice1.getId(), resource.getId());
+                assertEquals("Patient/" + savedPatient3.getId(), resource.as(Device.class).getPatient().getReference().getValue());
+            } else if (resource instanceof Patient) {
+                assertEquals(savedPatient3.getId(), resource.getId());
+                assertEquals("Organization/" + savedOrg1.getId(), resource.as(Patient.class).getManagingOrganization().getReference().getValue());
+            } else if (resource instanceof Organization) {
+                assertEquals(savedOrg1.getId(), resource.getId());
+            } else {
+                fail("Unexpected resource type returned.");
+            }
+        }
+    }
+
+    /**
+     * This test queries Organizations with inclusion of Patients which reference
+     * them and iterative inclusion of Devices which reference the Patients.
+     * It should return savedOrg1, savedPatient3, and savedDevice1.
+     * @throws Exception
+     */
+    @Test
+    public void testRevIncludeIterateOneDeep() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedOrg1.getId()));
+        queryParms.put("_revinclude:iterate", Collections.singletonList("Device:patient"));
+        queryParms.put("_revinclude", Collections.singletonList("Patient:organization"));
+        List<Resource> resources = runQueryTest(Organization.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(3, resources.size());
+        for (Resource resource : resources) {
+            if (resource instanceof Device) {
+                assertEquals(savedDevice1.getId(), resource.getId());
+                assertEquals("Patient/" + savedPatient3.getId(), resource.as(Device.class).getPatient().getReference().getValue());
+            } else if (resource instanceof Patient) {
+                assertEquals(savedPatient3.getId(), resource.getId());
+                assertEquals("Organization/" + savedOrg1.getId(), resource.as(Patient.class).getManagingOrganization().getReference().getValue());
+            } else if (resource instanceof Organization) {
+                assertEquals(savedOrg1.getId(), resource.getId());
+            } else {
+                fail("Unexpected resource type returned.");
+            }
+        }
+    }
+
+    /**
+     * This test queries Devices with inclusion of Patients which reference
+     * them and iterative inclusion of Observations which reference the Patients.
+     * It should return savedDevice1, savedPatient3, and savedObservation5.
+     * @throws Exception
+     */
+    @Test
+    public void testIncludeWithRevIncludeIterate() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedDevice1.getId()));
+        queryParms.put("_include", Collections.singletonList("Device:patient"));
+        queryParms.put("_revinclude:iterate", Collections.singletonList("Observation:subject"));
+        List<Resource> resources = runQueryTest(Device.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(3, resources.size());
+        for (Resource resource : resources) {
+            if (resource instanceof Device) {
+                assertEquals(savedDevice1.getId(), resource.getId());
+                assertEquals("Patient/" + savedPatient3.getId(), resource.as(Device.class).getPatient().getReference().getValue());
+            } else if (resource instanceof Patient) {
+                assertEquals(savedPatient3.getId(), resource.getId());
+            } else if (resource instanceof Observation) {
+                assertEquals(savedObservation5.getId(), resource.getId());
+                assertEquals("Patient/" + savedPatient3.getId(), resource.as(Observation.class).getSubject().getReference().getValue());
+            } else {
+                fail("Unexpected resource type returned.");
+            }
+        }
+    }
+
+    /**
+     * This test queries Encounters with inclusion of Observations which reference
+     * them and iterative inclusion of Patients referenced by the Observations.
+     * It should return savedEncounter1, savedEncounter2, savedEncounter3,
+     * savedObservation3, savedObservation4, savedPatient1, and savedPatient2.
+     * @throws Exception
+     */
+    @Test
+    public void testRevIncludeWithIncludeIterate() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedEncounter1.getId()));
+        queryParms.put("_revinclude", Collections.singletonList("Observation:encounter"));
+        queryParms.put("_include:iterate", Collections.singletonList("Observation:patient"));
+        List<Resource> resources = runQueryTest(Encounter.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(5, resources.size());
+        for (Resource resource : resources) {
+            if (resource instanceof Encounter) {
+                assertTrue(resource.getId().equals(savedEncounter3.getId()) ||
+                    resource.getId().equals(savedEncounter2.getId()) ||
+                    resource.getId().equals(savedEncounter1.getId()));
+            } else if (resource instanceof Patient) {
+                assertTrue(resource.getId().equals(savedPatient1.getId()) || resource.getId().equals(savedPatient2.getId()));
+            } else if (resource instanceof Observation) {
+                assertTrue(resource.getId().equals(savedObservation3.getId()) || resource.getId().equals(savedObservation4.getId()));
+                if (resource.getId().equals(savedObservation3)) {
+                    assertEquals("Patient/" + savedPatient1.getId(), resource.as(Observation.class).getSubject().getReference().getValue());
+                    assertEquals("Encounter/" + savedEncounter1.getId(), resource.as(Observation.class).getEncounter().getReference().getValue());
+                } else if (resource.getId().equals(savedObservation4)) {
+                    assertEquals("Patient/" + savedPatient2.getId(), resource.as(Observation.class).getSubject().getReference().getValue());
+                    assertEquals("Encounter/" + savedEncounter1.getId(), resource.as(Observation.class).getEncounter().getReference().getValue());
+                }
+            } else {
+                fail("Unexpected resource type returned.");
+            }
+        }
+    }
+
+    /**
+     * This test queries Devices with inclusion of Patients which reference
+     * them and iterative inclusion of Observations which reference the Patients
+     * as well as Organizations referenced by the Patients.
+     * It should return savedDevice1, savedPatient3, savedObservation5, and savedOrg1.
+     * @throws Exception
+     */
+    @Test
+    public void testIncludeWithIncludeAndRevIncludeIterate() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedDevice1.getId()));
+        queryParms.put("_include:iterate", Collections.singletonList("Patient:organization"));
+        queryParms.put("_include", Collections.singletonList("Device:patient"));
+        queryParms.put("_revinclude:iterate", Collections.singletonList("Observation:subject"));
+        List<Resource> resources = runQueryTest(Device.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(4, resources.size());
+        for (Resource resource : resources) {
+            if (resource instanceof Device) {
+                assertEquals(savedDevice1.getId(), resource.getId());
+                assertEquals("Patient/" + savedPatient3.getId(), resource.as(Device.class).getPatient().getReference().getValue());
+            } else if (resource instanceof Patient) {
+                assertEquals(savedPatient3.getId(), resource.getId());
+                assertEquals("Organization/" + savedOrg1.getId(), resource.as(Patient.class).getManagingOrganization().getReference().getValue());
+            } else if (resource instanceof Observation) {
+                assertEquals(savedObservation5.getId(), resource.getId());
+                assertEquals("Patient/" + savedPatient3.getId(), resource.as(Observation.class).getSubject().getReference().getValue());
+            } else if (resource instanceof Organization) {
+                assertEquals(savedOrg1.getId(), resource.getId());
+            } else {
+                fail("Unexpected resource type returned.");
+            }
+        }
+    }
+
+    /**
+     * This test queries Patients with inclusion of Devices which reference
+     * them and iterative inclusion of Observations referenced by the Devices
+     * and Organizations the Devices reference.
+     * It should return savedPatient3, savedDevice1, savedObservation6, and savedOrg1.
+     * @throws Exception
+     */
+    @Test
+    public void testRevIncludeWithIncludeAndRevIncludeIterate() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_revinclude", Collections.singletonList("Device:patient"));
+        queryParms.put("_include:iterate", Collections.singletonList("Device:organization"));
+        queryParms.put("_revinclude:iterate", Collections.singletonList("Observation:focus"));
+        queryParms.put("organization", Collections.singletonList("Organization/" + savedOrg1.getId()));
+        List<Resource> resources = runQueryTest(Patient.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(4, resources.size());
+        for (Resource resource : resources) {
+            if (resource instanceof Patient) {
+                assertEquals(savedPatient3.getId(), resource.getId());
+            } else if (resource instanceof Device) {
+                assertEquals(savedDevice1.getId(), resource.getId());
+                assertEquals("Patient/" + savedPatient3.getId(), resource.as(Device.class).getPatient().getReference().getValue());
+                assertEquals("Organization/" + savedOrg1.getId(), resource.as(Device.class).getOwner().getReference().getValue());
+            } else if (resource instanceof Observation) {
+                assertEquals(savedObservation6.getId(), resource.getId());
+                assertEquals("Device/" + savedDevice1.getId() + "/_history/2", resource.as(Observation.class).getFocus().get(0).getReference().getValue());
+            } else if (resource instanceof Organization) {
+                assertEquals(savedOrg1.getId(), resource.getId());
+            } else {
+                fail("Unexpected resource type returned.");
+            }
+        }
+    }
+
+    /**
+     * This test queries Devices with inclusion of Patients which reference
+     * them and iterative inclusion of Observations which reference Devices.
+     * It should return savedDevice1, savedPatient3, and savedObservation6.
+     * @throws Exception
+     */
+    @Test
+    public void testIncludeWithRevIncludeIterateOnPrimary() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedDevice1.getId()));
+        queryParms.put("_include", Collections.singletonList("Device:patient"));
+        queryParms.put("_revinclude:iterate", Collections.singletonList("Observation:focus"));
+        List<Resource> resources = runQueryTest(Device.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(3, resources.size());
+        for (Resource resource : resources) {
+            if (resource instanceof Device) {
+                assertEquals(savedDevice1.getId(), resource.getId());
+                assertEquals("Patient/" + savedPatient3.getId(), resource.as(Device.class).getPatient().getReference().getValue());
+            } else if (resource instanceof Patient) {
+                assertEquals(savedPatient3.getId(), resource.getId());
+            } else if (resource instanceof Observation) {
+                assertEquals(savedObservation6.getId(), resource.getId());
+                assertEquals("Device/" + savedDevice1.getId() + "/_history/2", resource.as(Observation.class).getFocus().get(0).getReference().getValue());
+            } else {
+                fail("Unexpected resource type returned.");
+            }
+        }
+    }
+
+    /**
+     * This test queries Devices with inclusion of Observations which reference
+     * them and iterative inclusion of Patients referenced by the Devices.
+     * It should return savedDevice1, savedPatient3, and savedObservation6.
+     * @throws Exception
+     */
+    @Test
+    public void testRevIncludeWithIncludeIterateOnPrimary() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedDevice1.getId()));
+        queryParms.put("_revinclude", Collections.singletonList("Observation:focus"));
+        queryParms.put("_include:iterate", Collections.singletonList("Device:patient"));
+        List<Resource> resources = runQueryTest(Device.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(3, resources.size());
+        for (Resource resource : resources) {
+            if (resource instanceof Device) {
+                assertEquals(savedDevice1.getId(), resource.getId());
+                assertEquals("Patient/" + savedPatient3.getId(), resource.as(Device.class).getPatient().getReference().getValue());
+            } else if (resource instanceof Patient) {
+                assertEquals(savedPatient3.getId(), resource.getId());
+            } else if (resource instanceof Observation) {
+                assertEquals(savedObservation6.getId(), resource.getId());
+                assertEquals("Device/" + savedDevice1.getId() + "/_history/2", resource.as(Observation.class).getFocus().get(0).getReference().getValue());
+            } else {
+                fail("Unexpected resource type returned.");
+            }
+        }
     }
 
     private Reference reference(String reference) {

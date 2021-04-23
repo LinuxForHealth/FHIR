@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -67,9 +67,9 @@ public class Meta extends Element {
         versionId = builder.versionId;
         lastUpdated = builder.lastUpdated;
         source = builder.source;
-        profile = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.profile, "profile"));
-        security = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.security, "security"));
-        tag = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.tag, "tag"));
+        profile = Collections.unmodifiableList(ValidationSupport.checkList(builder.profile, "profile", Canonical.class));
+        security = Collections.unmodifiableList(ValidationSupport.checkList(builder.security, "security", Coding.class));
+        tag = Collections.unmodifiableList(ValidationSupport.checkList(builder.tag, "tag", Coding.class));
         ValidationSupport.requireValueOrChildren(this);
     }
 

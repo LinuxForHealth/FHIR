@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -33,13 +34,20 @@ import com.ibm.fhir.model.type.SimpleQuantity;
 import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.SupplyDeliveryStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Record of delivery of what is supplied.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SupplyDelivery extends DomainResource {
     private final List<Identifier> identifier;
@@ -81,9 +89,9 @@ public class SupplyDelivery extends DomainResource {
 
     private SupplyDelivery(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
+        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Reference.class));
         status = builder.status;
         patient = builder.patient;
         type = builder.type;
@@ -91,7 +99,7 @@ public class SupplyDelivery extends DomainResource {
         occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
         supplier = builder.supplier;
         destination = builder.destination;
-        receiver = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.receiver, "receiver"));
+        receiver = Collections.unmodifiableList(ValidationSupport.checkList(builder.receiver, "receiver", Reference.class));
         ValidationSupport.checkValueSetBinding(type, "type", "http://hl7.org/fhir/ValueSet/supplydelivery-type", "http://terminology.hl7.org/CodeSystem/supply-item-type", "medication", "device");
         ValidationSupport.checkReferenceType(basedOn, "basedOn", "SupplyRequest");
         ValidationSupport.checkReferenceType(partOf, "partOf", "SupplyDelivery", "Contract");
@@ -99,7 +107,6 @@ public class SupplyDelivery extends DomainResource {
         ValidationSupport.checkReferenceType(supplier, "supplier", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.checkReferenceType(destination, "destination", "Location");
         ValidationSupport.checkReferenceType(receiver, "receiver", "Practitioner", "PractitionerRole");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,7 +18,6 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalAmount;
-import java.util.Collection;
 import java.util.Objects;
 
 import com.ibm.fhir.path.visitor.FHIRPathNodeVisitor;
@@ -139,21 +138,6 @@ public class FHIRPathDateValue extends FHIRPathAbstractTemporalValue {
         @Override
         public Builder path(String path) {
             return (Builder) super.path(path);
-        }
-
-        @Override
-        public Builder value(FHIRPathSystemValue value) {
-            return this;
-        }
-
-        @Override
-        public Builder children(FHIRPathNode... children) {
-            return this;
-        }
-
-        @Override
-        public Builder children(Collection<FHIRPathNode> children) {
-            return this;
         }
 
         @Override

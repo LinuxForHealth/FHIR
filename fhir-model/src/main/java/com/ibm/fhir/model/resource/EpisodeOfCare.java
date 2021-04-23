@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -32,13 +33,20 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.EpisodeOfCareStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * An association between a patient and an organization / healthcare provider(s) during which time encounters may occur. 
  * The managing organization assumes a level of responsibility for the patient during this time.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "episodeOfCare-0",
     level = "Warning",
@@ -92,25 +100,24 @@ public class EpisodeOfCare extends DomainResource {
 
     private EpisodeOfCare(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        statusHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.statusHistory, "statusHistory"));
-        type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
-        diagnosis = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.diagnosis, "diagnosis"));
+        statusHistory = Collections.unmodifiableList(ValidationSupport.checkList(builder.statusHistory, "statusHistory", StatusHistory.class));
+        type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
+        diagnosis = Collections.unmodifiableList(ValidationSupport.checkList(builder.diagnosis, "diagnosis", Diagnosis.class));
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
         managingOrganization = builder.managingOrganization;
         period = builder.period;
-        referralRequest = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referralRequest, "referralRequest"));
+        referralRequest = Collections.unmodifiableList(ValidationSupport.checkList(builder.referralRequest, "referralRequest", Reference.class));
         careManager = builder.careManager;
-        team = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.team, "team"));
-        account = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.account, "account"));
+        team = Collections.unmodifiableList(ValidationSupport.checkList(builder.team, "team", Reference.class));
+        account = Collections.unmodifiableList(ValidationSupport.checkList(builder.account, "account", Reference.class));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
         ValidationSupport.checkReferenceType(referralRequest, "referralRequest", "ServiceRequest");
         ValidationSupport.checkReferenceType(careManager, "careManager", "Practitioner", "PractitionerRole");
         ValidationSupport.checkReferenceType(team, "team", "CareTeam");
         ValidationSupport.checkReferenceType(account, "account", "Account");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

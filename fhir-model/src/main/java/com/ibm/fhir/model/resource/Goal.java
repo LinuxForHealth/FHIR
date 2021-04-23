@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -41,13 +42,20 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.GoalLifecycleStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Describes the intended objective(s) for a patient, group or organization care, for example, weight loss, restoring an 
  * activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective, etc.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "gol-1",
     level = "Rule",
@@ -153,27 +161,26 @@ public class Goal extends DomainResource {
 
     private Goal(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         lifecycleStatus = ValidationSupport.requireNonNull(builder.lifecycleStatus, "lifecycleStatus");
         achievementStatus = builder.achievementStatus;
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
         priority = builder.priority;
         description = ValidationSupport.requireNonNull(builder.description, "description");
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
         start = ValidationSupport.choiceElement(builder.start, "start", Date.class, CodeableConcept.class);
-        target = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.target, "target"));
+        target = Collections.unmodifiableList(ValidationSupport.checkList(builder.target, "target", Target.class));
         statusDate = builder.statusDate;
         statusReason = builder.statusReason;
         expressedBy = builder.expressedBy;
-        addresses = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.addresses, "addresses"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        outcomeCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.outcomeCode, "outcomeCode"));
-        outcomeReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.outcomeReference, "outcomeReference"));
+        addresses = Collections.unmodifiableList(ValidationSupport.checkList(builder.addresses, "addresses", Reference.class));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        outcomeCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.outcomeCode, "outcomeCode", CodeableConcept.class));
+        outcomeReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.outcomeReference, "outcomeReference", Reference.class));
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Organization");
         ValidationSupport.checkReferenceType(expressedBy, "expressedBy", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
         ValidationSupport.checkReferenceType(addresses, "addresses", "Condition", "Observation", "MedicationStatement", "NutritionOrder", "ServiceRequest", "RiskAssessment");
         ValidationSupport.checkReferenceType(outcomeReference, "outcomeReference", "Observation");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

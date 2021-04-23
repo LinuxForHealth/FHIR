@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -42,13 +43,20 @@ import com.ibm.fhir.model.type.code.MessageHeaderResponseRequest;
 import com.ibm.fhir.model.type.code.MessageSignificanceCategory;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Defines the characteristics of a message that can be shared between systems, including the type of event that 
  * initiates the message, the content to be transmitted and what response(s), if any, are permitted.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "msd-0",
     level = "Warning",
@@ -157,30 +165,29 @@ public class MessageDefinition extends DomainResource {
     private MessageDefinition(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         version = builder.version;
         name = builder.name;
         title = builder.title;
-        replaces = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.replaces, "replaces"));
+        replaces = Collections.unmodifiableList(ValidationSupport.checkList(builder.replaces, "replaces", Canonical.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         experimental = builder.experimental;
         date = ValidationSupport.requireNonNull(builder.date, "date");
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         purpose = builder.purpose;
         copyright = builder.copyright;
         base = builder.base;
-        parent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parent, "parent"));
+        parent = Collections.unmodifiableList(ValidationSupport.checkList(builder.parent, "parent", Canonical.class));
         event = ValidationSupport.requireChoiceElement(builder.event, "event", Coding.class, Uri.class);
         category = builder.category;
-        focus = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.focus, "focus"));
+        focus = Collections.unmodifiableList(ValidationSupport.checkList(builder.focus, "focus", Focus.class));
         responseRequired = builder.responseRequired;
-        allowedResponse = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.allowedResponse, "allowedResponse"));
-        graph = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.graph, "graph"));
-        ValidationSupport.requireChildren(this);
+        allowedResponse = Collections.unmodifiableList(ValidationSupport.checkList(builder.allowedResponse, "allowedResponse", AllowedResponse.class));
+        graph = Collections.unmodifiableList(ValidationSupport.checkList(builder.graph, "graph", Canonical.class));
     }
 
     /**

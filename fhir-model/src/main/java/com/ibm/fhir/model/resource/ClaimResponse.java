@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -45,13 +46,20 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ClaimResponseStatus;
 import com.ibm.fhir.model.type.code.NoteType;
 import com.ibm.fhir.model.type.code.RemittanceOutcome;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.Use;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * This resource provides the adjudication details from the processing of a Claim resource.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "claimResponse-0",
     level = "Warning",
@@ -171,7 +179,7 @@ public class ClaimResponse extends DomainResource {
 
     private ClaimResponse(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         type = ValidationSupport.requireNonNull(builder.type, "type");
         subType = builder.subType;
@@ -186,24 +194,23 @@ public class ClaimResponse extends DomainResource {
         preAuthRef = builder.preAuthRef;
         preAuthPeriod = builder.preAuthPeriod;
         payeeType = builder.payeeType;
-        item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
-        addItem = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.addItem, "addItem"));
-        adjudication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.adjudication, "adjudication"));
-        total = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.total, "total"));
+        item = Collections.unmodifiableList(ValidationSupport.checkList(builder.item, "item", Item.class));
+        addItem = Collections.unmodifiableList(ValidationSupport.checkList(builder.addItem, "addItem", AddItem.class));
+        adjudication = Collections.unmodifiableList(ValidationSupport.checkList(builder.adjudication, "adjudication", ClaimResponse.Item.Adjudication.class));
+        total = Collections.unmodifiableList(ValidationSupport.checkList(builder.total, "total", Total.class));
         payment = builder.payment;
         fundsReserve = builder.fundsReserve;
         formCode = builder.formCode;
         form = builder.form;
-        processNote = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.processNote, "processNote"));
-        communicationRequest = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communicationRequest, "communicationRequest"));
-        insurance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.insurance, "insurance"));
-        error = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.error, "error"));
+        processNote = Collections.unmodifiableList(ValidationSupport.checkList(builder.processNote, "processNote", ProcessNote.class));
+        communicationRequest = Collections.unmodifiableList(ValidationSupport.checkList(builder.communicationRequest, "communicationRequest", Reference.class));
+        insurance = Collections.unmodifiableList(ValidationSupport.checkList(builder.insurance, "insurance", Insurance.class));
+        error = Collections.unmodifiableList(ValidationSupport.checkList(builder.error, "error", Error.class));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
         ValidationSupport.checkReferenceType(requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.checkReferenceType(request, "request", "Claim");
         ValidationSupport.checkReferenceType(communicationRequest, "communicationRequest", "CommunicationRequest");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1579,9 +1586,9 @@ public class ClaimResponse extends DomainResource {
         private Item(Builder builder) {
             super(builder);
             itemSequence = ValidationSupport.requireNonNull(builder.itemSequence, "itemSequence");
-            noteNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.noteNumber, "noteNumber"));
-            adjudication = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication"));
-            detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
+            noteNumber = Collections.unmodifiableList(ValidationSupport.checkList(builder.noteNumber, "noteNumber", PositiveInt.class));
+            adjudication = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.adjudication, "adjudication", Adjudication.class));
+            detail = Collections.unmodifiableList(ValidationSupport.checkList(builder.detail, "detail", Detail.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2330,9 +2337,9 @@ public class ClaimResponse extends DomainResource {
             private Detail(Builder builder) {
                 super(builder);
                 detailSequence = ValidationSupport.requireNonNull(builder.detailSequence, "detailSequence");
-                noteNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.noteNumber, "noteNumber"));
-                adjudication = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication"));
-                subDetail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subDetail, "subDetail"));
+                noteNumber = Collections.unmodifiableList(ValidationSupport.checkList(builder.noteNumber, "noteNumber", PositiveInt.class));
+                adjudication = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.adjudication, "adjudication", ClaimResponse.Item.Adjudication.class));
+                subDetail = Collections.unmodifiableList(ValidationSupport.checkList(builder.subDetail, "subDetail", SubDetail.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -2726,8 +2733,8 @@ public class ClaimResponse extends DomainResource {
                 private SubDetail(Builder builder) {
                     super(builder);
                     subDetailSequence = ValidationSupport.requireNonNull(builder.subDetailSequence, "subDetailSequence");
-                    noteNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.noteNumber, "noteNumber"));
-                    adjudication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.adjudication, "adjudication"));
+                    noteNumber = Collections.unmodifiableList(ValidationSupport.checkList(builder.noteNumber, "noteNumber", PositiveInt.class));
+                    adjudication = Collections.unmodifiableList(ValidationSupport.checkList(builder.adjudication, "adjudication", ClaimResponse.Item.Adjudication.class));
                     ValidationSupport.requireValueOrChildren(this);
                 }
 
@@ -3124,13 +3131,13 @@ public class ClaimResponse extends DomainResource {
 
         private AddItem(Builder builder) {
             super(builder);
-            itemSequence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.itemSequence, "itemSequence"));
-            detailSequence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detailSequence, "detailSequence"));
-            subdetailSequence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subdetailSequence, "subdetailSequence"));
-            provider = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.provider, "provider"));
+            itemSequence = Collections.unmodifiableList(ValidationSupport.checkList(builder.itemSequence, "itemSequence", PositiveInt.class));
+            detailSequence = Collections.unmodifiableList(ValidationSupport.checkList(builder.detailSequence, "detailSequence", PositiveInt.class));
+            subdetailSequence = Collections.unmodifiableList(ValidationSupport.checkList(builder.subdetailSequence, "subdetailSequence", PositiveInt.class));
+            provider = Collections.unmodifiableList(ValidationSupport.checkList(builder.provider, "provider", Reference.class));
             productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-            modifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifier, "modifier"));
-            programCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.programCode, "programCode"));
+            modifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifier, "modifier", CodeableConcept.class));
+            programCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.programCode, "programCode", CodeableConcept.class));
             serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
             location = ValidationSupport.choiceElement(builder.location, "location", CodeableConcept.class, Address.class, Reference.class);
             quantity = builder.quantity;
@@ -3138,10 +3145,10 @@ public class ClaimResponse extends DomainResource {
             factor = builder.factor;
             net = builder.net;
             bodySite = builder.bodySite;
-            subSite = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subSite, "subSite"));
-            noteNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.noteNumber, "noteNumber"));
-            adjudication = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication"));
-            detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
+            subSite = Collections.unmodifiableList(ValidationSupport.checkList(builder.subSite, "subSite", CodeableConcept.class));
+            noteNumber = Collections.unmodifiableList(ValidationSupport.checkList(builder.noteNumber, "noteNumber", PositiveInt.class));
+            adjudication = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.adjudication, "adjudication", ClaimResponse.Item.Adjudication.class));
+            detail = Collections.unmodifiableList(ValidationSupport.checkList(builder.detail, "detail", Detail.class));
             ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
             ValidationSupport.checkReferenceType(location, "location", "Location");
             ValidationSupport.requireValueOrChildren(this);
@@ -4154,14 +4161,14 @@ public class ClaimResponse extends DomainResource {
             private Detail(Builder builder) {
                 super(builder);
                 productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-                modifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifier, "modifier"));
+                modifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifier, "modifier", CodeableConcept.class));
                 quantity = builder.quantity;
                 unitPrice = builder.unitPrice;
                 factor = builder.factor;
                 net = builder.net;
-                noteNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.noteNumber, "noteNumber"));
-                adjudication = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication"));
-                subDetail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subDetail, "subDetail"));
+                noteNumber = Collections.unmodifiableList(ValidationSupport.checkList(builder.noteNumber, "noteNumber", PositiveInt.class));
+                adjudication = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.adjudication, "adjudication", ClaimResponse.Item.Adjudication.class));
+                subDetail = Collections.unmodifiableList(ValidationSupport.checkList(builder.subDetail, "subDetail", SubDetail.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -4749,13 +4756,13 @@ public class ClaimResponse extends DomainResource {
                 private SubDetail(Builder builder) {
                     super(builder);
                     productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-                    modifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifier, "modifier"));
+                    modifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifier, "modifier", CodeableConcept.class));
                     quantity = builder.quantity;
                     unitPrice = builder.unitPrice;
                     factor = builder.factor;
                     net = builder.net;
-                    noteNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.noteNumber, "noteNumber"));
-                    adjudication = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication"));
+                    noteNumber = Collections.unmodifiableList(ValidationSupport.checkList(builder.noteNumber, "noteNumber", PositiveInt.class));
+                    adjudication = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.adjudication, "adjudication", ClaimResponse.Item.Adjudication.class));
                     ValidationSupport.requireValueOrChildren(this);
                 }
 

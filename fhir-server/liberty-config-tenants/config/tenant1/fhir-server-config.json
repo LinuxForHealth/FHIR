@@ -6,10 +6,27 @@
             "Observation": {
                 "searchParameters": {
                     "_id": "http://hl7.org/fhir/SearchParameter/Resource-id",
+                    "code": "http://hl7.org/fhir/SearchParameter/clinical-code",
                     "subject": "http://hl7.org/fhir/SearchParameter/Observation-subject",
                     "patient": "http://hl7.org/fhir/SearchParameter/clinical-patient",
                     "value-quantity": "http://hl7.org/fhir/SearchParameter/Observation-value-quantity",
                     "component-value-quantity": "http://hl7.org/fhir/SearchParameter/Observation-component-value-quantity"
+                }
+            },
+            "Patient": {
+                "searchParameters": {
+                    "_id": "http://hl7.org/fhir/SearchParameter/Resource-id",
+                    "family": "http://hl7.org/fhir/SearchParameter/individual-family",
+                    "favorite-color": "http://ibm.com/fhir/SearchParameter/Patient-favorite-color",
+                    "favorite-number": "http://ibm.com/fhir/SearchParameter/Patient-favorite-number",
+                    "favorite-code": "http://ibm.com/fhir/SearchParameter/Patient-favorite-code",
+                    "favorite-uri": "http://ibm.com/fhir/SearchParameter/Patient-favorite-uri",
+                    "favorite-quantity": "http://ibm.com/fhir/SearchParameter/Patient-favorite-quantity",
+                    "favorite-date": "http://ibm.com/fhir/SearchParameter/Patient-favorite-date",
+                    "gender": "http://hl7.org/fhir/SearchParameter/individual-gender",
+                    "general-practitioner": "http://hl7.org/fhir/SearchParameter/Patient-general-practitioner",
+                    "identifier": "http://hl7.org/fhir/SearchParameter/Patient-identifier",
+                    "organization": "http://hl7.org/fhir/SearchParameter/Patient-organization"
                 }
             },
             "Resource": {

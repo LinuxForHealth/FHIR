@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -159,6 +159,9 @@ public class FHIRUtil {
 
     public static OperationOutcome.Issue buildOperationOutcomeIssue(IssueSeverity severity, IssueType code, String details,
             String expression) {
+        if (details == null || details.isEmpty()) {
+            details = "<no details>";
+        }
         if (expression == null || expression.isEmpty()) {
             expression = "<no expression>";
         }
@@ -222,7 +225,8 @@ public class FHIRUtil {
         Throwable e = exception;
         String causedBy = "";
         while (e != null) {
-            msgs.append(causedBy + e.getClass().getSimpleName() + ": " + (e.getMessage() != null ? e.getMessage() : "<null message>"));
+            msgs.append(causedBy + e.getClass().getSimpleName() + ": "
+                    + (e.getMessage() != null ? e.getMessage().replaceAll("<", "&lt;").replaceAll(">", "&gt;") : "&lt;null message&gt;"));
             e = e.getCause();
             causedBy = System.lineSeparator() + "Caused by: ";
 

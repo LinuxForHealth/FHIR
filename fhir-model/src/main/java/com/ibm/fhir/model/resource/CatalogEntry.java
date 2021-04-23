@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -33,12 +34,19 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.CatalogEntryRelationType;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Catalog entries are wrappers that contextualize items included in a catalog.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CatalogEntry extends DomainResource {
     @Summary
@@ -71,21 +79,20 @@ public class CatalogEntry extends DomainResource {
 
     private CatalogEntry(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         type = builder.type;
         orderable = ValidationSupport.requireNonNull(builder.orderable, "orderable");
         referencedItem = ValidationSupport.requireNonNull(builder.referencedItem, "referencedItem");
-        additionalIdentifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additionalIdentifier, "additionalIdentifier"));
-        classification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.classification, "classification"));
+        additionalIdentifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.additionalIdentifier, "additionalIdentifier", Identifier.class));
+        classification = Collections.unmodifiableList(ValidationSupport.checkList(builder.classification, "classification", CodeableConcept.class));
         status = builder.status;
         validityPeriod = builder.validityPeriod;
         validTo = builder.validTo;
         lastUpdated = builder.lastUpdated;
-        additionalCharacteristic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additionalCharacteristic, "additionalCharacteristic"));
-        additionalClassification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additionalClassification, "additionalClassification"));
-        relatedEntry = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedEntry, "relatedEntry"));
+        additionalCharacteristic = Collections.unmodifiableList(ValidationSupport.checkList(builder.additionalCharacteristic, "additionalCharacteristic", CodeableConcept.class));
+        additionalClassification = Collections.unmodifiableList(ValidationSupport.checkList(builder.additionalClassification, "additionalClassification", CodeableConcept.class));
+        relatedEntry = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedEntry, "relatedEntry", RelatedEntry.class));
         ValidationSupport.checkReferenceType(referencedItem, "referencedItem", "Medication", "Device", "Organization", "Practitioner", "PractitionerRole", "HealthcareService", "ActivityDefinition", "PlanDefinition", "SpecimenDefinition", "ObservationDefinition", "Binary");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

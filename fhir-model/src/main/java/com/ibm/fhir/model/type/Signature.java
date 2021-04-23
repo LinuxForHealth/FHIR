@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -77,7 +77,7 @@ public class Signature extends Element {
 
     private Signature(Builder builder) {
         super(builder);
-        type = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.type, "type"));
+        type = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.type, "type", Coding.class));
         when = ValidationSupport.requireNonNull(builder.when, "when");
         who = ValidationSupport.requireNonNull(builder.who, "who");
         onBehalfOf = builder.onBehalfOf;

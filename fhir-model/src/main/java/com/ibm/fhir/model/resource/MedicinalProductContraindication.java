@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -28,13 +29,20 @@ import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Population;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * The clinical particulars - indications, contraindications etc. of a medicinal product, including for regulatory 
  * purposes.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductContraindication extends DomainResource {
     @Summary
@@ -58,16 +66,15 @@ public class MedicinalProductContraindication extends DomainResource {
 
     private MedicinalProductContraindication(Builder builder) {
         super(builder);
-        subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
+        subject = Collections.unmodifiableList(ValidationSupport.checkList(builder.subject, "subject", Reference.class));
         disease = builder.disease;
         diseaseStatus = builder.diseaseStatus;
-        comorbidity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.comorbidity, "comorbidity"));
-        therapeuticIndication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.therapeuticIndication, "therapeuticIndication"));
-        otherTherapy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.otherTherapy, "otherTherapy"));
-        population = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.population, "population"));
+        comorbidity = Collections.unmodifiableList(ValidationSupport.checkList(builder.comorbidity, "comorbidity", CodeableConcept.class));
+        therapeuticIndication = Collections.unmodifiableList(ValidationSupport.checkList(builder.therapeuticIndication, "therapeuticIndication", Reference.class));
+        otherTherapy = Collections.unmodifiableList(ValidationSupport.checkList(builder.otherTherapy, "otherTherapy", OtherTherapy.class));
+        population = Collections.unmodifiableList(ValidationSupport.checkList(builder.population, "population", Population.class));
         ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication");
         ValidationSupport.checkReferenceType(therapeuticIndication, "therapeuticIndication", "MedicinalProductIndication");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -40,12 +41,19 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.NutritionOrderIntent;
 import com.ibm.fhir.model.type.code.NutritionOrderStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A request to supply a diet, formula feeding (enteral) or oral nutritional supplement to a patient/resident.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "nor-1",
     level = "Warning",
@@ -124,28 +132,27 @@ public class NutritionOrder extends DomainResource {
 
     private NutritionOrder(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesCanonical, "instantiatesCanonical"));
-        instantiatesUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesUri, "instantiatesUri"));
-        instantiates = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiates, "instantiates"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesCanonical, "instantiatesCanonical", Canonical.class));
+        instantiatesUri = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesUri, "instantiatesUri", Uri.class));
+        instantiates = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiates, "instantiates", Uri.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         intent = ValidationSupport.requireNonNull(builder.intent, "intent");
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
         encounter = builder.encounter;
         dateTime = ValidationSupport.requireNonNull(builder.dateTime, "dateTime");
         orderer = builder.orderer;
-        allergyIntolerance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.allergyIntolerance, "allergyIntolerance"));
-        foodPreferenceModifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.foodPreferenceModifier, "foodPreferenceModifier"));
-        excludeFoodModifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.excludeFoodModifier, "excludeFoodModifier"));
+        allergyIntolerance = Collections.unmodifiableList(ValidationSupport.checkList(builder.allergyIntolerance, "allergyIntolerance", Reference.class));
+        foodPreferenceModifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.foodPreferenceModifier, "foodPreferenceModifier", CodeableConcept.class));
+        excludeFoodModifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.excludeFoodModifier, "excludeFoodModifier", CodeableConcept.class));
         oralDiet = builder.oralDiet;
-        supplement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supplement, "supplement"));
+        supplement = Collections.unmodifiableList(ValidationSupport.checkList(builder.supplement, "supplement", Supplement.class));
         enteralFormula = builder.enteralFormula;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(orderer, "orderer", "Practitioner", "PractitionerRole");
         ValidationSupport.checkReferenceType(allergyIntolerance, "allergyIntolerance", "AllergyIntolerance");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1239,11 +1246,11 @@ public class NutritionOrder extends DomainResource {
 
         private OralDiet(Builder builder) {
             super(builder);
-            type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
-            schedule = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.schedule, "schedule"));
-            nutrient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.nutrient, "nutrient"));
-            texture = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.texture, "texture"));
-            fluidConsistencyType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.fluidConsistencyType, "fluidConsistencyType"));
+            type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
+            schedule = Collections.unmodifiableList(ValidationSupport.checkList(builder.schedule, "schedule", Timing.class));
+            nutrient = Collections.unmodifiableList(ValidationSupport.checkList(builder.nutrient, "nutrient", Nutrient.class));
+            texture = Collections.unmodifiableList(ValidationSupport.checkList(builder.texture, "texture", Texture.class));
+            fluidConsistencyType = Collections.unmodifiableList(ValidationSupport.checkList(builder.fluidConsistencyType, "fluidConsistencyType", CodeableConcept.class));
             instruction = builder.instruction;
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -2284,7 +2291,7 @@ public class NutritionOrder extends DomainResource {
             super(builder);
             type = builder.type;
             productName = builder.productName;
-            schedule = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.schedule, "schedule"));
+            schedule = Collections.unmodifiableList(ValidationSupport.checkList(builder.schedule, "schedule", Timing.class));
             quantity = builder.quantity;
             instruction = builder.instruction;
             ValidationSupport.requireValueOrChildren(this);
@@ -2693,7 +2700,7 @@ public class NutritionOrder extends DomainResource {
             additiveProductName = builder.additiveProductName;
             caloricDensity = builder.caloricDensity;
             routeofAdministration = builder.routeofAdministration;
-            administration = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.administration, "administration"));
+            administration = Collections.unmodifiableList(ValidationSupport.checkList(builder.administration, "administration", Administration.class));
             maxVolumeToDeliver = builder.maxVolumeToDeliver;
             administrationInstruction = builder.administrationInstruction;
             ValidationSupport.requireValueOrChildren(this);

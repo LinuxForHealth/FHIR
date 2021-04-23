@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -42,6 +43,7 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.MedicationRequestIntent;
 import com.ibm.fhir.model.type.code.MedicationRequestPriority;
 import com.ibm.fhir.model.type.code.MedicationRequestStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -50,7 +52,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * patient. The resource is called "MedicationRequest" rather than "MedicationPrescription" or "MedicationOrder" to 
  * generalize the use across inpatient and outpatient settings, including care plans, etc., and to harmonize with 
  * workflow patterns.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicationRequest extends DomainResource {
     private final List<Identifier> identifier;
@@ -177,38 +185,38 @@ public class MedicationRequest extends DomainResource {
 
     private MedicationRequest(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusReason = builder.statusReason;
         intent = ValidationSupport.requireNonNull(builder.intent, "intent");
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
         priority = builder.priority;
         doNotPerform = builder.doNotPerform;
         reported = ValidationSupport.choiceElement(builder.reported, "reported", Boolean.class, Reference.class);
         medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
         encounter = builder.encounter;
-        supportingInformation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInformation, "supportingInformation"));
+        supportingInformation = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingInformation, "supportingInformation", Reference.class));
         authoredOn = builder.authoredOn;
         requester = builder.requester;
         performer = builder.performer;
         performerType = builder.performerType;
         recorder = builder.recorder;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesCanonical, "instantiatesCanonical"));
-        instantiatesUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesUri, "instantiatesUri"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
+        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
+        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesCanonical, "instantiatesCanonical", Canonical.class));
+        instantiatesUri = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesUri, "instantiatesUri", Uri.class));
+        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
         groupIdentifier = builder.groupIdentifier;
         courseOfTherapyType = builder.courseOfTherapyType;
-        insurance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.insurance, "insurance"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        dosageInstruction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dosageInstruction, "dosageInstruction"));
+        insurance = Collections.unmodifiableList(ValidationSupport.checkList(builder.insurance, "insurance", Reference.class));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        dosageInstruction = Collections.unmodifiableList(ValidationSupport.checkList(builder.dosageInstruction, "dosageInstruction", Dosage.class));
         dispenseRequest = builder.dispenseRequest;
         substitution = builder.substitution;
         priorPrescription = builder.priorPrescription;
-        detectedIssue = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detectedIssue, "detectedIssue"));
-        eventHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.eventHistory, "eventHistory"));
+        detectedIssue = Collections.unmodifiableList(ValidationSupport.checkList(builder.detectedIssue, "detectedIssue", Reference.class));
+        eventHistory = Collections.unmodifiableList(ValidationSupport.checkList(builder.eventHistory, "eventHistory", Reference.class));
         ValidationSupport.checkReferenceType(reported, "reported", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");
         ValidationSupport.checkReferenceType(medication, "medication", "Medication");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
@@ -222,7 +230,6 @@ public class MedicationRequest extends DomainResource {
         ValidationSupport.checkReferenceType(priorPrescription, "priorPrescription", "MedicationRequest");
         ValidationSupport.checkReferenceType(detectedIssue, "detectedIssue", "DetectedIssue");
         ValidationSupport.checkReferenceType(eventHistory, "eventHistory", "Provenance");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

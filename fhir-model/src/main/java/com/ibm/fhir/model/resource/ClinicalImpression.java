@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -35,6 +36,7 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ClinicalImpressionStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -44,7 +46,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * a clinical consultation / encounter, but this varies greatly depending on the clinical workflow. This resource is 
  * called "ClinicalImpression" rather than "ClinicalAssessment" to avoid confusion with the recording of assessment tools 
  * such as Apgar score.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ClinicalImpression extends DomainResource {
     @Summary
@@ -113,7 +121,7 @@ public class ClinicalImpression extends DomainResource {
 
     private ClinicalImpression(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusReason = builder.statusReason;
         code = builder.code;
@@ -124,22 +132,21 @@ public class ClinicalImpression extends DomainResource {
         date = builder.date;
         assessor = builder.assessor;
         previous = builder.previous;
-        problem = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.problem, "problem"));
-        investigation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.investigation, "investigation"));
-        protocol = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.protocol, "protocol"));
+        problem = Collections.unmodifiableList(ValidationSupport.checkList(builder.problem, "problem", Reference.class));
+        investigation = Collections.unmodifiableList(ValidationSupport.checkList(builder.investigation, "investigation", Investigation.class));
+        protocol = Collections.unmodifiableList(ValidationSupport.checkList(builder.protocol, "protocol", Uri.class));
         summary = builder.summary;
-        finding = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.finding, "finding"));
-        prognosisCodeableConcept = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.prognosisCodeableConcept, "prognosisCodeableConcept"));
-        prognosisReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.prognosisReference, "prognosisReference"));
-        supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        finding = Collections.unmodifiableList(ValidationSupport.checkList(builder.finding, "finding", Finding.class));
+        prognosisCodeableConcept = Collections.unmodifiableList(ValidationSupport.checkList(builder.prognosisCodeableConcept, "prognosisCodeableConcept", CodeableConcept.class));
+        prognosisReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.prognosisReference, "prognosisReference", Reference.class));
+        supportingInfo = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingInfo, "supportingInfo", Reference.class));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(assessor, "assessor", "Practitioner", "PractitionerRole");
         ValidationSupport.checkReferenceType(previous, "previous", "ClinicalImpression");
         ValidationSupport.checkReferenceType(problem, "problem", "Condition", "AllergyIntolerance");
         ValidationSupport.checkReferenceType(prognosisReference, "prognosisReference", "RiskAssessment");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1321,7 +1328,7 @@ public class ClinicalImpression extends DomainResource {
         private Investigation(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
-            item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
+            item = Collections.unmodifiableList(ValidationSupport.checkList(builder.item, "item", Reference.class));
             ValidationSupport.checkReferenceType(item, "item", "Observation", "QuestionnaireResponse", "FamilyMemberHistory", "DiagnosticReport", "RiskAssessment", "ImagingStudy", "Media");
             ValidationSupport.requireValueOrChildren(this);
         }

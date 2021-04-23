@@ -40,7 +40,7 @@ import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 public class ReindexResourceDAO extends ResourceDAOImpl {
     private static final Logger logger = Logger.getLogger(ReindexResourceDAO.class.getName());
     private static final String CLASSNAME = ReindexResourceDAO.class.getSimpleName();
-    private static final SecureRandom random = new SecureRandom();
+    private static final SecureRandom RANDOM = new SecureRandom();
 
     // The translator specific to the database type we're working with
     private final IDatabaseTranslator translator;
@@ -229,7 +229,7 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
         Connection connection = getConnection();
 
         // Get a resource which needs to be reindexed
-        result = getNextResource(this.random, reindexTstamp, resourceTypeId, logicalId);
+        result = getNextResource(RANDOM, reindexTstamp, resourceTypeId, logicalId);
 
         if (result != null) {
 
@@ -263,17 +263,11 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
     }
 
     /**
-     * Reindex the resource by deleting existing parameters and replacing them with those passed in
-     * @param tablePrefix
-     * @param parameters
-     * @param p_logical_id
-     * @param p_payload
-     * @param p_last_updated
-     * @param p_is_deleted
-     * @param p_source_key
-     * @param p_version
-     *
-     * @return the resource_id for the entry we created
+     * Reindex the resource by deleting existing parameters and replacing them with those passed in.
+     * @param tablePrefix the table prefix
+     * @param parameters the extracted parameters
+     * @param logicalId the logical id
+     * @param logicalResourceId the logical resource id
      * @throws Exception
      */
     public void updateParameters(String tablePrefix, List<ExtractedParameterValue> parameters, String logicalId, long logicalResourceId) throws Exception {
@@ -292,9 +286,11 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
         deleteFromParameterTable(connection, tablePrefix + "_resource_token_refs", logicalResourceId);
         deleteFromParameterTable(connection, tablePrefix + "_quantity_values", logicalResourceId);
 
-        if (parameters != null) {
+        if (parameters != null && !parameters.isEmpty()) {
             JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao, getResourceReferenceDAO());
-            try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, null, tablePrefix, false, logicalResourceId, 100,
+            // Check if this is multitenant
+            boolean isMultitenant = this.getFlavor().isMultitenant();
+            try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, "FHIR_ADMIN", tablePrefix, isMultitenant, logicalResourceId, 100,
                 identityCache, getResourceReferenceDAO(), getTransactionData())) {
                 for (ExtractedParameterValue p: parameters) {
                     p.accept(pvd);
@@ -316,10 +312,14 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
      */
     protected void deleteFromParameterTable(Connection conn, String tableName, long logicalResourceId) throws SQLException {
         final String DML = "DELETE FROM " + tableName + " WHERE logical_resource_id = ?";
+
         try (PreparedStatement stmt = conn.prepareStatement(DML)) {
             // bind parameters
             stmt.setLong(1, logicalResourceId);
-            stmt.executeUpdate();
+            int deleted = stmt.executeUpdate();
+            if (logger.isLoggable(Level.FINEST)) {
+                logger.finest("Deleted from [" + tableName + "] deleted [" + deleted + "] for logicalResourceId [" + logicalResourceId + "]");
+            }
         } catch (SQLException x) {
             logger.log(Level.SEVERE, DML, x);
             throw translator.translate(x);

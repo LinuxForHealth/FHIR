@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -35,6 +36,7 @@ import com.ibm.fhir.model.type.Signature;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ProvenanceEntityRole;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -46,7 +48,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * confidence in authenticity, reliability, and trustworthiness, integrity, and stage in lifecycle (e.g. Document 
  * Completion - has the artifact been legally authenticated), all of which may impact security, privacy, and trust 
  * policies.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "provenance-0",
     level = "Warning",
@@ -107,18 +115,17 @@ public class Provenance extends DomainResource {
 
     private Provenance(Builder builder) {
         super(builder);
-        target = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.target, "target"));
+        target = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.target, "target", Reference.class));
         occurred = ValidationSupport.choiceElement(builder.occurred, "occurred", Period.class, DateTime.class);
         recorded = ValidationSupport.requireNonNull(builder.recorded, "recorded");
-        policy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.policy, "policy"));
+        policy = Collections.unmodifiableList(ValidationSupport.checkList(builder.policy, "policy", Uri.class));
         location = builder.location;
-        reason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reason, "reason"));
+        reason = Collections.unmodifiableList(ValidationSupport.checkList(builder.reason, "reason", CodeableConcept.class));
         activity = builder.activity;
-        agent = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.agent, "agent"));
-        entity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.entity, "entity"));
-        signature = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.signature, "signature"));
+        agent = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.agent, "agent", Agent.class));
+        entity = Collections.unmodifiableList(ValidationSupport.checkList(builder.entity, "entity", Entity.class));
+        signature = Collections.unmodifiableList(ValidationSupport.checkList(builder.signature, "signature", Signature.class));
         ValidationSupport.checkReferenceType(location, "location", "Location");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -909,7 +916,7 @@ public class Provenance extends DomainResource {
         private Agent(Builder builder) {
             super(builder);
             type = builder.type;
-            role = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.role, "role"));
+            role = Collections.unmodifiableList(ValidationSupport.checkList(builder.role, "role", CodeableConcept.class));
             who = ValidationSupport.requireNonNull(builder.who, "who");
             onBehalfOf = builder.onBehalfOf;
             ValidationSupport.checkReferenceType(who, "who", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
@@ -1296,7 +1303,7 @@ public class Provenance extends DomainResource {
             super(builder);
             role = ValidationSupport.requireNonNull(builder.role, "role");
             what = ValidationSupport.requireNonNull(builder.what, "what");
-            agent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.agent, "agent"));
+            agent = Collections.unmodifiableList(ValidationSupport.checkList(builder.agent, "agent", Provenance.Agent.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

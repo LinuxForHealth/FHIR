@@ -1,38 +1,28 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.operation.convert;
 
-import java.io.InputStream;
-
 import com.ibm.fhir.exception.FHIROperationException;
-import com.ibm.fhir.model.format.Format;
-import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.operation.spi.AbstractOperation;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 import com.ibm.fhir.server.util.FHIROperationUtil;
 
 public class ConvertOperation extends AbstractOperation {
-    public ConvertOperation() {
-        super();
-    }
-    
     @Override
     protected OperationDefinition buildOperationDefinition() {
-        try (InputStream in = getClass().getClassLoader().getResourceAsStream("convert.json");){
-            return FHIRParser.parser(Format.JSON).parse(in);
-        } catch (Exception e) {
-            throw new Error(e);
-        }
+        return FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/OperationDefinition/Resource-convert",
+            OperationDefinition.class);
     }
 
     @Override

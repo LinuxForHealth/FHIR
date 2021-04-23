@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,16 +14,24 @@ import java.util.List;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 
 /**
  * A resource that includes narrative, extensions, and contained resources.
+ * 
+ * <p>Maturity level: FMM5 (Normative)
  */
+@Maturity(
+    level = 5,
+    status = StandardsStatus.ValueSet.NORMATIVE
+)
 @Constraint(
     id = "dom-2",
     level = "Rule",
@@ -69,9 +77,9 @@ public abstract class DomainResource extends Resource {
     protected DomainResource(Builder builder) {
         super(builder);
         text = builder.text;
-        contained = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contained, "contained"));
-        extension = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.extension, "extension"));
-        modifierExtension = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifierExtension, "modifierExtension"));
+        contained = Collections.unmodifiableList(ValidationSupport.checkList(builder.contained, "contained", Resource.class));
+        extension = Collections.unmodifiableList(ValidationSupport.checkList(builder.extension, "extension", Extension.class));
+        modifierExtension = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifierExtension, "modifierExtension", Extension.class));
     }
 
     /**

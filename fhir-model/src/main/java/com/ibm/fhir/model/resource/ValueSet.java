@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -42,6 +43,7 @@ import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.FilterOperator;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -49,7 +51,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * A ValueSet resource instance specifies a set of codes drawn from one or more code systems, intended for use in a 
  * particular context. Value sets link between [CodeSystem](codesystem.html) definitions and their use in [coded elements]
  * (terminologies.html).
+ * 
+ * <p>Maturity level: FMM5 (Normative)
  */
+@Maturity(
+    level = 5,
+    status = StandardsStatus.ValueSet.NORMATIVE
+)
 @Constraint(
     id = "vsd-0",
     level = "Warning",
@@ -175,7 +183,7 @@ public class ValueSet extends DomainResource {
     private ValueSet(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         version = builder.version;
         name = builder.name;
         title = builder.title;
@@ -183,16 +191,15 @@ public class ValueSet extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         immutable = builder.immutable;
         purpose = builder.purpose;
         copyright = builder.copyright;
         compose = builder.compose;
         expansion = builder.expansion;
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1175,8 +1182,8 @@ public class ValueSet extends DomainResource {
             super(builder);
             lockedDate = builder.lockedDate;
             inactive = builder.inactive;
-            include = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.include, "include"));
-            exclude = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.exclude, "exclude"));
+            include = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.include, "include", Include.class));
+            exclude = Collections.unmodifiableList(ValidationSupport.checkList(builder.exclude, "exclude", ValueSet.Compose.Include.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1561,9 +1568,9 @@ public class ValueSet extends DomainResource {
                 super(builder);
                 system = builder.system;
                 version = builder.version;
-                concept = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.concept, "concept"));
-                filter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.filter, "filter"));
-                valueSet = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.valueSet, "valueSet"));
+                concept = Collections.unmodifiableList(ValidationSupport.checkList(builder.concept, "concept", Concept.class));
+                filter = Collections.unmodifiableList(ValidationSupport.checkList(builder.filter, "filter", Filter.class));
+                valueSet = Collections.unmodifiableList(ValidationSupport.checkList(builder.valueSet, "valueSet", Canonical.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -1985,7 +1992,7 @@ public class ValueSet extends DomainResource {
                     super(builder);
                     code = ValidationSupport.requireNonNull(builder.code, "code");
                     display = builder.display;
-                    designation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.designation, "designation"));
+                    designation = Collections.unmodifiableList(ValidationSupport.checkList(builder.designation, "designation", Designation.class));
                     ValidationSupport.requireValueOrChildren(this);
                 }
 
@@ -2960,8 +2967,8 @@ public class ValueSet extends DomainResource {
             timestamp = ValidationSupport.requireNonNull(builder.timestamp, "timestamp");
             total = builder.total;
             offset = builder.offset;
-            parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
-            contains = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contains, "contains"));
+            parameter = Collections.unmodifiableList(ValidationSupport.checkList(builder.parameter, "parameter", Parameter.class));
+            contains = Collections.unmodifiableList(ValidationSupport.checkList(builder.contains, "contains", Contains.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -3696,8 +3703,8 @@ public class ValueSet extends DomainResource {
                 version = builder.version;
                 code = builder.code;
                 display = builder.display;
-                designation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.designation, "designation"));
-                contains = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contains, "contains"));
+                designation = Collections.unmodifiableList(ValidationSupport.checkList(builder.designation, "designation", ValueSet.Compose.Include.Concept.Designation.class));
+                contains = Collections.unmodifiableList(ValidationSupport.checkList(builder.contains, "contains", ValueSet.Expansion.Contains.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 

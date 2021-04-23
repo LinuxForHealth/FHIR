@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,7 +16,6 @@ import java.util.logging.Logger;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -30,8 +29,6 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
-import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -51,12 +48,6 @@ import com.ibm.fhir.server.util.RestAuditLogger;
 @RequestScoped
 public class Operation extends FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(Operation.class.getName());
-
-    // The JWT of the current caller. Since this is a request scoped resource, the
-    // JWT will be injected for each JAX-RS request. The injection is performed by
-    // the mpJwt feature.
-    @Inject
-    private JsonWebToken jwt;
 
     public Operation() throws Exception {
         super();
@@ -84,7 +75,7 @@ public class Operation extends FHIRResource {
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             Resource result = helper.doInvoke(operationContext, null, null, null, operationName,
-                    null, uriInfo.getQueryParameters(), null);
+                    null, uriInfo.getQueryParameters());
             Response response = buildResponse(operationContext, null, result);
             status = Response.Status.fromStatusCode(response.getStatus());
             return response;
@@ -125,7 +116,7 @@ public class Operation extends FHIRResource {
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             Resource result = helper.doInvoke(operationContext, null, null, null, operationName,
-                    resource, uriInfo.getQueryParameters(), null);
+                    resource, uriInfo.getQueryParameters());
             Response response = buildResponse(operationContext, null, result);
             status = Response.Status.fromStatusCode(response.getStatus());
             return response;
@@ -167,8 +158,7 @@ public class Operation extends FHIRResource {
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             Resource result =
-                    helper.doInvoke(operationContext, null, null, null, operationName, null,
-                            uriInfo.getQueryParameters(), null);
+                    helper.doInvoke(operationContext, null, null, null, operationName, null, uriInfo.getQueryParameters());
             Response response = buildResponse(operationContext, null, result);
             status = Response.Status.fromStatusCode(response.getStatus());
             return response;
@@ -210,7 +200,7 @@ public class Operation extends FHIRResource {
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             Resource result = helper.doInvoke(operationContext, resourceTypeName, null, null, operationName,
-                    null, uriInfo.getQueryParameters(), null);
+                    null, uriInfo.getQueryParameters());
             Response response = buildResponse(operationContext, resourceTypeName, result);
             status = Response.Status.fromStatusCode(response.getStatus());
             return response;
@@ -252,7 +242,7 @@ public class Operation extends FHIRResource {
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             Resource result = helper.doInvoke(operationContext, resourceTypeName, null, null, operationName,
-                    resource, uriInfo.getQueryParameters(), null);
+                    resource, uriInfo.getQueryParameters());
             Response response = buildResponse(operationContext, resourceTypeName, result);
             status = Response.Status.fromStatusCode(response.getStatus());
             return response;
@@ -308,7 +298,7 @@ public class Operation extends FHIRResource {
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             Resource result = helper.doInvoke(operationContext, resourceTypeName, logicalId, null, operationName,
-                    null, uriInfo.getQueryParameters(), null);
+                    null, uriInfo.getQueryParameters());
             Response response = buildResponse(operationContext, resourceTypeName, result);
             status = Response.Status.fromStatusCode(response.getStatus());
             return response;
@@ -351,7 +341,7 @@ public class Operation extends FHIRResource {
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             Resource result = helper.doInvoke(operationContext, resourceTypeName, logicalId, null, operationName,
-                    resource, uriInfo.getQueryParameters(), null);
+                    resource, uriInfo.getQueryParameters());
             Response response = buildResponse(operationContext, resourceTypeName, result);
             status = Response.Status.fromStatusCode(response.getStatus());
             return response;
@@ -395,7 +385,7 @@ public class Operation extends FHIRResource {
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             Resource result = helper.doInvoke(operationContext, resourceTypeName, logicalId, versionId, operationName,
-                    null, uriInfo.getQueryParameters(), null);
+                    null, uriInfo.getQueryParameters());
             Response response = buildResponse(operationContext, resourceTypeName, result);
             status = Response.Status.fromStatusCode(response.getStatus());
             return response;
@@ -439,7 +429,7 @@ public class Operation extends FHIRResource {
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             Resource result = helper.doInvoke(operationContext, resourceTypeName, logicalId, versionId, operationName,
-                    resource, uriInfo.getQueryParameters(), null);
+                    resource, uriInfo.getQueryParameters());
             Response response = buildResponse(operationContext, resourceTypeName, result);
             status = Response.Status.fromStatusCode(response.getStatus());
             return response;

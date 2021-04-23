@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -39,13 +40,20 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ImmunizationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Describes the event of a patient being administered a vaccine or a record of an immunization as reported by a patient, 
  * a clinician or another party.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "imm-1",
     level = "Rule",
@@ -174,7 +182,7 @@ public class Immunization extends DomainResource {
 
     private Immunization(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusReason = builder.statusReason;
         vaccineCode = ValidationSupport.requireNonNull(builder.vaccineCode, "vaccineCode");
@@ -191,23 +199,22 @@ public class Immunization extends DomainResource {
         site = builder.site;
         route = builder.route;
         doseQuantity = builder.doseQuantity;
-        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+        performer = Collections.unmodifiableList(ValidationSupport.checkList(builder.performer, "performer", Performer.class));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
         isSubpotent = builder.isSubpotent;
-        subpotentReason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subpotentReason, "subpotentReason"));
-        education = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.education, "education"));
-        programEligibility = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.programEligibility, "programEligibility"));
+        subpotentReason = Collections.unmodifiableList(ValidationSupport.checkList(builder.subpotentReason, "subpotentReason", CodeableConcept.class));
+        education = Collections.unmodifiableList(ValidationSupport.checkList(builder.education, "education", Education.class));
+        programEligibility = Collections.unmodifiableList(ValidationSupport.checkList(builder.programEligibility, "programEligibility", CodeableConcept.class));
         fundingSource = builder.fundingSource;
-        reaction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reaction, "reaction"));
-        protocolApplied = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.protocolApplied, "protocolApplied"));
+        reaction = Collections.unmodifiableList(ValidationSupport.checkList(builder.reaction, "reaction", Reaction.class));
+        protocolApplied = Collections.unmodifiableList(ValidationSupport.checkList(builder.protocolApplied, "protocolApplied", ProtocolApplied.class));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(location, "location", "Location");
         ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
         ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -2549,7 +2556,7 @@ public class Immunization extends DomainResource {
             super(builder);
             series = builder.series;
             authority = builder.authority;
-            targetDisease = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.targetDisease, "targetDisease"));
+            targetDisease = Collections.unmodifiableList(ValidationSupport.checkList(builder.targetDisease, "targetDisease", CodeableConcept.class));
             doseNumber = ValidationSupport.requireChoiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);
             seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
             ValidationSupport.checkReferenceType(authority, "authority", "Organization");

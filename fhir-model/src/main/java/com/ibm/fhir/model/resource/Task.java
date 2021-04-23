@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -75,6 +76,7 @@ import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.Uuid;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.TaskIntent;
 import com.ibm.fhir.model.type.code.TaskPriority;
 import com.ibm.fhir.model.type.code.TaskStatus;
@@ -83,7 +85,13 @@ import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A task to be performed.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "inv-1",
     level = "Rule",
@@ -210,12 +218,12 @@ public class Task extends DomainResource {
 
     private Task(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         instantiatesCanonical = builder.instantiatesCanonical;
         instantiatesUri = builder.instantiatesUri;
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
+        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
         groupIdentifier = builder.groupIdentifier;
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
+        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Reference.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusReason = builder.statusReason;
         businessStatus = builder.businessStatus;
@@ -230,17 +238,17 @@ public class Task extends DomainResource {
         authoredOn = builder.authoredOn;
         lastModified = builder.lastModified;
         requester = builder.requester;
-        performerType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performerType, "performerType"));
+        performerType = Collections.unmodifiableList(ValidationSupport.checkList(builder.performerType, "performerType", CodeableConcept.class));
         owner = builder.owner;
         location = builder.location;
         reasonCode = builder.reasonCode;
         reasonReference = builder.reasonReference;
-        insurance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.insurance, "insurance"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        relevantHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relevantHistory, "relevantHistory"));
+        insurance = Collections.unmodifiableList(ValidationSupport.checkList(builder.insurance, "insurance", Reference.class));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        relevantHistory = Collections.unmodifiableList(ValidationSupport.checkList(builder.relevantHistory, "relevantHistory", Reference.class));
         restriction = builder.restriction;
-        input = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.input, "input"));
-        output = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.output, "output"));
+        input = Collections.unmodifiableList(ValidationSupport.checkList(builder.input, "input", Input.class));
+        output = Collections.unmodifiableList(ValidationSupport.checkList(builder.output, "output", Output.class));
         ValidationSupport.checkReferenceType(partOf, "partOf", "Task");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(requester, "requester", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
@@ -248,7 +256,6 @@ public class Task extends DomainResource {
         ValidationSupport.checkReferenceType(location, "location", "Location");
         ValidationSupport.checkReferenceType(insurance, "insurance", "Coverage", "ClaimResponse");
         ValidationSupport.checkReferenceType(relevantHistory, "relevantHistory", "Provenance");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1770,7 +1777,7 @@ public class Task extends DomainResource {
             super(builder);
             repetitions = builder.repetitions;
             period = builder.period;
-            recipient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.recipient, "recipient"));
+            recipient = Collections.unmodifiableList(ValidationSupport.checkList(builder.recipient, "recipient", Reference.class));
             ValidationSupport.checkReferenceType(recipient, "recipient", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Group", "Organization");
             ValidationSupport.requireValueOrChildren(this);
         }

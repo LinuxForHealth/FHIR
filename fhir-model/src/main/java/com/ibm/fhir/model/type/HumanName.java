@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -54,9 +54,9 @@ public class HumanName extends Element {
         use = builder.use;
         text = builder.text;
         family = builder.family;
-        given = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.given, "given"));
-        prefix = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.prefix, "prefix"));
-        suffix = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.suffix, "suffix"));
+        given = Collections.unmodifiableList(ValidationSupport.checkList(builder.given, "given", String.class));
+        prefix = Collections.unmodifiableList(ValidationSupport.checkList(builder.prefix, "prefix", String.class));
+        suffix = Collections.unmodifiableList(ValidationSupport.checkList(builder.suffix, "suffix", String.class));
         period = builder.period;
         ValidationSupport.requireValueOrChildren(this);
     }

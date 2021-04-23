@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -39,13 +40,20 @@ import com.ibm.fhir.model.type.code.GraphCompartmentRule;
 import com.ibm.fhir.model.type.code.GraphCompartmentUse;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A formal computable definition of a graph of resources - that is, a coherent set of resources that form a graph by 
  * following references. The Graph Definition resource defines a set and makes rules about the set.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "gdf-0",
     level = "Warning",
@@ -122,15 +130,14 @@ public class GraphDefinition extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         purpose = builder.purpose;
         start = ValidationSupport.requireNonNull(builder.start, "start");
         profile = builder.profile;
-        link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
-        ValidationSupport.requireChildren(this);
+        link = Collections.unmodifiableList(ValidationSupport.checkList(builder.link, "link", Link.class));
     }
 
     /**
@@ -1016,7 +1023,7 @@ public class GraphDefinition extends DomainResource {
             min = builder.min;
             max = builder.max;
             description = builder.description;
-            target = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.target, "target"));
+            target = Collections.unmodifiableList(ValidationSupport.checkList(builder.target, "target", Target.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1428,8 +1435,8 @@ public class GraphDefinition extends DomainResource {
                 type = ValidationSupport.requireNonNull(builder.type, "type");
                 params = builder.params;
                 profile = builder.profile;
-                compartment = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.compartment, "compartment"));
-                link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
+                compartment = Collections.unmodifiableList(ValidationSupport.checkList(builder.compartment, "compartment", Compartment.class));
+                link = Collections.unmodifiableList(ValidationSupport.checkList(builder.link, "link", GraphDefinition.Link.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 

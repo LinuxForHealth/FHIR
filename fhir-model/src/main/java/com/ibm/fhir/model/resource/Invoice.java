@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -39,13 +40,20 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.InvoicePriceComponentType;
 import com.ibm.fhir.model.type.code.InvoiceStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Invoice containing collected ChargeItems from an Account with calculated individual and total price for Billing 
  * purpose.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Invoice extends DomainResource {
     @Summary
@@ -88,27 +96,26 @@ public class Invoice extends DomainResource {
 
     private Invoice(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         cancelledReason = builder.cancelledReason;
         type = builder.type;
         subject = builder.subject;
         recipient = builder.recipient;
         date = builder.date;
-        participant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.participant, "participant"));
+        participant = Collections.unmodifiableList(ValidationSupport.checkList(builder.participant, "participant", Participant.class));
         issuer = builder.issuer;
         account = builder.account;
-        lineItem = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.lineItem, "lineItem"));
-        totalPriceComponent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.totalPriceComponent, "totalPriceComponent"));
+        lineItem = Collections.unmodifiableList(ValidationSupport.checkList(builder.lineItem, "lineItem", LineItem.class));
+        totalPriceComponent = Collections.unmodifiableList(ValidationSupport.checkList(builder.totalPriceComponent, "totalPriceComponent", Invoice.LineItem.PriceComponent.class));
         totalNet = builder.totalNet;
         totalGross = builder.totalGross;
         paymentTerms = builder.paymentTerms;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(recipient, "recipient", "Organization", "Patient", "RelatedPerson");
         ValidationSupport.checkReferenceType(issuer, "issuer", "Organization");
         ValidationSupport.checkReferenceType(account, "account", "Account");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1325,7 +1332,7 @@ public class Invoice extends DomainResource {
             super(builder);
             sequence = builder.sequence;
             chargeItem = ValidationSupport.requireChoiceElement(builder.chargeItem, "chargeItem", Reference.class, CodeableConcept.class);
-            priceComponent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.priceComponent, "priceComponent"));
+            priceComponent = Collections.unmodifiableList(ValidationSupport.checkList(builder.priceComponent, "priceComponent", PriceComponent.class));
             ValidationSupport.checkReferenceType(chargeItem, "chargeItem", "ChargeItem");
             ValidationSupport.requireValueOrChildren(this);
         }

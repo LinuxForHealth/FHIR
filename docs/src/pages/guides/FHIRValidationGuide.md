@@ -2,7 +2,7 @@
 layout: post
 title: FHIR Validation Guide
 description: FHIR Validation Guide
-date:   2021-01-11 10:25:00 -0400
+date:   2021-03-24
 permalink: /FHIRValidationGuide/
 ---
 
@@ -224,3 +224,10 @@ The IBM FHIR Server provides a basic implementation of the $validate operation t
 ## ValueSet membership checking (FHIRPath `memberOf` function)
 
 Coded elements (code, Coding, CodeableConcept data types), maybe have a binding element that specifies a ValueSet that that element is bound to. This means that the coded element must have a value that comes from that value set. The FHIR profile component will expand value sets according to the ValueSet [expansion algorithm](http://hl7.org/fhir/valueset.html#expansion) for ValueSets that include CodeSystem resources available via the FHIR registry component.
+
+
+## fhir-path-cli - command line execution of fhirpath over a FHIR Resource
+
+The fhir-path-cli enables commandline processing of a FHIR Path over a FHIR resource and outputs the results. 
+
+For details on the fhir-path-cli, refer to the [README.md](https://github.com/IBM/FHIR/tree/main/fhir-path/README.md)

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -33,13 +34,20 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.Status;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Describes validation requirements, source(s), status and dates for one or more elements.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "verificationResult-0",
     level = "Warning",
@@ -148,21 +156,20 @@ public class VerificationResult extends DomainResource {
 
     private VerificationResult(Builder builder) {
         super(builder);
-        target = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.target, "target"));
-        targetLocation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.targetLocation, "targetLocation"));
+        target = Collections.unmodifiableList(ValidationSupport.checkList(builder.target, "target", Reference.class));
+        targetLocation = Collections.unmodifiableList(ValidationSupport.checkList(builder.targetLocation, "targetLocation", String.class));
         need = builder.need;
         status = ValidationSupport.requireNonNull(builder.status, "status");
         statusDate = builder.statusDate;
         validationType = builder.validationType;
-        validationProcess = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.validationProcess, "validationProcess"));
+        validationProcess = Collections.unmodifiableList(ValidationSupport.checkList(builder.validationProcess, "validationProcess", CodeableConcept.class));
         frequency = builder.frequency;
         lastPerformed = builder.lastPerformed;
         nextScheduled = builder.nextScheduled;
         failureAction = builder.failureAction;
-        primarySource = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.primarySource, "primarySource"));
+        primarySource = Collections.unmodifiableList(ValidationSupport.checkList(builder.primarySource, "primarySource", PrimarySource.class));
         attestation = builder.attestation;
-        validator = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.validator, "validator"));
-        ValidationSupport.requireChildren(this);
+        validator = Collections.unmodifiableList(ValidationSupport.checkList(builder.validator, "validator", Validator.class));
     }
 
     /**
@@ -1044,12 +1051,12 @@ public class VerificationResult extends DomainResource {
         private PrimarySource(Builder builder) {
             super(builder);
             who = builder.who;
-            type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
-            communicationMethod = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communicationMethod, "communicationMethod"));
+            type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
+            communicationMethod = Collections.unmodifiableList(ValidationSupport.checkList(builder.communicationMethod, "communicationMethod", CodeableConcept.class));
             validationStatus = builder.validationStatus;
             validationDate = builder.validationDate;
             canPushUpdates = builder.canPushUpdates;
-            pushTypeAvailable = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.pushTypeAvailable, "pushTypeAvailable"));
+            pushTypeAvailable = Collections.unmodifiableList(ValidationSupport.checkList(builder.pushTypeAvailable, "pushTypeAvailable", CodeableConcept.class));
             ValidationSupport.checkReferenceType(who, "who", "Organization", "Practitioner", "PractitionerRole");
             ValidationSupport.requireValueOrChildren(this);
         }

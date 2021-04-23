@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -42,13 +43,20 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.LinkType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Demographics and other administrative information about an individual or animal receiving care or other health-related 
  * services.
+ * 
+ * <p>Maturity level: FMM5 (Normative)
  */
+@Maturity(
+    level = 5,
+    status = StandardsStatus.ValueSet.NORMATIVE
+)
 @Constraint(
     id = "pat-1",
     level = "Rule",
@@ -129,25 +137,24 @@ public class Patient extends DomainResource {
 
     private Patient(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         active = builder.active;
-        name = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.name, "name"));
-        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
+        name = Collections.unmodifiableList(ValidationSupport.checkList(builder.name, "name", HumanName.class));
+        telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
         gender = builder.gender;
         birthDate = builder.birthDate;
         deceased = ValidationSupport.choiceElement(builder.deceased, "deceased", Boolean.class, DateTime.class);
-        address = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.address, "address"));
+        address = Collections.unmodifiableList(ValidationSupport.checkList(builder.address, "address", Address.class));
         maritalStatus = builder.maritalStatus;
         multipleBirth = ValidationSupport.choiceElement(builder.multipleBirth, "multipleBirth", Boolean.class, Integer.class);
-        photo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.photo, "photo"));
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
-        communication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communication, "communication"));
-        generalPractitioner = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.generalPractitioner, "generalPractitioner"));
+        photo = Collections.unmodifiableList(ValidationSupport.checkList(builder.photo, "photo", Attachment.class));
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", Contact.class));
+        communication = Collections.unmodifiableList(ValidationSupport.checkList(builder.communication, "communication", Communication.class));
+        generalPractitioner = Collections.unmodifiableList(ValidationSupport.checkList(builder.generalPractitioner, "generalPractitioner", Reference.class));
         managingOrganization = builder.managingOrganization;
-        link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
+        link = Collections.unmodifiableList(ValidationSupport.checkList(builder.link, "link", Link.class));
         ValidationSupport.checkReferenceType(generalPractitioner, "generalPractitioner", "Organization", "Practitioner", "PractitionerRole");
         ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1178,9 +1185,9 @@ public class Patient extends DomainResource {
 
         private Contact(Builder builder) {
             super(builder);
-            relationship = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relationship, "relationship"));
+            relationship = Collections.unmodifiableList(ValidationSupport.checkList(builder.relationship, "relationship", CodeableConcept.class));
             name = builder.name;
-            telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
+            telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
             address = builder.address;
             gender = builder.gender;
             organization = builder.organization;

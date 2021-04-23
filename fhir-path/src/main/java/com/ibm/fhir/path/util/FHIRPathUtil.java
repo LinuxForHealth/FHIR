@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -865,14 +865,13 @@ public final class FHIRPathUtil {
         Visitable parent = node.isResourceNode() ?
                 node.asResourceNode().resource() : node.asElementNode().element();
 
-        AddingVisitor<T> addingVisitor = new AddingVisitor<>(parent, node.path(), elementName, value);
-
         try {
+            AddingVisitor<T> addingVisitor = new AddingVisitor<>(parent, node.path(), elementName, value);
             elementOrResource.accept(addingVisitor);
-        } catch (IllegalStateException e) {
+            return addingVisitor.getResult();
+        } catch (IllegalArgumentException | IllegalStateException e) {
             throw new FHIRPatchException("An error occurred while adding the value", fhirPath, e);
         }
-        return addingVisitor.getResult();
     }
 
     /**
@@ -883,14 +882,14 @@ public final class FHIRPathUtil {
      */
     public static <T extends Visitable> T delete(T elementOrResource, String fhirPath) throws FHIRPathException, FHIRPatchException {
         FHIRPathNode node = evaluateToSingle(elementOrResource, fhirPath);
-        DeletingVisitor<T> deletingVisitor = new DeletingVisitor<T>(node.path());
 
         try {
+            DeletingVisitor<T> deletingVisitor = new DeletingVisitor<T>(node.path());
             elementOrResource.accept(deletingVisitor);
-        } catch (IllegalStateException e) {
+            return deletingVisitor.getResult();
+        } catch (IllegalArgumentException | IllegalStateException e) {
             throw new FHIRPatchException("An error occurred while deleting the value", fhirPath, e);
         }
-        return deletingVisitor.getResult();
     }
 
     /**
@@ -909,16 +908,22 @@ public final class FHIRPathUtil {
         Visitable parent = parentNode.isResourceNode() ?
                 parentNode.asResourceNode().resource() : parentNode.asElementNode().element();
 
-        ReplacingVisitor<T> replacingVisitor = new ReplacingVisitor<T>(parent, elementName, node.path(), value);
-
         try {
+            ReplacingVisitor<T> replacingVisitor = new ReplacingVisitor<T>(parent, elementName, node.path(), value);
             elementOrResource.accept(replacingVisitor);
-        } catch (IllegalStateException e) {
+            return replacingVisitor.getResult();
+        } catch (IllegalArgumentException | IllegalStateException e) {
             throw new FHIRPatchException("An error occurred while replacing the value", fhirPath, e);
         }
-        return replacingVisitor.getResult();
     }
 
+    /**
+     * @param elementOrResource
+     * @param fhirPath
+     * @return
+     * @throws FHIRPathException
+     * @throws FHIRPatchException if the fhirPath does not evaluate to a single node
+     */
     private static FHIRPathNode evaluateToSingle(Visitable elementOrResource, String fhirPath) throws FHIRPathException, FHIRPatchException {
         /*
          * 1. The FHIRPath statement must return a single element.
@@ -933,6 +938,9 @@ public final class FHIRPathUtil {
          * 5. Except for the delete operation, it is an error if no element matches the specified path.
          */
         Collection<FHIRPathNode> nodes = evaluator.evaluate(elementOrResource, fhirPath);
+        if (!isSingleton(nodes)) {
+            throw new FHIRPatchException("The FHIRPath must return a single element but instead returned " + nodes.size(), fhirPath);
+        }
         return getSingleton(nodes);
     }
 
@@ -959,14 +967,13 @@ public final class FHIRPathUtil {
         Visitable parent = parentNode.isResourceNode() ?
                 parentNode.asResourceNode().resource() : parentNode.asElementNode().element();
 
-        InsertingVisitor<T> insertingVisitor = new InsertingVisitor<T>(parent, parentNode.path(), elementName, index, value);
-
         try {
+            InsertingVisitor<T> insertingVisitor = new InsertingVisitor<T>(parent, parentNode.path(), elementName, index, value);
             elementOrResource.accept(insertingVisitor);
-        } catch (IllegalStateException e) {
+            return insertingVisitor.getResult();
+        } catch (IllegalArgumentException | IllegalStateException e) {
             throw new FHIRPatchException("An error occurred while inserting the value", fhirPath, e);
         }
-        return insertingVisitor.getResult();
     }
 
     /**
@@ -990,14 +997,13 @@ public final class FHIRPathUtil {
         FHIRPathTree tree = evaluator.getEvaluationContext().getTree();
         FHIRPathNode parent = getCommonParent(fhirPath, nodes, tree);
 
-        MovingVisitor<T> movingVisitor = new MovingVisitor<T>(parent.path(), elementName, source, target);
-
         try {
+            MovingVisitor<T> movingVisitor = new MovingVisitor<T>(parent.path(), elementName, source, target);
             elementOrResource.accept(movingVisitor);
-        } catch (IllegalStateException e) {
+            return movingVisitor.getResult();
+        } catch (IllegalArgumentException | IllegalStateException e) {
             throw new FHIRPatchException("An error occurred while moving the value", fhirPath, e);
         }
-        return movingVisitor.getResult();
     }
 
     /**

@@ -9,10 +9,13 @@ package com.ibm.fhir.bulkdata.jbatch.export.patient;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -38,6 +41,7 @@ import com.ibm.fhir.bulkdata.export.patient.resource.PatientResourceHandler;
 import com.ibm.fhir.bulkdata.jbatch.context.BatchContextAdapter;
 import com.ibm.fhir.bulkdata.jbatch.export.data.ExportCheckpointUserData;
 import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
+import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.ModelSupport;
@@ -51,6 +55,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.search.SearchConstants;
+import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.util.SearchUtil;
 
@@ -81,6 +86,13 @@ public class ChunkReader extends AbstractItemReader {
     protected BulkDataContext ctx = null;
 
     private FHIRPersistence fhirPersistence = null;
+
+    boolean isDoDuplicationCheck = false;
+
+    // Used to prevent the same resource from being exported multiple times when multiple _typeFilter for the same
+    // resource type are used, which leads to multiple search requests which can have overlaps of resources,
+    // loadedResourceIds and isDoDuplicationCheck are always reset when moving to the next resource type.
+    Set<String> loadedPatientIds = new HashSet<>();
 
     @Inject
     @Any
@@ -118,12 +130,16 @@ public class ChunkReader extends AbstractItemReader {
         adapter.registerRequestContext(ctx.getTenantId(), ctx.getDatastoreId(), ctx.getIncomingUrl());
 
         searchParametersForResoureTypes = BulkDataUtils.getSearchParametersFromTypeFilters(ctx.getFhirTypeFilters());
-        resourceType = ModelSupport.getResourceType(ctx.getFhirResourceType());
+        resourceType = ModelSupport.getResourceType(partResourceType);
 
         pageSize = adapter.getCorePageSize();
 
         FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
         fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
+
+        List<Map<String, List<String>>> typeFilters = searchParametersForResoureTypes.get(resourceType);
+        isDoDuplicationCheck = typeFilters != null && typeFilters.size() > 1 ?
+                true : adapter.shouldStorageProviderCheckDuplicate(ctx.getSource());
     }
 
     @Override
@@ -156,28 +172,30 @@ public class ChunkReader extends AbstractItemReader {
 
         Map<String, List<String>> queryParameters = new HashMap<>();
 
-        List<String> searchCriteria = new ArrayList<>();
-
+        List<String> lastUpdatedCriteria = new ArrayList<>();
         if (ctx.getFhirSearchFromDate() != null) {
-            searchCriteria.add("ge" + ctx.getFhirSearchFromDate());
+            lastUpdatedCriteria.add(Prefix.GE.value() + ctx.getFhirSearchFromDate());
         }
-
         if (ctx.getFhirSearchToDate() != null) {
-            searchCriteria.add("lt" + ctx.getFhirSearchToDate());
+            lastUpdatedCriteria.add(Prefix.LT.value() + ctx.getFhirSearchToDate());
         }
-
-        if (!searchCriteria.isEmpty()) {
-            queryParameters.put(SearchConstants.LAST_UPDATED, searchCriteria);
+        if (!lastUpdatedCriteria.isEmpty()) {
+            queryParameters.put(SearchConstants.LAST_UPDATED, lastUpdatedCriteria);
         }
 
         queryParameters.put(SearchConstants.SORT, Arrays.asList(SearchConstants.LAST_UPDATED));
+
+        if (!Patient.class.isAssignableFrom(resourceType)) {
+            // optimization to avoid reading the full resources since we only need their ids
+            queryParameters.put(SearchConstants.ELEMENTS, Collections.singletonList("id"));
+        }
 
         FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(Patient.class, queryParameters);
         searchContext.setPageSize(pageSize);
         searchContext.setPageNumber(pageNum);
 
-
         ReadResultDTO dto = new ReadResultDTO();
+
         // Note we're already running inside a transaction (started by the Javabatch framework)
         // so this txn will just wrap it...the commit won't happen until the checkpoint
         FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
@@ -185,14 +203,17 @@ public class ChunkReader extends AbstractItemReader {
         try {
             FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null, searchContext);
             Date startTime = new Date(System.currentTimeMillis());
-            List<Resource> resources = fhirPersistence.search(persistenceContext, Patient.class).getResource();
-
-            if (auditLogger.shouldLog() && resources != null) {
-                Date endTime = new Date(System.currentTimeMillis());
-                auditLogger.logSearchOnExport(ctx.getPartitionResourceType(), queryParameters, resources.size(), startTime, endTime, Response.Status.OK, "StorageProvider@" + ctx.getSource(), "BulkDataOperator");
+            List<Resource> patientResources = fhirPersistence.search(persistenceContext, Patient.class).getResource();
+            if (isDoDuplicationCheck) {
+                patientResources = patientResources.stream()
+                        .filter(r -> loadedPatientIds.add(r.getId()))
+                        .collect(Collectors.toList());
             }
 
-            dto = new ReadResultDTO(resources);
+            if (auditLogger.shouldLog() && patientResources != null) {
+                Date endTime = new Date(System.currentTimeMillis());
+                auditLogger.logSearchOnExport(ctx.getPartitionResourceType(), queryParameters, patientResources.size(), startTime, endTime, Response.Status.OK, "StorageProvider@" + ctx.getSource(), "BulkDataOperator");
+            }
 
             if (chunkData == null) {
                 chunkData = ExportTransientUserData.Builder.builder()
@@ -211,30 +232,28 @@ public class ChunkReader extends AbstractItemReader {
                         .build();
             } else {
                 chunkData.setPageNum(pageNum);
-                chunkData.setLastPageNum(searchContext.getLastPageNumber());
+                // do we want to support extending the last page number mid-export?
+//                chunkData.setLastPageNum(searchContext.getLastPageNumber());
             }
 
-            resourceType = ModelSupport.getResourceType(ctx.getPartitionResourceType());
-
-            if (resources != null && !resources.isEmpty()) {
+            if (patientResources != null && !patientResources.isEmpty()) {
                 if (logger.isLoggable(Level.FINE)) {
-                    logger.fine("readItem[" + ctx.getPartitionResourceType() + "]: loaded " + dto.size() + " patients");
+                    logger.fine("readItem[" + ctx.getPartitionResourceType() + "]: loaded " + patientResources.size() + " patients");
                 }
 
-                List<String> patientIds = resources.stream()
-                            .filter(item -> item.getId() != null)
-                            .map(item -> "Patient/" + item.getId())
+                List<String> patientIds = patientResources.stream()
+                            .map(item -> item.getId())
                             .collect(Collectors.toList());
 
-                if (patientIds != null && patientIds.size() > 0) {
+                if (!patientIds.isEmpty()) {
                     handler.register(chunkData, ctx, fhirPersistence, pageSize, resourceType, searchParametersForResoureTypes, ctx.getSource());
-                    if ("Patient".equals(ctx.getPartitionResourceType())) {
-                        handler.fillChunkPatientDataBuffer(resources);
+
+                    List<Resource> resources = Patient.class.isAssignableFrom(resourceType) ?
+                            patientResources : handler.executeSearch(patientIds);
+                    if (FHIRMediaType.APPLICATION_PARQUET.equals(ctx.getFhirExportFormat())) {
                         dto.setResources(resources);
-                    } else {
-                        dto = new ReadResultDTO();
-                        handler.fillChunkDataBuffer(patientIds, dto);
                     }
+                    handler.fillChunkData(ctx.getFhirExportFormat(), chunkData, resources);
                 }
             } else {
                 logger.fine("readItem: End of reading!");

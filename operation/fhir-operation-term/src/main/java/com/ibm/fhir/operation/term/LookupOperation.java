@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,8 +23,9 @@ import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 import com.ibm.fhir.server.util.FHIRRestHelper;
-import com.ibm.fhir.term.spi.LookupOutcome;
-import com.ibm.fhir.term.spi.LookupParameters;
+import com.ibm.fhir.term.service.LookupOutcome;
+import com.ibm.fhir.term.service.LookupParameters;
+import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
 
 public class LookupOperation extends AbstractTermOperation {
     @Override
@@ -45,23 +46,27 @@ public class LookupOperation extends AbstractTermOperation {
         LookupOutcome outcome = null;
         try {
             outcome = service.lookup(coding, LookupParameters.from(parameters));
-        } catch( Exception e ) {
+        } catch (FHIRTermServiceException e) {
+            throw new FHIROperationException(e.getMessage(), e.getCause()).withIssue(e.getIssues());
+        } catch (UnsupportedOperationException e) {
+            throw buildExceptionWithIssue(e.getMessage(), IssueType.NOT_SUPPORTED, e);
+        } catch(Exception e) {
             throw new FHIROperationException("An error occurred during the CodeSystem lookup operation", e);
         }
-
         if (outcome == null) {
-            IssueType issueType = IssueType.NOT_FOUND.toBuilder()
-                    .extension(Extension.builder()
+            throw new FHIROperationException("Coding not found")
+                .withIssue(OperationOutcome.Issue.builder()
+                    .severity(IssueSeverity.ERROR)
+                    .code(IssueType.NOT_FOUND.toBuilder()
+                        .extension(Extension.builder()
                             .url(FHIRRestHelper.EXTENSION_URL + "/not-found-detail")
-                            .value(Code.of("coding")).build()).build();
-
-            throw new FHIROperationException("Coding not found").withIssue(
-                    OperationOutcome.Issue.builder().severity(IssueSeverity.ERROR).code(issueType)
-                            .details(CodeableConcept.builder().text(string(String.format("Code '%s' in System '%s' not found."
-                                    , coding.getCode().getValue()
-                                    , coding.getSystem().getValue()
-                                ))).build())
-                            .build());
+                            .value(Code.of("coding"))
+                            .build())
+                        .build())
+                    .details(CodeableConcept.builder()
+                        .text(string(String.format("Code '%s' not found in system '%s'", coding.getCode().getValue(), coding.getSystem().getValue())))
+                        .build())
+                    .build());
         }
         return outcome.toParameters();
     }

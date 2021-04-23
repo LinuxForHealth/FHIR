@@ -8,6 +8,7 @@
             "checkReferenceTypes": true,
             "conditionalDeleteMaxNumber": 10,
             "capabilityStatementCacheTimeout": 60,
+            "serverRegistryResourceProviderEnabled": true,
             "disabledOperations": ""
         },
         "security": {
@@ -148,7 +149,7 @@
                     "type": "file",
                     "_type": "ibm-cos|aws-s3|file|https",
                     "validBaseUrls": [],
-                    "fileBase": "${WLP_OUTPUT_DIR}/fhir-server/output",
+                    "fileBase": "/output/bulkdata",
                     "enableParquet": false,
                     "disableBaseUrlValidation": true,
                     "exportPublic": true,

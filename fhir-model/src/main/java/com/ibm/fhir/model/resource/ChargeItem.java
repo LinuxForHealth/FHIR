@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -40,6 +41,7 @@ import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ChargeItemStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -48,7 +50,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * referring not only to the product, but containing in addition details of the provision, like date, time, amounts and 
  * participating organizations and persons. Main Usage of the ChargeItem is to enable the billing process and internal 
  * cost allocation.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ChargeItem extends DomainResource {
     @Summary
@@ -138,32 +146,32 @@ public class ChargeItem extends DomainResource {
 
     private ChargeItem(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        definitionUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.definitionUri, "definitionUri"));
-        definitionCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.definitionCanonical, "definitionCanonical"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        definitionUri = Collections.unmodifiableList(ValidationSupport.checkList(builder.definitionUri, "definitionUri", Uri.class));
+        definitionCanonical = Collections.unmodifiableList(ValidationSupport.checkList(builder.definitionCanonical, "definitionCanonical", Canonical.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
+        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Reference.class));
         code = ValidationSupport.requireNonNull(builder.code, "code");
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
         context = builder.context;
         occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
-        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
+        performer = Collections.unmodifiableList(ValidationSupport.checkList(builder.performer, "performer", Performer.class));
         performingOrganization = builder.performingOrganization;
         requestingOrganization = builder.requestingOrganization;
         costCenter = builder.costCenter;
         quantity = builder.quantity;
-        bodysite = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.bodysite, "bodysite"));
+        bodysite = Collections.unmodifiableList(ValidationSupport.checkList(builder.bodysite, "bodysite", CodeableConcept.class));
         factorOverride = builder.factorOverride;
         priceOverride = builder.priceOverride;
         overrideReason = builder.overrideReason;
         enterer = builder.enterer;
         enteredDate = builder.enteredDate;
-        reason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reason, "reason"));
-        service = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.service, "service"));
+        reason = Collections.unmodifiableList(ValidationSupport.checkList(builder.reason, "reason", CodeableConcept.class));
+        service = Collections.unmodifiableList(ValidationSupport.checkList(builder.service, "service", Reference.class));
         product = ValidationSupport.choiceElement(builder.product, "product", Reference.class, CodeableConcept.class);
-        account = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.account, "account"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        supportingInformation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInformation, "supportingInformation"));
+        account = Collections.unmodifiableList(ValidationSupport.checkList(builder.account, "account", Reference.class));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        supportingInformation = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingInformation, "supportingInformation", Reference.class));
         ValidationSupport.checkReferenceType(partOf, "partOf", "ChargeItem");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
         ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
@@ -174,7 +182,6 @@ public class ChargeItem extends DomainResource {
         ValidationSupport.checkReferenceType(service, "service", "DiagnosticReport", "ImagingStudy", "Immunization", "MedicationAdministration", "MedicationDispense", "Observation", "Procedure", "SupplyDelivery");
         ValidationSupport.checkReferenceType(product, "product", "Device", "Medication", "Substance");
         ValidationSupport.checkReferenceType(account, "account", "Account");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

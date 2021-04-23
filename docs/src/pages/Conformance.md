@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2021-03-12 12:00:00 -0400
+date:   2021-04-08
 permalink: /conformance/
 ---
 
@@ -41,6 +41,8 @@ Prefer: return=OperationOutcome; handling=lenient
 In `lenient` mode, the client must [check the self uri](https://www.hl7.org/fhir/search.html#conformance) of a search response to determine which parameters were used in computing the response.
 
 Note: In addition to controlling whether or not the server returns an error for unexpected search parameters, the handling preference is also used to control whether or not the server will return an error for unexpected elements in the JSON representation of a Resource as defined at https://www.hl7.org/fhir/json.html.
+
+Additionally, the IBM FHIR Server supports a custom header, `X-FHIR-UPDATE-IF-MODIFIED`, for clients to opt in to a specific update optimization. See Section 5.2. Conditional Update of the [Performance Guide](guides/FHIRPerformanceGuide) for more information.
 
 Finally, the IBM FHIR Server supports multi-tenancy through custom headers as defined at https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#49-multi-tenancy. By default, the server will look for a tenantId in a `X-FHIR-TENANT-ID` header and a datastoreId in the `X-FHIR-DSID` header, and use `default` for either one if the headers are not present.
 
@@ -146,9 +148,7 @@ The `_count` parameter can be used to request up to 1000 resources matching the 
 
 The `_include` and `_revinclude` parameters can be used to return resources related to the primary search results, in order to reduce the overall network delay of repeated retrievals of related resources. The number of `_include` or `_revinclude` resources returned for a single page of primary search results will be limited to 1000. If the number of included resources to be returned exceeds 1000, the search will fail. For example, if the primary search result is one resource and the number of included resources is 1000, the search will succeed. However, if the primary search result is one resource and the number of included resources is 1001, the search will fail. It is possible that an included resource could be referenced by more than one primary search result. Duplicate included resources will be removed before search results are returned, so a resource will not appear in the search results more than once. A resource is considered a duplicate if a primary resource or another included resource with the same logical ID and version already exists in the search results.
 
-The `_sort` and `_total` parameters cannot be used in combination with the `_include` or `_revinclude` parameter.
-
-The `:iterate` modifier is not supported for the `_include` parameter (or any other).
+The `:iterate` modifier is supported for the `_include` and `_revinclude` parameters. The number of iterations is limited to 1. This means the iteration depth will be limited to one level beyond the depth of the resources being iterated against, whether primary search resources or included resources. One exception to this is the case where an iterative `_include` or `_revinclude` is specified that will return the same resource type as the primary search resource type (for example `.../Patient?_include:iterate=Patient:link:Patient`). In this case, the iteration depth will be limited to a maximum of two levels beyond the primary search resource type.
 
 The `_contained` and `_containedType` parameters are not supported at this time.
 
@@ -162,19 +162,25 @@ FHIR search modifiers are described at https://www.hl7.org/fhir/R4/search.html#m
 
 |FHIR Search Parameter Type|Supported Modifiers|"Default" search behavior when no Modifier or Prefix is present|
 |--------------------------|-------------------|---------------------------------------------------------------|
-|String                    |`:exact`,`:contains`,`:missing` |"starts with" search that is case-insensitive and accent-insensitive|
-|Reference                 |`:[type]`,`:missing`            |exact match search and targets are implicitly added|
-|URI                       |`:below`,`:above`,`:missing`    |exact match search|
-|Token                     |`:missing`,`:not`               |exact match search|
-|Number                    |`:missing`                      |implicit range search (see http://hl7.org/fhir/R4/search.html#number)|
-|Date                      |`:missing`                      |implicit range search (see https://www.hl7.org/fhir/search.html#date)|
-|Quantity                  |`:missing`                      |implicit range search (see http://hl7.org/fhir/R4/search.html#quantity)|
-|Composite                 |`:missing`                      |processes each parameter component according to its type|
-|Special (near)            | none                           |searches a bounding area according to the value of the `fhirServer/search/useBoundingRadius` property|
+|String                    |`:exact`,`:contains`,`:missing`    |"starts with" search that is case-insensitive and accent-insensitive|
+|Reference                 |`:[type]`,`:missing`,`:identifier` |exact match search and targets are implicitly added|
+|URI                       |`:below`,`:above`,`:missing`       |exact match search|
+|Token                     |`:missing`,`:not`,`:of-type`,`:in`,`:not-in`,`:text`,`:above`,`:below`       |exact match search|
+|Number                    |`:missing`                         |implicit range search (see http://hl7.org/fhir/R4/search.html#number)|
+|Date                      |`:missing`                         |implicit range search (see https://www.hl7.org/fhir/search.html#date)|
+|Quantity                  |`:missing`                         |implicit range search (see http://hl7.org/fhir/R4/search.html#quantity)|
+|Composite                 |`:missing`                         |processes each parameter component according to its type|
+|Special (near)            | none                              |searches a bounding area according to the value of the `fhirServer/search/useBoundingRadius` property|
 
-Due to performance implications, the `:exact` modifier should be used for String searches where possible.
+Due to performance implications, the `:exact` modifier should be used for String search parameters when possible.
 
-The `:text`, `:above`, `:below`, `:in`, `:not-in`, and `:of-type` modifiers are not supported in this version of the IBM FHIR server and use of these modifiers will result in an HTTP 400 error with an OperationOutcome that describes the failure.
+The `:above` and `:below` modifiers for Token search parameters are supported, with the following restrictions:
+* The search parameter value must have the form of `[system]|[code]`.
+* The referenced code system must exist in the FHIR registry.
+
+The `:in` and `:not-in` modifiers for Token search parameters are supported, with the following restrictions:
+* The search parameter value must be an absolute URI that identifies a value set.
+* The referenced value set must exist in the FHIR registry and must be expandable.
 
 ### Search prefixes
 FHIR search prefixes are described at https://www.hl7.org/fhir/R4/search.html#prefix.
@@ -317,8 +323,6 @@ Type operations are invoked at `[base]/[resourceType]/$[operation]`
 | [$document](https://hl7.org/fhir/R4/operation-composition-document.html) | Composition | Generate a document | Prototype-level implementation |
 | [$apply](https://hl7.org/fhir/R4/operation-plandefinition-apply.html) | PlanDefinition | Applies a PlanDefinition to a given context | A prototype implementation that performs naive conversion |
 | [$everything](https://www.hl7.org/fhir/operation-patient-everything.html) | Patient | Obtain all resources pertaining to a patient | Current implementation supports obtaining all resources for a patient up to an aggregate total of 10,000 resources (at which point it is recommended to use the `$export` operation). This implementation does not currently support using the `_since` and `_count` query parameters. Pagination is not currently supported. |
-
-Note: the `$everything` operation is not currently packaged with the IBM FHIR Server. To add it to an existing installation, you must build or download the jar from [Bintray](https://bintray.com/ibm-watson-health/ibm-fhir-server-releases/fhir-operation-everything) and add it to your server's `userlib` directory.
 
 ### Instance operations
 Instance operations are invoked at `[base]/[resourceType]/[id]/$[operation]`

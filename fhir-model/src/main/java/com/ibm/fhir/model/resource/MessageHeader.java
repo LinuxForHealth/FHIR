@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -36,6 +37,7 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ResponseType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -43,7 +45,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * The header for a message exchange that is either requesting or responding to an action. The reference(s) that are the 
  * subject of the action as well as other information related to the action are typically transmitted in a bundle in 
  * which the MessageHeader resource instance is the first resource in the bundle.
+ * 
+ * <p>Maturity level: FMM4 (Trial Use)
  */
+@Maturity(
+    level = 4,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MessageHeader extends DomainResource {
     @Summary
@@ -93,7 +101,7 @@ public class MessageHeader extends DomainResource {
     private MessageHeader(Builder builder) {
         super(builder);
         event = ValidationSupport.requireChoiceElement(builder.event, "event", Coding.class, Uri.class);
-        destination = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.destination, "destination"));
+        destination = Collections.unmodifiableList(ValidationSupport.checkList(builder.destination, "destination", Destination.class));
         sender = builder.sender;
         enterer = builder.enterer;
         author = builder.author;
@@ -101,13 +109,12 @@ public class MessageHeader extends DomainResource {
         responsible = builder.responsible;
         reason = builder.reason;
         response = builder.response;
-        focus = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.focus, "focus"));
+        focus = Collections.unmodifiableList(ValidationSupport.checkList(builder.focus, "focus", Reference.class));
         definition = builder.definition;
         ValidationSupport.checkReferenceType(sender, "sender", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.checkReferenceType(enterer, "enterer", "Practitioner", "PractitionerRole");
         ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole");
         ValidationSupport.checkReferenceType(responsible, "responsible", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

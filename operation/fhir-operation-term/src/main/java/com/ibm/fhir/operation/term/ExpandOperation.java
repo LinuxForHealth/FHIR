@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,10 +14,12 @@ import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.ValueSet;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
-import com.ibm.fhir.term.spi.ExpansionParameters;
+import com.ibm.fhir.term.service.ExpansionParameters;
+import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
 
 public class ExpandOperation extends AbstractTermOperation {
     @Override
@@ -37,12 +39,16 @@ public class ExpandOperation extends AbstractTermOperation {
             ValueSet valueSet = getResource(operationContext, logicalId, parameters, resourceHelper, ValueSet.class);
             if (!isExpanded(valueSet) && !service.isExpandable(valueSet)) {
                 String url = (valueSet.getUrl() != null) ? valueSet.getUrl().getValue() : null;
-                throw new FHIROperationException("ValueSet with url '" + url + "' is not expandable");
+                throw buildExceptionWithIssue("ValueSet with url '" + url + "' is not expandable", IssueType.NOT_SUPPORTED);
             }
             ValueSet expanded = service.expand(valueSet, ExpansionParameters.from(parameters));
             return getOutputParameters(expanded);
         } catch (FHIROperationException e) {
             throw e;
+        } catch (FHIRTermServiceException e) {
+            throw new FHIROperationException(e.getMessage(), e.getCause()).withIssue(e.getIssues());
+        } catch (UnsupportedOperationException e) {
+            throw buildExceptionWithIssue(e.getMessage(), IssueType.NOT_SUPPORTED, e);
         } catch (Exception e) {
             throw new FHIROperationException("An error occurred during the ValueSet expand operation", e);
         }

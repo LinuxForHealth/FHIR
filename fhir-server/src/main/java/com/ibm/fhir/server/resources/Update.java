@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PUT;
@@ -27,9 +26,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
-import org.eclipse.microprofile.jwt.JsonWebToken;
-
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -50,12 +48,6 @@ import com.ibm.fhir.server.util.RestAuditLogger;
 public class Update extends FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(Update.class.getName());
 
-    // The JWT of the current caller. Since this is a request scoped resource, the
-    // JWT will be injected for each JAX-RS request. The injection is performed by
-    // the mpJwt feature.
-    @Inject
-    private JsonWebToken jwt;
-
     public Update() throws Exception {
         super();
     }
@@ -63,7 +55,7 @@ public class Update extends FHIRResource {
     @PUT
     @Path("{type}/{id}")
     public Response update(@PathParam("type") String type, @PathParam("id") String id, Resource resource,
-            @HeaderParam(HttpHeaders.IF_MATCH) String ifMatch) {
+            @HeaderParam(HttpHeaders.IF_MATCH) String ifMatch, @HeaderParam(FHIRConstants.UPDATE_IF_MODIFIED_HEADER) boolean onlyIfModified) {
         log.entering(this.getClass().getName(), "update(String,String,Resource)");
         Date startTime = new Date();
         Response.Status status = null;
@@ -73,7 +65,7 @@ public class Update extends FHIRResource {
             checkInitComplete();
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            ior = helper.doUpdate(type, id, resource, ifMatch, null, null);
+            ior = helper.doUpdate(type, id, resource, ifMatch, null, onlyIfModified);
 
             ResponseBuilder response =
                     Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));
@@ -115,7 +107,8 @@ public class Update extends FHIRResource {
 
     @PUT
     @Path("{type}")
-    public Response conditionalUpdate(@PathParam("type") String type, Resource resource, @HeaderParam(HttpHeaders.IF_MATCH) String ifMatch) {
+    public Response conditionalUpdate(@PathParam("type") String type, Resource resource, @HeaderParam(HttpHeaders.IF_MATCH) String ifMatch,
+            @HeaderParam(FHIRConstants.UPDATE_IF_MODIFIED_HEADER) boolean onlyIfModified) {
         log.entering(this.getClass().getName(), "conditionalUpdate(String,Resource)");
         Date startTime = new Date();
         Response.Status status = null;
@@ -132,7 +125,7 @@ public class Update extends FHIRResource {
             }
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            ior = helper.doUpdate(type, null, resource, ifMatch, searchQueryString, null);
+            ior = helper.doUpdate(type, null, resource, ifMatch, searchQueryString, onlyIfModified);
 
             ResponseBuilder response =
                     Response.ok().location(toUri(getAbsoluteUri(getRequestBaseUri(type), ior.getLocationURI().toString())));

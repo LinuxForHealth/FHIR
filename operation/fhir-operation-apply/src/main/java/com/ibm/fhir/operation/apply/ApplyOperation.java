@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,6 @@ package com.ibm.fhir.operation.apply;
 
 import static com.ibm.fhir.model.type.String.string;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,8 +15,6 @@ import java.util.List;
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.ibm.fhir.exception.FHIROperationException;
-import com.ibm.fhir.model.format.Format;
-import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.ActivityDefinition;
 import com.ibm.fhir.model.resource.CarePlan;
 import com.ibm.fhir.model.resource.CarePlan.Activity.Detail;
@@ -60,8 +57,6 @@ import com.ibm.fhir.server.util.FHIROperationUtil;
  */
 public class ApplyOperation extends AbstractOperation {
 
-    private static final String FILE = "apply.json";
-
     private static final String PARAM_PLAN_DEFINITION = "planDefinition";
     private static final String PARAM_SUBJECT = "subject";
     private static final String PARAM_ENCOUNTER = "encounter";
@@ -78,11 +73,8 @@ public class ApplyOperation extends AbstractOperation {
 
     @Override
     protected OperationDefinition buildOperationDefinition() {
-        try (InputStream in = getClass().getClassLoader().getResourceAsStream(FILE);) {
-            return FHIRParser.parser(Format.JSON).parse(in);
-        } catch (Exception e) {
-            throw new Error(e);
-        }
+        return FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/OperationDefinition/PlanDefinition-apply",
+                OperationDefinition.class);
     }
 
     @Override
@@ -274,7 +266,6 @@ public class ApplyOperation extends AbstractOperation {
             if (!altSubjectsRefs.isEmpty()) {
                 builder.supportingInfo(altSubjectsRefs);
             }
-
         }
 
         // Encounter
@@ -282,14 +273,9 @@ public class ApplyOperation extends AbstractOperation {
             builder.encounter(Reference.builder().reference(string(encounter)).build());
         }
 
-        // Practitioner - the following block is used as there may be a cardinality of 0..* in the future.
-        List<Reference> careTeam = new ArrayList<>();
+        // Practitioner maps to a contributor
         if (practitioner != null) {
-            careTeam.add(Reference.builder().reference(string(practitioner)).build());
-        }
-
-        if (!careTeam.isEmpty()) {
-            builder.careTeam(careTeam);
+            builder.contributor(Reference.builder().reference(string(practitioner)).build());
         }
 
         // Organization
@@ -440,7 +426,7 @@ public class ApplyOperation extends AbstractOperation {
     private PlanDefinition checkAndRetrievePlanDefinition(FHIRResourceHelpers resourceHelper,
         String planDefinitionId) throws Exception {
         Resource resource =
-                resourceHelper.doRead("PlanDefinition", planDefinitionId, false, false, null, null);
+                resourceHelper.doRead("PlanDefinition", planDefinitionId, false, false, null);
         if (resource == null) {
             throw buildOperationExceptionNotFound("Could not find 'PlanDefinition' with id: ["
                     + planDefinitionId + "]");

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -38,13 +39,20 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.CoverageStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Financial instrument which may be used to reimburse or pay for health care products and services. Includes both 
  * insurance and self-payment.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "coverage-0",
     level = "Warning",
@@ -139,7 +147,7 @@ public class Coverage extends DomainResource {
 
     private Coverage(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         type = builder.type;
         policyHolder = builder.policyHolder;
@@ -149,19 +157,18 @@ public class Coverage extends DomainResource {
         dependent = builder.dependent;
         relationship = builder.relationship;
         period = builder.period;
-        payor = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.payor, "payor"));
-        clazz = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.clazz, "class"));
+        payor = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.payor, "payor", Reference.class));
+        clazz = Collections.unmodifiableList(ValidationSupport.checkList(builder.clazz, "class", Class.class));
         order = builder.order;
         network = builder.network;
-        costToBeneficiary = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.costToBeneficiary, "costToBeneficiary"));
+        costToBeneficiary = Collections.unmodifiableList(ValidationSupport.checkList(builder.costToBeneficiary, "costToBeneficiary", CostToBeneficiary.class));
         subrogation = builder.subrogation;
-        contract = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contract, "contract"));
+        contract = Collections.unmodifiableList(ValidationSupport.checkList(builder.contract, "contract", Reference.class));
         ValidationSupport.checkReferenceType(policyHolder, "policyHolder", "Patient", "RelatedPerson", "Organization");
         ValidationSupport.checkReferenceType(subscriber, "subscriber", "Patient", "RelatedPerson");
         ValidationSupport.checkReferenceType(beneficiary, "beneficiary", "Patient");
         ValidationSupport.checkReferenceType(payor, "payor", "Organization", "Patient", "RelatedPerson");
         ValidationSupport.checkReferenceType(contract, "contract", "Contract");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1486,7 +1493,7 @@ public class Coverage extends DomainResource {
             super(builder);
             type = builder.type;
             value = ValidationSupport.requireChoiceElement(builder.value, "value", SimpleQuantity.class, Money.class);
-            exception = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.exception, "exception"));
+            exception = Collections.unmodifiableList(ValidationSupport.checkList(builder.exception, "exception", Exception.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

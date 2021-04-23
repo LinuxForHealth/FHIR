@@ -35,6 +35,9 @@ public class SparkParquetWriter implements AutoCloseable {
             .appName("parquetWriter")
             .master("local[*]")
             .config("spark.ui.enabled", false)
+            .config("spark.driver.port", "38000")
+            .config("spark.port.maxRetries", "1000")
+            .config("spark.driver.host", "127.0.0.1")
             .getOrCreate();
     }
 

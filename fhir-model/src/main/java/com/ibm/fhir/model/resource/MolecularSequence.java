@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -38,13 +39,20 @@ import com.ibm.fhir.model.type.code.OrientationType;
 import com.ibm.fhir.model.type.code.QualityType;
 import com.ibm.fhir.model.type.code.RepositoryType;
 import com.ibm.fhir.model.type.code.SequenceType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.StrandType;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Raw data describing a biological sequence.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "msq-3",
     level = "Rule",
@@ -117,7 +125,7 @@ public class MolecularSequence extends DomainResource {
 
     private MolecularSequence(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         type = builder.type;
         coordinateSystem = ValidationSupport.requireNonNull(builder.coordinateSystem, "coordinateSystem");
         patient = builder.patient;
@@ -126,19 +134,18 @@ public class MolecularSequence extends DomainResource {
         performer = builder.performer;
         quantity = builder.quantity;
         referenceSeq = builder.referenceSeq;
-        variant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.variant, "variant"));
+        variant = Collections.unmodifiableList(ValidationSupport.checkList(builder.variant, "variant", Variant.class));
         observedSeq = builder.observedSeq;
-        quality = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.quality, "quality"));
+        quality = Collections.unmodifiableList(ValidationSupport.checkList(builder.quality, "quality", Quality.class));
         readCoverage = builder.readCoverage;
-        repository = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.repository, "repository"));
-        pointer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.pointer, "pointer"));
-        structureVariant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.structureVariant, "structureVariant"));
+        repository = Collections.unmodifiableList(ValidationSupport.checkList(builder.repository, "repository", Repository.class));
+        pointer = Collections.unmodifiableList(ValidationSupport.checkList(builder.pointer, "pointer", Reference.class));
+        structureVariant = Collections.unmodifiableList(ValidationSupport.checkList(builder.structureVariant, "structureVariant", StructureVariant.class));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
         ValidationSupport.checkReferenceType(device, "device", "Device");
         ValidationSupport.checkReferenceType(performer, "performer", "Organization");
         ValidationSupport.checkReferenceType(pointer, "pointer", "MolecularSequence");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -2831,13 +2838,13 @@ public class MolecularSequence extends DomainResource {
 
             private Roc(Builder builder) {
                 super(builder);
-                score = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.score, "score"));
-                numTP = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.numTP, "numTP"));
-                numFP = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.numFP, "numFP"));
-                numFN = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.numFN, "numFN"));
-                precision = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.precision, "precision"));
-                sensitivity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.sensitivity, "sensitivity"));
-                fMeasure = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.fMeasure, "fMeasure"));
+                score = Collections.unmodifiableList(ValidationSupport.checkList(builder.score, "score", Integer.class));
+                numTP = Collections.unmodifiableList(ValidationSupport.checkList(builder.numTP, "numTP", Integer.class));
+                numFP = Collections.unmodifiableList(ValidationSupport.checkList(builder.numFP, "numFP", Integer.class));
+                numFN = Collections.unmodifiableList(ValidationSupport.checkList(builder.numFN, "numFN", Integer.class));
+                precision = Collections.unmodifiableList(ValidationSupport.checkList(builder.precision, "precision", Decimal.class));
+                sensitivity = Collections.unmodifiableList(ValidationSupport.checkList(builder.sensitivity, "sensitivity", Decimal.class));
+                fMeasure = Collections.unmodifiableList(ValidationSupport.checkList(builder.fMeasure, "fMeasure", Decimal.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 

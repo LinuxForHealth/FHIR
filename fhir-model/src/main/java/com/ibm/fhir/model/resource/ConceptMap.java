@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -39,13 +40,20 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ConceptMapEquivalence;
 import com.ibm.fhir.model.type.code.ConceptMapGroupUnmappedMode;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A statement of relationships from one set of concepts to one or more other concepts - either concepts in code systems, 
  * or data element/data element concepts, or classes in class models.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "cmd-0",
     level = "Warning",
@@ -145,16 +153,15 @@ public class ConceptMap extends DomainResource {
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         purpose = builder.purpose;
         copyright = builder.copyright;
         source = ValidationSupport.choiceElement(builder.source, "source", Uri.class, Canonical.class);
         target = ValidationSupport.choiceElement(builder.target, "target", Uri.class, Canonical.class);
-        group = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.group, "group"));
-        ValidationSupport.requireChildren(this);
+        group = Collections.unmodifiableList(ValidationSupport.checkList(builder.group, "group", Group.class));
     }
 
     /**
@@ -1144,7 +1151,7 @@ public class ConceptMap extends DomainResource {
             sourceVersion = builder.sourceVersion;
             target = builder.target;
             targetVersion = builder.targetVersion;
-            element = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.element, "element"));
+            element = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.element, "element", Element.class));
             unmapped = builder.unmapped;
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -1558,7 +1565,7 @@ public class ConceptMap extends DomainResource {
                 super(builder);
                 code = builder.code;
                 display = builder.display;
-                target = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.target, "target"));
+                target = Collections.unmodifiableList(ValidationSupport.checkList(builder.target, "target", Target.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -1882,8 +1889,8 @@ public class ConceptMap extends DomainResource {
                     display = builder.display;
                     equivalence = ValidationSupport.requireNonNull(builder.equivalence, "equivalence");
                     comment = builder.comment;
-                    dependsOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dependsOn, "dependsOn"));
-                    product = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.product, "product"));
+                    dependsOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.dependsOn, "dependsOn", DependsOn.class));
+                    product = Collections.unmodifiableList(ValidationSupport.checkList(builder.product, "product", ConceptMap.Group.Element.Target.DependsOn.class));
                     ValidationSupport.requireValueOrChildren(this);
                 }
 

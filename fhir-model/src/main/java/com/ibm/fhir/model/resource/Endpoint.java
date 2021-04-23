@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -34,13 +35,20 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.EndpointStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * The technical details of an endpoint that can be used for electronic services, such as for web services providing XDS.
  * b or a REST endpoint for another FHIR server. This may include any security context information.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "endpoint-0",
     level = "Warning",
@@ -103,19 +111,18 @@ public class Endpoint extends DomainResource {
 
     private Endpoint(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         connectionType = ValidationSupport.requireNonNull(builder.connectionType, "connectionType");
         name = builder.name;
         managingOrganization = builder.managingOrganization;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactPoint.class));
         period = builder.period;
-        payloadType = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.payloadType, "payloadType"));
-        payloadMimeType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.payloadMimeType, "payloadMimeType"));
+        payloadType = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.payloadType, "payloadType", CodeableConcept.class));
+        payloadMimeType = Collections.unmodifiableList(ValidationSupport.checkList(builder.payloadMimeType, "payloadMimeType", Code.class));
         address = ValidationSupport.requireNonNull(builder.address, "address");
-        header = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.header, "header"));
+        header = Collections.unmodifiableList(ValidationSupport.checkList(builder.header, "header", String.class));
         ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.Code;
@@ -24,6 +25,7 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -37,7 +39,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * fraction information will be captured at the Substance information level and additional information for herbal 
  * extracts will be captured at the Specified Substance Group 1 information level. See for further explanation the 
  * Substance Class: Structurally Diverse and the herbal annex.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SubstanceSourceMaterial extends DomainResource {
     @Summary
@@ -76,15 +84,14 @@ public class SubstanceSourceMaterial extends DomainResource {
         sourceMaterialState = builder.sourceMaterialState;
         organismId = builder.organismId;
         organismName = builder.organismName;
-        parentSubstanceId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parentSubstanceId, "parentSubstanceId"));
-        parentSubstanceName = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parentSubstanceName, "parentSubstanceName"));
-        countryOfOrigin = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.countryOfOrigin, "countryOfOrigin"));
-        geographicalLocation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.geographicalLocation, "geographicalLocation"));
+        parentSubstanceId = Collections.unmodifiableList(ValidationSupport.checkList(builder.parentSubstanceId, "parentSubstanceId", Identifier.class));
+        parentSubstanceName = Collections.unmodifiableList(ValidationSupport.checkList(builder.parentSubstanceName, "parentSubstanceName", String.class));
+        countryOfOrigin = Collections.unmodifiableList(ValidationSupport.checkList(builder.countryOfOrigin, "countryOfOrigin", CodeableConcept.class));
+        geographicalLocation = Collections.unmodifiableList(ValidationSupport.checkList(builder.geographicalLocation, "geographicalLocation", String.class));
         developmentStage = builder.developmentStage;
-        fractionDescription = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.fractionDescription, "fractionDescription"));
+        fractionDescription = Collections.unmodifiableList(ValidationSupport.checkList(builder.fractionDescription, "fractionDescription", FractionDescription.class));
         organism = builder.organism;
-        partDescription = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partDescription, "partDescription"));
-        ValidationSupport.requireChildren(this);
+        partDescription = Collections.unmodifiableList(ValidationSupport.checkList(builder.partDescription, "partDescription", PartDescription.class));
     }
 
     /**
@@ -1246,7 +1253,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             species = builder.species;
             intraspecificType = builder.intraspecificType;
             intraspecificDescription = builder.intraspecificDescription;
-            author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
+            author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", Author.class));
             hybrid = builder.hybrid;
             organismGeneral = builder.organismGeneral;
             ValidationSupport.requireValueOrChildren(this);

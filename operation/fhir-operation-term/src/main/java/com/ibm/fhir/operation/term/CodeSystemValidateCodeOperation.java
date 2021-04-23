@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,11 +14,13 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Element;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
-import com.ibm.fhir.term.spi.ValidationOutcome;
-import com.ibm.fhir.term.spi.ValidationParameters;
+import com.ibm.fhir.term.service.ValidationOutcome;
+import com.ibm.fhir.term.service.ValidationParameters;
+import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
 
 public class CodeSystemValidateCodeOperation extends AbstractTermOperation {
     @Override
@@ -37,6 +39,11 @@ public class CodeSystemValidateCodeOperation extends AbstractTermOperation {
         try {
             CodeSystem codeSystem = getResource(operationContext, logicalId, parameters, resourceHelper, CodeSystem.class);
             Element codedElement = getCodedElement(parameters, "codeableConcept", "coding", "code", false);
+            if (codedElement.is(Coding.class) && codedElement.as(Coding.class).getSystem() == null) {
+                codedElement = codedElement.as(Coding.class).toBuilder()
+                        .system(codeSystem.getUrl())
+                        .build();
+            }
             validate(codeSystem, codedElement);
             ValidationOutcome outcome = codedElement.is(CodeableConcept.class) ?
                     service.validateCode(codeSystem, codedElement.as(CodeableConcept.class), ValidationParameters.from(parameters)) :
@@ -44,6 +51,10 @@ public class CodeSystemValidateCodeOperation extends AbstractTermOperation {
             return outcome.toParameters();
         } catch (FHIROperationException e) {
             throw e;
+        } catch (FHIRTermServiceException e) {
+            throw new FHIROperationException(e.getMessage(), e.getCause()).withIssue(e.getIssues());
+        } catch (UnsupportedOperationException e) {
+            throw buildExceptionWithIssue(e.getMessage(), IssueType.NOT_SUPPORTED, e);
         } catch (Exception e) {
             throw new FHIROperationException("An error occurred during the CodeSystem validate code operation", e);
         }
@@ -59,15 +70,15 @@ public class CodeSystemValidateCodeOperation extends AbstractTermOperation {
                     return;
                 }
             }
-            throw new FHIROperationException("CodeableConcept does not contain a coding element that matches the specified CodeSystem url and/or version");
+            throw buildExceptionWithIssue("CodeableConcept does not contain a coding element that matches the specified CodeSystem url and/or version", IssueType.INVALID);
         }
         // codedElement.is(Coding.class)
         Coding coding = codedElement.as(Coding.class);
         if (coding.getSystem() != null && codeSystem.getUrl() != null && !coding.getSystem().equals(codeSystem.getUrl())) {
-            throw new FHIROperationException("Coding system does not match the specified CodeSystem url");
+            throw buildExceptionWithIssue("Coding system does not match the specified CodeSystem url", IssueType.INVALID);
         }
         if (coding.getVersion() != null && codeSystem.getVersion() != null && !coding.getVersion().equals(codeSystem.getVersion())) {
-            throw new FHIROperationException("Coding version does not match the specified CodeSystem version");
+            throw buildExceptionWithIssue("Coding version does not match the specified CodeSystem version", IssueType.INVALID);
         }
     }
 }

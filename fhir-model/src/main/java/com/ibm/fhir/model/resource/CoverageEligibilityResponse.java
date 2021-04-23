@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -41,12 +42,19 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.EligibilityResponsePurpose;
 import com.ibm.fhir.model.type.code.EligibilityResponseStatus;
 import com.ibm.fhir.model.type.code.RemittanceOutcome;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * This resource provides eligibility and plan details from the processing of an CoverageEligibilityRequest resource.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "ces-1",
     level = "Rule",
@@ -119,9 +127,9 @@ public class CoverageEligibilityResponse extends DomainResource {
 
     private CoverageEligibilityResponse(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        purpose = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.purpose, "purpose"));
+        purpose = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.purpose, "purpose", EligibilityResponsePurpose.class));
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
         serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
         created = ValidationSupport.requireNonNull(builder.created, "created");
@@ -130,15 +138,14 @@ public class CoverageEligibilityResponse extends DomainResource {
         outcome = ValidationSupport.requireNonNull(builder.outcome, "outcome");
         disposition = builder.disposition;
         insurer = ValidationSupport.requireNonNull(builder.insurer, "insurer");
-        insurance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.insurance, "insurance"));
+        insurance = Collections.unmodifiableList(ValidationSupport.checkList(builder.insurance, "insurance", Insurance.class));
         preAuthRef = builder.preAuthRef;
         form = builder.form;
-        error = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.error, "error"));
+        error = Collections.unmodifiableList(ValidationSupport.checkList(builder.error, "error", Error.class));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
         ValidationSupport.checkReferenceType(request, "request", "CoverageEligibilityRequest");
         ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1047,7 +1054,7 @@ public class CoverageEligibilityResponse extends DomainResource {
             coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
             inforce = builder.inforce;
             benefitPeriod = builder.benefitPeriod;
-            item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
+            item = Collections.unmodifiableList(ValidationSupport.checkList(builder.item, "item", Item.class));
             ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -1460,7 +1467,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                 super(builder);
                 category = builder.category;
                 productOrService = builder.productOrService;
-                modifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifier, "modifier"));
+                modifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifier, "modifier", CodeableConcept.class));
                 provider = builder.provider;
                 excluded = builder.excluded;
                 name = builder.name;
@@ -1468,9 +1475,9 @@ public class CoverageEligibilityResponse extends DomainResource {
                 network = builder.network;
                 unit = builder.unit;
                 term = builder.term;
-                benefit = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.benefit, "benefit"));
+                benefit = Collections.unmodifiableList(ValidationSupport.checkList(builder.benefit, "benefit", Benefit.class));
                 authorizationRequired = builder.authorizationRequired;
-                authorizationSupporting = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.authorizationSupporting, "authorizationSupporting"));
+                authorizationSupporting = Collections.unmodifiableList(ValidationSupport.checkList(builder.authorizationSupporting, "authorizationSupporting", CodeableConcept.class));
                 authorizationUrl = builder.authorizationUrl;
                 ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole");
                 ValidationSupport.requireValueOrChildren(this);

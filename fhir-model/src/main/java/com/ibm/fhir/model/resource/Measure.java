@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -43,12 +44,19 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * The Measure resource provides the definition of a quality measure.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "mea-0",
     level = "Warning",
@@ -244,7 +252,7 @@ public class Measure extends DomainResource {
     private Measure(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         version = builder.version;
         name = builder.name;
         title = builder.title;
@@ -254,39 +262,38 @@ public class Measure extends DomainResource {
         subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         purpose = builder.purpose;
         usage = builder.usage;
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.topic, "topic"));
-        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
-        editor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.editor, "editor"));
-        reviewer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reviewer, "reviewer"));
-        endorser = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endorser, "endorser"));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
-        library = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.library, "library"));
+        topic = Collections.unmodifiableList(ValidationSupport.checkList(builder.topic, "topic", CodeableConcept.class));
+        author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", ContactDetail.class));
+        editor = Collections.unmodifiableList(ValidationSupport.checkList(builder.editor, "editor", ContactDetail.class));
+        reviewer = Collections.unmodifiableList(ValidationSupport.checkList(builder.reviewer, "reviewer", ContactDetail.class));
+        endorser = Collections.unmodifiableList(ValidationSupport.checkList(builder.endorser, "endorser", ContactDetail.class));
+        relatedArtifact = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class));
+        library = Collections.unmodifiableList(ValidationSupport.checkList(builder.library, "library", Canonical.class));
         disclaimer = builder.disclaimer;
         scoring = builder.scoring;
         compositeScoring = builder.compositeScoring;
-        type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
+        type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
         riskAdjustment = builder.riskAdjustment;
         rateAggregation = builder.rateAggregation;
         rationale = builder.rationale;
         clinicalRecommendationStatement = builder.clinicalRecommendationStatement;
         improvementNotation = builder.improvementNotation;
-        definition = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.definition, "definition"));
+        definition = Collections.unmodifiableList(ValidationSupport.checkList(builder.definition, "definition", Markdown.class));
         guidance = builder.guidance;
-        group = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.group, "group"));
-        supplementalData = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supplementalData, "supplementalData"));
+        group = Collections.unmodifiableList(ValidationSupport.checkList(builder.group, "group", Group.class));
+        supplementalData = Collections.unmodifiableList(ValidationSupport.checkList(builder.supplementalData, "supplementalData", SupplementalData.class));
         ValidationSupport.checkValueSetBinding(improvementNotation, "improvementNotation", "http://hl7.org/fhir/ValueSet/measure-improvement-notation", "http://terminology.hl7.org/CodeSystem/measure-improvement-notation", "increase", "decrease");
         ValidationSupport.checkReferenceType(subject, "subject", "Group");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -2212,8 +2219,8 @@ public class Measure extends DomainResource {
             super(builder);
             code = builder.code;
             description = builder.description;
-            population = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.population, "population"));
-            stratifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.stratifier, "stratifier"));
+            population = Collections.unmodifiableList(ValidationSupport.checkList(builder.population, "population", Population.class));
+            stratifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.stratifier, "stratifier", Stratifier.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -2891,7 +2898,7 @@ public class Measure extends DomainResource {
                 code = builder.code;
                 description = builder.description;
                 criteria = builder.criteria;
-                component = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.component, "component"));
+                component = Collections.unmodifiableList(ValidationSupport.checkList(builder.component, "component", Component.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -3556,7 +3563,7 @@ public class Measure extends DomainResource {
         private SupplementalData(Builder builder) {
             super(builder);
             code = builder.code;
-            usage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.usage, "usage"));
+            usage = Collections.unmodifiableList(ValidationSupport.checkList(builder.usage, "usage", CodeableConcept.class));
             description = builder.description;
             criteria = ValidationSupport.requireNonNull(builder.criteria, "criteria");
             ValidationSupport.requireValueOrChildren(this);

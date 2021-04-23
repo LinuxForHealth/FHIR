@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -26,13 +27,20 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Nucleic acids are defined by three distinct elements: the base, sugar and linkage. Individual substance/moiety IDs 
  * will be created for each of these elements. The nucleotide sequence will be always entered in the 5’-3’ direction.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SubstanceNucleicAcid extends DomainResource {
     @Summary
@@ -54,8 +62,7 @@ public class SubstanceNucleicAcid extends DomainResource {
         numberOfSubunits = builder.numberOfSubunits;
         areaOfHybridisation = builder.areaOfHybridisation;
         oligoNucleotideType = builder.oligoNucleotideType;
-        subunit = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subunit, "subunit"));
-        ValidationSupport.requireChildren(this);
+        subunit = Collections.unmodifiableList(ValidationSupport.checkList(builder.subunit, "subunit", Subunit.class));
     }
 
     /**
@@ -571,8 +578,8 @@ public class SubstanceNucleicAcid extends DomainResource {
             sequenceAttachment = builder.sequenceAttachment;
             fivePrime = builder.fivePrime;
             threePrime = builder.threePrime;
-            linkage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.linkage, "linkage"));
-            sugar = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.sugar, "sugar"));
+            linkage = Collections.unmodifiableList(ValidationSupport.checkList(builder.linkage, "linkage", Linkage.class));
+            sugar = Collections.unmodifiableList(ValidationSupport.checkList(builder.sugar, "sugar", Sugar.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

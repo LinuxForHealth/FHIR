@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -36,13 +37,20 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.BiologicallyDerivedProductCategory;
 import com.ibm.fhir.model.type.code.BiologicallyDerivedProductStatus;
 import com.ibm.fhir.model.type.code.BiologicallyDerivedProductStorageScale;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A material substance originating from a biological entity intended to be transplanted or infused
  * into another (possibly the same) biological entity.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class BiologicallyDerivedProduct extends DomainResource {
     @Summary
@@ -81,20 +89,19 @@ public class BiologicallyDerivedProduct extends DomainResource {
 
     private BiologicallyDerivedProduct(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         productCategory = builder.productCategory;
         productCode = builder.productCode;
         status = builder.status;
-        request = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.request, "request"));
+        request = Collections.unmodifiableList(ValidationSupport.checkList(builder.request, "request", Reference.class));
         quantity = builder.quantity;
-        parent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parent, "parent"));
+        parent = Collections.unmodifiableList(ValidationSupport.checkList(builder.parent, "parent", Reference.class));
         collection = builder.collection;
-        processing = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.processing, "processing"));
+        processing = Collections.unmodifiableList(ValidationSupport.checkList(builder.processing, "processing", Processing.class));
         manipulation = builder.manipulation;
-        storage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.storage, "storage"));
+        storage = Collections.unmodifiableList(ValidationSupport.checkList(builder.storage, "storage", Storage.class));
         ValidationSupport.checkReferenceType(request, "request", "ServiceRequest");
         ValidationSupport.checkReferenceType(parent, "parent", "BiologicallyDerivedProduct");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

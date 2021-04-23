@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -36,12 +37,19 @@ import com.ibm.fhir.model.type.code.DeviceMetricCalibrationType;
 import com.ibm.fhir.model.type.code.DeviceMetricCategory;
 import com.ibm.fhir.model.type.code.DeviceMetricColor;
 import com.ibm.fhir.model.type.code.DeviceMetricOperationalStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Describes a measurement, calculation or setting capability of a medical device.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "deviceMetric-0",
     level = "Warning",
@@ -119,7 +127,7 @@ public class DeviceMetric extends DomainResource {
 
     private DeviceMetric(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         type = ValidationSupport.requireNonNull(builder.type, "type");
         unit = builder.unit;
         source = builder.source;
@@ -128,10 +136,9 @@ public class DeviceMetric extends DomainResource {
         color = builder.color;
         category = ValidationSupport.requireNonNull(builder.category, "category");
         measurementPeriod = builder.measurementPeriod;
-        calibration = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.calibration, "calibration"));
+        calibration = Collections.unmodifiableList(ValidationSupport.checkList(builder.calibration, "calibration", Calibration.class));
         ValidationSupport.checkReferenceType(source, "source", "Device");
         ValidationSupport.checkReferenceType(parent, "parent", "Device");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

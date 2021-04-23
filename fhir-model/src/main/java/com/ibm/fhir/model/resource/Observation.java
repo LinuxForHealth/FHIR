@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -46,12 +47,19 @@ import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ObservationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Measurements and simple assertions made about a patient, device or other subject.
+ * 
+ * <p>Maturity level: FMM5 (Normative)
  */
+@Maturity(
+    level = 5,
+    status = StandardsStatus.ValueSet.NORMATIVE
+)
 @Constraint(
     id = "obs-3",
     level = "Rule",
@@ -222,30 +230,30 @@ public class Observation extends DomainResource {
 
     private Observation(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
+        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Reference.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
         code = ValidationSupport.requireNonNull(builder.code, "code");
         subject = builder.subject;
-        focus = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.focus, "focus"));
+        focus = Collections.unmodifiableList(ValidationSupport.checkList(builder.focus, "focus", Reference.class));
         encounter = builder.encounter;
         effective = ValidationSupport.choiceElement(builder.effective, "effective", DateTime.class, Period.class, Timing.class, Instant.class);
         issued = builder.issued;
-        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
+        performer = Collections.unmodifiableList(ValidationSupport.checkList(builder.performer, "performer", Reference.class));
         value = ValidationSupport.choiceElement(builder.value, "value", Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class);
         dataAbsentReason = builder.dataAbsentReason;
-        interpretation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.interpretation, "interpretation"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        interpretation = Collections.unmodifiableList(ValidationSupport.checkList(builder.interpretation, "interpretation", CodeableConcept.class));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
         bodySite = builder.bodySite;
         method = builder.method;
         specimen = builder.specimen;
         device = builder.device;
-        referenceRange = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referenceRange, "referenceRange"));
-        hasMember = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.hasMember, "hasMember"));
-        derivedFrom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.derivedFrom, "derivedFrom"));
-        component = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.component, "component"));
+        referenceRange = Collections.unmodifiableList(ValidationSupport.checkList(builder.referenceRange, "referenceRange", ReferenceRange.class));
+        hasMember = Collections.unmodifiableList(ValidationSupport.checkList(builder.hasMember, "hasMember", Reference.class));
+        derivedFrom = Collections.unmodifiableList(ValidationSupport.checkList(builder.derivedFrom, "derivedFrom", Reference.class));
+        component = Collections.unmodifiableList(ValidationSupport.checkList(builder.component, "component", Component.class));
         ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "DeviceRequest", "ImmunizationRecommendation", "MedicationRequest", "NutritionOrder", "ServiceRequest");
         ValidationSupport.checkReferenceType(partOf, "partOf", "MedicationAdministration", "MedicationDispense", "MedicationStatement", "Procedure", "Immunization", "ImagingStudy");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Location");
@@ -255,7 +263,6 @@ public class Observation extends DomainResource {
         ValidationSupport.checkReferenceType(device, "device", "Device", "DeviceMetric");
         ValidationSupport.checkReferenceType(hasMember, "hasMember", "Observation", "QuestionnaireResponse", "MolecularSequence");
         ValidationSupport.checkReferenceType(derivedFrom, "derivedFrom", "DocumentReference", "ImagingStudy", "Media", "QuestionnaireResponse", "Observation", "MolecularSequence");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1744,7 +1751,7 @@ public class Observation extends DomainResource {
             low = builder.low;
             high = builder.high;
             type = builder.type;
-            appliesTo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.appliesTo, "appliesTo"));
+            appliesTo = Collections.unmodifiableList(ValidationSupport.checkList(builder.appliesTo, "appliesTo", CodeableConcept.class));
             age = builder.age;
             text = builder.text;
             ValidationSupport.requireValueOrChildren(this);
@@ -2199,8 +2206,8 @@ public class Observation extends DomainResource {
             code = ValidationSupport.requireNonNull(builder.code, "code");
             value = ValidationSupport.choiceElement(builder.value, "value", Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class);
             dataAbsentReason = builder.dataAbsentReason;
-            interpretation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.interpretation, "interpretation"));
-            referenceRange = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referenceRange, "referenceRange"));
+            interpretation = Collections.unmodifiableList(ValidationSupport.checkList(builder.interpretation, "interpretation", CodeableConcept.class));
+            referenceRange = Collections.unmodifiableList(ValidationSupport.checkList(builder.referenceRange, "referenceRange", Observation.ReferenceRange.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

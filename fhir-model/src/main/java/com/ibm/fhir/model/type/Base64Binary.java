@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -49,6 +49,26 @@ public class Base64Binary extends Element {
     @Override
     public boolean hasChildren() {
         return super.hasChildren();
+    }
+
+    /**
+     * Factory method for creating Base64Binary objects from a byte array; this array should be the actual value.
+     * 
+     * @param value
+     *     The byte array of to-be-encoded content
+     */
+    public static Base64Binary of(byte[] value) {
+        return Base64Binary.builder().value(value).build();
+    }
+
+    /**
+     * Factory method for creating Base64Binary objects from a Base64 encoded value.
+     * 
+     * @param value
+     *     The Base64 encoded string
+     */
+    public static Base64Binary of(java.lang.String value) {
+        return Base64Binary.builder().value(value).build();
     }
 
     @Override
@@ -164,10 +184,10 @@ public class Base64Binary extends Element {
         }
 
         /**
-         * The actual value
+         * The byte array of the actual value
          * 
          * @param value
-         *     Primitive value for base64Binary
+         *     The byte array of the actual value
          * 
          * @return
          *     A reference to this Builder instance
@@ -177,6 +197,14 @@ public class Base64Binary extends Element {
             return this;
         }
 
+        /**
+         * The base64 encoded value.
+         * 
+         * @param value
+         *     The base64 encoded string
+         * @return
+         *     A reference to this Builder instance
+         */
         public Builder value(java.lang.String value) {
             Objects.requireNonNull(value);
             java.lang.String valueNoWhitespace = value.replaceAll("\\s", "");

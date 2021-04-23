@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -31,12 +32,19 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.DocumentReferenceStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A collection of documents compiled for a purpose together with metadata that applies to the collection.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DocumentManifest extends DomainResource {
     @Summary
@@ -82,21 +90,20 @@ public class DocumentManifest extends DomainResource {
     private DocumentManifest(Builder builder) {
         super(builder);
         masterIdentifier = builder.masterIdentifier;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         type = builder.type;
         subject = builder.subject;
         created = builder.created;
-        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
-        recipient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.recipient, "recipient"));
+        author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", Reference.class));
+        recipient = Collections.unmodifiableList(ValidationSupport.checkList(builder.recipient, "recipient", Reference.class));
         source = builder.source;
         description = builder.description;
-        content = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.content, "content"));
-        related = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.related, "related"));
+        content = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.content, "content", Reference.class));
+        related = Collections.unmodifiableList(ValidationSupport.checkList(builder.related, "related", Related.class));
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "Group", "Device");
         ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Organization", "Device", "Patient", "RelatedPerson");
         ValidationSupport.checkReferenceType(recipient, "recipient", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

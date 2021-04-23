@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -37,13 +38,20 @@ import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ObservationDataType;
 import com.ibm.fhir.model.type.code.ObservationRangeCategory;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Set of definitional characteristics for a kind of observation or measurement produced or consumed by an orderable 
  * health care service.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "observationDefinition-0",
     level = "Warning",
@@ -120,15 +128,15 @@ public class ObservationDefinition extends DomainResource {
 
     private ObservationDefinition(Builder builder) {
         super(builder);
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
         code = ValidationSupport.requireNonNull(builder.code, "code");
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        permittedDataType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.permittedDataType, "permittedDataType"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        permittedDataType = Collections.unmodifiableList(ValidationSupport.checkList(builder.permittedDataType, "permittedDataType", ObservationDataType.class));
         multipleResultsAllowed = builder.multipleResultsAllowed;
         method = builder.method;
         preferredReportName = builder.preferredReportName;
         quantitativeDetails = builder.quantitativeDetails;
-        qualifiedInterval = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.qualifiedInterval, "qualifiedInterval"));
+        qualifiedInterval = Collections.unmodifiableList(ValidationSupport.checkList(builder.qualifiedInterval, "qualifiedInterval", QualifiedInterval.class));
         validCodedValueSet = builder.validCodedValueSet;
         normalCodedValueSet = builder.normalCodedValueSet;
         abnormalCodedValueSet = builder.abnormalCodedValueSet;
@@ -137,7 +145,6 @@ public class ObservationDefinition extends DomainResource {
         ValidationSupport.checkReferenceType(normalCodedValueSet, "normalCodedValueSet", "ValueSet");
         ValidationSupport.checkReferenceType(abnormalCodedValueSet, "abnormalCodedValueSet", "ValueSet");
         ValidationSupport.checkReferenceType(criticalCodedValueSet, "criticalCodedValueSet", "ValueSet");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1316,7 +1323,7 @@ public class ObservationDefinition extends DomainResource {
             category = builder.category;
             range = builder.range;
             context = builder.context;
-            appliesTo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.appliesTo, "appliesTo"));
+            appliesTo = Collections.unmodifiableList(ValidationSupport.checkList(builder.appliesTo, "appliesTo", CodeableConcept.class));
             gender = builder.gender;
             age = builder.age;
             gestationalAge = builder.gestationalAge;

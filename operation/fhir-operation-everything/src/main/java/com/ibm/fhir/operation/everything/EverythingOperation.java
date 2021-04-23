@@ -1,7 +1,7 @@
 /*
  * (C) Copyright IBM Corp. 2021
  *
- * SPDX-License-Identifier: Apache-2.0 
+ * SPDX-License-Identifier: Apache-2.0
  */
 package com.ibm.fhir.operation.everything;
 
@@ -9,8 +9,6 @@ import static com.ibm.fhir.model.util.ModelSupport.FHIR_DATE;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_INSTANT;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_STRING;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -25,9 +23,6 @@ import javax.ws.rs.core.MultivaluedMap;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.exception.FHIROperationException;
-import com.ibm.fhir.model.format.Format;
-import com.ibm.fhir.model.parser.FHIRParser;
-import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.Bundle.Entry.Search;
@@ -42,6 +37,8 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.SearchEntryMode;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
+import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 import com.ibm.fhir.search.exception.FHIRSearchException;
@@ -54,14 +51,14 @@ import com.ibm.fhir.server.util.FHIROperationUtil;
 
 /**
  * This class implements the <a href="https://www.hl7.org/fhir/operation-patient-everything.html">$everything</a> operation
- * which is used to return all the information related to one or more patients described in the resource or context on 
+ * which is used to return all the information related to one or more patients described in the resource or context on
  * which this operation is invoked.
- * 
+ *
  */
 public class EverythingOperation extends AbstractOperation {
 
     private static final Logger LOG = java.util.logging.Logger.getLogger(EverythingOperation.class.getName());
-    
+
     /**
      * The <a href="https://www.hl7.org/fhir/search.html#prefix">prefix</a> used to indicate the start date for the $everything resources
      */
@@ -70,7 +67,7 @@ public class EverythingOperation extends AbstractOperation {
     /**
      * The <a href="https://www.hl7.org/fhir/search.html#prefix">prefix</a> used to indicate the end date for the $everything resources
      */
-    protected static final String UP_UNTIL = SearchConstants.Prefix.LE.value();;
+    protected static final String UP_UNTIL = SearchConstants.Prefix.LE.value();
 
     /**
      * The "date" query parameter used in the underlying search operation.
@@ -103,12 +100,7 @@ public class EverythingOperation extends AbstractOperation {
     private static final String PATIENT = Patient.class.getSimpleName();
 
     /**
-     * The file with the operation definition
-     */
-    private static final String OPERATION_DEFINITION_FILE = "everything.json";
-
-    /**
-     * The maximum number of cumulative resources from all compartments for a given patient. 
+     * The maximum number of cumulative resources from all compartments for a given patient.
      */
     private static final int MAX_OVERALL_RESOURCES = 10000;
 
@@ -116,26 +108,26 @@ public class EverythingOperation extends AbstractOperation {
      * The list of resources for which the <code>date</code> query parameter can be used
      */
     private static final Set<String> SUPPORT_CLINICAL_DATE_QUERY = new HashSet<>(Arrays.asList(
-        "AllergyIntolerance", 
-        "CarePlan", 
-        "CareTeam", 
-        "ClinicalImpression", 
-        "Composition", 
-        "Consent", 
-        "DiagnosticReport", 
-        "Encounter", 
-        "EpisodeOfCare", 
-        "FamilyMemberHistory", 
-        "Flag", 
-        "Immunization", 
-        "List", 
-        "Observation", 
-        "Procedure", 
-        "RiskAssessment", 
+        "AllergyIntolerance",
+        "CarePlan",
+        "CareTeam",
+        "ClinicalImpression",
+        "Composition",
+        "Consent",
+        "DiagnosticReport",
+        "Encounter",
+        "EpisodeOfCare",
+        "FamilyMemberHistory",
+        "Flag",
+        "Immunization",
+        "List",
+        "Observation",
+        "Procedure",
+        "RiskAssessment",
         "SupplyRequest"));
 
     private List<String> defaultResourceTypes;
-    
+
     /**
      * Initialize the operation and load the sub-resources that will be retrieved.
      */
@@ -146,16 +138,11 @@ public class EverythingOperation extends AbstractOperation {
             throw new Error("There has been an error retrieving the list of included resources of the $everything operation.", e);
         }
     }
-    
+
     @Override
     protected OperationDefinition buildOperationDefinition() {
-        try (InputStream in = getClass().getClassLoader().getResourceAsStream(OPERATION_DEFINITION_FILE)) {
-            return FHIRParser.parser(Format.JSON).parse(in);
-        } catch (FHIRParserException e) {
-            throw new Error("There has been a parsing error in the operation definition of the $everything operation.", e);
-        } catch (IOException e) {
-            throw new Error("There has been an IO error reading the operation definition of the $everything operation.", e);
-        }
+        return FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/OperationDefinition/Patient-everything",
+                OperationDefinition.class);
     }
 
     @Override
@@ -164,7 +151,10 @@ public class EverythingOperation extends AbstractOperation {
 
         Patient patient = null;
         try {
-            patient = (Patient) resourceHelper.doRead(PATIENT, logicalId, false, false, null, null);
+            patient = (Patient) resourceHelper.doRead(PATIENT, logicalId, false, false, null);
+        } catch (FHIRPersistenceResourceDeletedException fde) {
+            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Patient with ID '" + logicalId + "' does not exist.", IssueType.NOT_FOUND);
+            throw exceptionWithIssue;
         } catch (Exception e) {
             FHIROperationException exceptionWithIssue = buildExceptionWithIssue("An unexpected error occurred while reading patient '" + logicalId + "'", IssueType.EXCEPTION);
             LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
@@ -172,24 +162,23 @@ public class EverythingOperation extends AbstractOperation {
         }
         if (patient == null) {
             FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Patient with ID '" + logicalId + "' does not exist.", IssueType.NOT_FOUND);
-            LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
             throw exceptionWithIssue;
         }
 
         Entry patientEntry = buildPatientEntry(operationContext, patient);
         List<Entry> allEntries = new ArrayList<>(SearchConstants.MAX_PAGE_SIZE);
         allEntries.add(patientEntry);
-        
+
         // We can't always use the "date" query parameter to query by clinical date, only with some resources.
         // Initial list obtained from the github issue: https://github.com/IBM/FHIR/issues/1044#issuecomment-769788097
         // Otherwise the search throws an exception. We create a params map with and without and use as needed
         MultivaluedMap<String, String> queryParameters = parseQueryParameters(parameters);
-        MultivaluedMap<String, String> queryParametersWithoutDates = new MultivaluedHashMap<String, String>(queryParameters);
+        MultivaluedMap<String, String> queryParametersWithoutDates = new MultivaluedHashMap<String,String>(queryParameters);
         boolean startOrEndProvided = queryParametersWithoutDates.remove(DATE_QUERY_PARAMETER) != null;
-        
+
         List<String> resourceTypesOverride = getOverridenIncludedResourceTypes(parameters);
         List<String> resourceTypes = resourceTypesOverride.isEmpty() ? defaultResourceTypes : resourceTypesOverride;
-        
+
         int totalResourceCount = 0;
         for (String compartmentType : resourceTypes) {
             MultivaluedMap<String, String> searchParameters = queryParameters;
@@ -200,7 +189,7 @@ public class EverythingOperation extends AbstractOperation {
             Bundle results = null;
             int currentResourceCount = 0;
             try {
-                results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, searchParameters, null, null, null);
+                results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, searchParameters, null, null);
                 currentResourceCount = results.getTotal().getValue();
                 totalResourceCount += currentResourceCount;
                 LOG.finest("Got " + compartmentType + " resources " + currentResourceCount + " for a total of " + totalResourceCount);
@@ -213,10 +202,10 @@ public class EverythingOperation extends AbstractOperation {
             if (totalResourceCount > MAX_OVERALL_RESOURCES) {
                 FHIROperationException exceptionWithIssue = buildExceptionWithIssue("The maximum number of resources allowed for the $everything operation (" + MAX_OVERALL_RESOURCES + ") has been exceeded for patient '" + logicalId + "'. Try using the bulkexport feature.", IssueType.TOO_COSTLY);
                 LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
-                throw exceptionWithIssue;                
+                throw exceptionWithIssue;
             }
             allEntries.addAll(results.getEntry());
-            
+
             // We are retrieving sub-resources MAX_PAGE_SIZE items at a time, but there could be more so we need to retrieve the rest of the pages for the last resource if needed
             if (currentResourceCount > SearchConstants.MAX_PAGE_SIZE) {
                 // We already retrieved page 1 so we account for that and start retrieving the rest of the pages
@@ -225,23 +214,23 @@ public class EverythingOperation extends AbstractOperation {
                     LOG.finest("Retrieving page " + page + " of the " + compartmentType + " resources for patient " + logicalId);
                     try {
                         searchParameters.putSingle(SearchConstants.PAGE, page++ + "");
-                        results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, searchParameters, null, null, null);
+                        results = resourceHelper.doSearch(compartmentType, PATIENT, logicalId, searchParameters, null, null);
                     } catch (Exception e) {
                         FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Error retrieving $everything resources page '" + page + "' of type '" + compartmentType + "' for patient " + logicalId, IssueType.EXCEPTION);
                         LOG.throwing(this.getClass().getName(), "doInvoke", exceptionWithIssue);
                         throw exceptionWithIssue;
-                    }                    
+                    }
                     allEntries.addAll(results.getEntry());
                 }
             }
         }
-        
+
         Bundle.Builder bundleBuilder = Bundle.builder()
                 .type(BundleType.SEARCHSET)
                 .id(UUID.randomUUID().toString())
                 .entry(allEntries)
-                .total(UnsignedInt.of(allEntries.size()));        
-        
+                .total(UnsignedInt.of(allEntries.size()));
+
         Parameters outputParameters;
         try {
             outputParameters = FHIROperationUtil.getOutputParameters(bundleBuilder.build());
@@ -256,12 +245,12 @@ public class EverythingOperation extends AbstractOperation {
 
     /**
      * Parse the parameters and turn them into a {@link MultivaluedMap} to pass to the search service
-     * 
+     *
      * @param parameters the operation parameters
-     * @return the {@link MultivaluedMap} for the search service built from the parameters 
+     * @return the {@link MultivaluedMap} for the search service built from the parameters
      */
     protected MultivaluedMap<String, String> parseQueryParameters(Parameters parameters) {
-        MultivaluedMap<String, String> queryParameters = new MultivaluedHashMap<String, String>();
+        MultivaluedMap<String, String> queryParameters = new MultivaluedHashMap<>();
         Parameter countParameter = getParameter(parameters, SearchConstants.COUNT);
         if (countParameter != null) {
             LOG.fine("The `count` parameter is currently not supported by the $everything operation, it will be ignored.");
@@ -288,7 +277,7 @@ public class EverythingOperation extends AbstractOperation {
     /**
      * @param parameters the {@link Parameters} object
      * @return the list of patient subresources that will be included in the $everything operation, as provided by the user
-     * @throws FHIRSearchException 
+     * @throws FHIRSearchException
      */
     protected List<String> getOverridenIncludedResourceTypes(Parameters parameters) throws FHIRSearchException {
         List<String> typeOverrides = new ArrayList<>();
@@ -320,13 +309,13 @@ public class EverythingOperation extends AbstractOperation {
 
     /**
      * @return the list of patient subresources that will be included in the $everything operaetion
-     * @throws FHIRSearchException 
+     * @throws FHIRSearchException
      */
     private List<String> getDefaultIncludedResourceTypes() throws FHIRSearchException {
         List<String> resourceTypes = new ArrayList<>(CompartmentUtil.getCompartmentResourceTypes(PATIENT));
         // TODO: Practitioner and Organization are not included in the getCompartmentReourceTypes() by default but it seems
         // like a couple of good additional resources to include and they are even mentioned as examples of resources
-        // to include in the docs: https://www.hl7.org/fhir/operation-patient-everything.html 
+        // to include in the docs: https://www.hl7.org/fhir/operation-patient-everything.html
         // resourceTypes.add(Practitioner.class.getSimpleName());
         // resourceTypes.add(Organization.class.getSimpleName());
         return resourceTypes;
@@ -334,8 +323,8 @@ public class EverythingOperation extends AbstractOperation {
 
     /**
      * Builds an {@link Entry} out of the given {@link Patient} resource including its fullURL
-     * 
-     * @param operationContext the {@link FHIROperationContext} to get the base URI 
+     *
+     * @param operationContext the {@link FHIROperationContext} to get the base URI
      * @param patient the patient to wrap
      * @return the entry with URL
      */
@@ -354,8 +343,8 @@ public class EverythingOperation extends AbstractOperation {
 
     /**
      * Builds a URI with the base URI from the given {@link FHIROperationContext} and then provided URI path.
-     * 
-     * @param operationContext the {@link FHIROperationContext} to get the base URI 
+     *
+     * @param operationContext the {@link FHIROperationContext} to get the base URI
      * @param uriPath the path to append to the base URI
      * @return the {@link Uri}
      */

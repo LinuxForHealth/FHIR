@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,7 +17,6 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Summary;
-import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -91,14 +90,14 @@ public class Dosage extends BackboneElement {
         super(builder);
         sequence = builder.sequence;
         text = builder.text;
-        additionalInstruction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additionalInstruction, "additionalInstruction"));
+        additionalInstruction = Collections.unmodifiableList(ValidationSupport.checkList(builder.additionalInstruction, "additionalInstruction", CodeableConcept.class));
         patientInstruction = builder.patientInstruction;
         timing = builder.timing;
         asNeeded = ValidationSupport.choiceElement(builder.asNeeded, "asNeeded", Boolean.class, CodeableConcept.class);
         site = builder.site;
         route = builder.route;
         method = builder.method;
-        doseAndRate = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.doseAndRate, "doseAndRate"));
+        doseAndRate = Collections.unmodifiableList(ValidationSupport.checkList(builder.doseAndRate, "doseAndRate", DoseAndRate.class));
         maxDosePerPeriod = builder.maxDosePerPeriod;
         maxDosePerAdministration = builder.maxDosePerAdministration;
         maxDosePerLifetime = builder.maxDosePerLifetime;

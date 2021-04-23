@@ -10,7 +10,6 @@ Executing $0 to deploy the fhir-server web application...
 "
 
 # Determine the location of this script.
-# basedir=`dirname "$0"`
 cd $(dirname $0); basedir="$(pwd)/"
 
 # Default liberty install location
@@ -43,31 +42,25 @@ Please specify the location of an existing WLP runtime."
     exit 3
 fi
 
-# If our server already exists, then remove it.
-if [ -d "${WLP_ROOT}/usr/servers/fhir-server" ]; then
-    echo -n "Removing existing fhir-server definition..."
-    rm -fr ${WLP_ROOT}/usr/servers/fhir-server
-fi
-
-# Create our server
+# Copy our server assets
 echo -n "
-Creating Liberty server definition for fhir-server... "
-${WLP_ROOT}/bin/server create fhir-server
+Deploying fhir-server assets to server runtime environment... "
+cp -pr ${basedir}/artifacts/servers/fhir-server/* ${WLP_ROOT}/usr/servers/defaultServer/
 rc=$?
 if [ $rc != 0 ]; then
-    echo "Error creating server definition: $rc"
+    echo "Error deploying fhir-server assets to server runtime environment: $rc"
     exit $rc
 else
     echo "done!"
 fi
 
-# Copy our server assets
+# Copy our db drivers
 echo -n "
 Deploying fhir-server assets to server runtime environment... "
-cp -pr ${basedir}/artifacts/* ${WLP_ROOT}/usr
+cp -pr ${basedir}/artifacts/shared/* ${WLP_ROOT}/usr/shared/
 rc=$?
 if [ $rc != 0 ]; then
-    echo "Error deploying fhir-server assets to server runtime environment: $rc"
+    echo "Error deploying db drivers to server runtime environment: $rc"
     exit $rc
 else
     echo "done!"
@@ -80,8 +73,8 @@ The FHIR Server has been successfully deployed to the
 existing Liberty runtime located at: ${WLP_ROOT}
 
 1) You can start and stop the server with these commands:
-   ${WLP_ROOT}/bin/server start fhir-server
-   ${WLP_ROOT}/bin/server stop fhir-server
+   ${WLP_ROOT}/bin/server start
+   ${WLP_ROOT}/bin/server stop
 2) The FHIR Server User's Guide can be found at https://github.com/ibm/FHIR.
 "
 

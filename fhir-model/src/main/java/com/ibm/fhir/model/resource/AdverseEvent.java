@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -32,6 +33,7 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdverseEventActuality;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -39,7 +41,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * Actual or potential/avoided event causing unintended physical injury resulting from or contributed to by medical care, 
  * a research study or other healthcare setting factors that requires additional monitoring, treatment, or 
  * hospitalization, or that results in death.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "adverseEvent-0",
     level = "Warning",
@@ -144,24 +152,24 @@ public class AdverseEvent extends DomainResource {
         super(builder);
         identifier = builder.identifier;
         actuality = ValidationSupport.requireNonNull(builder.actuality, "actuality");
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
         event = builder.event;
         subject = ValidationSupport.requireNonNull(builder.subject, "subject");
         encounter = builder.encounter;
         date = builder.date;
         detected = builder.detected;
         recordedDate = builder.recordedDate;
-        resultingCondition = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.resultingCondition, "resultingCondition"));
+        resultingCondition = Collections.unmodifiableList(ValidationSupport.checkList(builder.resultingCondition, "resultingCondition", Reference.class));
         location = builder.location;
         seriousness = builder.seriousness;
         severity = builder.severity;
         outcome = builder.outcome;
         recorder = builder.recorder;
-        contributor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contributor, "contributor"));
-        suspectEntity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.suspectEntity, "suspectEntity"));
-        subjectMedicalHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subjectMedicalHistory, "subjectMedicalHistory"));
-        referenceDocument = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referenceDocument, "referenceDocument"));
-        study = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.study, "study"));
+        contributor = Collections.unmodifiableList(ValidationSupport.checkList(builder.contributor, "contributor", Reference.class));
+        suspectEntity = Collections.unmodifiableList(ValidationSupport.checkList(builder.suspectEntity, "suspectEntity", SuspectEntity.class));
+        subjectMedicalHistory = Collections.unmodifiableList(ValidationSupport.checkList(builder.subjectMedicalHistory, "subjectMedicalHistory", Reference.class));
+        referenceDocument = Collections.unmodifiableList(ValidationSupport.checkList(builder.referenceDocument, "referenceDocument", Reference.class));
+        study = Collections.unmodifiableList(ValidationSupport.checkList(builder.study, "study", Reference.class));
         ValidationSupport.checkValueSetBinding(severity, "severity", "http://hl7.org/fhir/ValueSet/adverse-event-severity", "http://terminology.hl7.org/CodeSystem/adverse-event-severity", "mild", "moderate", "severe");
         ValidationSupport.checkValueSetBinding(outcome, "outcome", "http://hl7.org/fhir/ValueSet/adverse-event-outcome", "http://terminology.hl7.org/CodeSystem/adverse-event-outcome", "resolved", "recovering", "ongoing", "resolvedWithSequelae", "fatal", "unknown");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Practitioner", "RelatedPerson");
@@ -173,7 +181,6 @@ public class AdverseEvent extends DomainResource {
         ValidationSupport.checkReferenceType(subjectMedicalHistory, "subjectMedicalHistory", "Condition", "Observation", "AllergyIntolerance", "FamilyMemberHistory", "Immunization", "Procedure", "Media", "DocumentReference");
         ValidationSupport.checkReferenceType(referenceDocument, "referenceDocument", "DocumentReference");
         ValidationSupport.checkReferenceType(study, "study", "ResearchStudy");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1352,7 +1359,7 @@ public class AdverseEvent extends DomainResource {
         private SuspectEntity(Builder builder) {
             super(builder);
             instance = ValidationSupport.requireNonNull(builder.instance, "instance");
-            causality = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.causality, "causality"));
+            causality = Collections.unmodifiableList(ValidationSupport.checkList(builder.causality, "causality", Causality.class));
             ValidationSupport.checkReferenceType(instance, "instance", "Immunization", "Procedure", "Substance", "Medication", "MedicationAdministration", "MedicationStatement", "Device");
             ValidationSupport.requireValueOrChildren(this);
         }

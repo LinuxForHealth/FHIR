@@ -31,6 +31,8 @@ public class FHIRConstants {
 
     public static final String ELEMENTS = "_elements";
 
+    public static final String UPDATE_IF_MODIFIED_HEADER = "X-FHIR-UPDATE-IF-MODIFIED";
+
     /**
      * General parameter names that can be used with any FHIR interaction.
      *

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Boolean;
@@ -30,13 +31,20 @@ import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Defines an affiliation/assotiation/relationship between 2 distinct oganizations, that is not a part-of 
  * relationship/sub-division relationship.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "organizationAffiliation-0",
     level = "Warning",
@@ -92,25 +100,24 @@ public class OrganizationAffiliation extends DomainResource {
 
     private OrganizationAffiliation(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         active = builder.active;
         period = builder.period;
         organization = builder.organization;
         participatingOrganization = builder.participatingOrganization;
-        network = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.network, "network"));
-        code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
-        specialty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialty, "specialty"));
-        location = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.location, "location"));
-        healthcareService = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.healthcareService, "healthcareService"));
-        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
-        endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
+        network = Collections.unmodifiableList(ValidationSupport.checkList(builder.network, "network", Reference.class));
+        code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", CodeableConcept.class));
+        specialty = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialty, "specialty", CodeableConcept.class));
+        location = Collections.unmodifiableList(ValidationSupport.checkList(builder.location, "location", Reference.class));
+        healthcareService = Collections.unmodifiableList(ValidationSupport.checkList(builder.healthcareService, "healthcareService", Reference.class));
+        telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
+        endpoint = Collections.unmodifiableList(ValidationSupport.checkList(builder.endpoint, "endpoint", Reference.class));
         ValidationSupport.checkReferenceType(organization, "organization", "Organization");
         ValidationSupport.checkReferenceType(participatingOrganization, "participatingOrganization", "Organization");
         ValidationSupport.checkReferenceType(network, "network", "Organization");
         ValidationSupport.checkReferenceType(location, "location", "Location");
         ValidationSupport.checkReferenceType(healthcareService, "healthcareService", "HealthcareService");
         ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

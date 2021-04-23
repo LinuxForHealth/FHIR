@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -28,12 +29,19 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A collection of error, warning, or information messages that result from a system action.
+ * 
+ * <p>Maturity level: FMM5 (Normative)
  */
+@Maturity(
+    level = 5,
+    status = StandardsStatus.ValueSet.NORMATIVE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class OperationOutcome extends DomainResource {
     @Summary
@@ -44,8 +52,7 @@ public class OperationOutcome extends DomainResource {
 
     private OperationOutcome(Builder builder) {
         super(builder);
-        issue = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.issue, "issue"));
-        ValidationSupport.requireChildren(this);
+        issue = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.issue, "issue", Issue.class));
     }
 
     /**
@@ -446,8 +453,8 @@ public class OperationOutcome extends DomainResource {
             code = ValidationSupport.requireNonNull(builder.code, "code");
             details = builder.details;
             diagnostics = builder.diagnostics;
-            location = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.location, "location"));
-            expression = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.expression, "expression"));
+            location = Collections.unmodifiableList(ValidationSupport.checkList(builder.location, "location", String.class));
+            expression = Collections.unmodifiableList(ValidationSupport.checkList(builder.expression, "expression", String.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

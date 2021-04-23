@@ -16,9 +16,11 @@ import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.code.ConceptSubsumptionOutcome;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
 
 public class SubsumesOperation extends AbstractTermOperation {
     @Override
@@ -45,7 +47,7 @@ public class SubsumesOperation extends AbstractTermOperation {
             }
             ConceptSubsumptionOutcome outcome = service.subsumes(codingA, codingB);
             if (outcome == null) {
-                throw new FHIROperationException("Subsumption cannot be tested");
+                throw buildExceptionWithIssue("Subsumption cannot be tested", IssueType.NOT_SUPPORTED);
             }
             return Parameters.builder()
                     .parameter(Parameter.builder()
@@ -55,6 +57,10 @@ public class SubsumesOperation extends AbstractTermOperation {
                     .build();
         } catch (FHIROperationException e) {
             throw e;
+        } catch (FHIRTermServiceException e) {
+            throw new FHIROperationException(e.getMessage(), e.getCause()).withIssue(e.getIssues());
+        } catch (UnsupportedOperationException e) {
+            throw buildExceptionWithIssue(e.getMessage(), IssueType.NOT_SUPPORTED, e);
         } catch (Exception e) {
             throw new FHIROperationException("An error occurred during the CodeSystem subsumes operation", e);
         }

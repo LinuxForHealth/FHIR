@@ -41,7 +41,7 @@ function info {
 function _call_derby_db {
     /opt/java/openjdk/bin/java -jar ${FHIR_PERSISTENCE_SCHEMA_CLI_LOCATION}/fhir-persistence-schema-*-cli.jar \
         --prop "db.create=Y" \
-        --prop "db.database=derby/fhirDB" \
+        --prop "db.database=/output/derby/fhirDB" \
         --db-type derby \
         ${1} 2>&1
 }

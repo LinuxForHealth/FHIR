@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2021
-lastupdated: "2021-03-10"
+lastupdated: "2021-04-13"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -779,13 +779,12 @@ To use the FHIR Client from your application, specify the `fhir-client` artifact
 For examples on how to use the IBM FHIR Client, look for tests like `com.ibm.fhir.client.test.mains.FHIRClientSample` from the `fhir-client` project in git. Additionally, the FHIR Client is heavilly used from our integration tests in `fhir-server-test`.
 
 ## 4.7 FHIR command-line interface (fhir-cli)
-The FHIR command-line interface (fhir-cli for short) is a command that can be used to invoke FHIR REST API operations from the command line. The compressed file for installing the fhir-cli tool zip is part of the FHIR server installation in `${WLP_HOME}/fhir/client/fhir-cli.zip`, and the `fhir-cli.zip` file is also available from [Bintray server](
-https://dl.bintray.com/ibm-watson-health/ibm-fhir-server-releases/com/ibm/fhir/fhir-cli/).
+The FHIR command-line interface (fhir-cli for short) is a command that can be used to invoke FHIR REST API operations from the command line. The compressed file for installing the fhir-cli tool is available from [Maven Central](https://repo1.maven.org/maven2/com/ibm/fhir/fhir-cli/).
 
 ### 4.7.1 Installing fhir-cli
 Because the fhir-cli tool is intended to be used by clients that need to access the FHIR server, it has its own installation process separate from the server. To install the fhir-cli tool, complete the following steps:
 
-1.  Obtain the `fhir-cli.zip` file from the FHIR server installation zip or Bintray.
+1.  Obtain the `fhir-cli.zip` file from the FHIR server installation zip or Maven.
 2.  Decompress the `fhir-cli.zip` file into a directory of your choosing, for example:
 
     ```
@@ -1953,6 +1952,25 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/capabilityStatementCacheTimeout`|integer|The number of minutes that a tenant's CapabilityStatement is cached for the metadata endpoint. |
 |`fhirServer/core/extendedCodeableConceptValidation`|boolean|A boolean flag which indicates whether extended validation is performed by the server during object construction for code, Coding, CodeableConcept, Quantity, Uri, and String elements which have required bindings to value sets.|
 |`fhirServer/core/disabledOperations`|string|A comma-separated list of operations which are not allowed to run on the IBM FHIR Server, for example, `validate,import`. Note, do not include the dollar sign `$`|
+|`fhirServer/core/defaultPageSize`|integer|Sets the pageSize to use in search and history when no _count parameter is specified in the request. If a user-specified value exceeds the max page size (1000), then a warning is logged and max page size will be used. If not provided, the default page size (10) is used.|
+|`fhirServer/term/disableCaching`|boolean|Indicates whether caching is disabled for the FHIR terminology module, this includes caching in `CodeSystemSupport`, `ValueSetSupport`, `GraphTermServiceProvider`, and `RemoteTermServiceProvider`|
+|`fhirServer/term/graphTermServiceProviders`|array of objects|The `graphTermServiceProviders` element is an array of objects|
+|`fhirServer/term/graphTermServiceProviders/enabled`|boolean|Indicates whether the graph term service provider should be used by the FHIR term service to access code system content|
+|`fhirServer/term/graphTermServiceProviders/timeLimit`|integer|Graph traversal time limit (in milliseconds)|
+|`fhirServer/term/graphTermServiceProviders/configuration`|object (name/value pairs)|A JSON object that contains the name/value pairs used to configure the graph database behind the graph term service provider see: [https://docs.janusgraph.org/basics/configuration-reference/](https://docs.janusgraph.org/basics/configuration-reference/)|
+|`fhirServer/term/remoteTermServiceProviders`|array of objects|The `remoteTermServiceProviders` element is an array of objects|
+|`fhirServer/term/remoteTermServiceProviders/enabled`|boolean|Indicates whether this remote term service provider should be used by the FHIR term service to access code system content|
+|`fhirServer/term/remoteTermServiceProviders/base`|string|The base URL for this remote term service provider|
+|`fhirServer/term/remoteTermServiceProviders/trustStore/location`|string|The trust store location for this remote term service provider|
+|`fhirServer/term/remoteTermServiceProviders/trustStore/password`|string|The trust store password for this remote term service provider|
+|`fhirServer/term/remoteTermServiceProviders/trustStore/type`|string|The trust store type (e.g. pkcs12) for this remote term service provider|
+|`fhirServer/term/remoteTermServiceProviders/hostnameVerificationEnabled`|boolean|Indicates whether hostname verification should be performed when using SSL transport|
+|`fhirServer/term/remoteTermServiceProviders/basicAuth/username`|string|The basic authentication username for this remote term service provider|
+|`fhirServer/term/remoteTermServiceProviders/basicAuth/password`|string|The basic authentication password for this remote term service provider|
+|`fhirServer/term/remoteTermServiceProviders/httpTimeout`|integer|The HTTP read timeout for this remote term service provider (in milliseconds)|
+|`fhirServer/term/remoteTermServiceProviders/supports`|array of objects|The `supports` element is an array of objects|
+|`fhirServer/term/remoteTermServiceProviders/supports/system`|string|The system URI supported by this remote term service provider|
+|`fhirServer/term/remoteTermServiceProviders/supports/version`|string|The system version supported by this remote term service provider|
 |`fhirServer/resources/open`|boolean|Whether resources that are not explicitly listed in the configuration should be supported by the FHIR Server REST layer. When open is set to `false`, only the resources listed in fhir-server-config.json are supported.|
 |`fhirServer/resources/Resource/interactions`|string list|A list of strings that represent the RESTful interactions (create, read, vread, update, patch, delete, history, and/or search) supported for resource types. Omitting this property is equivalent to supporting all FHIR interactions for the supported resources. An empty list, `[]`, can be used to indicate that no REST methods are supported. This property can be overridden for specific resource types via the `fhirServer/resources/<resourceType>/interactions` property.|
 |`fhirServer/resources/Resource/searchParameters`|object|The set of search parameters to support for all supported resource types. Omitting this property is equivalent to supporting all search parameters in the server's registry that apply to resource type "Resource" (all resources). An empty object, `{}`, can be used to indicate that no global search parameters are supported.|
@@ -2029,6 +2047,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/cos/requestTimeout`|number|The request timeout in second for the COS client|
 |`fhirServer/bulkdata/core/cos/socketTimeout`|number|The socket timeout in second for the COS client|
 |`fhirServer/bulkdata/core/cos/useServerTruststore`|boolean|If the COS Client should use the IBM FHIR Server's TrustStore to access S3/IBMCOS service |
+|`fhirServer/bulkdata/core/cos/presignedExpiry`|number|The time in seconds of the presigned download URL; must be using HMAC auth|
 |`fhirServer/bulkdata/core/file/writeTriggerSizeMB`|number|The size, in megabytes, at which to write the buffer to file.|
 |`fhirServer/bulkdata/core/file/sizeThresholdMB`|number|The size, in megabytes, at which to finish writing a given file. Use `0` to indicate that all resources of a given type should be written to a single file.|
 |`fhirServer/bulkdata/core/file/resourceCountThreshold`|number|The number of resources at which to finish writing a given file. The actual number of resources written to a single file may be slightly above this number, dependent on the configured page size. Use `0` to indicate that there is no limit to the number of resources to be written to a single file.|
@@ -2037,7 +2056,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/maxPartitions`|number| The maximum number of simultaneous partitions that are processed per Export and Import |
 |`fhirServer/bulkdata/core/maxInputs`|number| The number of inputs allowed for $import |
 |`fhirServer/bulkdata/core/iamEndpoint`|string| Override the system's IAM endpoint |
-|`fhirServer/bulkdata/core/fastTxTimeout`|number| Time timeout for the fast implementations transaction |
+|`fhirServer/bulkdata/core/maxChunkReadTime`|string| Max time in milliseconds to read during a bulkdata export without type filters. The time should be three quarters of the transactionManager timeout (often the FHIR_TRANSACTION_MANAGER_TIMEOUT value). Note, this value is a string representation of a long value.|
 |`fhirServer/bulkdata/storageProviders/<source>/type`|string|The type of storageProvider aws-s3, ibm-cos, file, https |
 |`fhirServer/bulkdata/storageProviders/<source>/bucketName`|string| Object store bucket name |
 |`fhirServer/bulkdata/storageProviders/<source>/location`|string|Object store location |
@@ -2076,6 +2095,13 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/conditionalDeleteMaxNumber`|10|
 |`fhirServer/core/capabilityStatementCacheTimeout`|60|
 |`fhirServer/core/extendedCodeableConceptValidation`|true|
+|`fhirServer/core/defaultPageSize`|10|
+|`fhirServer/term/cachingDisabled`|false|
+|`fhirServer/term/graphTermServiceProviders/enabled`|false|
+|`fhirServer/term/graphTermServiceProviders/timeLimit`|90000|
+|`fhirServer/term/remoteTermServiceProviders/enabled`|false|
+|`fhirServer/term/remoteTermServiceProviders/hostnameVerificationEnabled`|true|
+|`fhirServer/term/remoteTermServiceProviders/httpTimeout`|60000|
 |`fhirServer/resources/open`|true|
 |`fhirServer/resources/Resource/interactions`|null (all interactions supported)|
 |`fhirServer/resources/Resource/searchParameters`|null (all global search parameters supported)|
@@ -2147,11 +2173,12 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/cos/requestTimeout`|120|
 |`fhirServer/bulkdata/core/cos/socketTimeout`|120|
 |`fhirServer/bulkdata/core/cos/useServerTruststore`|false|
+|`fhirServer/bulkdata/core/cos/presignedExpiry`|86400|
 |`fhirServer/bulkdata/core/pageSize`|1000|
 |`fhirServer/bulkdata/core/maxPartitions`|5|
 |`fhirServer/bulkdata/core/maxInputs`|5|
 |`fhirServer/bulkdata/core/iamEndpoint`|https://iam.cloud.ibm.com/oidc/token|
-|`fhirServer/bulkdata/core/fastTxTimeout`|90000|
+|`fhirServer/bulkdata/core/maxChunkReadTime`|90000|
 |`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/exportPublic`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/enableParquet`|false|
@@ -2185,6 +2212,18 @@ must restart the server for that change to take effect.
 |`fhirServer/core/capabilityStatementCacheTimeout`|Y|Y|
 |`fhirServer/core/extendedCodeableConceptValidation`|N|N|
 |`fhirServer/core/disabledOperations`|N|N|
+|`fhirServer/core/defaultPageSize`|Y|Y|
+|`fhirServer/term/cachingDisabled`|N|N|
+|`fhirServer/term/graphTermServiceProviders/enabled`|N|N|
+|`fhirServer/term/graphTermServiceProviders/timeLimit`|N|N|
+|`fhirServer/term/graphTermServiceProviders/configuration`|N|N|
+|`fhirServer/term/remoteTermServiceProviders/enabled`|N|N|
+|`fhirServer/term/remoteTermServiceProviders/base`|N|N|
+|`fhirServer/term/remoteTermServiceProviders/trustStore`|N|N|
+|`fhirServer/term/remoteTermServiceProviders/hostnameVerificationEnabled`|N|N|
+|`fhirServer/term/remoteTermServiceProviders/basicAuth`|N|N|
+|`fhirServer/term/remoteTermServiceProviders/httpTimeout`|N|N|
+|`fhirServer/term/remoteTermServiceProviders/supports`|N|N|
 |`fhirServer/resources/open`|Y|Y|
 |`fhirServer/resources/Resource/interactions`|Y|Y|
 |`fhirServer/resources/Resource/searchParameters`|Y|Y|
@@ -2256,7 +2295,8 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/core/cos/requestTimeout`|N|N|
 |`fhirServer/bulkdata/core/cos/socketTimeout`|N|N|
 |`fhirServer/bulkdata/core/cos/useServerTruststore`|Y|Y|
-|`fhirServer/bulkdata/core/batchIdEncryptionKey`|N|N|
+|`fhirServer/bulkdata/core/cos/presignedExpiry`|Y|Y|
+|`fhirServer/bulkdata/core/batchIdEncryptionKey`|Y|N|
 |`fhirServer/bulkdata/core/pageSize`|Y|Y|
 |`fhirServer/bulkdata/core/maxPartitions`|Y|Y|
 |`fhirServer/bulkdata/core/maxInputs`|Y|Y|
@@ -2289,6 +2329,8 @@ must restart the server for that change to take effect.
 
 ### 5.2.1 Background
 As stated earlier, the FHIR server is installed with a default configuration in `server.xml` which includes the definition of a keystore (`fhirKeyStore.p12`) and a truststore (`fhirTrustStore.p12`)<sup id="a7">[7](#f7)</sup>. These files are provided only as examples and while they may suffice in a test environment, the FHIR server deployer should generate a new keystore and truststore for any installations where security is a concern. Review the information in the following topics to learn how to configure a secure keystore and truststore.
+
+Additionally, the server has a trustDefault.xml config dropin that references the SEC_TLS_TRUSTDEFAULTCERTS variable (defaultValue = true) to indicate whether or not the JVM truststore should be used in combination with the configured trust store.
 
 ### 5.2.2 WebApp security
 By default, the FHIR server REST API is only available via HTTPS on port 9443 and is protected by HTTP basic authentication.
@@ -2552,6 +2594,7 @@ IBM FHIR Server Supports the following custom HTTP Headers:
 |`X-FHIR-TENANT-ID`|Specifies which tenant config should be used for the request. Default is `default`. The header name can be overridden via config property `fhirServer/core/tenantIdHeaderName`.|
 |`X-FHIR-DSID`|Specifies which datastore config should be used for the request. Default is `default`. The header name can be overridden via config property `fhirServer/core/dataSourceIdHeaderName`.|
 |`X-FHIR-FORWARDED-URL`|The original (user-facing) request URL; used for constructing absolute URLs within the server response. Only enabled when explicitly configured in the default fhir-server-config.json. If either the config property or the header itself is missing, the server will use the actual request URL. The header name can be overridden via config property `fhirServer/core/originalRequestUriHeaderName`.|
+|`X-FHIR-UPDATE-IF-MODIFIED`|When set to true, for update and patch requests, the server will perform a resource comparison and only perform the update if the contents of the resource have changed. For all other values, the update will be executed as normal.|
 
 # 6 Related topics
 For more information about topics related to configuring a FHIR server, see the following documentation:
@@ -2581,7 +2624,7 @@ For more information about topics related to configuring a FHIR server, see the 
 
 - <b id="f5">5</b>
 
-    An external reference is a reference to a resource which is meaningful outside a particular request bundle.  The value typically includes the resource type and the resource identifier, and could  be an absolute or relative URL. Examples:  `https://fhirserver1:9443/fhir-server/api/v4/Patient/12345`, `Patient/12345`, etc. [↩](#a5)
+    An external reference is a reference to a resource which is meaningful outside a particular request bundle.  The value typically includes the resource type and the resource identifier, and could be an absolute or relative URL. Examples:  `https://fhirserver1:9443/fhir-server/api/v4/Patient/12345`, `Patient/12345`, etc.  Requiring relative URLs to include a valid resource type can be configured via the `fhirServer/core/checkReferenceTypes` config property. For more information, see [Section 5.1 Configuration properties reference](#51-configuration-properties-reference). [↩](#a5)
 
 - <b id="f6">6</b>
 

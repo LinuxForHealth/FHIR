@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -37,13 +38,20 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.CapabilityStatementKind;
 import com.ibm.fhir.model.type.code.CodeSearchSupport;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A TerminologyCapabilities resource documents a set of capabilities (behaviors) of a FHIR Terminology Server that may 
  * be used as a statement of actual server functionality or a statement of required or desired server implementation.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "tcp-0",
     level = "Warning",
@@ -176,23 +184,22 @@ public class TerminologyCapabilities extends DomainResource {
         experimental = builder.experimental;
         date = ValidationSupport.requireNonNull(builder.date, "date");
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         purpose = builder.purpose;
         copyright = builder.copyright;
         kind = ValidationSupport.requireNonNull(builder.kind, "kind");
         software = builder.software;
         implementation = builder.implementation;
         lockedDate = builder.lockedDate;
-        codeSystem = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.codeSystem, "codeSystem"));
+        codeSystem = Collections.unmodifiableList(ValidationSupport.checkList(builder.codeSystem, "codeSystem", CodeSystem.class));
         expansion = builder.expansion;
         codeSearch = builder.codeSearch;
         validateCode = builder.validateCode;
         translation = builder.translation;
         closure = builder.closure;
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1903,7 +1910,7 @@ public class TerminologyCapabilities extends DomainResource {
         private CodeSystem(Builder builder) {
             super(builder);
             uri = builder.uri;
-            version = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.version, "version"));
+            version = Collections.unmodifiableList(ValidationSupport.checkList(builder.version, "version", Version.class));
             subsumption = builder.subsumption;
             ValidationSupport.requireValueOrChildren(this);
         }
@@ -2222,9 +2229,9 @@ public class TerminologyCapabilities extends DomainResource {
                 code = builder.code;
                 isDefault = builder.isDefault;
                 compositional = builder.compositional;
-                language = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.language, "language"));
-                filter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.filter, "filter"));
-                property = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.property, "property"));
+                language = Collections.unmodifiableList(ValidationSupport.checkList(builder.language, "language", Code.class));
+                filter = Collections.unmodifiableList(ValidationSupport.checkList(builder.filter, "filter", Filter.class));
+                property = Collections.unmodifiableList(ValidationSupport.checkList(builder.property, "property", Code.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -2666,7 +2673,7 @@ public class TerminologyCapabilities extends DomainResource {
                 private Filter(Builder builder) {
                     super(builder);
                     code = ValidationSupport.requireNonNull(builder.code, "code");
-                    op = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.op, "op"));
+                    op = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.op, "op", Code.class));
                     ValidationSupport.requireValueOrChildren(this);
                 }
 
@@ -2966,7 +2973,7 @@ public class TerminologyCapabilities extends DomainResource {
             hierarchical = builder.hierarchical;
             paging = builder.paging;
             incomplete = builder.incomplete;
-            parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
+            parameter = Collections.unmodifiableList(ValidationSupport.checkList(builder.parameter, "parameter", Parameter.class));
             textFilter = builder.textFilter;
             ValidationSupport.requireValueOrChildren(this);
         }

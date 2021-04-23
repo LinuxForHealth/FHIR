@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -37,6 +38,7 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.DeviceNameType;
 import com.ibm.fhir.model.type.code.FHIRDeviceStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.UDIEntryType;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -44,7 +46,13 @@ import com.ibm.fhir.model.visitor.Visitor;
 /**
  * A type of a manufactured item that is used in the provision of healthcare without being substantially changed through 
  * that activity. The device may be a medical or non-medical device.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "device-0",
     level = "Warning",
@@ -112,38 +120,37 @@ public class Device extends DomainResource {
 
     private Device(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         definition = builder.definition;
-        udiCarrier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.udiCarrier, "udiCarrier"));
+        udiCarrier = Collections.unmodifiableList(ValidationSupport.checkList(builder.udiCarrier, "udiCarrier", UdiCarrier.class));
         status = builder.status;
-        statusReason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.statusReason, "statusReason"));
+        statusReason = Collections.unmodifiableList(ValidationSupport.checkList(builder.statusReason, "statusReason", CodeableConcept.class));
         distinctIdentifier = builder.distinctIdentifier;
         manufacturer = builder.manufacturer;
         manufactureDate = builder.manufactureDate;
         expirationDate = builder.expirationDate;
         lotNumber = builder.lotNumber;
         serialNumber = builder.serialNumber;
-        deviceName = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.deviceName, "deviceName"));
+        deviceName = Collections.unmodifiableList(ValidationSupport.checkList(builder.deviceName, "deviceName", DeviceName.class));
         modelNumber = builder.modelNumber;
         partNumber = builder.partNumber;
         type = builder.type;
-        specialization = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialization, "specialization"));
-        version = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.version, "version"));
-        property = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.property, "property"));
+        specialization = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialization, "specialization", Specialization.class));
+        version = Collections.unmodifiableList(ValidationSupport.checkList(builder.version, "version", Version.class));
+        property = Collections.unmodifiableList(ValidationSupport.checkList(builder.property, "property", Property.class));
         patient = builder.patient;
         owner = builder.owner;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactPoint.class));
         location = builder.location;
         url = builder.url;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        safety = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.safety, "safety"));
+        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        safety = Collections.unmodifiableList(ValidationSupport.checkList(builder.safety, "safety", CodeableConcept.class));
         parent = builder.parent;
         ValidationSupport.checkReferenceType(definition, "definition", "DeviceDefinition");
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(owner, "owner", "Organization");
         ValidationSupport.checkReferenceType(location, "location", "Location");
         ValidationSupport.checkReferenceType(parent, "parent", "Device");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -2760,8 +2767,8 @@ public class Device extends DomainResource {
         private Property(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
-            valueQuantity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.valueQuantity, "valueQuantity"));
-            valueCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.valueCode, "valueCode"));
+            valueQuantity = Collections.unmodifiableList(ValidationSupport.checkList(builder.valueQuantity, "valueQuantity", Quantity.class));
+            valueCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.valueCode, "valueCode", CodeableConcept.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -30,13 +31,20 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Record details about an anatomical structure. This resource may be used when a coded concept does not provide the 
  * necessary detail needed for the use case.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class BodyStructure extends DomainResource {
     @Summary
@@ -78,16 +86,15 @@ public class BodyStructure extends DomainResource {
 
     private BodyStructure(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         active = builder.active;
         morphology = builder.morphology;
         location = builder.location;
-        locationQualifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.locationQualifier, "locationQualifier"));
+        locationQualifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.locationQualifier, "locationQualifier", CodeableConcept.class));
         description = builder.description;
-        image = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.image, "image"));
+        image = Collections.unmodifiableList(ValidationSupport.checkList(builder.image, "image", Attachment.class));
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

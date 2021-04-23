@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -39,13 +40,20 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ConsentDataMeaning;
 import com.ibm.fhir.model.type.code.ConsentProvisionType;
 import com.ibm.fhir.model.type.code.ConsentState;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A record of a healthcare consumer’s choices, which permits or denies identified recipient(s) or recipient role(s) to 
  * perform one or more actions within a given policy context, for specific purposes and periods of time.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "ppc-1",
     level = "Rule",
@@ -201,24 +209,23 @@ public class Consent extends DomainResource {
 
     private Consent(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         scope = ValidationSupport.requireNonNull(builder.scope, "scope");
-        category = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.category, "category"));
+        category = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.category, "category", CodeableConcept.class));
         patient = builder.patient;
         dateTime = builder.dateTime;
-        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
-        organization = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.organization, "organization"));
+        performer = Collections.unmodifiableList(ValidationSupport.checkList(builder.performer, "performer", Reference.class));
+        organization = Collections.unmodifiableList(ValidationSupport.checkList(builder.organization, "organization", Reference.class));
         source = ValidationSupport.choiceElement(builder.source, "source", Attachment.class, Reference.class);
-        policy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.policy, "policy"));
+        policy = Collections.unmodifiableList(ValidationSupport.checkList(builder.policy, "policy", Policy.class));
         policyRule = builder.policyRule;
-        verification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.verification, "verification"));
+        verification = Collections.unmodifiableList(ValidationSupport.checkList(builder.verification, "verification", Verification.class));
         provision = builder.provision;
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(performer, "performer", "Organization", "Patient", "Practitioner", "RelatedPerson", "PractitionerRole");
         ValidationSupport.checkReferenceType(organization, "organization", "Organization");
         ValidationSupport.checkReferenceType(source, "source", "Consent", "DocumentReference", "Contract", "QuestionnaireResponse");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1750,15 +1757,15 @@ public class Consent extends DomainResource {
             super(builder);
             type = builder.type;
             period = builder.period;
-            actor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.actor, "actor"));
-            action = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.action, "action"));
-            securityLabel = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabel, "securityLabel"));
-            purpose = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.purpose, "purpose"));
-            clazz = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.clazz, "class"));
-            code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
+            actor = Collections.unmodifiableList(ValidationSupport.checkList(builder.actor, "actor", Actor.class));
+            action = Collections.unmodifiableList(ValidationSupport.checkList(builder.action, "action", CodeableConcept.class));
+            securityLabel = Collections.unmodifiableList(ValidationSupport.checkList(builder.securityLabel, "securityLabel", Coding.class));
+            purpose = Collections.unmodifiableList(ValidationSupport.checkList(builder.purpose, "purpose", Coding.class));
+            clazz = Collections.unmodifiableList(ValidationSupport.checkList(builder.clazz, "class", Coding.class));
+            code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", CodeableConcept.class));
             dataPeriod = builder.dataPeriod;
-            data = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.data, "data"));
-            provision = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.provision, "provision"));
+            data = Collections.unmodifiableList(ValidationSupport.checkList(builder.data, "data", Data.class));
+            provision = Collections.unmodifiableList(ValidationSupport.checkList(builder.provision, "provision", Consent.Provision.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

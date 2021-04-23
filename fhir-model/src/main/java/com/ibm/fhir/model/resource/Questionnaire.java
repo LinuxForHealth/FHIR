@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
@@ -50,13 +51,20 @@ import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.QuestionnaireItemOperator;
 import com.ibm.fhir.model.type.code.QuestionnaireItemType;
 import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A structured set of questions intended to guide the collection of answers from end-users. Questionnaires provide 
  * detailed control over order, presentation, phraseology and grouping to allow coherent, consistent data collection.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "que-0",
     level = "Warning",
@@ -233,28 +241,27 @@ public class Questionnaire extends DomainResource {
     private Questionnaire(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         version = builder.version;
         name = builder.name;
         title = builder.title;
-        derivedFrom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.derivedFrom, "derivedFrom"));
+        derivedFrom = Collections.unmodifiableList(ValidationSupport.checkList(builder.derivedFrom, "derivedFrom", Canonical.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         experimental = builder.experimental;
-        subjectType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subjectType, "subjectType"));
+        subjectType = Collections.unmodifiableList(ValidationSupport.checkList(builder.subjectType, "subjectType", ResourceType.class));
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         purpose = builder.purpose;
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
-        item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
-        ValidationSupport.requireChildren(this);
+        code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", Coding.class));
+        item = Collections.unmodifiableList(ValidationSupport.checkList(builder.item, "item", Item.class));
     }
 
     /**
@@ -1460,20 +1467,20 @@ public class Questionnaire extends DomainResource {
             super(builder);
             linkId = ValidationSupport.requireNonNull(builder.linkId, "linkId");
             definition = builder.definition;
-            code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
+            code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", Coding.class));
             prefix = builder.prefix;
             text = builder.text;
             type = ValidationSupport.requireNonNull(builder.type, "type");
-            enableWhen = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.enableWhen, "enableWhen"));
+            enableWhen = Collections.unmodifiableList(ValidationSupport.checkList(builder.enableWhen, "enableWhen", EnableWhen.class));
             enableBehavior = builder.enableBehavior;
             required = builder.required;
             repeats = builder.repeats;
             readOnly = builder.readOnly;
             maxLength = builder.maxLength;
             answerValueSet = builder.answerValueSet;
-            answerOption = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.answerOption, "answerOption"));
-            initial = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.initial, "initial"));
-            item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
+            answerOption = Collections.unmodifiableList(ValidationSupport.checkList(builder.answerOption, "answerOption", AnswerOption.class));
+            initial = Collections.unmodifiableList(ValidationSupport.checkList(builder.initial, "initial", Initial.class));
+            item = Collections.unmodifiableList(ValidationSupport.checkList(builder.item, "item", Questionnaire.Item.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

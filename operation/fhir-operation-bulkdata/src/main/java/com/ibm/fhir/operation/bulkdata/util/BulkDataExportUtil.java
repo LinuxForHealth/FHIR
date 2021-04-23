@@ -38,8 +38,6 @@ import com.ibm.fhir.server.operation.spi.FHIROperationContext;
  * BulkData Util captures common methods
  */
 public class BulkDataExportUtil {
-
-    private static JobIdEncodingTransformer transformer = new JobIdEncodingTransformer();
     private static Set<String> RESOURCE_TYPES = ModelSupport.getResourceTypes(false).stream()
                                                     .map(m -> m.getSimpleName())
                                                     .collect(Collectors.toSet());
@@ -100,8 +98,9 @@ public class BulkDataExportUtil {
          * the full content type of application/fhir+ndjson as well as the abbreviated representations
          * application/ndjson and ndjson.
          */
-        Optional<Parameter> parameter =
-                parameters.getParameter().stream().filter(p -> OperationConstants.PARAM_OUTPUT_FORMAT.equals(p.getName().getValue())).findFirst();
+        Optional<Parameter> parameter = parameters.getParameter().stream()
+                .filter(p -> OperationConstants.PARAM_OUTPUT_FORMAT.equals(p.getName().getValue()))
+                .findFirst();
 
         String mediaType = FHIRMediaType.APPLICATION_NDJSON;
         if (parameter.isPresent() && parameter.get().getValue().is(com.ibm.fhir.model.type.String.class)) {
@@ -227,7 +226,6 @@ public class BulkDataExportUtil {
 
     /**
      * gets the defaults for the patient compartment.
-     * @param types
      * @return
      * @throws FHIROperationException
      */
@@ -295,7 +293,7 @@ public class BulkDataExportUtil {
             for (Parameters.Parameter parameter : parameters.getParameter()) {
                 if (OperationConstants.PARAM_JOB.equals(parameter.getName().getValue())
                         && parameter.getValue() != null && parameter.getValue().is(com.ibm.fhir.model.type.String.class)) {
-                    String job = transformer.decodeJobId(parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue());
+                    String job = JobIdEncodingTransformer.getInstance().decodeJobId(parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue());
 
                     // The job is never going to be empty or null as STRING is never empty at this point.
                     if (job.contains("/") || job.contains("?")) {

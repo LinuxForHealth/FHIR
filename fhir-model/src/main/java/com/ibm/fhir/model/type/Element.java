@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -36,7 +36,7 @@ public abstract class Element extends AbstractVisitable {
 
     protected Element(Builder builder) {
         id = builder.id;
-        extension = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.extension, "extension"));
+        extension = Collections.unmodifiableList(ValidationSupport.checkList(builder.extension, "extension", Extension.class));
         ValidationSupport.checkString(id);
     }
 

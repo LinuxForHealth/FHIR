@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -34,6 +35,7 @@ import com.ibm.fhir.model.type.SimpleQuantity;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.VisionBase;
 import com.ibm.fhir.model.type.code.VisionEyes;
 import com.ibm.fhir.model.type.code.VisionStatus;
@@ -42,7 +44,13 @@ import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * An authorization for the provision of glasses and/or contact lenses to a patient.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class VisionPrescription extends DomainResource {
     private final List<Identifier> identifier;
@@ -79,18 +87,17 @@ public class VisionPrescription extends DomainResource {
 
     private VisionPrescription(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         created = ValidationSupport.requireNonNull(builder.created, "created");
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
         encounter = builder.encounter;
         dateWritten = ValidationSupport.requireNonNull(builder.dateWritten, "dateWritten");
         prescriber = ValidationSupport.requireNonNull(builder.prescriber, "prescriber");
-        lensSpecification = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.lensSpecification, "lensSpecification"));
+        lensSpecification = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.lensSpecification, "lensSpecification", LensSpecification.class));
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
         ValidationSupport.checkReferenceType(prescriber, "prescriber", "Practitioner", "PractitionerRole");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -757,7 +764,7 @@ public class VisionPrescription extends DomainResource {
             sphere = builder.sphere;
             cylinder = builder.cylinder;
             axis = builder.axis;
-            prism = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.prism, "prism"));
+            prism = Collections.unmodifiableList(ValidationSupport.checkList(builder.prism, "prism", Prism.class));
             add = builder.add;
             power = builder.power;
             backCurve = builder.backCurve;
@@ -765,7 +772,7 @@ public class VisionPrescription extends DomainResource {
             duration = builder.duration;
             color = builder.color;
             brand = builder.brand;
-            note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+            note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

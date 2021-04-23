@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -28,12 +29,19 @@ import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * The interactions of the medicinal product with other medicinal products, or other forms of interactions.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductInteraction extends DomainResource {
     @Summary
@@ -56,15 +64,14 @@ public class MedicinalProductInteraction extends DomainResource {
 
     private MedicinalProductInteraction(Builder builder) {
         super(builder);
-        subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
+        subject = Collections.unmodifiableList(ValidationSupport.checkList(builder.subject, "subject", Reference.class));
         description = builder.description;
-        interactant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.interactant, "interactant"));
+        interactant = Collections.unmodifiableList(ValidationSupport.checkList(builder.interactant, "interactant", Interactant.class));
         type = builder.type;
         effect = builder.effect;
         incidence = builder.incidence;
         management = builder.management;
         ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication", "Substance");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

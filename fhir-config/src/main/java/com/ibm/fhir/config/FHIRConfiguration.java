@@ -36,6 +36,12 @@ public class FHIRConfiguration {
     public static final String PROPERTY_CAPABILITY_STATEMENT_CACHE = "fhirServer/core/capabilityStatementCacheTimeout";
     public static final String PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION = "fhirServer/core/extendedCodeableConceptValidation";
     public static final String PROPERTY_DISABLED_OPERATIONS = "fhirServer/core/disabledOperations";
+    public static final String PROPERTY_DEFAULT_PAGE_SIZE = "fhirServer/core/defaultPageSize";
+
+    // Terminology service properties
+    public static final String PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_ENABLED = "fhirServer/term/graphTermServiceProvider/enabled";
+    public static final String PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_TIME_LIMIT = "fhirServer/term/graphTermServiceProvider/timeLimit";
+    public static final String PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_CONFIGURATION = "fhirServer/term/graphTermServiceProvider/configuration";
 
     // Resources properties
     public static final String PROPERTY_RESOURCES = "fhirServer/resources";
@@ -184,7 +190,7 @@ public class FHIRConfiguration {
      * Returns the "home" directory for FHIR Server configuration information (this directory will contain
      * the "config" directory, etc.).
      * <p>
-     * The default value of this property is "" which is interpretted to mean the current working directory
+     * The default value of this property is "" which is interpreted to mean the current working directory
      * (which for a running FHIR Server will be $WLP_HOME/wlp/usr/servers/fhir-server).
      */
     public static String getConfigHome() {

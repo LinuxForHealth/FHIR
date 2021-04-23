@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -33,12 +34,19 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.SearchEntryMode;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A container for a collection of resources.
+ * 
+ * <p>Maturity level: FMM5 (Normative)
  */
+@Maturity(
+    level = 5,
+    status = StandardsStatus.ValueSet.NORMATIVE
+)
 @Constraint(
     id = "bdl-1",
     level = "Rule",
@@ -148,10 +156,9 @@ public class Bundle extends Resource {
         type = ValidationSupport.requireNonNull(builder.type, "type");
         timestamp = builder.timestamp;
         total = builder.total;
-        link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
-        entry = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.entry, "entry"));
+        link = Collections.unmodifiableList(ValidationSupport.checkList(builder.link, "link", Link.class));
+        entry = Collections.unmodifiableList(ValidationSupport.checkList(builder.entry, "entry", Entry.class));
         signature = builder.signature;
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -864,7 +871,7 @@ public class Bundle extends Resource {
 
         private Entry(Builder builder) {
             super(builder);
-            link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
+            link = Collections.unmodifiableList(ValidationSupport.checkList(builder.link, "link", Bundle.Link.class));
             fullUrl = builder.fullUrl;
             resource = builder.resource;
             search = builder.search;

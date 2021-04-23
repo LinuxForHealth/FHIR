@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -33,13 +34,20 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ImmunizationEvaluationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Describes a comparison of an immunization event against published recommendations to determine if the administration 
  * is "valid" in relation to those recommendations.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ImmunizationEvaluation extends DomainResource {
     private final List<Identifier> identifier;
@@ -99,7 +107,7 @@ public class ImmunizationEvaluation extends DomainResource {
 
     private ImmunizationEvaluation(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         patient = ValidationSupport.requireNonNull(builder.patient, "patient");
         date = builder.date;
@@ -107,7 +115,7 @@ public class ImmunizationEvaluation extends DomainResource {
         targetDisease = ValidationSupport.requireNonNull(builder.targetDisease, "targetDisease");
         immunizationEvent = ValidationSupport.requireNonNull(builder.immunizationEvent, "immunizationEvent");
         doseStatus = ValidationSupport.requireNonNull(builder.doseStatus, "doseStatus");
-        doseStatusReason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.doseStatusReason, "doseStatusReason"));
+        doseStatusReason = Collections.unmodifiableList(ValidationSupport.checkList(builder.doseStatusReason, "doseStatusReason", CodeableConcept.class));
         description = builder.description;
         series = builder.series;
         doseNumber = ValidationSupport.choiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);
@@ -115,7 +123,6 @@ public class ImmunizationEvaluation extends DomainResource {
         ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         ValidationSupport.checkReferenceType(authority, "authority", "Organization");
         ValidationSupport.checkReferenceType(immunizationEvent, "immunizationEvent", "Immunization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

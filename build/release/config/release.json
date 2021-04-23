@@ -1,0 +1,89 @@
+{
+    "_comment_on_maven": "-T2C isn't a great idea when signing",
+    "maven": [
+        {
+            "comment": "Enables Retry to the Maven repositories",
+            "setting": "-Dmaven.wagon.http.retryHandler.count=3",
+            "type": "maven"
+        },
+        {
+            "comment": "No transfer progress and colorless",
+            "setting": " --no-transfer-progress -B",
+            "type": "maven"
+        },
+        {
+            "comment": "Point to settings file",
+            "setting": "-s build/release/config/settings.xml",
+            "type": "maven"
+        },
+        {
+            "comment": "Set as Headless",
+            "setting": "-Djava.awt.headless=true",
+            "type": "maven"
+        }
+    ],
+    "maven_jvm": [
+        {
+            "comment": "Run with more memory",
+            "setting": "-Xms1G -Xmx2G",
+            "type": "jvm"
+        }
+    ],
+    "java": {
+        "JAVA_HOME": "/opt/hostedtoolcache/AdoptOpenJDK/1.0.0-ga-11-jdk-hotspot-linux-x64-normal-latest/x64"
+    },
+    "build": [
+        {
+            "type": "fhir-examples", 
+            "profiles": [
+                "generate-javadoc",
+                "sign-artifact",
+                "build-artifact"
+            ]
+        },
+        {
+            "type": "fhir-tools", 
+            "profiles": [
+                "generate-javadoc",
+                "sign-artifact",
+                "build-artifact"
+            ]
+        },
+        {
+            "type": "fhir-parent", 
+            "profiles": [
+                "generate-javadoc",
+                "sign-artifact",
+                "build-artifact",
+                "fhir-validation-distribution",
+                "fhir-ig-carin-bb",
+                "fhir-ig-davinci-pdex-formulary",
+                "fhir-ig-davinci-pdex-plan-net",
+                "fhir-ig-davinci-hrex",
+                "fhir-ig-davinci-pdex",
+                "fhir-ig-mcode",
+                "fhir-ig-us-core",
+                "fhir-term",
+                "integration",
+                "model-all-tests",
+                "validation-all-tests",
+                "search-all-tests",
+                "jdbc-all-tests"
+            ]
+        }
+    ],
+    "release_files": [
+        "fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar",
+        "fhir-persistence-schema/target/fhir-persistence-schema-*-cli.jar.asc",
+        "fhir-swagger-generator/target/fhir-swagger-generator-*-cli.jar",
+        "fhir-swagger-generator/target/fhir-swagger-generator-*-cli.jar.asc",
+        "fhir-path/target/fhir-path-*-cli.jar",
+        "fhir-path/target/fhir-path-*-cli.jar.asc",
+        "fhir-bucket/target/fhir-bucket-*-cli.jar",
+        "fhir-bucket/target/fhir-bucket-*-cli.jar.asc",
+        "fhir-validation/target/fhir-validation-distribution.zip",
+        "fhir-validation/target/fhir-validation-distribution.zip.asc",
+        "fhir-install/target/fhir-server-distribution.zip",
+        "fhir-install/target/fhir-server-distribution.zip.asc"
+    ]
+}

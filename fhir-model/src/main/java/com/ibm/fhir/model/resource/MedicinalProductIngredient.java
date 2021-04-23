@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -29,12 +30,19 @@ import com.ibm.fhir.model.type.Ratio;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * An ingredient of a manufactured item or pharmaceutical product.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductIngredient extends DomainResource {
     @Summary
@@ -59,11 +67,10 @@ public class MedicinalProductIngredient extends DomainResource {
         identifier = builder.identifier;
         role = ValidationSupport.requireNonNull(builder.role, "role");
         allergenicIndicator = builder.allergenicIndicator;
-        manufacturer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturer, "manufacturer"));
-        specifiedSubstance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specifiedSubstance, "specifiedSubstance"));
+        manufacturer = Collections.unmodifiableList(ValidationSupport.checkList(builder.manufacturer, "manufacturer", Reference.class));
+        specifiedSubstance = Collections.unmodifiableList(ValidationSupport.checkList(builder.specifiedSubstance, "specifiedSubstance", SpecifiedSubstance.class));
         substance = builder.substance;
         ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -621,7 +628,7 @@ public class MedicinalProductIngredient extends DomainResource {
             code = ValidationSupport.requireNonNull(builder.code, "code");
             group = ValidationSupport.requireNonNull(builder.group, "group");
             confidentiality = builder.confidentiality;
-            strength = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.strength, "strength"));
+            strength = Collections.unmodifiableList(ValidationSupport.checkList(builder.strength, "strength", Strength.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -988,8 +995,8 @@ public class MedicinalProductIngredient extends DomainResource {
                 concentration = builder.concentration;
                 concentrationLowLimit = builder.concentrationLowLimit;
                 measurementPoint = builder.measurementPoint;
-                country = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.country, "country"));
-                referenceStrength = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referenceStrength, "referenceStrength"));
+                country = Collections.unmodifiableList(ValidationSupport.checkList(builder.country, "country", CodeableConcept.class));
+                referenceStrength = Collections.unmodifiableList(ValidationSupport.checkList(builder.referenceStrength, "referenceStrength", ReferenceStrength.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -1467,7 +1474,7 @@ public class MedicinalProductIngredient extends DomainResource {
                     strength = ValidationSupport.requireNonNull(builder.strength, "strength");
                     strengthLowLimit = builder.strengthLowLimit;
                     measurementPoint = builder.measurementPoint;
-                    country = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.country, "country"));
+                    country = Collections.unmodifiableList(ValidationSupport.checkList(builder.country, "country", CodeableConcept.class));
                     ValidationSupport.requireValueOrChildren(this);
                 }
 
@@ -1850,7 +1857,7 @@ public class MedicinalProductIngredient extends DomainResource {
         private Substance(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
-            strength = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.strength, "strength"));
+            strength = Collections.unmodifiableList(ValidationSupport.checkList(builder.strength, "strength", MedicinalProductIngredient.SpecifiedSubstance.Strength.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 

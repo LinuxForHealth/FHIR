@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,7 +18,6 @@ import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Summary;
-import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.DayOfWeek;
 import com.ibm.fhir.model.type.code.EventTiming;
@@ -122,7 +121,7 @@ public class Timing extends BackboneElement {
 
     private Timing(Builder builder) {
         super(builder);
-        event = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.event, "event"));
+        event = Collections.unmodifiableList(ValidationSupport.checkList(builder.event, "event", DateTime.class));
         repeat = builder.repeat;
         code = builder.code;
         ValidationSupport.requireValueOrChildren(this);
@@ -504,9 +503,9 @@ public class Timing extends BackboneElement {
             period = builder.period;
             periodMax = builder.periodMax;
             periodUnit = builder.periodUnit;
-            dayOfWeek = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dayOfWeek, "dayOfWeek"));
-            timeOfDay = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.timeOfDay, "timeOfDay"));
-            when = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.when, "when"));
+            dayOfWeek = Collections.unmodifiableList(ValidationSupport.checkList(builder.dayOfWeek, "dayOfWeek", DayOfWeek.class));
+            timeOfDay = Collections.unmodifiableList(ValidationSupport.checkList(builder.timeOfDay, "timeOfDay", Time.class));
+            when = Collections.unmodifiableList(ValidationSupport.checkList(builder.when, "when", EventTiming.class));
             offset = builder.offset;
             ValidationSupport.requireValueOrChildren(this);
         }

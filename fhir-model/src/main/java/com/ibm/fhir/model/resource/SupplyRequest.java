@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -37,13 +38,20 @@ import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.RequestPriority;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.SupplyRequestStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A record of a request for a medication, substance or device used in the healthcare setting.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SupplyRequest extends DomainResource {
     @Summary
@@ -116,19 +124,19 @@ public class SupplyRequest extends DomainResource {
 
     private SupplyRequest(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = builder.status;
         category = builder.category;
         priority = builder.priority;
         item = ValidationSupport.requireChoiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
         quantity = ValidationSupport.requireNonNull(builder.quantity, "quantity");
-        parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
+        parameter = Collections.unmodifiableList(ValidationSupport.checkList(builder.parameter, "parameter", Parameter.class));
         occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
         authoredOn = builder.authoredOn;
         requester = builder.requester;
-        supplier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supplier, "supplier"));
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+        supplier = Collections.unmodifiableList(ValidationSupport.checkList(builder.supplier, "supplier", Reference.class));
+        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
+        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
         deliverFrom = builder.deliverFrom;
         deliverTo = builder.deliverTo;
         ValidationSupport.checkReferenceType(item, "item", "Medication", "Substance", "Device");
@@ -137,7 +145,6 @@ public class SupplyRequest extends DomainResource {
         ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
         ValidationSupport.checkReferenceType(deliverFrom, "deliverFrom", "Organization", "Location");
         ValidationSupport.checkReferenceType(deliverTo, "deliverTo", "Organization", "Location", "Patient");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

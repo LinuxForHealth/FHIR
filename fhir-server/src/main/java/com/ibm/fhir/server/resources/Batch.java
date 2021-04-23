@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -22,8 +21,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
-import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -43,12 +40,6 @@ import com.ibm.fhir.server.util.RestAuditLogger;
 @RequestScoped
 public class Batch extends FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(Batch.class.getName());
-
-    // The JWT of the current caller. Since this is a request scoped resource, the
-    // JWT will be injected for each JAX-RS request. The injection is performed by
-    // the mpJwt feature.
-    @Inject
-    private JsonWebToken jwt;
 
     public Batch() throws Exception {
         super();
@@ -74,7 +65,7 @@ public class Batch extends FHIRResource {
             }
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            responseBundle = helper.doBundle(inputBundle, null);
+            responseBundle = helper.doBundle(inputBundle);
             status = Status.OK;
             return Response.ok(responseBundle).build();
         } catch (FHIRRestBundledRequestException e) {

@@ -7,9 +7,10 @@
 package com.ibm.fhir.bulkdata.jbatch.export.group;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import javax.batch.api.BatchProperty;
 import javax.batch.operations.JobOperator;
@@ -28,12 +29,17 @@ import com.ibm.fhir.bulkdata.export.group.resource.GroupHandler;
 import com.ibm.fhir.bulkdata.export.patient.resource.PatientResourceHandler;
 import com.ibm.fhir.bulkdata.jbatch.context.BatchContextAdapter;
 import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
+import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Group.Member;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
 import com.ibm.fhir.operation.bulkdata.model.type.OperationFields;
+import com.ibm.fhir.search.util.ReferenceUtil;
+import com.ibm.fhir.search.util.ReferenceValue;
+import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
 
 /**
  * BulkData Group Export ChunkReader
@@ -91,7 +97,7 @@ public class ChunkReader extends com.ibm.fhir.bulkdata.jbatch.export.patient.Chu
         ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
         adapter.registerRequestContext(ctx.getTenantId(), ctx.getDatastoreId(), ctx.getIncomingUrl());
 
-        // We don't want to recreated the persistence layer, we want to reuse it.
+        // We don't want to recreate the persistence layer, we want to reuse it.
         groupHandler.register(getPersistence(), ctx.getSource());
         groupHandler.process(ctx.getGroupId());
 
@@ -110,31 +116,43 @@ public class ChunkReader extends com.ibm.fhir.bulkdata.jbatch.export.patient.Chu
                 .currentUploadResourceNum(0)
                 .currentUploadSize(0)
                 .uploadCount(1)
-                .lastPageNum(0)
+                .lastPageNum((pageOfMembers.size() + pageSize -1)/pageSize)
                 .lastWrittenPageNum(1)
                 .build();
-
-            stepCtx.setTransientUserData(chunkData);
         } else {
             chunkData.setPageNum(pageNum);
+            // do we want to support extending the last page number mid-export?
+//            chunkData.setLastPageNum((pageOfMembers.size() + pageSize -1)/pageSize);
         }
-        chunkData.setLastPageNum((pageOfMembers.size() + pageSize -1)/pageSize );
 
         ReadResultDTO dto = new ReadResultDTO();
-        if (!pageOfMembers.isEmpty()) {
-            List<String> patientIds = pageOfMembers.stream()
-                    .filter(patientRef -> patientRef != null)
-                    .map(patientRef -> patientRef.getEntity().getReference().getValue())
-                    .collect(Collectors.toList());
 
-            if (patientIds != null && !patientIds.isEmpty()) {
+        if (!pageOfMembers.isEmpty()) {
+            Set<String> patientIds = new LinkedHashSet<>();
+            String baseUrl = ReferenceUtil.getBaseUrl(null);
+            for (Member member : pageOfMembers) {
+                ReferenceValue refVal = ReferenceUtil.createReferenceValueFrom(member.getEntity(), baseUrl);
+                if (refVal.getType() != ReferenceType.LITERAL_RELATIVE ||
+                        !"Patient".equals(refVal.getTargetResourceType())) {
+                    logger.info("Skipping group member '" + refVal.getValue() + "'. "
+                            + "Only literal references to patients on this server will be exported.");
+                    continue;
+                }
+                if (refVal.getVersion() != null) {
+                    logger.info("Skipping group member '" + refVal.getValue() + "'. "
+                            + "Versioned references are not supported by Group export at this time.");
+                    continue;
+                }
+                patientIds.add(refVal.getValue());
+            }
+            if (!patientIds.isEmpty()) {
                 patientHandler.register(chunkData, ctx, getPersistence(), pageSize, resourceType, searchParametersForResoureTypes, ctx.getSource());
 
-                if ("Patient".equals(ctx.getPartitionResourceType())) {
-                    dto.setResources(groupHandler.patientIdsToPatients(patientIds));
-                } else {
-                    patientHandler.fillChunkDataBuffer(patientIds, dto);
+                List<Resource> resources = patientHandler.executeSearch(new ArrayList<>(patientIds));
+                if (FHIRMediaType.APPLICATION_PARQUET.equals(ctx.getFhirExportFormat())) {
+                    dto.setResources(resources);
                 }
+                patientHandler.fillChunkData(ctx.getFhirExportFormat(), chunkData, resources);
             }
         } else {
             logger.fine("readItem: End of reading!");

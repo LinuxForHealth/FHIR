@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -53,13 +54,20 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.RequestIntent;
 import com.ibm.fhir.model.type.code.RequestPriority;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * This resource allows for the definition of some activity to be performed, independent of a particular patient, 
  * practitioner, or other performance context.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "adf-0",
     level = "Warning",
@@ -224,7 +232,7 @@ public class ActivityDefinition extends DomainResource {
     private ActivityDefinition(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         version = builder.version;
         name = builder.name;
         title = builder.title;
@@ -234,23 +242,23 @@ public class ActivityDefinition extends DomainResource {
         subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
         purpose = builder.purpose;
         usage = builder.usage;
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.topic, "topic"));
-        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
-        editor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.editor, "editor"));
-        reviewer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reviewer, "reviewer"));
-        endorser = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endorser, "endorser"));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
-        library = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.library, "library"));
+        topic = Collections.unmodifiableList(ValidationSupport.checkList(builder.topic, "topic", CodeableConcept.class));
+        author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", ContactDetail.class));
+        editor = Collections.unmodifiableList(ValidationSupport.checkList(builder.editor, "editor", ContactDetail.class));
+        reviewer = Collections.unmodifiableList(ValidationSupport.checkList(builder.reviewer, "reviewer", ContactDetail.class));
+        endorser = Collections.unmodifiableList(ValidationSupport.checkList(builder.endorser, "endorser", ContactDetail.class));
+        relatedArtifact = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class));
+        library = Collections.unmodifiableList(ValidationSupport.checkList(builder.library, "library", Canonical.class));
         kind = builder.kind;
         profile = builder.profile;
         code = builder.code;
@@ -259,23 +267,22 @@ public class ActivityDefinition extends DomainResource {
         doNotPerform = builder.doNotPerform;
         timing = ValidationSupport.choiceElement(builder.timing, "timing", Timing.class, DateTime.class, Age.class, Period.class, Range.class, Duration.class);
         location = builder.location;
-        participant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.participant, "participant"));
+        participant = Collections.unmodifiableList(ValidationSupport.checkList(builder.participant, "participant", Participant.class));
         product = ValidationSupport.choiceElement(builder.product, "product", Reference.class, CodeableConcept.class);
         quantity = builder.quantity;
-        dosage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dosage, "dosage"));
-        bodySite = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.bodySite, "bodySite"));
-        specimenRequirement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specimenRequirement, "specimenRequirement"));
-        observationRequirement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.observationRequirement, "observationRequirement"));
-        observationResultRequirement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.observationResultRequirement, "observationResultRequirement"));
+        dosage = Collections.unmodifiableList(ValidationSupport.checkList(builder.dosage, "dosage", Dosage.class));
+        bodySite = Collections.unmodifiableList(ValidationSupport.checkList(builder.bodySite, "bodySite", CodeableConcept.class));
+        specimenRequirement = Collections.unmodifiableList(ValidationSupport.checkList(builder.specimenRequirement, "specimenRequirement", Reference.class));
+        observationRequirement = Collections.unmodifiableList(ValidationSupport.checkList(builder.observationRequirement, "observationRequirement", Reference.class));
+        observationResultRequirement = Collections.unmodifiableList(ValidationSupport.checkList(builder.observationResultRequirement, "observationResultRequirement", Reference.class));
         transform = builder.transform;
-        dynamicValue = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dynamicValue, "dynamicValue"));
+        dynamicValue = Collections.unmodifiableList(ValidationSupport.checkList(builder.dynamicValue, "dynamicValue", DynamicValue.class));
         ValidationSupport.checkReferenceType(subject, "subject", "Group");
         ValidationSupport.checkReferenceType(location, "location", "Location");
         ValidationSupport.checkReferenceType(product, "product", "Medication", "Substance");
         ValidationSupport.checkReferenceType(specimenRequirement, "specimenRequirement", "SpecimenDefinition");
         ValidationSupport.checkReferenceType(observationRequirement, "observationRequirement", "ObservationDefinition");
         ValidationSupport.checkReferenceType(observationResultRequirement, "observationResultRequirement", "ObservationDefinition");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

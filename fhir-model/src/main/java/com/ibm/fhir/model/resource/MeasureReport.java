@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -36,13 +37,20 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.MeasureReportStatus;
 import com.ibm.fhir.model.type.code.MeasureReportType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * The MeasureReport resource contains the results of the calculation of a measure; and optionally a reference to the 
  * resources involved in that calculation.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "mrp-1",
     level = "Rule",
@@ -124,7 +132,7 @@ public class MeasureReport extends DomainResource {
 
     private MeasureReport(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         status = ValidationSupport.requireNonNull(builder.status, "status");
         type = ValidationSupport.requireNonNull(builder.type, "type");
         measure = ValidationSupport.requireNonNull(builder.measure, "measure");
@@ -133,12 +141,11 @@ public class MeasureReport extends DomainResource {
         reporter = builder.reporter;
         period = ValidationSupport.requireNonNull(builder.period, "period");
         improvementNotation = builder.improvementNotation;
-        group = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.group, "group"));
-        evaluatedResource = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.evaluatedResource, "evaluatedResource"));
+        group = Collections.unmodifiableList(ValidationSupport.checkList(builder.group, "group", Group.class));
+        evaluatedResource = Collections.unmodifiableList(ValidationSupport.checkList(builder.evaluatedResource, "evaluatedResource", Reference.class));
         ValidationSupport.checkValueSetBinding(improvementNotation, "improvementNotation", "http://hl7.org/fhir/ValueSet/measure-improvement-notation", "http://terminology.hl7.org/CodeSystem/measure-improvement-notation", "increase", "decrease");
         ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "PractitionerRole", "Location", "Device", "RelatedPerson", "Group");
         ValidationSupport.checkReferenceType(reporter, "reporter", "Practitioner", "PractitionerRole", "Location", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -887,9 +894,9 @@ public class MeasureReport extends DomainResource {
         private Group(Builder builder) {
             super(builder);
             code = builder.code;
-            population = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.population, "population"));
+            population = Collections.unmodifiableList(ValidationSupport.checkList(builder.population, "population", Population.class));
             measureScore = builder.measureScore;
-            stratifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.stratifier, "stratifier"));
+            stratifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.stratifier, "stratifier", Stratifier.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1562,8 +1569,8 @@ public class MeasureReport extends DomainResource {
 
             private Stratifier(Builder builder) {
                 super(builder);
-                code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
-                stratum = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.stratum, "stratum"));
+                code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", CodeableConcept.class));
+                stratum = Collections.unmodifiableList(ValidationSupport.checkList(builder.stratum, "stratum", Stratum.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 
@@ -1869,8 +1876,8 @@ public class MeasureReport extends DomainResource {
                 private Stratum(Builder builder) {
                     super(builder);
                     value = builder.value;
-                    component = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.component, "component"));
-                    population = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.population, "population"));
+                    component = Collections.unmodifiableList(ValidationSupport.checkList(builder.component, "component", Component.class));
+                    population = Collections.unmodifiableList(ValidationSupport.checkList(builder.population, "population", Population.class));
                     measureScore = builder.measureScore;
                     ValidationSupport.requireValueOrChildren(this);
                 }

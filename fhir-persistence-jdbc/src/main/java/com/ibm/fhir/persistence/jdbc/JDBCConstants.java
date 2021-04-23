@@ -115,6 +115,9 @@ public class JDBCConstants {
     // Db2 optimization hints
     public static final String SEARCH_REOPT = "search.reopt";
 
+    // Default code_system_id value
+    public static final String DEFAULT_TOKEN_SYSTEM = "default-token-system";
+
     /**
      * Calendar object to use while inserting Timestamp objects into the database.
      */
@@ -133,9 +136,10 @@ public class JDBCConstants {
     static {
         supportedModifiersMap = new HashMap<>();
         supportedModifiersMap.put(Type.STRING, Arrays.asList(Modifier.EXACT, Modifier.CONTAINS, Modifier.MISSING));
-        supportedModifiersMap.put(Type.REFERENCE, Arrays.asList(Modifier.TYPE, Modifier.MISSING));
+        supportedModifiersMap.put(Type.REFERENCE, Arrays.asList(Modifier.TYPE, Modifier.MISSING, Modifier.IDENTIFIER));
         supportedModifiersMap.put(Type.URI, Arrays.asList(Modifier.BELOW, Modifier.ABOVE, Modifier.MISSING));
-        supportedModifiersMap.put(Type.TOKEN, Arrays.asList(Modifier.MISSING, Modifier.NOT));
+        supportedModifiersMap.put(Type.TOKEN, Arrays.asList(Modifier.MISSING, Modifier.NOT, Modifier.OF_TYPE,
+                Modifier.IN, Modifier.NOT_IN, Modifier.TEXT, Modifier.ABOVE, Modifier.BELOW));
         supportedModifiersMap.put(Type.NUMBER, Arrays.asList(Modifier.MISSING));
         supportedModifiersMap.put(Type.DATE, Arrays.asList(Modifier.MISSING));
         supportedModifiersMap.put(Type.QUANTITY, Arrays.asList(Modifier.MISSING));
@@ -148,6 +152,7 @@ public class JDBCConstants {
         modifierOperatorMap.put(Modifier.CONTAINS, LIKE);
         modifierOperatorMap.put(Modifier.EXACT, EQ);
         modifierOperatorMap.put(Modifier.NOT, EQ); // EQ since it will be within a "WHERE NOT EXISTS" subquery
+        modifierOperatorMap.put(Modifier.TEXT, LIKE);
     }
 
     private JDBCConstants() {

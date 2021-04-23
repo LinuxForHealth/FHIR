@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -29,12 +30,19 @@ import com.ibm.fhir.model.type.Population;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Indication for the Medicinal Product.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductIndication extends DomainResource {
     @Summary
@@ -62,18 +70,17 @@ public class MedicinalProductIndication extends DomainResource {
 
     private MedicinalProductIndication(Builder builder) {
         super(builder);
-        subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
+        subject = Collections.unmodifiableList(ValidationSupport.checkList(builder.subject, "subject", Reference.class));
         diseaseSymptomProcedure = builder.diseaseSymptomProcedure;
         diseaseStatus = builder.diseaseStatus;
-        comorbidity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.comorbidity, "comorbidity"));
+        comorbidity = Collections.unmodifiableList(ValidationSupport.checkList(builder.comorbidity, "comorbidity", CodeableConcept.class));
         intendedEffect = builder.intendedEffect;
         duration = builder.duration;
-        otherTherapy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.otherTherapy, "otherTherapy"));
-        undesirableEffect = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.undesirableEffect, "undesirableEffect"));
-        population = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.population, "population"));
+        otherTherapy = Collections.unmodifiableList(ValidationSupport.checkList(builder.otherTherapy, "otherTherapy", OtherTherapy.class));
+        undesirableEffect = Collections.unmodifiableList(ValidationSupport.checkList(builder.undesirableEffect, "undesirableEffect", Reference.class));
+        population = Collections.unmodifiableList(ValidationSupport.checkList(builder.population, "population", Population.class));
         ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication");
         ValidationSupport.checkReferenceType(undesirableEffect, "undesirableEffect", "MedicinalProductUndesirableEffect");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

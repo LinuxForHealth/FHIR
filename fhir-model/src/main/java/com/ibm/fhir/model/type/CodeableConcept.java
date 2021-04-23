@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,7 +32,7 @@ public class CodeableConcept extends Element {
 
     private CodeableConcept(Builder builder) {
         super(builder);
-        coding = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.coding, "coding"));
+        coding = Collections.unmodifiableList(ValidationSupport.checkList(builder.coding, "coding", Coding.class));
         text = builder.text;
         ValidationSupport.requireValueOrChildren(this);
     }

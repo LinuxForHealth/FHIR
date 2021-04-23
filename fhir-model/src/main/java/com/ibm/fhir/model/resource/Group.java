@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -38,6 +39,7 @@ import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.GroupType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -45,7 +47,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * Represents a defined collection of entities that may be discussed or acted upon collectively but which are not 
  * expected to act collectively, and are not formally or legally recognized; i.e. a collection of entities that isn't an 
  * Organization.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Constraint(
     id = "grp-1",
     level = "Rule",
@@ -92,7 +100,7 @@ public class Group extends DomainResource {
 
     private Group(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
         active = builder.active;
         type = ValidationSupport.requireNonNull(builder.type, "type");
         actual = ValidationSupport.requireNonNull(builder.actual, "actual");
@@ -100,10 +108,9 @@ public class Group extends DomainResource {
         name = builder.name;
         quantity = builder.quantity;
         managingEntity = builder.managingEntity;
-        characteristic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.characteristic, "characteristic"));
-        member = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.member, "member"));
+        characteristic = Collections.unmodifiableList(ValidationSupport.checkList(builder.characteristic, "characteristic", Characteristic.class));
+        member = Collections.unmodifiableList(ValidationSupport.checkList(builder.member, "member", Member.class));
         ValidationSupport.checkReferenceType(managingEntity, "managingEntity", "Organization", "RelatedPerson", "Practitioner", "PractitionerRole");
-        ValidationSupport.requireChildren(this);
     }
 
     /**

@@ -55,7 +55,6 @@ public class StatusOperation extends AbstractOperation {
         if (logicalId == null && versionId == null && resourceType == null) {
             String method = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_METHOD_TYPE);
             if ("DELETE".equalsIgnoreCase(method)) {
-                // Assume GET or POST
                 String job = export.checkAndValidateJob(parameters);
                 // For now, we're going to execute the status update, and check.
                 // If Base, Export Status (Else Invalid)

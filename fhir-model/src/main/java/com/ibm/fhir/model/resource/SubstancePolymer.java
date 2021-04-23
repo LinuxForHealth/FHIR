@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -27,12 +28,19 @@ import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.SubstanceAmount;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Todo.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.ValueSet.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SubstancePolymer extends DomainResource {
     @Summary
@@ -54,11 +62,10 @@ public class SubstancePolymer extends DomainResource {
         super(builder);
         clazz = builder.clazz;
         geometry = builder.geometry;
-        copolymerConnectivity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.copolymerConnectivity, "copolymerConnectivity"));
-        modification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modification, "modification"));
-        monomerSet = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.monomerSet, "monomerSet"));
-        repeat = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.repeat, "repeat"));
-        ValidationSupport.requireChildren(this);
+        copolymerConnectivity = Collections.unmodifiableList(ValidationSupport.checkList(builder.copolymerConnectivity, "copolymerConnectivity", CodeableConcept.class));
+        modification = Collections.unmodifiableList(ValidationSupport.checkList(builder.modification, "modification", String.class));
+        monomerSet = Collections.unmodifiableList(ValidationSupport.checkList(builder.monomerSet, "monomerSet", MonomerSet.class));
+        repeat = Collections.unmodifiableList(ValidationSupport.checkList(builder.repeat, "repeat", Repeat.class));
     }
 
     /**
@@ -629,7 +636,7 @@ public class SubstancePolymer extends DomainResource {
         private MonomerSet(Builder builder) {
             super(builder);
             ratioType = builder.ratioType;
-            startingMaterial = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.startingMaterial, "startingMaterial"));
+            startingMaterial = Collections.unmodifiableList(ValidationSupport.checkList(builder.startingMaterial, "startingMaterial", StartingMaterial.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1247,7 +1254,7 @@ public class SubstancePolymer extends DomainResource {
             numberOfUnits = builder.numberOfUnits;
             averageMolecularFormula = builder.averageMolecularFormula;
             repeatUnitAmountType = builder.repeatUnitAmountType;
-            repeatUnit = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.repeatUnit, "repeatUnit"));
+            repeatUnit = Collections.unmodifiableList(ValidationSupport.checkList(builder.repeatUnit, "repeatUnit", RepeatUnit.class));
             ValidationSupport.requireValueOrChildren(this);
         }
 
@@ -1597,8 +1604,8 @@ public class SubstancePolymer extends DomainResource {
                 orientationOfPolymerisation = builder.orientationOfPolymerisation;
                 repeatUnit = builder.repeatUnit;
                 amount = builder.amount;
-                degreeOfPolymerisation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.degreeOfPolymerisation, "degreeOfPolymerisation"));
-                structuralRepresentation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.structuralRepresentation, "structuralRepresentation"));
+                degreeOfPolymerisation = Collections.unmodifiableList(ValidationSupport.checkList(builder.degreeOfPolymerisation, "degreeOfPolymerisation", DegreeOfPolymerisation.class));
+                structuralRepresentation = Collections.unmodifiableList(ValidationSupport.checkList(builder.structuralRepresentation, "structuralRepresentation", StructuralRepresentation.class));
                 ValidationSupport.requireValueOrChildren(this);
             }
 

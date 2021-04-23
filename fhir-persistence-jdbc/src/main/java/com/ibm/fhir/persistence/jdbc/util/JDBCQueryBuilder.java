@@ -52,14 +52,19 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.Location;
+import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
@@ -83,9 +88,12 @@ import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.location.NearLocationHandler;
 import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.location.util.LocationUtil;
+import com.ibm.fhir.search.parameters.InclusionParameter;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.term.util.CodeSystemSupport;
+import com.ibm.fhir.term.util.ValueSetSupport;
 
 /**
  * This is the JDBC implementation of a query builder for the IBM FHIR Server
@@ -241,7 +249,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
         helper =
                 QuerySegmentAggregatorFactory.buildQuerySegmentAggregator(resourceType, offset, pageSize,
-                        this.parameterDao, this.resourceDao, searchContext, this.queryHints, this.identityCache);
+                        this.parameterDao, this.resourceDao, searchContext, false, this.queryHints, this.identityCache);
 
         // Special logic for handling LocationPosition queries. These queries have interdependencies between
         // a couple of related input query parameters
@@ -553,79 +561,108 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
         StringBuilder whereClauseSegment = new StringBuilder();
-        String operator = getOperator(queryParm, EQ);
 
-        String searchValue;
+        String codeValue;
+        Long commonTokenValueId;
+        Integer codeSystemId;
         SqlQueryData queryData;
         List<Object> bindVariables = new ArrayList<>();
+        String queryParmCode = queryParm.getCode();
+
+        // Append the suffix for :identifier modifier
+        if (Modifier.IDENTIFIER.equals(queryParm.getModifier())) {
+            queryParmCode += SearchConstants.IDENTIFIER_MODIFIER_SUFFIX;
+        }
 
         // Build this piece of the segment:
         // (P1.PARAMETER_NAME_ID = x AND
-        this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
+        this.populateNameIdSubSegment(whereClauseSegment, queryParmCode, tableAlias);
 
         whereClauseSegment.append(AND).append(LEFT_PAREN);
 
         boolean parmValueProcessed = false;
         for (QueryParameterValue value : queryParm.getValues()) {
-            String targetResourceType = null;
-            searchValue = SqlParameterEncoder.encode(value.getValueString());
 
-            // Make sure we split out the resource type if it is included in the search value
-            String[] parts = value.getValueString().split("/");
-            if (parts.length == 2) {
-                targetResourceType = parts[0];
-                searchValue = parts[1];
-            }
-
-            // Handle query parm representing this name/value pair construct:
-            // <code>{name}:{Resource Type} = {resource-id}</code>
-            if (queryParm.getModifier() != null && queryParm.getModifier().equals(Modifier.TYPE)) {
-                if (!SearchConstants.Type.REFERENCE.equals(queryParm.getType())) {
-                    // Not a Reference
-                    searchValue =
-                            queryParm.getModifierResourceTypeName() + "/"
-                                    + SqlParameterEncoder.encode(value.getValueString());
-                } else {
-                    // This is a Reference type.
-                    if (parts.length != 2) {
-                        // fallback to get the target resource type using the modifier
-                        targetResourceType = queryParm.getModifierResourceTypeName();
-                    }
-                }
-            }
+            codeValue = null;
+            commonTokenValueId = null;
+            codeSystemId = null;
 
             // If multiple values are present, we need to OR them together.
             if (parmValueProcessed) {
                 whereClauseSegment.append(OR);
+            }
+            whereClauseSegment.append(LEFT_PAREN);
+
+            if (Modifier.IDENTIFIER.equals(queryParm.getModifier())) {
+                // Include code
+                codeValue = SqlParameterEncoder.encode(value.getValueCode());
+
+                // Include system if present.
+                if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
+                    commonTokenValueId = getCommonTokenValueId(value.getValueSystem(), value.getValueCode());
+
+                    if (commonTokenValueId == null) {
+                        codeSystemId = getCodeSystemId(value.getValueSystem());
+                    }
+                }
             } else {
-                parmValueProcessed = true;
+                String targetResourceType = null;
+                codeValue = SqlParameterEncoder.encode(value.getValueString());
+
+                // Make sure we split out the resource type if it is included in the search value
+                String[] parts = value.getValueString().split("/");
+                if (parts.length == 2) {
+                    targetResourceType = parts[0];
+                    codeValue = parts[1];
+                }
+
+                // Handle query parm representing this name/value pair construct:
+                // <code>{name}:{Resource Type} = {resource-id}</code>
+                if (queryParm.getModifier() != null && queryParm.getModifier().equals(Modifier.TYPE)) {
+                    if (!SearchConstants.Type.REFERENCE.equals(queryParm.getType())) {
+                        // Not a Reference
+                        codeValue =
+                                queryParm.getModifierResourceTypeName() + "/"
+                                        + SqlParameterEncoder.encode(value.getValueString());
+                    } else {
+                        // This is a Reference type.
+                        if (parts.length != 2) {
+                            // fallback to get the target resource type using the modifier
+                            targetResourceType = queryParm.getModifierResourceTypeName();
+                        }
+                    }
+                }
+
+                // If the predicate includes a code-system it will resolve to a single value from
+                // common_token_values. It helps the query optimizer if we include this additional
+                // filter because it can make better cardinality estimates.
+                if (targetResourceType != null) {
+                    // targetResourceType is treated as the code-system for references
+                    commonTokenValueId = getCommonTokenValueId(targetResourceType, codeValue);
+
+                    // add the [optional] condition for the resource type if we have one
+                    if (commonTokenValueId == null) {
+                        codeSystemId = getCodeSystemId(targetResourceType);
+                    }
+                }
             }
 
-            // If the predicate includes a code-system it will resolve to a single value from
-            // common_token_values. It helps the query optimizer if we include this additional
-            // filter because it can make better cardinality estimates.
-            Long commonTokenValueId = null;
-            if (EQ.equals(operator) && targetResourceType != null) {
-                // targetResourceType is treated as the code-system for references
-                commonTokenValueId = getCommonTokenValueId(targetResourceType, searchValue);
-            }
+            // Build this piece: pX.token_value = search-attribute-value [ AND pX.code_system_id = <n> ]
+            whereClauseSegment.append(tableAlias).append(DOT).append(TOKEN_VALUE).append(EQ).append(BIND_VAR);
+            bindVariables.add(codeValue);
 
-            // Build this piece: pX.token_value {operator} search-attribute-value [ AND pX.code_system_id = <n> ]
-            whereClauseSegment.append(tableAlias).append(DOT).append(TOKEN_VALUE).append(operator).append(BIND_VAR);
-            bindVariables.add(searchValue);
-
-            // add the [optional] condition for the resource type if we have one
             if (commonTokenValueId != null) {
                 // #1929 improves cardinality estimation
                 // resulting in far better execution plans for many search queries. Because COMMON_TOKEN_VALUE_ID
                 // is the primary key for the common_token_values table, we don't need the CODE_SYSTEM_ID = ? predicate.
-                whereClauseSegment.append(AND).append(tableAlias).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ)
-                    .append(commonTokenValueId);
-            } else if (targetResourceType != null) {
+                whereClauseSegment.append(AND).append(tableAlias).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ).append(commonTokenValueId);
+            } else if (codeSystemId != null) {
                 // For better performance, use a literal for the resource type code-system-id, not a parameter marker
-                Integer codeSystemIdForResourceType = getCodeSystemId(targetResourceType);
-                whereClauseSegment.append(AND).append(tableAlias).append(DOT).append(CODE_SYSTEM_ID).append(EQ).append(nullCheck(codeSystemIdForResourceType));
+                whereClauseSegment.append(AND).append(tableAlias).append(DOT).append(CODE_SYSTEM_ID).append(EQ).append(nullCheck(codeSystemId));
             }
+
+            whereClauseSegment.append(RIGHT_PAREN);
+            parmValueProcessed = true;
         }
         whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
 
@@ -1023,9 +1060,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
         StringBuilder whereClauseSegment = new StringBuilder();
-        String operator = EQ;
         QueryParameter currentParm;
-        String currentParmValue;
+        List<String> currentParmValues;
         List<Object> bindVariables = new ArrayList<>();
         SqlQueryData queryData;
         SqlQueryData chainedIncQueryData;
@@ -1036,6 +1072,9 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             if (currentParm.getValues() == null || currentParm.getValues().isEmpty()) {
                 throw new FHIRPersistenceException("No Paramter values found when processing inclusion criteria.");
             }
+            currentParmValues = new ArrayList<>();
+            String resourceTypeName = null;
+
             // Handle the special case of chained inclusion criteria.
             if (currentParm.getCode().contains(DOT)) {
                 whereClauseSegment.append(LEFT_PAREN);
@@ -1044,42 +1083,69 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 bindVariables.addAll(chainedIncQueryData.getBindVariables());
                 whereClauseSegment.append(RIGHT_PAREN);
             } else {
-                currentParmValue = currentParm.getValues().get(0).getValueString();
+                for (QueryParameterValue value : currentParm.getValues()) {
+                    String valueString = value.getValueString();
+
+                    // split the resource type name out (since issue #1366)
+                    String[] parts = valueString.split("/");
+                    if (parts.length == 2) {
+                        if (resourceTypeName == null) {
+                            resourceTypeName = parts[0];
+                        } else if (!resourceTypeName.equals(parts[0])){
+                            log.warning("Resource type name must be consistent across inclusion criteria values " +
+                                    "[" + resourceTypeName + "," + parts[0] + "]");
+                        }
+                        currentParmValues.add(parts[1]);
+                    } else {
+                        log.warning("Unexpected inclusion criteria value: '" + valueString + "'. " +
+                                  "Inclusion criteria should always be of the form <compartmentName>/<id>");
+                        currentParmValues.add(valueString);
+                    }
+                }
+
                 // Build this piece:
                 // (pX.PARAMETER_NAME_ID = x AND
                 this.populateNameIdSubSegment(whereClauseSegment, currentParm.getCode(), PARAMETER_TABLE_ALIAS);
                 whereClauseSegment.append(AND);
 
-                // split the resource type name out (since issue #1366)
-                String resourceTypeName = null;
-                String[] parts = currentParmValue.split("/");
-                if (parts.length == 2) {
-                    resourceTypeName = parts[0];
-                    currentParmValue = parts[1];
-                }
-
-                // Build this piece: pX.token_value = search-attribute-value [ AND pX.code_system_id = <n> ]
-                whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(DOT).append(TOKEN_VALUE).append(operator)
-                        .append(BIND_VAR);
-                if (resourceTypeName != null) {
-
+                boolean fallback = false;
+                Set<String> commonTokenValueIds = new HashSet<>();
+                for (String currentParmValue : currentParmValues) {
                     Long commonTokenValueId = getCommonTokenValueId(resourceTypeName, currentParmValue);
-                    if (commonTokenValueId != null) {
-                        // #1929 improves cardinality estimation
-                        // resulting in far better execution plans for many search queries. Because COMMON_TOKEN_VALUE_ID
-                        // is the primary key for the common_token_values table, we don't need the CODE_SYSTEM_ID = ? predicate.
-                        whereClauseSegment.append(AND).append(PARAMETER_TABLE_ALIAS).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ)
-                            .append(commonTokenValueId);
+                    if (commonTokenValueId == null) {
+                        // Can't use the common_token_value_id optimization, so do it the old way.
+                        log.warning("Unable to obtain common token value id for " + resourceTypeName + "/" + currentParmValue);
+                        fallback = true;
+                        break;
                     } else {
-                        // Can't use the common_token_value_id optimization, so do it the old way
-                        // and join against the code-system.
-                        Integer codeSystemIdForResourceType = getCodeSystemId(resourceTypeName);
-                        whereClauseSegment.append(AND).append(PARAMETER_TABLE_ALIAS).append(DOT)
-                        .append(CODE_SYSTEM_ID).append(EQ).append(nullCheck(codeSystemIdForResourceType));
+                        commonTokenValueIds.add(commonTokenValueId.toString());
                     }
                 }
+
+                if (fallback) {
+                    // Can't use the common_token_value_id optimization, so do it the old way.
+                    // pX.token_value IN (val1, val2, ...) [ AND pX.code_system_id = n ]
+                    whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(DOT).append(TOKEN_VALUE)
+                            .append(IN).append(LEFT_PAREN)
+                            .append(String.join(", ", Collections.nCopies(currentParmValues.size(), BIND_VAR)))
+                            .append(RIGHT_PAREN);
+                    Integer codeSystemIdForResourceType = getCodeSystemId(resourceTypeName);
+                    whereClauseSegment.append(AND).append(PARAMETER_TABLE_ALIAS).append(DOT)
+                    .append(CODE_SYSTEM_ID).append(EQ).append(nullCheck(codeSystemIdForResourceType));
+                    for (String currentParmValue : currentParmValues) {
+                        bindVariables.add(currentParmValue);
+                    }
+                } else {
+                    // #1929 improves cardinality estimation
+                    // resulting in far better execution plans for many search queries. Because COMMON_TOKEN_VALUE_ID
+                    // is the primary key for the common_token_values table, we don't need the CODE_SYSTEM_ID = ? predicate.
+                    whereClauseSegment.append(PARAMETER_TABLE_ALIAS).append(DOT).append(COMMON_TOKEN_VALUE_ID)
+                        .append(IN).append(LEFT_PAREN)
+                        .append(String.join(", ", String.join(",", commonTokenValueIds)))
+                        .append(RIGHT_PAREN);
+                }
+
                 whereClauseSegment.append(RIGHT_PAREN);
-                bindVariables.add(currentParmValue);
             }
 
             currentParm = currentParm.getNextParameter();
@@ -1131,12 +1197,18 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         StringBuilder whereClauseSegment = new StringBuilder();
         String operator = this.getOperator(queryParm, EQ);
         boolean parmValueProcessed = false;
+        boolean appendEscape;
         SqlQueryData queryData;
         List<Object> bindVariables = new ArrayList<>();
         String tableAlias = paramTableAlias;
+        String queryParmCode = queryParm.getCode();
 
-        String code = queryParm.getCode();
-        if (!QuerySegmentAggregator.ID.equals(code)) {
+        if (!QuerySegmentAggregator.ID.equals(queryParmCode)) {
+
+            // Append the suffix for :text modifier
+            if (Modifier.TEXT.equals(queryParm.getModifier())) {
+                queryParmCode += SearchConstants.TEXT_MODIFIER_SUFFIX;
+            }
 
             // Only generate NOT EXISTS subquery if :not modifier is within chained query;
             // when :not modifier is within non-chained query QuerySegmentAggregator.buildWhereClause generates the NOT EXISTS subquery
@@ -1152,46 +1224,69 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
             // Build this piece of the segment:
             // (P1.PARAMETER_NAME_ID = x AND
-            this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), tableAlias);
+            this.populateNameIdSubSegment(whereClauseSegment, queryParmCode, tableAlias);
 
             whereClauseSegment.append(AND).append(LEFT_PAREN);
             for (QueryParameterValue value : queryParm.getValues()) {
+                appendEscape = false;
+
                 // If multiple values are present, we need to OR them together.
                 if (parmValueProcessed) {
                     whereClauseSegment.append(OR);
                 }
 
                 whereClauseSegment.append(LEFT_PAREN);
-                // Include code
-                whereClauseSegment.append(tableAlias + DOT).append(TOKEN_VALUE).append(operator).append(BIND_VAR);
-                bindVariables.add(SqlParameterEncoder.encode(value.getValueCode()));
 
-                // Include system if present.
-                if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
-                    Long commonTokenValueId = null;
-                    if (NE.equals(operator)) {
-                        whereClauseSegment.append(OR);
+                if (Modifier.IN.equals(queryParm.getModifier()) || Modifier.NOT_IN.equals(queryParm.getModifier()) ||
+                        Modifier.ABOVE.equals(queryParm.getModifier()) || Modifier.BELOW.equals(queryParm.getModifier())) {
+                    populateCodesSubSegment(whereClauseSegment, queryParm.getModifier(), value, tableAlias);
+                } else {
+                    // Include code
+                    whereClauseSegment.append(tableAlias + DOT).append(TOKEN_VALUE).append(operator).append(BIND_VAR);
+                    if (LIKE.equals(operator)) {
+                        // Must escape special wildcard characters _ and % in the parameter value string.
+                        String textSearchString = SqlParameterEncoder.encode(value.getValueCode())
+                                .replace(PERCENT_WILDCARD, ESCAPE_PERCENT)
+                                .replace(UNDERSCORE_WILDCARD, ESCAPE_UNDERSCORE) + PERCENT_WILDCARD;
+                        bindVariables.add(SearchUtil.normalizeForSearch(textSearchString));
+                        appendEscape = true;
                     } else {
-                        whereClauseSegment.append(AND);
-
-                        // use #1929 optimization if we can
-                        commonTokenValueId = getCommonTokenValueId(value.getValueSystem(), value.getValueCode());
+                        bindVariables.add(SqlParameterEncoder.encode(value.getValueCode()));
                     }
 
-                    if (commonTokenValueId != null) {
-                        // #1929 improves cardinality estimation
-                        // resulting in far better execution plans for many search queries. Because COMMON_TOKEN_VALUE_ID
-                        // is the primary key for the common_token_values table, we don't need the CODE_SYSTEM_ID = ? predicate.
-                        whereClauseSegment.append(tableAlias).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ)
+                    // Include system if present.
+                    if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
+                        Long commonTokenValueId = null;
+                        if (NE.equals(operator)) {
+                            whereClauseSegment.append(OR);
+                        } else {
+                            whereClauseSegment.append(AND);
+
+                            // use #1929 optimization if we can
+                            commonTokenValueId = getCommonTokenValueId(value.getValueSystem(), value.getValueCode());
+                        }
+
+                        if (commonTokenValueId != null) {
+                            // #1929 improves cardinality estimation
+                            // resulting in far better execution plans for many search queries. Because COMMON_TOKEN_VALUE_ID
+                            // is the primary key for the common_token_values table, we don't need the CODE_SYSTEM_ID = ? predicate.
+                            whereClauseSegment.append(tableAlias).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ)
                             .append(commonTokenValueId);
-                    } else {
-                        // common token value not found so we can't use the optimization. Filter the code-system-id
-                        // instead, which ends up being the logical equivalent.
-                        Integer codeSystemId = identityCache.getCodeSystemId(value.getValueSystem());
-                        whereClauseSegment.append(tableAlias).append(DOT).append(CODE_SYSTEM_ID).append(operator)
-                        .append(nullCheck(codeSystemId));
+                        } else {
+                            // common token value not found so we can't use the optimization. Filter the code-system-id
+                            // instead, which ends up being the logical equivalent.
+                            Integer codeSystemId = identityCache.getCodeSystemId(value.getValueSystem());
+                            whereClauseSegment.append(tableAlias).append(DOT).append(CODE_SYSTEM_ID).append(operator)
+                            .append(nullCheck(codeSystemId));
+                        }
                     }
                 }
+
+                // Build this piece: ESCAPE '+'
+                if (appendEscape) {
+                    whereClauseSegment.append(ESCAPE_EXPR);
+                }
+
                 whereClauseSegment.append(RIGHT_PAREN);
                 parmValueProcessed = true;
             }
@@ -1846,6 +1941,105 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
         log.exiting(CLASSNAME, METHODNAME);
         return queryData;
+    }
+
+    /**
+     * Builds a query that returns included resources.
+     *
+     * @param resourceType  - the type of resource being searched for.
+     * @param searchContext - the search context containing the search parameters.
+     * @param inclusionParm - the inclusion parameter for which the query is being built.
+     * @param ids           - the set of logical resource IDs the query will run against.
+     * @param inclusionType - either INCLUDE or REVINCLUDE.
+     * @return SqlQueryData the populated inclusion query
+     * @throws Exception
+     */
+    public SqlQueryData buildIncludeQuery(Class<?> resourceType, FHIRSearchContext searchContext,
+            InclusionParameter inclusionParm, Set<String> ids, String inclusionType) throws Exception {
+        final String METHODNAME = "buildIncludeQuery";
+        log.entering(CLASSNAME, METHODNAME);
+
+        SqlQueryData query = null;
+        InclusionQuerySegmentAggregator helper =
+                (InclusionQuerySegmentAggregator) QuerySegmentAggregatorFactory.buildQuerySegmentAggregator(resourceType, 0,
+                    SearchConstants.MAX_PAGE_SIZE + 1, this.parameterDao, this.resourceDao, searchContext, true, this.queryHints, this.identityCache);
+
+        if (helper != null) {
+            query = helper.buildIncludeQuery(inclusionParm, ids, inclusionType);
+        }
+
+        log.exiting(CLASSNAME, METHODNAME);
+        return query;
+    }
+
+    /**
+     * Builds an SQL segment which populates an IN clause with codes for a token search parameter
+     * specifying the :in, :not-in, :above, or :below modifier.
+     *
+     * @param whereClauseSegment  - the segment to which the sub-segment will be added
+     * @param modifier            - the search parameter modifier (:in | :not-in | :above | :below)
+     * @param parameterValue      - the search parameter value - a ValueSet URL or a CodeSystem URL + code
+     * @param parameterTableAlias - the alias for the parameter table e.g. CPx
+     * @throws FHIRPersistenceException
+     */
+    private void populateCodesSubSegment(StringBuilder whereClauseSegment, Modifier modifier,
+            QueryParameterValue parameterValue, String parameterTableAlias) throws FHIRPersistenceException {
+        final String METHODNAME = "populateCodesSubSegment";
+        log.entering(CLASSNAME, METHODNAME, parameterValue);
+
+        String tokenValuePredicateString = parameterTableAlias + DOT + TOKEN_VALUE + IN + LEFT_PAREN;
+        String codeSystemIdPredicateString = parameterTableAlias + DOT + CODE_SYSTEM_ID + EQ;
+        boolean codeSystemProcessed = false;
+
+        // Get the codes to populate the IN clause.
+        // Note: validation of the value set or the code system + code specified in parameterValue
+        // was done when the search parameter was parsed, so does not need to be done here.
+        Map<String, Set<String>> codeSetMap = null;
+        if (Modifier.IN.equals(modifier) || Modifier.NOT_IN.equals(modifier)) {
+            codeSetMap = ValueSetSupport.getCodeSetMap(ValueSetSupport.getValueSet(parameterValue.getValueCode()));
+        } else if (Modifier.ABOVE.equals(modifier) || Modifier.BELOW.equals(modifier)) {
+            CodeSystem codeSystem = CodeSystemSupport.getCodeSystem(parameterValue.getValueSystem());
+            Code code = Code.builder().value(parameterValue.getValueCode()).build();
+            Set<String> codes;
+            if (Modifier.ABOVE.equals(modifier)) {
+                codes = CodeSystemSupport.getAncestorsAndSelf(codeSystem, code);
+            } else {
+                codes = CodeSystemSupport.getDescendantsAndSelf(codeSystem, code);
+            }
+            codeSetMap = Collections.singletonMap(parameterValue.getValueSystem(), codes);
+        }
+
+        // Build the SQL
+        for (String codeSetUrl : codeSetMap.keySet()) {
+            Set<String> codes = codeSetMap.get(codeSetUrl);
+            if (codes != null) {
+                // Strip version from canonical codeSet URL. We don't store version in TOKEN_VALUES
+                // table so will just ignore it.
+                int index = codeSetUrl.lastIndexOf("|");
+                if (index != -1) {
+                    codeSetUrl = codeSetUrl.substring(0, index);
+                }
+
+                if (codeSystemProcessed) {
+                    whereClauseSegment.append(OR);
+                }
+
+                // TODO: switch to use COMMON_TOKEN_VALUES support -dependent on issue #2184
+
+                // <parameterTableAlias>.TOKEN_VALUE IN (...)
+                whereClauseSegment.append(tokenValuePredicateString)
+                    .append("'").append(String.join("','", codes)).append("'")
+                    .append(RIGHT_PAREN);
+
+                // AND <parameterTableAlias>.CODE_SYSTEM_ID = {n}
+                whereClauseSegment.append(AND).append(codeSystemIdPredicateString)
+                    .append(nullCheck(identityCache.getCodeSystemId(codeSetUrl)));
+
+                codeSystemProcessed = true;
+            }
+        }
+
+        log.exiting(CLASSNAME, METHODNAME);
     }
 
 }
