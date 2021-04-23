@@ -262,27 +262,29 @@ public class FHIRServletContextListener implements ServletContextListener {
 
             // Configure graph term service providers
             Object[] graphTermServiceProvidersArray = termPropertyGroup.getArrayProperty("graphTermServiceProviders");
-            for (Object graphTermServiceProviderObject : graphTermServiceProvidersArray) {
-                PropertyGroup graphTermServiceProviderPropertyGroup = (PropertyGroup) graphTermServiceProviderObject;
-                Boolean enabled = graphTermServiceProviderPropertyGroup.getBooleanProperty("enabled", Boolean.FALSE);
-                if (!enabled) {
-                    continue;
-                }
-                try {
-                    log.info("Adding GraphTermServiceProvider...");
-                    PropertyGroup configurationPropertyGroup = graphTermServiceProviderPropertyGroup.getPropertyGroup("configuration");
-                    if (configurationPropertyGroup == null) {
-                        log.log(Level.WARNING, "GraphTermServiceProvider configuration not found");
-                    } else {
-                        Map<String, Object> map = new HashMap<>();
-                        configurationPropertyGroup.getProperties().stream().forEach(entry -> map.put(entry.getName(), entry.getValue()));
-                        int timeLimit = graphTermServiceProviderPropertyGroup.getIntProperty("timeLimit", GraphTermServiceProvider.DEFAULT_TIME_LIMIT);
-                        GraphTermServiceProvider graphTermServiceProvider = new GraphTermServiceProvider(new MapConfiguration(map), timeLimit);
-                        FHIRTermService.getInstance().addProvider(cachingDisabled ? graphTermServiceProvider : CachingProxy.newInstance(FHIRTermServiceProvider.class, graphTermServiceProvider));
-                        graphTermServiceProviders.add(graphTermServiceProvider);
+            if (graphTermServiceProvidersArray != null) {
+                for (Object graphTermServiceProviderObject : graphTermServiceProvidersArray) {
+                    PropertyGroup graphTermServiceProviderPropertyGroup = (PropertyGroup) graphTermServiceProviderObject;
+                    Boolean enabled = graphTermServiceProviderPropertyGroup.getBooleanProperty("enabled", Boolean.FALSE);
+                    if (!enabled) {
+                        continue;
                     }
-                } catch (Exception e) {
-                    log.log(Level.WARNING, "Unable to create GraphTermServiceProvider from configuration property group: " + graphTermServiceProviderPropertyGroup, e);
+                    try {
+                        log.info("Adding GraphTermServiceProvider...");
+                        PropertyGroup configurationPropertyGroup = graphTermServiceProviderPropertyGroup.getPropertyGroup("configuration");
+                        if (configurationPropertyGroup == null) {
+                            log.log(Level.WARNING, "GraphTermServiceProvider configuration not found");
+                        } else {
+                            Map<String, Object> map = new HashMap<>();
+                            configurationPropertyGroup.getProperties().stream().forEach(entry -> map.put(entry.getName(), entry.getValue()));
+                            int timeLimit = graphTermServiceProviderPropertyGroup.getIntProperty("timeLimit", GraphTermServiceProvider.DEFAULT_TIME_LIMIT);
+                            GraphTermServiceProvider graphTermServiceProvider = new GraphTermServiceProvider(new MapConfiguration(map), timeLimit);
+                            FHIRTermService.getInstance().addProvider(cachingDisabled ? graphTermServiceProvider : CachingProxy.newInstance(FHIRTermServiceProvider.class, graphTermServiceProvider));
+                            graphTermServiceProviders.add(graphTermServiceProvider);
+                        }
+                    } catch (Exception e) {
+                        log.log(Level.WARNING, "Unable to create GraphTermServiceProvider from configuration property group: " + graphTermServiceProviderPropertyGroup, e);
+                    }
                 }
             }
 
