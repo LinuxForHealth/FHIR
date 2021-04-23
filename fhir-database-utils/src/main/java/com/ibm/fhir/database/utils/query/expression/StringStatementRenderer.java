@@ -14,6 +14,7 @@ import static com.ibm.fhir.database.utils.query.SqlConstants.WHERE;
 import java.util.List;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.query.FromClause;
 import com.ibm.fhir.database.utils.query.FromItem;
 import com.ibm.fhir.database.utils.query.GroupByClause;
@@ -22,6 +23,8 @@ import com.ibm.fhir.database.utils.query.OrderByClause;
 import com.ibm.fhir.database.utils.query.PaginationClause;
 import com.ibm.fhir.database.utils.query.SelectList;
 import com.ibm.fhir.database.utils.query.WhereClause;
+import com.ibm.fhir.database.utils.query.node.BindMarkerNode;
+import com.ibm.fhir.database.utils.query.node.ExpNode;
 
 /**
  * Helps to render a select statement as a string
@@ -39,65 +42,70 @@ public class StringStatementRenderer implements StatementRenderer<String> {
     // pretty-print the statement for easier debug
     private final boolean pretty;
 
+    // For collecting parameter markers seen when rendering the statement
+    private final List<BindMarkerNode> collectBindMarkersInto;
+
     /**
      * Public constructor
      * @param translator
      */
-    public StringStatementRenderer(IDatabaseTranslator translator, boolean pretty) {
+    public StringStatementRenderer(IDatabaseTranslator translator, List<BindMarkerNode> collectBindMarkersInto, boolean pretty) {
         this.translator = translator;
+        this.collectBindMarkersInto = collectBindMarkersInto;
         this.pretty = pretty;
     }
 
     @Override
     public String and(String left, String right) {
         StringBuilder result = new StringBuilder();
-        result.append(left);
-        result.append(" AND ");
-        result.append(right);
+//        result.append(left);
+//        result.append(" AND ");
+//        result.append(right);
         return result.toString();
     }
 
     @Override
     public String or(String left, String right) {
         StringBuilder result = new StringBuilder();
-        result.append(left);
-        result.append(" OR ");
-        result.append(right);
+//        result.append(left);
+//        result.append(" OR ");
+//        result.append(right);
         return result.toString();
     }
 
     @Override
     public String equals(String left, String right) {
-        StringBuilder result = new StringBuilder();
-        result.append(left);
-        result.append(" = ");
-        result.append(right);
-        return result.toString();
+        throw new IllegalStateException("not supported");
+//        StringBuilder result = new StringBuilder();
+//        result.append(left);
+//        result.append(" = ");
+//        result.append(right);
+//        return result.toString();
     }
 
     @Override
     public String notEquals(String left, String right) {
         StringBuilder result = new StringBuilder();
-        result.append(left);
-        result.append(" != ");
-        result.append(right);
+//        result.append(left);
+//        result.append(" != ");
+//        result.append(right);
         return result.toString();
     }
 
     @Override
     public String not(String param) {
         StringBuilder result = new StringBuilder();
-        result.append("NOT ");
-        result.append(param);
+//        result.append("NOT ");
+//        result.append(param);
         return result.toString();
     }
 
     @Override
     public String exists(String statement) {
         StringBuilder result = new StringBuilder();
-        result.append("EXISTS (");
-        result.append(statement);
-        result.append(")");
+//        result.append("EXISTS (");
+//        result.append(statement);
+//        result.append(")");
         return result.toString();
     }
 
@@ -105,7 +113,7 @@ public class StringStatementRenderer implements StatementRenderer<String> {
     public String select(SelectList selectList, FromClause fromClause, WhereClause whereClause, GroupByClause groupByClause, HavingClause havingClause,
         OrderByClause orderByClause, PaginationClause paginationClause) {
 
-        StringExpNodeVisitor whereClauseRenderer = new StringExpNodeVisitor(this.pretty);
+        StringExpNodeVisitor whereClauseRenderer = new StringExpNodeVisitor(this.translator, this.collectBindMarkersInto, this.pretty);
 
         StringBuilder result = new StringBuilder();
         if (this.pretty) {
@@ -122,9 +130,9 @@ public class StringStatementRenderer implements StatementRenderer<String> {
 
         if (whereClause != null) {
             if (this.pretty) {
-                result.append(NEWLINE).append("       ");
+                result.append(NEWLINE).append("      ");
             }
-            result.append(WHERE);
+            result.append(SPACE).append(WHERE);
             result.append(SPACE).append(whereClause.visit(whereClauseRenderer));
         }
 
@@ -193,7 +201,7 @@ public class StringStatementRenderer implements StatementRenderer<String> {
     public String from(List<FromItem> items) {
         StringBuilder result = new StringBuilder();
         FromItem element = items.get(0);
-        result.append(fromItem(element));
+        result.append(element.render(this));
         for (int i=1; i<items.size(); i++) {
             FromItem nextElement = items.get(i);
             if (nextElement.isAnsiJoin()) {
@@ -207,7 +215,7 @@ public class StringStatementRenderer implements StatementRenderer<String> {
                     result.append(NEWLINE).append("             ");
                 }
             }
-            result.append(fromItem(nextElement));
+            result.append(nextElement.render(this));
         }
         return result.toString();
     }
@@ -215,5 +223,78 @@ public class StringStatementRenderer implements StatementRenderer<String> {
     @Override
     public String fromItem(FromItem item) {
         return item.toPrettyString(this.pretty);
+    }
+
+    @Override
+    public String rowSource(String sub) {
+        StringBuilder result = new StringBuilder();
+        result.append("(");
+        result.append(sub);
+        result.append(")");
+        return result.toString();
+    }
+
+    @Override
+    public String fromItem(String subValue, String aliasValue) {
+        StringBuilder result = new StringBuilder();
+        result.append(subValue);
+
+        if (aliasValue != null) {
+            result.append(" AS ");
+            result.append(aliasValue);
+        }
+        return result.toString();
+    }
+
+    @Override
+    public String alias(String alias) {
+        return alias;
+    }
+
+    @Override
+    public String rowSource(String schemaName, String tableName) {
+        // schema name is optional
+        if (schemaName == null) {
+            return DataDefinitionUtil.assertValidName(tableName);
+        }
+        return DataDefinitionUtil.getQualifiedName(schemaName, tableName);
+    }
+
+    @Override
+    public String render(ExpNode expression) {
+        // Render the expression node as a string making sure we collect any
+        // bind markers we happen to come across along the way
+        StringExpNodeVisitor sv = new StringExpNodeVisitor(this.translator, this.collectBindMarkersInto, this.pretty);
+        return expression.visit(sv);
+    }
+
+    @Override
+    public String innerJoin(String joinFromValue, String joinOnValue) {
+        StringBuilder result = new StringBuilder();
+        result.append("INNER JOIN ");
+        result.append(joinFromValue);
+        result.append(" ON ");
+        result.append(joinOnValue);
+        return result.toString();
+    }
+
+    @Override
+    public String outerJoin(String joinFromValue, String joinOnValue) {
+        StringBuilder result = new StringBuilder();
+        result.append("OUTER JOIN ");
+        result.append(joinFromValue);
+        result.append(" ON ");
+        result.append(joinOnValue);
+        return result.toString();
+    }
+
+    @Override
+    public String fullOuterJoin(String joinFromValue, String joinOnValue) {
+        StringBuilder result = new StringBuilder();
+        result.append("FULL OUTER JOIN ");
+        result.append(joinFromValue);
+        result.append(" ON ");
+        result.append(joinOnValue);
+        return result.toString();
     }
 }

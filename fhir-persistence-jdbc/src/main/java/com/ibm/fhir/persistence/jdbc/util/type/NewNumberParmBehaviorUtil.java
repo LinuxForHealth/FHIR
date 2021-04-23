@@ -42,10 +42,6 @@ public class NewNumberParmBehaviorUtil {
     public static void executeBehavior(WhereFragment whereClauseSegment, QueryParameter queryParm,
             String tableAlias)
             throws FHIRPersistenceException {
-        // If there are multiple parameter values, these will be OR'd together, so we
-        // need to paren the whole statement.
-        // Query: AND (
-        whereClauseSegment.and().leftParen();
 
         // Process each parameter value in the query parameter
         boolean parmValueProcessed = false;
@@ -77,9 +73,6 @@ public class NewNumberParmBehaviorUtil {
                 addValue(whereClauseSegment, tableAlias, NUMBER_VALUE, prefix, value.getValueNumber());
             }
         }
-
-        // ...)
-        whereClauseSegment.rightParen();
     }
 
     /**
@@ -240,11 +233,11 @@ public class NewNumberParmBehaviorUtil {
 
         whereClauseSegment.leftParen();
         whereClauseSegment.col(tableAlias, columnBase).lt().bind(lowerBound);
-        whereClauseSegment.and();
+        whereClauseSegment.or();
         whereClauseSegment.col(tableAlias, columnBase).gte().bind(upperBound);
         whereClauseSegment.or();
         whereClauseSegment.col(tableAlias, columnBase + _LOW).lt().bind(lowerBound);
-        whereClauseSegment.and();
+        whereClauseSegment.or();
         whereClauseSegment.col(tableAlias, columnBase + _HIGH).gt().bind(upperBound);
         whereClauseSegment.rightParen();
     }

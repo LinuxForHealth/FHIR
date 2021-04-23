@@ -11,6 +11,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.database.utils.query.node.BigDecimalBindMarkerNode;
 import com.ibm.fhir.database.utils.query.node.BindMarkerNode;
@@ -34,16 +35,20 @@ public class StringExpNodeVisitor implements ExpNodeVisitor<String> {
 
     public static final String NEWLINE = System.lineSeparator();
 
+    private final IDatabaseTranslator translator;
+
     /**
      * Simple rendering of the expression tree to a string, ignoring
      * the bind marker values
      */
     public StringExpNodeVisitor() {
+        this.translator = null;
         this.bindMarkers = null;
         this.pretty = false;
     }
 
     public StringExpNodeVisitor(boolean pretty) {
+        this.translator = null;
         this.bindMarkers = null;
         this.pretty = pretty;
     }
@@ -52,9 +57,10 @@ public class StringExpNodeVisitor implements ExpNodeVisitor<String> {
      * Collect the bind marker values into the given list
      * @param collectBindMarkersInto
      */
-    public StringExpNodeVisitor(List<BindMarkerNode> collectBindMarkersInto) {
+    public StringExpNodeVisitor(IDatabaseTranslator translator, List<BindMarkerNode> collectBindMarkersInto, boolean pretty) {
+        this.translator = translator;
         this.bindMarkers = collectBindMarkersInto;
-        this.pretty = false;
+        this.pretty = pretty;
     }
 
     /**
@@ -348,14 +354,8 @@ public class StringExpNodeVisitor implements ExpNodeVisitor<String> {
 
     @Override
     public String select(Select select) {
-        // We need to continue visiting the select (to capture bind variables)
-        if (bindMarkers != null) {
-            select.visit(this);
-        }
-
         // Render the sub-statement as a string
-        // TODO this should all be one render
-        StringStatementRenderer renderer = new StringStatementRenderer(null, pretty);
+        StringStatementRenderer renderer = new StringStatementRenderer(this.translator, this.bindMarkers, pretty);
         return select.render(renderer);
     }
 

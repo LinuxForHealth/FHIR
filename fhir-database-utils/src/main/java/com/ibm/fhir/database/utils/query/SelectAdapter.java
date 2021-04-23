@@ -52,7 +52,7 @@ public class SelectAdapter {
      * @return
      */
     public FromAdapter from(String tableName, Alias alias) {
-        select.addTable(null, tableName, alias);
+        select.addTable(tableName, alias);
         return new FromAdapter(select);
     }
 

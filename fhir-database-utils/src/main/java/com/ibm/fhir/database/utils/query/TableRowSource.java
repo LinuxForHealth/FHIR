@@ -6,6 +6,9 @@
 
 package com.ibm.fhir.database.utils.query;
 
+import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
+import com.ibm.fhir.database.utils.query.expression.StatementRenderer;
+
 /**
  * Represents a table referenced in the from list
  */
@@ -22,6 +25,7 @@ public class TableRowSource implements RowSource {
      * @param tableName
      */
     protected TableRowSource(String tableName) {
+        DataDefinitionUtil.assertValidName(tableName);
         this.schemaName = null;
         this.tableName  = tableName;
     }
@@ -40,6 +44,8 @@ public class TableRowSource implements RowSource {
      * @param alias
      */
     protected TableRowSource(String schemaName, String tableName) {
+        DataDefinitionUtil.assertValidName(schemaName);
+        DataDefinitionUtil.assertValidName(tableName);
         this.schemaName = schemaName;
         this.tableName  = tableName;
     }
@@ -59,5 +65,10 @@ public class TableRowSource implements RowSource {
     @Override
     public String toPrettyString(boolean pretty) {
         return toString();
+    }
+
+    @Override
+    public <T> T render(StatementRenderer<T> renderer) {
+        return renderer.rowSource(schemaName, tableName);
     }
 }

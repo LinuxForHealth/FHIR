@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.database.utils.query;
 
+import com.ibm.fhir.database.utils.query.expression.StatementRenderer;
 
 /**
  * A table, values or subselect statement which can be included
@@ -27,4 +28,12 @@ public interface RowSource {
      * @return
      */
     String toPrettyString(boolean pretty);
+
+    /**
+     * Render the row source
+     * @param <T>
+     * @param renderer
+     * @return
+     */
+    <T> T render(StatementRenderer<T> renderer);
 }

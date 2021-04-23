@@ -31,7 +31,7 @@ public class FromAdapter {
      * @return
      */
     public FromAdapter from(String tableName) {
-        this.select.addTable(null, tableName);
+        this.select.addTable(tableName);
         return this;
     }
 

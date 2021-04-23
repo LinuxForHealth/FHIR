@@ -133,4 +133,8 @@ public class ExpressionUtils {
     public static ExpNode acos(ExpNode arg) {
         return new ACosExpNode(arg);
     }
+
+    public static ExpNode isDeleted(String alias) {
+        return new WhereFragment().col(alias, "IS_DELETED").eq(string("N")).getExpression();
+    }
 }

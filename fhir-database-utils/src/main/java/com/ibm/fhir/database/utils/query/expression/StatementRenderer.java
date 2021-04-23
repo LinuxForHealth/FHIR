@@ -16,6 +16,7 @@ import com.ibm.fhir.database.utils.query.OrderByClause;
 import com.ibm.fhir.database.utils.query.PaginationClause;
 import com.ibm.fhir.database.utils.query.SelectList;
 import com.ibm.fhir.database.utils.query.WhereClause;
+import com.ibm.fhir.database.utils.query.node.ExpNode;
 
 /**
  * Defines the contract for rendering statements. Can be used to address
@@ -82,4 +83,49 @@ public interface StatementRenderer<T> {
      * @return
      */
     T fromItem(FromItem item);
+    /**
+     * @param sub
+     * @return
+     */
+    T rowSource(T sub);
+    /**
+     * @param subValue
+     * @param aliasValue
+     * @return
+     */
+    T fromItem(T subValue, T aliasValue);
+    /**
+     * @param alias
+     * @return
+     */
+    T alias(String alias);
+    /**
+     * @param schemaName
+     * @param tableName
+     * @return
+     */
+    T rowSource(String schemaName, String tableName);
+    /**
+     * @param joinOnPredicate
+     * @return
+     */
+    T render(ExpNode joinOnPredicate);
+    /**
+     * @param joinFromValue
+     * @param joinOnValue
+     * @return
+     */
+    T innerJoin(T joinFromValue, T joinOnValue);
+    /**
+     * @param joinFromValue
+     * @param joinOnValue
+     * @return
+     */
+    T outerJoin(T joinFromValue, T joinOnValue);
+    /**
+     * @param joinFromValue
+     * @param joinOnValue
+     * @return
+     */
+    T fullOuterJoin(T joinFromValue, T joinOnValue);
 }

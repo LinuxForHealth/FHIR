@@ -14,10 +14,16 @@ import static org.testng.Assert.assertEquals;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.database.utils.derby.DerbyTranslator;
+import com.ibm.fhir.database.utils.query.expression.StringStatementRenderer;
+
 /**
  * Some basic tests to exercise the query and expression model.
  */
 public class QueryTest {
+    // Assume Derby for the purposes of these unit-tests
+    private static final DerbyTranslator TRANSLATOR = new DerbyTranslator();
+
     // Some constants we use when testing the query build
     public static final String FOO_TAB = "FOO_TAB";
     public static final String FOO_ID = "FOO_ID";
@@ -71,8 +77,9 @@ public class QueryTest {
                 .build();
 
         // What our statement should look like
+        StringStatementRenderer renderer = new StringStatementRenderer(TRANSLATOR, null, false);
         final String SQL = "SELECT * FROM (SELECT FOO_ID FROM FOO_TAB) AS sub";
-        assertEquals(query.toString(), SQL);
+        assertEquals(query.render(renderer), SQL);
     }
 
     @Test

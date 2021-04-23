@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.database.utils.query;
 
+import com.ibm.fhir.database.utils.query.expression.StatementRenderer;
+
 /**
  * An element in the FROM clause
  */
@@ -26,18 +28,16 @@ public class FromItem {
         this.alias = alias;
     }
 
+    protected FromItem(RowSource rowSource) {
+        this.rowSource = rowSource;
+        this.alias = null;
+    }
+
     /**
      * Get the alias associated with this item in the from clause.
      * @return the alias for this item. Can be null
      */
     public Alias getAlias() {
-        Alias result = this.alias;
-
-        if (result == null) {
-            // Use the alias from the row source if we don't have one already
-            result = rowSource.getImpliedAlias();
-        }
-
         // can be null
         return this.alias;
     }
@@ -66,5 +66,19 @@ public class FromItem {
         }
 
         return result.toString();
+    }
+
+    public <T> T render(StatementRenderer<T> renderer) {
+        T subValue = this.rowSource.render(renderer);
+        T aliasValue = null;
+
+        // the alias can be null - it's not always needed, but recommended
+        Alias aliasName = getAlias();
+        if (aliasName != null) {
+            aliasValue = aliasName.render(renderer);
+        }
+
+        // aliasValue may be null
+        return renderer.fromItem(subValue, aliasValue);
     }
 }

@@ -184,8 +184,11 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         exists.from().where().and(filter);
 
         // Add the exists sub-query we just built to the where clause of the main query
-        query.from().where().and().exists(exists.build());
-
+        if (queryParm.getModifier() == Modifier.NOT) {
+            query.from().where().and().notExists(exists.build());
+        } else {
+            query.from().where().and().exists(exists.build());
+        }
         // Return the exists sub-query in case there's a need to recurse lower
         return new QueryData(exists, aliasIndex, resourceType);
     }
@@ -216,7 +219,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             final String codeSystem = pv.getValueSystem();
             final String tokenValue = pv.getValueCode();
 
-            if (codeSystem == null || codeSystem.equals("*")) {
+            if (codeSystem == null || codeSystem.isEmpty() || codeSystem.equals("*")) {
                 // Do not filter against code-system, which means we may have more than one matching
                 // common_token_value_id value. For performance-reasons we join against the
                 // xx_RESOURCE_TOKEN_REFS directly, which means we need a list of matching
@@ -316,6 +319,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
 
                 if (Modifier.CONTAINS.equals(queryParm.getModifier())) {
                     String searchValue = PERCENT_WILDCARD + tempSearchValue + PERCENT_WILDCARD;
+                    searchValue = SearchUtil.normalizeForSearch(searchValue);
                     whereFragment.col(paramAlias, STR_VALUE_LCASE).like(bind(searchValue)).escape("+");
                 } else {
                     // If there is not a CONTAINS modifier on the query parm, construct
@@ -333,15 +337,16 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                             .rightParen();
 
                         } else if (queryParm.getModifier() == Modifier.ABOVE) {
-                            NewUriModifierUtil.generateAboveValuesQuery(whereFragment, STR_VALUE, searchValue);
+                            NewUriModifierUtil.generateAboveValuesQuery(whereFragment, paramAlias, STR_VALUE, searchValue, operator);
                         } else {
                             // neither above nor below, so an exact match for URI
                             whereFragment.col(paramAlias, STR_VALUE).eq(bind(searchValue));
                         }
                     } else {
                         // Simple STARTS WITH
+                        searchValue = SearchUtil.normalizeForSearch(searchValue);
                         logger.fine("LIKE: " + searchValue);
-                        whereFragment.col(paramAlias, STR_VALUE).like(bind(searchValue)).escape("+");
+                        whereFragment.col(paramAlias, STR_VALUE_LCASE).like(bind(searchValue)).escape("+");
                     }
                 }
             } else if (queryParm.getType() == Type.URI) {
@@ -361,7 +366,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
 
                 } else if (queryParm.getModifier() == Modifier.ABOVE) {
                     String searchValue = SqlParameterEncoder.encode(value.getValueString());
-                    NewUriModifierUtil.generateAboveValuesQuery(whereFragment, STR_VALUE, searchValue);
+                    NewUriModifierUtil.generateAboveValuesQuery(whereFragment, paramAlias, STR_VALUE, searchValue, operator);
                 } else {
                     // neither above nor below, so an exact match for URI
                     String searchValue = SqlParameterEncoder.encode(value.getValueString());
@@ -419,15 +424,17 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     }
 
     @Override
-    public QueryData addMissingParam(QueryData queryData, String resourceType, QueryParameter queryParm, boolean isMissing) throws FHIRPersistenceException {
+    public QueryData addMissingParam(QueryData queryData, QueryParameter queryParm, boolean isMissing) throws FHIRPersistenceException {
         // TODO. Simple implementation to get started
         // note that there's no filter here to look for a specific value. We simply want to know
         // whether or not the parameter exists for a given resource
         final String parameterName = queryParm.getCode();
         final int aliasIndex = queryData.getParameterAlias() + 1;
+        final String resourceType = queryData.getResourceType();
         final String paramTableName = paramValuesTableName(resourceType, queryParm.getType());
         final String lrAlias = getLRAlias(aliasIndex-1);
         final String paramAlias = "P" + aliasIndex;
+
         SelectAdapter exists = Select.select("1");
         exists.from(paramTableName, alias(paramAlias))
                 .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
@@ -606,7 +613,11 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
 
 
             // Add an exists clause to the where clause of the current query
-            currentSubQuery.from().where().and().exists(exists.build());
+            if (currentParm.getModifier() == Modifier.NOT) {
+                currentSubQuery.from().where().and().notExists(exists.build());
+            } else {
+                currentSubQuery.from().where().and().exists(exists.build());
+            }
         }
     }
 
@@ -1027,7 +1038,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     }
 
     @Override
-    public QueryData addCompositeParam(QueryData queryData, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException {
+    public QueryData addCompositeParam(QueryData queryData, QueryParameter queryParm) throws FHIRPersistenceException {
         final int aliasIndex = queryData.getParameterAlias() + 1;
         final String lrAlias = "LR" + (aliasIndex-1);
 
@@ -1038,7 +1049,6 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         final WhereAdapter where = queryData.getQuery().from().where();
         where.and().leftParen();
         boolean first = true;
-        String firstTableAlias = null;
 
         // Each query parm value gets its own EXISTS OR'd together
         for (QueryParameterValue compositeValue : queryParm.getValues()) {
@@ -1047,27 +1057,9 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             List<QueryParameter> components = compositeValue.getComponent();
             for (int componentNum = 1; componentNum <= components.size(); componentNum++) {
                 QueryParameter component = components.get(componentNum - 1);
-                String valuesTable = QuerySegmentAggregator.tableName(resourceType, component);
-                String componentTableAlias = "comp" + componentNum;
-                String parameterName = component.getCode();
 
-                if (componentNum == 1) {
-                    exists.from(valuesTable, alias(componentTableAlias))
-                    .where(componentTableAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
-                    .and(componentTableAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
-                    .and(paramFilter(component, componentTableAlias).getExpression());
-                    ;
-
-                    // Capture the alias for the first table - used to join additional composite parameter tables
-                    firstTableAlias = componentTableAlias;
-                } else {
-                    // Join to the first parameter table
-                    exists.from().innerJoin(valuesTable, alias(componentTableAlias),
-                        on(componentTableAlias, "LOGICAL_RESOURCE_ID").eq(firstTableAlias, "LOGICAL_RESOURCE_ID")
-                        .and(componentTableAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
-                        .and(componentTableAlias, "COMPOSITE_ID").eq(firstTableAlias, "COMPOSITE_ID")
-                        .and(paramFilter(component, componentTableAlias).getExpression()));
-                }
+                addParamTableToCompositeExists(exists, queryData.getResourceType(), lrAlias,
+                    component, componentNum, true);
             }
 
             // Add the exists sub-query we just built to the where clause of the main query
@@ -1084,6 +1076,92 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         // The only thing we can return which makes any sense is the original query
         return queryData;
     }
+
+    /**
+     * Build the composite join by adding the parameter table for the given
+     * component number in the composite definition.
+     * @param exists
+     * @param resourceType
+     * @param lrAlias
+     * @param component
+     * @param componentNum
+     * @param addParamFilter
+     * @throws FHIRPersistenceException
+     */
+    private void addParamTableToCompositeExists(SelectAdapter exists, String resourceType, String lrAlias,
+        QueryParameter component, int componentNum, boolean addParamFilter) throws FHIRPersistenceException {
+        String valuesTable = QuerySegmentAggregator.tableName(resourceType, component).strip();
+        String componentTableAlias = "comp" + componentNum;
+        String parameterName = component.getCode();
+
+        if (componentNum == 1) {
+            exists.from(valuesTable, alias(componentTableAlias))
+            .where(componentTableAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
+            .and(componentTableAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName));
+
+            if (addParamFilter) {
+                exists.from().where().and(paramFilter(component, componentTableAlias).getExpression());
+            }
+        } else {
+            // Join to the first parameter table
+            final String firstTableAlias = "comp1";
+            exists.from().innerJoin(valuesTable, alias(componentTableAlias),
+                on(componentTableAlias, "LOGICAL_RESOURCE_ID").eq(firstTableAlias, "LOGICAL_RESOURCE_ID")
+                .and(componentTableAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
+                .and(componentTableAlias, "COMPOSITE_ID").eq(firstTableAlias, "COMPOSITE_ID"));
+
+            // Parameter filter is skipped if this is coming from a missing/not missing search
+            if (addParamFilter) {
+                exists.from().where().and(paramFilter(component, componentTableAlias).getExpression());
+            }
+        }
+    }
+
+    @Override
+    public QueryData addCompositeParam(QueryData queryData, QueryParameter queryParm, boolean isMissing) throws FHIRPersistenceException {
+        final int aliasIndex = queryData.getParameterAlias() + 1;
+        final String lrAlias = "LR" + (aliasIndex-1);
+
+        // Each value gets its own EXISTS clause which we combine together
+        // with OR. The whole thing needs to be wrapped in parens to ensure
+        // the correct precedence.
+        // AND ( EXISTS (...) OR EXISTS (...)
+        final WhereAdapter where = queryData.getQuery().from().where();
+        where.and().leftParen();
+        boolean first = true;
+
+        // Each query parm value gets its own EXISTS OR'd together
+        for (QueryParameterValue compositeValue : queryParm.getValues()) {
+            SelectAdapter exists = Select.select("1");
+
+            List<QueryParameter> components = compositeValue.getComponent();
+            for (int componentNum = 1; componentNum <= components.size(); componentNum++) {
+                QueryParameter component = components.get(componentNum - 1);
+                addParamTableToCompositeExists(exists, queryData.getResourceType(), lrAlias,
+                    component, componentNum, false); // do not add param filter expression
+            }
+
+            // Add the exists sub-query we just built to the where clause of the main query
+            if (first) {
+                first = false;
+            } else {
+                where.or();
+            }
+
+            if (isMissing) {
+                // parameter should be missing, i.e. not exist
+                where.notExists(exists.build());
+            } else {
+                // parameter should be not missing...i.e. it exists
+                where.exists(exists.build());
+            }
+        }
+
+        // AND ( EXISTS (...) OR EXISTS (...) )  <== close the paren
+        where.rightParen();
+        // The only thing we can return which makes any sense is the original query
+        return queryData;
+   }
 
     /**
      * Get the filter predicate expression for the given query parameter taking into account its type,

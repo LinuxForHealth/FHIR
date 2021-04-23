@@ -10,10 +10,10 @@ import static com.ibm.fhir.database.utils.query.SqlConstants.FROM;
 import static com.ibm.fhir.database.utils.query.SqlConstants.SELECT;
 import static com.ibm.fhir.database.utils.query.SqlConstants.SPACE;
 
-import java.util.List;
-
+import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.query.expression.StatementRenderer;
-import com.ibm.fhir.database.utils.query.node.BindMarkerNode;
+import com.ibm.fhir.database.utils.query.expression.StringStatementRenderer;
 import com.ibm.fhir.database.utils.query.node.ExpNode;
 import com.ibm.fhir.database.utils.query.node.ExpNodeVisitor;
 
@@ -21,6 +21,9 @@ import com.ibm.fhir.database.utils.query.node.ExpNodeVisitor;
  * Representation of a select statement built by {@link SelectAdapter#build()}
  */
 public class Select {
+    // Need a translator to render statement for debugging
+    private static final IDatabaseTranslator TRANSLATOR = new DerbyTranslator();
+
     // The fields, expressions we are selecting
     private final SelectList selectList = new SelectList();
 
@@ -73,6 +76,10 @@ public class Select {
 
     public void addTable(String tableName, Alias alias) {
         fromClause.addTable(tableName, alias);
+    }
+
+    public void addTable(String tableName) {
+        fromClause.addTable(tableName);
     }
 
     public void addTable(String schemaName, String tableName, Alias alias) {
@@ -141,31 +148,19 @@ public class Select {
      * @return the query string starting XELECT instead of SELECT
      */
     public String toDebugString() {
-        StringBuilder result = new StringBuilder();
 
-        // on purpose...so you can't accidentally use this query string
-        result.append("SELECT");
-        result.append(SPACE).append(this.selectList.toString());
-        result.append(SPACE).append(FROM);
-        result.append(SPACE).append(this.fromClause.toString());
-
-        if (this.whereClause != null) {
-            result.append(SPACE).append(this.whereClause.toDebugString());
+        try {
+            // Generate a pretty-printed string using the renderer so we
+            // get an accurate version of the string.
+            StringStatementRenderer renderer = new StringStatementRenderer(TRANSLATOR, null, true);
+            return this.render(renderer);
+        } catch (Exception x) {
+            // If we can't render, it's very likely this debug is being used already
+            // in a catch clause from an earlier exception. So rather than propagating
+            // another exception, we just make note of the error and allow the earlier
+            // catch deal with reporting the issue
+            return "Failed to render statement: " + x.getMessage();
         }
-
-        if (this.groupByClause != null) {
-            result.append(SPACE).append(this.groupByClause.toString());
-        }
-
-        if (this.havingClause != null) {
-            result.append(SPACE).append(this.havingClause.toString());
-        }
-
-        if (this.orderByClause != null) {
-            result.append(SPACE).append(this.orderByClause.toString());
-        }
-
-        return result.toString();
     }
 
     /**
@@ -193,17 +188,6 @@ public class Select {
      */
     public void setOrderByClause(OrderByClause ob) {
         this.orderByClause = ob;
-    }
-
-    /**
-     * Collect all the bind marker nodes associated with this statement
-     * @param bindMarkers
-     */
-    public void gatherBindMarkers(List<BindMarkerNode> bindMarkers) {
-        // at present, only bind markers in the where clause are supported
-        if (whereClause != null) {
-            whereClause.gatherBindMarkers(bindMarkers);
-        }
     }
 
     /**

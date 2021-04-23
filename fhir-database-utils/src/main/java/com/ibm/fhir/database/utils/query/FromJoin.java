@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.database.utils.query;
 
+import com.ibm.fhir.database.utils.query.expression.StatementRenderer;
 import com.ibm.fhir.database.utils.query.expression.StringExpNodeVisitor;
 import com.ibm.fhir.database.utils.query.node.ExpNode;
 
@@ -87,5 +88,25 @@ public class FromJoin extends FromItem {
         result.append(joinOnStr);
 
         return result.toString();
+    }
+
+    public <T> T render(StatementRenderer<T> renderer) {
+        T joinFromValue = super.render(renderer);
+        T joinOnValue = renderer.render(this.joinOnPredicate);
+        final T result;
+        switch (joinType) {
+        case INNER_JOIN:
+            result = renderer.innerJoin(joinFromValue, joinOnValue);
+            break;
+        case OUTER_JOIN:
+            result = renderer.outerJoin(joinFromValue, joinOnValue);
+            break;
+        case FULL_OUTER_JOIN:
+            result = renderer.fullOuterJoin(joinFromValue, joinOnValue);
+            break;
+        default:
+            throw new IllegalStateException("Unsupported JOIN type: " + joinType.name());
+        }
+        return result;
     }
 }

@@ -14,6 +14,12 @@ import com.ibm.fhir.search.parameters.QueryParameter;
 /**
  * Used by the {@link SearchQuery} domain model to render the model
  * into another form (such as a Select statement.
+ *
+ * TODO. Might be useful to change the structure slightly and have
+ * various methods return a statement (e.g. the exists clause) which
+ * can then be passed to another method for aggregation into the
+ * larger query. This may be useful in promoting reuse, where the
+ * same subquery structure is used in more than one context.
  */
 public interface SearchQueryVisitor<T> {
 
@@ -109,7 +115,7 @@ public interface SearchQueryVisitor<T> {
      * @param isMissing true if the condition should be that the parameter does not exist
      * @return
      */
-    T addMissingParam(T query, String rootResourceType, QueryParameter queryParm, boolean isMissing) throws FHIRPersistenceException;
+    T addMissingParam(T query, QueryParameter queryParm, boolean isMissing) throws FHIRPersistenceException;
 
     /**
      * Add a composite query parameter filter to the query
@@ -119,7 +125,18 @@ public interface SearchQueryVisitor<T> {
      * @return
      * @throws FHIRPersistenceException
      */
-    T addCompositeParam(T query, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException;
+    T addCompositeParam(T query, QueryParameter queryParm) throws FHIRPersistenceException;
+
+    /**
+     * Add a composite query which only tests missing/not missing, not the
+     * actual parameter value
+     * @param query
+     * @param queryParm
+     * @param isMissing
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    T addCompositeParam(T query, QueryParameter queryParm, boolean isMissing) throws FHIRPersistenceException;
 
     /**
      * Special case to handle inclusion related to compartment-based searches

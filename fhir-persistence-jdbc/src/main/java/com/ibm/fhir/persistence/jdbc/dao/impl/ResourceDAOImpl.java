@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 
 import javax.transaction.TransactionSynchronizationRegistry;
 
+import com.ibm.fhir.database.utils.query.QueryUtil;
 import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
@@ -783,7 +784,33 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
     @Override
     public List<Long> searchForIds(Select dataQuery) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
-        // TODO Auto-generated method stub
-        return null;
-    }
+        final String METHODNAME = "searchForIds";
+        log.entering(CLASSNAME, METHODNAME);
+
+        List<Long> resourceIds = new ArrayList<>();
+        Connection connection = getConnection(); // do not close
+        ResultSet resultSet = null;
+        long dbCallStartTime;
+        double dbCallDuration;
+
+        // QueryUtil creates a fully bound executable statement
+        try (PreparedStatement stmt = QueryUtil.prepareSelect(connection, dataQuery, getTranslator())) {
+            dbCallStartTime = System.nanoTime();
+            resultSet = stmt.executeQuery();
+            dbCallDuration = (System.nanoTime() - dbCallStartTime) / 1e6;
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("DB search for ids complete. " + dataQuery.toString() + "  executionTime=" + dbCallDuration + "ms");
+            }
+            while (resultSet.next()) {
+                resourceIds.add(resultSet.getLong(1));
+            }
+        } catch (Throwable e) {
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving FHIR Resource Ids");
+            final String errMsg = "Failure retrieving FHIR Resource Ids. SqlQueryData=" + dataQuery.toDebugString();
+            throw severe(log, fx, errMsg, e);
+        } finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        return resourceIds;
+   }
 }

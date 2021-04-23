@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.database.utils.query;
 
+import com.ibm.fhir.database.utils.query.expression.StatementRenderer;
 import com.ibm.fhir.database.utils.query.expression.StringStatementRenderer;
 
 /**
@@ -38,7 +39,16 @@ public class SelectRowSource implements RowSource {
 
     @Override
     public String toPrettyString(boolean pretty) {
-        StringStatementRenderer renderer = new StringStatementRenderer(null, pretty);
+
+        // TODO get rid, because we don't have a translator so can't really render
+        // a correct string
+        StringStatementRenderer renderer = new StringStatementRenderer(null, null, pretty);
         return select.render(renderer);
+    }
+
+    @Override
+    public <T> T render(StatementRenderer<T> renderer) {
+        T sub = this.select.render(renderer);
+        return renderer.rowSource(sub);
     }
 }

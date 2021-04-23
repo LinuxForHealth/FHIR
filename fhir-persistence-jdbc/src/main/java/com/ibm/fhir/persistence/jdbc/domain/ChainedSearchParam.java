@@ -9,6 +9,7 @@ package com.ibm.fhir.persistence.jdbc.domain;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.parameters.QueryParameter;
 
@@ -77,8 +78,14 @@ public class ChainedSearchParam extends SearchParam {
      * @throws FHIRPersistenceException
      */
     private <T> void addFinalFilter(T currentSubQuery, SearchQueryVisitor<T> visitor, QueryParameter currentParm) throws FHIRPersistenceException {
-        if (currentParm.getType() == Type.COMPOSITE) {
-            visitor.addCompositeParam(currentSubQuery, currentParm.getModifierResourceTypeName(), currentParm);
+        if (currentParm.getModifier() == Modifier.MISSING) {
+            // Process this final element as a MissingSearchParam
+            MissingSearchParam msp = new MissingSearchParam(getRootResourceType(), getName(), currentParm);
+            msp.visit(currentSubQuery, visitor);
+            // visitor.addMissingParam(currentSubQuery, currentParm, true);
+        }
+        else if (currentParm.getType() == Type.COMPOSITE) {
+            visitor.addCompositeParam(currentSubQuery, currentParm);
         } else {
             visitor.addFilter(currentSubQuery, currentParm);
         }
