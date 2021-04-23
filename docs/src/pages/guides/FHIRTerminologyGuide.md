@@ -1,7 +1,7 @@
 ---
 slug:  "/FHIR/guides/FHIRTerminologyGuide/"
 title: "FHIR Terminology Guide"
-date:  "2021-04-22"
+date:  "2021-04-23"
 ---
 
 ## Overview
@@ -38,9 +38,9 @@ NOTE: `closure(CodeSystem, Set)`, `getConcepts(CodeSystem, Function)`, `getConce
 
 The default implementation of `FHIRTermServiceProvider` ([RegistryTermServiceProvider](https://github.com/IBM/FHIR/blob/main/fhir-term/src/main/java/com/ibm/fhir/term/service/provider/RegistryTermServiceProvider.java)) leverages terminology resources (`CodeSystem`, `ValueSet`, and `ConceptMap`) that have been made available through the FHIR registry module ([fhir-registry](https://github.com/IBM/FHIR/tree/main/fhir-registry)). It supports `CodeSystem` resources with *complete* content (`CodeSystem.content = 'complete'`) and `ValueSet` resources that reference `CodeSystem` resources that have complete content.
 
-## FHIR Terminology Service Singleton facade
+## FHIR Terminology Service Singleton Facade
 
-The FHIR Terminology Service Singleton facade ([FHIRTermService](https://github.com/IBM/FHIR/blob/main/fhir-term/src/main/java/com/ibm/fhir/term/service/FHIRTermService.java)) loads a list of `FHIRTermServiceProvider` instances from the ServiceLoader and includes an instance of the `DefaultTermServiceProvider`. Client code (Java) that requires terminology capabilities should access them via the `FHIRTermService` singleton facade. Here is an example:
+The FHIR Terminology Service Singleton facade ([FHIRTermService](https://github.com/IBM/FHIR/blob/main/fhir-term/src/main/java/com/ibm/fhir/term/service/FHIRTermService.java)) loads a list of `FHIRTermServiceProvider` instances from the ServiceLoader and includes an instance of the `RegistryTermServiceProvider`. Client code (Java) that requires terminology capabilities should access them via the `FHIRTermService` singleton facade. Here is an example:
 
 ```java
 ValueSet valueSet = ValueSetSupport.getValueSet("http://ibm.com/fhir/ValueSet/vs1");
@@ -69,9 +69,7 @@ LookupOutcome outcome = ...;
 Parameters parameters = outcome.toParameters();
 ```
 
-This bridge to/from the `Parameters` resource enables implementers to build both native implementations of the SPI and implementations that access an existing external terminology service.
-
-NOTE: The current implementation does not support for optional parameters (e.g. `ExpansionParameters`, `TranslationParameters`, `ValidationParameters`, etc.).
+NOTE: The current implementation of `FHIRTermService` does not support optional parameters (e.g. `ExpansionParameters`, `TranslationParameters`, `ValidationParameters`, etc.).
 
 ## FHIR Server Terminology Extended Operations
 
