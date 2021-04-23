@@ -258,6 +258,7 @@ public class NewQueryBuilder {
         try {
             if (Modifier.MISSING.equals(queryParm.getModifier())) {
                 domainModel.add(new MissingSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
+                return;
             }
             // NOTE: The special logic needed to process NEAR query parms for the Location resource type is
             // found in method processLocationPosition(). This method will not handle those.

@@ -25,18 +25,20 @@ public class QueryUtil {
     private static final Logger logger = Logger.getLogger(QueryUtil.class.getName());
 
     /**
-     * Prepares the given Select statement and sets any bind parameters
+     * Prepares the given Select statement and sets any bind parameters. Caller
+     * must close the returned statement.
+     * @param connection
      * @param select
-     * @return
+     * @param translator
+     * @return the statement ready to execute, with parameter markers bound
      * @throws SQLException
      */
     public static PreparedStatement prepareSelect(Connection connection, Select select, IDatabaseTranslator translator) throws SQLException {
 
         // Render the statement to a database-specific string
-        final StringStatementRenderer statementRenderer = new StringStatementRenderer(translator, true);
-        final String query = select.render(statementRenderer);
         final List<BindMarkerNode> bindMarkers = new ArrayList<>();
-        select.gatherBindMarkers(bindMarkers);
+        final StringStatementRenderer statementRenderer = new StringStatementRenderer(translator, bindMarkers, true);
+        final String query = select.render(statementRenderer);
 
         if (logger.isLoggable(Level.FINE)) {
             logger.fine("bind marker count: " + bindMarkers.size());

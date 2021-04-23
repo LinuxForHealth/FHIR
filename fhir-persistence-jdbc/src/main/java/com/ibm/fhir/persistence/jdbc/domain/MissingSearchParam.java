@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
 
@@ -54,6 +55,10 @@ public class MissingSearchParam extends SearchParam {
         }
 
         // Delegate the actual query building to the visitor
-        return visitor.addMissingParam(query, getRootResourceType(), queryParm, missing == null || missing);
+        if (Type.COMPOSITE.equals(queryParm.getType())) {
+            return visitor.addCompositeParam(query, queryParm, missing == null || missing);
+        } else {
+            return visitor.addMissingParam(query, queryParm, missing == null || missing);
+        }
     }
 }

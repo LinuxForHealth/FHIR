@@ -6,11 +6,8 @@
 
 package com.ibm.fhir.database.utils.query;
 
-import java.util.List;
-
 import com.ibm.fhir.database.utils.query.expression.DebugExpNodeVisitor;
 import com.ibm.fhir.database.utils.query.expression.StringExpNodeVisitor;
-import com.ibm.fhir.database.utils.query.node.BindMarkerNode;
 import com.ibm.fhir.database.utils.query.node.ExpNode;
 import com.ibm.fhir.database.utils.query.node.ExpNodeVisitor;
 import com.ibm.fhir.database.utils.query.node.PredicateParser;
@@ -67,16 +64,5 @@ public class WhereClause {
     public <T> T visit(ExpNodeVisitor<T> visitor) {
         ExpNode predicate = predicateParser.parse();
         return predicate.visit(visitor);
-    }
-
-    /**
-     * Gather up all the bind marker nodes (which include the values) from
-     * the where clause
-     * @param bindMarkers
-     */
-    public void gatherBindMarkers(List<BindMarkerNode> bindMarkers) {
-        StringExpNodeVisitor visitor = new StringExpNodeVisitor(bindMarkers);
-        ExpNode predicate = predicateParser.parse();
-        predicate.visit(visitor);
     }
 }

@@ -39,9 +39,6 @@ public class NewQuantityParmBehaviorUtil {
 
     public void executeBehavior(WhereFragment whereClauseSegment, QueryParameter queryParm,
             String tableAlias) throws FHIRPersistenceException {
-        // Start the Clause
-        // Query: AND ((
-        whereClauseSegment.and().leftParen();
 
         // Process each parameter value in the query parameter
         boolean parmValueProcessed = false;
@@ -71,15 +68,14 @@ public class NewQuantityParmBehaviorUtil {
                     parmValueProcessed = true;
                 }
 
+                // Wrap the expression in parens in case we have multiple values being or'd...for safety
+                whereClauseSegment.leftParen();
                 NewNumberParmBehaviorUtil.addValue(whereClauseSegment, tableAlias, QUANTITY_VALUE, prefix, value.getValueNumber());
                 addSystemIfPresent(whereClauseSegment, tableAlias, value.getValueSystem());
                 addCodeIfPresent(whereClauseSegment, tableAlias, value.getValueCode());
+                whereClauseSegment.rightParen();
             }
         }
-
-        // End the Clause started above, and closes the parameter expression.
-        // Query: ))
-        whereClauseSegment.rightParen();
     }
 
     /**

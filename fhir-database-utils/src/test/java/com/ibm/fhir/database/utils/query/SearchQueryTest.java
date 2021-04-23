@@ -8,17 +8,24 @@ package com.ibm.fhir.database.utils.query;
 
 import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.alias;
 import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.bind;
+import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.col;
+import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.isDeleted;
 import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.on;
 import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.string;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.database.utils.derby.DerbyTranslator;
+import com.ibm.fhir.database.utils.query.expression.BindMarkerNodeVisitor;
 import com.ibm.fhir.database.utils.query.expression.StringExpNodeVisitor;
+import com.ibm.fhir.database.utils.query.expression.StringStatementRenderer;
 import com.ibm.fhir.database.utils.query.node.BindMarkerNode;
 import com.ibm.fhir.database.utils.query.node.ColumnExpNode;
 import com.ibm.fhir.database.utils.query.node.ExpNode;
@@ -28,6 +35,27 @@ import com.ibm.fhir.database.utils.query.node.ExpNode;
  * we have support for the different types we need.
  */
 public class SearchQueryTest {
+    private static final DerbyTranslator TRANSLATOR = new DerbyTranslator();
+
+    /**
+     * Simple select statement
+     */
+    @Test
+    public void simpleWhereTest() {
+
+        // Create a simple select statement
+        Select select = Select.select("1")
+                .from("Patient_TOKEN_VALUES_V", alias("param"))
+                .where("param", "PARAMETER_NAME_ID").eq(1274)
+                .build();
+
+
+        // And make sure it renders to the correct string
+        final String SQL = "SELECT 1"
+                + " FROM Patient_TOKEN_VALUES_V AS param"
+                + " WHERE param.PARAMETER_NAME_ID = 1274";
+        assertEquals(select.toString(), SQL);
+    }
 
     /**
      * Test modeling of a simple search-like query for a single token parameter
@@ -98,7 +126,10 @@ public class SearchQueryTest {
                 + " AND LR.IS_DELETED = 'N'"
                 + " AND LR.LAST_UPDATED >= ?"
                 + " AND LR.VERSION_ID IS NOT NULL";
-        assertEquals(query.toString(), SQL);
+        final List<BindMarkerNode> bindMarkers = new ArrayList<>();
+        StringStatementRenderer renderer = new StringStatementRenderer(TRANSLATOR, bindMarkers, false);
+        assertEquals(query.render(renderer), SQL);
+        assertEquals(bindMarkers.size(), 3);
     }
 
     /**
@@ -188,7 +219,10 @@ public class SearchQueryTest {
                 + " AND param.CODE_SYSTEM_ID = 20016)"
                 + " AND LR.IS_DELETED = 'N'"
                 + " AND LR.LAST_UPDATED > ?";
-        assertEquals(query.toString(), SQL);
+        final List<BindMarkerNode> bindMarkers = new ArrayList<>();
+        StringStatementRenderer renderer = new StringStatementRenderer(TRANSLATOR, bindMarkers, false);
+        assertEquals(query.render(renderer), SQL);
+        assertEquals(bindMarkers.size(), 3);
     }
 
     /**
@@ -216,7 +250,10 @@ public class SearchQueryTest {
                 + " AND param.TOKEN_VALUE = ?"
                 + " AND param.PARAMETER_NAME_ID = 1274"
                 + " AND param.CODE_SYSTEM_ID = 20016";
-        assertEquals(select.toString(), SQL);
+        final List<BindMarkerNode> bindMarkers = new ArrayList<>();
+        StringStatementRenderer renderer = new StringStatementRenderer(TRANSLATOR, bindMarkers, false);
+        assertEquals(select.render(renderer), SQL);
+        assertEquals(bindMarkers.size(), 1);
     }
 
     @Test
@@ -261,7 +298,10 @@ public class SearchQueryTest {
         query.from().where().and().exists(exists);
 
         // The count query with one string parameter
+        final List<BindMarkerNode> bindMarkers = new ArrayList<>();
+        StringStatementRenderer renderer = new StringStatementRenderer(TRANSLATOR, bindMarkers, false);
         Select statement = query.build();
+        final String rendered = statement.render(renderer);
         final String SQL = "SELECT COUNT(*)"
                 + " FROM Patient_LOGICAL_RESOURCES AS LR"
                 + " WHERE LR.IS_DELETED = 'N'"
@@ -270,11 +310,114 @@ public class SearchQueryTest {
                 + " AND param.PARAMETER_NAME_ID = 1274"
                 + " AND (param.STR_VALUE = ?))"
                 ;
-        assertEquals(statement.toString(), SQL);
-
-        // Check the bind markers
-        final List<BindMarkerNode> bindMarkers = new ArrayList<>();
-        statement.gatherBindMarkers(bindMarkers);
+        assertEquals(rendered, SQL);
         assertEquals(bindMarkers.size(), 1);
+    }
+
+    @Test
+    public void testChainedCompositeLikeBind() {
+        // the statement we're trying to build
+        final String likeValue = "FOO%";
+        final String SQL = "SELECT COUNT(*)" +
+                " FROM Encounter_LOGICAL_RESOURCES AS LR0" +
+                " WHERE (LR0.IS_DELETED = 'N')" +
+                " AND EXISTS (SELECT 1" +
+                " FROM Encounter_TOKEN_VALUES_V AS P1" +
+                " INNER JOIN Observation_LOGICAL_RESOURCES AS LR1 ON LR1.LOGICAL_ID = P1.TOKEN_VALUE" +
+                " AND LR1.VERSION_ID = COALESCE(P1.REF_VERSION_ID,LR1.VERSION_ID)" +
+                " AND P1.PARAMETER_NAME_ID = 1149" +
+                " AND P1.CODE_SYSTEM_ID = 20129" +
+                " AND (LR1.IS_DELETED = 'N')" +
+                " WHERE P1.LOGICAL_RESOURCE_ID = LR0.LOGICAL_RESOURCE_ID" +
+                " AND (EXISTS (SELECT 1" +
+                " FROM Observation_TOKEN_VALUES_V AS comp1" +
+                " INNER JOIN Observation_STR_VALUES AS comp2 ON comp2.LOGICAL_RESOURCE_ID = comp1.LOGICAL_RESOURCE_ID" +
+                " AND comp2.PARAMETER_NAME_ID = 21329" +
+                " AND comp2.COMPOSITE_ID = comp1.COMPOSITE_ID" +
+                " AND (comp2.STR_VALUE LIKE ? ESCAPE '+')" +
+                " WHERE comp1.LOGICAL_RESOURCE_ID = LR1.LOGICAL_RESOURCE_ID" +
+                " AND comp1.PARAMETER_NAME_ID = 21328" +
+                " AND (comp1.COMMON_TOKEN_VALUE_ID = 4464))))";
+
+        // Build the inner-most exists clause first. This represents a composite search parameter join
+        Select ex2 = Select.select("1")
+            .from("Observation_TOKEN_VALUES_V", alias("comp1"))
+            .innerJoin("Observation_STR_VALUES", alias("comp2"),
+                on("comp2", "LOGICAL_RESOURCE_ID").eq("comp1", "LOGICAL_RESOURCE_ID")
+                .and("comp2", "PARAMETER_NAME_ID").eq(21329)
+                .and("comp2", "COMPOSITE_ID").eq("comp1", "COMPOSITE_ID")
+                .and().leftParen().col("comp2", "STR_VALUE").like(bind(likeValue)).escape("+").rightParen()
+                    )
+            .where("comp1", "LOGICAL_RESOURCE_ID").eq("LR1", "LOGICAL_RESOURCE_ID")
+            .and("comp1", "PARAMETER_NAME_ID").eq(21328)
+            .and().leftParen().col("comp1", "COMMON_TOKEN_VALUE_ID").eq(4464).rightParen()
+            .build();
+
+        Select ex1 = Select.select("1")
+            .from("Encounter_TOKEN_VALUES_V", alias("P1"))
+            .innerJoin("Observation_LOGICAL_RESOURCES", alias("LR1"),
+                on("LR1", "LOGICAL_ID").eq("P1", "TOKEN_VALUE")
+                .and("LR1", "VERSION_ID").eq().coalesce(col("P1", "REF_VERSION_ID"), col("LR1", "VERSION_ID"))
+                .and("P1", "PARAMETER_NAME_ID").eq(1149)
+                .and("P1", "CODE_SYSTEM_ID").eq(20129)
+                .and(isDeleted("LR1"))
+                    )
+            .where("P1", "LOGICAL_RESOURCE_ID").eq("LR0", "LOGICAL_RESOURCE_ID")
+            .and().leftParen().exists(ex2).rightParen()
+            .build();
+
+        Select main = Select.select("COUNT(*)")
+            .from("Encounter_LOGICAL_RESOURCES", alias("LR0"))
+            .where(isDeleted("LR0"))
+            .and().exists(ex1)
+            .build();
+
+        final List<BindMarkerNode> bindMarkers = new ArrayList<>();
+        StringStatementRenderer renderer = new StringStatementRenderer(TRANSLATOR, bindMarkers, false);
+        final String rendered = main.render(renderer);
+        assertEquals(rendered, SQL);
+
+        // Check we get the full list of bind markers
+        assertEquals(bindMarkers.size(), 1);
+
+        BindMarkerNode bindMarker = bindMarkers.get(0);
+        BindMarkerNodeVisitor v = new BindMarkerNodeVisitor() {
+
+            @Override
+            public void bindString(String value) {
+                assertEquals(value, likeValue);
+            }
+
+            @Override
+            public void bindLong(Long value) {
+                // not expected
+                assertFalse(true);
+            }
+
+            @Override
+            public void bindInt(Integer value) {
+                // not expected
+                assertFalse(true);
+            }
+
+            @Override
+            public void bindInstant(Instant value) {
+                // not expected
+                assertFalse(true);
+            }
+
+            @Override
+            public void bindDouble(Double value) {
+                // not expected
+                assertFalse(true);
+            }
+
+            @Override
+            public void bindBigDecimal(BigDecimal value) {
+                // not expected
+                assertFalse(true);
+            }
+        };
+        bindMarker.visit(v);
     }
 }

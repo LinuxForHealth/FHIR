@@ -26,6 +26,6 @@ public class CompositeSearchParam extends SearchParam {
 
     @Override
     public <T> T visit(T queryData, SearchQueryVisitor<T> visitor) throws FHIRPersistenceException {
-        return visitor.addCompositeParam(queryData, getRootResourceType(), getQueryParameter());
+        return visitor.addCompositeParam(queryData, getQueryParameter());
     }
 }

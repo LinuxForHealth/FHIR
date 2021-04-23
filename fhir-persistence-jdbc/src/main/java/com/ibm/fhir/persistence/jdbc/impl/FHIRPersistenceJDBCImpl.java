@@ -623,6 +623,25 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     @Override
     public MultiResourceResult<Resource> search(FHIRPersistenceContext context, Class<? extends Resource> resourceType)
             throws FHIRPersistenceException {
+
+        if (isSystemLevelSearch(resourceType)) {
+            // New query builder doesn't support system-level search at this point, so route
+            // to the old way.
+            return oldSearch(context, resourceType);
+        } else {
+            return newSearch(context, resourceType);
+        }
+    }
+
+    /**
+     * Search using the new query builder
+     * @param context
+     * @param resourceType
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    private MultiResourceResult<Resource> newSearch(FHIRPersistenceContext context, Class<? extends Resource> resourceType)
+            throws FHIRPersistenceException {
         final String METHODNAME = "search";
         log.entering(CLASSNAME, METHODNAME);
 

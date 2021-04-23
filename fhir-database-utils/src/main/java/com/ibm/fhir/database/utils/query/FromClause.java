@@ -47,6 +47,11 @@ public class FromClause {
         items.add(new FromItem(table, alias));
     }
 
+    public void addTable(String tableName) {
+        TableRowSource table = new TableRowSource(tableName);
+        items.add(new FromItem(table));
+    }
+
     /**
      * Add the sub-query as an item in the from list
      *

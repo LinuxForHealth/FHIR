@@ -12,6 +12,7 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PATH_CHAR;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ibm.fhir.database.utils.query.Operator;
 import com.ibm.fhir.database.utils.query.WhereFragment;
 
 /**
@@ -34,10 +35,10 @@ public class NewUriModifierUtil {
      * @param searchValue
      * @param conditionalBuilder
      * @param tableColumnName
-     * @return
      */
-    public static void generateAboveValuesQuery(WhereFragment expression, String tableColumnName, String searchValue) {
-
+    public static void generateAboveValuesQuery(WhereFragment expression, String paramAlias, String tableColumnName, String searchValue,
+        Operator operator) {
+        boolean added = false;
         // If '://' exists, then find the location after the protocol
         // Otherwise pass through, it's going to be treated as-is
         int protocolLoc = searchValue.indexOf("://");
@@ -61,8 +62,15 @@ public class NewUriModifierUtil {
             }
 
             if (inList.size() > 0) {
-                expression.and(tableColumnName).in(inList);
+                // values will be processed as bind-variables
+                expression.col(paramAlias, tableColumnName).in(inList);
+                added = true;
             }
+        }
+
+        if (!added) {
+            // Just use given operator to compare with the given searchValue
+            expression.col(paramAlias, tableColumnName).operator(operator).bind(searchValue);
         }
     }
 
