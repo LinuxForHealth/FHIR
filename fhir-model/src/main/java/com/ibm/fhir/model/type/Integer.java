@@ -49,15 +49,36 @@ public class Integer extends Element {
         return super.hasChildren();
     }
 
+    /**
+     * Factory method for creating Integer objects from a java.lang.Integer
+     * 
+     * @param value
+     *     A java.lang.Integer, not null
+     */
     public static Integer of(java.lang.Integer value) {
+        Objects.requireNonNull(value, "value");
         return Integer.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Integer objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String value that can be parsed into a java.lang.Integer, not null
+     */
     public static Integer of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Integer.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Integer objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String that can be parsed into a java.lang.Integer, not null
+     */
     public static Integer integer(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Integer.builder().value(value).build();
     }
 

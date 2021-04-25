@@ -29,11 +29,25 @@ public class Markdown extends String {
         return (value != null);
     }
 
+    /**
+     * Factory method for creating Markdown objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String, not null
+     */
     public static Markdown of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Markdown.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Markdown objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String, not null
+     */
     public static String string(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Markdown.builder().value(value).build();
     }
 

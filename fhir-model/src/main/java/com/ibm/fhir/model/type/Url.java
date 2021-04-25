@@ -29,11 +29,25 @@ public class Url extends Uri {
         return (value != null);
     }
 
+    /**
+     * Factory method for creating Url objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String, not null
+     */
     public static Url of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Url.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Url objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String that can be parsed into a valid FHIR uri value, not null
+     */
     public static Uri uri(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Url.builder().value(value).build();
     }
 
