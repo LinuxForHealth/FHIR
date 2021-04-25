@@ -25,35 +25,35 @@ public class CareTeamStatus extends Code {
      * <p>The care team has been drafted and proposed, but not yet participating in the coordination and delivery of patient 
      * care.
      */
-    public static final CareTeamStatus PROPOSED = CareTeamStatus.builder().value(ValueSet.PROPOSED).build();
+    public static final CareTeamStatus PROPOSED = CareTeamStatus.builder().value(Value.PROPOSED).build();
 
     /**
      * Active
      * 
      * <p>The care team is currently participating in the coordination and delivery of care.
      */
-    public static final CareTeamStatus ACTIVE = CareTeamStatus.builder().value(ValueSet.ACTIVE).build();
+    public static final CareTeamStatus ACTIVE = CareTeamStatus.builder().value(Value.ACTIVE).build();
 
     /**
      * Suspended
      * 
      * <p>The care team is temporarily on hold or suspended and not participating in the coordination and delivery of care.
      */
-    public static final CareTeamStatus SUSPENDED = CareTeamStatus.builder().value(ValueSet.SUSPENDED).build();
+    public static final CareTeamStatus SUSPENDED = CareTeamStatus.builder().value(Value.SUSPENDED).build();
 
     /**
      * Inactive
      * 
      * <p>The care team was, but is no longer, participating in the coordination and delivery of care.
      */
-    public static final CareTeamStatus INACTIVE = CareTeamStatus.builder().value(ValueSet.INACTIVE).build();
+    public static final CareTeamStatus INACTIVE = CareTeamStatus.builder().value(Value.INACTIVE).build();
 
     /**
      * Entered in Error
      * 
      * <p>The care team should have never existed.
      */
-    public static final CareTeamStatus ENTERED_IN_ERROR = CareTeamStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
+    public static final CareTeamStatus ENTERED_IN_ERROR = CareTeamStatus.builder().value(Value.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -61,14 +61,48 @@ public class CareTeamStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this CareTeamStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this CareTeamStatus as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating CareTeamStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static CareTeamStatus of(ValueSet value) {
+        switch (value) {
+        case PROPOSED:
+            return PROPOSED;
+        case ACTIVE:
+            return ACTIVE;
+        case SUSPENDED:
+            return SUSPENDED;
+        case INACTIVE:
+            return INACTIVE;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating CareTeamStatus objects from a passed enum value.
      */
-    public static CareTeamStatus of(ValueSet value) {
+    public static CareTeamStatus of(Value value) {
         switch (value) {
         case PROPOSED:
             return PROPOSED;
@@ -94,7 +128,7 @@ public class CareTeamStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static CareTeamStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -106,7 +140,7 @@ public class CareTeamStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -118,7 +152,7 @@ public class CareTeamStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -180,10 +214,27 @@ public class CareTeamStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for CareTeamStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -193,6 +244,7 @@ public class CareTeamStatus extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Proposed
@@ -245,7 +297,7 @@ public class CareTeamStatus extends Code {
         }
 
         /**
-         * Factory method for creating CareTeamStatus.ValueSet values from a passed string value.
+         * Factory method for creating CareTeamStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -254,6 +306,75 @@ public class CareTeamStatus extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Proposed
+         * 
+         * <p>The care team has been drafted and proposed, but not yet participating in the coordination and delivery of patient 
+         * care.
+         */
+        PROPOSED("proposed"),
+
+        /**
+         * Active
+         * 
+         * <p>The care team is currently participating in the coordination and delivery of care.
+         */
+        ACTIVE("active"),
+
+        /**
+         * Suspended
+         * 
+         * <p>The care team is temporarily on hold or suspended and not participating in the coordination and delivery of care.
+         */
+        SUSPENDED("suspended"),
+
+        /**
+         * Inactive
+         * 
+         * <p>The care team was, but is no longer, participating in the coordination and delivery of care.
+         */
+        INACTIVE("inactive"),
+
+        /**
+         * Entered in Error
+         * 
+         * <p>The care team should have never existed.
+         */
+        ENTERED_IN_ERROR("entered-in-error");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating CareTeamStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

@@ -24,35 +24,35 @@ public class DeviceUseStatementStatus extends Code {
      * 
      * <p>The device is still being used.
      */
-    public static final DeviceUseStatementStatus ACTIVE = DeviceUseStatementStatus.builder().value(ValueSet.ACTIVE).build();
+    public static final DeviceUseStatementStatus ACTIVE = DeviceUseStatementStatus.builder().value(Value.ACTIVE).build();
 
     /**
      * Completed
      * 
      * <p>The device is no longer being used.
      */
-    public static final DeviceUseStatementStatus COMPLETED = DeviceUseStatementStatus.builder().value(ValueSet.COMPLETED).build();
+    public static final DeviceUseStatementStatus COMPLETED = DeviceUseStatementStatus.builder().value(Value.COMPLETED).build();
 
     /**
      * Entered in Error
      * 
      * <p>The statement was recorded incorrectly.
      */
-    public static final DeviceUseStatementStatus ENTERED_IN_ERROR = DeviceUseStatementStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
+    public static final DeviceUseStatementStatus ENTERED_IN_ERROR = DeviceUseStatementStatus.builder().value(Value.ENTERED_IN_ERROR).build();
 
     /**
      * Intended
      * 
      * <p>The device may be used at some time in the future.
      */
-    public static final DeviceUseStatementStatus INTENDED = DeviceUseStatementStatus.builder().value(ValueSet.INTENDED).build();
+    public static final DeviceUseStatementStatus INTENDED = DeviceUseStatementStatus.builder().value(Value.INTENDED).build();
 
     /**
      * Stopped
      * 
      * <p>Actions implied by the statement have been permanently halted, before all of them occurred.
      */
-    public static final DeviceUseStatementStatus STOPPED = DeviceUseStatementStatus.builder().value(ValueSet.STOPPED).build();
+    public static final DeviceUseStatementStatus STOPPED = DeviceUseStatementStatus.builder().value(Value.STOPPED).build();
 
     /**
      * On Hold
@@ -60,7 +60,7 @@ public class DeviceUseStatementStatus extends Code {
      * <p>Actions implied by the statement have been temporarily halted, but are expected to continue later. May also be 
      * called "suspended".
      */
-    public static final DeviceUseStatementStatus ON_HOLD = DeviceUseStatementStatus.builder().value(ValueSet.ON_HOLD).build();
+    public static final DeviceUseStatementStatus ON_HOLD = DeviceUseStatementStatus.builder().value(Value.ON_HOLD).build();
 
     private volatile int hashCode;
 
@@ -68,14 +68,50 @@ public class DeviceUseStatementStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this DeviceUseStatementStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this DeviceUseStatementStatus as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating DeviceUseStatementStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static DeviceUseStatementStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case INTENDED:
+            return INTENDED;
+        case STOPPED:
+            return STOPPED;
+        case ON_HOLD:
+            return ON_HOLD;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating DeviceUseStatementStatus objects from a passed enum value.
      */
-    public static DeviceUseStatementStatus of(ValueSet value) {
+    public static DeviceUseStatementStatus of(Value value) {
         switch (value) {
         case ACTIVE:
             return ACTIVE;
@@ -103,7 +139,7 @@ public class DeviceUseStatementStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static DeviceUseStatementStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -115,7 +151,7 @@ public class DeviceUseStatementStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -127,7 +163,7 @@ public class DeviceUseStatementStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -189,10 +225,27 @@ public class DeviceUseStatementStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for DeviceUseStatementStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -202,6 +255,7 @@ public class DeviceUseStatementStatus extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Active
@@ -261,7 +315,7 @@ public class DeviceUseStatementStatus extends Code {
         }
 
         /**
-         * Factory method for creating DeviceUseStatementStatus.ValueSet values from a passed string value.
+         * Factory method for creating DeviceUseStatementStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -270,6 +324,82 @@ public class DeviceUseStatementStatus extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Active
+         * 
+         * <p>The device is still being used.
+         */
+        ACTIVE("active"),
+
+        /**
+         * Completed
+         * 
+         * <p>The device is no longer being used.
+         */
+        COMPLETED("completed"),
+
+        /**
+         * Entered in Error
+         * 
+         * <p>The statement was recorded incorrectly.
+         */
+        ENTERED_IN_ERROR("entered-in-error"),
+
+        /**
+         * Intended
+         * 
+         * <p>The device may be used at some time in the future.
+         */
+        INTENDED("intended"),
+
+        /**
+         * Stopped
+         * 
+         * <p>Actions implied by the statement have been permanently halted, before all of them occurred.
+         */
+        STOPPED("stopped"),
+
+        /**
+         * On Hold
+         * 
+         * <p>Actions implied by the statement have been temporarily halted, but are expected to continue later. May also be 
+         * called "suspended".
+         */
+        ON_HOLD("on-hold");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating DeviceUseStatementStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

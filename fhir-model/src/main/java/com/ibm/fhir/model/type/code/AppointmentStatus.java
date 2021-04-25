@@ -25,28 +25,28 @@ public class AppointmentStatus extends Code {
      * <p>None of the participant(s) have finalized their acceptance of the appointment request, and the start/end time might 
      * not be set yet.
      */
-    public static final AppointmentStatus PROPOSED = AppointmentStatus.builder().value(ValueSet.PROPOSED).build();
+    public static final AppointmentStatus PROPOSED = AppointmentStatus.builder().value(Value.PROPOSED).build();
 
     /**
      * Pending
      * 
      * <p>Some or all of the participant(s) have not finalized their acceptance of the appointment request.
      */
-    public static final AppointmentStatus PENDING = AppointmentStatus.builder().value(ValueSet.PENDING).build();
+    public static final AppointmentStatus PENDING = AppointmentStatus.builder().value(Value.PENDING).build();
 
     /**
      * Booked
      * 
      * <p>All participant(s) have been considered and the appointment is confirmed to go ahead at the date/times specified.
      */
-    public static final AppointmentStatus BOOKED = AppointmentStatus.builder().value(ValueSet.BOOKED).build();
+    public static final AppointmentStatus BOOKED = AppointmentStatus.builder().value(Value.BOOKED).build();
 
     /**
      * Arrived
      * 
      * <p>The patient/patients has/have arrived and is/are waiting to be seen.
      */
-    public static final AppointmentStatus ARRIVED = AppointmentStatus.builder().value(ValueSet.ARRIVED).build();
+    public static final AppointmentStatus ARRIVED = AppointmentStatus.builder().value(Value.ARRIVED).build();
 
     /**
      * Fulfilled
@@ -54,28 +54,28 @@ public class AppointmentStatus extends Code {
      * <p>The planning stages of the appointment are now complete, the encounter resource will exist and will track further 
      * status changes. Note that an encounter may exist before the appointment status is fulfilled for many reasons.
      */
-    public static final AppointmentStatus FULFILLED = AppointmentStatus.builder().value(ValueSet.FULFILLED).build();
+    public static final AppointmentStatus FULFILLED = AppointmentStatus.builder().value(Value.FULFILLED).build();
 
     /**
      * Cancelled
      * 
      * <p>The appointment has been cancelled.
      */
-    public static final AppointmentStatus CANCELLED = AppointmentStatus.builder().value(ValueSet.CANCELLED).build();
+    public static final AppointmentStatus CANCELLED = AppointmentStatus.builder().value(Value.CANCELLED).build();
 
     /**
      * No Show
      * 
      * <p>Some or all of the participant(s) have not/did not appear for the appointment (usually the patient).
      */
-    public static final AppointmentStatus NOSHOW = AppointmentStatus.builder().value(ValueSet.NOSHOW).build();
+    public static final AppointmentStatus NOSHOW = AppointmentStatus.builder().value(Value.NOSHOW).build();
 
     /**
      * Entered in error
      * 
      * <p>This instance should not have been part of this patient's medical record.
      */
-    public static final AppointmentStatus ENTERED_IN_ERROR = AppointmentStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
+    public static final AppointmentStatus ENTERED_IN_ERROR = AppointmentStatus.builder().value(Value.ENTERED_IN_ERROR).build();
 
     /**
      * Checked In
@@ -83,7 +83,7 @@ public class AppointmentStatus extends Code {
      * <p>When checked in, all pre-encounter administrative work is complete, and the encounter may begin. (where multiple 
      * patients are involved, they are all present).
      */
-    public static final AppointmentStatus CHECKED_IN = AppointmentStatus.builder().value(ValueSet.CHECKED_IN).build();
+    public static final AppointmentStatus CHECKED_IN = AppointmentStatus.builder().value(Value.CHECKED_IN).build();
 
     /**
      * Waitlisted
@@ -92,7 +92,7 @@ public class AppointmentStatus extends Code {
      * available.
      * <p>A specific time might or might not be pre-allocated.
      */
-    public static final AppointmentStatus WAITLIST = AppointmentStatus.builder().value(ValueSet.WAITLIST).build();
+    public static final AppointmentStatus WAITLIST = AppointmentStatus.builder().value(Value.WAITLIST).build();
 
     private volatile int hashCode;
 
@@ -100,14 +100,58 @@ public class AppointmentStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this AppointmentStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this AppointmentStatus as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating AppointmentStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static AppointmentStatus of(ValueSet value) {
+        switch (value) {
+        case PROPOSED:
+            return PROPOSED;
+        case PENDING:
+            return PENDING;
+        case BOOKED:
+            return BOOKED;
+        case ARRIVED:
+            return ARRIVED;
+        case FULFILLED:
+            return FULFILLED;
+        case CANCELLED:
+            return CANCELLED;
+        case NOSHOW:
+            return NOSHOW;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case CHECKED_IN:
+            return CHECKED_IN;
+        case WAITLIST:
+            return WAITLIST;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating AppointmentStatus objects from a passed enum value.
      */
-    public static AppointmentStatus of(ValueSet value) {
+    public static AppointmentStatus of(Value value) {
         switch (value) {
         case PROPOSED:
             return PROPOSED;
@@ -143,7 +187,7 @@ public class AppointmentStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static AppointmentStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -155,7 +199,7 @@ public class AppointmentStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -167,7 +211,7 @@ public class AppointmentStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -229,10 +273,27 @@ public class AppointmentStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for AppointmentStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -242,6 +303,7 @@ public class AppointmentStatus extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Proposed
@@ -333,7 +395,7 @@ public class AppointmentStatus extends Code {
         }
 
         /**
-         * Factory method for creating AppointmentStatus.ValueSet values from a passed string value.
+         * Factory method for creating AppointmentStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -342,6 +404,114 @@ public class AppointmentStatus extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Proposed
+         * 
+         * <p>None of the participant(s) have finalized their acceptance of the appointment request, and the start/end time might 
+         * not be set yet.
+         */
+        PROPOSED("proposed"),
+
+        /**
+         * Pending
+         * 
+         * <p>Some or all of the participant(s) have not finalized their acceptance of the appointment request.
+         */
+        PENDING("pending"),
+
+        /**
+         * Booked
+         * 
+         * <p>All participant(s) have been considered and the appointment is confirmed to go ahead at the date/times specified.
+         */
+        BOOKED("booked"),
+
+        /**
+         * Arrived
+         * 
+         * <p>The patient/patients has/have arrived and is/are waiting to be seen.
+         */
+        ARRIVED("arrived"),
+
+        /**
+         * Fulfilled
+         * 
+         * <p>The planning stages of the appointment are now complete, the encounter resource will exist and will track further 
+         * status changes. Note that an encounter may exist before the appointment status is fulfilled for many reasons.
+         */
+        FULFILLED("fulfilled"),
+
+        /**
+         * Cancelled
+         * 
+         * <p>The appointment has been cancelled.
+         */
+        CANCELLED("cancelled"),
+
+        /**
+         * No Show
+         * 
+         * <p>Some or all of the participant(s) have not/did not appear for the appointment (usually the patient).
+         */
+        NOSHOW("noshow"),
+
+        /**
+         * Entered in error
+         * 
+         * <p>This instance should not have been part of this patient's medical record.
+         */
+        ENTERED_IN_ERROR("entered-in-error"),
+
+        /**
+         * Checked In
+         * 
+         * <p>When checked in, all pre-encounter administrative work is complete, and the encounter may begin. (where multiple 
+         * patients are involved, they are all present).
+         */
+        CHECKED_IN("checked-in"),
+
+        /**
+         * Waitlisted
+         * 
+         * <p>The appointment has been placed on a waitlist, to be scheduled/confirmed in the future when a slot/service is 
+         * available.
+         * <p>A specific time might or might not be pre-allocated.
+         */
+        WAITLIST("waitlist");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating AppointmentStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

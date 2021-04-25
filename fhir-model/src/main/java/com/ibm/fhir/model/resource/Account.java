@@ -46,7 +46,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Account extends DomainResource {
@@ -55,7 +55,7 @@ public class Account extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AccountStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Indicates whether the account is available to be used.",
         valueSet = "http://hl7.org/fhir/ValueSet/account-status|4.0.1"
     )
@@ -64,7 +64,7 @@ public class Account extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AccountType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The usage type of this account, permits categorization of accounts.",
         valueSet = "http://hl7.org/fhir/ValueSet/account-type"
     )

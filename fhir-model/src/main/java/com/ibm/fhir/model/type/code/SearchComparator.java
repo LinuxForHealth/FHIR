@@ -24,63 +24,63 @@ public class SearchComparator extends Code {
      * 
      * <p>the value for the parameter in the resource is equal to the provided value.
      */
-    public static final SearchComparator EQ = SearchComparator.builder().value(ValueSet.EQ).build();
+    public static final SearchComparator EQ = SearchComparator.builder().value(Value.EQ).build();
 
     /**
      * Not Equals
      * 
      * <p>the value for the parameter in the resource is not equal to the provided value.
      */
-    public static final SearchComparator NE = SearchComparator.builder().value(ValueSet.NE).build();
+    public static final SearchComparator NE = SearchComparator.builder().value(Value.NE).build();
 
     /**
      * Greater Than
      * 
      * <p>the value for the parameter in the resource is greater than the provided value.
      */
-    public static final SearchComparator GT = SearchComparator.builder().value(ValueSet.GT).build();
+    public static final SearchComparator GT = SearchComparator.builder().value(Value.GT).build();
 
     /**
      * Less Than
      * 
      * <p>the value for the parameter in the resource is less than the provided value.
      */
-    public static final SearchComparator LT = SearchComparator.builder().value(ValueSet.LT).build();
+    public static final SearchComparator LT = SearchComparator.builder().value(Value.LT).build();
 
     /**
      * Greater or Equals
      * 
      * <p>the value for the parameter in the resource is greater or equal to the provided value.
      */
-    public static final SearchComparator GE = SearchComparator.builder().value(ValueSet.GE).build();
+    public static final SearchComparator GE = SearchComparator.builder().value(Value.GE).build();
 
     /**
      * Less of Equal
      * 
      * <p>the value for the parameter in the resource is less or equal to the provided value.
      */
-    public static final SearchComparator LE = SearchComparator.builder().value(ValueSet.LE).build();
+    public static final SearchComparator LE = SearchComparator.builder().value(Value.LE).build();
 
     /**
      * Starts After
      * 
      * <p>the value for the parameter in the resource starts after the provided value.
      */
-    public static final SearchComparator SA = SearchComparator.builder().value(ValueSet.SA).build();
+    public static final SearchComparator SA = SearchComparator.builder().value(Value.SA).build();
 
     /**
      * Ends Before
      * 
      * <p>the value for the parameter in the resource ends before the provided value.
      */
-    public static final SearchComparator EB = SearchComparator.builder().value(ValueSet.EB).build();
+    public static final SearchComparator EB = SearchComparator.builder().value(Value.EB).build();
 
     /**
      * Approximately
      * 
      * <p>the value for the parameter in the resource is approximately the same to the provided value.
      */
-    public static final SearchComparator AP = SearchComparator.builder().value(ValueSet.AP).build();
+    public static final SearchComparator AP = SearchComparator.builder().value(Value.AP).build();
 
     private volatile int hashCode;
 
@@ -88,14 +88,56 @@ public class SearchComparator extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this SearchComparator as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this SearchComparator as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating SearchComparator objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static SearchComparator of(ValueSet value) {
+        switch (value) {
+        case EQ:
+            return EQ;
+        case NE:
+            return NE;
+        case GT:
+            return GT;
+        case LT:
+            return LT;
+        case GE:
+            return GE;
+        case LE:
+            return LE;
+        case SA:
+            return SA;
+        case EB:
+            return EB;
+        case AP:
+            return AP;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating SearchComparator objects from a passed enum value.
      */
-    public static SearchComparator of(ValueSet value) {
+    public static SearchComparator of(Value value) {
         switch (value) {
         case EQ:
             return EQ;
@@ -129,7 +171,7 @@ public class SearchComparator extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static SearchComparator of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -141,7 +183,7 @@ public class SearchComparator extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -153,7 +195,7 @@ public class SearchComparator extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -215,10 +257,27 @@ public class SearchComparator extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for SearchComparator
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -228,6 +287,7 @@ public class SearchComparator extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Equals
@@ -307,7 +367,7 @@ public class SearchComparator extends Code {
         }
 
         /**
-         * Factory method for creating SearchComparator.ValueSet values from a passed string value.
+         * Factory method for creating SearchComparator.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -316,6 +376,102 @@ public class SearchComparator extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Equals
+         * 
+         * <p>the value for the parameter in the resource is equal to the provided value.
+         */
+        EQ("eq"),
+
+        /**
+         * Not Equals
+         * 
+         * <p>the value for the parameter in the resource is not equal to the provided value.
+         */
+        NE("ne"),
+
+        /**
+         * Greater Than
+         * 
+         * <p>the value for the parameter in the resource is greater than the provided value.
+         */
+        GT("gt"),
+
+        /**
+         * Less Than
+         * 
+         * <p>the value for the parameter in the resource is less than the provided value.
+         */
+        LT("lt"),
+
+        /**
+         * Greater or Equals
+         * 
+         * <p>the value for the parameter in the resource is greater or equal to the provided value.
+         */
+        GE("ge"),
+
+        /**
+         * Less of Equal
+         * 
+         * <p>the value for the parameter in the resource is less or equal to the provided value.
+         */
+        LE("le"),
+
+        /**
+         * Starts After
+         * 
+         * <p>the value for the parameter in the resource starts after the provided value.
+         */
+        SA("sa"),
+
+        /**
+         * Ends Before
+         * 
+         * <p>the value for the parameter in the resource ends before the provided value.
+         */
+        EB("eb"),
+
+        /**
+         * Approximately
+         * 
+         * <p>the value for the parameter in the resource is approximately the same to the provided value.
+         */
+        AP("ap");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating SearchComparator.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

@@ -48,7 +48,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "specimen-0",
@@ -75,7 +75,7 @@ public class Specimen extends DomainResource {
     @Summary
     @Binding(
         bindingName = "SpecimenStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Codes providing the status/availability of a specimen.",
         valueSet = "http://hl7.org/fhir/ValueSet/specimen-status|4.0.1"
     )
@@ -83,7 +83,7 @@ public class Specimen extends DomainResource {
     @Summary
     @Binding(
         bindingName = "SpecimenType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The type of the specimen.",
         valueSet = "http://terminology.hl7.org/ValueSet/v2-0487"
     )
@@ -103,7 +103,7 @@ public class Specimen extends DomainResource {
     @Summary
     @Binding(
         bindingName = "SpecimenCondition",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Codes describing the state of the specimen.",
         valueSet = "http://terminology.hl7.org/ValueSet/v2-0493"
     )
@@ -1014,14 +1014,14 @@ public class Specimen extends DomainResource {
         private final SimpleQuantity quantity;
         @Binding(
             bindingName = "SpecimenCollectionMethod",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The  technique that is used to perform the procedure.",
             valueSet = "http://hl7.org/fhir/ValueSet/specimen-collection-method"
         )
         private final CodeableConcept method;
         @Binding(
             bindingName = "BodySite",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes describing anatomical locations. May include laterality.",
             valueSet = "http://hl7.org/fhir/ValueSet/body-site"
         )
@@ -1030,7 +1030,7 @@ public class Specimen extends DomainResource {
         @Choice({ CodeableConcept.class, Duration.class })
         @Binding(
             bindingName = "FastingStatus",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Codes describing the fasting status of the patient.",
             valueSet = "http://terminology.hl7.org/ValueSet/v2-0916"
         )
@@ -1475,7 +1475,7 @@ public class Specimen extends DomainResource {
         private final String description;
         @Binding(
             bindingName = "SpecimenProcessingProcedure",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Type indicating the technique used to process the specimen.",
             valueSet = "http://hl7.org/fhir/ValueSet/specimen-processing-procedure"
         )
@@ -1850,7 +1850,7 @@ public class Specimen extends DomainResource {
         private final String description;
         @Binding(
             bindingName = "SpecimenContainerType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Type of specimen container.",
             valueSet = "http://hl7.org/fhir/ValueSet/specimen-container-type"
         )
@@ -1861,7 +1861,7 @@ public class Specimen extends DomainResource {
         @Choice({ CodeableConcept.class, Reference.class })
         @Binding(
             bindingName = "SpecimenContainerAdditive",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Substance added to specimen container.",
             valueSet = "http://terminology.hl7.org/ValueSet/v2-0371"
         )

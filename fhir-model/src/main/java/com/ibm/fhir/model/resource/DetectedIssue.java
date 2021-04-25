@@ -49,7 +49,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 1,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "detectedIssue-0",
@@ -74,7 +74,7 @@ public class DetectedIssue extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DetectedIssueStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Indicates the status of the identified issue.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.0.1"
     )
@@ -83,7 +83,7 @@ public class DetectedIssue extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DetectedIssueCategory",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "Codes identifying the general type of detected issue; e.g. Drug-drug interaction, Timing issue, Duplicate therapy, etc.",
         valueSet = "http://hl7.org/fhir/ValueSet/detectedissue-category"
     )
@@ -91,7 +91,7 @@ public class DetectedIssue extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DetectedIssueSeverity",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Indicates the potential degree of impact of the identified issue on the patient.",
         valueSet = "http://hl7.org/fhir/ValueSet/detectedissue-severity|4.0.1"
     )
@@ -909,7 +909,7 @@ public class DetectedIssue extends DomainResource {
     public static class Evidence extends BackboneElement {
         @Binding(
             bindingName = "DetectedIssueEvidenceCode",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes that describes the types of evidence for a detected issue.",
             valueSet = "http://hl7.org/fhir/ValueSet/manifestation-or-symptom"
         )
@@ -1218,7 +1218,7 @@ public class DetectedIssue extends DomainResource {
     public static class Mitigation extends BackboneElement {
         @Binding(
             bindingName = "DetectedIssueMitigationAction",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "Codes describing steps taken to resolve the issue or other circumstances that mitigate the risk associated with the issue; e.g. 'added concurrent therapy', 'prior therapy documented', etc.",
             valueSet = "http://hl7.org/fhir/ValueSet/detectedissue-mitigation-action"
         )

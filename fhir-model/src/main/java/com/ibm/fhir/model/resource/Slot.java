@@ -44,7 +44,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 3,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "slot-0",
@@ -69,21 +69,21 @@ public class Slot extends DomainResource {
     @Summary
     @Binding(
         bindingName = "service-category",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/service-category"
     )
     private final List<CodeableConcept> serviceCategory;
     @Summary
     @Binding(
         bindingName = "service-type",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/service-type"
     )
     private final List<CodeableConcept> serviceType;
     @Summary
     @Binding(
         bindingName = "specialty",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "Additional details about where the content was created (e.g. clinical specialty).",
         valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
     )
@@ -91,7 +91,7 @@ public class Slot extends DomainResource {
     @Summary
     @Binding(
         bindingName = "appointment-type",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         valueSet = "http://terminology.hl7.org/ValueSet/v2-0276"
     )
     private final CodeableConcept appointmentType;
@@ -102,7 +102,7 @@ public class Slot extends DomainResource {
     @Summary
     @Binding(
         bindingName = "SlotStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The free/busy status of the slot.",
         valueSet = "http://hl7.org/fhir/ValueSet/slotstatus|4.0.1"
     )

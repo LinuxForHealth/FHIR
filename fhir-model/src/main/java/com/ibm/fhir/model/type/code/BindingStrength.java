@@ -24,7 +24,7 @@ public class BindingStrength extends Code {
      * 
      * <p>To be conformant, the concept in this element SHALL be from the specified value set.
      */
-    public static final BindingStrength REQUIRED = BindingStrength.builder().value(ValueSet.REQUIRED).build();
+    public static final BindingStrength REQUIRED = BindingStrength.builder().value(Value.REQUIRED).build();
 
     /**
      * Extensible
@@ -33,7 +33,7 @@ public class BindingStrength extends Code {
      * value set can apply to the concept being communicated. If the value set does not cover the concept (based on human 
      * review), alternate codings (or, data type allowing, text) may be included instead.
      */
-    public static final BindingStrength EXTENSIBLE = BindingStrength.builder().value(ValueSet.EXTENSIBLE).build();
+    public static final BindingStrength EXTENSIBLE = BindingStrength.builder().value(Value.EXTENSIBLE).build();
 
     /**
      * Preferred
@@ -41,7 +41,7 @@ public class BindingStrength extends Code {
      * <p>Instances are encouraged to draw from the specified codes for interoperability purposes but are not required to do 
      * so to be considered conformant.
      */
-    public static final BindingStrength PREFERRED = BindingStrength.builder().value(ValueSet.PREFERRED).build();
+    public static final BindingStrength PREFERRED = BindingStrength.builder().value(Value.PREFERRED).build();
 
     /**
      * Example
@@ -49,7 +49,7 @@ public class BindingStrength extends Code {
      * <p>Instances are not expected or even encouraged to draw from the specified value set. The value set merely provides 
      * examples of the types of concepts intended to be included.
      */
-    public static final BindingStrength EXAMPLE = BindingStrength.builder().value(ValueSet.EXAMPLE).build();
+    public static final BindingStrength EXAMPLE = BindingStrength.builder().value(Value.EXAMPLE).build();
 
     private volatile int hashCode;
 
@@ -57,14 +57,46 @@ public class BindingStrength extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this BindingStrength as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this BindingStrength as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating BindingStrength objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static BindingStrength of(ValueSet value) {
+        switch (value) {
+        case REQUIRED:
+            return REQUIRED;
+        case EXTENSIBLE:
+            return EXTENSIBLE;
+        case PREFERRED:
+            return PREFERRED;
+        case EXAMPLE:
+            return EXAMPLE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating BindingStrength objects from a passed enum value.
      */
-    public static BindingStrength of(ValueSet value) {
+    public static BindingStrength of(Value value) {
         switch (value) {
         case REQUIRED:
             return REQUIRED;
@@ -88,7 +120,7 @@ public class BindingStrength extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static BindingStrength of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -100,7 +132,7 @@ public class BindingStrength extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -112,7 +144,7 @@ public class BindingStrength extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -174,10 +206,27 @@ public class BindingStrength extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for BindingStrength
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -187,6 +236,7 @@ public class BindingStrength extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Required
@@ -235,7 +285,7 @@ public class BindingStrength extends Code {
         }
 
         /**
-         * Factory method for creating BindingStrength.ValueSet values from a passed string value.
+         * Factory method for creating BindingStrength.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -244,6 +294,71 @@ public class BindingStrength extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Required
+         * 
+         * <p>To be conformant, the concept in this element SHALL be from the specified value set.
+         */
+        REQUIRED("required"),
+
+        /**
+         * Extensible
+         * 
+         * <p>To be conformant, the concept in this element SHALL be from the specified value set if any of the codes within the 
+         * value set can apply to the concept being communicated. If the value set does not cover the concept (based on human 
+         * review), alternate codings (or, data type allowing, text) may be included instead.
+         */
+        EXTENSIBLE("extensible"),
+
+        /**
+         * Preferred
+         * 
+         * <p>Instances are encouraged to draw from the specified codes for interoperability purposes but are not required to do 
+         * so to be considered conformant.
+         */
+        PREFERRED("preferred"),
+
+        /**
+         * Example
+         * 
+         * <p>Instances are not expected or even encouraged to draw from the specified value set. The value set merely provides 
+         * examples of the types of concepts intended to be included.
+         */
+        EXAMPLE("example");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating BindingStrength.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

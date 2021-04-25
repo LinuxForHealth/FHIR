@@ -41,7 +41,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 0,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "lnk-1",
@@ -504,7 +504,7 @@ public class Linkage extends DomainResource {
         @Summary
         @Binding(
             bindingName = "LinkageType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Used to distinguish different roles a resource can play within a set of linked resources.",
             valueSet = "http://hl7.org/fhir/ValueSet/linkage-type|4.0.1"
         )

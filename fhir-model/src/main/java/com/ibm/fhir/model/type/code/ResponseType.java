@@ -24,7 +24,7 @@ public class ResponseType extends Code {
      * 
      * <p>The message was accepted and processed without error.
      */
-    public static final ResponseType OK = ResponseType.builder().value(ValueSet.OK).build();
+    public static final ResponseType OK = ResponseType.builder().value(Value.OK).build();
 
     /**
      * Transient Error
@@ -32,7 +32,7 @@ public class ResponseType extends Code {
      * <p>Some internal unexpected error occurred - wait and try again. Note - this is usually used for things like database 
      * unavailable, which may be expected to resolve, though human intervention may be required.
      */
-    public static final ResponseType TRANSIENT_ERROR = ResponseType.builder().value(ValueSet.TRANSIENT_ERROR).build();
+    public static final ResponseType TRANSIENT_ERROR = ResponseType.builder().value(Value.TRANSIENT_ERROR).build();
 
     /**
      * Fatal Error
@@ -40,7 +40,7 @@ public class ResponseType extends Code {
      * <p>The message was rejected because of a problem with the content. There is no point in re-sending without change. The 
      * response narrative SHALL describe the issue.
      */
-    public static final ResponseType FATAL_ERROR = ResponseType.builder().value(ValueSet.FATAL_ERROR).build();
+    public static final ResponseType FATAL_ERROR = ResponseType.builder().value(Value.FATAL_ERROR).build();
 
     private volatile int hashCode;
 
@@ -48,14 +48,44 @@ public class ResponseType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this ResponseType as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this ResponseType as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating ResponseType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static ResponseType of(ValueSet value) {
+        switch (value) {
+        case OK:
+            return OK;
+        case TRANSIENT_ERROR:
+            return TRANSIENT_ERROR;
+        case FATAL_ERROR:
+            return FATAL_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating ResponseType objects from a passed enum value.
      */
-    public static ResponseType of(ValueSet value) {
+    public static ResponseType of(Value value) {
         switch (value) {
         case OK:
             return OK;
@@ -77,7 +107,7 @@ public class ResponseType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static ResponseType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -89,7 +119,7 @@ public class ResponseType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -101,7 +131,7 @@ public class ResponseType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -163,10 +193,27 @@ public class ResponseType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for ResponseType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -176,6 +223,7 @@ public class ResponseType extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * OK
@@ -215,7 +263,7 @@ public class ResponseType extends Code {
         }
 
         /**
-         * Factory method for creating ResponseType.ValueSet values from a passed string value.
+         * Factory method for creating ResponseType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -224,6 +272,62 @@ public class ResponseType extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * OK
+         * 
+         * <p>The message was accepted and processed without error.
+         */
+        OK("ok"),
+
+        /**
+         * Transient Error
+         * 
+         * <p>Some internal unexpected error occurred - wait and try again. Note - this is usually used for things like database 
+         * unavailable, which may be expected to resolve, though human intervention may be required.
+         */
+        TRANSIENT_ERROR("transient-error"),
+
+        /**
+         * Fatal Error
+         * 
+         * <p>The message was rejected because of a problem with the content. There is no point in re-sending without change. The 
+         * response narrative SHALL describe the issue.
+         */
+        FATAL_ERROR("fatal-error");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating ResponseType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

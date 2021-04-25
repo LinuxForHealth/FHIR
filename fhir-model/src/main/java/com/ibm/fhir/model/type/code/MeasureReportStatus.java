@@ -24,21 +24,21 @@ public class MeasureReportStatus extends Code {
      * 
      * <p>The report is complete and ready for use.
      */
-    public static final MeasureReportStatus COMPLETE = MeasureReportStatus.builder().value(ValueSet.COMPLETE).build();
+    public static final MeasureReportStatus COMPLETE = MeasureReportStatus.builder().value(Value.COMPLETE).build();
 
     /**
      * Pending
      * 
      * <p>The report is currently being generated.
      */
-    public static final MeasureReportStatus PENDING = MeasureReportStatus.builder().value(ValueSet.PENDING).build();
+    public static final MeasureReportStatus PENDING = MeasureReportStatus.builder().value(Value.PENDING).build();
 
     /**
      * Error
      * 
      * <p>An error occurred attempting to generate the report.
      */
-    public static final MeasureReportStatus ERROR = MeasureReportStatus.builder().value(ValueSet.ERROR).build();
+    public static final MeasureReportStatus ERROR = MeasureReportStatus.builder().value(Value.ERROR).build();
 
     private volatile int hashCode;
 
@@ -46,14 +46,44 @@ public class MeasureReportStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this MeasureReportStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this MeasureReportStatus as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating MeasureReportStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static MeasureReportStatus of(ValueSet value) {
+        switch (value) {
+        case COMPLETE:
+            return COMPLETE;
+        case PENDING:
+            return PENDING;
+        case ERROR:
+            return ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating MeasureReportStatus objects from a passed enum value.
      */
-    public static MeasureReportStatus of(ValueSet value) {
+    public static MeasureReportStatus of(Value value) {
         switch (value) {
         case COMPLETE:
             return COMPLETE;
@@ -75,7 +105,7 @@ public class MeasureReportStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static MeasureReportStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -87,7 +117,7 @@ public class MeasureReportStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -99,7 +129,7 @@ public class MeasureReportStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -161,10 +191,27 @@ public class MeasureReportStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for MeasureReportStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -174,6 +221,7 @@ public class MeasureReportStatus extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Complete
@@ -211,7 +259,7 @@ public class MeasureReportStatus extends Code {
         }
 
         /**
-         * Factory method for creating MeasureReportStatus.ValueSet values from a passed string value.
+         * Factory method for creating MeasureReportStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -220,6 +268,60 @@ public class MeasureReportStatus extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Complete
+         * 
+         * <p>The report is complete and ready for use.
+         */
+        COMPLETE("complete"),
+
+        /**
+         * Pending
+         * 
+         * <p>The report is currently being generated.
+         */
+        PENDING("pending"),
+
+        /**
+         * Error
+         * 
+         * <p>An error occurred attempting to generate the report.
+         */
+        ERROR("error");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating MeasureReportStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

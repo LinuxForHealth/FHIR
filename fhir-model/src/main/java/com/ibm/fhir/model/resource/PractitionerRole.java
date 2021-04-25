@@ -48,7 +48,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "practitionerRole-0",
@@ -75,7 +75,7 @@ public class PractitionerRole extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PractitionerRole",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The role a person plays representing an organization.",
         valueSet = "http://hl7.org/fhir/ValueSet/practitioner-role"
     )
@@ -83,7 +83,7 @@ public class PractitionerRole extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PractitionerSpecialty",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "Specific specialty associated with the agency.",
         valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
     )
@@ -1068,7 +1068,7 @@ public class PractitionerRole extends DomainResource {
     public static class AvailableTime extends BackboneElement {
         @Binding(
             bindingName = "DaysOfWeek",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The days of the week.",
             valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.0.1"
         )

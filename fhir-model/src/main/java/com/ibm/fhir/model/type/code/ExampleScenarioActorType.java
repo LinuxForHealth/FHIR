@@ -24,14 +24,14 @@ public class ExampleScenarioActorType extends Code {
      * 
      * <p>A person.
      */
-    public static final ExampleScenarioActorType PERSON = ExampleScenarioActorType.builder().value(ValueSet.PERSON).build();
+    public static final ExampleScenarioActorType PERSON = ExampleScenarioActorType.builder().value(Value.PERSON).build();
 
     /**
      * System
      * 
      * <p>A system.
      */
-    public static final ExampleScenarioActorType ENTITY = ExampleScenarioActorType.builder().value(ValueSet.ENTITY).build();
+    public static final ExampleScenarioActorType ENTITY = ExampleScenarioActorType.builder().value(Value.ENTITY).build();
 
     private volatile int hashCode;
 
@@ -39,14 +39,42 @@ public class ExampleScenarioActorType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this ExampleScenarioActorType as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this ExampleScenarioActorType as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating ExampleScenarioActorType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static ExampleScenarioActorType of(ValueSet value) {
+        switch (value) {
+        case PERSON:
+            return PERSON;
+        case ENTITY:
+            return ENTITY;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating ExampleScenarioActorType objects from a passed enum value.
      */
-    public static ExampleScenarioActorType of(ValueSet value) {
+    public static ExampleScenarioActorType of(Value value) {
         switch (value) {
         case PERSON:
             return PERSON;
@@ -66,7 +94,7 @@ public class ExampleScenarioActorType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static ExampleScenarioActorType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -78,7 +106,7 @@ public class ExampleScenarioActorType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -90,7 +118,7 @@ public class ExampleScenarioActorType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -152,10 +180,27 @@ public class ExampleScenarioActorType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for ExampleScenarioActorType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -165,6 +210,7 @@ public class ExampleScenarioActorType extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Person
@@ -195,7 +241,7 @@ public class ExampleScenarioActorType extends Code {
         }
 
         /**
-         * Factory method for creating ExampleScenarioActorType.ValueSet values from a passed string value.
+         * Factory method for creating ExampleScenarioActorType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -204,6 +250,53 @@ public class ExampleScenarioActorType extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Person
+         * 
+         * <p>A person.
+         */
+        PERSON("person"),
+
+        /**
+         * System
+         * 
+         * <p>A system.
+         */
+        ENTITY("entity");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating ExampleScenarioActorType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

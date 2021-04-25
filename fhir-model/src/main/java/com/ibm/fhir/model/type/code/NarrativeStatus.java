@@ -24,7 +24,7 @@ public class NarrativeStatus extends Code {
      * 
      * <p>The contents of the narrative are entirely generated from the core elements in the content.
      */
-    public static final NarrativeStatus GENERATED = NarrativeStatus.builder().value(ValueSet.GENERATED).build();
+    public static final NarrativeStatus GENERATED = NarrativeStatus.builder().value(Value.GENERATED).build();
 
     /**
      * Extensions
@@ -32,7 +32,7 @@ public class NarrativeStatus extends Code {
      * <p>The contents of the narrative are entirely generated from the core elements in the content and some of the content 
      * is generated from extensions. The narrative SHALL reflect the impact of all modifier extensions.
      */
-    public static final NarrativeStatus EXTENSIONS = NarrativeStatus.builder().value(ValueSet.EXTENSIONS).build();
+    public static final NarrativeStatus EXTENSIONS = NarrativeStatus.builder().value(Value.EXTENSIONS).build();
 
     /**
      * Additional
@@ -40,14 +40,14 @@ public class NarrativeStatus extends Code {
      * <p>The contents of the narrative may contain additional information not found in the structured data. Note that there 
      * is no computable way to determine what the extra information is, other than by human inspection.
      */
-    public static final NarrativeStatus ADDITIONAL = NarrativeStatus.builder().value(ValueSet.ADDITIONAL).build();
+    public static final NarrativeStatus ADDITIONAL = NarrativeStatus.builder().value(Value.ADDITIONAL).build();
 
     /**
      * Empty
      * 
      * <p>The contents of the narrative are some equivalent of "No human-readable text provided in this case".
      */
-    public static final NarrativeStatus EMPTY = NarrativeStatus.builder().value(ValueSet.EMPTY).build();
+    public static final NarrativeStatus EMPTY = NarrativeStatus.builder().value(Value.EMPTY).build();
 
     private volatile int hashCode;
 
@@ -55,14 +55,46 @@ public class NarrativeStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this NarrativeStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this NarrativeStatus as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating NarrativeStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static NarrativeStatus of(ValueSet value) {
+        switch (value) {
+        case GENERATED:
+            return GENERATED;
+        case EXTENSIONS:
+            return EXTENSIONS;
+        case ADDITIONAL:
+            return ADDITIONAL;
+        case EMPTY:
+            return EMPTY;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating NarrativeStatus objects from a passed enum value.
      */
-    public static NarrativeStatus of(ValueSet value) {
+    public static NarrativeStatus of(Value value) {
         switch (value) {
         case GENERATED:
             return GENERATED;
@@ -86,7 +118,7 @@ public class NarrativeStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static NarrativeStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -98,7 +130,7 @@ public class NarrativeStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -110,7 +142,7 @@ public class NarrativeStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -172,10 +204,27 @@ public class NarrativeStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for NarrativeStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -185,6 +234,7 @@ public class NarrativeStatus extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Generated
@@ -231,7 +281,7 @@ public class NarrativeStatus extends Code {
         }
 
         /**
-         * Factory method for creating NarrativeStatus.ValueSet values from a passed string value.
+         * Factory method for creating NarrativeStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -240,6 +290,69 @@ public class NarrativeStatus extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Generated
+         * 
+         * <p>The contents of the narrative are entirely generated from the core elements in the content.
+         */
+        GENERATED("generated"),
+
+        /**
+         * Extensions
+         * 
+         * <p>The contents of the narrative are entirely generated from the core elements in the content and some of the content 
+         * is generated from extensions. The narrative SHALL reflect the impact of all modifier extensions.
+         */
+        EXTENSIONS("extensions"),
+
+        /**
+         * Additional
+         * 
+         * <p>The contents of the narrative may contain additional information not found in the structured data. Note that there 
+         * is no computable way to determine what the extra information is, other than by human inspection.
+         */
+        ADDITIONAL("additional"),
+
+        /**
+         * Empty
+         * 
+         * <p>The contents of the narrative are some equivalent of "No human-readable text provided in this case".
+         */
+        EMPTY("empty");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating NarrativeStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

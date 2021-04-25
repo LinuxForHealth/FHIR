@@ -24,14 +24,14 @@ public class DiscriminatorType extends Code {
      * 
      * <p>The slices have different values in the nominated element.
      */
-    public static final DiscriminatorType VALUE = DiscriminatorType.builder().value(ValueSet.VALUE).build();
+    public static final DiscriminatorType VALUE = DiscriminatorType.builder().value(Value.VALUE).build();
 
     /**
      * Exists
      * 
      * <p>The slices are differentiated by the presence or absence of the nominated element.
      */
-    public static final DiscriminatorType EXISTS = DiscriminatorType.builder().value(ValueSet.EXISTS).build();
+    public static final DiscriminatorType EXISTS = DiscriminatorType.builder().value(Value.EXISTS).build();
 
     /**
      * Pattern
@@ -39,14 +39,14 @@ public class DiscriminatorType extends Code {
      * <p>The slices have different values in the nominated element, as determined by testing them against the applicable 
      * ElementDefinition.pattern[x].
      */
-    public static final DiscriminatorType PATTERN = DiscriminatorType.builder().value(ValueSet.PATTERN).build();
+    public static final DiscriminatorType PATTERN = DiscriminatorType.builder().value(Value.PATTERN).build();
 
     /**
      * Type
      * 
      * <p>The slices are differentiated by type of the nominated element.
      */
-    public static final DiscriminatorType TYPE = DiscriminatorType.builder().value(ValueSet.TYPE).build();
+    public static final DiscriminatorType TYPE = DiscriminatorType.builder().value(Value.TYPE).build();
 
     /**
      * Profile
@@ -55,7 +55,7 @@ public class DiscriminatorType extends Code {
      * specifies .resolve() then the profile is the target profile on the reference. In this case, validation by the possible 
      * profiles is required to differentiate the slices.
      */
-    public static final DiscriminatorType PROFILE = DiscriminatorType.builder().value(ValueSet.PROFILE).build();
+    public static final DiscriminatorType PROFILE = DiscriminatorType.builder().value(Value.PROFILE).build();
 
     private volatile int hashCode;
 
@@ -63,14 +63,48 @@ public class DiscriminatorType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this DiscriminatorType as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this DiscriminatorType as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating DiscriminatorType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static DiscriminatorType of(ValueSet value) {
+        switch (value) {
+        case VALUE:
+            return VALUE;
+        case EXISTS:
+            return EXISTS;
+        case PATTERN:
+            return PATTERN;
+        case TYPE:
+            return TYPE;
+        case PROFILE:
+            return PROFILE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating DiscriminatorType objects from a passed enum value.
      */
-    public static DiscriminatorType of(ValueSet value) {
+    public static DiscriminatorType of(Value value) {
         switch (value) {
         case VALUE:
             return VALUE;
@@ -96,7 +130,7 @@ public class DiscriminatorType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static DiscriminatorType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -108,7 +142,7 @@ public class DiscriminatorType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -120,7 +154,7 @@ public class DiscriminatorType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -182,10 +216,27 @@ public class DiscriminatorType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for DiscriminatorType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -195,6 +246,7 @@ public class DiscriminatorType extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Value
@@ -249,7 +301,7 @@ public class DiscriminatorType extends Code {
         }
 
         /**
-         * Factory method for creating DiscriminatorType.ValueSet values from a passed string value.
+         * Factory method for creating DiscriminatorType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -258,6 +310,77 @@ public class DiscriminatorType extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Value
+         * 
+         * <p>The slices have different values in the nominated element.
+         */
+        VALUE("value"),
+
+        /**
+         * Exists
+         * 
+         * <p>The slices are differentiated by the presence or absence of the nominated element.
+         */
+        EXISTS("exists"),
+
+        /**
+         * Pattern
+         * 
+         * <p>The slices have different values in the nominated element, as determined by testing them against the applicable 
+         * ElementDefinition.pattern[x].
+         */
+        PATTERN("pattern"),
+
+        /**
+         * Type
+         * 
+         * <p>The slices are differentiated by type of the nominated element.
+         */
+        TYPE("type"),
+
+        /**
+         * Profile
+         * 
+         * <p>The slices are differentiated by conformance of the nominated element to a specified profile. Note that if the path 
+         * specifies .resolve() then the profile is the target profile on the reference. In this case, validation by the possible 
+         * profiles is required to differentiate the slices.
+         */
+        PROFILE("profile");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating DiscriminatorType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

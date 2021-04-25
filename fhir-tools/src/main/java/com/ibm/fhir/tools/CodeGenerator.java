@@ -981,7 +981,7 @@ public class CodeGenerator {
                 if (hasMaturityLevel(structureDefinition) && hasStandardsStatus(structureDefinition)) {
                     Map<String, String> vals = new HashMap<>();
                     vals.put("level", getMaturityLevel(structureDefinition));
-                    vals.put("status", "StandardsStatus.ValueSet." + getStandardsStatus(structureDefinition).toUpperCase().replace("-", "_"));
+                    vals.put("status", "StandardsStatus.Value." + getStandardsStatus(structureDefinition).toUpperCase().replace("-", "_"));
                     cb.annotation("Maturity", vals);
                 }
                 generateConstraintAnnotations(structureDefinition, cb, className);
@@ -1390,7 +1390,7 @@ public class CodeGenerator {
                 valueMap.put("bindingName", "\"" + bindingName + "\"");
             }
             if (strength != null) {
-                valueMap.put("strength", "BindingStrength.ValueSet." + strength.toUpperCase());
+                valueMap.put("strength", "BindingStrength.Value." + strength.toUpperCase());
             }
             if (description != null) {
                 valueMap.put("description", "\"" + description.replace("\"", "\\\"") + "\"");
@@ -2353,7 +2353,6 @@ public class CodeGenerator {
         cb._import("javax.xml.stream.XMLStreamReader");
         cb.newLine();
 
-        cb._import("com.ibm.fhir.model.parser.FHIRAbstractParser");
         cb._import("com.ibm.fhir.model.parser.exception.FHIRParserException");
         cb._import("com.ibm.fhir.model.resource.*");
         cb._import("com.ibm.fhir.model.type.*");
@@ -2504,7 +2503,7 @@ public class CodeGenerator {
         cb.method(mods("private"), "java.lang.String", "getResourceType", params("XMLStreamReader reader"), throwsExceptions("XMLStreamException"))
             .assign("java.lang.String resourceType", "reader.getLocalName()")
             ._try()
-                .invoke("ResourceType.ValueSet", "from", args("resourceType"))
+                .invoke("ResourceType.Value", "from", args("resourceType"))
             ._catch("IllegalArgumentException e")
                 ._throw("new IllegalArgumentException(\"Invalid resource type: '\" + resourceType + \"'\")")
             ._end()
@@ -2752,8 +2751,6 @@ public class CodeGenerator {
         cb._import("javax.json.JsonValue");
         cb.newLine();
 
-        cb._import("com.ibm.fhir.model.parser.FHIRParser");
-        cb._import("com.ibm.fhir.model.parser.FHIRAbstractParser");
         cb._import("com.ibm.fhir.model.parser.exception.FHIRParserException");
         cb._import("com.ibm.fhir.model.resource.*");
         cb._import("com.ibm.fhir.model.type.*");
@@ -3254,8 +3251,9 @@ public class CodeGenerator {
         for (JsonObject concept : concepts) {
             String value = concept.getString("code");
             String enumConstantName = getEnumConstantName(bindingName, value);
+
             generateConceptJavadoc(concept, cb);
-            cb.field(mods("public", "static", "final"), bindingName, enumConstantName, bindingName + ".builder().value(ValueSet." + enumConstantName + ").build()")
+            cb.field(mods("public", "static", "final"), bindingName, enumConstantName, bindingName + ".builder().value(Value." + enumConstantName + ").build()")
                 .newLine();
         }
 
@@ -3265,14 +3263,44 @@ public class CodeGenerator {
             ._super(args("builder"))
         .end().newLine();
 
+        cb.javadocStart()
+            .javadoc("Get the value of this " + bindingName + " as an enum constant.")
+            .javadoc("@deprecated replaced by {@link #getValueConstant()}")
+            .javadocEnd();
+        cb.annotation("Deprecated");
         cb.method(mods("public"), "ValueSet", "getValueAsEnumConstant")
             ._return("(value != null) ? ValueSet.from(value) : null")
         .end().newLine();
 
         cb.javadocStart()
+            .javadoc("Get the value of this " + bindingName + " as an enum constant.")
+            .javadocEnd();
+        cb.method(mods("public"), "Value", "getValueConstant")
+            ._return("(value != null) ? Value.from(value) : null")
+        .end().newLine();
+
+        cb.javadocStart()
+            .javadoc("Factory method for creating " + bindingName + " objects from a passed enum value.")
+            .javadoc("@deprecated replaced by {@link #of(Value)}")
+            .javadocEnd();
+        cb.annotation("Deprecated");
+        cb.method(mods("public", "static"), bindingName, "of", args("ValueSet value"))
+            ._switch("value");
+            for (JsonObject concept : concepts) {
+                String value = concept.getString("code");
+                String enumConstantName = getEnumConstantName(bindingName, value);
+                cb._case(enumConstantName)
+                    ._return(enumConstantName);
+            }
+            cb._default()
+                ._throw(_new("IllegalStateException", args("value.name()")));
+            cb.end();
+        cb.end().newLine();
+
+        cb.javadocStart()
             .javadoc("Factory method for creating " + bindingName + " objects from a passed enum value.")
             .javadocEnd();
-        cb.method(mods("public", "static"), bindingName, "of", args("ValueSet value"))
+        cb.method(mods("public", "static"), bindingName, "of", args("Value value"))
             ._switch("value");
             for (JsonObject concept : concepts) {
                 String value = concept.getString("code");
@@ -3292,7 +3320,7 @@ public class CodeGenerator {
             .javadocThrows("IllegalArgumentException", "If the passed string cannot be parsed into an allowed code value")
             .javadocEnd();
         cb.method(mods("public", "static"), bindingName, "of", args("java.lang.String value"))
-            ._return("of(ValueSet.from(value))")
+            ._return("of(Value.from(value))")
         .end().newLine();
 
         cb.javadocStart()
@@ -3302,7 +3330,7 @@ public class CodeGenerator {
             .javadocThrows("IllegalArgumentException", "If the passed string cannot be parsed into an allowed code value")
             .javadocEnd();
         cb.method(mods("public", "static"), "String", "string", args("java.lang.String value"))
-            ._return("of(ValueSet.from(value))")
+            ._return("of(Value.from(value))")
         .end().newLine();
 
         cb.javadocStart()
@@ -3312,7 +3340,7 @@ public class CodeGenerator {
             .javadocThrows("IllegalArgumentException", "If the passed string cannot be parsed into an allowed code value")
             .javadocEnd();
         cb.method(mods("public", "static"), "Code", "code", args("java.lang.String value"))
-            ._return("of(ValueSet.from(value))")
+            ._return("of(Value.from(value))")
         .end().newLine();
 
         cb.override();
@@ -3375,10 +3403,25 @@ public class CodeGenerator {
 
         cb.override();
         cb.method(mods("public"), "Builder", "value", args("java.lang.String value"))
-            ._return("(value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this")
+            ._return("(value != null) ? (Builder) super.value(Value.from(value).value()) : this")
         .end().newLine();
 
+        cb.javadocStart()
+            .javadoc("@deprecated replaced by  {@link #value(Value)}")
+            .javadocEnd();
+        cb.annotation("Deprecated");
         cb.method(mods("public"), "Builder", "value", args("ValueSet value"))
+            ._return("(value != null) ? (Builder) super.value(value.value()) : this")
+        .end().newLine();
+
+        cb.javadocStart()
+            .javadoc("Primitive value for code")
+            .javadoc("")
+            .javadocParam("value", "An enum constant for " + bindingName)
+            .javadoc("")
+            .javadocReturn("A reference to this Builder instance")
+            .javadocEnd();
+        cb.method(mods("public"), "Builder", "value", args("Value value"))
             ._return("(value != null) ? (Builder) super.value(value.value()) : this")
         .end().newLine();
 
@@ -3389,49 +3432,10 @@ public class CodeGenerator {
 
         cb._end().newLine();
 
-        String definition = getValueSetDefinition(valueSet);
-        if (definition != null) {
-            cb.javadoc(definition);
-        }
-        cb._enum(mods("public"), "ValueSet");
+        generateCodeSubtypeEnum(bindingName, valueSet, cb, concepts, true);
+        cb.newLine();
 
-
-        for (JsonObject concept : concepts) {
-            String value = concept.getString("code");
-            String enumConstantName = getEnumConstantName(bindingName, value);
-            generateConceptJavadoc(concept, cb);
-            cb.enumConstant(enumConstantName, args(quote(value)), isLast(concepts, concept)).newLine();
-        }
-
-        cb.field(mods("private", "final"), "java.lang.String", "value").newLine();
-
-        cb.constructor(mods(), "ValueSet", args("java.lang.String value"))
-            .assign(_this("value"), "value")
-        .end().newLine();
-
-        cb.javadocStart()
-            .javadocReturn("The java.lang.String value of the code represented by this enum")
-            .javadocEnd();
-        cb.method(mods("public"), "java.lang.String", "value")
-            ._return("value")
-        .end().newLine();
-
-        cb.javadocStart()
-            .javadoc("Factory method for creating " + bindingName + ".ValueSet values from a passed string value.")
-            .javadoc("")
-            .javadocParam("value", "A string that matches one of the allowed code values")
-            .javadocThrows("IllegalArgumentException", "If the passed string cannot be parsed into an allowed code value")
-            .javadocEnd();
-        cb.method(mods("public", "static"), "ValueSet", "from", params("java.lang.String value"))
-            ._foreach("ValueSet c", "ValueSet.values()")
-                ._if("c.value.equals(value)")
-                    ._return("c")
-                ._end()
-            ._end()
-            ._throw(_new("IllegalArgumentException", args("value")))
-        .end();
-
-        cb._end();
+        generateCodeSubtypeEnum(bindingName, valueSet, cb, concepts, false);
 
         cb._end();
 
@@ -3453,6 +3457,55 @@ public class CodeGenerator {
         }
 
         codeSubtypeClassNames.add(bindingName);
+    }
+
+    private void generateCodeSubtypeEnum(String bindingName, String valueSet, CodeBuilder cb, List<JsonObject> concepts, boolean legacy) {
+        String enumName = legacy ? "ValueSet" : "Value";
+        String definition = getValueSetDefinition(valueSet);
+        if (definition != null) {
+            cb.javadoc(definition);
+        }
+        if (legacy) {
+            cb.annotation("Deprecated");
+        }
+        cb._enum(mods("public"), enumName);
+
+        for (JsonObject concept : concepts) {
+            String value = concept.getString("code");
+            String enumConstantName = getEnumConstantName(bindingName, value);
+            generateConceptJavadoc(concept, cb);
+            cb.enumConstant(enumConstantName, args(quote(value)), isLast(concepts, concept)).newLine();
+        }
+
+        cb.field(mods("private", "final"), "java.lang.String", "value").newLine();
+
+        cb.constructor(mods(), enumName, args("java.lang.String value"))
+            .assign(_this("value"), "value")
+        .end().newLine();
+
+        cb.javadocStart()
+            .javadocReturn("The java.lang.String value of the code represented by this enum")
+            .javadocEnd();
+        cb.method(mods("public"), "java.lang.String", "value")
+            ._return("value")
+        .end().newLine();
+
+        cb.javadocStart()
+            .javadoc("Factory method for creating " + bindingName + ".Value values from a passed string value.")
+            .javadoc("")
+            .javadocParam("value", "A string that matches one of the allowed code values")
+            .javadocThrows("IllegalArgumentException", "If the passed string cannot be parsed into an allowed code value")
+            .javadocEnd();
+        cb.method(mods("public", "static"), enumName, "from", params("java.lang.String value"))
+            ._foreach(enumName + " c", enumName + ".values()")
+                ._if("c.value.equals(value)")
+                    ._return("c")
+                ._end()
+            ._end()
+            ._throw(_new("IllegalArgumentException", args("value")))
+        .end();
+
+        cb._end();
     }
 
     private void generateConceptJavadoc(JsonObject concept, CodeBuilder cb) {

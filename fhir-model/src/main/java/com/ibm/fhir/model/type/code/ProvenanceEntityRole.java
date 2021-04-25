@@ -25,14 +25,14 @@ public class ProvenanceEntityRole extends Code {
      * <p>A transformation of an entity into another, an update of an entity resulting in a new one, or the construction of a 
      * new entity based on a pre-existing entity.
      */
-    public static final ProvenanceEntityRole DERIVATION = ProvenanceEntityRole.builder().value(ValueSet.DERIVATION).build();
+    public static final ProvenanceEntityRole DERIVATION = ProvenanceEntityRole.builder().value(Value.DERIVATION).build();
 
     /**
      * Revision
      * 
      * <p>A derivation for which the resulting entity is a revised version of some original.
      */
-    public static final ProvenanceEntityRole REVISION = ProvenanceEntityRole.builder().value(ValueSet.REVISION).build();
+    public static final ProvenanceEntityRole REVISION = ProvenanceEntityRole.builder().value(Value.REVISION).build();
 
     /**
      * Quotation
@@ -40,7 +40,7 @@ public class ProvenanceEntityRole extends Code {
      * <p>The repeat of (some or all of) an entity, such as text or image, by someone who might or might not be its original 
      * author.
      */
-    public static final ProvenanceEntityRole QUOTATION = ProvenanceEntityRole.builder().value(ValueSet.QUOTATION).build();
+    public static final ProvenanceEntityRole QUOTATION = ProvenanceEntityRole.builder().value(Value.QUOTATION).build();
 
     /**
      * Source
@@ -48,14 +48,14 @@ public class ProvenanceEntityRole extends Code {
      * <p>A primary source for a topic refers to something produced by some agent with direct experience and knowledge about 
      * the topic, at the time of the topic's study, without benefit from hindsight.
      */
-    public static final ProvenanceEntityRole SOURCE = ProvenanceEntityRole.builder().value(ValueSet.SOURCE).build();
+    public static final ProvenanceEntityRole SOURCE = ProvenanceEntityRole.builder().value(Value.SOURCE).build();
 
     /**
      * Removal
      * 
      * <p>A derivation for which the entity is removed from accessibility usually through the use of the Delete operation.
      */
-    public static final ProvenanceEntityRole REMOVAL = ProvenanceEntityRole.builder().value(ValueSet.REMOVAL).build();
+    public static final ProvenanceEntityRole REMOVAL = ProvenanceEntityRole.builder().value(Value.REMOVAL).build();
 
     private volatile int hashCode;
 
@@ -63,14 +63,48 @@ public class ProvenanceEntityRole extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this ProvenanceEntityRole as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this ProvenanceEntityRole as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating ProvenanceEntityRole objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static ProvenanceEntityRole of(ValueSet value) {
+        switch (value) {
+        case DERIVATION:
+            return DERIVATION;
+        case REVISION:
+            return REVISION;
+        case QUOTATION:
+            return QUOTATION;
+        case SOURCE:
+            return SOURCE;
+        case REMOVAL:
+            return REMOVAL;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating ProvenanceEntityRole objects from a passed enum value.
      */
-    public static ProvenanceEntityRole of(ValueSet value) {
+    public static ProvenanceEntityRole of(Value value) {
         switch (value) {
         case DERIVATION:
             return DERIVATION;
@@ -96,7 +130,7 @@ public class ProvenanceEntityRole extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static ProvenanceEntityRole of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -108,7 +142,7 @@ public class ProvenanceEntityRole extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -120,7 +154,7 @@ public class ProvenanceEntityRole extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -182,10 +216,27 @@ public class ProvenanceEntityRole extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for ProvenanceEntityRole
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -195,6 +246,7 @@ public class ProvenanceEntityRole extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Derivation
@@ -249,7 +301,7 @@ public class ProvenanceEntityRole extends Code {
         }
 
         /**
-         * Factory method for creating ProvenanceEntityRole.ValueSet values from a passed string value.
+         * Factory method for creating ProvenanceEntityRole.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -258,6 +310,77 @@ public class ProvenanceEntityRole extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Derivation
+         * 
+         * <p>A transformation of an entity into another, an update of an entity resulting in a new one, or the construction of a 
+         * new entity based on a pre-existing entity.
+         */
+        DERIVATION("derivation"),
+
+        /**
+         * Revision
+         * 
+         * <p>A derivation for which the resulting entity is a revised version of some original.
+         */
+        REVISION("revision"),
+
+        /**
+         * Quotation
+         * 
+         * <p>The repeat of (some or all of) an entity, such as text or image, by someone who might or might not be its original 
+         * author.
+         */
+        QUOTATION("quotation"),
+
+        /**
+         * Source
+         * 
+         * <p>A primary source for a topic refers to something produced by some agent with direct experience and knowledge about 
+         * the topic, at the time of the topic's study, without benefit from hindsight.
+         */
+        SOURCE("source"),
+
+        /**
+         * Removal
+         * 
+         * <p>A derivation for which the entity is removed from accessibility usually through the use of the Delete operation.
+         */
+        REMOVAL("removal");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating ProvenanceEntityRole.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

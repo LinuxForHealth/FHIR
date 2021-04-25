@@ -30,7 +30,7 @@ public class Contributor extends Element {
     @Summary
     @Binding(
         bindingName = "ContributorType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The type of contributor.",
         valueSet = "http://hl7.org/fhir/ValueSet/contributor-type|4.0.1"
     )

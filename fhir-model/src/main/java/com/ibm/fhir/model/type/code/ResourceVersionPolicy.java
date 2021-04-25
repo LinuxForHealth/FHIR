@@ -24,21 +24,21 @@ public class ResourceVersionPolicy extends Code {
      * 
      * <p>VersionId meta-property is not supported (server) or used (client).
      */
-    public static final ResourceVersionPolicy NO_VERSION = ResourceVersionPolicy.builder().value(ValueSet.NO_VERSION).build();
+    public static final ResourceVersionPolicy NO_VERSION = ResourceVersionPolicy.builder().value(Value.NO_VERSION).build();
 
     /**
      * Versioned
      * 
      * <p>VersionId meta-property is supported (server) or used (client).
      */
-    public static final ResourceVersionPolicy VERSIONED = ResourceVersionPolicy.builder().value(ValueSet.VERSIONED).build();
+    public static final ResourceVersionPolicy VERSIONED = ResourceVersionPolicy.builder().value(Value.VERSIONED).build();
 
     /**
      * VersionId tracked fully
      * 
      * <p>VersionId must be correct for updates (server) or will be specified (If-match header) for updates (client).
      */
-    public static final ResourceVersionPolicy VERSIONED_UPDATE = ResourceVersionPolicy.builder().value(ValueSet.VERSIONED_UPDATE).build();
+    public static final ResourceVersionPolicy VERSIONED_UPDATE = ResourceVersionPolicy.builder().value(Value.VERSIONED_UPDATE).build();
 
     private volatile int hashCode;
 
@@ -46,14 +46,44 @@ public class ResourceVersionPolicy extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this ResourceVersionPolicy as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this ResourceVersionPolicy as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating ResourceVersionPolicy objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static ResourceVersionPolicy of(ValueSet value) {
+        switch (value) {
+        case NO_VERSION:
+            return NO_VERSION;
+        case VERSIONED:
+            return VERSIONED;
+        case VERSIONED_UPDATE:
+            return VERSIONED_UPDATE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating ResourceVersionPolicy objects from a passed enum value.
      */
-    public static ResourceVersionPolicy of(ValueSet value) {
+    public static ResourceVersionPolicy of(Value value) {
         switch (value) {
         case NO_VERSION:
             return NO_VERSION;
@@ -75,7 +105,7 @@ public class ResourceVersionPolicy extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static ResourceVersionPolicy of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -87,7 +117,7 @@ public class ResourceVersionPolicy extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -99,7 +129,7 @@ public class ResourceVersionPolicy extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -161,10 +191,27 @@ public class ResourceVersionPolicy extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for ResourceVersionPolicy
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -174,6 +221,7 @@ public class ResourceVersionPolicy extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * No VersionId Support
@@ -211,7 +259,7 @@ public class ResourceVersionPolicy extends Code {
         }
 
         /**
-         * Factory method for creating ResourceVersionPolicy.ValueSet values from a passed string value.
+         * Factory method for creating ResourceVersionPolicy.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -220,6 +268,60 @@ public class ResourceVersionPolicy extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * No VersionId Support
+         * 
+         * <p>VersionId meta-property is not supported (server) or used (client).
+         */
+        NO_VERSION("no-version"),
+
+        /**
+         * Versioned
+         * 
+         * <p>VersionId meta-property is supported (server) or used (client).
+         */
+        VERSIONED("versioned"),
+
+        /**
+         * VersionId tracked fully
+         * 
+         * <p>VersionId must be correct for updates (server) or will be specified (If-match header) for updates (client).
+         */
+        VERSIONED_UPDATE("versioned-update");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating ResourceVersionPolicy.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

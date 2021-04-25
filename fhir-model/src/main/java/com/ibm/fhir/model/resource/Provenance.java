@@ -53,7 +53,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 3,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "provenance-0",
@@ -94,14 +94,14 @@ public class Provenance extends DomainResource {
     private final Reference location;
     @Binding(
         bindingName = "ProvenanceReason",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The reason the activity took place.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-PurposeOfUse"
     )
     private final List<CodeableConcept> reason;
     @Binding(
         bindingName = "ProvenanceActivity",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The activity that took place.",
         valueSet = "http://hl7.org/fhir/ValueSet/provenance-activity-type"
     )
@@ -892,14 +892,14 @@ public class Provenance extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ProvenanceAgentType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The type of participation that a provenance agent played with respect to the activity.",
             valueSet = "http://hl7.org/fhir/ValueSet/provenance-agent-type"
         )
         private final CodeableConcept type;
         @Binding(
             bindingName = "ProvenanceAgentRole",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The role that a provenance agent played with respect to the activity.",
             valueSet = "http://hl7.org/fhir/ValueSet/security-role-type"
         )
@@ -1286,7 +1286,7 @@ public class Provenance extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ProvenanceEntityRole",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "How an entity was used in an activity.",
             valueSet = "http://hl7.org/fhir/ValueSet/provenance-entity-role|4.0.1"
         )

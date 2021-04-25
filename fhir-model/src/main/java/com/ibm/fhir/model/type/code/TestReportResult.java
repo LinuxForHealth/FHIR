@@ -24,21 +24,21 @@ public class TestReportResult extends Code {
      * 
      * <p>All test operations successfully passed all asserts.
      */
-    public static final TestReportResult PASS = TestReportResult.builder().value(ValueSet.PASS).build();
+    public static final TestReportResult PASS = TestReportResult.builder().value(Value.PASS).build();
 
     /**
      * Fail
      * 
      * <p>One or more test operations failed one or more asserts.
      */
-    public static final TestReportResult FAIL = TestReportResult.builder().value(ValueSet.FAIL).build();
+    public static final TestReportResult FAIL = TestReportResult.builder().value(Value.FAIL).build();
 
     /**
      * Pending
      * 
      * <p>One or more test operations is pending execution completion.
      */
-    public static final TestReportResult PENDING = TestReportResult.builder().value(ValueSet.PENDING).build();
+    public static final TestReportResult PENDING = TestReportResult.builder().value(Value.PENDING).build();
 
     private volatile int hashCode;
 
@@ -46,14 +46,44 @@ public class TestReportResult extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this TestReportResult as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this TestReportResult as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating TestReportResult objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static TestReportResult of(ValueSet value) {
+        switch (value) {
+        case PASS:
+            return PASS;
+        case FAIL:
+            return FAIL;
+        case PENDING:
+            return PENDING;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating TestReportResult objects from a passed enum value.
      */
-    public static TestReportResult of(ValueSet value) {
+    public static TestReportResult of(Value value) {
         switch (value) {
         case PASS:
             return PASS;
@@ -75,7 +105,7 @@ public class TestReportResult extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static TestReportResult of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -87,7 +117,7 @@ public class TestReportResult extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -99,7 +129,7 @@ public class TestReportResult extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -161,10 +191,27 @@ public class TestReportResult extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for TestReportResult
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -174,6 +221,7 @@ public class TestReportResult extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Pass
@@ -211,7 +259,7 @@ public class TestReportResult extends Code {
         }
 
         /**
-         * Factory method for creating TestReportResult.ValueSet values from a passed string value.
+         * Factory method for creating TestReportResult.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -220,6 +268,60 @@ public class TestReportResult extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Pass
+         * 
+         * <p>All test operations successfully passed all asserts.
+         */
+        PASS("pass"),
+
+        /**
+         * Fail
+         * 
+         * <p>One or more test operations failed one or more asserts.
+         */
+        FAIL("fail"),
+
+        /**
+         * Pending
+         * 
+         * <p>One or more test operations is pending execution completion.
+         */
+        PENDING("pending");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating TestReportResult.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

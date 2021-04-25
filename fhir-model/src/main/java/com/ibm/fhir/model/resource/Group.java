@@ -52,7 +52,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 1,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "grp-1",
@@ -70,7 +70,7 @@ public class Group extends DomainResource {
     @Summary
     @Binding(
         bindingName = "GroupType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Types of resources that are part of group.",
         valueSet = "http://hl7.org/fhir/ValueSet/group-type|4.0.1"
     )
@@ -82,7 +82,7 @@ public class Group extends DomainResource {
     @Summary
     @Binding(
         bindingName = "GroupKind",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Kind of particular resource; e.g. cow, syringe, lake, etc."
     )
     private final CodeableConcept code;
@@ -793,7 +793,7 @@ public class Group extends DomainResource {
     public static class Characteristic extends BackboneElement {
         @Binding(
             bindingName = "GroupCharacteristicKind",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "List of characteristics used to describe group members; e.g. gender, age, owner, location, etc."
         )
         @Required
@@ -801,7 +801,7 @@ public class Group extends DomainResource {
         @Choice({ CodeableConcept.class, Boolean.class, Quantity.class, Range.class, Reference.class })
         @Binding(
             bindingName = "GroupCharacteristicValue",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Value of descriptive member characteristic; e.g. red, male, pneumonia, Caucasian, etc."
         )
         @Required

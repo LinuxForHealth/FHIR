@@ -24,21 +24,21 @@ public class SequenceType extends Code {
      * 
      * <p>Amino acid sequence.
      */
-    public static final SequenceType AA = SequenceType.builder().value(ValueSet.AA).build();
+    public static final SequenceType AA = SequenceType.builder().value(Value.AA).build();
 
     /**
      * DNA Sequence
      * 
      * <p>DNA Sequence.
      */
-    public static final SequenceType DNA = SequenceType.builder().value(ValueSet.DNA).build();
+    public static final SequenceType DNA = SequenceType.builder().value(Value.DNA).build();
 
     /**
      * RNA Sequence
      * 
      * <p>RNA Sequence.
      */
-    public static final SequenceType RNA = SequenceType.builder().value(ValueSet.RNA).build();
+    public static final SequenceType RNA = SequenceType.builder().value(Value.RNA).build();
 
     private volatile int hashCode;
 
@@ -46,14 +46,44 @@ public class SequenceType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this SequenceType as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this SequenceType as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating SequenceType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static SequenceType of(ValueSet value) {
+        switch (value) {
+        case AA:
+            return AA;
+        case DNA:
+            return DNA;
+        case RNA:
+            return RNA;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating SequenceType objects from a passed enum value.
      */
-    public static SequenceType of(ValueSet value) {
+    public static SequenceType of(Value value) {
         switch (value) {
         case AA:
             return AA;
@@ -75,7 +105,7 @@ public class SequenceType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static SequenceType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -87,7 +117,7 @@ public class SequenceType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -99,7 +129,7 @@ public class SequenceType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -161,10 +191,27 @@ public class SequenceType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for SequenceType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -174,6 +221,7 @@ public class SequenceType extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * AA Sequence
@@ -211,7 +259,7 @@ public class SequenceType extends Code {
         }
 
         /**
-         * Factory method for creating SequenceType.ValueSet values from a passed string value.
+         * Factory method for creating SequenceType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -220,6 +268,60 @@ public class SequenceType extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * AA Sequence
+         * 
+         * <p>Amino acid sequence.
+         */
+        AA("aa"),
+
+        /**
+         * DNA Sequence
+         * 
+         * <p>DNA Sequence.
+         */
+        DNA("dna"),
+
+        /**
+         * RNA Sequence
+         * 
+         * <p>RNA Sequence.
+         */
+        RNA("rna");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating SequenceType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

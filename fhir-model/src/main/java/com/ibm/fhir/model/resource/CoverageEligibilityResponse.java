@@ -53,7 +53,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "ces-1",
@@ -68,7 +68,7 @@ public class CoverageEligibilityResponse extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EligibilityResponseStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.1"
     )
@@ -77,7 +77,7 @@ public class CoverageEligibilityResponse extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EligibilityResponsePurpose",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the types of information being requested.",
         valueSet = "http://hl7.org/fhir/ValueSet/eligibilityresponse-purpose|4.0.1"
     )
@@ -101,7 +101,7 @@ public class CoverageEligibilityResponse extends DomainResource {
     @Summary
     @Binding(
         bindingName = "RemittanceOutcome",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The outcome of the processing.",
         valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.0.1"
     )
@@ -116,7 +116,7 @@ public class CoverageEligibilityResponse extends DomainResource {
     private final String preAuthRef;
     @Binding(
         bindingName = "Forms",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The forms codes.",
         valueSet = "http://hl7.org/fhir/ValueSet/forms"
     )
@@ -1405,21 +1405,21 @@ public class CoverageEligibilityResponse extends DomainResource {
         public static class Item extends BackboneElement {
             @Binding(
                 bindingName = "BenefitCategory",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Benefit categories such as: oral, medical, vision etc.",
                 valueSet = "http://hl7.org/fhir/ValueSet/ex-benefitcategory"
             )
             private final CodeableConcept category;
             @Binding(
                 bindingName = "ServiceProduct",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Allowable service and product codes.",
                 valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
             )
             private final CodeableConcept productOrService;
             @Binding(
                 bindingName = "Modifiers",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
                 valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
             )
@@ -1431,21 +1431,21 @@ public class CoverageEligibilityResponse extends DomainResource {
             private final String description;
             @Binding(
                 bindingName = "BenefitNetwork",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Code to classify in or out of network services.",
                 valueSet = "http://hl7.org/fhir/ValueSet/benefit-network"
             )
             private final CodeableConcept network;
             @Binding(
                 bindingName = "BenefitUnit",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Unit covered/serviced - individual or family.",
                 valueSet = "http://hl7.org/fhir/ValueSet/benefit-unit"
             )
             private final CodeableConcept unit;
             @Binding(
                 bindingName = "BenefitTerm",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Coverage unit - annual, lifetime.",
                 valueSet = "http://hl7.org/fhir/ValueSet/benefit-term"
             )
@@ -1454,7 +1454,7 @@ public class CoverageEligibilityResponse extends DomainResource {
             private final Boolean authorizationRequired;
             @Binding(
                 bindingName = "AuthSupporting",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Type of supporting information to provide with a preauthorization.",
                 valueSet = "http://hl7.org/fhir/ValueSet/coverageeligibilityresponse-ex-auth-support"
             )
@@ -2161,7 +2161,7 @@ public class CoverageEligibilityResponse extends DomainResource {
             public static class Benefit extends BackboneElement {
                 @Binding(
                     bindingName = "BenefitType",
-                    strength = BindingStrength.ValueSet.EXAMPLE,
+                    strength = BindingStrength.Value.EXAMPLE,
                     description = "Deductable, visits, co-pay, etc.",
                     valueSet = "http://hl7.org/fhir/ValueSet/benefit-type"
                 )
@@ -2486,7 +2486,7 @@ public class CoverageEligibilityResponse extends DomainResource {
     public static class Error extends BackboneElement {
         @Binding(
             bindingName = "AdjudicationError",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The error codes for adjudication processing.",
             valueSet = "http://hl7.org/fhir/ValueSet/adjudication-error"
         )

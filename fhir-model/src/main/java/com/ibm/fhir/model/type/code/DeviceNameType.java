@@ -24,42 +24,42 @@ public class DeviceNameType extends Code {
      * 
      * <p>UDI Label name.
      */
-    public static final DeviceNameType UDI_LABEL_NAME = DeviceNameType.builder().value(ValueSet.UDI_LABEL_NAME).build();
+    public static final DeviceNameType UDI_LABEL_NAME = DeviceNameType.builder().value(Value.UDI_LABEL_NAME).build();
 
     /**
      * User Friendly name
      * 
      * <p>User Friendly name.
      */
-    public static final DeviceNameType USER_FRIENDLY_NAME = DeviceNameType.builder().value(ValueSet.USER_FRIENDLY_NAME).build();
+    public static final DeviceNameType USER_FRIENDLY_NAME = DeviceNameType.builder().value(Value.USER_FRIENDLY_NAME).build();
 
     /**
      * Patient Reported name
      * 
      * <p>Patient Reported name.
      */
-    public static final DeviceNameType PATIENT_REPORTED_NAME = DeviceNameType.builder().value(ValueSet.PATIENT_REPORTED_NAME).build();
+    public static final DeviceNameType PATIENT_REPORTED_NAME = DeviceNameType.builder().value(Value.PATIENT_REPORTED_NAME).build();
 
     /**
      * Manufacturer name
      * 
      * <p>Manufacturer name.
      */
-    public static final DeviceNameType MANUFACTURER_NAME = DeviceNameType.builder().value(ValueSet.MANUFACTURER_NAME).build();
+    public static final DeviceNameType MANUFACTURER_NAME = DeviceNameType.builder().value(Value.MANUFACTURER_NAME).build();
 
     /**
      * Model name
      * 
      * <p>Model name.
      */
-    public static final DeviceNameType MODEL_NAME = DeviceNameType.builder().value(ValueSet.MODEL_NAME).build();
+    public static final DeviceNameType MODEL_NAME = DeviceNameType.builder().value(Value.MODEL_NAME).build();
 
     /**
      * other
      * 
      * <p>other.
      */
-    public static final DeviceNameType OTHER = DeviceNameType.builder().value(ValueSet.OTHER).build();
+    public static final DeviceNameType OTHER = DeviceNameType.builder().value(Value.OTHER).build();
 
     private volatile int hashCode;
 
@@ -67,14 +67,50 @@ public class DeviceNameType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this DeviceNameType as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this DeviceNameType as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating DeviceNameType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static DeviceNameType of(ValueSet value) {
+        switch (value) {
+        case UDI_LABEL_NAME:
+            return UDI_LABEL_NAME;
+        case USER_FRIENDLY_NAME:
+            return USER_FRIENDLY_NAME;
+        case PATIENT_REPORTED_NAME:
+            return PATIENT_REPORTED_NAME;
+        case MANUFACTURER_NAME:
+            return MANUFACTURER_NAME;
+        case MODEL_NAME:
+            return MODEL_NAME;
+        case OTHER:
+            return OTHER;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating DeviceNameType objects from a passed enum value.
      */
-    public static DeviceNameType of(ValueSet value) {
+    public static DeviceNameType of(Value value) {
         switch (value) {
         case UDI_LABEL_NAME:
             return UDI_LABEL_NAME;
@@ -102,7 +138,7 @@ public class DeviceNameType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static DeviceNameType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -114,7 +150,7 @@ public class DeviceNameType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -126,7 +162,7 @@ public class DeviceNameType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -188,10 +224,27 @@ public class DeviceNameType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for DeviceNameType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -201,6 +254,7 @@ public class DeviceNameType extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * UDI Label name
@@ -259,7 +313,7 @@ public class DeviceNameType extends Code {
         }
 
         /**
-         * Factory method for creating DeviceNameType.ValueSet values from a passed string value.
+         * Factory method for creating DeviceNameType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -268,6 +322,81 @@ public class DeviceNameType extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * UDI Label name
+         * 
+         * <p>UDI Label name.
+         */
+        UDI_LABEL_NAME("udi-label-name"),
+
+        /**
+         * User Friendly name
+         * 
+         * <p>User Friendly name.
+         */
+        USER_FRIENDLY_NAME("user-friendly-name"),
+
+        /**
+         * Patient Reported name
+         * 
+         * <p>Patient Reported name.
+         */
+        PATIENT_REPORTED_NAME("patient-reported-name"),
+
+        /**
+         * Manufacturer name
+         * 
+         * <p>Manufacturer name.
+         */
+        MANUFACTURER_NAME("manufacturer-name"),
+
+        /**
+         * Model name
+         * 
+         * <p>Model name.
+         */
+        MODEL_NAME("model-name"),
+
+        /**
+         * other
+         * 
+         * <p>other.
+         */
+        OTHER("other");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating DeviceNameType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

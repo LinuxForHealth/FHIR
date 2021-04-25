@@ -28,7 +28,7 @@ import com.ibm.fhir.model.visitor.AbstractVisitable;
  */
 @Maturity(
     level = 5,
-    status = StandardsStatus.ValueSet.NORMATIVE
+    status = StandardsStatus.Value.NORMATIVE
 )
 @Constraint(
     id = "resource-0",
@@ -48,7 +48,7 @@ public abstract class Resource extends AbstractVisitable {
     protected final Uri implicitRules;
     @Binding(
         bindingName = "Language",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "A human language.",
         valueSet = "http://hl7.org/fhir/ValueSet/languages",
         maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"

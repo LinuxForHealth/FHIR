@@ -51,7 +51,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 0,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ClinicalImpression extends DomainResource {
@@ -60,7 +60,7 @@ public class ClinicalImpression extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ClinicalImpressionStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The workflow state of a clinical impression.",
         valueSet = "http://hl7.org/fhir/ValueSet/clinicalimpression-status|4.0.1"
     )
@@ -68,14 +68,14 @@ public class ClinicalImpression extends DomainResource {
     private final ClinicalImpressionStatus status;
     @Binding(
         bindingName = "ClinicalImpressionStatusReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes identifying the reason for the current state of a clinical impression."
     )
     private final CodeableConcept statusReason;
     @Summary
     @Binding(
         bindingName = "ClinicalImpressionCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Identifies categories of clinical impressions.  This is a place-holder only.  It may be removed."
     )
     private final CodeableConcept code;
@@ -107,7 +107,7 @@ public class ClinicalImpression extends DomainResource {
     private final List<Finding> finding;
     @Binding(
         bindingName = "ClinicalImpressionPrognosis",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Prognosis or outlook findings.",
         valueSet = "http://hl7.org/fhir/ValueSet/clinicalimpression-prognosis"
     )
@@ -1314,7 +1314,7 @@ public class ClinicalImpression extends DomainResource {
     public static class Investigation extends BackboneElement {
         @Binding(
             bindingName = "InvestigationGroupType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "A name/code for a set of investigations.",
             valueSet = "http://hl7.org/fhir/ValueSet/investigation-sets"
         )
@@ -1637,7 +1637,7 @@ public class ClinicalImpression extends DomainResource {
     public static class Finding extends BackboneElement {
         @Binding(
             bindingName = "ConditionKind",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Identification of the Condition or diagnosis.",
             valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
         )

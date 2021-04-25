@@ -19,17 +19,17 @@ import javax.annotation.Generated;
 @System("http://terminology.hl7.org/CodeSystem/v3-Confidentiality")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DocumentConfidentiality extends Code {
-    public static final DocumentConfidentiality U = DocumentConfidentiality.builder().value(ValueSet.U).build();
+    public static final DocumentConfidentiality U = DocumentConfidentiality.builder().value(Value.U).build();
 
-    public static final DocumentConfidentiality L = DocumentConfidentiality.builder().value(ValueSet.L).build();
+    public static final DocumentConfidentiality L = DocumentConfidentiality.builder().value(Value.L).build();
 
-    public static final DocumentConfidentiality M = DocumentConfidentiality.builder().value(ValueSet.M).build();
+    public static final DocumentConfidentiality M = DocumentConfidentiality.builder().value(Value.M).build();
 
-    public static final DocumentConfidentiality N = DocumentConfidentiality.builder().value(ValueSet.N).build();
+    public static final DocumentConfidentiality N = DocumentConfidentiality.builder().value(Value.N).build();
 
-    public static final DocumentConfidentiality R = DocumentConfidentiality.builder().value(ValueSet.R).build();
+    public static final DocumentConfidentiality R = DocumentConfidentiality.builder().value(Value.R).build();
 
-    public static final DocumentConfidentiality V = DocumentConfidentiality.builder().value(ValueSet.V).build();
+    public static final DocumentConfidentiality V = DocumentConfidentiality.builder().value(Value.V).build();
 
     private volatile int hashCode;
 
@@ -37,14 +37,50 @@ public class DocumentConfidentiality extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this DocumentConfidentiality as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this DocumentConfidentiality as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating DocumentConfidentiality objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static DocumentConfidentiality of(ValueSet value) {
+        switch (value) {
+        case U:
+            return U;
+        case L:
+            return L;
+        case M:
+            return M;
+        case N:
+            return N;
+        case R:
+            return R;
+        case V:
+            return V;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating DocumentConfidentiality objects from a passed enum value.
      */
-    public static DocumentConfidentiality of(ValueSet value) {
+    public static DocumentConfidentiality of(Value value) {
         switch (value) {
         case U:
             return U;
@@ -72,7 +108,7 @@ public class DocumentConfidentiality extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static DocumentConfidentiality of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -84,7 +120,7 @@ public class DocumentConfidentiality extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -96,7 +132,7 @@ public class DocumentConfidentiality extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -158,10 +194,27 @@ public class DocumentConfidentiality extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for DocumentConfidentiality
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -171,6 +224,7 @@ public class DocumentConfidentiality extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         U("U"),
 
@@ -199,7 +253,7 @@ public class DocumentConfidentiality extends Code {
         }
 
         /**
-         * Factory method for creating DocumentConfidentiality.ValueSet values from a passed string value.
+         * Factory method for creating DocumentConfidentiality.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -208,6 +262,51 @@ public class DocumentConfidentiality extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        U("U"),
+
+        L("L"),
+
+        M("M"),
+
+        N("N"),
+
+        R("R"),
+
+        V("V");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating DocumentConfidentiality.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

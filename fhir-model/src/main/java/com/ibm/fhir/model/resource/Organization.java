@@ -47,7 +47,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 3,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "org-1",
@@ -87,7 +87,7 @@ public class Organization extends DomainResource {
     @Summary
     @Binding(
         bindingName = "OrganizationType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Used to categorize the organization.",
         valueSet = "http://hl7.org/fhir/ValueSet/organization-type"
     )
@@ -877,7 +877,7 @@ public class Organization extends DomainResource {
     public static class Contact extends BackboneElement {
         @Binding(
             bindingName = "ContactPartyType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The purpose for which you would contact a contact party.",
             valueSet = "http://hl7.org/fhir/ValueSet/contactentity-type"
         )

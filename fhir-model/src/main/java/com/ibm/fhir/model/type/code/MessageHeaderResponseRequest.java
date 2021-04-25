@@ -24,28 +24,28 @@ public class MessageHeaderResponseRequest extends Code {
      * 
      * <p>initiator expects a response for this message.
      */
-    public static final MessageHeaderResponseRequest ALWAYS = MessageHeaderResponseRequest.builder().value(ValueSet.ALWAYS).build();
+    public static final MessageHeaderResponseRequest ALWAYS = MessageHeaderResponseRequest.builder().value(Value.ALWAYS).build();
 
     /**
      * Error/reject conditions only
      * 
      * <p>initiator expects a response only if in error.
      */
-    public static final MessageHeaderResponseRequest ON_ERROR = MessageHeaderResponseRequest.builder().value(ValueSet.ON_ERROR).build();
+    public static final MessageHeaderResponseRequest ON_ERROR = MessageHeaderResponseRequest.builder().value(Value.ON_ERROR).build();
 
     /**
      * Never
      * 
      * <p>initiator does not expect a response.
      */
-    public static final MessageHeaderResponseRequest NEVER = MessageHeaderResponseRequest.builder().value(ValueSet.NEVER).build();
+    public static final MessageHeaderResponseRequest NEVER = MessageHeaderResponseRequest.builder().value(Value.NEVER).build();
 
     /**
      * Successful completion only
      * 
      * <p>initiator expects a response only if successful.
      */
-    public static final MessageHeaderResponseRequest ON_SUCCESS = MessageHeaderResponseRequest.builder().value(ValueSet.ON_SUCCESS).build();
+    public static final MessageHeaderResponseRequest ON_SUCCESS = MessageHeaderResponseRequest.builder().value(Value.ON_SUCCESS).build();
 
     private volatile int hashCode;
 
@@ -53,14 +53,46 @@ public class MessageHeaderResponseRequest extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this MessageHeaderResponseRequest as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this MessageHeaderResponseRequest as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating MessageHeaderResponseRequest objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static MessageHeaderResponseRequest of(ValueSet value) {
+        switch (value) {
+        case ALWAYS:
+            return ALWAYS;
+        case ON_ERROR:
+            return ON_ERROR;
+        case NEVER:
+            return NEVER;
+        case ON_SUCCESS:
+            return ON_SUCCESS;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating MessageHeaderResponseRequest objects from a passed enum value.
      */
-    public static MessageHeaderResponseRequest of(ValueSet value) {
+    public static MessageHeaderResponseRequest of(Value value) {
         switch (value) {
         case ALWAYS:
             return ALWAYS;
@@ -84,7 +116,7 @@ public class MessageHeaderResponseRequest extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static MessageHeaderResponseRequest of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -96,7 +128,7 @@ public class MessageHeaderResponseRequest extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -108,7 +140,7 @@ public class MessageHeaderResponseRequest extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -170,10 +202,27 @@ public class MessageHeaderResponseRequest extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for MessageHeaderResponseRequest
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -183,6 +232,7 @@ public class MessageHeaderResponseRequest extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Always
@@ -227,7 +277,7 @@ public class MessageHeaderResponseRequest extends Code {
         }
 
         /**
-         * Factory method for creating MessageHeaderResponseRequest.ValueSet values from a passed string value.
+         * Factory method for creating MessageHeaderResponseRequest.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -236,6 +286,67 @@ public class MessageHeaderResponseRequest extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Always
+         * 
+         * <p>initiator expects a response for this message.
+         */
+        ALWAYS("always"),
+
+        /**
+         * Error/reject conditions only
+         * 
+         * <p>initiator expects a response only if in error.
+         */
+        ON_ERROR("on-error"),
+
+        /**
+         * Never
+         * 
+         * <p>initiator does not expect a response.
+         */
+        NEVER("never"),
+
+        /**
+         * Successful completion only
+         * 
+         * <p>initiator expects a response only if successful.
+         */
+        ON_SUCCESS("on-success");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating MessageHeaderResponseRequest.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

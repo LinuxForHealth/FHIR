@@ -24,7 +24,7 @@ public class ActionGroupingBehavior extends Code {
      * 
      * <p>Any group marked with this behavior should be displayed as a visual group to the end user.
      */
-    public static final ActionGroupingBehavior VISUAL_GROUP = ActionGroupingBehavior.builder().value(ValueSet.VISUAL_GROUP).build();
+    public static final ActionGroupingBehavior VISUAL_GROUP = ActionGroupingBehavior.builder().value(Value.VISUAL_GROUP).build();
 
     /**
      * Logical Group
@@ -32,7 +32,7 @@ public class ActionGroupingBehavior extends Code {
      * <p>A group with this behavior logically groups its sub-elements, and may be shown as a visual group to the end user, 
      * but it is not required to do so.
      */
-    public static final ActionGroupingBehavior LOGICAL_GROUP = ActionGroupingBehavior.builder().value(ValueSet.LOGICAL_GROUP).build();
+    public static final ActionGroupingBehavior LOGICAL_GROUP = ActionGroupingBehavior.builder().value(Value.LOGICAL_GROUP).build();
 
     /**
      * Sentence Group
@@ -45,7 +45,7 @@ public class ActionGroupingBehavior extends Code {
      * an associated selection behavior of "AtMostOne", unless it's a required action, in which case, it would be 
      * "ExactlyOne".
      */
-    public static final ActionGroupingBehavior SENTENCE_GROUP = ActionGroupingBehavior.builder().value(ValueSet.SENTENCE_GROUP).build();
+    public static final ActionGroupingBehavior SENTENCE_GROUP = ActionGroupingBehavior.builder().value(Value.SENTENCE_GROUP).build();
 
     private volatile int hashCode;
 
@@ -53,14 +53,44 @@ public class ActionGroupingBehavior extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this ActionGroupingBehavior as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this ActionGroupingBehavior as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating ActionGroupingBehavior objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static ActionGroupingBehavior of(ValueSet value) {
+        switch (value) {
+        case VISUAL_GROUP:
+            return VISUAL_GROUP;
+        case LOGICAL_GROUP:
+            return LOGICAL_GROUP;
+        case SENTENCE_GROUP:
+            return SENTENCE_GROUP;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating ActionGroupingBehavior objects from a passed enum value.
      */
-    public static ActionGroupingBehavior of(ValueSet value) {
+    public static ActionGroupingBehavior of(Value value) {
         switch (value) {
         case VISUAL_GROUP:
             return VISUAL_GROUP;
@@ -82,7 +112,7 @@ public class ActionGroupingBehavior extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static ActionGroupingBehavior of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -94,7 +124,7 @@ public class ActionGroupingBehavior extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -106,7 +136,7 @@ public class ActionGroupingBehavior extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -168,10 +198,27 @@ public class ActionGroupingBehavior extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for ActionGroupingBehavior
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -181,6 +228,7 @@ public class ActionGroupingBehavior extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Visual Group
@@ -225,7 +273,7 @@ public class ActionGroupingBehavior extends Code {
         }
 
         /**
-         * Factory method for creating ActionGroupingBehavior.ValueSet values from a passed string value.
+         * Factory method for creating ActionGroupingBehavior.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -234,6 +282,67 @@ public class ActionGroupingBehavior extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Visual Group
+         * 
+         * <p>Any group marked with this behavior should be displayed as a visual group to the end user.
+         */
+        VISUAL_GROUP("visual-group"),
+
+        /**
+         * Logical Group
+         * 
+         * <p>A group with this behavior logically groups its sub-elements, and may be shown as a visual group to the end user, 
+         * but it is not required to do so.
+         */
+        LOGICAL_GROUP("logical-group"),
+
+        /**
+         * Sentence Group
+         * 
+         * <p>A group of related alternative actions is a sentence group if the target referenced by the action is the same in 
+         * all the actions and each action simply constitutes a different variation on how to specify the details for the target. 
+         * For example, two actions that could be in a SentenceGroup are "aspirin, 500 mg, 2 times per day" and "aspirin, 300 mg, 
+         * 3 times per day". In both cases, aspirin is the target referenced by the action, and the two actions represent 
+         * different options for how aspirin might be ordered for the patient. Note that a SentenceGroup would almost always have 
+         * an associated selection behavior of "AtMostOne", unless it's a required action, in which case, it would be 
+         * "ExactlyOne".
+         */
+        SENTENCE_GROUP("sentence-group");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating ActionGroupingBehavior.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

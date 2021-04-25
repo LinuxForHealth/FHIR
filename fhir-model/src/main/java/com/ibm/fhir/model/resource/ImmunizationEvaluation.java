@@ -46,7 +46,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 0,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ImmunizationEvaluation extends DomainResource {
@@ -54,7 +54,7 @@ public class ImmunizationEvaluation extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ImmunizationEvaluationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The status of the evaluation being done.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-status|4.0.1"
     )
@@ -70,7 +70,7 @@ public class ImmunizationEvaluation extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EvaluationTargetDisease",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The vaccine preventable disease the dose is being evaluated against.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-target-disease"
     )
@@ -83,7 +83,7 @@ public class ImmunizationEvaluation extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EvaluationDoseStatus",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The status of the administered dose relative to the published recommendations for the target disease.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-dose-status"
     )
@@ -91,7 +91,7 @@ public class ImmunizationEvaluation extends DomainResource {
     private final CodeableConcept doseStatus;
     @Binding(
         bindingName = "EvaluationDoseStatusReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The reason the dose status was assigned.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-dose-status-reason"
     )

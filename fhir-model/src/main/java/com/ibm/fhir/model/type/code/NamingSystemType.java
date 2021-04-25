@@ -25,21 +25,21 @@ public class NamingSystemType extends Code {
      * <p>The naming system is used to define concepts and symbols to represent those concepts; e.g. UCUM, LOINC, NDC code, 
      * local lab codes, etc.
      */
-    public static final NamingSystemType CODESYSTEM = NamingSystemType.builder().value(ValueSet.CODESYSTEM).build();
+    public static final NamingSystemType CODESYSTEM = NamingSystemType.builder().value(Value.CODESYSTEM).build();
 
     /**
      * Identifier
      * 
      * <p>The naming system is used to manage identifiers (e.g. license numbers, order numbers, etc.).
      */
-    public static final NamingSystemType IDENTIFIER = NamingSystemType.builder().value(ValueSet.IDENTIFIER).build();
+    public static final NamingSystemType IDENTIFIER = NamingSystemType.builder().value(Value.IDENTIFIER).build();
 
     /**
      * Root
      * 
      * <p>The naming system is used as the root for other identifiers and naming systems.
      */
-    public static final NamingSystemType ROOT = NamingSystemType.builder().value(ValueSet.ROOT).build();
+    public static final NamingSystemType ROOT = NamingSystemType.builder().value(Value.ROOT).build();
 
     private volatile int hashCode;
 
@@ -47,14 +47,44 @@ public class NamingSystemType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this NamingSystemType as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this NamingSystemType as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating NamingSystemType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static NamingSystemType of(ValueSet value) {
+        switch (value) {
+        case CODESYSTEM:
+            return CODESYSTEM;
+        case IDENTIFIER:
+            return IDENTIFIER;
+        case ROOT:
+            return ROOT;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating NamingSystemType objects from a passed enum value.
      */
-    public static NamingSystemType of(ValueSet value) {
+    public static NamingSystemType of(Value value) {
         switch (value) {
         case CODESYSTEM:
             return CODESYSTEM;
@@ -76,7 +106,7 @@ public class NamingSystemType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static NamingSystemType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -88,7 +118,7 @@ public class NamingSystemType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -100,7 +130,7 @@ public class NamingSystemType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -162,10 +192,27 @@ public class NamingSystemType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for NamingSystemType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -175,6 +222,7 @@ public class NamingSystemType extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Code System
@@ -213,7 +261,7 @@ public class NamingSystemType extends Code {
         }
 
         /**
-         * Factory method for creating NamingSystemType.ValueSet values from a passed string value.
+         * Factory method for creating NamingSystemType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -222,6 +270,61 @@ public class NamingSystemType extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Code System
+         * 
+         * <p>The naming system is used to define concepts and symbols to represent those concepts; e.g. UCUM, LOINC, NDC code, 
+         * local lab codes, etc.
+         */
+        CODESYSTEM("codesystem"),
+
+        /**
+         * Identifier
+         * 
+         * <p>The naming system is used to manage identifiers (e.g. license numbers, order numbers, etc.).
+         */
+        IDENTIFIER("identifier"),
+
+        /**
+         * Root
+         * 
+         * <p>The naming system is used as the root for other identifiers and naming systems.
+         */
+        ROOT("root");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating NamingSystemType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

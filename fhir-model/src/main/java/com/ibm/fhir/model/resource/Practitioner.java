@@ -49,7 +49,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 3,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "practitioner-0",
@@ -74,7 +74,7 @@ public class Practitioner extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AdministrativeGender",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The gender of a person used for administrative purposes.",
         valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.1"
     )
@@ -85,7 +85,7 @@ public class Practitioner extends DomainResource {
     private final List<Qualification> qualification;
     @Binding(
         bindingName = "Language",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "A human language.",
         valueSet = "http://hl7.org/fhir/ValueSet/languages",
         maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
@@ -863,7 +863,7 @@ public class Practitioner extends DomainResource {
         private final List<Identifier> identifier;
         @Binding(
             bindingName = "Qualification",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Specific qualification the practitioner has to provide a service.",
             valueSet = "http://terminology.hl7.org/ValueSet/v2-2.7-0360"
         )

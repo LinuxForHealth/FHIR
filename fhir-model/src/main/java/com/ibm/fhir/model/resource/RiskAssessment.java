@@ -50,7 +50,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 1,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "ras-1",
@@ -75,7 +75,7 @@ public class RiskAssessment extends DomainResource {
     @Summary
     @Binding(
         bindingName = "RiskAssessmentStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The status of the risk assessment; e.g. preliminary, final, amended, etc.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.0.1"
     )
@@ -84,7 +84,7 @@ public class RiskAssessment extends DomainResource {
     @Summary
     @Binding(
         bindingName = "RiskAssessmentMethod",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The mechanism or algorithm used to make the assessment; e.g. TIMI, PRISM, Cardiff Type 2 diabetes, etc."
     )
     private final CodeableConcept method;
@@ -1130,7 +1130,7 @@ public class RiskAssessment extends DomainResource {
     public static class Prediction extends BackboneElement {
         @Binding(
             bindingName = "RiskAssessmentOutcome",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The condition or other outcome; e.g. death, remission, amputation, infection, etc."
         )
         private final CodeableConcept outcome;
@@ -1138,7 +1138,7 @@ public class RiskAssessment extends DomainResource {
         private final Element probability;
         @Binding(
             bindingName = "RiskAssessmentProbability",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The likelihood of the occurrence of a specified outcome.",
             valueSet = "http://hl7.org/fhir/ValueSet/risk-probability"
         )

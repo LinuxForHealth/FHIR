@@ -52,7 +52,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 1,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "gdf-0",
@@ -81,7 +81,7 @@ public class GraphDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -101,7 +101,7 @@ public class GraphDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -110,7 +110,7 @@ public class GraphDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ResourceType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "One of the resource types defined as part of this version of FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
     )
@@ -1417,7 +1417,7 @@ public class GraphDefinition extends DomainResource {
         public static class Target extends BackboneElement {
             @Binding(
                 bindingName = "ResourceType",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "One of the resource types defined as part of this version of FHIR.",
                 valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
             )
@@ -1827,7 +1827,7 @@ public class GraphDefinition extends DomainResource {
             public static class Compartment extends BackboneElement {
                 @Binding(
                     bindingName = "GraphCompartmentUse",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "Defines how a compartment rule is used.",
                     valueSet = "http://hl7.org/fhir/ValueSet/graph-compartment-use|4.0.1"
                 )
@@ -1835,7 +1835,7 @@ public class GraphDefinition extends DomainResource {
                 private final GraphCompartmentUse use;
                 @Binding(
                     bindingName = "CompartmentCode",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "Identifies a compartment.",
                     valueSet = "http://hl7.org/fhir/ValueSet/compartment-type|4.0.1"
                 )
@@ -1843,7 +1843,7 @@ public class GraphDefinition extends DomainResource {
                 private final CompartmentCode code;
                 @Binding(
                     bindingName = "GraphCompartmentRule",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "How a compartment must be linked.",
                     valueSet = "http://hl7.org/fhir/ValueSet/graph-compartment-rule|4.0.1"
                 )

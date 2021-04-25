@@ -41,7 +41,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 1,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ResearchSubject extends DomainResource {
@@ -50,7 +50,7 @@ public class ResearchSubject extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ResearchSubjectStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Indicates the progression of a study subject through a study.",
         valueSet = "http://hl7.org/fhir/ValueSet/research-subject-status|4.0.1"
     )

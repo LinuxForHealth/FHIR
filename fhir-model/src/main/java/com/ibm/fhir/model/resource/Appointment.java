@@ -51,7 +51,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 3,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "app-1",
@@ -120,7 +120,7 @@ public class Appointment extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AppointmentStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The free/busy status of an appointment.",
         valueSet = "http://hl7.org/fhir/ValueSet/appointmentstatus|4.0.1"
     )
@@ -129,42 +129,42 @@ public class Appointment extends DomainResource {
     @Summary
     @Binding(
         bindingName = "cancelation-reason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/appointment-cancellation-reason"
     )
     private final CodeableConcept cancelationReason;
     @Summary
     @Binding(
         bindingName = "service-category",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/service-category"
     )
     private final List<CodeableConcept> serviceCategory;
     @Summary
     @Binding(
         bindingName = "service-type",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/service-type"
     )
     private final List<CodeableConcept> serviceType;
     @Summary
     @Binding(
         bindingName = "specialty",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
     )
     private final List<CodeableConcept> specialty;
     @Summary
     @Binding(
         bindingName = "appointment-type",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         valueSet = "http://terminology.hl7.org/ValueSet/v2-0276"
     )
     private final CodeableConcept appointmentType;
     @Summary
     @Binding(
         bindingName = "ApptReason",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "The Reason for the appointment to take place.",
         valueSet = "http://hl7.org/fhir/ValueSet/encounter-reason"
     )
@@ -1494,7 +1494,7 @@ public class Appointment extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ParticipantType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Role of participant in encounter.",
             valueSet = "http://hl7.org/fhir/ValueSet/encounter-participant-type"
         )
@@ -1505,7 +1505,7 @@ public class Appointment extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ParticipantRequired",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Is the Participant required to attend the appointment.",
             valueSet = "http://hl7.org/fhir/ValueSet/participantrequired|4.0.1"
         )
@@ -1513,7 +1513,7 @@ public class Appointment extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ParticipationStatus",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The Participation status of an appointment.",
             valueSet = "http://hl7.org/fhir/ValueSet/participationstatus|4.0.1"
         )

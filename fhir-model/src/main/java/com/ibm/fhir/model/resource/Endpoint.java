@@ -47,7 +47,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "endpoint-0",
@@ -64,7 +64,7 @@ public class Endpoint extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EndpointStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The status of the endpoint.",
         valueSet = "http://hl7.org/fhir/ValueSet/endpoint-status|4.0.1"
     )
@@ -73,7 +73,7 @@ public class Endpoint extends DomainResource {
     @Summary
     @Binding(
         bindingName = "endpoint-contype",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         valueSet = "http://hl7.org/fhir/ValueSet/endpoint-connection-type"
     )
     @Required
@@ -89,7 +89,7 @@ public class Endpoint extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PayloadType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/endpoint-payload-type"
     )
     @Required
@@ -97,7 +97,7 @@ public class Endpoint extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MimeType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The mime type of an attachment. Any valid mime type is allowed.",
         valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
     )

@@ -47,7 +47,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class GuidanceResponse extends DomainResource {
@@ -62,7 +62,7 @@ public class GuidanceResponse extends DomainResource {
     @Summary
     @Binding(
         bindingName = "GuidanceResponseStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The status of a guidance response.",
         valueSet = "http://hl7.org/fhir/ValueSet/guidance-response-status|4.0.1"
     )

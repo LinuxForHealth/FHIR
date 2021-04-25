@@ -25,7 +25,7 @@ public class AllergyIntoleranceCriticality extends Code {
      * <p>Worst case result of a future exposure is not assessed to be life-threatening or having high potential for organ 
      * system failure.
      */
-    public static final AllergyIntoleranceCriticality LOW = AllergyIntoleranceCriticality.builder().value(ValueSet.LOW).build();
+    public static final AllergyIntoleranceCriticality LOW = AllergyIntoleranceCriticality.builder().value(Value.LOW).build();
 
     /**
      * High Risk
@@ -33,14 +33,14 @@ public class AllergyIntoleranceCriticality extends Code {
      * <p>Worst case result of a future exposure is assessed to be life-threatening or having high potential for organ system 
      * failure.
      */
-    public static final AllergyIntoleranceCriticality HIGH = AllergyIntoleranceCriticality.builder().value(ValueSet.HIGH).build();
+    public static final AllergyIntoleranceCriticality HIGH = AllergyIntoleranceCriticality.builder().value(Value.HIGH).build();
 
     /**
      * Unable to Assess Risk
      * 
      * <p>Unable to assess the worst case result of a future exposure.
      */
-    public static final AllergyIntoleranceCriticality UNABLE_TO_ASSESS = AllergyIntoleranceCriticality.builder().value(ValueSet.UNABLE_TO_ASSESS).build();
+    public static final AllergyIntoleranceCriticality UNABLE_TO_ASSESS = AllergyIntoleranceCriticality.builder().value(Value.UNABLE_TO_ASSESS).build();
 
     private volatile int hashCode;
 
@@ -48,14 +48,44 @@ public class AllergyIntoleranceCriticality extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this AllergyIntoleranceCriticality as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this AllergyIntoleranceCriticality as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating AllergyIntoleranceCriticality objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static AllergyIntoleranceCriticality of(ValueSet value) {
+        switch (value) {
+        case LOW:
+            return LOW;
+        case HIGH:
+            return HIGH;
+        case UNABLE_TO_ASSESS:
+            return UNABLE_TO_ASSESS;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating AllergyIntoleranceCriticality objects from a passed enum value.
      */
-    public static AllergyIntoleranceCriticality of(ValueSet value) {
+    public static AllergyIntoleranceCriticality of(Value value) {
         switch (value) {
         case LOW:
             return LOW;
@@ -77,7 +107,7 @@ public class AllergyIntoleranceCriticality extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static AllergyIntoleranceCriticality of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -89,7 +119,7 @@ public class AllergyIntoleranceCriticality extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -101,7 +131,7 @@ public class AllergyIntoleranceCriticality extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -163,10 +193,27 @@ public class AllergyIntoleranceCriticality extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for AllergyIntoleranceCriticality
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -176,6 +223,7 @@ public class AllergyIntoleranceCriticality extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Low Risk
@@ -215,7 +263,7 @@ public class AllergyIntoleranceCriticality extends Code {
         }
 
         /**
-         * Factory method for creating AllergyIntoleranceCriticality.ValueSet values from a passed string value.
+         * Factory method for creating AllergyIntoleranceCriticality.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -224,6 +272,62 @@ public class AllergyIntoleranceCriticality extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Low Risk
+         * 
+         * <p>Worst case result of a future exposure is not assessed to be life-threatening or having high potential for organ 
+         * system failure.
+         */
+        LOW("low"),
+
+        /**
+         * High Risk
+         * 
+         * <p>Worst case result of a future exposure is assessed to be life-threatening or having high potential for organ system 
+         * failure.
+         */
+        HIGH("high"),
+
+        /**
+         * Unable to Assess Risk
+         * 
+         * <p>Unable to assess the worst case result of a future exposure.
+         */
+        UNABLE_TO_ASSESS("unable-to-assess");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating AllergyIntoleranceCriticality.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

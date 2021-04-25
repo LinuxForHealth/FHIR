@@ -24,21 +24,21 @@ public class AggregationMode extends Code {
      * 
      * <p>The reference is a local reference to a contained resource.
      */
-    public static final AggregationMode CONTAINED = AggregationMode.builder().value(ValueSet.CONTAINED).build();
+    public static final AggregationMode CONTAINED = AggregationMode.builder().value(Value.CONTAINED).build();
 
     /**
      * Referenced
      * 
      * <p>The reference to a resource that has to be resolved externally to the resource that includes the reference.
      */
-    public static final AggregationMode REFERENCED = AggregationMode.builder().value(ValueSet.REFERENCED).build();
+    public static final AggregationMode REFERENCED = AggregationMode.builder().value(Value.REFERENCED).build();
 
     /**
      * Bundled
      * 
      * <p>The resource the reference points to will be found in the same bundle as the resource that includes the reference.
      */
-    public static final AggregationMode BUNDLED = AggregationMode.builder().value(ValueSet.BUNDLED).build();
+    public static final AggregationMode BUNDLED = AggregationMode.builder().value(Value.BUNDLED).build();
 
     private volatile int hashCode;
 
@@ -46,14 +46,44 @@ public class AggregationMode extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this AggregationMode as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this AggregationMode as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating AggregationMode objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static AggregationMode of(ValueSet value) {
+        switch (value) {
+        case CONTAINED:
+            return CONTAINED;
+        case REFERENCED:
+            return REFERENCED;
+        case BUNDLED:
+            return BUNDLED;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating AggregationMode objects from a passed enum value.
      */
-    public static AggregationMode of(ValueSet value) {
+    public static AggregationMode of(Value value) {
         switch (value) {
         case CONTAINED:
             return CONTAINED;
@@ -75,7 +105,7 @@ public class AggregationMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static AggregationMode of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -87,7 +117,7 @@ public class AggregationMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -99,7 +129,7 @@ public class AggregationMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -161,10 +191,27 @@ public class AggregationMode extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for AggregationMode
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -174,6 +221,7 @@ public class AggregationMode extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Contained
@@ -211,7 +259,7 @@ public class AggregationMode extends Code {
         }
 
         /**
-         * Factory method for creating AggregationMode.ValueSet values from a passed string value.
+         * Factory method for creating AggregationMode.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -220,6 +268,60 @@ public class AggregationMode extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Contained
+         * 
+         * <p>The reference is a local reference to a contained resource.
+         */
+        CONTAINED("contained"),
+
+        /**
+         * Referenced
+         * 
+         * <p>The reference to a resource that has to be resolved externally to the resource that includes the reference.
+         */
+        REFERENCED("referenced"),
+
+        /**
+         * Bundled
+         * 
+         * <p>The resource the reference points to will be found in the same bundle as the resource that includes the reference.
+         */
+        BUNDLED("bundled");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating AggregationMode.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

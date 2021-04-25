@@ -24,35 +24,35 @@ public class XPathUsageType extends Code {
      * 
      * <p>The search parameter is derived directly from the selected nodes based on the type definitions.
      */
-    public static final XPathUsageType NORMAL = XPathUsageType.builder().value(ValueSet.NORMAL).build();
+    public static final XPathUsageType NORMAL = XPathUsageType.builder().value(Value.NORMAL).build();
 
     /**
      * Phonetic
      * 
      * <p>The search parameter is derived by a phonetic transform from the selected nodes.
      */
-    public static final XPathUsageType PHONETIC = XPathUsageType.builder().value(ValueSet.PHONETIC).build();
+    public static final XPathUsageType PHONETIC = XPathUsageType.builder().value(Value.PHONETIC).build();
 
     /**
      * Nearby
      * 
      * <p>The search parameter is based on a spatial transform of the selected nodes.
      */
-    public static final XPathUsageType NEARBY = XPathUsageType.builder().value(ValueSet.NEARBY).build();
+    public static final XPathUsageType NEARBY = XPathUsageType.builder().value(Value.NEARBY).build();
 
     /**
      * Distance
      * 
      * <p>The search parameter is based on a spatial transform of the selected nodes, using physical distance from the middle.
      */
-    public static final XPathUsageType DISTANCE = XPathUsageType.builder().value(ValueSet.DISTANCE).build();
+    public static final XPathUsageType DISTANCE = XPathUsageType.builder().value(Value.DISTANCE).build();
 
     /**
      * Other
      * 
      * <p>The interpretation of the xpath statement is unknown (and can't be automated).
      */
-    public static final XPathUsageType OTHER = XPathUsageType.builder().value(ValueSet.OTHER).build();
+    public static final XPathUsageType OTHER = XPathUsageType.builder().value(Value.OTHER).build();
 
     private volatile int hashCode;
 
@@ -60,14 +60,48 @@ public class XPathUsageType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this XPathUsageType as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this XPathUsageType as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating XPathUsageType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static XPathUsageType of(ValueSet value) {
+        switch (value) {
+        case NORMAL:
+            return NORMAL;
+        case PHONETIC:
+            return PHONETIC;
+        case NEARBY:
+            return NEARBY;
+        case DISTANCE:
+            return DISTANCE;
+        case OTHER:
+            return OTHER;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating XPathUsageType objects from a passed enum value.
      */
-    public static XPathUsageType of(ValueSet value) {
+    public static XPathUsageType of(Value value) {
         switch (value) {
         case NORMAL:
             return NORMAL;
@@ -93,7 +127,7 @@ public class XPathUsageType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static XPathUsageType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -105,7 +139,7 @@ public class XPathUsageType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -117,7 +151,7 @@ public class XPathUsageType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -179,10 +213,27 @@ public class XPathUsageType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for XPathUsageType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -192,6 +243,7 @@ public class XPathUsageType extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Normal
@@ -243,7 +295,7 @@ public class XPathUsageType extends Code {
         }
 
         /**
-         * Factory method for creating XPathUsageType.ValueSet values from a passed string value.
+         * Factory method for creating XPathUsageType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -252,6 +304,74 @@ public class XPathUsageType extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Normal
+         * 
+         * <p>The search parameter is derived directly from the selected nodes based on the type definitions.
+         */
+        NORMAL("normal"),
+
+        /**
+         * Phonetic
+         * 
+         * <p>The search parameter is derived by a phonetic transform from the selected nodes.
+         */
+        PHONETIC("phonetic"),
+
+        /**
+         * Nearby
+         * 
+         * <p>The search parameter is based on a spatial transform of the selected nodes.
+         */
+        NEARBY("nearby"),
+
+        /**
+         * Distance
+         * 
+         * <p>The search parameter is based on a spatial transform of the selected nodes, using physical distance from the middle.
+         */
+        DISTANCE("distance"),
+
+        /**
+         * Other
+         * 
+         * <p>The interpretation of the xpath statement is unknown (and can't be automated).
+         */
+        OTHER("other");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating XPathUsageType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }
