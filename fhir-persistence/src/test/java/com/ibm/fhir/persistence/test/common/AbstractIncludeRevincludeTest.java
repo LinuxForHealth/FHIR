@@ -820,7 +820,7 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
             }
         }
         // verify all related managing organizations are in the same page.
-        assertTrue(numOfMatchedOrgs == foundPatientOrgIds.size());
+        assertEquals(numOfMatchedOrgs, foundPatientOrgIds.size());
     }
     /**
      * This test queries page of Patient with inclusion of the referenced managing organizations.

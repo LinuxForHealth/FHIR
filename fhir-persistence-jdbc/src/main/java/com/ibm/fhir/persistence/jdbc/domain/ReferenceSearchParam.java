@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.jdbc.domain;
 
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.search.parameters.QueryParameter;
 
 /**
@@ -22,8 +23,8 @@ public class ReferenceSearchParam extends SearchParam {
     }
 
     @Override
-    public <T> T visit(T query, SearchQueryVisitor<T> visitor) {
-        return null;
-        // return visitor.referenceParam(getName());
+    public <T> T visit(T queryData, SearchQueryVisitor<T> visitor) throws FHIRPersistenceException {
+        QueryParameter queryParm = getQueryParameter();
+        return visitor.addReferenceParam(queryData, getRootResourceType(), queryParm);
     }
 }

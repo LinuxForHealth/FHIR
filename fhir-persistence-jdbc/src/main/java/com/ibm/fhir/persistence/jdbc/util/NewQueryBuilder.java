@@ -40,15 +40,18 @@ import com.ibm.fhir.persistence.jdbc.domain.QueryData;
 import com.ibm.fhir.persistence.jdbc.domain.ReferenceSearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.SearchCountQuery;
 import com.ibm.fhir.persistence.jdbc.domain.SearchDataQuery;
+import com.ibm.fhir.persistence.jdbc.domain.SearchIncludeQuery;
 import com.ibm.fhir.persistence.jdbc.domain.SearchQuery;
 import com.ibm.fhir.persistence.jdbc.domain.SearchQueryRenderer;
 import com.ibm.fhir.persistence.jdbc.domain.StringSearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.TokenSearchParam;
 import com.ibm.fhir.persistence.jdbc.util.type.LastUpdatedParmBehaviorUtil;
+import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.location.util.LocationUtil;
+import com.ibm.fhir.search.parameters.InclusionParameter;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.util.SearchUtil;
@@ -194,6 +197,86 @@ public class NewQueryBuilder {
 
         log.exiting(CLASSNAME, METHODNAME);
         return result;
+    }
+
+    /**
+     * Builds a query that returns included resources.
+     *
+     * @param resourceType  - the type of resource being searched for.
+     * @param searchContext - the search context containing the search parameters.
+     * @param inclusionParm - the inclusion parameter for which the query is being built.
+     * @param ids           - the list of logical resource IDs the query will run against.
+     * @param inclusionType - either INCLUDE or REVINCLUDE.
+     * @return Select the query to fetch the matching list of included resources
+     * @throws Exception
+     */
+    public Select buildIncludeQuery(Class<?> resourceType, FHIRSearchContext searchContext,
+            InclusionParameter inclusionParm, List<Long> logicalResourceIds, String inclusionType) throws Exception {
+        final String METHODNAME = "buildIncludeQuery";
+        log.entering(CLASSNAME, METHODNAME);
+
+        // Build the special "include" query to fetch additional resources
+        // that need to be included with the main search result
+        final String includeResourceType;
+        if (SearchConstants.INCLUDE.equals(inclusionType)) {
+            includeResourceType = inclusionParm.getSearchParameterTargetType();
+        } else {
+            includeResourceType = inclusionParm.getJoinResourceType();
+        }
+
+        // Start building a query model to fetch resources of the type we want to include
+        final SearchDataQuery domainModel;
+        if (SearchConstants.INCLUDE.equals(inclusionType)) {
+            // _include needs a different base in order to support versioned references
+            domainModel = new SearchIncludeQuery(includeResourceType);
+        } else {
+            domainModel = new SearchDataQuery(includeResourceType);
+        }
+        buildIncludeModel(domainModel, resourceType, searchContext, inclusionParm, logicalResourceIds, inclusionType);
+
+        // Be careful - we need to override the searchContext here, because we don't want
+        // to be using same pagination as the main query.
+        // *************************
+        // TODO CODE REVIEW!!!!! what's the correct constant?
+        // *************************
+        int pageSize = searchContext.getPageSize();
+        int pageNumber = searchContext.getPageNumber();
+        searchContext.setPageSize(1000); // override for this query
+        searchContext.setPageNumber(1); // only need the first page of includes
+        final Select result;
+        try {
+            result = renderQuery(domainModel, searchContext);
+        } finally {
+            // reset the context
+            searchContext.setPageSize(pageSize);
+            searchContext.setPageNumber(pageNumber);
+        }
+
+
+        log.exiting(CLASSNAME, METHODNAME);
+        return result;
+    }
+
+
+    /**
+     * Build the include query used to fetch additional resources for _include
+     * and _revinclude searches
+     * @param domainModel
+     * @param resourceType
+     * @param searchContext
+     * @param inclusionParm
+     * @param ids
+     * @param inclusionType
+     */
+    private void buildIncludeModel(SearchDataQuery domainModel, Class<?> resourceType, FHIRSearchContext searchContext, InclusionParameter inclusionParm,
+        List<Long> logicalResourceIds, String inclusionType) {
+
+        if (SearchConstants.INCLUDE.equals(inclusionType)) {
+            domainModel.add(new IncludeExtension(inclusionParm, logicalResourceIds));
+        } else {
+            domainModel.add(new RevIncludeExtension(inclusionParm, logicalResourceIds));
+        }
+
     }
 
     /**

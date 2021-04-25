@@ -23,8 +23,12 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNDERSCORE_WILDCARD;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants._LOGICAL_RESOURCES;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants._RESOURCES;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -36,6 +40,8 @@ import com.ibm.fhir.database.utils.query.WhereAdapter;
 import com.ibm.fhir.database.utils.query.WhereFragment;
 import com.ibm.fhir.database.utils.query.expression.StringExpNodeVisitor;
 import com.ibm.fhir.database.utils.query.node.ExpNode;
+import com.ibm.fhir.model.resource.CodeSystem;
+import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.util.NewUriModifierUtil;
@@ -53,9 +59,12 @@ import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.location.NearLocationHandler;
 import com.ibm.fhir.search.location.bounding.Bounding;
+import com.ibm.fhir.search.parameters.InclusionParameter;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.term.util.CodeSystemSupport;
+import com.ibm.fhir.term.util.ValueSetSupport;
 
 /**
  * Used to render the domain model into a physical, executable query
@@ -161,30 +170,70 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     }
 
     @Override
+    public QueryData includeRoot(String rootResourceType) {
+        final int aliasIndex = 0;
+        final String xxLogicalResources = resourceLogicalResources(rootResourceType);
+        final String xxResources = resourceResources(rootResourceType);
+        final String lrAliasName = "LR0";
+        final String rAliasName = "R0";
+
+        // The core data query joining together the logical resources table
+        // with the resources table for the current Query
+        // parameters are bolted on as exists statements in the WHERE clause
+        // Note that this query does not specify the current version of the
+        // resource - that is the responsibility of the parameter filter (which
+        // allows us to support versioned references for _include as described
+        // in the spec).
+        SelectAdapter select = Select.select("R0.RESOURCE_ID", "R0.LOGICAL_RESOURCE_ID", "R0.VERSION_ID", "R0.LAST_UPDATED", "R0.IS_DELETED", "R0.DATA", "LR0.LOGICAL_ID");
+        select.from(xxLogicalResources, alias(lrAliasName))
+            .innerJoin(xxResources, alias(rAliasName), on(lrAliasName, "LOGICAL_RESOURCE_ID").eq(rAliasName, "LOGICAL_RESOURCE_ID"))
+            .where(lrAliasName, IS_DELETED).eq().literal("N");
+        return new QueryData(select, aliasIndex, rootResourceType);
+    }
+
+    @Override
     public QueryData addTokenParam(QueryData queryData, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException {
         // Attach an exists clause to the query
         final String parameterName = queryParm.getCode();
         final int aliasIndex = queryData.getParameterAlias() + 1;
         final SelectAdapter query = queryData.getQuery();
-
-        // Previously we joined to _TOKEN_VALUES_V, but this caused performance issues due to poor
-        // cardinality estimation (PostgreSQL) so to get around this, we grab the common_token_value_id
-        // values first, then use these to join directly to _RESOURCE_TOKEN_REFS
-        final String xxTokenValues = resourceType + "_RESOURCE_TOKEN_REFS";
-        final String paramAlias = "P" + aliasIndex;
-        final String lrAlias = "LR" + (aliasIndex-1);
         SelectAdapter exists = Select.select("1");
-        exists.from(xxTokenValues, alias(paramAlias))
-                .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
-                .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
-                ;
 
-        // add the filter predicate to the exists where clause
-        ExpNode filter = getTokenFilter(queryParm, paramAlias).getExpression();
-        exists.from().where().and(filter);
+        final Operator operator = getOperator(queryParm);
+        if (operator == Operator.EQ) {
+            // Previously we joined to _TOKEN_VALUES_V, but this caused performance issues due to poor
+            // cardinality estimation (PostgreSQL) so to get around this, we grab the common_token_value_id
+            // values first, then use these to join directly to _RESOURCE_TOKEN_REFS
+            final String xxTokenValues = resourceType + "_RESOURCE_TOKEN_REFS";
+            final String paramAlias = "P" + aliasIndex;
+            final String lrAlias = "LR" + (aliasIndex-1);
+            exists.from(xxTokenValues, alias(paramAlias))
+            .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
+            .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
+            ;
+
+            // add the filter predicate to the exists where clause
+            ExpNode filter = getTokenFilter(queryParm, paramAlias).getExpression();
+            exists.from().where().and(filter);
+        } else {
+            // A more complex for of token comparison. We can't predict how many matches
+            // we'll get for the token-values, so we go old-school and just implement it
+            // within the one join instead of fetching the COMMON_TOKEN_VALUE_IDs.
+            final String xxTokenValues = resourceType + "_TOKEN_VALUES_V";
+            final String paramAlias = "P" + aliasIndex;
+            final String lrAlias = "LR" + (aliasIndex-1);
+            exists.from(xxTokenValues, alias(paramAlias))
+            .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
+            .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
+            ;
+
+            // add the filter predicate to the exists where clause
+            ExpNode filter = getComplexTokenFilter(queryParm, paramAlias).getExpression();
+            exists.from().where().and(filter);
+        }
 
         // Add the exists sub-query we just built to the where clause of the main query
-        if (queryParm.getModifier() == Modifier.NOT) {
+        if (queryParm.getModifier() == Modifier.NOT || queryParm.getModifier() == Modifier.NOT_IN) {
             query.from().where().and().notExists(exists.build());
         } else {
             query.from().where().and().exists(exists.build());
@@ -245,6 +294,159 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
 
         return where;
     }
+
+    /**
+     * Get the filter predicate for the given token query parameter. This variant
+     * handles cases where operator is not a simple EQUALS.
+     * @param paramExists the exists select statement to which we need to AND the filter predicate
+     * @param queryParm the token query parameter
+     * @param paramAlias the alias used for the token values table
+     * @throws FHIRPersistenceException
+     */
+    protected WhereFragment getComplexTokenFilter(QueryParameter queryParm, String paramAlias) throws FHIRPersistenceException {
+        final String parameterName = queryParm.getCode();
+        final Operator operator = getOperator(queryParm);
+        WhereFragment where = new WhereFragment();
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("getComplexTokenFilter: '" + parameterName + "'");
+        }
+
+        boolean first = true;
+        where.leftParen();
+
+        // Append the suffix for :text modifier
+        String queryParmCode = queryParm.getCode();
+        if (Modifier.TEXT.equals(queryParm.getModifier())) {
+            queryParmCode += SearchConstants.TEXT_MODIFIER_SUFFIX;
+        }
+
+        for (QueryParameterValue value : queryParm.getValues()) {
+            // If multiple values are present, we need to OR them together.
+            if (first) {
+                first = false;
+            } else {
+                where.or();
+            }
+            final String codeSystem = value.getValueSystem();
+            final String tokenValue = value.getValueCode();
+
+            // The expression may be complex, and we may need to OR them together. To avoid any
+            // precedence drama, we simply wrap everything in parens just to be safe
+            where.leftParen();
+
+            if (Modifier.IN.equals(queryParm.getModifier()) || Modifier.NOT_IN.equals(queryParm.getModifier()) ||
+                    Modifier.ABOVE.equals(queryParm.getModifier()) || Modifier.BELOW.equals(queryParm.getModifier())) {
+                populateCodesSubSegment(where, queryParm.getModifier(), value, paramAlias);
+            } else {
+                // Include code
+                where.col(paramAlias, "TOKEN_VALUE").operator(operator);
+                if (operator == Operator.LIKE) {
+                    // Must escape special wildcard characters _ and % in the parameter value string.
+                    String textSearchString = SqlParameterEncoder.encode(value.getValueCode())
+                            .replace(PERCENT_WILDCARD, ESCAPE_PERCENT)
+                            .replace(UNDERSCORE_WILDCARD, ESCAPE_UNDERSCORE)
+                            .replace("+", "++")+ PERCENT_WILDCARD;
+                    where.bind(SearchUtil.normalizeForSearch(textSearchString)).escape("+");
+
+                } else {
+                    where.bind(SqlParameterEncoder.encode(value.getValueCode()));
+                }
+
+                // Include system if present.
+                if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
+                    Long commonTokenValueId = null;
+                    if (operator == Operator.NE) {
+                        where.or();
+                    } else {
+                        where.and();
+
+                        // use #1929 optimization if we can
+                        commonTokenValueId = identityCache.getCommonTokenValueId(value.getValueSystem(), value.getValueCode());
+                    }
+
+                    if (commonTokenValueId != null) {
+                        // #1929 improves cardinality estimation
+                        // resulting in far better execution plans for many search queries. Because COMMON_TOKEN_VALUE_ID
+                        // is the primary key for the common_token_values table, we don't need the CODE_SYSTEM_ID = ? predicate.
+                        where.col(paramAlias, COMMON_TOKEN_VALUE_ID).eq(commonTokenValueId);
+                    } else {
+                        // common token value not found so we can't use the optimization. Filter the code-system-id
+                        // instead, which ends up being the logical equivalent.
+                        Integer codeSystemId = identityCache.getCodeSystemId(value.getValueSystem());
+                        where.col(paramAlias, CODE_SYSTEM_ID).operator(operator).literal(nullCheck(codeSystemId));
+                    }
+                }
+            }
+
+            where.rightParen();
+        }
+
+        where.rightParen();
+
+        return where;
+    }
+
+    /**
+     * Builds an SQL segment which populates an IN clause with codes for a token search parameter
+     * specifying the :in, :not-in, :above, or :below modifier.
+     *
+     * @param whereClauseSegment  - the segment to which the sub-segment will be added
+     * @param modifier            - the search parameter modifier (:in | :not-in | :above | :below)
+     * @param parameterValue      - the search parameter value - a ValueSet URL or a CodeSystem URL + code
+     * @param parameterTableAlias - the alias for the parameter table e.g. CPx
+     * @throws FHIRPersistenceException
+     */
+    private void populateCodesSubSegment(WhereFragment whereClauseSegment, Modifier modifier,
+            QueryParameterValue parameterValue, String parameterTableAlias) throws FHIRPersistenceException {
+
+        boolean codeSystemProcessed = false;
+
+        // Get the codes to populate the IN clause.
+        // Note: validation of the value set or the code system + code specified in parameterValue
+        // was done when the search parameter was parsed, so does not need to be done here.
+        Map<String, Set<String>> codeSetMap = null;
+        if (Modifier.IN.equals(modifier) || Modifier.NOT_IN.equals(modifier)) {
+            codeSetMap = ValueSetSupport.getCodeSetMap(ValueSetSupport.getValueSet(parameterValue.getValueCode()));
+        } else if (Modifier.ABOVE.equals(modifier) || Modifier.BELOW.equals(modifier)) {
+            CodeSystem codeSystem = CodeSystemSupport.getCodeSystem(parameterValue.getValueSystem());
+            Code code = Code.builder().value(parameterValue.getValueCode()).build();
+            Set<String> codes;
+            if (Modifier.ABOVE.equals(modifier)) {
+                codes = CodeSystemSupport.getAncestorsAndSelf(codeSystem, code);
+            } else {
+                codes = CodeSystemSupport.getDescendantsAndSelf(codeSystem, code);
+            }
+            codeSetMap = Collections.singletonMap(parameterValue.getValueSystem(), codes);
+        }
+
+        // Build the SQL
+        for (String codeSetUrl : codeSetMap.keySet()) {
+            Set<String> codes = codeSetMap.get(codeSetUrl);
+            if (codes != null) {
+                // Strip version from canonical codeSet URL. We don't store version in TOKEN_VALUES
+                // table so will just ignore it.
+                int index = codeSetUrl.lastIndexOf("|");
+                if (index != -1) {
+                    codeSetUrl = codeSetUrl.substring(0, index);
+                }
+
+                if (codeSystemProcessed) {
+                    whereClauseSegment.or();
+                } else {
+                    codeSystemProcessed = true;
+                }
+
+                // TODO: switch to use COMMON_TOKEN_VALUES support -dependent on issue #2184
+
+                // <parameterTableAlias>.TOKEN_VALUE IN (...)
+                whereClauseSegment.col(parameterTableAlias, TOKEN_VALUE).in(new ArrayList<>(codes));
+
+                // AND <parameterTableAlias>.CODE_SYSTEM_ID = {n}
+                whereClauseSegment.and().col(parameterTableAlias, CODE_SYSTEM_ID).eq(nullCheck(identityCache.getCodeSystemId(codeSetUrl)));
+            }
+        }
+    }
+
 
     /**
      * Add AND EXISTS (filterSubselect) to the WHERE clause of the given query
@@ -524,7 +726,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                     .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(currentParm.getCode()))
                     .and(paramAlias, "CODE_SYSTEM_ID").eq(nullCheck(codeSystemIdForTargetResourceType))
                     .and(lrAlias, "IS_DELETED").eq().literal("N")
-                    )
+                  )
               .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(parentAlias, "LOGICAL_RESOURCE_ID") // correlate with the parent query
               ;
 
@@ -1250,6 +1452,101 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         }
 
         where.rightParen();
+        return queryData;
+    }
+
+    @Override
+    public QueryData addIncludeFilter(QueryData queryData, InclusionParameter inclusionParm, List<Long> logicalResourceIds) throws FHIRPersistenceException {
+        // Add an exists filter matching the list of given ids
+        /*
+     *   SELECT
+     *     DISTINCT R.RESOURCE_ID, LR.LOGICAL_ID
+     *   FROM
+     *     <joinResourceType>_TOKEN_VALUES_V P1
+     *     JOIN <targetResourceType>_LOGICAL_RESOURCES LR
+     *       ON P1.TOKEN_VALUE = LR.LOGICAL_ID
+     *     JOIN <targetResourceType>_RESOURCES R
+     *       ON LR.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID
+     *      AND COALESCE(P1.REF_VERSION_ID, LR.VERSION_ID) = R.VERSION_ID
+     *      AND R.IS_DELETED = 'N'
+     *   WHERE
+     *     P1.PARAMETER_NAME_ID = {n}
+     *     AND P1.CODE_SYSTEM_ID = {n}
+     *     AND P1.LOGICAL_RESOURCE_ID IN (<list-of-logical-resource_ids>)
+     * ) AS R1 ON R.RESOURCE_ID = R1.RESOURCE_ID AND R.IS_DELETED = 'N'
+         *
+         */
+        // Versioned reference support. From the spec:
+        // > If a resource has a reference that is versioned and _include is performed,
+        // > the specified version SHOULD be provided.
+
+        final String joinResourceType = inclusionParm.getJoinResourceType();
+        final String targetResourceType = inclusionParm.getSearchParameterTargetType();
+        final int aliasIndex = queryData.getParameterAlias() + 1;
+        final SelectAdapter query = queryData.getQuery();
+        final String tokenValues = joinResourceType + "_TOKEN_VALUES_V";
+        final String paramAlias = getParamAlias(aliasIndex);
+        final String parentLRAlias = getLRAlias(aliasIndex-1);
+        final String parentRAlias = "R" + (aliasIndex-1);
+        SelectAdapter exists = Select.select("1");
+        exists.from(tokenValues, alias(paramAlias))
+            .where(parentLRAlias, "LOGICAL_ID").eq(paramAlias, "TOKEN_VALUE")
+            .and().coalesce(col(paramAlias, "REF_VERSION_ID"), col(parentLRAlias, "VERSION_ID")).eq(parentRAlias, "VERSION_ID")
+            .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(inclusionParm.getSearchParameter()))
+            .and(paramAlias, "CODE_SYSTEM_ID").eq(getCodeSystemId(targetResourceType))
+            .and(paramAlias, "LOGICAL_RESOURCE_ID").inLiteralLong(logicalResourceIds)
+            ;
+
+        // Add the exists sub-query we just built to the where clause of the main query
+        query.from().where().and().exists(exists.build());
+
+        return queryData;
+    }
+
+    @Override
+    public QueryData addRevIncludeFilter(QueryData queryData, InclusionParameter inclusionParm, List<Long> logicalResourceIds) throws FHIRPersistenceException {
+        /*  old query
+        *   EXISTS (SELECT 1 FROM
+        *     (
+        *       SELECT
+        *         LOGICAL_ID, VERSION_ID
+        *       FROM
+        *         <targetResourceType>_LOGICAL_RESOURCES LR
+        *       WHERE
+        *         LR.LOGICAL_RESOURCE_ID IN (<list-of-logical-resource_ids>)
+        *     ) REFS
+        *     JOIN <joinResourceType>_TOKEN_VALUES_V P1
+        *       ON REFS.LOGICAL_ID = P1.TOKEN_VALUE
+        *      AND COALESCE(P1.REF_VERSION_ID, REFS.VERSION_ID) = REFS.VERSION_ID
+        *      AND P1.PARAMETER_NAME_ID = {n}
+        *      AND P1.CODE_SYSTEM_ID = {n}
+        *     JOIN <targetResourceType>_LOGICAL_RESOURCES LR
+        *       ON P1.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID
+        *      AND LR.IS_DELETED = 'N'
+        */
+        final String joinResourceType = inclusionParm.getJoinResourceType();
+        final String targetResourceType = inclusionParm.getSearchParameterTargetType();
+        final int aliasIndex = queryData.getParameterAlias() + 1;
+        final SelectAdapter query = queryData.getQuery();
+        final String tokenValues = joinResourceType + "_TOKEN_VALUES_V";
+        final String targetLR = targetResourceType + "_LOGICAL_RESOURCES";
+        final String paramAlias = getParamAlias(aliasIndex);
+        final String lrAlias = getLRAlias(aliasIndex);
+        final String parentLRAlias = getLRAlias(aliasIndex-1);
+        SelectAdapter exists = Select.select("1");
+        exists.from(tokenValues, alias(paramAlias))
+            .innerJoin(targetLR, alias(lrAlias), on(lrAlias, "LOGICAL_ID").eq(paramAlias, "TOKEN_VALUE")
+                .and().coalesce(col(paramAlias, "REF_VERSION_ID"), col(lrAlias, "VERSION_ID")).eq(lrAlias, "VERSION_ID")
+                .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(inclusionParm.getSearchParameter()))
+                .and(paramAlias, "CODE_SYSTEM_ID").eq(getCodeSystemId(targetResourceType))
+                .and(lrAlias, "LOGICAL_RESOURCE_ID").inLiteralLong(logicalResourceIds)
+                .and(lrAlias, "IS_DELETED").eq().literal("N"))
+            .where(parentLRAlias, "LOGICAL_RESOURCE_ID").eq(paramAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
+            ;
+
+        // Add the exists sub-query we just built to the where clause of the main query
+        query.from().where().and().exists(exists.build());
+
         return queryData;
     }
 }
