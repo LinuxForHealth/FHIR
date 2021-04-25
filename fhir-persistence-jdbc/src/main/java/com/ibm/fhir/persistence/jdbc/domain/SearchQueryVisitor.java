@@ -9,6 +9,7 @@ package com.ibm.fhir.persistence.jdbc.domain;
 import java.util.List;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.search.parameters.InclusionParameter;
 import com.ibm.fhir.search.parameters.QueryParameter;
 
 /**
@@ -38,6 +39,20 @@ public interface SearchQueryVisitor<T> {
      * @return
      */
     T dataRoot(String rootResourceType);
+
+    /**
+     * The root query (select statement) for the include query. This query is different
+     * than the data root because of the need to support version references for _include
+     * searches. For this, we join:
+     *   xx_RESOURCES.LOGICAL_RESOURCE_ID = xx_LOGICAL_RESOURCES.LOGICAL_RESOURCE_ID
+     * and allow the filter to specify the version_id constraint. However, we still need
+     * to assert that the resource has not been deleted, so we keep:
+     *   xx_LOGICAL_RESOURCES.IS_DELETED = 'N'
+     * @param rootResourceType
+     * @param columns
+     * @return
+     */
+    T includeRoot(String rootResourceType);
 
     /**
      * Filter the query using the given parameter id and token value
@@ -195,4 +210,20 @@ public interface SearchQueryVisitor<T> {
      * @return
      */
     T addLocationPosition(T queryData, List<QueryParameter> queryParameters) throws FHIRPersistenceException;
+
+    /**
+     * @param query
+     * @param inclusionParm
+     * @param ids
+     * @return
+     */
+    T addIncludeFilter(T query, InclusionParameter inclusionParm, List<Long> logicalResourceids) throws FHIRPersistenceException;
+
+    /**
+     * @param query
+     * @param inclusionParm
+     * @param ids
+     * @return
+     */
+    T addRevIncludeFilter(T query, InclusionParameter inclusionParm, List<Long> logicalResourceIds) throws FHIRPersistenceException;
 }
