@@ -1755,101 +1755,205 @@ public class CodeGenerator {
         String className = titleCase(structureDefinition.getString("name"));
 
         if (isDate(structureDefinition) || isDateTime(structureDefinition)) {
+            cb.javadocStart()
+                .javadoc("Factory method for creating " + className + " objects from a TemporalAccessor")
+                .javadoc("")
+                .javadocParam("value", "A TemporalAccessor, not null")
+                .javadocEnd();
             cb.method(mods("public", "static"), className, "of", params("TemporalAccessor value"))
+                .invoke("Objects", "requireNonNull", args("value","\"value\""))
                 ._return(className + ".builder().value(value).build()")
             .end().newLine();
 
+            cb.javadocStart()
+                .javadoc("Factory method for creating " + className + " objects from a java.lang.String")
+                .javadoc("")
+                .javadocParam("value", "A java.lang.String value that can be parsed by {@link #PARSER_FORMATTER}, not null")
+                .javadocEnd();
             cb.method(mods("public", "static"), className, "of", params("java.lang.String value"))
+                .invoke("Objects", "requireNonNull", args("value","\"value\""))
                 ._return(className + ".builder().value(value).build()")
             .end().newLine();
         }
 
         if (isDateTime(structureDefinition)) {
+            cb.javadocStart()
+                .javadoc("Factory method for creating a " + className + " that represents the current DateTime")
+                .javadocEnd();
             cb.method(mods("public", "static"), className, "now")
                 ._return(className + ".builder().value(ZonedDateTime.now()).build()")
             .end().newLine();
 
+            cb.javadocStart()
+                .javadoc("Factory method for creating a " + className + " that represents the current DateTime in the passed time zone")
+                .javadoc("")
+                .javadocParam("offset", "The ZoneOffset for the desired time zone, not null")
+                .javadocEnd();
             cb.method(mods("public", "static"), className, "now", params("ZoneOffset offset"))
+                .invoke("Objects", "requireNonNull", args("offset","\"offset\""))
                 ._return(className + ".builder().value(ZonedDateTime.now(offset)).build()")
             .end().newLine();
         }
 
         if (isInstant(structureDefinition)) {
+            cb.javadocStart()
+                .javadoc("Factory method for creating " + className + " objects from a ZonedDateTime")
+                .javadoc("")
+                .javadocParam("value", "A ZonedDateTime, not null")
+                .javadocEnd();
             cb.method(mods("public", "static"), className, "of", params("ZonedDateTime value"))
+                .invoke("Objects", "requireNonNull", args("value","\"value\""))
                 ._return(className + ".builder().value(value).build()")
             .end().newLine();
 
+            cb.javadocStart()
+                .javadoc("Factory method for creating " + className + " objects from a java.lang.String")
+                .javadoc("")
+                .javadocParam("value", "A java.lang.String value that can be parsed by {@link #PARSER_FORMATTER}, not null")
+                .javadocEnd();
             cb.method(mods("public", "static"), className, "of", params("java.lang.String value"))
+                .invoke("Objects", "requireNonNull", args("value","\"value\""))
                 ._return(className + ".builder().value(value).build()")
             .end().newLine();
 
+            cb.javadocStart()
+                .javadoc("Factory method for creating a " + className + " that represents the current Instant")
+                .javadocEnd();
             cb.method(mods("public", "static"), className, "now")
                 ._return(className + ".builder().value(ZonedDateTime.now()).build()")
             .end().newLine();
 
+            cb.javadocStart()
+                .javadoc("Factory method for creating a " + className + " that represents the current Instant in the passed time zone")
+                .javadoc("")
+                .javadocParam("offset", "the ZoneOffset for the desired time zone, not null")
+                .javadocEnd();
             cb.method(mods("public", "static"), className, "now", params("ZoneOffset offset"))
+                .invoke("Objects", "requireNonNull", args("offset","\"offset\""))
                 ._return(className + ".builder().value(ZonedDateTime.now(offset)).build()")
             .end().newLine();
         }
 
         if (isTime(structureDefinition)) {
+            cb.javadocStart()
+                .javadoc("Factory method for creating " + className + " objects from a LocalTime")
+                .javadoc("")
+                .javadocParam("value", "A LocalTime, not null")
+                .javadocEnd();
             cb.method(mods("public", "static"), className, "of", params("LocalTime value"))
+                .invoke("Objects", "requireNonNull", args("value","\"value\""))
                 ._return(className + ".builder().value(value).build()")
             .end().newLine();
 
+            cb.javadocStart()
+                .javadoc("Factory method for creating " + className + " objects from a java.lang.String")
+                .javadoc("")
+                .javadocParam("value", "A java.lang.String value that can be parsed by {@link #PARSER_FORMATTER}, not null")
+                .javadocEnd();
             cb.method(mods("public", "static"), className, "of", params("java.lang.String value"))
+                .invoke("Objects", "requireNonNull", args("value","\"value\""))
                 ._return(className + ".builder().value(value).build()")
             .end().newLine();
         }
 
         if (isBoolean(structureDefinition)) {
+            cb.javadocStart()
+                .javadoc("Factory method for creating " + className + " objects from a java.lang.Boolean")
+                .javadoc("")
+                .javadocParam("value", "A java.lang.Boolean, not null")
+                .javadocEnd();
             cb.method(mods("public", "static"), className, "of", params("java.lang.Boolean value"))
+                .invoke("Objects", "requireNonNull", args("value","\"value\""))
                 ._return(className + ".builder().value(value).build()")
             .end().newLine();
 
+            cb.javadocStart()
+                .javadoc("Factory method for creating " + className + " objects from a java.lang.String")
+                .javadoc("")
+                .javadocParam("value", "A java.lang.String value that can be parsed into a java.lang.Boolean, not null")
+                .javadocEnd();
             cb.method(mods("public", "static"), className, "of", params("java.lang.String value"))
+                .invoke("Objects", "requireNonNull", args("value","\"value\""))
                 ._return(className + ".builder().value(value).build()")
             .end().newLine();
         }
 
         if (isDecimal(structureDefinition)) {
+            cb.javadocStart()
+                .javadoc("Factory method for creating " + className + " objects from a BigDecimal")
+                .javadoc("")
+                .javadocParam("value", "A BigDecimal, not null")
+                .javadocEnd();
             cb.method(mods("public", "static"), className, "of", params("BigDecimal value"))
+                .invoke("Objects", "requireNonNull", args("value","\"value\""))
                 ._return(className + ".builder().value(value).build()")
             .end().newLine();
 
+            cb.javadocStart()
+                .javadoc("Factory method for creating " + className + " objects from a Number")
+                .javadoc("")
+                .javadocParam("value", "A Number, not null")
+                .javadocEnd();
             cb.method(mods("public", "static"), className, "of", params("Number value"))
+                .invoke("Objects", "requireNonNull", args("value","\"value\""))
                 ._return(className + ".builder().value(value.toString()).build()")
             .end().newLine();
 
+            cb.javadocStart()
+                .javadoc("Factory method for creating " + className + " objects from a java.lang.String")
+                .javadoc("")
+                .javadocParam("value", "A java.lang.String value that can be parsed into a BigDecimal, not null")
+                .javadocEnd();
             cb.method(mods("public", "static"), className, "of", params("java.lang.String value"))
+                .invoke("Objects", "requireNonNull", args("value","\"value\""))
                 ._return(className + ".builder().value(value).build()")
             .end().newLine();
         }
 
         if (isInteger(structureDefinition) || isIntegerSubtype(structureDefinition)) {
+            cb.javadocStart()
+                .javadoc("Factory method for creating " + className + " objects from a java.lang.Integer")
+                .javadoc("")
+                .javadocParam("value", "A java.lang.Integer, not null")
+                .javadocEnd();
             cb.method(mods("public", "static"), className, "of", params("java.lang.Integer value"))
+                .invoke("Objects", "requireNonNull", args("value","\"value\""))
                 ._return(className + ".builder().value(value).build()")
             .end().newLine();
 
+            cb.javadocStart()
+                .javadoc("Factory method for creating " + className + " objects from a java.lang.String")
+                .javadoc("")
+                .javadocParam("value", "A java.lang.String value that can be parsed into a java.lang.Integer, not null")
+                .javadocEnd();
             cb.method(mods("public", "static"), className, "of", params("java.lang.String value"))
+                .invoke("Objects", "requireNonNull", args("value","\"value\""))
                 ._return(className + ".builder().value(value).build()")
             .end().newLine();
         }
 
         if (isString(structureDefinition) || isStringSubtype(structureDefinition) ||
                 isUri(structureDefinition) || isUriSubtype(structureDefinition)) {
+            cb.javadocStart()
+                .javadoc("Factory method for creating " + className + " objects from a java.lang.String")
+                .javadoc("")
+                .javadocParam("value", "A java.lang.String, not null")
+                .javadocEnd();
             cb.method(mods("public", "static"), className, "of", params("java.lang.String value"))
+                .invoke("Objects", "requireNonNull", args("value","\"value\""))
                 ._return(className + ".builder().value(value).build()")
             .end().newLine();
         }
 
         if (isCanonical(structureDefinition)) {
-//            StringBuilder value = new StringBuilder(url);
-//            if (version != null && !version.isEmpty()) {
-//                value.append("|" + version);
-//            }
-//            return of(value.toString());
+            cb.javadocStart()
+                .javadoc("Factory method for creating " + className + " objects from a java.lang.String uri and version")
+                .javadoc("")
+                .javadocParam("value", "A java.lang.String for the uri portion of the canonical reference, not null")
+                .javadocParam("value", "A java.lang.String for the version portion of the canonical reference")
+                .javadocEnd();
             cb.method(mods("public", "static"), className, "of", params("java.lang.String uri", "java.lang.String version"))
+                .invoke("Objects", "requireNonNull", args("uri","\"uri\""))
                 .assign("StringBuilder value", "new StringBuilder(uri)")
                 ._if("version != null && !version.isEmpty()")
                     .invoke("value", "append", args("'|'"))
@@ -1858,7 +1962,15 @@ public class CodeGenerator {
                 ._return(className + ".builder().value(value.toString()).build()")
             .end().newLine();
 
+            cb.javadocStart()
+                .javadoc("Factory method for creating " + className + " objects from a java.lang.String uri, version, and fragment")
+                .javadoc("")
+                .javadocParam("value", "A java.lang.String for the uri portion of the canonical reference, not null")
+                .javadocParam("value", "A java.lang.String for the version portion of the canonical reference")
+                .javadocParam("value", "A java.lang.String for the fragment portion of the canonical reference")
+                .javadocEnd();
             cb.method(mods("public", "static"), className, "of", params("java.lang.String uri", "java.lang.String version", "java.lang.String fragment"))
+                .invoke("Objects", "requireNonNull", args("uri","\"uri\""))
                 .assign("StringBuilder value", "new StringBuilder(uri)")
                 ._if("version != null && !version.isEmpty()")
                     .invoke("value", "append", args("'|'"))
@@ -1873,7 +1985,13 @@ public class CodeGenerator {
         }
 
         if (isString(structureDefinition) || isStringSubtype(structureDefinition)) {
+            cb.javadocStart()
+                .javadoc("Factory method for creating " + className + " objects from a java.lang.String")
+                .javadoc("")
+                .javadocParam("value", "A java.lang.String, not null")
+                .javadocEnd();
             cb.method(mods("public", "static"), "String", "string", params("java.lang.String value"))
+                .invoke("Objects", "requireNonNull", args("value","\"value\""))
                 ._return(className + ".builder().value(value).build()")
             .end().newLine();
         }
@@ -1882,36 +2000,56 @@ public class CodeGenerator {
             cb.javadocStart()
                 .javadoc("Factory method for creating Base64Binary objects from a byte array; this array should be the actual value.")
                 .javadoc("")
-                .javadocParam("value", "The byte array of to-be-encoded content")
+                .javadocParam("value", "The byte array of to-be-encoded content, not null")
                 .javadocEnd();
             cb.method(mods("public", "static"), "Base64Binary", "of", params("byte[] value"))
+                .invoke("Objects", "requireNonNull", args("value","\"value\""))
                 ._return(className + ".builder().value(value).build()")
             .end().newLine();
 
             cb.javadocStart()
                 .javadoc("Factory method for creating Base64Binary objects from a Base64 encoded value.")
                 .javadoc("")
-                .javadocParam("value", "The Base64 encoded string")
+                .javadocParam("value", "The Base64 encoded string, not null")
                 .javadocEnd();
             cb.method(mods("public", "static"), "Base64Binary", "of", params("java.lang.String value"))
+                .invoke("Objects", "requireNonNull", args("value","\"value\""))
                 ._return(className + ".builder().value(value).build()")
             .end().newLine();
         }
 
         if (isUri(structureDefinition) || isUriSubtype(structureDefinition)) {
+            cb.javadocStart()
+                .javadoc("Factory method for creating " + className + " objects from a java.lang.String")
+                .javadoc("")
+                .javadocParam("value", "A java.lang.String that can be parsed into a valid FHIR uri value, not null")
+                .javadocEnd();
             cb.method(mods("public", "static"), "Uri", "uri", params("java.lang.String value"))
+                .invoke("Objects", "requireNonNull", args("value","\"value\""))
                 ._return(className + ".builder().value(value).build()")
             .end().newLine();
         }
 
         if (isInteger(structureDefinition) || isIntegerSubtype(structureDefinition)) {
+            cb.javadocStart()
+                .javadoc("Factory method for creating " + className + " objects from a java.lang.String")
+                .javadoc("")
+                .javadocParam("value", "A java.lang.String that can be parsed into a java.lang.Integer, not null")
+                .javadocEnd();
             cb.method(mods("public", "static"), "Integer", "integer", params("java.lang.String value"))
+                .invoke("Objects", "requireNonNull", args("value","\"value\""))
                 ._return(className + ".builder().value(value).build()")
             .end().newLine();
         }
 
         if (isCode(structureDefinition)) {
+            cb.javadocStart()
+                .javadoc("Factory method for creating " + className + " objects from a java.lang.String")
+                .javadoc("")
+                .javadocParam("value", "A java.lang.String that can be parsed into a valid FHIR code value, not null")
+                .javadocEnd();
             cb.method(mods("public", "static"), "Code", "code", params("java.lang.String value"))
+                .invoke("Objects", "requireNonNull", args("value","\"value\""))
                 ._return("Code.builder().value(value).build()")
             .end().newLine();
         }
@@ -1920,18 +2058,20 @@ public class CodeGenerator {
             cb.javadocStart()
                 .javadoc("Factory method for creating Xhtml objects from an XHTML java.lang.String")
                 .javadoc("")
-                .javadocParam("value", "A java.lang.String with valid XHTML content")
+                .javadocParam("value", "A java.lang.String with valid XHTML content, not null")
                 .javadocEnd();
             cb.method(mods("public", "static"), className, "of", params("java.lang.String value"))
+                .invoke("Objects", "requireNonNull", args("value","\"value\""))
                 ._return(className + ".builder().value(value).build()")
             .end().newLine();
 
             cb.javadocStart()
                 .javadoc("Factory method for creating Xhtml objects from an XHTML java.lang.String")
                 .javadoc("")
-                .javadocParam("value", "A java.lang.String with valid XHTML content")
+                .javadocParam("value", "A java.lang.String with valid XHTML content, not null")
                 .javadocEnd();
             cb.method(mods("public", "static"), "Xhtml", "xhtml", params("java.lang.String value"))
+                .invoke("Objects", "requireNonNull", args("value","\"value\""))
                 ._return("Xhtml.builder().value(value).build()")
             .end().newLine();
 
@@ -1941,9 +2081,10 @@ public class CodeGenerator {
                 .javadoc("<p>This method will automatically encode the passed string for use within XHTML,", false)
                 .javadoc("then wrap it in an XHTML {@code <div>} element with a namespace of {@code http://www.w3.org/1999/xhtml}", false)
                 .javadoc("")
-                .javadocParam("plainText", "The text to encode and wrap for use within a Narrative")
+                .javadocParam("plainText", "The text to encode and wrap for use within a Narrative, not null")
                 .javadocEnd();
             cb.method(mods("public", "static"), "Xhtml", "from", params("java.lang.String plainText"))
+                .invoke("Objects", "requireNonNull", args("plainText","\"plainText\""))
                 ._return("Xhtml.builder().value(DIV_OPEN + Encode.forHtmlContent(plainText) + DIV_CLOSE).build()")
             .end().newLine();
         }

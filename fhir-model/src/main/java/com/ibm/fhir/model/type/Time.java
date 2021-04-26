@@ -60,11 +60,25 @@ public class Time extends Element {
         return super.hasChildren();
     }
 
+    /**
+     * Factory method for creating Time objects from a LocalTime
+     * 
+     * @param value
+     *     A LocalTime, not null
+     */
     public static Time of(LocalTime value) {
+        Objects.requireNonNull(value, "value");
         return Time.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Time objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String value that can be parsed by {@link #PARSER_FORMATTER}, not null
+     */
     public static Time of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Time.builder().value(value).build();
     }
 
