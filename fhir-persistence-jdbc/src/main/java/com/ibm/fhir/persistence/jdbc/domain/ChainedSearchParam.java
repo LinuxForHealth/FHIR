@@ -43,10 +43,11 @@ public class ChainedSearchParam extends SearchParam {
         while (currentParm != null) {
             QueryParameter nextParm = currentParm.getNextParameter();
 
-            if (currentParm.isChained()) {
-                currentSubQuery = addChained(currentSubQuery, visitor, currentParm);
-            } else if (currentParm.isReverseChained()) {
+            // need to check reverse-chained first, because reverse-chained params also have isChained() == true!
+            if (currentParm.isReverseChained()) {
                 currentSubQuery = addReverseChained(currentSubQuery, visitor, currentParm);
+            } else if (currentParm.isChained()) {
+                currentSubQuery = addChained(currentSubQuery, visitor, currentParm);
             } else if (nextParm == null) {
                 addFinalFilter(currentSubQuery, visitor, currentParm);
             } else {
