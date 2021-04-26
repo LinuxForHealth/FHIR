@@ -33,11 +33,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.query.Operator;
 import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.database.utils.query.SelectAdapter;
 import com.ibm.fhir.database.utils.query.WhereAdapter;
 import com.ibm.fhir.database.utils.query.WhereFragment;
+import com.ibm.fhir.database.utils.query.expression.ColumnExpNodeVisitor;
 import com.ibm.fhir.database.utils.query.expression.StringExpNodeVisitor;
 import com.ibm.fhir.database.utils.query.node.ExpNode;
 import com.ibm.fhir.model.resource.CodeSystem;
@@ -199,6 +201,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         final SelectAdapter query = queryData.getQuery();
         SelectAdapter exists = Select.select("1");
 
+
         final Operator operator = getOperator(queryParm);
         if (operator == Operator.EQ) {
             // Previously we joined to _TOKEN_VALUES_V, but this caused performance issues due to poor
@@ -216,19 +219,20 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             ExpNode filter = getTokenFilter(queryParm, paramAlias).getExpression();
             exists.from().where().and(filter);
         } else {
-            // A more complex for of token comparison. We can't predict how many matches
-            // we'll get for the token-values, so we go old-school and just implement it
-            // within the one join instead of fetching the COMMON_TOKEN_VALUE_IDs.
-            final String xxTokenValues = resourceType + "_TOKEN_VALUES_V";
             final String paramAlias = "P" + aliasIndex;
             final String lrAlias = "LR" + (aliasIndex-1);
+
+            // A more complex form of token comparison - but we still optimize to use
+            // xx_RESOURCE_TOKEN_REFS if we can
+            ExpNode filter = getComplexTokenFilter(queryParm, paramAlias).getExpression();
+            final String xxTokenValues = getTokenParamTable(filter, resourceType, paramAlias);
+
             exists.from(xxTokenValues, alias(paramAlias))
             .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
             .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
             ;
 
             // add the filter predicate to the exists where clause
-            ExpNode filter = getComplexTokenFilter(queryParm, paramAlias).getExpression();
             exists.from().where().and(filter);
         }
 
@@ -328,6 +332,13 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                 where.or();
             }
 
+            final Long commonTokenValueId;
+            if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
+                commonTokenValueId = identityCache.getCommonTokenValueId(value.getValueSystem(), value.getValueCode());
+            } else {
+                commonTokenValueId = null;
+            }
+
             // The expression may be complex, and we may need to OR them together. To avoid any
             // precedence drama, we simply wrap everything in parens just to be safe
             where.leftParen();
@@ -337,39 +348,34 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                 populateCodesSubSegment(where, queryParm.getModifier(), value, paramAlias);
             } else {
                 // Include code
-                where.col(paramAlias, "TOKEN_VALUE").operator(operator);
-                if (operator == Operator.LIKE) {
-                    // Must escape special wildcard characters _ and % in the parameter value string.
-                    String textSearchString = SqlParameterEncoder.encode(value.getValueCode())
-                            .replace(PERCENT_WILDCARD, ESCAPE_PERCENT)
-                            .replace(UNDERSCORE_WILDCARD, ESCAPE_UNDERSCORE)
-                            .replace("+", "++")+ PERCENT_WILDCARD;
-                    where.bind(SearchUtil.normalizeForSearch(textSearchString)).escape("+");
-
+                if (operator == Operator.EQ && commonTokenValueId != null) {
+                    // Allow the optimization where we only join against the xx_RESOURCE_TOKEN_REFS
+                    // for a specific COMMON_TOKEN_VALUE_ID
+                    where.col(paramAlias, COMMON_TOKEN_VALUE_ID).eq(commonTokenValueId);
                 } else {
-                    where.bind(SqlParameterEncoder.encode(value.getValueCode()));
-                }
+                    // traditional approach, using a join to xx_TOKEN_VALUES_V
+                    where.col(paramAlias, "TOKEN_VALUE").operator(operator);
+                    if (operator == Operator.LIKE) {
+                        // Must escape special wildcard characters _ and % in the parameter value string.
+                        String textSearchString = SqlParameterEncoder.encode(value.getValueCode())
+                                .replace(PERCENT_WILDCARD, ESCAPE_PERCENT)
+                                .replace(UNDERSCORE_WILDCARD, ESCAPE_UNDERSCORE)
+                                .replace("+", "++")+ PERCENT_WILDCARD;
+                        where.bind(SearchUtil.normalizeForSearch(textSearchString)).escape("+");
 
-                // Include system if present.
-                if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
-                    Long commonTokenValueId = null;
-                    if (operator == Operator.NE) {
-                        where.or();
                     } else {
-                        where.and();
-
-                        // use #1929 optimization if we can
-                        commonTokenValueId = identityCache.getCommonTokenValueId(value.getValueSystem(), value.getValueCode());
+                        where.bind(SqlParameterEncoder.encode(value.getValueCode()));
                     }
 
-                    if (commonTokenValueId != null) {
-                        // #1929 improves cardinality estimation
-                        // resulting in far better execution plans for many search queries. Because COMMON_TOKEN_VALUE_ID
-                        // is the primary key for the common_token_values table, we don't need the CODE_SYSTEM_ID = ? predicate.
-                        where.col(paramAlias, COMMON_TOKEN_VALUE_ID).eq(commonTokenValueId);
-                    } else {
-                        // common token value not found so we can't use the optimization. Filter the code-system-id
-                        // instead, which ends up being the logical equivalent.
+                    // Include system if present.
+                    if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
+                        if (operator == Operator.NE) {
+                            where.or();
+                        } else {
+                            where.and();
+                        }
+
+                        // filter on the code system for the given parameter
                         Integer codeSystemId = identityCache.getCodeSystemId(value.getValueSystem());
                         where.col(paramAlias, CODE_SYSTEM_ID).operator(operator).literal(nullCheck(codeSystemId));
                     }
@@ -1073,6 +1079,34 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         return "LR" + aliasIndex;
     }
 
+    /**
+     * Compute the token parameter table name we want to use to join with. This method
+     * inspects the content of the given filter {@link ExpNode}. If the filter contains
+     * a reference to the TOKEN_VALUE column, the returned table name will be based
+     * on xx_TOKEN_VALUES_V, otherwise it will be based on xx_RESOURCE_TOKEN_REFS. The
+     * latter is preferable because it eliminates an unnecessary join, improves cardinality
+     * estimation and (usually) results in a better execution plan.
+     * @param filter
+     * @param resourceType
+     * @param paramAlias
+     * @return
+     */
+    private String getTokenParamTable(ExpNode filter, String resourceType, String paramAlias) {
+        ColumnExpNodeVisitor visitor = new ColumnExpNodeVisitor(); // gathers all columns used in the filter expression
+        Set<String> columns = filter.visit(visitor);
+        boolean usesTokenValue = columns.contains(DataDefinitionUtil.getQualifiedName(paramAlias, "TOKEN_VALUE"));
+
+        final String xxTokenValues;
+        if (usesTokenValue) {
+            // can't optimize because we filter on TOKEN_VALUE
+            xxTokenValues = resourceType + "_TOKEN_VALUES_V";
+        } else {
+            // only filters on COMMON_TOKEN_VALUE_ID so we can optimize
+            xxTokenValues = resourceType + "_RESOURCE_TOKEN_REFS";
+        }
+        return xxTokenValues;
+    }
+
     @Override
     public QueryData addReferenceParam(QueryData queryData, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException {
         // TODO align with addTokenParam
@@ -1080,9 +1114,15 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         final String parameterName = queryParm.getCode();
         final int aliasIndex = queryData.getParameterAlias() + 1;
         final SelectAdapter query = queryData.getQuery();
-        final String xxTokenValues = resourceType + "_TOKEN_VALUES_V";
         final String paramAlias = "P" + aliasIndex;
         final String lrAlias = "LR" + (aliasIndex-1);
+
+        // Grab the filter expression first. We can then inspect the expression to
+        // look for use of the TOKEN_VALUE column. If use of this column isn't found,
+        // we can apply an optimization by joining against the RESOURCE_TOKEN_REFS
+        // table directly.
+        ExpNode filter = getReferenceFilter(queryParm, paramAlias).getExpression();
+        final String xxTokenValues = getTokenParamTable(filter, resourceType, paramAlias);
         SelectAdapter exists = Select.select("1");
         exists.from(xxTokenValues, alias(paramAlias))
                 .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
@@ -1090,7 +1130,6 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                 ;
 
         // add the filter predicate to the exists where clause
-        ExpNode filter = getReferenceFilter(queryParm, paramAlias).getExpression();
         exists.from().where().and(filter);
 
         // Add the exists sub-query we just built to the where clause of the main query
