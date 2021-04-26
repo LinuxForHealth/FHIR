@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Address;
@@ -696,10 +695,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 TokenParmVal p = new TokenParmVal();
                 p.setResourceType(resourceType);
                 p.setName(searchParamCode + SearchConstants.IDENTIFIER_MODIFIER_SUFFIX);
-                if (identifier.getSystem() != null) {
-                    p.setValueSystem(identifier.getSystem().getValue());
-                }
-                p.setValueCode(identifier.getValue().getValue());
+                setTokenValues(p, identifier.getSystem(), identifier.getValue().getValue());
                 result.add(p);
             }
         } catch (FHIRSearchException x) {
