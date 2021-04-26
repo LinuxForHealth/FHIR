@@ -304,20 +304,20 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
      * @throws FHIRPersistenceException
      */
     protected WhereFragment getComplexTokenFilter(QueryParameter queryParm, String paramAlias) throws FHIRPersistenceException {
-        final String parameterName = queryParm.getCode();
-        final Operator operator = getOperator(queryParm);
+        final Operator operator = getOperator(queryParm, EQ);
         WhereFragment where = new WhereFragment();
-        if (logger.isLoggable(Level.FINE)) {
-            logger.fine("getComplexTokenFilter: '" + parameterName + "'");
-        }
 
         boolean first = true;
         where.leftParen();
 
         // Append the suffix for :text modifier
-        String queryParmCode = queryParm.getCode();
+        String parameterName = queryParm.getCode();
         if (Modifier.TEXT.equals(queryParm.getModifier())) {
-            queryParmCode += SearchConstants.TEXT_MODIFIER_SUFFIX;
+            parameterName += SearchConstants.TEXT_MODIFIER_SUFFIX;
+        }
+
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine("getComplexTokenFilter: '" + parameterName + "'");
         }
 
         for (QueryParameterValue value : queryParm.getValues()) {
@@ -327,8 +327,6 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             } else {
                 where.or();
             }
-            final String codeSystem = value.getValueSystem();
-            final String tokenValue = value.getValueCode();
 
             // The expression may be complex, and we may need to OR them together. To avoid any
             // precedence drama, we simply wrap everything in parens just to be safe
