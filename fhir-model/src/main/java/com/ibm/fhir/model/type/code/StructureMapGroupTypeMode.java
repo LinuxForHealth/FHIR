@@ -24,21 +24,21 @@ public class StructureMapGroupTypeMode extends Code {
      * 
      * <p>This group is not a default group for the types.
      */
-    public static final StructureMapGroupTypeMode NONE = StructureMapGroupTypeMode.builder().value(ValueSet.NONE).build();
+    public static final StructureMapGroupTypeMode NONE = StructureMapGroupTypeMode.builder().value(Value.NONE).build();
 
     /**
      * Default for Type Combination
      * 
      * <p>This group is a default mapping group for the specified types and for the primary source type.
      */
-    public static final StructureMapGroupTypeMode TYPES = StructureMapGroupTypeMode.builder().value(ValueSet.TYPES).build();
+    public static final StructureMapGroupTypeMode TYPES = StructureMapGroupTypeMode.builder().value(Value.TYPES).build();
 
     /**
      * Default for type + combination
      * 
      * <p>This group is a default mapping group for the specified types.
      */
-    public static final StructureMapGroupTypeMode TYPE_AND_TYPES = StructureMapGroupTypeMode.builder().value(ValueSet.TYPE_AND_TYPES).build();
+    public static final StructureMapGroupTypeMode TYPE_AND_TYPES = StructureMapGroupTypeMode.builder().value(Value.TYPE_AND_TYPES).build();
 
     private volatile int hashCode;
 
@@ -46,14 +46,44 @@ public class StructureMapGroupTypeMode extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this StructureMapGroupTypeMode as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this StructureMapGroupTypeMode as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating StructureMapGroupTypeMode objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static StructureMapGroupTypeMode of(ValueSet value) {
+        switch (value) {
+        case NONE:
+            return NONE;
+        case TYPES:
+            return TYPES;
+        case TYPE_AND_TYPES:
+            return TYPE_AND_TYPES;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating StructureMapGroupTypeMode objects from a passed enum value.
      */
-    public static StructureMapGroupTypeMode of(ValueSet value) {
+    public static StructureMapGroupTypeMode of(Value value) {
         switch (value) {
         case NONE:
             return NONE;
@@ -75,7 +105,7 @@ public class StructureMapGroupTypeMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static StructureMapGroupTypeMode of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -87,7 +117,7 @@ public class StructureMapGroupTypeMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -99,7 +129,7 @@ public class StructureMapGroupTypeMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -161,10 +191,27 @@ public class StructureMapGroupTypeMode extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for StructureMapGroupTypeMode
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -174,6 +221,7 @@ public class StructureMapGroupTypeMode extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Not a Default
@@ -211,7 +259,7 @@ public class StructureMapGroupTypeMode extends Code {
         }
 
         /**
-         * Factory method for creating StructureMapGroupTypeMode.ValueSet values from a passed string value.
+         * Factory method for creating StructureMapGroupTypeMode.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -220,6 +268,60 @@ public class StructureMapGroupTypeMode extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Not a Default
+         * 
+         * <p>This group is not a default group for the types.
+         */
+        NONE("none"),
+
+        /**
+         * Default for Type Combination
+         * 
+         * <p>This group is a default mapping group for the specified types and for the primary source type.
+         */
+        TYPES("types"),
+
+        /**
+         * Default for type + combination
+         * 
+         * <p>This group is a default mapping group for the specified types.
+         */
+        TYPE_AND_TYPES("type-and-types");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating StructureMapGroupTypeMode.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

@@ -24,35 +24,35 @@ public class TestReportActionResult extends Code {
      * 
      * <p>The action was successful.
      */
-    public static final TestReportActionResult PASS = TestReportActionResult.builder().value(ValueSet.PASS).build();
+    public static final TestReportActionResult PASS = TestReportActionResult.builder().value(Value.PASS).build();
 
     /**
      * Skip
      * 
      * <p>The action was skipped.
      */
-    public static final TestReportActionResult SKIP = TestReportActionResult.builder().value(ValueSet.SKIP).build();
+    public static final TestReportActionResult SKIP = TestReportActionResult.builder().value(Value.SKIP).build();
 
     /**
      * Fail
      * 
      * <p>The action failed.
      */
-    public static final TestReportActionResult FAIL = TestReportActionResult.builder().value(ValueSet.FAIL).build();
+    public static final TestReportActionResult FAIL = TestReportActionResult.builder().value(Value.FAIL).build();
 
     /**
      * Warning
      * 
      * <p>The action passed but with warnings.
      */
-    public static final TestReportActionResult WARNING = TestReportActionResult.builder().value(ValueSet.WARNING).build();
+    public static final TestReportActionResult WARNING = TestReportActionResult.builder().value(Value.WARNING).build();
 
     /**
      * Error
      * 
      * <p>The action encountered a fatal error and the engine was unable to process.
      */
-    public static final TestReportActionResult ERROR = TestReportActionResult.builder().value(ValueSet.ERROR).build();
+    public static final TestReportActionResult ERROR = TestReportActionResult.builder().value(Value.ERROR).build();
 
     private volatile int hashCode;
 
@@ -60,14 +60,48 @@ public class TestReportActionResult extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this TestReportActionResult as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this TestReportActionResult as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating TestReportActionResult objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static TestReportActionResult of(ValueSet value) {
+        switch (value) {
+        case PASS:
+            return PASS;
+        case SKIP:
+            return SKIP;
+        case FAIL:
+            return FAIL;
+        case WARNING:
+            return WARNING;
+        case ERROR:
+            return ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating TestReportActionResult objects from a passed enum value.
      */
-    public static TestReportActionResult of(ValueSet value) {
+    public static TestReportActionResult of(Value value) {
         switch (value) {
         case PASS:
             return PASS;
@@ -93,7 +127,7 @@ public class TestReportActionResult extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static TestReportActionResult of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -105,7 +139,7 @@ public class TestReportActionResult extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -117,7 +151,7 @@ public class TestReportActionResult extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -179,10 +213,27 @@ public class TestReportActionResult extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for TestReportActionResult
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -192,6 +243,7 @@ public class TestReportActionResult extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Pass
@@ -243,7 +295,7 @@ public class TestReportActionResult extends Code {
         }
 
         /**
-         * Factory method for creating TestReportActionResult.ValueSet values from a passed string value.
+         * Factory method for creating TestReportActionResult.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -252,6 +304,74 @@ public class TestReportActionResult extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Pass
+         * 
+         * <p>The action was successful.
+         */
+        PASS("pass"),
+
+        /**
+         * Skip
+         * 
+         * <p>The action was skipped.
+         */
+        SKIP("skip"),
+
+        /**
+         * Fail
+         * 
+         * <p>The action failed.
+         */
+        FAIL("fail"),
+
+        /**
+         * Warning
+         * 
+         * <p>The action passed but with warnings.
+         */
+        WARNING("warning"),
+
+        /**
+         * Error
+         * 
+         * <p>The action encountered a fatal error and the engine was unable to process.
+         */
+        ERROR("error");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating TestReportActionResult.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

@@ -43,7 +43,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DocumentManifest extends DomainResource {
@@ -54,7 +54,7 @@ public class DocumentManifest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DocumentReferenceStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The status of the document reference.",
         valueSet = "http://hl7.org/fhir/ValueSet/document-reference-status|4.0.1"
     )
@@ -63,7 +63,7 @@ public class DocumentManifest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "v3Act",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The activity that caused the DocumentManifest to be created.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ActCode"
     )

@@ -25,28 +25,28 @@ public class MeasureReportType extends Code {
      * <p>An individual report that provides information on the performance for a given measure with respect to a single 
      * subject.
      */
-    public static final MeasureReportType INDIVIDUAL = MeasureReportType.builder().value(ValueSet.INDIVIDUAL).build();
+    public static final MeasureReportType INDIVIDUAL = MeasureReportType.builder().value(Value.INDIVIDUAL).build();
 
     /**
      * Subject List
      * 
      * <p>A subject list report that includes a listing of subjects that satisfied each population criteria in the measure.
      */
-    public static final MeasureReportType SUBJECT_LIST = MeasureReportType.builder().value(ValueSet.SUBJECT_LIST).build();
+    public static final MeasureReportType SUBJECT_LIST = MeasureReportType.builder().value(Value.SUBJECT_LIST).build();
 
     /**
      * Summary
      * 
      * <p>A summary report that returns the number of members in each population criteria for the measure.
      */
-    public static final MeasureReportType SUMMARY = MeasureReportType.builder().value(ValueSet.SUMMARY).build();
+    public static final MeasureReportType SUMMARY = MeasureReportType.builder().value(Value.SUMMARY).build();
 
     /**
      * Data Collection
      * 
      * <p>A data collection report that contains data-of-interest for the measure.
      */
-    public static final MeasureReportType DATA_COLLECTION = MeasureReportType.builder().value(ValueSet.DATA_COLLECTION).build();
+    public static final MeasureReportType DATA_COLLECTION = MeasureReportType.builder().value(Value.DATA_COLLECTION).build();
 
     private volatile int hashCode;
 
@@ -54,14 +54,46 @@ public class MeasureReportType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this MeasureReportType as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this MeasureReportType as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating MeasureReportType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static MeasureReportType of(ValueSet value) {
+        switch (value) {
+        case INDIVIDUAL:
+            return INDIVIDUAL;
+        case SUBJECT_LIST:
+            return SUBJECT_LIST;
+        case SUMMARY:
+            return SUMMARY;
+        case DATA_COLLECTION:
+            return DATA_COLLECTION;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating MeasureReportType objects from a passed enum value.
      */
-    public static MeasureReportType of(ValueSet value) {
+    public static MeasureReportType of(Value value) {
         switch (value) {
         case INDIVIDUAL:
             return INDIVIDUAL;
@@ -85,7 +117,7 @@ public class MeasureReportType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static MeasureReportType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -97,7 +129,7 @@ public class MeasureReportType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -109,7 +141,7 @@ public class MeasureReportType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -171,10 +203,27 @@ public class MeasureReportType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for MeasureReportType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -184,6 +233,7 @@ public class MeasureReportType extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Individual
@@ -229,7 +279,7 @@ public class MeasureReportType extends Code {
         }
 
         /**
-         * Factory method for creating MeasureReportType.ValueSet values from a passed string value.
+         * Factory method for creating MeasureReportType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -238,6 +288,68 @@ public class MeasureReportType extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Individual
+         * 
+         * <p>An individual report that provides information on the performance for a given measure with respect to a single 
+         * subject.
+         */
+        INDIVIDUAL("individual"),
+
+        /**
+         * Subject List
+         * 
+         * <p>A subject list report that includes a listing of subjects that satisfied each population criteria in the measure.
+         */
+        SUBJECT_LIST("subject-list"),
+
+        /**
+         * Summary
+         * 
+         * <p>A summary report that returns the number of members in each population criteria for the measure.
+         */
+        SUMMARY("summary"),
+
+        /**
+         * Data Collection
+         * 
+         * <p>A data collection report that contains data-of-interest for the measure.
+         */
+        DATA_COLLECTION("data-collection");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating MeasureReportType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

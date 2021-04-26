@@ -94,7 +94,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "smp-0",
@@ -142,7 +142,7 @@ public class StructureMap extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -162,7 +162,7 @@ public class StructureMap extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -1238,7 +1238,7 @@ public class StructureMap extends DomainResource {
         @Summary
         @Binding(
             bindingName = "StructureMapModelMode",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "How the referenced structure is used in this mapping.",
             valueSet = "http://hl7.org/fhir/ValueSet/map-model-mode|4.0.1"
         )
@@ -1586,7 +1586,7 @@ public class StructureMap extends DomainResource {
         @Summary
         @Binding(
             bindingName = "StructureMapGroupTypeMode",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "If this is the default rule set to apply for the source type, or this combination of types.",
             valueSet = "http://hl7.org/fhir/ValueSet/map-group-type-mode|4.0.1"
         )
@@ -2050,7 +2050,7 @@ public class StructureMap extends DomainResource {
             @Summary
             @Binding(
                 bindingName = "StructureMapInputMode",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "Mode for this instance of data.",
                 valueSet = "http://hl7.org/fhir/ValueSet/map-input-mode|4.0.1"
             )
@@ -2892,7 +2892,7 @@ public class StructureMap extends DomainResource {
                 @Summary
                 @Binding(
                     bindingName = "StructureMapSourceListMode",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "If field is a list, how to manage the source.",
                     valueSet = "http://hl7.org/fhir/ValueSet/map-source-list-mode|4.0.1"
                 )
@@ -3515,7 +3515,7 @@ public class StructureMap extends DomainResource {
                 @Summary
                 @Binding(
                     bindingName = "StructureMapContextType",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "How to interpret the context.",
                     valueSet = "http://hl7.org/fhir/ValueSet/map-context-type|4.0.1"
                 )
@@ -3527,7 +3527,7 @@ public class StructureMap extends DomainResource {
                 @Summary
                 @Binding(
                     bindingName = "StructureMapTargetListMode",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "If field is a list, how to manage the production.",
                     valueSet = "http://hl7.org/fhir/ValueSet/map-target-list-mode|4.0.1"
                 )
@@ -3537,7 +3537,7 @@ public class StructureMap extends DomainResource {
                 @Summary
                 @Binding(
                     bindingName = "StructureMapTransform",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "How data is copied/created.",
                     valueSet = "http://hl7.org/fhir/ValueSet/map-transform|4.0.1"
                 )

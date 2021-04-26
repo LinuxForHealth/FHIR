@@ -53,7 +53,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 5,
-    status = StandardsStatus.ValueSet.NORMATIVE
+    status = StandardsStatus.Value.NORMATIVE
 )
 @Constraint(
     id = "opd-0",
@@ -105,7 +105,7 @@ public class OperationDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -114,7 +114,7 @@ public class OperationDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "OperationKind",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Whether an operation is a normal operation or a query.",
         valueSet = "http://hl7.org/fhir/ValueSet/operation-kind|4.0.1"
     )
@@ -134,7 +134,7 @@ public class OperationDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -151,7 +151,7 @@ public class OperationDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ResourceType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "One of the resource types defined as part of this version of FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
     )
@@ -1470,7 +1470,7 @@ public class OperationDefinition extends DomainResource {
         private final Code name;
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "OperationParameterUse",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Whether an operation parameter is an input or an output parameter.",
             valueSet = "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.0.1"
         )
@@ -1483,7 +1483,7 @@ public class OperationDefinition extends DomainResource {
         private final String documentation;
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "FHIRAllTypes",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "A list of all the concrete types defined in this version of the FHIR specification - Abstract Types, Data Types and Resource Types.",
             valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.0.1"
         )
@@ -1491,7 +1491,7 @@ public class OperationDefinition extends DomainResource {
         private final List<Canonical> targetProfile;
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "SearchParamType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Data types allowed to be used for search parameters.",
             valueSet = "http://hl7.org/fhir/ValueSet/search-param-type|4.0.1"
         )
@@ -2126,7 +2126,7 @@ public class OperationDefinition extends DomainResource {
         public static class Binding extends BackboneElement {
             @com.ibm.fhir.model.annotation.Binding(
                 bindingName = "BindingStrength",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "Indication of the degree of conformance expectations associated with a binding.",
                 valueSet = "http://hl7.org/fhir/ValueSet/binding-strength|4.0.1"
             )

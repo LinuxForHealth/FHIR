@@ -24,28 +24,28 @@ public class EligibilityResponseStatus extends Code {
      * 
      * <p>The instance is currently in-force.
      */
-    public static final EligibilityResponseStatus ACTIVE = EligibilityResponseStatus.builder().value(ValueSet.ACTIVE).build();
+    public static final EligibilityResponseStatus ACTIVE = EligibilityResponseStatus.builder().value(Value.ACTIVE).build();
 
     /**
      * Cancelled
      * 
      * <p>The instance is withdrawn, rescinded or reversed.
      */
-    public static final EligibilityResponseStatus CANCELLED = EligibilityResponseStatus.builder().value(ValueSet.CANCELLED).build();
+    public static final EligibilityResponseStatus CANCELLED = EligibilityResponseStatus.builder().value(Value.CANCELLED).build();
 
     /**
      * Draft
      * 
      * <p>A new instance the contents of which is not complete.
      */
-    public static final EligibilityResponseStatus DRAFT = EligibilityResponseStatus.builder().value(ValueSet.DRAFT).build();
+    public static final EligibilityResponseStatus DRAFT = EligibilityResponseStatus.builder().value(Value.DRAFT).build();
 
     /**
      * Entered in Error
      * 
      * <p>The instance was entered in error.
      */
-    public static final EligibilityResponseStatus ENTERED_IN_ERROR = EligibilityResponseStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
+    public static final EligibilityResponseStatus ENTERED_IN_ERROR = EligibilityResponseStatus.builder().value(Value.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -53,14 +53,46 @@ public class EligibilityResponseStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this EligibilityResponseStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this EligibilityResponseStatus as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating EligibilityResponseStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static EligibilityResponseStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case CANCELLED:
+            return CANCELLED;
+        case DRAFT:
+            return DRAFT;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating EligibilityResponseStatus objects from a passed enum value.
      */
-    public static EligibilityResponseStatus of(ValueSet value) {
+    public static EligibilityResponseStatus of(Value value) {
         switch (value) {
         case ACTIVE:
             return ACTIVE;
@@ -84,7 +116,7 @@ public class EligibilityResponseStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static EligibilityResponseStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -96,7 +128,7 @@ public class EligibilityResponseStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -108,7 +140,7 @@ public class EligibilityResponseStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -170,10 +202,27 @@ public class EligibilityResponseStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for EligibilityResponseStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -183,6 +232,7 @@ public class EligibilityResponseStatus extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Active
@@ -227,7 +277,7 @@ public class EligibilityResponseStatus extends Code {
         }
 
         /**
-         * Factory method for creating EligibilityResponseStatus.ValueSet values from a passed string value.
+         * Factory method for creating EligibilityResponseStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -236,6 +286,67 @@ public class EligibilityResponseStatus extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Active
+         * 
+         * <p>The instance is currently in-force.
+         */
+        ACTIVE("active"),
+
+        /**
+         * Cancelled
+         * 
+         * <p>The instance is withdrawn, rescinded or reversed.
+         */
+        CANCELLED("cancelled"),
+
+        /**
+         * Draft
+         * 
+         * <p>A new instance the contents of which is not complete.
+         */
+        DRAFT("draft"),
+
+        /**
+         * Entered in Error
+         * 
+         * <p>The instance was entered in error.
+         */
+        ENTERED_IN_ERROR("entered-in-error");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating EligibilityResponseStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

@@ -43,7 +43,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 0,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "organizationAffiliation-0",
@@ -73,7 +73,7 @@ public class OrganizationAffiliation extends DomainResource {
     @Summary
     @Binding(
         bindingName = "OrganizationAffiliation",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The role the participating organization providing services to the primary organization.",
         valueSet = "http://hl7.org/fhir/ValueSet/organization-role"
     )
@@ -81,7 +81,7 @@ public class OrganizationAffiliation extends DomainResource {
     @Summary
     @Binding(
         bindingName = "OrganizationSpecialty",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "Specific specialty associated with the participating organization.",
         valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
     )

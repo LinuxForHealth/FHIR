@@ -24,21 +24,21 @@ public class QualityType extends Code {
      * 
      * <p>INDEL Comparison.
      */
-    public static final QualityType INDEL = QualityType.builder().value(ValueSet.INDEL).build();
+    public static final QualityType INDEL = QualityType.builder().value(Value.INDEL).build();
 
     /**
      * SNP Comparison
      * 
      * <p>SNP Comparison.
      */
-    public static final QualityType SNP = QualityType.builder().value(ValueSet.SNP).build();
+    public static final QualityType SNP = QualityType.builder().value(Value.SNP).build();
 
     /**
      * UNKNOWN Comparison
      * 
      * <p>UNKNOWN Comparison.
      */
-    public static final QualityType UNKNOWN = QualityType.builder().value(ValueSet.UNKNOWN).build();
+    public static final QualityType UNKNOWN = QualityType.builder().value(Value.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -46,14 +46,44 @@ public class QualityType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this QualityType as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this QualityType as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating QualityType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static QualityType of(ValueSet value) {
+        switch (value) {
+        case INDEL:
+            return INDEL;
+        case SNP:
+            return SNP;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating QualityType objects from a passed enum value.
      */
-    public static QualityType of(ValueSet value) {
+    public static QualityType of(Value value) {
         switch (value) {
         case INDEL:
             return INDEL;
@@ -75,7 +105,7 @@ public class QualityType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static QualityType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -87,7 +117,7 @@ public class QualityType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -99,7 +129,7 @@ public class QualityType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -161,10 +191,27 @@ public class QualityType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for QualityType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -174,6 +221,7 @@ public class QualityType extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * INDEL Comparison
@@ -211,7 +259,7 @@ public class QualityType extends Code {
         }
 
         /**
-         * Factory method for creating QualityType.ValueSet values from a passed string value.
+         * Factory method for creating QualityType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -220,6 +268,60 @@ public class QualityType extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * INDEL Comparison
+         * 
+         * <p>INDEL Comparison.
+         */
+        INDEL("indel"),
+
+        /**
+         * SNP Comparison
+         * 
+         * <p>SNP Comparison.
+         */
+        SNP("snp"),
+
+        /**
+         * UNKNOWN Comparison
+         * 
+         * <p>UNKNOWN Comparison.
+         */
+        UNKNOWN("unknown");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating QualityType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

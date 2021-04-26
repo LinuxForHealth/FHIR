@@ -24,42 +24,42 @@ public class ConsentState extends Code {
      * 
      * <p>The consent is in development or awaiting use but is not yet intended to be acted upon.
      */
-    public static final ConsentState DRAFT = ConsentState.builder().value(ValueSet.DRAFT).build();
+    public static final ConsentState DRAFT = ConsentState.builder().value(Value.DRAFT).build();
 
     /**
      * Proposed
      * 
      * <p>The consent has been proposed but not yet agreed to by all parties. The negotiation stage.
      */
-    public static final ConsentState PROPOSED = ConsentState.builder().value(ValueSet.PROPOSED).build();
+    public static final ConsentState PROPOSED = ConsentState.builder().value(Value.PROPOSED).build();
 
     /**
      * Active
      * 
      * <p>The consent is to be followed and enforced.
      */
-    public static final ConsentState ACTIVE = ConsentState.builder().value(ValueSet.ACTIVE).build();
+    public static final ConsentState ACTIVE = ConsentState.builder().value(Value.ACTIVE).build();
 
     /**
      * Rejected
      * 
      * <p>The consent has been rejected by one or more of the parties.
      */
-    public static final ConsentState REJECTED = ConsentState.builder().value(ValueSet.REJECTED).build();
+    public static final ConsentState REJECTED = ConsentState.builder().value(Value.REJECTED).build();
 
     /**
      * Inactive
      * 
      * <p>The consent is terminated or replaced.
      */
-    public static final ConsentState INACTIVE = ConsentState.builder().value(ValueSet.INACTIVE).build();
+    public static final ConsentState INACTIVE = ConsentState.builder().value(Value.INACTIVE).build();
 
     /**
      * Entered in Error
      * 
      * <p>The consent was created wrongly (e.g. wrong patient) and should be ignored.
      */
-    public static final ConsentState ENTERED_IN_ERROR = ConsentState.builder().value(ValueSet.ENTERED_IN_ERROR).build();
+    public static final ConsentState ENTERED_IN_ERROR = ConsentState.builder().value(Value.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -67,14 +67,50 @@ public class ConsentState extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this ConsentState as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this ConsentState as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating ConsentState objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static ConsentState of(ValueSet value) {
+        switch (value) {
+        case DRAFT:
+            return DRAFT;
+        case PROPOSED:
+            return PROPOSED;
+        case ACTIVE:
+            return ACTIVE;
+        case REJECTED:
+            return REJECTED;
+        case INACTIVE:
+            return INACTIVE;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating ConsentState objects from a passed enum value.
      */
-    public static ConsentState of(ValueSet value) {
+    public static ConsentState of(Value value) {
         switch (value) {
         case DRAFT:
             return DRAFT;
@@ -102,7 +138,7 @@ public class ConsentState extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static ConsentState of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -114,7 +150,7 @@ public class ConsentState extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -126,7 +162,7 @@ public class ConsentState extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -188,10 +224,27 @@ public class ConsentState extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for ConsentState
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -201,6 +254,7 @@ public class ConsentState extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Pending
@@ -259,7 +313,7 @@ public class ConsentState extends Code {
         }
 
         /**
-         * Factory method for creating ConsentState.ValueSet values from a passed string value.
+         * Factory method for creating ConsentState.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -268,6 +322,81 @@ public class ConsentState extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Pending
+         * 
+         * <p>The consent is in development or awaiting use but is not yet intended to be acted upon.
+         */
+        DRAFT("draft"),
+
+        /**
+         * Proposed
+         * 
+         * <p>The consent has been proposed but not yet agreed to by all parties. The negotiation stage.
+         */
+        PROPOSED("proposed"),
+
+        /**
+         * Active
+         * 
+         * <p>The consent is to be followed and enforced.
+         */
+        ACTIVE("active"),
+
+        /**
+         * Rejected
+         * 
+         * <p>The consent has been rejected by one or more of the parties.
+         */
+        REJECTED("rejected"),
+
+        /**
+         * Inactive
+         * 
+         * <p>The consent is terminated or replaced.
+         */
+        INACTIVE("inactive"),
+
+        /**
+         * Entered in Error
+         * 
+         * <p>The consent was created wrongly (e.g. wrong patient) and should be ignored.
+         */
+        ENTERED_IN_ERROR("entered-in-error");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating ConsentState.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

@@ -24,28 +24,28 @@ public class RequestPriority extends Code {
      * 
      * <p>The request has normal priority.
      */
-    public static final RequestPriority ROUTINE = RequestPriority.builder().value(ValueSet.ROUTINE).build();
+    public static final RequestPriority ROUTINE = RequestPriority.builder().value(Value.ROUTINE).build();
 
     /**
      * Urgent
      * 
      * <p>The request should be actioned promptly - higher priority than routine.
      */
-    public static final RequestPriority URGENT = RequestPriority.builder().value(ValueSet.URGENT).build();
+    public static final RequestPriority URGENT = RequestPriority.builder().value(Value.URGENT).build();
 
     /**
      * ASAP
      * 
      * <p>The request should be actioned as soon as possible - higher priority than urgent.
      */
-    public static final RequestPriority ASAP = RequestPriority.builder().value(ValueSet.ASAP).build();
+    public static final RequestPriority ASAP = RequestPriority.builder().value(Value.ASAP).build();
 
     /**
      * STAT
      * 
      * <p>The request should be actioned immediately - highest possible priority. E.g. an emergency.
      */
-    public static final RequestPriority STAT = RequestPriority.builder().value(ValueSet.STAT).build();
+    public static final RequestPriority STAT = RequestPriority.builder().value(Value.STAT).build();
 
     private volatile int hashCode;
 
@@ -53,14 +53,46 @@ public class RequestPriority extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this RequestPriority as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this RequestPriority as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating RequestPriority objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static RequestPriority of(ValueSet value) {
+        switch (value) {
+        case ROUTINE:
+            return ROUTINE;
+        case URGENT:
+            return URGENT;
+        case ASAP:
+            return ASAP;
+        case STAT:
+            return STAT;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating RequestPriority objects from a passed enum value.
      */
-    public static RequestPriority of(ValueSet value) {
+    public static RequestPriority of(Value value) {
         switch (value) {
         case ROUTINE:
             return ROUTINE;
@@ -84,7 +116,7 @@ public class RequestPriority extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static RequestPriority of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -96,7 +128,7 @@ public class RequestPriority extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -108,7 +140,7 @@ public class RequestPriority extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -170,10 +202,27 @@ public class RequestPriority extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for RequestPriority
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -183,6 +232,7 @@ public class RequestPriority extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Routine
@@ -227,7 +277,7 @@ public class RequestPriority extends Code {
         }
 
         /**
-         * Factory method for creating RequestPriority.ValueSet values from a passed string value.
+         * Factory method for creating RequestPriority.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -236,6 +286,67 @@ public class RequestPriority extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Routine
+         * 
+         * <p>The request has normal priority.
+         */
+        ROUTINE("routine"),
+
+        /**
+         * Urgent
+         * 
+         * <p>The request should be actioned promptly - higher priority than routine.
+         */
+        URGENT("urgent"),
+
+        /**
+         * ASAP
+         * 
+         * <p>The request should be actioned as soon as possible - higher priority than urgent.
+         */
+        ASAP("asap"),
+
+        /**
+         * STAT
+         * 
+         * <p>The request should be actioned immediately - highest possible priority. E.g. an emergency.
+         */
+        STAT("stat");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating RequestPriority.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

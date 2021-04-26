@@ -90,7 +90,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "inv-1",
@@ -124,7 +124,7 @@ public class Task extends DomainResource {
     @Summary
     @Binding(
         bindingName = "TaskStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The current status of the task.",
         valueSet = "http://hl7.org/fhir/ValueSet/task-status|4.0.1"
     )
@@ -133,21 +133,21 @@ public class Task extends DomainResource {
     @Summary
     @Binding(
         bindingName = "TaskStatusReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes to identify the reason for current status.  These will typically be specific to a particular workflow."
     )
     private final CodeableConcept statusReason;
     @Summary
     @Binding(
         bindingName = "TaskBusinessStatus",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The domain-specific business-contextual sub-state of the task.  For example: \"Blood drawn\", \"IV inserted\", \"Awaiting physician signature\", etc."
     )
     private final CodeableConcept businessStatus;
     @Summary
     @Binding(
         bindingName = "TaskIntent",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Distinguishes whether the task is a proposal, plan or full order.",
         valueSet = "http://hl7.org/fhir/ValueSet/task-intent|4.0.1"
     )
@@ -155,7 +155,7 @@ public class Task extends DomainResource {
     private final TaskIntent intent;
     @Binding(
         bindingName = "TaskPriority",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The task's priority.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
     )
@@ -163,7 +163,7 @@ public class Task extends DomainResource {
     @Summary
     @Binding(
         bindingName = "TaskCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes to identify what the task involves.  These will typically be specific to a particular workflow.",
         valueSet = "http://hl7.org/fhir/ValueSet/task-code"
     )
@@ -187,7 +187,7 @@ public class Task extends DomainResource {
     private final Reference requester;
     @Binding(
         bindingName = "TaskPerformerType",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "The type(s) of task performers allowed.",
         valueSet = "http://hl7.org/fhir/ValueSet/performer-role"
     )
@@ -200,7 +200,7 @@ public class Task extends DomainResource {
     private final Reference location;
     @Binding(
         bindingName = "TaskReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Indicates why the task is needed.  E.g. Suspended because patient admitted to hospital."
     )
     private final CodeableConcept reasonCode;
@@ -2103,7 +2103,7 @@ public class Task extends DomainResource {
     public static class Input extends BackboneElement {
         @Binding(
             bindingName = "TaskInputParameterType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes to identify types of input parameters.  These will typically be specific to a particular workflow.  E.g. \"Comparison source\", \"Applicable consent\", \"Concomitent Medications\", etc."
         )
         @Required
@@ -2436,7 +2436,7 @@ public class Task extends DomainResource {
     public static class Output extends BackboneElement {
         @Binding(
             bindingName = "TaskOutputParameterType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes to identify types of input parameters.  These will typically be specific to a particular workflow.  E.g. \"Identified issues\", \"Preliminary results\", \"Filler order\", \"Final results\", etc."
         )
         @Required

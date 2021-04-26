@@ -24,63 +24,63 @@ public class GoalLifecycleStatus extends Code {
      * 
      * <p>A goal is proposed for this patient.
      */
-    public static final GoalLifecycleStatus PROPOSED = GoalLifecycleStatus.builder().value(ValueSet.PROPOSED).build();
+    public static final GoalLifecycleStatus PROPOSED = GoalLifecycleStatus.builder().value(Value.PROPOSED).build();
 
     /**
      * Planned
      * 
      * <p>A goal is planned for this patient.
      */
-    public static final GoalLifecycleStatus PLANNED = GoalLifecycleStatus.builder().value(ValueSet.PLANNED).build();
+    public static final GoalLifecycleStatus PLANNED = GoalLifecycleStatus.builder().value(Value.PLANNED).build();
 
     /**
      * Accepted
      * 
      * <p>A proposed goal was accepted or acknowledged.
      */
-    public static final GoalLifecycleStatus ACCEPTED = GoalLifecycleStatus.builder().value(ValueSet.ACCEPTED).build();
+    public static final GoalLifecycleStatus ACCEPTED = GoalLifecycleStatus.builder().value(Value.ACCEPTED).build();
 
     /**
      * Active
      * 
      * <p>The goal is being sought actively.
      */
-    public static final GoalLifecycleStatus ACTIVE = GoalLifecycleStatus.builder().value(ValueSet.ACTIVE).build();
+    public static final GoalLifecycleStatus ACTIVE = GoalLifecycleStatus.builder().value(Value.ACTIVE).build();
 
     /**
      * On Hold
      * 
      * <p>The goal remains a long term objective but is no longer being actively pursued for a temporary period of time.
      */
-    public static final GoalLifecycleStatus ON_HOLD = GoalLifecycleStatus.builder().value(ValueSet.ON_HOLD).build();
+    public static final GoalLifecycleStatus ON_HOLD = GoalLifecycleStatus.builder().value(Value.ON_HOLD).build();
 
     /**
      * Completed
      * 
      * <p>The goal is no longer being sought.
      */
-    public static final GoalLifecycleStatus COMPLETED = GoalLifecycleStatus.builder().value(ValueSet.COMPLETED).build();
+    public static final GoalLifecycleStatus COMPLETED = GoalLifecycleStatus.builder().value(Value.COMPLETED).build();
 
     /**
      * Cancelled
      * 
      * <p>The goal has been abandoned.
      */
-    public static final GoalLifecycleStatus CANCELLED = GoalLifecycleStatus.builder().value(ValueSet.CANCELLED).build();
+    public static final GoalLifecycleStatus CANCELLED = GoalLifecycleStatus.builder().value(Value.CANCELLED).build();
 
     /**
      * Entered in Error
      * 
      * <p>The goal was entered in error and voided.
      */
-    public static final GoalLifecycleStatus ENTERED_IN_ERROR = GoalLifecycleStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
+    public static final GoalLifecycleStatus ENTERED_IN_ERROR = GoalLifecycleStatus.builder().value(Value.ENTERED_IN_ERROR).build();
 
     /**
      * Rejected
      * 
      * <p>A proposed goal was rejected.
      */
-    public static final GoalLifecycleStatus REJECTED = GoalLifecycleStatus.builder().value(ValueSet.REJECTED).build();
+    public static final GoalLifecycleStatus REJECTED = GoalLifecycleStatus.builder().value(Value.REJECTED).build();
 
     private volatile int hashCode;
 
@@ -88,14 +88,56 @@ public class GoalLifecycleStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this GoalLifecycleStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this GoalLifecycleStatus as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating GoalLifecycleStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static GoalLifecycleStatus of(ValueSet value) {
+        switch (value) {
+        case PROPOSED:
+            return PROPOSED;
+        case PLANNED:
+            return PLANNED;
+        case ACCEPTED:
+            return ACCEPTED;
+        case ACTIVE:
+            return ACTIVE;
+        case ON_HOLD:
+            return ON_HOLD;
+        case COMPLETED:
+            return COMPLETED;
+        case CANCELLED:
+            return CANCELLED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case REJECTED:
+            return REJECTED;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating GoalLifecycleStatus objects from a passed enum value.
      */
-    public static GoalLifecycleStatus of(ValueSet value) {
+    public static GoalLifecycleStatus of(Value value) {
         switch (value) {
         case PROPOSED:
             return PROPOSED;
@@ -129,7 +171,7 @@ public class GoalLifecycleStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static GoalLifecycleStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -141,7 +183,7 @@ public class GoalLifecycleStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -153,7 +195,7 @@ public class GoalLifecycleStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -215,10 +257,27 @@ public class GoalLifecycleStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for GoalLifecycleStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -228,6 +287,7 @@ public class GoalLifecycleStatus extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Proposed
@@ -307,7 +367,7 @@ public class GoalLifecycleStatus extends Code {
         }
 
         /**
-         * Factory method for creating GoalLifecycleStatus.ValueSet values from a passed string value.
+         * Factory method for creating GoalLifecycleStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -316,6 +376,102 @@ public class GoalLifecycleStatus extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Proposed
+         * 
+         * <p>A goal is proposed for this patient.
+         */
+        PROPOSED("proposed"),
+
+        /**
+         * Planned
+         * 
+         * <p>A goal is planned for this patient.
+         */
+        PLANNED("planned"),
+
+        /**
+         * Accepted
+         * 
+         * <p>A proposed goal was accepted or acknowledged.
+         */
+        ACCEPTED("accepted"),
+
+        /**
+         * Active
+         * 
+         * <p>The goal is being sought actively.
+         */
+        ACTIVE("active"),
+
+        /**
+         * On Hold
+         * 
+         * <p>The goal remains a long term objective but is no longer being actively pursued for a temporary period of time.
+         */
+        ON_HOLD("on-hold"),
+
+        /**
+         * Completed
+         * 
+         * <p>The goal is no longer being sought.
+         */
+        COMPLETED("completed"),
+
+        /**
+         * Cancelled
+         * 
+         * <p>The goal has been abandoned.
+         */
+        CANCELLED("cancelled"),
+
+        /**
+         * Entered in Error
+         * 
+         * <p>The goal was entered in error and voided.
+         */
+        ENTERED_IN_ERROR("entered-in-error"),
+
+        /**
+         * Rejected
+         * 
+         * <p>A proposed goal was rejected.
+         */
+        REJECTED("rejected");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating GoalLifecycleStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

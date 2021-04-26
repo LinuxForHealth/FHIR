@@ -24,21 +24,21 @@ public class SupplyRequestStatus extends Code {
      * 
      * <p>The request has been created but is not yet complete or ready for action.
      */
-    public static final SupplyRequestStatus DRAFT = SupplyRequestStatus.builder().value(ValueSet.DRAFT).build();
+    public static final SupplyRequestStatus DRAFT = SupplyRequestStatus.builder().value(Value.DRAFT).build();
 
     /**
      * Active
      * 
      * <p>The request is ready to be acted upon.
      */
-    public static final SupplyRequestStatus ACTIVE = SupplyRequestStatus.builder().value(ValueSet.ACTIVE).build();
+    public static final SupplyRequestStatus ACTIVE = SupplyRequestStatus.builder().value(Value.ACTIVE).build();
 
     /**
      * Suspended
      * 
      * <p>The authorization/request to act has been temporarily withdrawn but is expected to resume in the future.
      */
-    public static final SupplyRequestStatus SUSPENDED = SupplyRequestStatus.builder().value(ValueSet.SUSPENDED).build();
+    public static final SupplyRequestStatus SUSPENDED = SupplyRequestStatus.builder().value(Value.SUSPENDED).build();
 
     /**
      * Cancelled
@@ -46,14 +46,14 @@ public class SupplyRequestStatus extends Code {
      * <p>The authorization/request to act has been terminated prior to the full completion of the intended actions. No 
      * further activity should occur.
      */
-    public static final SupplyRequestStatus CANCELLED = SupplyRequestStatus.builder().value(ValueSet.CANCELLED).build();
+    public static final SupplyRequestStatus CANCELLED = SupplyRequestStatus.builder().value(Value.CANCELLED).build();
 
     /**
      * Completed
      * 
      * <p>Activity against the request has been sufficiently completed to the satisfaction of the requester.
      */
-    public static final SupplyRequestStatus COMPLETED = SupplyRequestStatus.builder().value(ValueSet.COMPLETED).build();
+    public static final SupplyRequestStatus COMPLETED = SupplyRequestStatus.builder().value(Value.COMPLETED).build();
 
     /**
      * Entered in Error
@@ -61,7 +61,7 @@ public class SupplyRequestStatus extends Code {
      * <p>This electronic record should never have existed, though it is possible that real-world decisions were based on it. 
      * (If real-world activity has occurred, the status should be "cancelled" rather than "entered-in-error".).
      */
-    public static final SupplyRequestStatus ENTERED_IN_ERROR = SupplyRequestStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
+    public static final SupplyRequestStatus ENTERED_IN_ERROR = SupplyRequestStatus.builder().value(Value.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
@@ -70,7 +70,7 @@ public class SupplyRequestStatus extends Code {
      * This concept is not to be used for "other" - one of the listed statuses is presumed to apply, but the authoring/source 
      * system does not know which.
      */
-    public static final SupplyRequestStatus UNKNOWN = SupplyRequestStatus.builder().value(ValueSet.UNKNOWN).build();
+    public static final SupplyRequestStatus UNKNOWN = SupplyRequestStatus.builder().value(Value.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -78,14 +78,52 @@ public class SupplyRequestStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this SupplyRequestStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this SupplyRequestStatus as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating SupplyRequestStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static SupplyRequestStatus of(ValueSet value) {
+        switch (value) {
+        case DRAFT:
+            return DRAFT;
+        case ACTIVE:
+            return ACTIVE;
+        case SUSPENDED:
+            return SUSPENDED;
+        case CANCELLED:
+            return CANCELLED;
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating SupplyRequestStatus objects from a passed enum value.
      */
-    public static SupplyRequestStatus of(ValueSet value) {
+    public static SupplyRequestStatus of(Value value) {
         switch (value) {
         case DRAFT:
             return DRAFT;
@@ -115,7 +153,7 @@ public class SupplyRequestStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static SupplyRequestStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -127,7 +165,7 @@ public class SupplyRequestStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -139,7 +177,7 @@ public class SupplyRequestStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -201,10 +239,27 @@ public class SupplyRequestStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for SupplyRequestStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -214,6 +269,7 @@ public class SupplyRequestStatus extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Draft
@@ -283,7 +339,7 @@ public class SupplyRequestStatus extends Code {
         }
 
         /**
-         * Factory method for creating SupplyRequestStatus.ValueSet values from a passed string value.
+         * Factory method for creating SupplyRequestStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -292,6 +348,92 @@ public class SupplyRequestStatus extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Draft
+         * 
+         * <p>The request has been created but is not yet complete or ready for action.
+         */
+        DRAFT("draft"),
+
+        /**
+         * Active
+         * 
+         * <p>The request is ready to be acted upon.
+         */
+        ACTIVE("active"),
+
+        /**
+         * Suspended
+         * 
+         * <p>The authorization/request to act has been temporarily withdrawn but is expected to resume in the future.
+         */
+        SUSPENDED("suspended"),
+
+        /**
+         * Cancelled
+         * 
+         * <p>The authorization/request to act has been terminated prior to the full completion of the intended actions. No 
+         * further activity should occur.
+         */
+        CANCELLED("cancelled"),
+
+        /**
+         * Completed
+         * 
+         * <p>Activity against the request has been sufficiently completed to the satisfaction of the requester.
+         */
+        COMPLETED("completed"),
+
+        /**
+         * Entered in Error
+         * 
+         * <p>This electronic record should never have existed, though it is possible that real-world decisions were based on it. 
+         * (If real-world activity has occurred, the status should be "cancelled" rather than "entered-in-error".).
+         */
+        ENTERED_IN_ERROR("entered-in-error"),
+
+        /**
+         * Unknown
+         * 
+         * <p>The authoring/source system does not know which of the status values currently applies for this observation. Note: 
+         * This concept is not to be used for "other" - one of the listed statuses is presumed to apply, but the authoring/source 
+         * system does not know which.
+         */
+        UNKNOWN("unknown");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating SupplyRequestStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

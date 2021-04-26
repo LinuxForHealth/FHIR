@@ -46,7 +46,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "ctm-1",
@@ -62,7 +62,7 @@ public class CareTeam extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CareTeamStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Indicates the status of the care team.",
         valueSet = "http://hl7.org/fhir/ValueSet/care-team-status|4.0.1"
     )
@@ -70,7 +70,7 @@ public class CareTeam extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CareTeamCategory",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Indicates the type of care team.",
         valueSet = "http://hl7.org/fhir/ValueSet/care-team-category"
     )
@@ -88,7 +88,7 @@ public class CareTeam extends DomainResource {
     private final List<Participant> participant;
     @Binding(
         bindingName = "CareTeamReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Indicates the reason for the care team.",
         valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
     )
@@ -1012,7 +1012,7 @@ public class CareTeam extends DomainResource {
         @Summary
         @Binding(
             bindingName = "CareTeamParticipantRole",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Indicates specific responsibility of an individual within the care team, such as \"Primary physician\", \"Team coordinator\", \"Caregiver\", etc.",
             valueSet = "http://hl7.org/fhir/ValueSet/participant-role"
         )

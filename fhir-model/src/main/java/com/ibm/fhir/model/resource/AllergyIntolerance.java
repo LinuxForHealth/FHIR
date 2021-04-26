@@ -54,7 +54,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 3,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "ait-1",
@@ -77,7 +77,7 @@ public class AllergyIntolerance extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AllergyIntoleranceClinicalStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The clinical status of the allergy or intolerance.",
         valueSet = "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical|4.0.1"
     )
@@ -85,7 +85,7 @@ public class AllergyIntolerance extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AllergyIntoleranceVerificationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Assertion about certainty associated with a propensity, or potential risk, of a reaction to the identified substance.",
         valueSet = "http://hl7.org/fhir/ValueSet/allergyintolerance-verification|4.0.1"
     )
@@ -93,7 +93,7 @@ public class AllergyIntolerance extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AllergyIntoleranceType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Identification of the underlying physiological mechanism for a Reaction Risk.",
         valueSet = "http://hl7.org/fhir/ValueSet/allergy-intolerance-type|4.0.1"
     )
@@ -101,7 +101,7 @@ public class AllergyIntolerance extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AllergyIntoleranceCategory",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Category of an identified substance associated with allergies or intolerances.",
         valueSet = "http://hl7.org/fhir/ValueSet/allergy-intolerance-category|4.0.1"
     )
@@ -109,7 +109,7 @@ public class AllergyIntolerance extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AllergyIntoleranceCriticality",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Estimate of the potential clinical harm, or seriousness, of a reaction to an identified substance.",
         valueSet = "http://hl7.org/fhir/ValueSet/allergy-intolerance-criticality|4.0.1"
     )
@@ -117,7 +117,7 @@ public class AllergyIntolerance extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AllergyIntoleranceCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Type of the substance/product, allergy or intolerance condition, or negation/exclusion codes for reporting no known allergies.",
         valueSet = "http://hl7.org/fhir/ValueSet/allergyintolerance-code"
     )
@@ -1095,14 +1095,14 @@ public class AllergyIntolerance extends DomainResource {
     public static class Reaction extends BackboneElement {
         @Binding(
             bindingName = "SubstanceCode",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes defining the type of the substance (including pharmaceutical products).",
             valueSet = "http://hl7.org/fhir/ValueSet/substance-code"
         )
         private final CodeableConcept substance;
         @Binding(
             bindingName = "Manifestation",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Clinical symptoms and/or signs that are observed or associated with an Adverse Reaction Event.",
             valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
         )
@@ -1112,14 +1112,14 @@ public class AllergyIntolerance extends DomainResource {
         private final DateTime onset;
         @Binding(
             bindingName = "AllergyIntoleranceSeverity",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Clinical assessment of the severity of a reaction event as a whole, potentially considering multiple different manifestations.",
             valueSet = "http://hl7.org/fhir/ValueSet/reaction-event-severity|4.0.1"
         )
         private final AllergyIntoleranceSeverity severity;
         @Binding(
             bindingName = "RouteOfAdministration",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "A coded concept describing the route or physiological path of administration of a therapeutic agent into or onto the body of a subject.",
             valueSet = "http://hl7.org/fhir/ValueSet/route-codes"
         )

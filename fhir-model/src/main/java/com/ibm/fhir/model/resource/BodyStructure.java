@@ -43,7 +43,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 1,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class BodyStructure extends DomainResource {
@@ -54,7 +54,7 @@ public class BodyStructure extends DomainResource {
     @Summary
     @Binding(
         bindingName = "BodyStructureCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes describing anatomic morphology.",
         valueSet = "http://hl7.org/fhir/ValueSet/bodystructure-code"
     )
@@ -62,14 +62,14 @@ public class BodyStructure extends DomainResource {
     @Summary
     @Binding(
         bindingName = "BodySite",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes describing anatomical locations. May include laterality.",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
     private final CodeableConcept location;
     @Binding(
         bindingName = "BodyStructureQualifier",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Concepts modifying the anatomic location.",
         valueSet = "http://hl7.org/fhir/ValueSet/bodystructure-relative-location"
     )

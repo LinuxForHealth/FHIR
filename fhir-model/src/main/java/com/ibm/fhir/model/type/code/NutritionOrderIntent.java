@@ -25,35 +25,35 @@ public class NutritionOrderIntent extends Code {
      * <p>The request is a suggestion made by someone/something that does not have an intention to ensure it occurs and 
      * without providing an authorization to act.
      */
-    public static final NutritionOrderIntent PROPOSAL = NutritionOrderIntent.builder().value(ValueSet.PROPOSAL).build();
+    public static final NutritionOrderIntent PROPOSAL = NutritionOrderIntent.builder().value(Value.PROPOSAL).build();
 
     /**
      * Plan
      * 
      * <p>The request represents an intention to ensure something occurs without providing an authorization for others to act.
      */
-    public static final NutritionOrderIntent PLAN = NutritionOrderIntent.builder().value(ValueSet.PLAN).build();
+    public static final NutritionOrderIntent PLAN = NutritionOrderIntent.builder().value(Value.PLAN).build();
 
     /**
      * Directive
      * 
      * <p>The request represents a legally binding instruction authored by a Patient or RelatedPerson.
      */
-    public static final NutritionOrderIntent DIRECTIVE = NutritionOrderIntent.builder().value(ValueSet.DIRECTIVE).build();
+    public static final NutritionOrderIntent DIRECTIVE = NutritionOrderIntent.builder().value(Value.DIRECTIVE).build();
 
     /**
      * Order
      * 
      * <p>The request represents a request/demand and authorization for action by a Practitioner.
      */
-    public static final NutritionOrderIntent ORDER = NutritionOrderIntent.builder().value(ValueSet.ORDER).build();
+    public static final NutritionOrderIntent ORDER = NutritionOrderIntent.builder().value(Value.ORDER).build();
 
     /**
      * Original Order
      * 
      * <p>The request represents an original authorization for action.
      */
-    public static final NutritionOrderIntent ORIGINAL_ORDER = NutritionOrderIntent.builder().value(ValueSet.ORIGINAL_ORDER).build();
+    public static final NutritionOrderIntent ORIGINAL_ORDER = NutritionOrderIntent.builder().value(Value.ORIGINAL_ORDER).build();
 
     /**
      * Reflex Order
@@ -61,7 +61,7 @@ public class NutritionOrderIntent extends Code {
      * <p>The request represents an automatically generated supplemental authorization for action based on a parent 
      * authorization together with initial results of the action taken against that parent authorization.
      */
-    public static final NutritionOrderIntent REFLEX_ORDER = NutritionOrderIntent.builder().value(ValueSet.REFLEX_ORDER).build();
+    public static final NutritionOrderIntent REFLEX_ORDER = NutritionOrderIntent.builder().value(Value.REFLEX_ORDER).build();
 
     /**
      * Filler Order
@@ -69,7 +69,7 @@ public class NutritionOrderIntent extends Code {
      * <p>The request represents the view of an authorization instantiated by a fulfilling system representing the details of 
      * the fulfiller's intention to act upon a submitted order.
      */
-    public static final NutritionOrderIntent FILLER_ORDER = NutritionOrderIntent.builder().value(ValueSet.FILLER_ORDER).build();
+    public static final NutritionOrderIntent FILLER_ORDER = NutritionOrderIntent.builder().value(Value.FILLER_ORDER).build();
 
     /**
      * Instance Order
@@ -77,7 +77,7 @@ public class NutritionOrderIntent extends Code {
      * <p>An order created in fulfillment of a broader order that represents the authorization for a single activity 
      * occurrence. E.g. The administration of a single dose of a drug.
      */
-    public static final NutritionOrderIntent INSTANCE_ORDER = NutritionOrderIntent.builder().value(ValueSet.INSTANCE_ORDER).build();
+    public static final NutritionOrderIntent INSTANCE_ORDER = NutritionOrderIntent.builder().value(Value.INSTANCE_ORDER).build();
 
     /**
      * Option
@@ -86,7 +86,7 @@ public class NutritionOrderIntent extends Code {
      * other constraints among a set of requests. Refer to [[[RequestGroup]]] for additional information on how this status 
      * is used.
      */
-    public static final NutritionOrderIntent OPTION = NutritionOrderIntent.builder().value(ValueSet.OPTION).build();
+    public static final NutritionOrderIntent OPTION = NutritionOrderIntent.builder().value(Value.OPTION).build();
 
     private volatile int hashCode;
 
@@ -94,14 +94,56 @@ public class NutritionOrderIntent extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this NutritionOrderIntent as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this NutritionOrderIntent as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating NutritionOrderIntent objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static NutritionOrderIntent of(ValueSet value) {
+        switch (value) {
+        case PROPOSAL:
+            return PROPOSAL;
+        case PLAN:
+            return PLAN;
+        case DIRECTIVE:
+            return DIRECTIVE;
+        case ORDER:
+            return ORDER;
+        case ORIGINAL_ORDER:
+            return ORIGINAL_ORDER;
+        case REFLEX_ORDER:
+            return REFLEX_ORDER;
+        case FILLER_ORDER:
+            return FILLER_ORDER;
+        case INSTANCE_ORDER:
+            return INSTANCE_ORDER;
+        case OPTION:
+            return OPTION;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating NutritionOrderIntent objects from a passed enum value.
      */
-    public static NutritionOrderIntent of(ValueSet value) {
+    public static NutritionOrderIntent of(Value value) {
         switch (value) {
         case PROPOSAL:
             return PROPOSAL;
@@ -135,7 +177,7 @@ public class NutritionOrderIntent extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static NutritionOrderIntent of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -147,7 +189,7 @@ public class NutritionOrderIntent extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -159,7 +201,7 @@ public class NutritionOrderIntent extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -221,10 +263,27 @@ public class NutritionOrderIntent extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for NutritionOrderIntent
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -234,6 +293,7 @@ public class NutritionOrderIntent extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Proposal
@@ -319,7 +379,7 @@ public class NutritionOrderIntent extends Code {
         }
 
         /**
-         * Factory method for creating NutritionOrderIntent.ValueSet values from a passed string value.
+         * Factory method for creating NutritionOrderIntent.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -328,6 +388,108 @@ public class NutritionOrderIntent extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Proposal
+         * 
+         * <p>The request is a suggestion made by someone/something that does not have an intention to ensure it occurs and 
+         * without providing an authorization to act.
+         */
+        PROPOSAL("proposal"),
+
+        /**
+         * Plan
+         * 
+         * <p>The request represents an intention to ensure something occurs without providing an authorization for others to act.
+         */
+        PLAN("plan"),
+
+        /**
+         * Directive
+         * 
+         * <p>The request represents a legally binding instruction authored by a Patient or RelatedPerson.
+         */
+        DIRECTIVE("directive"),
+
+        /**
+         * Order
+         * 
+         * <p>The request represents a request/demand and authorization for action by a Practitioner.
+         */
+        ORDER("order"),
+
+        /**
+         * Original Order
+         * 
+         * <p>The request represents an original authorization for action.
+         */
+        ORIGINAL_ORDER("original-order"),
+
+        /**
+         * Reflex Order
+         * 
+         * <p>The request represents an automatically generated supplemental authorization for action based on a parent 
+         * authorization together with initial results of the action taken against that parent authorization.
+         */
+        REFLEX_ORDER("reflex-order"),
+
+        /**
+         * Filler Order
+         * 
+         * <p>The request represents the view of an authorization instantiated by a fulfilling system representing the details of 
+         * the fulfiller's intention to act upon a submitted order.
+         */
+        FILLER_ORDER("filler-order"),
+
+        /**
+         * Instance Order
+         * 
+         * <p>An order created in fulfillment of a broader order that represents the authorization for a single activity 
+         * occurrence. E.g. The administration of a single dose of a drug.
+         */
+        INSTANCE_ORDER("instance-order"),
+
+        /**
+         * Option
+         * 
+         * <p>The request represents a component or option for a RequestGroup that establishes timing, conditionality and/or 
+         * other constraints among a set of requests. Refer to [[[RequestGroup]]] for additional information on how this status 
+         * is used.
+         */
+        OPTION("option");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating NutritionOrderIntent.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

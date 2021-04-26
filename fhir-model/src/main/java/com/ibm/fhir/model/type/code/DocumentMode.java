@@ -24,14 +24,14 @@ public class DocumentMode extends Code {
      * 
      * <p>The application produces documents of the specified type.
      */
-    public static final DocumentMode PRODUCER = DocumentMode.builder().value(ValueSet.PRODUCER).build();
+    public static final DocumentMode PRODUCER = DocumentMode.builder().value(Value.PRODUCER).build();
 
     /**
      * Consumer
      * 
      * <p>The application consumes documents of the specified type.
      */
-    public static final DocumentMode CONSUMER = DocumentMode.builder().value(ValueSet.CONSUMER).build();
+    public static final DocumentMode CONSUMER = DocumentMode.builder().value(Value.CONSUMER).build();
 
     private volatile int hashCode;
 
@@ -39,14 +39,42 @@ public class DocumentMode extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this DocumentMode as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this DocumentMode as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating DocumentMode objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static DocumentMode of(ValueSet value) {
+        switch (value) {
+        case PRODUCER:
+            return PRODUCER;
+        case CONSUMER:
+            return CONSUMER;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating DocumentMode objects from a passed enum value.
      */
-    public static DocumentMode of(ValueSet value) {
+    public static DocumentMode of(Value value) {
         switch (value) {
         case PRODUCER:
             return PRODUCER;
@@ -66,7 +94,7 @@ public class DocumentMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static DocumentMode of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -78,7 +106,7 @@ public class DocumentMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -90,7 +118,7 @@ public class DocumentMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -152,10 +180,27 @@ public class DocumentMode extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for DocumentMode
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -165,6 +210,7 @@ public class DocumentMode extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Producer
@@ -195,7 +241,7 @@ public class DocumentMode extends Code {
         }
 
         /**
-         * Factory method for creating DocumentMode.ValueSet values from a passed string value.
+         * Factory method for creating DocumentMode.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -204,6 +250,53 @@ public class DocumentMode extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Producer
+         * 
+         * <p>The application produces documents of the specified type.
+         */
+        PRODUCER("producer"),
+
+        /**
+         * Consumer
+         * 
+         * <p>The application consumes documents of the specified type.
+         */
+        CONSUMER("consumer");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating DocumentMode.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

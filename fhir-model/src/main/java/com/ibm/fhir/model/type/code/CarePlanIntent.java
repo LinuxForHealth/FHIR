@@ -19,13 +19,13 @@ import javax.annotation.Generated;
 @System("http://hl7.org/fhir/request-intent")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CarePlanIntent extends Code {
-    public static final CarePlanIntent PROPOSAL = CarePlanIntent.builder().value(ValueSet.PROPOSAL).build();
+    public static final CarePlanIntent PROPOSAL = CarePlanIntent.builder().value(Value.PROPOSAL).build();
 
-    public static final CarePlanIntent PLAN = CarePlanIntent.builder().value(ValueSet.PLAN).build();
+    public static final CarePlanIntent PLAN = CarePlanIntent.builder().value(Value.PLAN).build();
 
-    public static final CarePlanIntent ORDER = CarePlanIntent.builder().value(ValueSet.ORDER).build();
+    public static final CarePlanIntent ORDER = CarePlanIntent.builder().value(Value.ORDER).build();
 
-    public static final CarePlanIntent OPTION = CarePlanIntent.builder().value(ValueSet.OPTION).build();
+    public static final CarePlanIntent OPTION = CarePlanIntent.builder().value(Value.OPTION).build();
 
     private volatile int hashCode;
 
@@ -33,14 +33,46 @@ public class CarePlanIntent extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this CarePlanIntent as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this CarePlanIntent as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating CarePlanIntent objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static CarePlanIntent of(ValueSet value) {
+        switch (value) {
+        case PROPOSAL:
+            return PROPOSAL;
+        case PLAN:
+            return PLAN;
+        case ORDER:
+            return ORDER;
+        case OPTION:
+            return OPTION;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating CarePlanIntent objects from a passed enum value.
      */
-    public static CarePlanIntent of(ValueSet value) {
+    public static CarePlanIntent of(Value value) {
         switch (value) {
         case PROPOSAL:
             return PROPOSAL;
@@ -64,7 +96,7 @@ public class CarePlanIntent extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static CarePlanIntent of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -76,7 +108,7 @@ public class CarePlanIntent extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -88,7 +120,7 @@ public class CarePlanIntent extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -150,10 +182,27 @@ public class CarePlanIntent extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for CarePlanIntent
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -163,6 +212,7 @@ public class CarePlanIntent extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         PROPOSAL("proposal"),
 
@@ -187,7 +237,7 @@ public class CarePlanIntent extends Code {
         }
 
         /**
-         * Factory method for creating CarePlanIntent.ValueSet values from a passed string value.
+         * Factory method for creating CarePlanIntent.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -196,6 +246,47 @@ public class CarePlanIntent extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        PROPOSAL("proposal"),
+
+        PLAN("plan"),
+
+        ORDER("order"),
+
+        OPTION("option");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating CarePlanIntent.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

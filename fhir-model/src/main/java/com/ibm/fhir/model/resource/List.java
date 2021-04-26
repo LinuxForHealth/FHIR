@@ -46,7 +46,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 1,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "lst-1",
@@ -91,7 +91,7 @@ public class List extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ListStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The current state of the list.",
         valueSet = "http://hl7.org/fhir/ValueSet/list-status|4.0.1"
     )
@@ -100,7 +100,7 @@ public class List extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ListMode",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The processing mode that applies to this list.",
         valueSet = "http://hl7.org/fhir/ValueSet/list-mode|4.0.1"
     )
@@ -111,7 +111,7 @@ public class List extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ListPurpose",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "What the purpose of a list is.",
         valueSet = "http://hl7.org/fhir/ValueSet/list-example-codes"
     )
@@ -128,7 +128,7 @@ public class List extends DomainResource {
     private final Reference source;
     @Binding(
         bindingName = "ListOrder",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "What order applies to the items in a list.",
         valueSet = "http://hl7.org/fhir/ValueSet/list-order"
     )
@@ -137,7 +137,7 @@ public class List extends DomainResource {
     private final java.util.List<Entry> entry;
     @Binding(
         bindingName = "ListEmptyReason",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "If a list is empty, why it is empty.",
         valueSet = "http://hl7.org/fhir/ValueSet/list-empty-reason"
     )
@@ -952,7 +952,7 @@ public class List extends DomainResource {
     public static class Entry extends BackboneElement {
         @Binding(
             bindingName = "ListItemFlag",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes that provide further information about the reason and meaning of the item in the list.",
             valueSet = "http://hl7.org/fhir/ValueSet/list-item-flag"
         )

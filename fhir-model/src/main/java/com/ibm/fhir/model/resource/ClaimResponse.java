@@ -58,7 +58,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "claimResponse-0",
@@ -82,7 +82,7 @@ public class ClaimResponse extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ClaimResponseStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.1"
     )
@@ -91,7 +91,7 @@ public class ClaimResponse extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ClaimType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The type or discipline-style of the claim.",
         valueSet = "http://hl7.org/fhir/ValueSet/claim-type"
     )
@@ -99,7 +99,7 @@ public class ClaimResponse extends DomainResource {
     private final CodeableConcept type;
     @Binding(
         bindingName = "ClaimSubType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A more granular claim typecode.",
         valueSet = "http://hl7.org/fhir/ValueSet/claim-subtype"
     )
@@ -107,7 +107,7 @@ public class ClaimResponse extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Use",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Claim, preauthorization, predetermination.",
         valueSet = "http://hl7.org/fhir/ValueSet/claim-use|4.0.1"
     )
@@ -132,7 +132,7 @@ public class ClaimResponse extends DomainResource {
     @Summary
     @Binding(
         bindingName = "RemittanceOutcome",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The result of the claim processing.",
         valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.0.1"
     )
@@ -143,7 +143,7 @@ public class ClaimResponse extends DomainResource {
     private final Period preAuthPeriod;
     @Binding(
         bindingName = "PayeeType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A code for the party to be reimbursed.",
         valueSet = "http://hl7.org/fhir/ValueSet/payeetype"
     )
@@ -156,14 +156,14 @@ public class ClaimResponse extends DomainResource {
     private final Payment payment;
     @Binding(
         bindingName = "FundsReserve",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "For whom funds are to be reserved: (Patient, Provider, None).",
         valueSet = "http://hl7.org/fhir/ValueSet/fundsreserve"
     )
     private final CodeableConcept fundsReserve;
     @Binding(
         bindingName = "Forms",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The forms codes.",
         valueSet = "http://hl7.org/fhir/ValueSet/forms"
     )
@@ -1978,7 +1978,7 @@ public class ClaimResponse extends DomainResource {
         public static class Adjudication extends BackboneElement {
             @Binding(
                 bindingName = "Adjudication",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "The adjudication codes.",
                 valueSet = "http://hl7.org/fhir/ValueSet/adjudication"
             )
@@ -1986,7 +1986,7 @@ public class ClaimResponse extends DomainResource {
             private final CodeableConcept category;
             @Binding(
                 bindingName = "AdjudicationReason",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "The adjudication reason codes.",
                 valueSet = "http://hl7.org/fhir/ValueSet/adjudication-reason"
             )
@@ -3073,7 +3073,7 @@ public class ClaimResponse extends DomainResource {
         private final List<Reference> provider;
         @Binding(
             bindingName = "ServiceProduct",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Allowable service and product codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
         )
@@ -3081,14 +3081,14 @@ public class ClaimResponse extends DomainResource {
         private final CodeableConcept productOrService;
         @Binding(
             bindingName = "Modifiers",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
             valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
         )
         private final List<CodeableConcept> modifier;
         @Binding(
             bindingName = "ProgramCode",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Program specific reason codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/ex-program-code"
         )
@@ -3099,7 +3099,7 @@ public class ClaimResponse extends DomainResource {
         @Choice({ CodeableConcept.class, Address.class, Reference.class })
         @Binding(
             bindingName = "ServicePlace",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Place of service: pharmacy, school, prison, etc.",
             valueSet = "http://hl7.org/fhir/ValueSet/service-place"
         )
@@ -3110,14 +3110,14 @@ public class ClaimResponse extends DomainResource {
         private final Money net;
         @Binding(
             bindingName = "OralSites",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The code for the teeth, quadrant, sextant and arch.",
             valueSet = "http://hl7.org/fhir/ValueSet/tooth"
         )
         private final CodeableConcept bodySite;
         @Binding(
             bindingName = "Surface",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The code for the tooth surface and surface combinations.",
             valueSet = "http://hl7.org/fhir/ValueSet/surface"
         )
@@ -4134,7 +4134,7 @@ public class ClaimResponse extends DomainResource {
         public static class Detail extends BackboneElement {
             @Binding(
                 bindingName = "ServiceProduct",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Allowable service and product codes.",
                 valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
             )
@@ -4142,7 +4142,7 @@ public class ClaimResponse extends DomainResource {
             private final CodeableConcept productOrService;
             @Binding(
                 bindingName = "Modifiers",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
                 valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
             )
@@ -4730,7 +4730,7 @@ public class ClaimResponse extends DomainResource {
             public static class SubDetail extends BackboneElement {
                 @Binding(
                     bindingName = "ServiceProduct",
-                    strength = BindingStrength.ValueSet.EXAMPLE,
+                    strength = BindingStrength.Value.EXAMPLE,
                     description = "Allowable service and product codes.",
                     valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
                 )
@@ -4738,7 +4738,7 @@ public class ClaimResponse extends DomainResource {
                 private final CodeableConcept productOrService;
                 @Binding(
                     bindingName = "Modifiers",
-                    strength = BindingStrength.ValueSet.EXAMPLE,
+                    strength = BindingStrength.Value.EXAMPLE,
                     description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
                     valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
                 )
@@ -5278,7 +5278,7 @@ public class ClaimResponse extends DomainResource {
         @Summary
         @Binding(
             bindingName = "Adjudication",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The adjudication codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/adjudication"
         )
@@ -5562,7 +5562,7 @@ public class ClaimResponse extends DomainResource {
     public static class Payment extends BackboneElement {
         @Binding(
             bindingName = "PaymentType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The type (partial, complete) of the payment.",
             valueSet = "http://hl7.org/fhir/ValueSet/ex-paymenttype"
         )
@@ -5571,7 +5571,7 @@ public class ClaimResponse extends DomainResource {
         private final Money adjustment;
         @Binding(
             bindingName = "PaymentAdjustmentReason",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Payment Adjustment reason codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/payment-adjustment-reason"
         )
@@ -5978,7 +5978,7 @@ public class ClaimResponse extends DomainResource {
         private final PositiveInt number;
         @Binding(
             bindingName = "NoteType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The presentation types of notes.",
             valueSet = "http://hl7.org/fhir/ValueSet/note-type|4.0.1"
         )
@@ -5987,7 +5987,7 @@ public class ClaimResponse extends DomainResource {
         private final String text;
         @Binding(
             bindingName = "Language",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "A human language.",
             valueSet = "http://hl7.org/fhir/ValueSet/languages",
             maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
@@ -6718,7 +6718,7 @@ public class ClaimResponse extends DomainResource {
         private final PositiveInt subDetailSequence;
         @Binding(
             bindingName = "AdjudicationError",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The adjudication error codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/adjudication-error"
         )

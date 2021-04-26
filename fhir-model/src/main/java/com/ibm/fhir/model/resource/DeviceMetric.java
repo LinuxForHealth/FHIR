@@ -48,7 +48,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 1,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "deviceMetric-0",
@@ -73,7 +73,7 @@ public class DeviceMetric extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MetricType",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "Describes the metric type.",
         valueSet = "http://hl7.org/fhir/ValueSet/devicemetric-type"
     )
@@ -82,7 +82,7 @@ public class DeviceMetric extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MetricUnit",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "Describes the unit of the metric.",
         valueSet = "http://hl7.org/fhir/ValueSet/devicemetric-type"
     )
@@ -96,7 +96,7 @@ public class DeviceMetric extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DeviceMetricOperationalStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Describes the operational status of the DeviceMetric.",
         valueSet = "http://hl7.org/fhir/ValueSet/metric-operational-status|4.0.1"
     )
@@ -104,7 +104,7 @@ public class DeviceMetric extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DeviceMetricColor",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Describes the typical color of representation.",
         valueSet = "http://hl7.org/fhir/ValueSet/metric-color|4.0.1"
     )
@@ -112,7 +112,7 @@ public class DeviceMetric extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DeviceMetricCategory",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Describes the category of the metric.",
         valueSet = "http://hl7.org/fhir/ValueSet/metric-category|4.0.1"
     )
@@ -827,7 +827,7 @@ public class DeviceMetric extends DomainResource {
         @Summary
         @Binding(
             bindingName = "DeviceMetricCalibrationType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Describes the type of a metric calibration.",
             valueSet = "http://hl7.org/fhir/ValueSet/metric-calibration-type|4.0.1"
         )
@@ -835,7 +835,7 @@ public class DeviceMetric extends DomainResource {
         @Summary
         @Binding(
             bindingName = "DeviceMetricCalibrationState",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Describes the state of a metric calibration.",
             valueSet = "http://hl7.org/fhir/ValueSet/metric-calibration-state|4.0.1"
         )

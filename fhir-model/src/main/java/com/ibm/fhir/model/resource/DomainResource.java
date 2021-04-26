@@ -30,7 +30,7 @@ import com.ibm.fhir.model.util.ValidationSupport;
  */
 @Maturity(
     level = 5,
-    status = StandardsStatus.ValueSet.NORMATIVE
+    status = StandardsStatus.Value.NORMATIVE
 )
 @Constraint(
     id = "dom-2",

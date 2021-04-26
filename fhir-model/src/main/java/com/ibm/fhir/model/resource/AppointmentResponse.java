@@ -43,7 +43,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 3,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "apr-1",
@@ -73,7 +73,7 @@ public class AppointmentResponse extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ParticipantType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Role of participant in encounter.",
         valueSet = "http://hl7.org/fhir/ValueSet/encounter-participant-type"
     )
@@ -84,7 +84,7 @@ public class AppointmentResponse extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ParticipantStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The Participation status of an appointment.",
         valueSet = "http://hl7.org/fhir/ValueSet/participationstatus|4.0.1"
     )

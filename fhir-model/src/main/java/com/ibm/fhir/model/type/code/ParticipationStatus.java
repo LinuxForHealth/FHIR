@@ -24,14 +24,14 @@ public class ParticipationStatus extends Code {
      * 
      * <p>The participant has accepted the appointment.
      */
-    public static final ParticipationStatus ACCEPTED = ParticipationStatus.builder().value(ValueSet.ACCEPTED).build();
+    public static final ParticipationStatus ACCEPTED = ParticipationStatus.builder().value(Value.ACCEPTED).build();
 
     /**
      * Declined
      * 
      * <p>The participant has declined the appointment and will not participate in the appointment.
      */
-    public static final ParticipationStatus DECLINED = ParticipationStatus.builder().value(ValueSet.DECLINED).build();
+    public static final ParticipationStatus DECLINED = ParticipationStatus.builder().value(Value.DECLINED).build();
 
     /**
      * Tentative
@@ -39,7 +39,7 @@ public class ParticipationStatus extends Code {
      * <p>The participant has tentatively accepted the appointment. This could be automatically created by a system and 
      * requires further processing before it can be accepted. There is no commitment that attendance will occur.
      */
-    public static final ParticipationStatus TENTATIVE = ParticipationStatus.builder().value(ValueSet.TENTATIVE).build();
+    public static final ParticipationStatus TENTATIVE = ParticipationStatus.builder().value(Value.TENTATIVE).build();
 
     /**
      * Needs Action
@@ -47,7 +47,7 @@ public class ParticipationStatus extends Code {
      * <p>The participant needs to indicate if they accept the appointment by changing this status to one of the other 
      * statuses.
      */
-    public static final ParticipationStatus NEEDS_ACTION = ParticipationStatus.builder().value(ValueSet.NEEDS_ACTION).build();
+    public static final ParticipationStatus NEEDS_ACTION = ParticipationStatus.builder().value(Value.NEEDS_ACTION).build();
 
     private volatile int hashCode;
 
@@ -55,14 +55,46 @@ public class ParticipationStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this ParticipationStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this ParticipationStatus as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating ParticipationStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static ParticipationStatus of(ValueSet value) {
+        switch (value) {
+        case ACCEPTED:
+            return ACCEPTED;
+        case DECLINED:
+            return DECLINED;
+        case TENTATIVE:
+            return TENTATIVE;
+        case NEEDS_ACTION:
+            return NEEDS_ACTION;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating ParticipationStatus objects from a passed enum value.
      */
-    public static ParticipationStatus of(ValueSet value) {
+    public static ParticipationStatus of(Value value) {
         switch (value) {
         case ACCEPTED:
             return ACCEPTED;
@@ -86,7 +118,7 @@ public class ParticipationStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static ParticipationStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -98,7 +130,7 @@ public class ParticipationStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -110,7 +142,7 @@ public class ParticipationStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -172,10 +204,27 @@ public class ParticipationStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for ParticipationStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -185,6 +234,7 @@ public class ParticipationStatus extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Accepted
@@ -231,7 +281,7 @@ public class ParticipationStatus extends Code {
         }
 
         /**
-         * Factory method for creating ParticipationStatus.ValueSet values from a passed string value.
+         * Factory method for creating ParticipationStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -240,6 +290,69 @@ public class ParticipationStatus extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Accepted
+         * 
+         * <p>The participant has accepted the appointment.
+         */
+        ACCEPTED("accepted"),
+
+        /**
+         * Declined
+         * 
+         * <p>The participant has declined the appointment and will not participate in the appointment.
+         */
+        DECLINED("declined"),
+
+        /**
+         * Tentative
+         * 
+         * <p>The participant has tentatively accepted the appointment. This could be automatically created by a system and 
+         * requires further processing before it can be accepted. There is no commitment that attendance will occur.
+         */
+        TENTATIVE("tentative"),
+
+        /**
+         * Needs Action
+         * 
+         * <p>The participant needs to indicate if they accept the appointment by changing this status to one of the other 
+         * statuses.
+         */
+        NEEDS_ACTION("needs-action");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating ParticipationStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

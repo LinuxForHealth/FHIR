@@ -46,7 +46,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 0,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "verificationResult-0",
@@ -105,7 +105,7 @@ public class VerificationResult extends DomainResource {
     @Summary
     @Binding(
         bindingName = "need",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "The frequency with which the target must be validated.",
         valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-need"
     )
@@ -113,7 +113,7 @@ public class VerificationResult extends DomainResource {
     @Summary
     @Binding(
         bindingName = "status",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The validation status of the target.",
         valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-status|4.0.1"
     )
@@ -124,7 +124,7 @@ public class VerificationResult extends DomainResource {
     @Summary
     @Binding(
         bindingName = "validation-type",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "What the target is validated against.",
         valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-validation-type"
     )
@@ -132,7 +132,7 @@ public class VerificationResult extends DomainResource {
     @Summary
     @Binding(
         bindingName = "validation-process",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The primary process by which the target is validated.",
         valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-validation-process"
     )
@@ -143,7 +143,7 @@ public class VerificationResult extends DomainResource {
     @Summary
     @Binding(
         bindingName = "failure-action",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "The result if validation fails.",
         valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-failure-action"
     )
@@ -1009,7 +1009,7 @@ public class VerificationResult extends DomainResource {
         @Summary
         @Binding(
             bindingName = "primary-source-type",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Type of the validation primary source.",
             valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-primary-source-type"
         )
@@ -1017,14 +1017,14 @@ public class VerificationResult extends DomainResource {
         @Summary
         @Binding(
             bindingName = "communication-method",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Method for communicating with the data source (manual; API; Push).",
             valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-communication-method"
         )
         private final List<CodeableConcept> communicationMethod;
         @Binding(
             bindingName = "validation-status",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "Status of the validation of the target against the primary source.",
             valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-validation-status"
         )
@@ -1033,14 +1033,14 @@ public class VerificationResult extends DomainResource {
         @Summary
         @Binding(
             bindingName = "can-push-updates",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "Ability of the primary source to push updates/alerts.",
             valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-can-push-updates"
         )
         private final CodeableConcept canPushUpdates;
         @Binding(
             bindingName = "push-type-available",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "Type of alerts/updates the primary source can send.",
             valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-push-type-available"
         )
@@ -1541,7 +1541,7 @@ public class VerificationResult extends DomainResource {
         @Summary
         @Binding(
             bindingName = "communication-method",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Method for communicating with the data source (manual; API; Push).",
             valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-communication-method"
         )

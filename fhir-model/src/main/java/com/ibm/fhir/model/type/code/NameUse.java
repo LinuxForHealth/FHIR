@@ -24,7 +24,7 @@ public class NameUse extends Code {
      * 
      * <p>Known as/conventional/the one you normally use.
      */
-    public static final NameUse USUAL = NameUse.builder().value(ValueSet.USUAL).build();
+    public static final NameUse USUAL = NameUse.builder().value(Value.USUAL).build();
 
     /**
      * Official
@@ -32,7 +32,7 @@ public class NameUse extends Code {
      * <p>The formal name as registered in an official (government) registry, but which name might not be commonly used. May 
      * be called "legal name".
      */
-    public static final NameUse OFFICIAL = NameUse.builder().value(ValueSet.OFFICIAL).build();
+    public static final NameUse OFFICIAL = NameUse.builder().value(Value.OFFICIAL).build();
 
     /**
      * Temp
@@ -40,28 +40,28 @@ public class NameUse extends Code {
      * <p>A temporary name. Name.period can provide more detailed information. This may also be used for temporary names 
      * assigned at birth or in emergency situations.
      */
-    public static final NameUse TEMP = NameUse.builder().value(ValueSet.TEMP).build();
+    public static final NameUse TEMP = NameUse.builder().value(Value.TEMP).build();
 
     /**
      * Nickname
      * 
      * <p>A name that is used to address the person in an informal manner, but is not part of their formal or usual name.
      */
-    public static final NameUse NICKNAME = NameUse.builder().value(ValueSet.NICKNAME).build();
+    public static final NameUse NICKNAME = NameUse.builder().value(Value.NICKNAME).build();
 
     /**
      * Anonymous
      * 
      * <p>Anonymous assigned name, alias, or pseudonym (used to protect a person's identity for privacy reasons).
      */
-    public static final NameUse ANONYMOUS = NameUse.builder().value(ValueSet.ANONYMOUS).build();
+    public static final NameUse ANONYMOUS = NameUse.builder().value(Value.ANONYMOUS).build();
 
     /**
      * Old
      * 
      * <p>This name is no longer in use (or was never correct, but retained for records).
      */
-    public static final NameUse OLD = NameUse.builder().value(ValueSet.OLD).build();
+    public static final NameUse OLD = NameUse.builder().value(Value.OLD).build();
 
     /**
      * Name changed for Marriage
@@ -71,7 +71,7 @@ public class NameUse extends Code {
      * constantly changing. This term is not gender specific. The use of this term does not imply any particular history for 
      * a person's name.
      */
-    public static final NameUse MAIDEN = NameUse.builder().value(ValueSet.MAIDEN).build();
+    public static final NameUse MAIDEN = NameUse.builder().value(Value.MAIDEN).build();
 
     private volatile int hashCode;
 
@@ -79,14 +79,52 @@ public class NameUse extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this NameUse as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this NameUse as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating NameUse objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static NameUse of(ValueSet value) {
+        switch (value) {
+        case USUAL:
+            return USUAL;
+        case OFFICIAL:
+            return OFFICIAL;
+        case TEMP:
+            return TEMP;
+        case NICKNAME:
+            return NICKNAME;
+        case ANONYMOUS:
+            return ANONYMOUS;
+        case OLD:
+            return OLD;
+        case MAIDEN:
+            return MAIDEN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating NameUse objects from a passed enum value.
      */
-    public static NameUse of(ValueSet value) {
+    public static NameUse of(Value value) {
         switch (value) {
         case USUAL:
             return USUAL;
@@ -116,7 +154,7 @@ public class NameUse extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static NameUse of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -128,7 +166,7 @@ public class NameUse extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -140,7 +178,7 @@ public class NameUse extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -202,10 +240,27 @@ public class NameUse extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for NameUse
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -215,6 +270,7 @@ public class NameUse extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Usual
@@ -285,7 +341,7 @@ public class NameUse extends Code {
         }
 
         /**
-         * Factory method for creating NameUse.ValueSet values from a passed string value.
+         * Factory method for creating NameUse.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -294,6 +350,93 @@ public class NameUse extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Usual
+         * 
+         * <p>Known as/conventional/the one you normally use.
+         */
+        USUAL("usual"),
+
+        /**
+         * Official
+         * 
+         * <p>The formal name as registered in an official (government) registry, but which name might not be commonly used. May 
+         * be called "legal name".
+         */
+        OFFICIAL("official"),
+
+        /**
+         * Temp
+         * 
+         * <p>A temporary name. Name.period can provide more detailed information. This may also be used for temporary names 
+         * assigned at birth or in emergency situations.
+         */
+        TEMP("temp"),
+
+        /**
+         * Nickname
+         * 
+         * <p>A name that is used to address the person in an informal manner, but is not part of their formal or usual name.
+         */
+        NICKNAME("nickname"),
+
+        /**
+         * Anonymous
+         * 
+         * <p>Anonymous assigned name, alias, or pseudonym (used to protect a person's identity for privacy reasons).
+         */
+        ANONYMOUS("anonymous"),
+
+        /**
+         * Old
+         * 
+         * <p>This name is no longer in use (or was never correct, but retained for records).
+         */
+        OLD("old"),
+
+        /**
+         * Name changed for Marriage
+         * 
+         * <p>A name used prior to changing name because of marriage. This name use is for use by applications that collect and 
+         * store names that were used prior to a marriage. Marriage naming customs vary greatly around the world, and are 
+         * constantly changing. This term is not gender specific. The use of this term does not imply any particular history for 
+         * a person's name.
+         */
+        MAIDEN("maiden");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating NameUse.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

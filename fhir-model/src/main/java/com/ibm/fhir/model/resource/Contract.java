@@ -63,7 +63,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 1,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "contract-0",
@@ -107,14 +107,14 @@ public class Contract extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ContractStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/contract-status|4.0.1"
     )
     private final ContractStatus status;
     @Binding(
         bindingName = "ContractLegalState",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Detailed codes for the legal state of a contract.",
         valueSet = "http://hl7.org/fhir/ValueSet/contract-legalstate"
     )
@@ -124,7 +124,7 @@ public class Contract extends DomainResource {
     private final Uri instantiatesUri;
     @Binding(
         bindingName = "ContractContentDerivative",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "This is an example set of Content Derivative type codes, which represent the minimal content derived from the basal information source.",
         valueSet = "http://hl7.org/fhir/ValueSet/contract-content-derivative"
     )
@@ -135,7 +135,7 @@ public class Contract extends DomainResource {
     private final Period applies;
     @Binding(
         bindingName = "ContractExpiration",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for the Cessation of Contracts.",
         valueSet = "http://hl7.org/fhir/ValueSet/contract-expiration-type"
     )
@@ -158,7 +158,7 @@ public class Contract extends DomainResource {
     private final Reference author;
     @Binding(
         bindingName = "ContractScope",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for the range of legal concerns.",
         valueSet = "http://hl7.org/fhir/ValueSet/contract-scope"
     )
@@ -168,7 +168,7 @@ public class Contract extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ContractType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "List of overall contract codes.",
         valueSet = "http://hl7.org/fhir/ValueSet/contract-type"
     )
@@ -176,7 +176,7 @@ public class Contract extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ContractSubtype",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Detailed codes within the above.",
         valueSet = "http://hl7.org/fhir/ValueSet/contract-subtype"
     )
@@ -1947,7 +1947,7 @@ public class Contract extends DomainResource {
     public static class ContentDefinition extends BackboneElement {
         @Binding(
             bindingName = "ContractDefinitionType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Detailed codes for the definition of contracts.",
             valueSet = "http://hl7.org/fhir/ValueSet/contract-definition-type"
         )
@@ -1955,7 +1955,7 @@ public class Contract extends DomainResource {
         private final CodeableConcept type;
         @Binding(
             bindingName = "ContractDefinitionSubtype",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Detailed codes for the additional definition of contracts.",
             valueSet = "http://hl7.org/fhir/ValueSet/contract-definition-subtype"
         )
@@ -1965,7 +1965,7 @@ public class Contract extends DomainResource {
         private final DateTime publicationDate;
         @Binding(
             bindingName = "ContractPublicationStatus",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Status of the publication of contract content.",
             valueSet = "http://hl7.org/fhir/ValueSet/contract-publicationstatus|4.0.1"
         )
@@ -2394,14 +2394,14 @@ public class Contract extends DomainResource {
         private final Element topic;
         @Binding(
             bindingName = "ContractTermType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Detailed codes for the types of contract provisions.",
             valueSet = "http://hl7.org/fhir/ValueSet/contract-term-type"
         )
         private final CodeableConcept type;
         @Binding(
             bindingName = "ContractTermSubType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Detailed codes for the subtypes of contract provisions.",
             valueSet = "http://hl7.org/fhir/ValueSet/contract-term-subtype"
         )
@@ -3089,7 +3089,7 @@ public class Contract extends DomainResource {
             private final List<UnsignedInt> number;
             @Binding(
                 bindingName = "ContractSecurityClassification",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for confidentiality protection.",
                 valueSet = "http://hl7.org/fhir/ValueSet/contract-security-classification"
             )
@@ -3097,14 +3097,14 @@ public class Contract extends DomainResource {
             private final Coding classification;
             @Binding(
                 bindingName = "ContractSecurityCategory",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for policy category.",
                 valueSet = "http://hl7.org/fhir/ValueSet/contract-security-category"
             )
             private final List<Coding> category;
             @Binding(
                 bindingName = "ContractSecurityControl",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for handling instructions.",
                 valueSet = "http://hl7.org/fhir/ValueSet/contract-security-control"
             )
@@ -3508,21 +3508,21 @@ public class Contract extends DomainResource {
             private final Reference topic;
             @Binding(
                 bindingName = "ContractTermType",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Detailed codes for the types of contract provisions.",
                 valueSet = "http://hl7.org/fhir/ValueSet/contract-term-type"
             )
             private final CodeableConcept type;
             @Binding(
                 bindingName = "ContractDecisionType",
-                strength = BindingStrength.ValueSet.EXTENSIBLE,
+                strength = BindingStrength.Value.EXTENSIBLE,
                 description = "The type of decision made by a grantor with respect to an offer made by a grantee.",
                 valueSet = "http://terminology.hl7.org/ValueSet/v3-ActConsentDirective"
             )
             private final CodeableConcept decision;
             @Binding(
                 bindingName = "ContractDecisionMode",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for conveying a decision.",
                 valueSet = "http://hl7.org/fhir/ValueSet/contract-decision-mode"
             )
@@ -4166,7 +4166,7 @@ public class Contract extends DomainResource {
                 private final List<Reference> reference;
                 @Binding(
                     bindingName = "ContractPartyRole",
-                    strength = BindingStrength.ValueSet.EXAMPLE,
+                    strength = BindingStrength.Value.EXAMPLE,
                     description = "Codes for offer participant roles.",
                     valueSet = "http://hl7.org/fhir/ValueSet/contract-party-role"
                 )
@@ -4747,14 +4747,14 @@ public class Contract extends DomainResource {
         public static class Asset extends BackboneElement {
             @Binding(
                 bindingName = "ContractAssetScope",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for scoping an asset.",
                 valueSet = "http://hl7.org/fhir/ValueSet/contract-assetscope"
             )
             private final CodeableConcept scope;
             @Binding(
                 bindingName = "ContractAssetType",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Condes for the type of an asset.",
                 valueSet = "http://hl7.org/fhir/ValueSet/contract-assettype"
             )
@@ -4762,14 +4762,14 @@ public class Contract extends DomainResource {
             private final List<Reference> typeReference;
             @Binding(
                 bindingName = "ContractAssetSubtype",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Condes for the sub-type of an asset.",
                 valueSet = "http://hl7.org/fhir/ValueSet/contract-assetsubtype"
             )
             private final List<CodeableConcept> subtype;
             @Binding(
                 bindingName = "ConsentContentClass",
-                strength = BindingStrength.ValueSet.EXTENSIBLE,
+                strength = BindingStrength.Value.EXTENSIBLE,
                 description = "The class (type) of information a consent rule covers.",
                 valueSet = "http://hl7.org/fhir/ValueSet/consent-content-class"
             )
@@ -4778,7 +4778,7 @@ public class Contract extends DomainResource {
             private final String condition;
             @Binding(
                 bindingName = "AssetAvailabilityType",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for asset availability.",
                 valueSet = "http://hl7.org/fhir/ValueSet/asset-availability"
             )
@@ -5678,7 +5678,7 @@ public class Contract extends DomainResource {
                 private final Reference reference;
                 @Binding(
                     bindingName = "ContractAssetContext",
-                    strength = BindingStrength.ValueSet.EXAMPLE,
+                    strength = BindingStrength.Value.EXAMPLE,
                     description = "Codes for the context of the asset.",
                     valueSet = "http://hl7.org/fhir/ValueSet/contract-assetcontext"
                 )
@@ -6730,7 +6730,7 @@ public class Contract extends DomainResource {
             private final Boolean doNotPerform;
             @Binding(
                 bindingName = "ContractAction",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Detailed codes for the contract action.",
                 valueSet = "http://hl7.org/fhir/ValueSet/contract-action"
             )
@@ -6739,7 +6739,7 @@ public class Contract extends DomainResource {
             private final List<Subject> subject;
             @Binding(
                 bindingName = "ContractActionReason",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Detailed codes for the contract action reason.",
                 valueSet = "http://terminology.hl7.org/ValueSet/v3-PurposeOfUse"
             )
@@ -6748,7 +6748,7 @@ public class Contract extends DomainResource {
             private final List<String> linkId;
             @Binding(
                 bindingName = "ContractActionStatus",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for the status of an term action.",
                 valueSet = "http://hl7.org/fhir/ValueSet/contract-actionstatus"
             )
@@ -6764,14 +6764,14 @@ public class Contract extends DomainResource {
             private final List<String> requesterLinkId;
             @Binding(
                 bindingName = "ContractActionPerformerType",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for the types of action perfomer.",
                 valueSet = "http://hl7.org/fhir/ValueSet/provenance-agent-type"
             )
             private final List<CodeableConcept> performerType;
             @Binding(
                 bindingName = "ContractActionPerformerRole",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for the role of the action performer.",
                 valueSet = "http://hl7.org/fhir/ValueSet/provenance-agent-role"
             )
@@ -6781,7 +6781,7 @@ public class Contract extends DomainResource {
             private final List<String> performerLinkId;
             @Binding(
                 bindingName = "ContractActionReason",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Detailed codes for the contract action reason.",
                 valueSet = "http://terminology.hl7.org/ValueSet/v3-PurposeOfUse"
             )
@@ -8006,7 +8006,7 @@ public class Contract extends DomainResource {
                 private final List<Reference> reference;
                 @Binding(
                     bindingName = "ContractActorRole",
-                    strength = BindingStrength.ValueSet.EXAMPLE,
+                    strength = BindingStrength.Value.EXAMPLE,
                     description = "Detailed codes for the contract actor role.",
                     valueSet = "http://hl7.org/fhir/ValueSet/contract-actorrole"
                 )
@@ -8328,7 +8328,7 @@ public class Contract extends DomainResource {
     public static class Signer extends BackboneElement {
         @Binding(
             bindingName = "ContractSignerType",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "List of parties who may be signing.",
             valueSet = "http://hl7.org/fhir/ValueSet/contract-signer-type"
         )

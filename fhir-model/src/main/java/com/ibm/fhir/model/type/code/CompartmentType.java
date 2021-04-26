@@ -24,35 +24,35 @@ public class CompartmentType extends Code {
      * 
      * <p>The compartment definition is for the patient compartment.
      */
-    public static final CompartmentType PATIENT = CompartmentType.builder().value(ValueSet.PATIENT).build();
+    public static final CompartmentType PATIENT = CompartmentType.builder().value(Value.PATIENT).build();
 
     /**
      * Encounter
      * 
      * <p>The compartment definition is for the encounter compartment.
      */
-    public static final CompartmentType ENCOUNTER = CompartmentType.builder().value(ValueSet.ENCOUNTER).build();
+    public static final CompartmentType ENCOUNTER = CompartmentType.builder().value(Value.ENCOUNTER).build();
 
     /**
      * RelatedPerson
      * 
      * <p>The compartment definition is for the related-person compartment.
      */
-    public static final CompartmentType RELATED_PERSON = CompartmentType.builder().value(ValueSet.RELATED_PERSON).build();
+    public static final CompartmentType RELATED_PERSON = CompartmentType.builder().value(Value.RELATED_PERSON).build();
 
     /**
      * Practitioner
      * 
      * <p>The compartment definition is for the practitioner compartment.
      */
-    public static final CompartmentType PRACTITIONER = CompartmentType.builder().value(ValueSet.PRACTITIONER).build();
+    public static final CompartmentType PRACTITIONER = CompartmentType.builder().value(Value.PRACTITIONER).build();
 
     /**
      * Device
      * 
      * <p>The compartment definition is for the device compartment.
      */
-    public static final CompartmentType DEVICE = CompartmentType.builder().value(ValueSet.DEVICE).build();
+    public static final CompartmentType DEVICE = CompartmentType.builder().value(Value.DEVICE).build();
 
     private volatile int hashCode;
 
@@ -60,14 +60,48 @@ public class CompartmentType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this CompartmentType as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this CompartmentType as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating CompartmentType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static CompartmentType of(ValueSet value) {
+        switch (value) {
+        case PATIENT:
+            return PATIENT;
+        case ENCOUNTER:
+            return ENCOUNTER;
+        case RELATED_PERSON:
+            return RELATED_PERSON;
+        case PRACTITIONER:
+            return PRACTITIONER;
+        case DEVICE:
+            return DEVICE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating CompartmentType objects from a passed enum value.
      */
-    public static CompartmentType of(ValueSet value) {
+    public static CompartmentType of(Value value) {
         switch (value) {
         case PATIENT:
             return PATIENT;
@@ -93,7 +127,7 @@ public class CompartmentType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static CompartmentType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -105,7 +139,7 @@ public class CompartmentType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -117,7 +151,7 @@ public class CompartmentType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -179,10 +213,27 @@ public class CompartmentType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for CompartmentType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -192,6 +243,7 @@ public class CompartmentType extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Patient
@@ -243,7 +295,7 @@ public class CompartmentType extends Code {
         }
 
         /**
-         * Factory method for creating CompartmentType.ValueSet values from a passed string value.
+         * Factory method for creating CompartmentType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -252,6 +304,74 @@ public class CompartmentType extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Patient
+         * 
+         * <p>The compartment definition is for the patient compartment.
+         */
+        PATIENT("Patient"),
+
+        /**
+         * Encounter
+         * 
+         * <p>The compartment definition is for the encounter compartment.
+         */
+        ENCOUNTER("Encounter"),
+
+        /**
+         * RelatedPerson
+         * 
+         * <p>The compartment definition is for the related-person compartment.
+         */
+        RELATED_PERSON("RelatedPerson"),
+
+        /**
+         * Practitioner
+         * 
+         * <p>The compartment definition is for the practitioner compartment.
+         */
+        PRACTITIONER("Practitioner"),
+
+        /**
+         * Device
+         * 
+         * <p>The compartment definition is for the device compartment.
+         */
+        DEVICE("Device");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating CompartmentType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

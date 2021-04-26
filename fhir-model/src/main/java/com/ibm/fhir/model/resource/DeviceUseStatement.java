@@ -47,7 +47,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 0,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DeviceUseStatement extends DomainResource {
@@ -59,7 +59,7 @@ public class DeviceUseStatement extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DeviceUseStatementStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A coded concept indicating the current status of the Device Usage.",
         valueSet = "http://hl7.org/fhir/ValueSet/device-statement-status|4.0.1"
     )
@@ -92,7 +92,7 @@ public class DeviceUseStatement extends DomainResource {
     @Summary
     @Binding(
         bindingName = "BodySite",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes describing anatomical locations. May include laterality.",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )

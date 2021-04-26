@@ -34,11 +34,25 @@ public class Uuid extends Uri {
         return (value != null);
     }
 
+    /**
+     * Factory method for creating Uuid objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String, not null
+     */
     public static Uuid of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Uuid.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Uuid objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String that can be parsed into a valid FHIR uri value, not null
+     */
     public static Uri uri(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Uuid.builder().value(value).build();
     }
 

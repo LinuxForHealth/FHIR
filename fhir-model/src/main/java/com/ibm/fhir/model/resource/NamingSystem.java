@@ -49,7 +49,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 1,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "nsd-0",
@@ -96,7 +96,7 @@ public class NamingSystem extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -105,7 +105,7 @@ public class NamingSystem extends DomainResource {
     @Summary
     @Binding(
         bindingName = "NamingSystemType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Identifies the purpose of the naming system.",
         valueSet = "http://hl7.org/fhir/ValueSet/namingsystem-type|4.0.1"
     )
@@ -121,7 +121,7 @@ public class NamingSystem extends DomainResource {
     private final String responsible;
     @Binding(
         bindingName = "IdentifierType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "A coded type for an identifier that can be used to determine which identifier to use for a specific purpose.",
         valueSet = "http://hl7.org/fhir/ValueSet/identifier-type"
     )
@@ -132,7 +132,7 @@ public class NamingSystem extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -971,7 +971,7 @@ public class NamingSystem extends DomainResource {
         @Summary
         @Binding(
             bindingName = "NamingSystemIdentifierType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Identifies the style of unique identifier used to identify a namespace.",
             valueSet = "http://hl7.org/fhir/ValueSet/namingsystem-identifier-type|4.0.1"
         )

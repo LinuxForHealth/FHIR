@@ -50,7 +50,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 3,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "con-1",
@@ -110,7 +110,7 @@ public class Condition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ConditionClinicalStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The clinical status of the condition or diagnosis.",
         valueSet = "http://hl7.org/fhir/ValueSet/condition-clinical|4.0.1"
     )
@@ -118,21 +118,21 @@ public class Condition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ConditionVerificationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The verification status to support or decline the clinical status of the condition or diagnosis.",
         valueSet = "http://hl7.org/fhir/ValueSet/condition-ver-status|4.0.1"
     )
     private final CodeableConcept verificationStatus;
     @Binding(
         bindingName = "ConditionCategory",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "A category assigned to the condition.",
         valueSet = "http://hl7.org/fhir/ValueSet/condition-category"
     )
     private final List<CodeableConcept> category;
     @Binding(
         bindingName = "ConditionSeverity",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "A subjective assessment of the severity of the condition as evaluated by the clinician.",
         valueSet = "http://hl7.org/fhir/ValueSet/condition-severity"
     )
@@ -140,7 +140,7 @@ public class Condition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ConditionKind",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Identification of the condition or diagnosis.",
         valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
     )
@@ -148,7 +148,7 @@ public class Condition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "BodySite",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes describing anatomical locations. May include laterality.",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
@@ -1203,7 +1203,7 @@ public class Condition extends DomainResource {
     public static class Stage extends BackboneElement {
         @Binding(
             bindingName = "ConditionStage",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes describing condition stages (e.g. Cancer stages).",
             valueSet = "http://hl7.org/fhir/ValueSet/condition-stage"
         )
@@ -1212,7 +1212,7 @@ public class Condition extends DomainResource {
         private final List<Reference> assessment;
         @Binding(
             bindingName = "ConditionStageType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes describing the kind of condition staging (e.g. clinical or pathological).",
             valueSet = "http://hl7.org/fhir/ValueSet/condition-stage-type"
         )
@@ -1546,7 +1546,7 @@ public class Condition extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ManifestationOrSymptom",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes that describe the manifestation or symptoms of a condition.",
             valueSet = "http://hl7.org/fhir/ValueSet/manifestation-or-symptom"
         )

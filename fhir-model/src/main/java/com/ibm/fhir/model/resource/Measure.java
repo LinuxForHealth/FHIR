@@ -55,7 +55,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "mea-0",
@@ -143,7 +143,7 @@ public class Measure extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -155,7 +155,7 @@ public class Measure extends DomainResource {
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SubjectType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The possible types of subjects for a measure (E.g. Patient, Practitioner, Organization, Location, etc.).",
         valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
     )
@@ -173,7 +173,7 @@ public class Measure extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -187,7 +187,7 @@ public class Measure extends DomainResource {
     private final Period effectivePeriod;
     @Binding(
         bindingName = "DefinitionTopic",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "High-level categorization of the definition, used for searching, sorting, and filtering.",
         valueSet = "http://hl7.org/fhir/ValueSet/definition-topic"
     )
@@ -203,7 +203,7 @@ public class Measure extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MeasureScoring",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The scoring type of the measure.",
         valueSet = "http://hl7.org/fhir/ValueSet/measure-scoring"
     )
@@ -211,7 +211,7 @@ public class Measure extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CompositeMeasureScoring",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The composite scoring method of the measure.",
         valueSet = "http://hl7.org/fhir/ValueSet/composite-measure-scoring"
     )
@@ -219,7 +219,7 @@ public class Measure extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MeasureType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The type of measure (includes codes from 2.16.840.1.113883.1.11.20368).",
         valueSet = "http://hl7.org/fhir/ValueSet/measure-type"
     )
@@ -235,7 +235,7 @@ public class Measure extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MeasureImprovementNotation",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Observation values that indicate what change in a measurement value or score is indicative of an improvement in the measured item or scored issue.",
         valueSet = "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.0.1"
     )
@@ -2579,7 +2579,7 @@ public class Measure extends DomainResource {
         public static class Population extends BackboneElement {
             @Binding(
                 bindingName = "MeasurePopulationType",
-                strength = BindingStrength.ValueSet.EXTENSIBLE,
+                strength = BindingStrength.Value.EXTENSIBLE,
                 description = "The type of population.",
                 valueSet = "http://hl7.org/fhir/ValueSet/measure-population"
             )
@@ -3549,7 +3549,7 @@ public class Measure extends DomainResource {
         private final CodeableConcept code;
         @Binding(
             bindingName = "MeasureDataUsage",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The intended usage for supplemental data elements in the measure.",
             valueSet = "http://hl7.org/fhir/ValueSet/measure-data-usage"
         )

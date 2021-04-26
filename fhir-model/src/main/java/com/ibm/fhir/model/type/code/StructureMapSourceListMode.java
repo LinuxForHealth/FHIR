@@ -24,35 +24,35 @@ public class StructureMapSourceListMode extends Code {
      * 
      * <p>Only process this rule for the first in the list.
      */
-    public static final StructureMapSourceListMode FIRST = StructureMapSourceListMode.builder().value(ValueSet.FIRST).build();
+    public static final StructureMapSourceListMode FIRST = StructureMapSourceListMode.builder().value(Value.FIRST).build();
 
     /**
      * All but the first
      * 
      * <p>Process this rule for all but the first.
      */
-    public static final StructureMapSourceListMode NOT_FIRST = StructureMapSourceListMode.builder().value(ValueSet.NOT_FIRST).build();
+    public static final StructureMapSourceListMode NOT_FIRST = StructureMapSourceListMode.builder().value(Value.NOT_FIRST).build();
 
     /**
      * Last
      * 
      * <p>Only process this rule for the last in the list.
      */
-    public static final StructureMapSourceListMode LAST = StructureMapSourceListMode.builder().value(ValueSet.LAST).build();
+    public static final StructureMapSourceListMode LAST = StructureMapSourceListMode.builder().value(Value.LAST).build();
 
     /**
      * All but the last
      * 
      * <p>Process this rule for all but the last.
      */
-    public static final StructureMapSourceListMode NOT_LAST = StructureMapSourceListMode.builder().value(ValueSet.NOT_LAST).build();
+    public static final StructureMapSourceListMode NOT_LAST = StructureMapSourceListMode.builder().value(Value.NOT_LAST).build();
 
     /**
      * Enforce only one
      * 
      * <p>Only process this rule is there is only item.
      */
-    public static final StructureMapSourceListMode ONLY_ONE = StructureMapSourceListMode.builder().value(ValueSet.ONLY_ONE).build();
+    public static final StructureMapSourceListMode ONLY_ONE = StructureMapSourceListMode.builder().value(Value.ONLY_ONE).build();
 
     private volatile int hashCode;
 
@@ -60,14 +60,48 @@ public class StructureMapSourceListMode extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this StructureMapSourceListMode as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this StructureMapSourceListMode as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating StructureMapSourceListMode objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static StructureMapSourceListMode of(ValueSet value) {
+        switch (value) {
+        case FIRST:
+            return FIRST;
+        case NOT_FIRST:
+            return NOT_FIRST;
+        case LAST:
+            return LAST;
+        case NOT_LAST:
+            return NOT_LAST;
+        case ONLY_ONE:
+            return ONLY_ONE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating StructureMapSourceListMode objects from a passed enum value.
      */
-    public static StructureMapSourceListMode of(ValueSet value) {
+    public static StructureMapSourceListMode of(Value value) {
         switch (value) {
         case FIRST:
             return FIRST;
@@ -93,7 +127,7 @@ public class StructureMapSourceListMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static StructureMapSourceListMode of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -105,7 +139,7 @@ public class StructureMapSourceListMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -117,7 +151,7 @@ public class StructureMapSourceListMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -179,10 +213,27 @@ public class StructureMapSourceListMode extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for StructureMapSourceListMode
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -192,6 +243,7 @@ public class StructureMapSourceListMode extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * First
@@ -243,7 +295,7 @@ public class StructureMapSourceListMode extends Code {
         }
 
         /**
-         * Factory method for creating StructureMapSourceListMode.ValueSet values from a passed string value.
+         * Factory method for creating StructureMapSourceListMode.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -252,6 +304,74 @@ public class StructureMapSourceListMode extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * First
+         * 
+         * <p>Only process this rule for the first in the list.
+         */
+        FIRST("first"),
+
+        /**
+         * All but the first
+         * 
+         * <p>Process this rule for all but the first.
+         */
+        NOT_FIRST("not_first"),
+
+        /**
+         * Last
+         * 
+         * <p>Only process this rule for the last in the list.
+         */
+        LAST("last"),
+
+        /**
+         * All but the last
+         * 
+         * <p>Process this rule for all but the last.
+         */
+        NOT_LAST("not_last"),
+
+        /**
+         * Enforce only one
+         * 
+         * <p>Only process this rule is there is only item.
+         */
+        ONLY_ONE("only_one");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating StructureMapSourceListMode.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

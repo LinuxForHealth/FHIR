@@ -46,7 +46,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 0,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "adverseEvent-0",
@@ -63,7 +63,7 @@ public class AdverseEvent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AdverseEventActuality",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Overall nature of the adverse event, e.g. real or potential.",
         valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-actuality|4.0.1"
     )
@@ -72,7 +72,7 @@ public class AdverseEvent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AdverseEventCategory",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Overall categorization of the event, e.g. product-related or situational.",
         valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-category"
     )
@@ -80,7 +80,7 @@ public class AdverseEvent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AdverseEventType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Detailed type of event.",
         valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-type"
     )
@@ -107,7 +107,7 @@ public class AdverseEvent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AdverseEventSeriousness",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Overall seriousness of this event for the patient.",
         valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-seriousness"
     )
@@ -115,7 +115,7 @@ public class AdverseEvent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AdverseEventSeverity",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The severity of the adverse event itself, in direct relation to the subject.",
         valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-severity|4.0.1"
     )
@@ -123,7 +123,7 @@ public class AdverseEvent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AdverseEventOutcome",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "TODO (and should this be required?).",
         valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-outcome|4.0.1"
     )
@@ -1655,7 +1655,7 @@ public class AdverseEvent extends DomainResource {
             @Summary
             @Binding(
                 bindingName = "AdverseEventCausalityAssessment",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for the assessment of whether the entity caused the event.",
                 valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-causality-assess"
             )
@@ -1668,7 +1668,7 @@ public class AdverseEvent extends DomainResource {
             @Summary
             @Binding(
                 bindingName = "AdverseEventCausalityMethod",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "TODO.",
                 valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-causality-method"
             )

@@ -24,21 +24,21 @@ public class BiologicallyDerivedProductStorageScale extends Code {
      * 
      * <p>Fahrenheit temperature scale.
      */
-    public static final BiologicallyDerivedProductStorageScale FARENHEIT = BiologicallyDerivedProductStorageScale.builder().value(ValueSet.FARENHEIT).build();
+    public static final BiologicallyDerivedProductStorageScale FARENHEIT = BiologicallyDerivedProductStorageScale.builder().value(Value.FARENHEIT).build();
 
     /**
      * Celsius
      * 
      * <p>Celsius or centigrade temperature scale.
      */
-    public static final BiologicallyDerivedProductStorageScale CELSIUS = BiologicallyDerivedProductStorageScale.builder().value(ValueSet.CELSIUS).build();
+    public static final BiologicallyDerivedProductStorageScale CELSIUS = BiologicallyDerivedProductStorageScale.builder().value(Value.CELSIUS).build();
 
     /**
      * Kelvin
      * 
      * <p>Kelvin absolute thermodynamic temperature scale.
      */
-    public static final BiologicallyDerivedProductStorageScale KELVIN = BiologicallyDerivedProductStorageScale.builder().value(ValueSet.KELVIN).build();
+    public static final BiologicallyDerivedProductStorageScale KELVIN = BiologicallyDerivedProductStorageScale.builder().value(Value.KELVIN).build();
 
     private volatile int hashCode;
 
@@ -46,14 +46,44 @@ public class BiologicallyDerivedProductStorageScale extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this BiologicallyDerivedProductStorageScale as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this BiologicallyDerivedProductStorageScale as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating BiologicallyDerivedProductStorageScale objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static BiologicallyDerivedProductStorageScale of(ValueSet value) {
+        switch (value) {
+        case FARENHEIT:
+            return FARENHEIT;
+        case CELSIUS:
+            return CELSIUS;
+        case KELVIN:
+            return KELVIN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating BiologicallyDerivedProductStorageScale objects from a passed enum value.
      */
-    public static BiologicallyDerivedProductStorageScale of(ValueSet value) {
+    public static BiologicallyDerivedProductStorageScale of(Value value) {
         switch (value) {
         case FARENHEIT:
             return FARENHEIT;
@@ -75,7 +105,7 @@ public class BiologicallyDerivedProductStorageScale extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static BiologicallyDerivedProductStorageScale of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -87,7 +117,7 @@ public class BiologicallyDerivedProductStorageScale extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -99,7 +129,7 @@ public class BiologicallyDerivedProductStorageScale extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -161,10 +191,27 @@ public class BiologicallyDerivedProductStorageScale extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for BiologicallyDerivedProductStorageScale
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -174,6 +221,7 @@ public class BiologicallyDerivedProductStorageScale extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Fahrenheit
@@ -211,7 +259,7 @@ public class BiologicallyDerivedProductStorageScale extends Code {
         }
 
         /**
-         * Factory method for creating BiologicallyDerivedProductStorageScale.ValueSet values from a passed string value.
+         * Factory method for creating BiologicallyDerivedProductStorageScale.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -220,6 +268,60 @@ public class BiologicallyDerivedProductStorageScale extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Fahrenheit
+         * 
+         * <p>Fahrenheit temperature scale.
+         */
+        FARENHEIT("farenheit"),
+
+        /**
+         * Celsius
+         * 
+         * <p>Celsius or centigrade temperature scale.
+         */
+        CELSIUS("celsius"),
+
+        /**
+         * Kelvin
+         * 
+         * <p>Kelvin absolute thermodynamic temperature scale.
+         */
+        KELVIN("kelvin");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating BiologicallyDerivedProductStorageScale.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

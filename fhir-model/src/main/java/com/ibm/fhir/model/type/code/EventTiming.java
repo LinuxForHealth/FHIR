@@ -25,7 +25,7 @@ public class EventTiming extends Code {
      * <p>Event occurs during the morning. The exact time is unspecified and established by institution convention or patient 
      * interpretation.
      */
-    public static final EventTiming MORN = EventTiming.builder().value(ValueSet.MORN).build();
+    public static final EventTiming MORN = EventTiming.builder().value(Value.MORN).build();
 
     /**
      * Early Morning
@@ -33,7 +33,7 @@ public class EventTiming extends Code {
      * <p>Event occurs during the early morning. The exact time is unspecified and established by institution convention or 
      * patient interpretation.
      */
-    public static final EventTiming MORN_EARLY = EventTiming.builder().value(ValueSet.MORN_EARLY).build();
+    public static final EventTiming MORN_EARLY = EventTiming.builder().value(Value.MORN_EARLY).build();
 
     /**
      * Late Morning
@@ -41,7 +41,7 @@ public class EventTiming extends Code {
      * <p>Event occurs during the late morning. The exact time is unspecified and established by institution convention or 
      * patient interpretation.
      */
-    public static final EventTiming MORN_LATE = EventTiming.builder().value(ValueSet.MORN_LATE).build();
+    public static final EventTiming MORN_LATE = EventTiming.builder().value(Value.MORN_LATE).build();
 
     /**
      * Noon
@@ -49,7 +49,7 @@ public class EventTiming extends Code {
      * <p>Event occurs around 12:00pm. The exact time is unspecified and established by institution convention or patient 
      * interpretation.
      */
-    public static final EventTiming NOON = EventTiming.builder().value(ValueSet.NOON).build();
+    public static final EventTiming NOON = EventTiming.builder().value(Value.NOON).build();
 
     /**
      * Afternoon
@@ -57,7 +57,7 @@ public class EventTiming extends Code {
      * <p>Event occurs during the afternoon. The exact time is unspecified and established by institution convention or 
      * patient interpretation.
      */
-    public static final EventTiming AFT = EventTiming.builder().value(ValueSet.AFT).build();
+    public static final EventTiming AFT = EventTiming.builder().value(Value.AFT).build();
 
     /**
      * Early Afternoon
@@ -65,7 +65,7 @@ public class EventTiming extends Code {
      * <p>Event occurs during the early afternoon. The exact time is unspecified and established by institution convention or 
      * patient interpretation.
      */
-    public static final EventTiming AFT_EARLY = EventTiming.builder().value(ValueSet.AFT_EARLY).build();
+    public static final EventTiming AFT_EARLY = EventTiming.builder().value(Value.AFT_EARLY).build();
 
     /**
      * Late Afternoon
@@ -73,7 +73,7 @@ public class EventTiming extends Code {
      * <p>Event occurs during the late afternoon. The exact time is unspecified and established by institution convention or 
      * patient interpretation.
      */
-    public static final EventTiming AFT_LATE = EventTiming.builder().value(ValueSet.AFT_LATE).build();
+    public static final EventTiming AFT_LATE = EventTiming.builder().value(Value.AFT_LATE).build();
 
     /**
      * Evening
@@ -81,7 +81,7 @@ public class EventTiming extends Code {
      * <p>Event occurs during the evening. The exact time is unspecified and established by institution convention or patient 
      * interpretation.
      */
-    public static final EventTiming EVE = EventTiming.builder().value(ValueSet.EVE).build();
+    public static final EventTiming EVE = EventTiming.builder().value(Value.EVE).build();
 
     /**
      * Early Evening
@@ -89,7 +89,7 @@ public class EventTiming extends Code {
      * <p>Event occurs during the early evening. The exact time is unspecified and established by institution convention or 
      * patient interpretation.
      */
-    public static final EventTiming EVE_EARLY = EventTiming.builder().value(ValueSet.EVE_EARLY).build();
+    public static final EventTiming EVE_EARLY = EventTiming.builder().value(Value.EVE_EARLY).build();
 
     /**
      * Late Evening
@@ -97,7 +97,7 @@ public class EventTiming extends Code {
      * <p>Event occurs during the late evening. The exact time is unspecified and established by institution convention or 
      * patient interpretation.
      */
-    public static final EventTiming EVE_LATE = EventTiming.builder().value(ValueSet.EVE_LATE).build();
+    public static final EventTiming EVE_LATE = EventTiming.builder().value(Value.EVE_LATE).build();
 
     /**
      * Night
@@ -105,7 +105,7 @@ public class EventTiming extends Code {
      * <p>Event occurs during the night. The exact time is unspecified and established by institution convention or patient 
      * interpretation.
      */
-    public static final EventTiming NIGHT = EventTiming.builder().value(ValueSet.NIGHT).build();
+    public static final EventTiming NIGHT = EventTiming.builder().value(Value.NIGHT).build();
 
     /**
      * After Sleep
@@ -113,35 +113,35 @@ public class EventTiming extends Code {
      * <p>Event occurs [offset] after subject goes to sleep. The exact time is unspecified and established by institution 
      * convention or patient interpretation.
      */
-    public static final EventTiming PHS = EventTiming.builder().value(ValueSet.PHS).build();
+    public static final EventTiming PHS = EventTiming.builder().value(Value.PHS).build();
 
-    public static final EventTiming HS = EventTiming.builder().value(ValueSet.HS).build();
+    public static final EventTiming HS = EventTiming.builder().value(Value.HS).build();
 
-    public static final EventTiming WAKE = EventTiming.builder().value(ValueSet.WAKE).build();
+    public static final EventTiming WAKE = EventTiming.builder().value(Value.WAKE).build();
 
-    public static final EventTiming C = EventTiming.builder().value(ValueSet.C).build();
+    public static final EventTiming C = EventTiming.builder().value(Value.C).build();
 
-    public static final EventTiming CM = EventTiming.builder().value(ValueSet.CM).build();
+    public static final EventTiming CM = EventTiming.builder().value(Value.CM).build();
 
-    public static final EventTiming CD = EventTiming.builder().value(ValueSet.CD).build();
+    public static final EventTiming CD = EventTiming.builder().value(Value.CD).build();
 
-    public static final EventTiming CV = EventTiming.builder().value(ValueSet.CV).build();
+    public static final EventTiming CV = EventTiming.builder().value(Value.CV).build();
 
-    public static final EventTiming AC = EventTiming.builder().value(ValueSet.AC).build();
+    public static final EventTiming AC = EventTiming.builder().value(Value.AC).build();
 
-    public static final EventTiming ACM = EventTiming.builder().value(ValueSet.ACM).build();
+    public static final EventTiming ACM = EventTiming.builder().value(Value.ACM).build();
 
-    public static final EventTiming ACD = EventTiming.builder().value(ValueSet.ACD).build();
+    public static final EventTiming ACD = EventTiming.builder().value(Value.ACD).build();
 
-    public static final EventTiming ACV = EventTiming.builder().value(ValueSet.ACV).build();
+    public static final EventTiming ACV = EventTiming.builder().value(Value.ACV).build();
 
-    public static final EventTiming PC = EventTiming.builder().value(ValueSet.PC).build();
+    public static final EventTiming PC = EventTiming.builder().value(Value.PC).build();
 
-    public static final EventTiming PCM = EventTiming.builder().value(ValueSet.PCM).build();
+    public static final EventTiming PCM = EventTiming.builder().value(Value.PCM).build();
 
-    public static final EventTiming PCD = EventTiming.builder().value(ValueSet.PCD).build();
+    public static final EventTiming PCD = EventTiming.builder().value(Value.PCD).build();
 
-    public static final EventTiming PCV = EventTiming.builder().value(ValueSet.PCV).build();
+    public static final EventTiming PCV = EventTiming.builder().value(Value.PCV).build();
 
     private volatile int hashCode;
 
@@ -149,14 +149,90 @@ public class EventTiming extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this EventTiming as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this EventTiming as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating EventTiming objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static EventTiming of(ValueSet value) {
+        switch (value) {
+        case MORN:
+            return MORN;
+        case MORN_EARLY:
+            return MORN_EARLY;
+        case MORN_LATE:
+            return MORN_LATE;
+        case NOON:
+            return NOON;
+        case AFT:
+            return AFT;
+        case AFT_EARLY:
+            return AFT_EARLY;
+        case AFT_LATE:
+            return AFT_LATE;
+        case EVE:
+            return EVE;
+        case EVE_EARLY:
+            return EVE_EARLY;
+        case EVE_LATE:
+            return EVE_LATE;
+        case NIGHT:
+            return NIGHT;
+        case PHS:
+            return PHS;
+        case HS:
+            return HS;
+        case WAKE:
+            return WAKE;
+        case C:
+            return C;
+        case CM:
+            return CM;
+        case CD:
+            return CD;
+        case CV:
+            return CV;
+        case AC:
+            return AC;
+        case ACM:
+            return ACM;
+        case ACD:
+            return ACD;
+        case ACV:
+            return ACV;
+        case PC:
+            return PC;
+        case PCM:
+            return PCM;
+        case PCD:
+            return PCD;
+        case PCV:
+            return PCV;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating EventTiming objects from a passed enum value.
      */
-    public static EventTiming of(ValueSet value) {
+    public static EventTiming of(Value value) {
         switch (value) {
         case MORN:
             return MORN;
@@ -224,7 +300,7 @@ public class EventTiming extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static EventTiming of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -236,7 +312,7 @@ public class EventTiming extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -248,7 +324,7 @@ public class EventTiming extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -310,10 +386,27 @@ public class EventTiming extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for EventTiming
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -323,6 +416,7 @@ public class EventTiming extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Morning
@@ -463,7 +557,7 @@ public class EventTiming extends Code {
         }
 
         /**
-         * Factory method for creating EventTiming.ValueSet values from a passed string value.
+         * Factory method for creating EventTiming.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -472,6 +566,163 @@ public class EventTiming extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Morning
+         * 
+         * <p>Event occurs during the morning. The exact time is unspecified and established by institution convention or patient 
+         * interpretation.
+         */
+        MORN("MORN"),
+
+        /**
+         * Early Morning
+         * 
+         * <p>Event occurs during the early morning. The exact time is unspecified and established by institution convention or 
+         * patient interpretation.
+         */
+        MORN_EARLY("MORN.early"),
+
+        /**
+         * Late Morning
+         * 
+         * <p>Event occurs during the late morning. The exact time is unspecified and established by institution convention or 
+         * patient interpretation.
+         */
+        MORN_LATE("MORN.late"),
+
+        /**
+         * Noon
+         * 
+         * <p>Event occurs around 12:00pm. The exact time is unspecified and established by institution convention or patient 
+         * interpretation.
+         */
+        NOON("NOON"),
+
+        /**
+         * Afternoon
+         * 
+         * <p>Event occurs during the afternoon. The exact time is unspecified and established by institution convention or 
+         * patient interpretation.
+         */
+        AFT("AFT"),
+
+        /**
+         * Early Afternoon
+         * 
+         * <p>Event occurs during the early afternoon. The exact time is unspecified and established by institution convention or 
+         * patient interpretation.
+         */
+        AFT_EARLY("AFT.early"),
+
+        /**
+         * Late Afternoon
+         * 
+         * <p>Event occurs during the late afternoon. The exact time is unspecified and established by institution convention or 
+         * patient interpretation.
+         */
+        AFT_LATE("AFT.late"),
+
+        /**
+         * Evening
+         * 
+         * <p>Event occurs during the evening. The exact time is unspecified and established by institution convention or patient 
+         * interpretation.
+         */
+        EVE("EVE"),
+
+        /**
+         * Early Evening
+         * 
+         * <p>Event occurs during the early evening. The exact time is unspecified and established by institution convention or 
+         * patient interpretation.
+         */
+        EVE_EARLY("EVE.early"),
+
+        /**
+         * Late Evening
+         * 
+         * <p>Event occurs during the late evening. The exact time is unspecified and established by institution convention or 
+         * patient interpretation.
+         */
+        EVE_LATE("EVE.late"),
+
+        /**
+         * Night
+         * 
+         * <p>Event occurs during the night. The exact time is unspecified and established by institution convention or patient 
+         * interpretation.
+         */
+        NIGHT("NIGHT"),
+
+        /**
+         * After Sleep
+         * 
+         * <p>Event occurs [offset] after subject goes to sleep. The exact time is unspecified and established by institution 
+         * convention or patient interpretation.
+         */
+        PHS("PHS"),
+
+        HS("HS"),
+
+        WAKE("WAKE"),
+
+        C("C"),
+
+        CM("CM"),
+
+        CD("CD"),
+
+        CV("CV"),
+
+        AC("AC"),
+
+        ACM("ACM"),
+
+        ACD("ACD"),
+
+        ACV("ACV"),
+
+        PC("PC"),
+
+        PCM("PCM"),
+
+        PCD("PCD"),
+
+        PCV("PCV");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating EventTiming.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

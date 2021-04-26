@@ -49,7 +49,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "healthcareService-0",
@@ -79,7 +79,7 @@ public class HealthcareService extends DomainResource {
     @Summary
     @Binding(
         bindingName = "service-category",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A category of the service(s) that could be provided.",
         valueSet = "http://hl7.org/fhir/ValueSet/service-category"
     )
@@ -87,7 +87,7 @@ public class HealthcareService extends DomainResource {
     @Summary
     @Binding(
         bindingName = "service-type",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Additional details about where the content was created (e.g. clinical specialty).",
         valueSet = "http://hl7.org/fhir/ValueSet/service-type"
     )
@@ -95,7 +95,7 @@ public class HealthcareService extends DomainResource {
     @Summary
     @Binding(
         bindingName = "service-specialty",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "A specialty that a healthcare service may provide.",
         valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
     )
@@ -115,7 +115,7 @@ public class HealthcareService extends DomainResource {
     private final List<Reference> coverageArea;
     @Binding(
         bindingName = "ServiceProvisionConditions",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The code(s) that detail the conditions under which the healthcare service is available/offered.",
         valueSet = "http://hl7.org/fhir/ValueSet/service-provision-conditions"
     )
@@ -123,20 +123,20 @@ public class HealthcareService extends DomainResource {
     private final List<Eligibility> eligibility;
     @Binding(
         bindingName = "Program",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Government or local programs that this service applies to.",
         valueSet = "http://hl7.org/fhir/ValueSet/program"
     )
     private final List<CodeableConcept> program;
     @Binding(
         bindingName = "ServiceCharacteristic",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A custom attribute that could be provided at a service (e.g. Wheelchair accessibiliy)."
     )
     private final List<CodeableConcept> characteristic;
     @Binding(
         bindingName = "Language",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "A human language.",
         valueSet = "http://hl7.org/fhir/ValueSet/languages",
         maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
@@ -144,7 +144,7 @@ public class HealthcareService extends DomainResource {
     private final List<CodeableConcept> communication;
     @Binding(
         bindingName = "ReferralMethod",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The methods of referral can be used when referring to a specific HealthCareService resource.",
         valueSet = "http://hl7.org/fhir/ValueSet/service-referral-method"
     )
@@ -1585,7 +1585,7 @@ public class HealthcareService extends DomainResource {
     public static class Eligibility extends BackboneElement {
         @Binding(
             bindingName = "ServiceEligibility",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Coded values underwhich a specific service is made available."
         )
         private final CodeableConcept code;
@@ -1851,7 +1851,7 @@ public class HealthcareService extends DomainResource {
     public static class AvailableTime extends BackboneElement {
         @Binding(
             bindingName = "DaysOfWeek",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The days of the week.",
             valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.0.1"
         )

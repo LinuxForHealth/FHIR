@@ -52,7 +52,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 3,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "diagnosticReport-0",
@@ -71,7 +71,7 @@ public class DiagnosticReport extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DiagnosticReportStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The status of the diagnostic report.",
         valueSet = "http://hl7.org/fhir/ValueSet/diagnostic-report-status|4.0.1"
     )
@@ -80,7 +80,7 @@ public class DiagnosticReport extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DiagnosticServiceSection",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for diagnostic service sections.",
         valueSet = "http://hl7.org/fhir/ValueSet/diagnostic-service-sections"
     )
@@ -88,7 +88,7 @@ public class DiagnosticReport extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DiagnosticReportCodes",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "Codes that describe Diagnostic Reports.",
         valueSet = "http://hl7.org/fhir/ValueSet/report-codes"
     )
@@ -122,7 +122,7 @@ public class DiagnosticReport extends DomainResource {
     private final String conclusion;
     @Binding(
         bindingName = "AdjunctDiagnosis",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Diagnosis codes provided as adjuncts to the report.",
         valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
     )

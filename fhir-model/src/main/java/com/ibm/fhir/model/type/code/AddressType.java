@@ -24,21 +24,21 @@ public class AddressType extends Code {
      * 
      * <p>Mailing addresses - PO Boxes and care-of addresses.
      */
-    public static final AddressType POSTAL = AddressType.builder().value(ValueSet.POSTAL).build();
+    public static final AddressType POSTAL = AddressType.builder().value(Value.POSTAL).build();
 
     /**
      * Physical
      * 
      * <p>A physical address that can be visited.
      */
-    public static final AddressType PHYSICAL = AddressType.builder().value(ValueSet.PHYSICAL).build();
+    public static final AddressType PHYSICAL = AddressType.builder().value(Value.PHYSICAL).build();
 
     /**
      * Postal &amp; Physical
      * 
      * <p>An address that is both physical and postal.
      */
-    public static final AddressType BOTH = AddressType.builder().value(ValueSet.BOTH).build();
+    public static final AddressType BOTH = AddressType.builder().value(Value.BOTH).build();
 
     private volatile int hashCode;
 
@@ -46,14 +46,44 @@ public class AddressType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this AddressType as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this AddressType as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating AddressType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static AddressType of(ValueSet value) {
+        switch (value) {
+        case POSTAL:
+            return POSTAL;
+        case PHYSICAL:
+            return PHYSICAL;
+        case BOTH:
+            return BOTH;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating AddressType objects from a passed enum value.
      */
-    public static AddressType of(ValueSet value) {
+    public static AddressType of(Value value) {
         switch (value) {
         case POSTAL:
             return POSTAL;
@@ -75,7 +105,7 @@ public class AddressType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static AddressType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -87,7 +117,7 @@ public class AddressType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -99,7 +129,7 @@ public class AddressType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -161,10 +191,27 @@ public class AddressType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for AddressType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -174,6 +221,7 @@ public class AddressType extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Postal
@@ -211,7 +259,7 @@ public class AddressType extends Code {
         }
 
         /**
-         * Factory method for creating AddressType.ValueSet values from a passed string value.
+         * Factory method for creating AddressType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -220,6 +268,60 @@ public class AddressType extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Postal
+         * 
+         * <p>Mailing addresses - PO Boxes and care-of addresses.
+         */
+        POSTAL("postal"),
+
+        /**
+         * Physical
+         * 
+         * <p>A physical address that can be visited.
+         */
+        PHYSICAL("physical"),
+
+        /**
+         * Postal &amp; Physical
+         * 
+         * <p>An address that is both physical and postal.
+         */
+        BOTH("both");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating AddressType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }

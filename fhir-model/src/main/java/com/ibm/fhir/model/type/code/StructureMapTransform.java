@@ -24,21 +24,21 @@ public class StructureMapTransform extends Code {
      * 
      * <p>create(type : string) - type is passed through to the application on the standard API, and must be known by it.
      */
-    public static final StructureMapTransform CREATE = StructureMapTransform.builder().value(ValueSet.CREATE).build();
+    public static final StructureMapTransform CREATE = StructureMapTransform.builder().value(Value.CREATE).build();
 
     /**
      * copy
      * 
      * <p>copy(source).
      */
-    public static final StructureMapTransform COPY = StructureMapTransform.builder().value(ValueSet.COPY).build();
+    public static final StructureMapTransform COPY = StructureMapTransform.builder().value(Value.COPY).build();
 
     /**
      * truncate
      * 
      * <p>truncate(source, length) - source must be stringy type.
      */
-    public static final StructureMapTransform TRUNCATE = StructureMapTransform.builder().value(ValueSet.TRUNCATE).build();
+    public static final StructureMapTransform TRUNCATE = StructureMapTransform.builder().value(Value.TRUNCATE).build();
 
     /**
      * escape
@@ -46,7 +46,7 @@ public class StructureMapTransform extends Code {
      * <p>escape(source, fmt1, fmt2) - change source from one kind of escaping to another (plain, java, xml, json). note that 
      * this is for when the string itself is escaped.
      */
-    public static final StructureMapTransform ESCAPE = StructureMapTransform.builder().value(ValueSet.ESCAPE).build();
+    public static final StructureMapTransform ESCAPE = StructureMapTransform.builder().value(Value.ESCAPE).build();
 
     /**
      * cast
@@ -54,70 +54,70 @@ public class StructureMapTransform extends Code {
      * <p>cast(source, type?) - case source from one type to another. target type can be left as implicit if there is one and 
      * only one target type known.
      */
-    public static final StructureMapTransform CAST = StructureMapTransform.builder().value(ValueSet.CAST).build();
+    public static final StructureMapTransform CAST = StructureMapTransform.builder().value(Value.CAST).build();
 
     /**
      * append
      * 
      * <p>append(source...) - source is element or string.
      */
-    public static final StructureMapTransform APPEND = StructureMapTransform.builder().value(ValueSet.APPEND).build();
+    public static final StructureMapTransform APPEND = StructureMapTransform.builder().value(Value.APPEND).build();
 
     /**
      * translate
      * 
      * <p>translate(source, uri_of_map) - use the translate operation.
      */
-    public static final StructureMapTransform TRANSLATE = StructureMapTransform.builder().value(ValueSet.TRANSLATE).build();
+    public static final StructureMapTransform TRANSLATE = StructureMapTransform.builder().value(Value.TRANSLATE).build();
 
     /**
      * reference
      * 
      * <p>reference(source : object) - return a string that references the provided tree properly.
      */
-    public static final StructureMapTransform REFERENCE = StructureMapTransform.builder().value(ValueSet.REFERENCE).build();
+    public static final StructureMapTransform REFERENCE = StructureMapTransform.builder().value(Value.REFERENCE).build();
 
     /**
      * dateOp
      * 
      * <p>Perform a date operation. *Parameters to be documented*.
      */
-    public static final StructureMapTransform DATE_OP = StructureMapTransform.builder().value(ValueSet.DATE_OP).build();
+    public static final StructureMapTransform DATE_OP = StructureMapTransform.builder().value(Value.DATE_OP).build();
 
     /**
      * uuid
      * 
      * <p>Generate a random UUID (in lowercase). No Parameters.
      */
-    public static final StructureMapTransform UUID = StructureMapTransform.builder().value(ValueSet.UUID).build();
+    public static final StructureMapTransform UUID = StructureMapTransform.builder().value(Value.UUID).build();
 
     /**
      * pointer
      * 
      * <p>Return the appropriate string to put in a reference that refers to the resource provided as a parameter.
      */
-    public static final StructureMapTransform POINTER = StructureMapTransform.builder().value(ValueSet.POINTER).build();
+    public static final StructureMapTransform POINTER = StructureMapTransform.builder().value(Value.POINTER).build();
 
     /**
      * evaluate
      * 
      * <p>Execute the supplied FHIRPath expression and use the value returned by that.
      */
-    public static final StructureMapTransform EVALUATE = StructureMapTransform.builder().value(ValueSet.EVALUATE).build();
+    public static final StructureMapTransform EVALUATE = StructureMapTransform.builder().value(Value.EVALUATE).build();
 
     /**
      * cc
      * 
      * <p>Create a CodeableConcept. Parameters = (text) or (system. Code[, display]).
      */
-    public static final StructureMapTransform CC = StructureMapTransform.builder().value(ValueSet.CC).build();
+    public static final StructureMapTransform CC = StructureMapTransform.builder().value(Value.CC).build();
 
     /**
      * c
      * 
      * <p>Create a Coding. Parameters = (system. Code[, display]).
      */
-    public static final StructureMapTransform C = StructureMapTransform.builder().value(ValueSet.C).build();
+    public static final StructureMapTransform C = StructureMapTransform.builder().value(Value.C).build();
 
     /**
      * qty
@@ -125,14 +125,14 @@ public class StructureMapTransform extends Code {
      * <p>Create a quantity. Parameters = (text) or (value, unit, [system, code]) where text is the natural representation e.
      * g. [comparator]value[space]unit.
      */
-    public static final StructureMapTransform QTY = StructureMapTransform.builder().value(ValueSet.QTY).build();
+    public static final StructureMapTransform QTY = StructureMapTransform.builder().value(Value.QTY).build();
 
     /**
      * id
      * 
      * <p>Create an identifier. Parameters = (system, value[, type]) where type is a code from the identifier type value set.
      */
-    public static final StructureMapTransform ID = StructureMapTransform.builder().value(ValueSet.ID).build();
+    public static final StructureMapTransform ID = StructureMapTransform.builder().value(Value.ID).build();
 
     /**
      * cp
@@ -140,7 +140,7 @@ public class StructureMapTransform extends Code {
      * <p>Create a contact details. Parameters = (value) or (system, value). If no system is provided, the system should be 
      * inferred from the content of the value.
      */
-    public static final StructureMapTransform CP = StructureMapTransform.builder().value(ValueSet.CP).build();
+    public static final StructureMapTransform CP = StructureMapTransform.builder().value(Value.CP).build();
 
     private volatile int hashCode;
 
@@ -148,14 +148,72 @@ public class StructureMapTransform extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this StructureMapTransform as an enum constant.
+     * @deprecated replaced by {@link #getValueConstant()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this StructureMapTransform as an enum constant.
+     */
+    public Value getValueConstant() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating StructureMapTransform objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static StructureMapTransform of(ValueSet value) {
+        switch (value) {
+        case CREATE:
+            return CREATE;
+        case COPY:
+            return COPY;
+        case TRUNCATE:
+            return TRUNCATE;
+        case ESCAPE:
+            return ESCAPE;
+        case CAST:
+            return CAST;
+        case APPEND:
+            return APPEND;
+        case TRANSLATE:
+            return TRANSLATE;
+        case REFERENCE:
+            return REFERENCE;
+        case DATE_OP:
+            return DATE_OP;
+        case UUID:
+            return UUID;
+        case POINTER:
+            return POINTER;
+        case EVALUATE:
+            return EVALUATE;
+        case CC:
+            return CC;
+        case C:
+            return C;
+        case QTY:
+            return QTY;
+        case ID:
+            return ID;
+        case CP:
+            return CP;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating StructureMapTransform objects from a passed enum value.
      */
-    public static StructureMapTransform of(ValueSet value) {
+    public static StructureMapTransform of(Value value) {
         switch (value) {
         case CREATE:
             return CREATE;
@@ -205,7 +263,7 @@ public class StructureMapTransform extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static StructureMapTransform of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -217,7 +275,7 @@ public class StructureMapTransform extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -229,7 +287,7 @@ public class StructureMapTransform extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -291,10 +349,27 @@ public class StructureMapTransform extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for StructureMapTransform
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -304,6 +379,7 @@ public class StructureMapTransform extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * create
@@ -443,7 +519,7 @@ public class StructureMapTransform extends Code {
         }
 
         /**
-         * Factory method for creating StructureMapTransform.ValueSet values from a passed string value.
+         * Factory method for creating StructureMapTransform.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -452,6 +528,162 @@ public class StructureMapTransform extends Code {
          */
         public static ValueSet from(java.lang.String value) {
             for (ValueSet c : ValueSet.values()) {
+                if (c.value.equals(value)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * create
+         * 
+         * <p>create(type : string) - type is passed through to the application on the standard API, and must be known by it.
+         */
+        CREATE("create"),
+
+        /**
+         * copy
+         * 
+         * <p>copy(source).
+         */
+        COPY("copy"),
+
+        /**
+         * truncate
+         * 
+         * <p>truncate(source, length) - source must be stringy type.
+         */
+        TRUNCATE("truncate"),
+
+        /**
+         * escape
+         * 
+         * <p>escape(source, fmt1, fmt2) - change source from one kind of escaping to another (plain, java, xml, json). note that 
+         * this is for when the string itself is escaped.
+         */
+        ESCAPE("escape"),
+
+        /**
+         * cast
+         * 
+         * <p>cast(source, type?) - case source from one type to another. target type can be left as implicit if there is one and 
+         * only one target type known.
+         */
+        CAST("cast"),
+
+        /**
+         * append
+         * 
+         * <p>append(source...) - source is element or string.
+         */
+        APPEND("append"),
+
+        /**
+         * translate
+         * 
+         * <p>translate(source, uri_of_map) - use the translate operation.
+         */
+        TRANSLATE("translate"),
+
+        /**
+         * reference
+         * 
+         * <p>reference(source : object) - return a string that references the provided tree properly.
+         */
+        REFERENCE("reference"),
+
+        /**
+         * dateOp
+         * 
+         * <p>Perform a date operation. *Parameters to be documented*.
+         */
+        DATE_OP("dateOp"),
+
+        /**
+         * uuid
+         * 
+         * <p>Generate a random UUID (in lowercase). No Parameters.
+         */
+        UUID("uuid"),
+
+        /**
+         * pointer
+         * 
+         * <p>Return the appropriate string to put in a reference that refers to the resource provided as a parameter.
+         */
+        POINTER("pointer"),
+
+        /**
+         * evaluate
+         * 
+         * <p>Execute the supplied FHIRPath expression and use the value returned by that.
+         */
+        EVALUATE("evaluate"),
+
+        /**
+         * cc
+         * 
+         * <p>Create a CodeableConcept. Parameters = (text) or (system. Code[, display]).
+         */
+        CC("cc"),
+
+        /**
+         * c
+         * 
+         * <p>Create a Coding. Parameters = (system. Code[, display]).
+         */
+        C("c"),
+
+        /**
+         * qty
+         * 
+         * <p>Create a quantity. Parameters = (text) or (value, unit, [system, code]) where text is the natural representation e.
+         * g. [comparator]value[space]unit.
+         */
+        QTY("qty"),
+
+        /**
+         * id
+         * 
+         * <p>Create an identifier. Parameters = (system, value[, type]) where type is a code from the identifier type value set.
+         */
+        ID("id"),
+
+        /**
+         * cp
+         * 
+         * <p>Create a contact details. Parameters = (value) or (system, value). If no system is provided, the system should be 
+         * inferred from the content of the value.
+         */
+        CP("cp");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating StructureMapTransform.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @throws IllegalArgumentException
+         *     If the passed string cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            for (Value c : Value.values()) {
                 if (c.value.equals(value)) {
                     return c;
                 }
