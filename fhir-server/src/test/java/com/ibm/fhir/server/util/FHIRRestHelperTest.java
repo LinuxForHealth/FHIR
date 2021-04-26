@@ -80,24 +80,6 @@ public class FHIRRestHelperTest {
                 .expression(string("Patient"))
                 .build())
             .build();
-    public static final OperationOutcome ID_AND_NO_NARRATIVE = OperationOutcome.builder()
-            .issue(Issue.builder()
-                .severity(IssueSeverity.WARNING)
-                .code(IssueType.INVARIANT)
-                .details(CodeableConcept.builder()
-                    .text(string("dom-6: A resource should have narrative for robust management"))
-                    .build())
-                .expression(string("Patient"))
-                .build(),
-                Issue.builder()
-                .severity(IssueSeverity.INFORMATION)
-                .code(IssueType.INFORMATIONAL)
-                .details(CodeableConcept.builder()
-                    .text(string("The create request resource included id: '1'; this id has been replaced"))
-                    .build())
-                .expression(string("<no expression>"))
-                .build())
-            .build();
 
     /**
      * Test transaction bundle post single.
@@ -141,10 +123,10 @@ public class FHIRRestHelperTest {
         assertNotNull(responseBundle);
         assertEquals(1, responseBundle.getEntry().size());
         Bundle.Entry entry = responseBundle.getEntry().get(0);
-        assertEquals(ALL_OK, entry.getResource());
+        assertEquals(entry.getResource(), ALL_OK);
         Bundle.Entry.Response response = entry.getResponse();
-        assertEquals("Patient/generated-0/_history/1", response.getLocation().getValue());
-        assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
+        assertEquals(response.getLocation().getValue(), "Patient/generated-0/_history/1");
+        assertEquals(response.getStatus().getValue(), "201");
     }
 
     /**
@@ -185,10 +167,11 @@ public class FHIRRestHelperTest {
         assertNotNull(responseBundle);
         assertEquals(1, responseBundle.getEntry().size());
         Bundle.Entry entry = responseBundle.getEntry().get(0);
-        assertEquals(NO_NARRATIVE, entry.getResource());
+        assertEquals(entry.getResource(), ALL_OK);
         Bundle.Entry.Response response = entry.getResponse();
-        assertEquals("Patient/generated-0/_history/1", response.getLocation().getValue());
-        assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
+        assertEquals(response.getLocation().getValue(), "Patient/generated-0/_history/1");
+        assertEquals(response.getStatus().getValue(), "201");
+        assertEquals(response.getOutcome(), NO_NARRATIVE);
     }
 
     /**
@@ -234,10 +217,10 @@ public class FHIRRestHelperTest {
         assertNotNull(responseBundle);
         assertEquals(1, responseBundle.getEntry().size());
         Bundle.Entry entry = responseBundle.getEntry().get(0);
-        assertEquals(ID_SPECIFIED, entry.getResource());
+        assertEquals(entry.getResource(), ID_SPECIFIED);
         Bundle.Entry.Response response = entry.getResponse();
-        assertEquals("Patient/generated-0/_history/1", response.getLocation().getValue());
-        assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
+        assertEquals(response.getLocation().getValue(), "Patient/generated-0/_history/1");
+        assertEquals(response.getStatus().getValue(), "201");
     }
 
     /**
@@ -279,10 +262,11 @@ public class FHIRRestHelperTest {
         assertNotNull(responseBundle);
         assertEquals(1, responseBundle.getEntry().size());
         Bundle.Entry entry = responseBundle.getEntry().get(0);
-        assertEquals(ID_AND_NO_NARRATIVE, entry.getResource());
+        assertEquals(entry.getResource(), ID_SPECIFIED);
         Bundle.Entry.Response response = entry.getResponse();
-        assertEquals("Patient/generated-0/_history/1", response.getLocation().getValue());
-        assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
+        assertEquals(response.getLocation().getValue(), "Patient/generated-0/_history/1");
+        assertEquals(response.getStatus().getValue(), "201");
+        assertEquals(response.getOutcome(), NO_NARRATIVE);
     }
 
     /**
@@ -553,13 +537,13 @@ public class FHIRRestHelperTest {
         for (Bundle.Entry entry : responseBundle.getEntry()) {
             Bundle.Entry.Response response = entry.getResponse();
             if (response.getLocation().getValue().startsWith("Patient")) {
-                assertEquals("Patient/generated-0/_history/1", response.getLocation().getValue());
-                assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
+                assertEquals(response.getLocation().getValue(), "Patient/generated-0/_history/1");
+                assertEquals(response.getStatus().getValue(), "201");
             } else if (response.getLocation().getValue().startsWith("Procedure")) {
-                assertEquals("Procedure/generated-1/_history/1", response.getLocation().getValue());
-                assertEquals(Integer.toString(Response.Status.CREATED.getStatusCode()), response.getStatus().getValue());
+                assertEquals(response.getLocation().getValue(), "Procedure/generated-1/_history/1");
+                assertEquals(response.getStatus().getValue(), "201");
                 Procedure returnedProcedure = (Procedure) entry.getResource();
-                assertEquals("Patient/generated-0", returnedProcedure.getSubject().getReference().getValue());
+                assertEquals(returnedProcedure.getSubject().getReference().getValue(), "Patient/generated-0");
             } else {
                 fail();
             }
@@ -941,10 +925,11 @@ public class FHIRRestHelperTest {
         assertNotNull(responseBundle);
         assertEquals(1, responseBundle.getEntry().size());
         Bundle.Entry entry = responseBundle.getEntry().get(0);
-        assertEquals(NO_NARRATIVE, entry.getResource());
+        assertEquals(entry.getResource(), ALL_OK);
         Bundle.Entry.Response response = entry.getResponse();
-        assertEquals("Patient/1/_history/2", response.getLocation().getValue());
-        assertEquals(Integer.toString(Response.Status.OK.getStatusCode()), response.getStatus().getValue());
+        assertEquals(response.getLocation().getValue(), "Patient/1/_history/2");
+        assertEquals(response.getStatus().getValue(), "200");
+        assertEquals(response.getOutcome(), NO_NARRATIVE);
     }
 
     /**
@@ -987,10 +972,10 @@ public class FHIRRestHelperTest {
         assertNotNull(responseBundle);
         assertEquals(1, responseBundle.getEntry().size());
         Bundle.Entry entry = responseBundle.getEntry().get(0);
-        assertEquals(ID_SPECIFIED, entry.getResource());
+        assertEquals(entry.getResource(), ID_SPECIFIED);
         Bundle.Entry.Response response = entry.getResponse();
-        assertEquals("Patient/1/_history/2", response.getLocation().getValue());
-        assertEquals(Integer.toString(Response.Status.OK.getStatusCode()), response.getStatus().getValue());
+        assertEquals(response.getLocation().getValue(), "Patient/1/_history/2");
+        assertEquals(response.getStatus().getValue(), "200");
     }
 
     /**
@@ -1029,10 +1014,11 @@ public class FHIRRestHelperTest {
         assertNotNull(responseBundle);
         assertEquals(1, responseBundle.getEntry().size());
         Bundle.Entry entry = responseBundle.getEntry().get(0);
-        assertEquals(ID_AND_NO_NARRATIVE, entry.getResource());
+        assertEquals(entry.getResource(), ID_SPECIFIED);
         Bundle.Entry.Response response = entry.getResponse();
-        assertEquals("Patient/1/_history/2", response.getLocation().getValue());
-        assertEquals(Integer.toString(Response.Status.OK.getStatusCode()), response.getStatus().getValue());
+        assertEquals(response.getLocation().getValue(), "Patient/1/_history/2");
+        assertEquals(response.getStatus().getValue(), "200");
+        assertEquals(response.getOutcome(), NO_NARRATIVE);
     }
 
     /**

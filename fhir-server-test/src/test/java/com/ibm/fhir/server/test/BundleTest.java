@@ -7,7 +7,6 @@
 package com.ibm.fhir.server.test;
 
 import static com.ibm.fhir.model.test.TestUtil.isResourceInResponse;
-
 import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.AssertJUnit.assertEquals;
@@ -2242,17 +2241,7 @@ public class BundleTest extends FHIRServerTestBase {
 
         Bundle bundle = buildBundle(BundleType.BATCH);
 
-        // Commented out because $hello operation isn't installed by default
-        // 1. GET request at global level
-        //bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "$hello?input=" + message, null, null);
-
-        // 2. POST request at global level
-        //Parameters hellowWorldParameters = Parameters.builder()
-        //        .parameter(Parameter.builder().name(string("input")).value(string(message)).build()).build();
-
-        //bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "$hello", null, hellowWorldParameters);
-
-        // 3. POST request with resource at resource level
+        // 1. POST request with resource at resource level
         Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
 
         Parameters validateOperationParameters = Parameters.builder()
@@ -2261,9 +2250,20 @@ public class BundleTest extends FHIRServerTestBase {
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient/$validate", null,
                 validateOperationParameters);
 
-        // 4. POST request with resource at resource instance level
+        // 2. POST request with resource at resource instance level
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST,
                 "Patient/" + patientB1.getId() + "/$validate", null, validateOperationParameters);
+
+        //////
+        // Commented out because $hello operation isn't installed by default
+        //////
+        // 3. GET request at global level
+        //bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "$hello?input=" + message, null, null);
+
+        // 4. POST request at global level
+        //Parameters hellowWorldParameters = Parameters.builder()
+        //        .parameter(Parameter.builder().name(string("input")).value(string(message)).build()).build();
+        //bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "$hello", null, hellowWorldParameters);
 
         printBundle(method, "request", bundle);
 
@@ -2273,17 +2273,11 @@ public class BundleTest extends FHIRServerTestBase {
         Bundle responseBundle = getEntityWithExtraWork(response,method);
 
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
-        // Commented out because $hello operation isn't installed by default
-//        assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
-//        assertGoodGetResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
         assertGoodGetResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
 
-        // Commented out because $hello operation isn't installed by default
-//        assertNotNull(responseBundle.getEntry().get(0).getResource().getParameters());
-//        assertNotNull(responseBundle.getEntry().get(1).getResource().getParameters());
-        assertNotNull(responseBundle.getEntry().get(0).getResponse().getOutcome());
-        assertNotNull(responseBundle.getEntry().get(1).getResponse().getOutcome());
+        assertNotNull(responseBundle.getEntry().get(0).getResource());
+        assertNotNull(responseBundle.getEntry().get(1).getResource());
     }
 
     @Test(groups = { "transaction" })
