@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -79,7 +79,8 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
             "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Pharmacy|1.0.0",
             "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Professional-NonClinician|1.0.0",
             "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Organization|1.0.0",
-            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Patient|1.0.0");
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Patient|1.0.0",
+            "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Practitioner|1.0.0");
         //@formatter:on
     }
 
