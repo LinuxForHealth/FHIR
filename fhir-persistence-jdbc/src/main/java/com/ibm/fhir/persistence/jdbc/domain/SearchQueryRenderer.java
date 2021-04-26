@@ -696,12 +696,14 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     @Override
     public QueryData addChained(QueryData queryData, QueryParameter currentParm) throws FHIRPersistenceException {
         // Each chained element is added as a nested EXISTS clause which joins the reference parameter
-        // (stored as a token-value) with the target XX_LOGICAL_RESOURCES table.
+        // (stored as a token-value) with the target XX_LOGICAL_RESOURCES table. For forward chaining,
+        // we ignore the REF_VERSION_ID for versioned-references, but TODO find a way to highlight
+        // discrepancies. This can't be done using the EXISTS pattern.
+        // .and(lrAlias, "VERSION_ID").eq().coalesce(col(paramAlias, "REF_VERSION_ID"), col(lrAlias, "VERSION_ID"))
         // AND EXISTS (SELECT 1
         //               FROM fhirdata.Observation_TOKEN_VALUES_V AS P1        -- Observation references to
         //         INNER JOIN fhirdata.Device_LOGICAL_RESOURCES AS LR1         -- Device
         //                 ON LR1.LOGICAL_ID = P1.TOKEN_VALUE                  -- Device.LOGICAL_ID = Observation.device
-        //                AND LR1.VERSION_ID = COALESCE(P1.REF_VERSION_ID, LR1.VERSION_ID)
         //                AND P1.PARAMETER_NAME_ID = 1234                      -- Observation.device reference param
         //                AND P1.CODE_SYSTEM_ID = 4321                         -- code-system for Device
         //                AND LR1.IS_DELETED = 'N'                             -- referenced Device is not deleted
@@ -720,7 +722,6 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         exists.from(tokenValues, alias(paramAlias))
               .innerJoin(xxLogicalResources, alias(lrAlias),
                     on(lrAlias, "LOGICAL_ID").eq(paramAlias, "TOKEN_VALUE")
-                    .and(lrAlias, "VERSION_ID").eq().coalesce(col(paramAlias, "REF_VERSION_ID"), col(lrAlias, "VERSION_ID"))
                     .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(currentParm.getCode()))
                     .and(paramAlias, "CODE_SYSTEM_ID").eq(nullCheck(codeSystemIdForTargetResourceType))
                     .and(lrAlias, "IS_DELETED").eq().literal("N")
