@@ -1183,7 +1183,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         FHIRRequestContext requestContext = FHIRRequestContext.get();
 
         try {
-            // First, validate the bundle and create the response bundle.
+            // First, validate the bundle and save the error / warning responses by index entry.
             Map<Integer, Entry> validationResponseEntries = validateBundle(inputBundle);
 
             // Next, process each of the entries in the bundle.
@@ -1621,7 +1621,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     + bundleRequestCorrelationId);
             }
 
-            // Clear both correlation id fields since we're done processing the bundle.
+            // Clear the request correlation id field since we're done processing the bundle.
             bundleRequestCorrelationId = null;
 
             if (txn != null) {
