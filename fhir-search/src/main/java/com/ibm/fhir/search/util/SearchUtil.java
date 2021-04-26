@@ -2769,4 +2769,26 @@ public class SearchUtil {
         context.getIncludeParameters().removeAll(invalidIncludeParameters);
         context.getRevIncludeParameters().removeAll(invalidRevIncludeParameters);
     }
+
+    /**
+     * Inspect the searchContext to see if the parameters define a compartment-based
+     * search. This is useful to know because it allows an implementation to
+     * enable optimizations specific to compartment-based searches.
+     * @param searchContext
+     * @return
+     */
+    public static boolean isCompartmentSearch(FHIRSearchContext searchContext) {
+        boolean result = false;
+
+        // The compartment query parameter should be the first, but we check
+        // the whole list just to be sure
+        for (QueryParameter qp: searchContext.getSearchParameters()) {
+            if (qp.isInclusionCriteria()) {
+                result = true;
+                break;
+            }
+        }
+
+        return result;
+    }
 }
