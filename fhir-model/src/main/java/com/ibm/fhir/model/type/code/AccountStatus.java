@@ -62,7 +62,7 @@ public class AccountStatus extends Code {
 
     /**
      * Get the value of this AccountStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueConstant()}
+     * @deprecated replaced by {@link #getValueAsEnum()}
      */
     @Deprecated
     public ValueSet getValueAsEnumConstant() {
@@ -72,7 +72,7 @@ public class AccountStatus extends Code {
     /**
      * Get the value of this AccountStatus as an enum constant.
      */
-    public Value getValueConstant() {
+    public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
     }
 

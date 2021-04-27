@@ -3406,7 +3406,7 @@ public class CodeGenerator {
 
         cb.javadocStart()
             .javadoc("Get the value of this " + bindingName + " as an enum constant.")
-            .javadoc("@deprecated replaced by {@link #getValueConstant()}")
+            .javadoc("@deprecated replaced by {@link #getValueAsEnum()}")
             .javadocEnd();
         cb.annotation("Deprecated");
         cb.method(mods("public"), "ValueSet", "getValueAsEnumConstant")
@@ -3416,7 +3416,7 @@ public class CodeGenerator {
         cb.javadocStart()
             .javadoc("Get the value of this " + bindingName + " as an enum constant.")
             .javadocEnd();
-        cb.method(mods("public"), "Value", "getValueConstant")
+        cb.method(mods("public"), "Value", "getValueAsEnum")
             ._return("(value != null) ? Value.from(value) : null")
         .end().newLine();
 
