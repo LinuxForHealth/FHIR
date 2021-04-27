@@ -99,8 +99,6 @@ import com.ibm.fhir.model.type.SubstanceAmount;
 import com.ibm.fhir.model.type.TriggerDefinition;
 import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.Uuid;
-import com.ibm.fhir.model.type.code.ResourceType;
-import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.visitor.AbstractVisitable;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
@@ -1342,7 +1340,7 @@ public class FHIROpenApiGenerator {
                 property.add("type", "string");
                 if (Resource.class == modelClass) {
                     // TODO: when a filter was passed, limit this to just the resource types included in the filter
-                    List<String> typeNames = Arrays.stream(ResourceType.ValueSet.values()).map(ResourceType.ValueSet::value).collect(Collectors.toList());
+                    List<String> typeNames = getClassNames();
                     JsonArrayBuilder enumValues = factory.createArrayBuilder(typeNames);
                     property.add("enum", enumValues);
                     properties.add("resourceType", property.build());
@@ -1667,8 +1665,10 @@ public class FHIROpenApiGenerator {
         throw new RuntimeException("Unable to retrieve element definition for " + elementName + " in " + modelClass.getName());
     }
 
-    private static List<String> getClassNames() {
-        return FHIRUtil.getResourceTypeNames();
+    public static List<String> getClassNames() {
+        return ModelSupport.getResourceTypes().stream()
+                .map(r -> ModelSupport.getTypeName(r))
+                .collect(Collectors.toList());
     }
 
     private static List<String> getCompartmentClassNames(String compartment) {
@@ -1817,12 +1817,11 @@ public class FHIROpenApiGenerator {
     public static List<String> getAllResourceInnerClasses() {
         List<String> allResourceInnerClassList = new ArrayList<String>();
 
-        for (String ResourceName : FHIRUtil.getResourceTypeNames()) {
+        for (Class<?> resourceTypeClass : ModelSupport.getResourceTypes()) {
             try {
-                Class<?> resourceTypeClass = Class.forName(RESOURCEPACKAGENAME + "." + ResourceName);
                 addInnerClassNames(resourceTypeClass, allResourceInnerClassList);
             } catch (Exception e) {
-                System.err.println("Failed to get resource: " + ResourceName);
+                System.err.println("Failed to get resource: " + resourceTypeClass.getSimpleName());
             }
         }
         return allResourceInnerClassList;

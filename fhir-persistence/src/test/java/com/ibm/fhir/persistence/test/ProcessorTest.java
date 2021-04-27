@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -81,8 +81,6 @@ import com.ibm.fhir.persistence.util.Processor;
  * TODO update tests
  * TODO add processor support for R4 types
  * Rewritten for R4 to drive tests by introspecting model
-
- *
  */
 public class ProcessorTest {
     private Processor<String> processor = new MockProcessor();
@@ -94,256 +92,256 @@ public class ProcessorTest {
     @Test
     public void testProcessAccountStatus()  throws Exception {
 
-    	AccountStatus value = AccountStatus.builder()
-    			.value(AccountStatus.ValueSet.ACTIVE)
-    			.build();
-        
+        AccountStatus value = AccountStatus.builder()
+                .value(AccountStatus.Value.ACTIVE)
+                .build();
+
         String result = processor.process(null, value);
         assertEquals("process(SearchParameter, Code)", result);
     }
 
 
     public static class MockProcessor extends AbstractProcessor<String> {
-    	
-    	@Override
+
+        @Override
         public String process(SearchParameter parameter, Address value) {
             return "process(SearchParameter, Address)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Annotation value) {
             return "process(SearchParameter, Annotation)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Attachment value) {
             return "process(SearchParameter, Attachment)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Base64Binary value) {
             return "process(SearchParameter, Base64Binary)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Boolean value) {
             return "process(SearchParameter, Boolean)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Code value) {
             return "process(SearchParameter, Code)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, CodeableConcept value) {
             return "process(SearchParameter, CodeableConcept)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Coding value) {
             return "process(SearchParameter, Coding)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, ContactPoint value)  {
             return "process(SearchParameter, ContactPoint)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Date value)  {
             return "process(SearchParameter, Date)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, DateTime value)  {
             return "process(SearchParameter, DateTime)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Decimal value)  {
             return "process(SearchParameter, Decimal)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, HumanName value) {
             return "process(SearchParameter, HumanName)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Id value) {
             return "process(SearchParameter, Id)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Identifier value) {
             return "process(SearchParameter, Identifier)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Instant value) {
             return "process(SearchParameter, Instant)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, java.lang.Integer value) {
             return "process(SearchParameter, Integer)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Location.Position value) {
             return "process(SearchParameter, Location.Position)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Markdown value) {
             return "process(SearchParameter, Markdown)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Meta value) {
             return "process(SearchParameter, Meta)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Money value) {
             return "process(SearchParameter, Money)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Oid value) {
             return "process(SearchParameter, Oid)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Period value) {
             return "process(SearchParameter, Period)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, PositiveInt value) {
             return "process(SearchParameter, PositiveInt)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Quantity value) {
             return "process(SearchParameter, Quantity)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Range value) {
             return "process(SearchParameter, Range)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Ratio value) {
             return "process(SearchParameter, Ratio)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Reference value) {
             return "process(SearchParameter, Reference)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, SampledData value) {
             return "process(SearchParameter, SampledData)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Signature value) {
             return "process(SearchParameter, Signature)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, com.ibm.fhir.model.type.String value) {
             return "process(SearchParameter, String)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Time value) {
             return "process(SearchParameter, Time)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Timing value) {
             return "process(SearchParameter, Timing)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, UnsignedInt value) {
             return "process(SearchParameter, UnsignedInt)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Uri value) {
             return "process(SearchParameter, Uri)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, Uuid value) {
             return "process(SearchParameter, Uuid)";
         }
 
-    	@Override
+        @Override
         public String process(SearchParameter parameter, String value) {
             return "process(SearchParameter, String)";
         }
 
-		@Override
-		public String process(SearchParameter parameter, BackboneElement value)
-				throws FHIRPersistenceProcessorException {
+        @Override
+        public String process(SearchParameter parameter, BackboneElement value)
+                throws FHIRPersistenceProcessorException {
             return "process(SearchParameter, BackboneElement)";
-		}
+        }
 
-		@Override
-		public String process(SearchParameter parameter, ContactDetail value) throws FHIRPersistenceProcessorException {
+        @Override
+        public String process(SearchParameter parameter, ContactDetail value) throws FHIRPersistenceProcessorException {
             return "process(SearchParameter, ContactDetail)";
-		}
+        }
 
-		@Override
-		public String process(SearchParameter parameter, Contributor value) throws FHIRPersistenceProcessorException {
+        @Override
+        public String process(SearchParameter parameter, Contributor value) throws FHIRPersistenceProcessorException {
             return "process(SearchParameter, Constributor)";
-		}
+        }
 
-		@Override
-		public String process(SearchParameter parameter, DataRequirement value)
-				throws FHIRPersistenceProcessorException {
+        @Override
+        public String process(SearchParameter parameter, DataRequirement value)
+                throws FHIRPersistenceProcessorException {
             return "process(SearchParameter, DataRequirement)";
-		}
+        }
 
-		@Override
-		public String process(SearchParameter parameter, Expression value) throws FHIRPersistenceProcessorException {
+        @Override
+        public String process(SearchParameter parameter, Expression value) throws FHIRPersistenceProcessorException {
             return "process(SearchParameter, Expression)";
-		}
+        }
 
-		@Override
-		public String process(SearchParameter parameter, Narrative value) throws FHIRPersistenceProcessorException {
+        @Override
+        public String process(SearchParameter parameter, Narrative value) throws FHIRPersistenceProcessorException {
             return "process(SearchParameter, Narrative)";
-		}
+        }
 
-		@Override
-		public String process(SearchParameter parameter, ParameterDefinition value)
-				throws FHIRPersistenceProcessorException {
+        @Override
+        public String process(SearchParameter parameter, ParameterDefinition value)
+                throws FHIRPersistenceProcessorException {
             return "process(SearchParameter, ParameterDefinition)";
-		}
+        }
 
-		@Override
-		public String process(SearchParameter parameter, RelatedArtifact value)
-				throws FHIRPersistenceProcessorException {
+        @Override
+        public String process(SearchParameter parameter, RelatedArtifact value)
+                throws FHIRPersistenceProcessorException {
             return "process(SearchParameter, RelatedArtiface)";
-		}
+        }
 
-		@Override
-		public String process(SearchParameter parameter, TriggerDefinition value)
-				throws FHIRPersistenceProcessorException {
+        @Override
+        public String process(SearchParameter parameter, TriggerDefinition value)
+                throws FHIRPersistenceProcessorException {
             return "process(SearchParameter, TriggerDefinition)";
-		}
+        }
 
-		@Override
-		public String process(SearchParameter parameter, UsageContext value) throws FHIRPersistenceProcessorException {
+        @Override
+        public String process(SearchParameter parameter, UsageContext value) throws FHIRPersistenceProcessorException {
             return "process(SearchParameter, UsageContext)";
-		}
+        }
 
         @Override
         public String process(SearchParameter parameter, FHIRPathAbstractNode value) throws FHIRPersistenceProcessorException {
@@ -359,7 +357,7 @@ public class ProcessorTest {
         public String process(SearchParameter parameter, FHIRPathDateTimeValue value) throws FHIRPersistenceProcessorException {
             return "process(SearchParameter, FHIRPathDateTimeValue)";
         }
-        
+
         @Override
         public String process(SearchParameter parameter, FHIRPathStringValue value) throws FHIRPersistenceProcessorException {
             return "process(SearchParameter, FHIRPathStringValue)";
@@ -404,7 +402,7 @@ public class ProcessorTest {
         public String process(SearchParameter parameter, YearMonth value) throws FHIRPersistenceProcessorException {
             return "process(SearchParameter, YearMonth)";
         }
-        
+
         @Override
         public String process(SearchParameter parameter, FHIRPathQuantityValue value) throws FHIRPersistenceProcessorException {
             return "process(SearchParameter, FHIRPathQuantityValue)";

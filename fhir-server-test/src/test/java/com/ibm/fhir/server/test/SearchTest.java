@@ -566,7 +566,7 @@ public class SearchTest extends FHIRServerTestBase {
 
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
-        assertTrue(bundle.getEntry().get(bundle.getEntry().size()-1).getSearch().getMode().getValueAsEnumConstant() == SearchEntryMode.ValueSet.OUTCOME);
+        assertTrue(bundle.getEntry().get(bundle.getEntry().size()-1).getSearch().getMode().getValueAsEnum() == SearchEntryMode.Value.OUTCOME);
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })
@@ -581,7 +581,7 @@ public class SearchTest extends FHIRServerTestBase {
 
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
-        assertTrue(bundle.getEntry().get(bundle.getEntry().size()-1).getSearch().getMode().getValueAsEnumConstant() == SearchEntryMode.ValueSet.OUTCOME);
+        assertTrue(bundle.getEntry().get(bundle.getEntry().size()-1).getSearch().getMode().getValueAsEnum() == SearchEntryMode.Value.OUTCOME);
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })
@@ -596,7 +596,7 @@ public class SearchTest extends FHIRServerTestBase {
 
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
-        assertTrue(bundle.getEntry().get(bundle.getEntry().size()-1).getSearch().getMode().getValueAsEnumConstant() == SearchEntryMode.ValueSet.OUTCOME);
+        assertTrue(bundle.getEntry().get(bundle.getEntry().size()-1).getSearch().getMode().getValueAsEnum() == SearchEntryMode.Value.OUTCOME);
     }
 
     @Test(groups = { "server-search" })

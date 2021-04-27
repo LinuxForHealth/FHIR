@@ -1222,7 +1222,7 @@ public class BundleTest extends FHIRServerTestBase {
         OperationOutcome oo = response.readEntity(OperationOutcome.class);
 
         assertNotNull(oo);
-        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnumConstant(), IssueType.ValueSet.CONFLICT);
+        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnum(), IssueType.Value.CONFLICT);
 
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
@@ -1261,7 +1261,7 @@ public class BundleTest extends FHIRServerTestBase {
         OperationOutcome oo = response.readEntity(OperationOutcome.class);
 
         assertNotNull(oo);
-        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnumConstant(), IssueType.ValueSet.CONFLICT);
+        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnum(), IssueType.Value.CONFLICT);
 
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
@@ -1300,7 +1300,7 @@ public class BundleTest extends FHIRServerTestBase {
         OperationOutcome oo = response.readEntity(OperationOutcome.class);
 
         assertNotNull(oo);
-        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnumConstant(), IssueType.ValueSet.CONFLICT);
+        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnum(), IssueType.Value.CONFLICT);
 
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
@@ -1385,7 +1385,7 @@ public class BundleTest extends FHIRServerTestBase {
         OperationOutcome oo = response.readEntity(OperationOutcome.class);
 
         assertNotNull(oo);
-        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnumConstant(), IssueType.ValueSet.INVALID);
+        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnum(), IssueType.Value.INVALID);
     }
 
     @Test(groups = { "transaction" }, dependsOnMethods = { "testTransactionUpdates" })
@@ -1420,7 +1420,7 @@ public class BundleTest extends FHIRServerTestBase {
         OperationOutcome oo = response.readEntity(OperationOutcome.class);
 
         assertNotNull(oo);
-        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnumConstant(), IssueType.ValueSet.INVALID);
+        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnum(), IssueType.Value.INVALID);
 
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
@@ -2004,7 +2004,7 @@ public class BundleTest extends FHIRServerTestBase {
         OperationOutcome oo = response.readEntity(OperationOutcome.class);
 
         assertNotNull(oo);
-        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnumConstant(), IssueType.ValueSet.DELETED);
+        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnum(), IssueType.Value.DELETED);
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchCreates", "testTransactionCreates" })
@@ -2089,7 +2089,7 @@ public class BundleTest extends FHIRServerTestBase {
         OperationOutcome oo = response.getResource(OperationOutcome.class);
 
         assertNotNull(oo);
-        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnumConstant(), IssueType.ValueSet.MULTIPLE_MATCHES);
+        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnum(), IssueType.Value.MULTIPLE_MATCHES);
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testTransactionConditionalCreates" })
@@ -2111,7 +2111,7 @@ public class BundleTest extends FHIRServerTestBase {
         OperationOutcome oo = response.getResource(OperationOutcome.class);
 
         assertNotNull(oo);
-        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnumConstant(), IssueType.ValueSet.INVALID);
+        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnum(), IssueType.Value.INVALID);
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdates" })

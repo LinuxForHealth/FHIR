@@ -1265,13 +1265,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 throw buildRestException(msg, IssueType.REQUIRED);
             }
 
-            BundleType.ValueSet requestType = bundle.getType().getValueAsEnumConstant();
-            if (requestType != BundleType.ValueSet.BATCH && requestType != BundleType.ValueSet.TRANSACTION) {
+            BundleType.Value requestType = bundle.getType().getValueAsEnum();
+            if (requestType != BundleType.Value.BATCH && requestType != BundleType.Value.TRANSACTION) {
                 // TODO add support for posting history bundles
                 String msg = "Bundle.type must be either 'batch' or 'transaction'.";
                 throw buildRestException(msg, IssueType.VALUE);
             }
-            if (requestType == BundleType.ValueSet.TRANSACTION && !persistence.isTransactional()) {
+            if (requestType == BundleType.Value.TRANSACTION && !persistence.isTransactional()) {
                 // For a 'transaction' interaction, if the underlying persistence layer doesn't support
                 // transactions, then throw an error.
                 String msg = "Bundled 'transaction' request cannot be processed because "
@@ -1342,7 +1342,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         if (!issues.isEmpty()) {
                             OperationOutcome oo = FHIRUtil.buildOperationOutcome(issues);
                             if (anyFailureInIssues(issues)) {
-                                if (requestType == BundleType.ValueSet.TRANSACTION) {
+                                if (requestType == BundleType.Value.TRANSACTION) {
                                     issueList.addAll(issues);
                                 } else {
                                     responseEntry = Entry.builder()
@@ -1367,7 +1367,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         log.log(Level.FINE, "Failed to process BundleEntry ["
                                 + bundle.getEntry().indexOf(requestEntry) + "]", e);
                     }
-                    if (requestType == BundleType.ValueSet.TRANSACTION) {
+                    if (requestType == BundleType.Value.TRANSACTION) {
                         issueList.addAll(e.getIssues());
                     } else {
                         Entry.Response response = Entry.Response.builder()
@@ -1388,7 +1388,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // If this is a "transaction" interaction and we encountered any errors, then we'll
             // abort processing this request right now since a transaction interaction is supposed to be
             // all or nothing.
-            if (requestType == BundleType.ValueSet.TRANSACTION && issueList.size() > 0) {
+            if (requestType == BundleType.Value.TRANSACTION && issueList.size() > 0) {
                 String msg =
                         "One or more errors were encountered while validating a 'transaction' request bundle.";
                 throw buildRestException(msg, IssueType.INVALID).withIssue(issueList);
@@ -1404,7 +1404,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * Perform method-specific validation of the resource
      */
     private void methodValidation(HTTPVerb method, Resource resource) throws FHIRPersistenceException, FHIROperationException {
-        switch(method.getValueAsEnumConstant()) {
+        switch(method.getValueAsEnum()) {
         case PATCH:
         case POST:
             break;
@@ -1573,9 +1573,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
 
         try {
-            BundleType.ValueSet bundleType = requestBundle.getType().getValueAsEnumConstant();
+            BundleType.Value bundleType = requestBundle.getType().getValueAsEnum();
             // If we're working on a 'transaction' type interaction, then start a new transaction now
-            if (bundleType == BundleType.ValueSet.TRANSACTION) {
+            if (bundleType == BundleType.Value.TRANSACTION) {
                 txn = new FHIRTransactionHelper(getTransaction());
                 txn.begin();
                 if (log.isLoggable(Level.FINE)) {
@@ -1593,9 +1593,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // Build the response bundle.
             Bundle.Builder bundleResponseBuilder = Bundle.builder().entry(responseEntries);
-            if (bundleType == BundleType.ValueSet.BATCH) {
+            if (bundleType == BundleType.Value.BATCH) {
                 bundleResponseBuilder.type(BundleType.BATCH_RESPONSE);
-            } else if (bundleType == BundleType.ValueSet.TRANSACTION) {
+            } else if (bundleType == BundleType.Value.TRANSACTION) {
                 bundleResponseBuilder.type(BundleType.TRANSACTION_RESPONSE);
             } else {
                 // TODO add support for posting history bundles
@@ -1660,13 +1660,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             Entry[] responseEntries = new Entry[requestBundle.getEntry().size()];
 
             // Group the request entries by request method; LinkedHashMap because order is important
-            Map<HTTPVerb.ValueSet, List<Integer>> requestEntriesByMethod = new LinkedHashMap<>(6);
-            requestEntriesByMethod.put(HTTPVerb.ValueSet.DELETE, new ArrayList<>());
-            requestEntriesByMethod.put(HTTPVerb.ValueSet.POST, new ArrayList<>());
-            requestEntriesByMethod.put(HTTPVerb.ValueSet.PUT, new ArrayList<>());
-            requestEntriesByMethod.put(HTTPVerb.ValueSet.GET, new ArrayList<>());
-            requestEntriesByMethod.put(HTTPVerb.ValueSet.PATCH, new ArrayList<>());
-            requestEntriesByMethod.put(HTTPVerb.ValueSet.HEAD, new ArrayList<>());
+            Map<HTTPVerb.Value, List<Integer>> requestEntriesByMethod = new LinkedHashMap<>(6);
+            requestEntriesByMethod.put(HTTPVerb.Value.DELETE, new ArrayList<>());
+            requestEntriesByMethod.put(HTTPVerb.Value.POST, new ArrayList<>());
+            requestEntriesByMethod.put(HTTPVerb.Value.PUT, new ArrayList<>());
+            requestEntriesByMethod.put(HTTPVerb.Value.GET, new ArrayList<>());
+            requestEntriesByMethod.put(HTTPVerb.Value.PATCH, new ArrayList<>());
+            requestEntriesByMethod.put(HTTPVerb.Value.HEAD, new ArrayList<>());
             for (int i = 0; i < requestBundle.getEntry().size(); i++) {
                 if (validationResponseEntries.containsKey(i) &&
                         !validationResponseEntries.get(i).getResponse().getStatus().equals(SC_ACCEPTED_STRING)) {
@@ -1675,21 +1675,21 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     continue;
                 }
                 Entry entry = requestBundle.getEntry().get(i);
-                requestEntriesByMethod.get(entry.getRequest().getMethod().getValueAsEnumConstant()).add(i);
+                requestEntriesByMethod.get(entry.getRequest().getMethod().getValueAsEnum()).add(i);
             }
 
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Bundle request indices to be processed: " +
-                        "DELETE" + requestEntriesByMethod.get(HTTPVerb.ValueSet.DELETE) + ", " +
-                        "POST" + requestEntriesByMethod.get(HTTPVerb.ValueSet.POST) + ", " +
-                        "PUT" + requestEntriesByMethod.get(HTTPVerb.ValueSet.PUT) + ", " +
-                        "GET" + requestEntriesByMethod.get(HTTPVerb.ValueSet.GET) + ", " +
-                        "PATCH" + requestEntriesByMethod.get(HTTPVerb.ValueSet.PATCH) + ", " +
-                        "HEAD" + requestEntriesByMethod.get(HTTPVerb.ValueSet.HEAD));
+                        "DELETE" + requestEntriesByMethod.get(HTTPVerb.Value.DELETE) + ", " +
+                        "POST" + requestEntriesByMethod.get(HTTPVerb.Value.POST) + ", " +
+                        "PUT" + requestEntriesByMethod.get(HTTPVerb.Value.PUT) + ", " +
+                        "GET" + requestEntriesByMethod.get(HTTPVerb.Value.GET) + ", " +
+                        "PATCH" + requestEntriesByMethod.get(HTTPVerb.Value.PATCH) + ", " +
+                        "HEAD" + requestEntriesByMethod.get(HTTPVerb.Value.HEAD));
             }
 
-            for (Map.Entry<HTTPVerb.ValueSet, List<Integer>> methodIndices : requestEntriesByMethod.entrySet()) {
-                HTTPVerb.ValueSet httpMethod = methodIndices.getKey();
+            for (Map.Entry<HTTPVerb.Value, List<Integer>> methodIndices : requestEntriesByMethod.entrySet()) {
+                HTTPVerb.Value httpMethod = methodIndices.getKey();
                 List<Integer> entryIndices = methodIndices.getValue();
 
                 if (log.isLoggable(Level.FINER)) {
@@ -1697,7 +1697,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 }
 
                 // For PUT and DELETE requests, we need to sort the indices by the request url path value.
-                if (httpMethod == HTTPVerb.ValueSet.PUT || httpMethod == HTTPVerb.ValueSet.DELETE) {
+                if (httpMethod == HTTPVerb.Value.PUT || httpMethod == HTTPVerb.Value.DELETE) {
                     sortBundleRequestEntries(requestBundle, entryIndices);
                     if (log.isLoggable(Level.FINER)) {
                         log.finer("Sorted bundle request indices to be processed: "
@@ -2321,8 +2321,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 continue;
             }
 
-            HTTPVerb.ValueSet method = request.getMethod().getValueAsEnumConstant();
-            if (method == HTTPVerb.ValueSet.POST || method == HTTPVerb.ValueSet.PUT) {
+            HTTPVerb.Value method = request.getMethod().getValueAsEnum();
+            if (method == HTTPVerb.Value.POST || method == HTTPVerb.Value.PUT) {
 
                 // Retrieve the local identifier from the request entry (if present).
                 String localIdentifier = retrieveLocalIdentifier(requestEntry);
@@ -2338,7 +2338,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
                         // Only add mapping for POST request if it's a non-conditional create.
                         // Only add mapping for PUT request if a resource ID is specified.
-                        if (method == HTTPVerb.ValueSet.POST && pathTokens.length == 1 && !pathTokens[0].startsWith("$") &&
+                        if (method == HTTPVerb.Value.POST && pathTokens.length == 1 && !pathTokens[0].startsWith("$") &&
                                 (request.getIfNoneExist() == null || request.getIfNoneExist().getValue() == null || request.getIfNoneExist().getValue().isEmpty())) {
                             // Generate external identifier and add mapping.
                             String externalIdentifier = ModelSupport.getTypeName(resource.getClass()) + "/" + persistence.generateResourceId();
