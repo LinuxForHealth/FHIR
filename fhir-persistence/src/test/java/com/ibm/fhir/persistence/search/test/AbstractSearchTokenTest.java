@@ -494,6 +494,8 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         // system is case-sensitive
         assertSearchReturnsSavedResource("Identifier-validValueAndSystem", "http://hl7.org/fhir/identifier-use|official");
         assertSearchDoesntReturnSavedResource("Identifier-validValueAndSystem", "http://hl7.org/fhir/identifier-use|OFFICIAL");
+        
+        // Search specifying only a system value is not currently supported (see issue #1409)
 //        assertSearchReturnsSavedResource("Identifier", "http://example.org/identifiersystem|");
 
         // This shouldn't return any results because the Identifier has a system
@@ -504,6 +506,8 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     public void testSearchToken_Identifier_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.Identifier", "code");
         assertSearchReturnsComposition("subject:Basic.Identifier", "http://example.org/identifiersystem|code");
+        
+        // Search specifying only a system value is not currently supported (see issue #1409)
 //        assertSearchReturnsComposition("subject:Basic.Identifier", "http://example.org/identifiersystem|");
 
         // This shouldn't return any results because the Identifier has a system
