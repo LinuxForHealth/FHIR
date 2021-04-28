@@ -90,7 +90,7 @@ public class ActionRelationshipType extends Code {
 
     /**
      * Get the value of this ActionRelationshipType as an enum constant.
-     * @deprecated replaced by {@link #getValueConstant()}
+     * @deprecated replaced by {@link #getValueAsEnum()}
      */
     @Deprecated
     public ValueSet getValueAsEnumConstant() {
@@ -100,7 +100,7 @@ public class ActionRelationshipType extends Code {
     /**
      * Get the value of this ActionRelationshipType as an enum constant.
      */
-    public Value getValueConstant() {
+    public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
     }
 
@@ -467,16 +467,37 @@ public class ActionRelationshipType extends Code {
          * 
          * @param value
          *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding ActionRelationshipType.Value or null if a null value was passed
          * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
+         *     If the passed string is not null and cannot be parsed into an allowed code value
          */
         public static Value from(java.lang.String value) {
-            for (Value c : Value.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
+            if (value == null) {
+                return null;
             }
-            throw new IllegalArgumentException(value);
+            switch (value) {
+            case "before-start":
+                return BEFORE_START;
+            case "before":
+                return BEFORE;
+            case "before-end":
+                return BEFORE_END;
+            case "concurrent-with-start":
+                return CONCURRENT_WITH_START;
+            case "concurrent":
+                return CONCURRENT;
+            case "concurrent-with-end":
+                return CONCURRENT_WITH_END;
+            case "after-start":
+                return AFTER_START;
+            case "after":
+                return AFTER;
+            case "after-end":
+                return AFTER_END;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

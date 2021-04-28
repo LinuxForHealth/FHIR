@@ -1009,7 +1009,7 @@ public class SearchUtil {
                     boolean foundMatch = false;
                     SearchComparator prefixAsComparator = SearchComparator.of(prefix.value());
                     for (SearchComparator comparator : comparators) {
-                        if (comparator.getValueAsEnumConstant() == prefixAsComparator.getValueAsEnumConstant()) {
+                        if (comparator.getValueAsEnum() == prefixAsComparator.getValueAsEnum()) {
                             foundMatch = true;
                             break;
                         }

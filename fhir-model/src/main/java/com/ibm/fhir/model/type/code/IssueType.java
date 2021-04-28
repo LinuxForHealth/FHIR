@@ -254,7 +254,7 @@ public class IssueType extends Code {
 
     /**
      * Get the value of this IssueType as an enum constant.
-     * @deprecated replaced by {@link #getValueConstant()}
+     * @deprecated replaced by {@link #getValueAsEnum()}
      */
     @Deprecated
     public ValueSet getValueAsEnumConstant() {
@@ -264,7 +264,7 @@ public class IssueType extends Code {
     /**
      * Get the value of this IssueType as an enum constant.
      */
-    public Value getValueConstant() {
+    public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
     }
 
@@ -1047,16 +1047,81 @@ public class IssueType extends Code {
          * 
          * @param value
          *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding IssueType.Value or null if a null value was passed
          * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
+         *     If the passed string is not null and cannot be parsed into an allowed code value
          */
         public static Value from(java.lang.String value) {
-            for (Value c : Value.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
+            if (value == null) {
+                return null;
             }
-            throw new IllegalArgumentException(value);
+            switch (value) {
+            case "invalid":
+                return INVALID;
+            case "structure":
+                return STRUCTURE;
+            case "required":
+                return REQUIRED;
+            case "value":
+                return VALUE;
+            case "invariant":
+                return INVARIANT;
+            case "security":
+                return SECURITY;
+            case "login":
+                return LOGIN;
+            case "unknown":
+                return UNKNOWN;
+            case "expired":
+                return EXPIRED;
+            case "forbidden":
+                return FORBIDDEN;
+            case "suppressed":
+                return SUPPRESSED;
+            case "processing":
+                return PROCESSING;
+            case "not-supported":
+                return NOT_SUPPORTED;
+            case "duplicate":
+                return DUPLICATE;
+            case "multiple-matches":
+                return MULTIPLE_MATCHES;
+            case "not-found":
+                return NOT_FOUND;
+            case "deleted":
+                return DELETED;
+            case "too-long":
+                return TOO_LONG;
+            case "code-invalid":
+                return CODE_INVALID;
+            case "extension":
+                return EXTENSION;
+            case "too-costly":
+                return TOO_COSTLY;
+            case "business-rule":
+                return BUSINESS_RULE;
+            case "conflict":
+                return CONFLICT;
+            case "transient":
+                return TRANSIENT;
+            case "lock-error":
+                return LOCK_ERROR;
+            case "no-store":
+                return NO_STORE;
+            case "exception":
+                return EXCEPTION;
+            case "timeout":
+                return TIMEOUT;
+            case "incomplete":
+                return INCOMPLETE;
+            case "throttled":
+                return THROTTLED;
+            case "informational":
+                return INFORMATIONAL;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

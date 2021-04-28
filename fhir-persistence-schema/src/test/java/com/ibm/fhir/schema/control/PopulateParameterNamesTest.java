@@ -42,7 +42,7 @@ public class PopulateParameterNamesTest {
             props.load(fis);
 
             Set<String> codes = new HashSet<>();
-            for (SearchParamType.ValueSet spt : SearchParamType.ValueSet.values()) {
+            for (SearchParamType.Value spt : SearchParamType.Value.values()) {
                 Collection<SearchParameter> searchParametersForResourceType =
                         FHIRRegistry.getInstance().getSearchParameters(spt.value());
                 for (SearchParameter searchParameter : searchParametersForResourceType) {

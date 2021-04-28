@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,7 +20,6 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.type.code.ResourceType;
-import com.ibm.fhir.model.type.code.ResourceType.ValueSet;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource.Version;
@@ -93,7 +92,7 @@ public abstract class PackageRegistryResourceProvider implements FHIRRegistryRes
     @Override
     public Collection<FHIRRegistryResource> getProfileResources() {
         List<FHIRRegistryResource> profilesForAll = new ArrayList<>();
-        for (ValueSet type : ResourceType.ValueSet.values()) {
+        for (ResourceType.Value type : ResourceType.Value.values()) {
             profilesForAll.addAll(getProfileResources(type.value()));
         }
         return Collections.unmodifiableList(profilesForAll);

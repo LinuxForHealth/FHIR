@@ -63,10 +63,10 @@ public class Main extends BaseSearchTest {
         birthDateBuilder.value("1950-08-15");
 
         ContactPointSystem.Builder contactPointSystemBuilder = ContactPointSystem.builder();
-        contactPointSystemBuilder.value(ContactPointSystem.ValueSet.PHONE);
+        contactPointSystemBuilder.value(ContactPointSystem.Value.PHONE);
 
         ContactPointUse.Builder contactPointUseBuilder = ContactPointUse.builder();
-        contactPointUseBuilder.value(ContactPointUse.ValueSet.HOME);
+        contactPointUseBuilder.value(ContactPointUse.Value.HOME);
 
         ContactPoint.Builder telecomBuilder = ContactPoint.builder();
         telecomBuilder.system(contactPointSystemBuilder.build());

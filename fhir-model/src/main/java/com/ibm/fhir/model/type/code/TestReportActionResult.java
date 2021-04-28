@@ -62,7 +62,7 @@ public class TestReportActionResult extends Code {
 
     /**
      * Get the value of this TestReportActionResult as an enum constant.
-     * @deprecated replaced by {@link #getValueConstant()}
+     * @deprecated replaced by {@link #getValueAsEnum()}
      */
     @Deprecated
     public ValueSet getValueAsEnumConstant() {
@@ -72,7 +72,7 @@ public class TestReportActionResult extends Code {
     /**
      * Get the value of this TestReportActionResult as an enum constant.
      */
-    public Value getValueConstant() {
+    public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
     }
 
@@ -367,16 +367,29 @@ public class TestReportActionResult extends Code {
          * 
          * @param value
          *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding TestReportActionResult.Value or null if a null value was passed
          * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
+         *     If the passed string is not null and cannot be parsed into an allowed code value
          */
         public static Value from(java.lang.String value) {
-            for (Value c : Value.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
+            if (value == null) {
+                return null;
             }
-            throw new IllegalArgumentException(value);
+            switch (value) {
+            case "pass":
+                return PASS;
+            case "skip":
+                return SKIP;
+            case "fail":
+                return FAIL;
+            case "warning":
+                return WARNING;
+            case "error":
+                return ERROR;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

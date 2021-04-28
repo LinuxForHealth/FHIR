@@ -150,7 +150,7 @@ public class StructureMapTransform extends Code {
 
     /**
      * Get the value of this StructureMapTransform as an enum constant.
-     * @deprecated replaced by {@link #getValueConstant()}
+     * @deprecated replaced by {@link #getValueAsEnum()}
      */
     @Deprecated
     public ValueSet getValueAsEnumConstant() {
@@ -160,7 +160,7 @@ public class StructureMapTransform extends Code {
     /**
      * Get the value of this StructureMapTransform as an enum constant.
      */
-    public Value getValueConstant() {
+    public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
     }
 
@@ -679,16 +679,53 @@ public class StructureMapTransform extends Code {
          * 
          * @param value
          *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding StructureMapTransform.Value or null if a null value was passed
          * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
+         *     If the passed string is not null and cannot be parsed into an allowed code value
          */
         public static Value from(java.lang.String value) {
-            for (Value c : Value.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
+            if (value == null) {
+                return null;
             }
-            throw new IllegalArgumentException(value);
+            switch (value) {
+            case "create":
+                return CREATE;
+            case "copy":
+                return COPY;
+            case "truncate":
+                return TRUNCATE;
+            case "escape":
+                return ESCAPE;
+            case "cast":
+                return CAST;
+            case "append":
+                return APPEND;
+            case "translate":
+                return TRANSLATE;
+            case "reference":
+                return REFERENCE;
+            case "dateOp":
+                return DATE_OP;
+            case "uuid":
+                return UUID;
+            case "pointer":
+                return POINTER;
+            case "evaluate":
+                return EVALUATE;
+            case "cc":
+                return CC;
+            case "c":
+                return C;
+            case "qty":
+                return QTY;
+            case "id":
+                return ID;
+            case "cp":
+                return CP;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

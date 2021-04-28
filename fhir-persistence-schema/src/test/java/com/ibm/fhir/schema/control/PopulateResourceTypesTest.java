@@ -39,7 +39,7 @@ public class PopulateResourceTypesTest {
             props.load(fis);
 
             Set<String> resources = new HashSet<>();
-            for (FHIRResourceType.ValueSet rt : FHIRResourceType.ValueSet.values()) {
+            for (FHIRResourceType.Value rt : FHIRResourceType.Value.values()) {
                 resources.add(rt.value());
             }
 

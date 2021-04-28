@@ -48,7 +48,7 @@ public class VariableType extends Code {
 
     /**
      * Get the value of this VariableType as an enum constant.
-     * @deprecated replaced by {@link #getValueConstant()}
+     * @deprecated replaced by {@link #getValueAsEnum()}
      */
     @Deprecated
     public ValueSet getValueAsEnumConstant() {
@@ -58,7 +58,7 @@ public class VariableType extends Code {
     /**
      * Get the value of this VariableType as an enum constant.
      */
-    public Value getValueConstant() {
+    public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
     }
 
@@ -317,16 +317,25 @@ public class VariableType extends Code {
          * 
          * @param value
          *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding VariableType.Value or null if a null value was passed
          * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
+         *     If the passed string is not null and cannot be parsed into an allowed code value
          */
         public static Value from(java.lang.String value) {
-            for (Value c : Value.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
+            if (value == null) {
+                return null;
             }
-            throw new IllegalArgumentException(value);
+            switch (value) {
+            case "dichotomous":
+                return DICHOTOMOUS;
+            case "continuous":
+                return CONTINUOUS;
+            case "descriptive":
+                return DESCRIPTIVE;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

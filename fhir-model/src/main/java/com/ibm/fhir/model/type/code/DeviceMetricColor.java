@@ -83,7 +83,7 @@ public class DeviceMetricColor extends Code {
 
     /**
      * Get the value of this DeviceMetricColor as an enum constant.
-     * @deprecated replaced by {@link #getValueConstant()}
+     * @deprecated replaced by {@link #getValueAsEnum()}
      */
     @Deprecated
     public ValueSet getValueAsEnumConstant() {
@@ -93,7 +93,7 @@ public class DeviceMetricColor extends Code {
     /**
      * Get the value of this DeviceMetricColor as an enum constant.
      */
-    public Value getValueConstant() {
+    public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
     }
 
@@ -442,16 +442,35 @@ public class DeviceMetricColor extends Code {
          * 
          * @param value
          *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding DeviceMetricColor.Value or null if a null value was passed
          * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
+         *     If the passed string is not null and cannot be parsed into an allowed code value
          */
         public static Value from(java.lang.String value) {
-            for (Value c : Value.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
+            if (value == null) {
+                return null;
             }
-            throw new IllegalArgumentException(value);
+            switch (value) {
+            case "black":
+                return BLACK;
+            case "red":
+                return RED;
+            case "green":
+                return GREEN;
+            case "yellow":
+                return YELLOW;
+            case "blue":
+                return BLUE;
+            case "magenta":
+                return MAGENTA;
+            case "cyan":
+                return CYAN;
+            case "white":
+                return WHITE;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

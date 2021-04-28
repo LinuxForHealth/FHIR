@@ -48,7 +48,7 @@ public class SearchParameterAugmenter {
             }
 
             List<ResourceType> base = searchParameter.getBase();
-            if (base.size() != 1 || base.get(0).getValueAsEnumConstant() == ResourceType.ValueSet.RESOURCE) {
+            if (base.size() != 1 || base.get(0).getValueAsEnum() == ResourceType.Value.RESOURCE) {
                 continue; // too complicated to handle this case right now
             }
 
@@ -92,7 +92,7 @@ public class SearchParameterAugmenter {
                 def.getBinding() != null &&
                 def.getType().size() == 1 &&
                 FHIRDefinedType.CODE.getValue().equals(def.getType().get(0).getCode().getValue()) &&
-                BindingStrength.ValueSet.REQUIRED == def.getBinding().getStrength().getValueAsEnumConstant()) {
+                BindingStrength.Value.REQUIRED == def.getBinding().getStrength().getValueAsEnum()) {
             Canonical valueSetRef = def.getBinding().getValueSet();
             ValueSet valueSet = FHIRRegistry.getInstance().getResource(valueSetRef.getValue(), ValueSet.class);
 

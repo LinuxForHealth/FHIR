@@ -43,7 +43,7 @@ public class CarePlanActivityKind extends Code {
 
     /**
      * Get the value of this CarePlanActivityKind as an enum constant.
-     * @deprecated replaced by {@link #getValueConstant()}
+     * @deprecated replaced by {@link #getValueAsEnum()}
      */
     @Deprecated
     public ValueSet getValueAsEnumConstant() {
@@ -53,7 +53,7 @@ public class CarePlanActivityKind extends Code {
     /**
      * Get the value of this CarePlanActivityKind as an enum constant.
      */
-    public Value getValueConstant() {
+    public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
     }
 
@@ -322,16 +322,35 @@ public class CarePlanActivityKind extends Code {
          * 
          * @param value
          *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding CarePlanActivityKind.Value or null if a null value was passed
          * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
+         *     If the passed string is not null and cannot be parsed into an allowed code value
          */
         public static Value from(java.lang.String value) {
-            for (Value c : Value.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
+            if (value == null) {
+                return null;
             }
-            throw new IllegalArgumentException(value);
+            switch (value) {
+            case "Appointment":
+                return APPOINTMENT;
+            case "CommunicationRequest":
+                return COMMUNICATION_REQUEST;
+            case "DeviceRequest":
+                return DEVICE_REQUEST;
+            case "MedicationRequest":
+                return MEDICATION_REQUEST;
+            case "NutritionOrder":
+                return NUTRITION_ORDER;
+            case "Task":
+                return TASK;
+            case "ServiceRequest":
+                return SERVICE_REQUEST;
+            case "VisionPrescription":
+                return VISION_PRESCRIPTION;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

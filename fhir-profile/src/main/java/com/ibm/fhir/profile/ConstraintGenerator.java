@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -750,11 +750,11 @@ public class ConstraintGenerator {
         Binding binding = elementDefinition.getBinding();
         if (binding != null && !BindingStrength.EXAMPLE.equals(binding.getStrength()) && binding.getValueSet() != null &&
                 (isCodedElement(elementDefinition) || isQuantityElement(elementDefinition) || isStringElement(elementDefinition) || isUriElement(elementDefinition))) {
-            BindingStrength.ValueSet strength = binding.getStrength().getValueAsEnumConstant();
+            BindingStrength.Value strength = binding.getStrength().getValueAsEnum();
             String valueSet = binding.getValueSet().getValue();
 
             Binding baseBinding = getBinding(elementDefinition.getBase().getPath().getValue());
-            BindingStrength.ValueSet baseStrength = (baseBinding != null) ? baseBinding.getStrength().getValueAsEnumConstant() : null;
+            BindingStrength.Value baseStrength = (baseBinding != null) ? baseBinding.getStrength().getValueAsEnum() : null;
             String baseValueSet = (baseBinding != null && baseBinding.getValueSet() != null) ? baseBinding.getValueSet().getValue() : null;
 
             return (isStronger(strength, baseStrength) || (strength.equals(baseStrength) && !valueSetEqualsIgnoreVersion(valueSet, baseValueSet)));
@@ -762,7 +762,7 @@ public class ConstraintGenerator {
         return false;
     }
 
-    private boolean isStronger(BindingStrength.ValueSet strength, BindingStrength.ValueSet baseStrength) {
+    private boolean isStronger(BindingStrength.Value strength, BindingStrength.Value baseStrength) {
         return (baseStrength == null) || (strength.ordinal() < baseStrength.ordinal());
     }
 

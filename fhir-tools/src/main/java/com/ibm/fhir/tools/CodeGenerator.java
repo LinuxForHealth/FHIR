@@ -3406,7 +3406,7 @@ public class CodeGenerator {
 
         cb.javadocStart()
             .javadoc("Get the value of this " + bindingName + " as an enum constant.")
-            .javadoc("@deprecated replaced by {@link #getValueConstant()}")
+            .javadoc("@deprecated replaced by {@link #getValueAsEnum()}")
             .javadocEnd();
         cb.annotation("Deprecated");
         cb.method(mods("public"), "ValueSet", "getValueAsEnumConstant")
@@ -3416,7 +3416,7 @@ public class CodeGenerator {
         cb.javadocStart()
             .javadoc("Get the value of this " + bindingName + " as an enum constant.")
             .javadocEnd();
-        cb.method(mods("public"), "Value", "getValueConstant")
+        cb.method(mods("public"), "Value", "getValueAsEnum")
             ._return("(value != null) ? Value.from(value) : null")
         .end().newLine();
 
@@ -3631,20 +3631,45 @@ public class CodeGenerator {
             ._return("value")
         .end().newLine();
 
-        cb.javadocStart()
-            .javadoc("Factory method for creating " + bindingName + ".Value values from a passed string value.")
-            .javadoc("")
-            .javadocParam("value", "A string that matches one of the allowed code values")
-            .javadocThrows("IllegalArgumentException", "If the passed string cannot be parsed into an allowed code value")
-            .javadocEnd();
-        cb.method(mods("public", "static"), enumName, "from", params("java.lang.String value"))
-            ._foreach(enumName + " c", enumName + ".values()")
-                ._if("c.value.equals(value)")
-                    ._return("c")
+        if (legacy) {
+            cb.javadocStart()
+                .javadoc("Factory method for creating " + bindingName + ".Value values from a passed string value.")
+                .javadoc("")
+                .javadocParam("value", "A string that matches one of the allowed code values")
+                .javadocThrows("IllegalArgumentException", "If the passed string cannot be parsed into an allowed code value")
+                .javadocEnd();
+            cb.method(mods("public", "static"), enumName, "from", params("java.lang.String value"))
+                ._foreach(enumName + " c", enumName + ".values()")
+                    ._if("c.value.equals(value)")
+                        ._return("c")
+                    ._end()
                 ._end()
-            ._end()
-            ._throw(_new("IllegalArgumentException", args("value")))
-        .end();
+                ._throw(_new("IllegalArgumentException", args("value")))
+            .end();
+        } else {
+            cb.javadocStart()
+                .javadoc("Factory method for creating " + bindingName + ".Value values from a passed string value.")
+                .javadoc("")
+                .javadocParam("value", "A string that matches one of the allowed code values")
+                .javadocReturn("The corresponding " + bindingName + ".Value or null if a null value was passed")
+                .javadocThrows("IllegalArgumentException", "If the passed string is not null and cannot be parsed into an allowed code value")
+                .javadocEnd();
+            cb.method(mods("public", "static"), enumName, "from", params("java.lang.String value"))
+                ._if("value == null")
+                    ._return("null")
+                ._end()
+                ._switch("value");
+                for (JsonObject concept : concepts) {
+                    String value = concept.getString("code");
+                    String enumConstantName = getEnumConstantName(bindingName, value);
+                    cb._case('"' + value + '"')
+                        ._return(enumConstantName);
+                }
+                cb._default()
+                    ._throw(_new("IllegalArgumentException", args("value")));
+                cb.end();
+            cb.end();
+        }
 
         cb._end();
     }

@@ -131,9 +131,9 @@ public class FHIRUtil {
     private static Pattern buildReferencePattern() {
         StringBuilder sb = new StringBuilder();
         sb.append("((http|https)://([A-Za-z0-9\\\\\\/\\.\\:\\%\\$\\-])*)?(");
-        sb.append(Arrays.asList(ResourceType.ValueSet.values()).stream()
-            .map(v -> v.value())
-            .collect(Collectors.joining("|")));
+        sb.append(ModelSupport.getResourceTypes(false).stream()
+                .map(Class::getSimpleName)
+                .collect(Collectors.joining("|")));
         sb.append(")\\/[A-Za-z0-9\\-\\.]{1,64}(\\/_history\\/[A-Za-z0-9\\-\\.]{1,64})?");
         return Pattern.compile(sb.toString());
     }
@@ -552,10 +552,12 @@ public class FHIRUtil {
     /**
      * @return a list of all resource type names, including abstract supertypes
      * @implNote this list does not include "logical" resources like {code MetadataResource}
+     * @deprecated use {@link ModelSupport.getResourceTypes()}
      */
+    @Deprecated
     public static List<String> getResourceTypeNames() {
-        return Arrays.stream(ResourceType.ValueSet.values())
-                .map(ResourceType.ValueSet::value)
+        return Arrays.stream(ResourceType.Value.values())
+                .map(ResourceType.Value::value)
                 .collect(Collectors.toList());
     }
 
@@ -566,7 +568,7 @@ public class FHIRUtil {
      * @return
      */
     public static boolean isFailure(IssueSeverity severity) {
-        switch (severity.getValueAsEnumConstant()) {
+        switch (severity.getValueAsEnum()) {
         case INFORMATION:
         case WARNING:
             return false;

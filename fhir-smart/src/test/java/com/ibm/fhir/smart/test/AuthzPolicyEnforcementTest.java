@@ -7,11 +7,11 @@
 package com.ibm.fhir.smart.test;
 
 import static com.ibm.fhir.model.type.String.string;
-import static com.ibm.fhir.model.type.code.ResourceType.ValueSet.CONDITION;
-import static com.ibm.fhir.model.type.code.ResourceType.ValueSet.OBSERVATION;
-import static com.ibm.fhir.model.type.code.ResourceType.ValueSet.PATIENT;
-import static com.ibm.fhir.model.type.code.ResourceType.ValueSet.PROVENANCE;
-import static com.ibm.fhir.model.type.code.ResourceType.ValueSet.RESOURCE;
+import static com.ibm.fhir.model.type.code.ResourceType.Value.CONDITION;
+import static com.ibm.fhir.model.type.code.ResourceType.Value.OBSERVATION;
+import static com.ibm.fhir.model.type.code.ResourceType.Value.PATIENT;
+import static com.ibm.fhir.model.type.code.ResourceType.Value.PROVENANCE;
+import static com.ibm.fhir.model.type.code.ResourceType.Value.RESOURCE;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
@@ -108,7 +108,7 @@ public class AuthzPolicyEnforcementTest {
         condition = TestUtil.getMinimalResource(ResourceType.CONDITION);
         condition = condition.toBuilder()
                 .subject(Reference.builder()
-                    .reference(string("Patient/" + PATIENT_ID + "/_history/1"))
+                    .reference(string("Patient/" + CONDITION_ID + "/_history/1"))
                     .build())
                 .build();
 
@@ -119,7 +119,7 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testCreate(String scopeString, Set<ResourceType.ValueSet> resourceTypesPermittedByScope, Permission permission) {
+    public void testCreate(String scopeString, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString));
 
         try {
@@ -151,7 +151,7 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testUpdate(String scopeString, Set<ResourceType.ValueSet> resourceTypesPermittedByScope, Permission permission) {
+    public void testUpdate(String scopeString, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString));
 
         try {
@@ -192,7 +192,7 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testDelete(String scopeString, Set<ResourceType.ValueSet> resourceTypesPermittedByScope, Permission permission) {
+    public void testDelete(String scopeString, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString));
 
         try {
@@ -409,7 +409,7 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testRead(String scopeString, Set<ResourceType.ValueSet> resourceTypesPermittedByScope, Permission permission) {
+    public void testRead(String scopeString, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString));
 
         try {
@@ -459,7 +459,7 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testVRead(String scopeString, Set<ResourceType.ValueSet> typesPermittedByScopes, Permission permission) {
+    public void testVRead(String scopeString, Set<ResourceType.Value> typesPermittedByScopes, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString));
 
         try {
@@ -491,7 +491,7 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testHistory(String scopeString, Set<ResourceType.ValueSet> resourceTypesPermittedByScope, Permission permission) {
+    public void testHistory(String scopeString, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString));
 
         try {
@@ -535,7 +535,7 @@ public class AuthzPolicyEnforcementTest {
     }
 
     @Test(dataProvider = "scopeStringProvider")
-    public void testSearch(String scopeString, Set<ResourceType.ValueSet> resourceTypesPermittedByScope, Permission permission) {
+    public void testSearch(String scopeString, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission) {
         FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders(scopeString));
 
         try {
@@ -646,9 +646,9 @@ public class AuthzPolicyEnforcementTest {
     /**
      * @return true if the interaction should succeed, otherwise false
      */
-    private boolean shouldSucceed(Set<ResourceType.ValueSet> resourceTypesPermittedByScope, ResourceType.ValueSet requiredResourceType,
+    private boolean shouldSucceed(Set<ResourceType.Value> resourceTypesPermittedByScope, ResourceType.Value requiredResourceType,
             List<Permission> permissionsPermittedByScope, Permission requiredPermission) {
-        if (resourceTypesPermittedByScope.contains(ResourceType.ValueSet.RESOURCE) && permissionsPermittedByScope.contains(requiredPermission)) {
+        if (resourceTypesPermittedByScope.contains(ResourceType.Value.RESOURCE) && permissionsPermittedByScope.contains(requiredPermission)) {
             return true;
         }
         if (resourceTypesPermittedByScope.contains(requiredResourceType) && permissionsPermittedByScope.contains(requiredPermission)) {
@@ -659,10 +659,10 @@ public class AuthzPolicyEnforcementTest {
 
     @DataProvider(name = "scopeStringProvider")
     public static Object[][] scopeStrings() {
-        final Set<ResourceType.ValueSet> all_resources = Collections.singleton(RESOURCE);
-        final Set<ResourceType.ValueSet> patient = Collections.singleton(PATIENT);
-        final Set<ResourceType.ValueSet> observation = Collections.singleton(OBSERVATION);
-        final Set<ResourceType.ValueSet> provenance = Collections.singleton(PROVENANCE);
+        final Set<ResourceType.Value> all_resources = Collections.singleton(RESOURCE);
+        final Set<ResourceType.Value> patient = Collections.singleton(PATIENT);
+        final Set<ResourceType.Value> observation = Collections.singleton(OBSERVATION);
+        final Set<ResourceType.Value> provenance = Collections.singleton(PROVENANCE);
 
         return new Object[][] {
             {"patient/*.*", all_resources, Permission.ALL},

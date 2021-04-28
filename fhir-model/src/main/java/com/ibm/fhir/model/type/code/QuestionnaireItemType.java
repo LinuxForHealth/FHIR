@@ -151,7 +151,7 @@ public class QuestionnaireItemType extends Code {
 
     /**
      * Get the value of this QuestionnaireItemType as an enum constant.
-     * @deprecated replaced by {@link #getValueConstant()}
+     * @deprecated replaced by {@link #getValueAsEnum()}
      */
     @Deprecated
     public ValueSet getValueAsEnumConstant() {
@@ -161,7 +161,7 @@ public class QuestionnaireItemType extends Code {
     /**
      * Get the value of this QuestionnaireItemType as an enum constant.
      */
-    public Value getValueConstant() {
+    public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
     }
 
@@ -682,16 +682,53 @@ public class QuestionnaireItemType extends Code {
          * 
          * @param value
          *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding QuestionnaireItemType.Value or null if a null value was passed
          * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
+         *     If the passed string is not null and cannot be parsed into an allowed code value
          */
         public static Value from(java.lang.String value) {
-            for (Value c : Value.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
+            if (value == null) {
+                return null;
             }
-            throw new IllegalArgumentException(value);
+            switch (value) {
+            case "group":
+                return GROUP;
+            case "display":
+                return DISPLAY;
+            case "question":
+                return QUESTION;
+            case "boolean":
+                return BOOLEAN;
+            case "decimal":
+                return DECIMAL;
+            case "integer":
+                return INTEGER;
+            case "date":
+                return DATE;
+            case "dateTime":
+                return DATE_TIME;
+            case "time":
+                return TIME;
+            case "string":
+                return STRING;
+            case "text":
+                return TEXT;
+            case "url":
+                return URL;
+            case "choice":
+                return CHOICE;
+            case "open-choice":
+                return OPEN_CHOICE;
+            case "attachment":
+                return ATTACHMENT;
+            case "reference":
+                return REFERENCE;
+            case "quantity":
+                return QUANTITY;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }
