@@ -2252,7 +2252,7 @@ public class SearchTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreateCondition" })
-    public void testSearchConditionTagCaseSensitivity() {
+    public void testSearchConditionEvidenceCaseSensitivity() {
         WebTarget target = getWebTarget();
         Response response =
                 target.path("Condition")
@@ -2347,6 +2347,55 @@ public class SearchTest extends FHIRServerTestBase {
         response =
                 target.path("Condition")
                 .queryParam("evidence", "st")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        if (DEBUG_SEARCH) {
+            SearchAllTest.generateOutput(bundle);
+        }
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreateCondition" })
+    public void testSearchConditionEvidenceCodeAndSystem() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Condition")
+                .queryParam("evidence", "http://terminology.hl7.org/CodeSystem/v3-ObservationValue|A4")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        if (DEBUG_SEARCH) {
+            SearchAllTest.generateOutput(bundle);
+        }
+        assertTrue(bundle.getEntry().size() >= 1);
+
+        response =
+                target.path("Condition")
+                .queryParam("evidence", "A4")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        if (DEBUG_SEARCH) {
+            SearchAllTest.generateOutput(bundle);
+        }
+        assertTrue(bundle.getEntry().size() >= 1);
+        
+        response =
+                target.path("Condition")
+                .queryParam("evidence", "http://terminology.hl7.org/CodeSystem/v3-ObservationValue|")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .header("X-FHIR-TENANT-ID", tenantName)
                 .header("X-FHIR-DSID", dataStoreId)
