@@ -647,7 +647,7 @@ public class ProfileValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doBundle(requestBundle);
+            helper.doBundle(requestBundle, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
@@ -700,7 +700,7 @@ public class ProfileValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doBundle(requestBundle);
+            helper.doBundle(requestBundle, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
@@ -754,7 +754,7 @@ public class ProfileValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doBundle(requestBundle);
+            helper.doBundle(requestBundle, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
@@ -807,7 +807,7 @@ public class ProfileValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doBundle(requestBundle);
+            helper.doBundle(requestBundle, false);
             fail();
         } catch (FHIRValidationException e) {
             // Validate results.
