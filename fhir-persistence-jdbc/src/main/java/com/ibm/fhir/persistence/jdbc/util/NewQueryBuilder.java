@@ -225,11 +225,13 @@ public class NewQueryBuilder {
         }
 
         // Start building a query model to fetch resources of the type we want to include
-        final SearchDataQuery domainModel;
+        final SearchQuery domainModel;
         if (SearchConstants.INCLUDE.equals(inclusionType)) {
             // _include needs a different base in order to support versioned references
+            log.fine("Building _include query");
             domainModel = new SearchIncludeQuery(includeResourceType);
         } else {
+            log.fine("Building _revinclude query");
             domainModel = new SearchDataQuery(includeResourceType);
         }
         buildIncludeModel(domainModel, resourceType, searchContext, inclusionParm, logicalResourceIds, inclusionType);
@@ -268,7 +270,7 @@ public class NewQueryBuilder {
      * @param ids
      * @param inclusionType
      */
-    private void buildIncludeModel(SearchDataQuery domainModel, Class<?> resourceType, FHIRSearchContext searchContext, InclusionParameter inclusionParm,
+    private void buildIncludeModel(SearchQuery domainModel, Class<?> resourceType, FHIRSearchContext searchContext, InclusionParameter inclusionParm,
         List<Long> logicalResourceIds, String inclusionType) {
 
         if (SearchConstants.INCLUDE.equals(inclusionType)) {

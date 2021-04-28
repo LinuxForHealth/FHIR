@@ -41,6 +41,14 @@ public interface SearchQueryVisitor<T> {
     T dataRoot(String rootResourceType);
 
     /**
+     * Finish the data query by wrapping the root and joining the resources
+     * table
+     * @param queryData
+     * @return
+     */
+    T joinResources(T queryData);
+
+    /**
      * The root query (select statement) for the include query. This query is different
      * than the data root because of the need to support version references for _include
      * searches. For this, we join:
@@ -168,7 +176,7 @@ public interface SearchQueryVisitor<T> {
      * @param query
      * @return
      */
-    T addSorting(T query);
+    T addSorting(T query, String lrAlias);
 
     /**
      * Add pagination (LIMIT/OFFSET) to the query
