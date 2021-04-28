@@ -54,6 +54,7 @@ public class FHIRConfiguration {
     public static final String PROPERTY_FIELD_RESOURCES_PROFILES = "profiles";
     public static final String PROPERTY_FIELD_RESOURCES_PROFILES_AT_LEAST_ONE = "atLeastOne";
     public static final String PROPERTY_USE_STORED_COMPARTMENT_PARAM = "fhirServer/search/useStoredCompartmentParam";
+    public static final String PROPERTY_SEARCH_ENABLE_NEW_QUERY_BUILDER = "fhirServer/search/enableNewQueryBuilder";
 
     // Auth and security properties
     public static final String PROPERTY_SECURITY_CORS = "fhirServer/security/cors";

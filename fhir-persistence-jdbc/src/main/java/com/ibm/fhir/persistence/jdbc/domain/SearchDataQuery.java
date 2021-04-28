@@ -34,9 +34,11 @@ public class SearchDataQuery extends SearchQuery {
         // get the core data query
         T query = super.visit(visitor);
 
-        // now attach the requisite ordering and pagination clauses
-        query = visitor.addSorting(query);
+        // Join the core logical resource selection to the resource versions table
+        query = visitor.joinResources(query);
 
+        // now attach the requisite ordering and pagination clauses
+        query = visitor.addSorting(query, "LR");
         query = visitor.addPagination(query);
 
         return query;

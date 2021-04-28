@@ -214,8 +214,9 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             fhirObjects = this.createDTOs(resultSet);
 
             if (log.isLoggable(Level.FINE)) {
-                log.fine("Successfully retrieved FHIR objects. SQL=" + sql + "  searchArgs="
-                        + Arrays.toString(searchArgs) + " executionTime=" + dbCallDuration + "ms");
+                // don't print the SQL statement here - it's already been logged
+                log.fine("Successfully retrieved FHIR objects; searchArgs="
+                        + Arrays.toString(searchArgs) + " [took " + dbCallDuration + " ms]");
             }
         } catch (FHIRPersistenceException e) {
             throw e;
@@ -257,6 +258,10 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         double dbCallDuration;
 
         try {
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Count SQL = " + sql + NEWLINE + "; searchArgs="
+                        + Arrays.toString(searchArgs));
+            }
             stmt = connection.prepareStatement(sql);
             // Inject arguments into the prepared stmt.
             for (int i = 0; i < searchArgs.length; i++) {
@@ -272,9 +277,9 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             if (resultSet.next()) {
                 rowCount = resultSet.getInt(1);
                 if (log.isLoggable(Level.FINE)) {
-                    log.fine("Successfully retrieved count. SQL=" + sql + NEWLINE + "  searchArgs="
-                            + Arrays.toString(searchArgs) + NEWLINE + "  count=" + rowCount + " executionTime="
-                            + dbCallDuration + "ms");
+                    log.fine("Successfully retrieved count; searchArgs="
+                            + Arrays.toString(searchArgs) + NEWLINE + "  count=" + rowCount + " [took "
+                            + dbCallDuration + " ms]");
                 }
             } else {
                 // Don't emit the SQL text in an exception - it risks returning it to the client in a response
@@ -323,8 +328,8 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             if (resultSet.next()) {
                 rowCount = resultSet.getInt(1);
                 if (log.isLoggable(Level.FINE)) {
-                    log.fine("Successfully retrieved count. SQL=" + countQuery.toDebugString()  + NEWLINE + "  count=" + rowCount + " executionTime="
-                            + dbCallDuration + "ms");
+                    log.fine("Successfully retrieved count; count=" + rowCount + " [took "
+                            + dbCallDuration + " ms]");
                 }
             } else {
                 // Don't emit the SQL text in an exception - it risks returning it to the client in a response
@@ -372,8 +377,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             fhirObjects = this.createDTOs(resultSet);
 
             if (log.isLoggable(Level.FINE)) {
-                log.fine("Successfully retrieved FHIR objects. SQL=" + select.toDebugString()  + NEWLINE + " executionTime="
-                        + dbCallDuration + "ms");
+                log.fine("Successfully retrieved FHIR objects [took " + dbCallDuration + " ms]");
             }
         } catch (FHIRPersistenceException e) {
             throw e;
