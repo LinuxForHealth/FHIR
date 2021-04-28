@@ -47,6 +47,13 @@
       }
     },
     {
+      "url": "http://example.org/Coding-validCaseInsensitiveCodeAndSystem",
+      "valueCoding": {
+        "system": "http://terminology.hl7.org/CodeSystem/v2-0001",
+        "code": "F"
+      }
+    },
+    {
       "url": "http://example.org/CodeableConcept",
       "valueCodeableConcept": {
         "coding": [{
@@ -93,6 +100,26 @@
     {
       "url": "http://example.org/Identifier-noSystem",
       "valueIdentifier": {
+        "value": "code"
+      }
+    },
+    {
+      "url": "http://example.org/Identifier-validValueAndSystem",
+      "valueIdentifier": {
+        "use": "official",
+        "system": "http://hl7.org/fhir/identifier-use",
+        "value": "official"
+      }
+    },
+    {
+      "url": "http://example.org/Identifier-validType",
+      "valueIdentifier": {
+        "type": {
+          "coding": [{
+            "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+            "code": "MR"
+          }]
+        },
         "value": "code"
       }
     },

@@ -63,7 +63,6 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.type.code.ResourceType;
-import com.ibm.fhir.model.type.code.SearchEntryMode;
 import com.ibm.fhir.model.util.FHIRUtil;
 
 public class SearchTest extends FHIRServerTestBase {
@@ -167,6 +166,7 @@ public class SearchTest extends FHIRServerTestBase {
                     .type(CodeableConcept.builder()
                         .coding(Coding.builder().code(Code.of("typecodea")).system(Uri.of("typesystema")).build())
                         .coding(Coding.builder().code(Code.of("typecodeb")).build())
+                        .coding(Coding.builder().code(Code.of("official")).system(Uri.of("http://hl7.org/fhir/identifier-use")).build())
                         .build())
                     .build())
                 .managingOrganization(Reference.builder()
@@ -419,6 +419,26 @@ public class SearchTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
+
+        response =
+                target.path("Patient").queryParam("gender", "MALE").request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .header("X-FHIR-TENANT-ID", tenantName)
+                    .header("X-FHIR-DSID", dataStoreId)
+                    .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+
+        response =
+                target.path("Patient").queryParam("gender", "http://hl7.org/fhir/administrative-gender|MALE").request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .header("X-FHIR-TENANT-ID", tenantName)
+                    .header("X-FHIR-DSID", dataStoreId)
+                    .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().isEmpty());
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })
@@ -476,6 +496,17 @@ public class SearchTest extends FHIRServerTestBase {
                 .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+        
+        response =
+                target.path("Patient").queryParam("identifier", "test|"+ patientIdentifierValue.toUpperCase())
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
     }
@@ -537,6 +568,39 @@ public class SearchTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
+
+        response =
+                target.path("Patient").queryParam("identifier:of-type", "typesystema|TYPECODEA|"+ patientIdentifierValue)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+
+        response =
+                target.path("Patient").queryParam("identifier:of-type", "http://hl7.org/fhir/identifier-use|official|"+ patientIdentifierValue)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+
+        response =
+                target.path("Patient").queryParam("identifier:of-type", "http://hl7.org/fhir/identifier-use|OFFICIAL|"+ patientIdentifierValue)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().isEmpty());
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })
@@ -552,51 +616,6 @@ public class SearchTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().isEmpty());
-    }
-
-    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })
-    public void testSearchPatientInvalidSearchParameter_lenient() {
-        WebTarget target = getWebTarget();
-        Response response =
-                target.path("Patient").queryParam("unknown", "unknown").request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("Prefer", "handling=lenient")
-                .get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle bundle = response.readEntity(Bundle.class);
-
-        assertNotNull(bundle);
-        assertTrue(bundle.getEntry().size() >= 1);
-        assertTrue(bundle.getEntry().get(bundle.getEntry().size()-1).getSearch().getMode().getValueAsEnum() == SearchEntryMode.Value.OUTCOME);
-    }
-
-    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })
-    public void testSearchPatientInvalidElements_lenient() {
-        WebTarget target = getWebTarget();
-        Response response =
-                target.path("Patient").queryParam("elements", "unknown").request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("Prefer", "handling=lenient")
-                .get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle bundle = response.readEntity(Bundle.class);
-
-        assertNotNull(bundle);
-        assertTrue(bundle.getEntry().size() >= 1);
-        assertTrue(bundle.getEntry().get(bundle.getEntry().size()-1).getSearch().getMode().getValueAsEnum() == SearchEntryMode.Value.OUTCOME);
-    }
-
-    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })
-    public void testSearchPatientInvalidSort_lenient() {
-        WebTarget target = getWebTarget();
-        Response response =
-                target.path("Patient").queryParam("sort", "unknown").request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("Prefer", "handling=lenient")
-                .get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-        Bundle bundle = response.readEntity(Bundle.class);
-
-        assertNotNull(bundle);
-        assertTrue(bundle.getEntry().size() >= 1);
-        assertTrue(bundle.getEntry().get(bundle.getEntry().size()-1).getSearch().getMode().getValueAsEnum() == SearchEntryMode.Value.OUTCOME);
     }
 
     @Test(groups = { "server-search" })
@@ -2230,6 +2249,115 @@ public class SearchTest extends FHIRServerTestBase {
             SearchAllTest.generateOutput(bundle);
         }
         assertEquals(bundle.getEntry().size(), 0);
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreateCondition" })
+    public void testSearchConditionTagCaseSensitivity() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Condition")
+                .queryParam("evidence", "http://terminology.hl7.org/CodeSystem/v3-ObservationValue|A4")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        if (DEBUG_SEARCH) {
+            SearchAllTest.generateOutput(bundle);
+        }
+        assertTrue(bundle.getEntry().size() >= 1);
+
+        response =
+                target.path("Condition")
+                .queryParam("evidence", "http://terminology.hl7.org/CodeSystem/v3-ObservationValue|a4")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        if (DEBUG_SEARCH) {
+            SearchAllTest.generateOutput(bundle);
+        }
+        assertTrue(bundle.getEntry().isEmpty());
+        
+        response =
+                target.path("Condition")
+                .queryParam("evidence", "A4")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        if (DEBUG_SEARCH) {
+            SearchAllTest.generateOutput(bundle);
+        }
+        assertTrue(bundle.getEntry().size() >= 1);
+        
+        response =
+                target.path("Condition")
+                .queryParam("evidence", "a4")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        if (DEBUG_SEARCH) {
+            SearchAllTest.generateOutput(bundle);
+        }
+        assertTrue(bundle.getEntry().isEmpty());
+        
+        response =
+                target.path("Condition")
+                .queryParam("evidence", "http://terminology.hl7.org/CodeSystem/v2-0080|ST")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        if (DEBUG_SEARCH) {
+            SearchAllTest.generateOutput(bundle);
+        }
+        assertTrue(bundle.getEntry().size() >= 1);
+        
+        response =
+                target.path("Condition")
+                .queryParam("evidence", "http://terminology.hl7.org/CodeSystem/v2-0080|st")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        if (DEBUG_SEARCH) {
+            SearchAllTest.generateOutput(bundle);
+        }
+        assertTrue(bundle.getEntry().size() >= 1);
+        
+        response =
+                target.path("Condition")
+                .queryParam("evidence", "st")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        if (DEBUG_SEARCH) {
+            SearchAllTest.generateOutput(bundle);
+        }
+        assertTrue(bundle.getEntry().size() >= 1);
     }
 
 }
