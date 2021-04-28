@@ -230,10 +230,9 @@ For search parameters of type token, resource values are not indexed unless the 
 * `[parameter]=[code]`
 * `[parameter]=[system]|[code]`
 * `[parameter]=|[code]`
+* `[parameter]=[system]|`
 
 However, the `|[code]` variant currently behaves like the `[code]` option, matching code values irrespective of the system instead of matching only on elements with missing/null system values as defined in the spec.
-
-The IBM FHIR Server does not yet support searching a token value by codesystem, irrespective of the value (`|[system]|`).
 
 For search parameters of type token that are defined on data fields of type `ContactPoint`, the FHIR server currently uses the `ContactPoint.system` and the `ContactPoint.value` instead of the `ContactPoint.use` field as described in the specification.
 
