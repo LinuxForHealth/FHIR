@@ -905,6 +905,11 @@ public final class FHIRPathUtil {
 
         FHIRPathTree tree = evaluator.getEvaluationContext().getTree();
         FHIRPathNode parentNode = tree.getParent(node);
+
+        if (parentNode == null) {
+            throw new FHIRPatchException("Unable to compute the parent for '" + elementName + "';" +
+                    " a FHIRPathPatch replace FHIRPath must select a node with a parent", fhirPath);
+        }
         Visitable parent = parentNode.isResourceNode() ?
                 parentNode.asResourceNode().resource() : parentNode.asElementNode().element();
 

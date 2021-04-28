@@ -1166,17 +1166,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
     }
 
-    /**
-     * Processes a bundled request.
-     *
-     * @param bundleResource
-     *            the request Bundle
-     * @param requestProperties
-     *            additional request properties which supplement the HTTP headers associated with this request
-     * @return the response Bundle
-     */
     @Override
-    public Bundle doBundle(Bundle inputBundle) throws Exception {
+    public Bundle doBundle(Bundle inputBundle, boolean skippableUpdates) throws Exception {
         log.entering(this.getClass().getName(), "doBundle");
 
         // Save the current request context.
@@ -1187,7 +1178,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             Map<Integer, Entry> validationResponseEntries = validateBundle(inputBundle);
 
             // Next, process each of the entries in the bundle.
-            return processBundleEntries(inputBundle, validationResponseEntries);
+            return processBundleEntries(inputBundle, validationResponseEntries, skippableUpdates);
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
@@ -1560,8 +1551,12 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *            the bundle containing the requests
      * @param validationResponseEntries
      *            a map from entry indices to the corresponding response entries created during validation
+     * @param skippableUpdates
+     *            if true, and the bundle contains an update for which the resource content in the update matches the existing
+     *            resource on the server, then skip the update; if false, then always attempt the updates specified in the bundle
+     * @return a response bundle
      */
-    private Bundle processBundleEntries(Bundle requestBundle, Map<Integer, Entry> validationResponseEntries) throws Exception {
+    private Bundle processBundleEntries(Bundle requestBundle, Map<Integer, Entry> validationResponseEntries, boolean skippableUpdates) throws Exception {
         log.entering(this.getClass().getName(), "processBundleEntries");
 
         FHIRTransactionHelper txn = null;
@@ -1589,7 +1584,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // Process entries.
             List<Entry> responseEntries = processEntriesByMethod(requestBundle, validationResponseEntries,
-                    txn != null, localRefMap, bundleRequestCorrelationId);
+                    txn != null, localRefMap, bundleRequestCorrelationId, skippableUpdates);
 
             // Build the response bundle.
             Bundle.Builder bundleResponseBuilder = Bundle.builder().entry(responseEntries);
@@ -1647,12 +1642,14 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *            the bundle request properties
      * @param bundleRequestCorrelationId
      *            the bundle request correlation ID
-     * @return
-     *            the response bundle
+     * @param skippableUpdates
+     *            if true, and the bundle contains an update for which the resource content in the update matches the existing
+     *            resource on the server, then skip the update; if false, then always attempt the updates specified in the bundle
+     * @return a list of entries for the response bundle
      * @throws Exception
      */
     private List<Entry> processEntriesByMethod(Bundle requestBundle, Map<Integer, Entry> validationResponseEntries,
-            boolean failFast, Map<String, String> localRefMap, String bundleRequestCorrelationId) throws Exception {
+            boolean failFast, Map<String, String> localRefMap, String bundleRequestCorrelationId, boolean skippableUpdates) throws Exception {
         log.entering(this.getClass().getName(), "processEntriesByMethod");
 
         try {
@@ -1750,10 +1747,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         } else if (request.getMethod().equals(HTTPVerb.PUT)) {
                             Entry validationResponseEntry = validationResponseEntries.get(entryIndex);
                             responseEntries[entryIndex] = processEntryForPut(requestEntry, validationResponseEntry, responseIndexAndEntries,
-                                    entryIndex, localRefMap, requestURL, absoluteUri, requestDescription.toString(), initialTime);
+                                    entryIndex, localRefMap, requestURL, absoluteUri, requestDescription.toString(), initialTime, skippableUpdates);
                         } else if (request.getMethod().equals(HTTPVerb.PATCH)) {
                             responseEntries[entryIndex] = processEntryforPatch(requestEntry, requestURL,entryIndex,
-                                    requestDescription.toString(), initialTime);
+                                    requestDescription.toString(), initialTime, skippableUpdates);
                         } else if (request.getMethod().equals(HTTPVerb.DELETE)) {
                             responseEntries[entryIndex] = processEntryForDelete(requestURL, requestDescription.toString(), initialTime);
                         } else {
@@ -1833,11 +1830,14 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *            a description of the request
      * @param initialTime
      *            the time the bundle entry processing started
+     * @param skippableUpdate
+     *            if true, and the resource content in the update matches the existing resource on the server, then skip the update;
+     *            if false, then always attempt the update
      * @return the bundle entry response
      * @throws Exception
      */
-    private Entry processEntryforPatch(Entry requestEntry, FHIRUrlParser requestURL, Integer entryIndex, String requestDescription, long initialTime)
-            throws Exception {
+    private Entry processEntryforPatch(Entry requestEntry, FHIRUrlParser requestURL, Integer entryIndex, String requestDescription,
+            long initialTime, boolean skippableUpdate) throws Exception {
         FHIRRestOperationResponse ior = null;
         String[] pathTokens = requestURL.getPathTokens();
         String resourceType = null;
@@ -1866,7 +1866,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         Parameters parameters = requestEntry.getResource().as(Parameters.class);
         FHIRPatch patch = FHIRPathPatch.from(parameters);
-        ior = doPatch(resourceType, resourceId, patch, null, null, !SKIPPABLE_UPDATE);
+        ior = doPatch(resourceType, resourceId, patch, null, null, skippableUpdate);
 
         return buildResponseBundleEntry(ior, null, requestDescription, initialTime);
     }
@@ -2113,12 +2113,15 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *            a description of the request
      * @param initialTime
      *            the time the bundle entry processing started
+     * @param skippableUpdate
+     *            if true, and the resource content in the update matches the existing resource on the server, then skip the update;
+     *            if false, then always attempt the update
      * @return the bundle entry response
      * @throws Exception
      */
     private Entry processEntryForPut(Entry requestEntry, Entry validationResponseEntry, Map<Integer, Entry> responseIndexAndEntries,
-            Integer entryIndex, Map<String, String> localRefMap, FHIRUrlParser requestURL, String absoluteUri, String requestDescription, long initialTime)
-            throws Exception {
+            Integer entryIndex, Map<String, String> localRefMap, FHIRUrlParser requestURL, String absoluteUri, String requestDescription,
+            long initialTime, boolean skippableUpdate) throws Exception {
 
         String[] pathTokens = requestURL.getPathTokens();
         String type = null;
@@ -2155,7 +2158,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         if (requestEntry.getRequest().getIfMatch() != null) {
             ifMatchBundleValue = requestEntry.getRequest().getIfMatch().getValue();
         }
-        FHIRRestOperationResponse ior = doUpdate(type, id, resource, ifMatchBundleValue, requestURL.getQuery(), !DO_VALIDATION, !SKIPPABLE_UPDATE);
+        FHIRRestOperationResponse ior = doUpdate(type, id, resource, ifMatchBundleValue, requestURL.getQuery(), skippableUpdate, !DO_VALIDATION);
 
         // If this was a conditional update, and if a local identifier was present and not already mapped to its external identifier, add mapping.
         if (pathTokens.length == 1) {
