@@ -11,6 +11,10 @@
     <artifactId>fhir-cache</artifactId>
     <dependencies>
         <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
+        <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-core</artifactId>
             <version>${project.version}</version>
