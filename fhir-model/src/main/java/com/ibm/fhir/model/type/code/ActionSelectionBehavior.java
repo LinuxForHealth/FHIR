@@ -398,16 +398,31 @@ public class ActionSelectionBehavior extends Code {
          * 
          * @param value
          *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding ActionSelectionBehavior.Value or null if a null value was passed
          * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
+         *     If the passed string is not null and cannot be parsed into an allowed code value
          */
         public static Value from(java.lang.String value) {
-            for (Value c : Value.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
+            if (value == null) {
+                return null;
             }
-            throw new IllegalArgumentException(value);
+            switch (value) {
+            case "any":
+                return ANY;
+            case "all":
+                return ALL;
+            case "all-or-none":
+                return ALL_OR_NONE;
+            case "exactly-one":
+                return EXACTLY_ONE;
+            case "at-most-one":
+                return AT_MOST_ONE;
+            case "one-or-more":
+                return ONE_OR_MORE;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

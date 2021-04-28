@@ -323,16 +323,25 @@ public class ActionRequiredBehavior extends Code {
          * 
          * @param value
          *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding ActionRequiredBehavior.Value or null if a null value was passed
          * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
+         *     If the passed string is not null and cannot be parsed into an allowed code value
          */
         public static Value from(java.lang.String value) {
-            for (Value c : Value.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
+            if (value == null) {
+                return null;
             }
-            throw new IllegalArgumentException(value);
+            switch (value) {
+            case "must":
+                return MUST;
+            case "could":
+                return COULD;
+            case "must-unless-documented":
+                return MUST_UNLESS_DOCUMENTED;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

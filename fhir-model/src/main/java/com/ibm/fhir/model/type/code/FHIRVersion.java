@@ -792,16 +792,63 @@ public class FHIRVersion extends Code {
          * 
          * @param value
          *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding FHIRVersion.Value or null if a null value was passed
          * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
+         *     If the passed string is not null and cannot be parsed into an allowed code value
          */
         public static Value from(java.lang.String value) {
-            for (Value c : Value.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
+            if (value == null) {
+                return null;
             }
-            throw new IllegalArgumentException(value);
+            switch (value) {
+            case "0.01":
+                return VERSION_0_01;
+            case "0.05":
+                return VERSION_0_05;
+            case "0.06":
+                return VERSION_0_06;
+            case "0.11":
+                return VERSION_0_11;
+            case "0.0.80":
+                return VERSION_0_0_80;
+            case "0.0.81":
+                return VERSION_0_0_81;
+            case "0.0.82":
+                return VERSION_0_0_82;
+            case "0.4.0":
+                return VERSION_0_4_0;
+            case "0.5.0":
+                return VERSION_0_5_0;
+            case "1.0.0":
+                return VERSION_1_0_0;
+            case "1.0.1":
+                return VERSION_1_0_1;
+            case "1.0.2":
+                return VERSION_1_0_2;
+            case "1.1.0":
+                return VERSION_1_1_0;
+            case "1.4.0":
+                return VERSION_1_4_0;
+            case "1.6.0":
+                return VERSION_1_6_0;
+            case "1.8.0":
+                return VERSION_1_8_0;
+            case "3.0.0":
+                return VERSION_3_0_0;
+            case "3.0.1":
+                return VERSION_3_0_1;
+            case "3.3.0":
+                return VERSION_3_3_0;
+            case "3.5.0":
+                return VERSION_3_5_0;
+            case "4.0.0":
+                return VERSION_4_0_0;
+            case "4.0.1":
+                return VERSION_4_0_1;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

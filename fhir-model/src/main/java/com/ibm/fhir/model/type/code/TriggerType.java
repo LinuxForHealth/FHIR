@@ -448,16 +448,35 @@ public class TriggerType extends Code {
          * 
          * @param value
          *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding TriggerType.Value or null if a null value was passed
          * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
+         *     If the passed string is not null and cannot be parsed into an allowed code value
          */
         public static Value from(java.lang.String value) {
-            for (Value c : Value.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
+            if (value == null) {
+                return null;
             }
-            throw new IllegalArgumentException(value);
+            switch (value) {
+            case "named-event":
+                return NAMED_EVENT;
+            case "periodic":
+                return PERIODIC;
+            case "data-changed":
+                return DATA_CHANGED;
+            case "data-added":
+                return DATA_ADDED;
+            case "data-modified":
+                return DATA_MODIFIED;
+            case "data-removed":
+                return DATA_REMOVED;
+            case "data-accessed":
+                return DATA_ACCESSED;
+            case "data-access-ended":
+                return DATA_ACCESS_ENDED;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

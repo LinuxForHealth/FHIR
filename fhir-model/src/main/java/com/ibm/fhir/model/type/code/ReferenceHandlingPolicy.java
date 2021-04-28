@@ -376,16 +376,29 @@ public class ReferenceHandlingPolicy extends Code {
          * 
          * @param value
          *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding ReferenceHandlingPolicy.Value or null if a null value was passed
          * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
+         *     If the passed string is not null and cannot be parsed into an allowed code value
          */
         public static Value from(java.lang.String value) {
-            for (Value c : Value.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
+            if (value == null) {
+                return null;
             }
-            throw new IllegalArgumentException(value);
+            switch (value) {
+            case "literal":
+                return LITERAL;
+            case "logical":
+                return LOGICAL;
+            case "resolves":
+                return RESOLVES;
+            case "enforced":
+                return ENFORCED;
+            case "local":
+                return LOCAL;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

@@ -528,16 +528,39 @@ public class GuideParameterCode extends Code {
          * 
          * @param value
          *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding GuideParameterCode.Value or null if a null value was passed
          * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
+         *     If the passed string is not null and cannot be parsed into an allowed code value
          */
         public static Value from(java.lang.String value) {
-            for (Value c : Value.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
+            if (value == null) {
+                return null;
             }
-            throw new IllegalArgumentException(value);
+            switch (value) {
+            case "apply":
+                return APPLY;
+            case "path-resource":
+                return PATH_RESOURCE;
+            case "path-pages":
+                return PATH_PAGES;
+            case "path-tx-cache":
+                return PATH_TX_CACHE;
+            case "expansion-parameter":
+                return EXPANSION_PARAMETER;
+            case "rule-broken-links":
+                return RULE_BROKEN_LINKS;
+            case "generate-xml":
+                return GENERATE_XML;
+            case "generate-json":
+                return GENERATE_JSON;
+            case "generate-turtle":
+                return GENERATE_TURTLE;
+            case "html-template":
+                return HTML_TEMPLATE;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

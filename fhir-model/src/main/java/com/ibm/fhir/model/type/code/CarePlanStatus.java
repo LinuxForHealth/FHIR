@@ -432,16 +432,33 @@ public class CarePlanStatus extends Code {
          * 
          * @param value
          *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding CarePlanStatus.Value or null if a null value was passed
          * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
+         *     If the passed string is not null and cannot be parsed into an allowed code value
          */
         public static Value from(java.lang.String value) {
-            for (Value c : Value.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
+            if (value == null) {
+                return null;
             }
-            throw new IllegalArgumentException(value);
+            switch (value) {
+            case "draft":
+                return DRAFT;
+            case "active":
+                return ACTIVE;
+            case "on-hold":
+                return ON_HOLD;
+            case "revoked":
+                return REVOKED;
+            case "completed":
+                return COMPLETED;
+            case "entered-in-error":
+                return ENTERED_IN_ERROR;
+            case "unknown":
+                return UNKNOWN;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

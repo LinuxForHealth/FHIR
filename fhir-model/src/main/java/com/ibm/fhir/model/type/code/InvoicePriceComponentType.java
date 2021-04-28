@@ -392,16 +392,31 @@ public class InvoicePriceComponentType extends Code {
          * 
          * @param value
          *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding InvoicePriceComponentType.Value or null if a null value was passed
          * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
+         *     If the passed string is not null and cannot be parsed into an allowed code value
          */
         public static Value from(java.lang.String value) {
-            for (Value c : Value.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
+            if (value == null) {
+                return null;
             }
-            throw new IllegalArgumentException(value);
+            switch (value) {
+            case "base":
+                return BASE;
+            case "surcharge":
+                return SURCHARGE;
+            case "deduction":
+                return DEDUCTION;
+            case "discount":
+                return DISCOUNT;
+            case "tax":
+                return TAX;
+            case "informational":
+                return INFORMATIONAL;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }
