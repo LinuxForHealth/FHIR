@@ -2335,7 +2335,7 @@ public class BundleTest extends FHIRServerTestBase {
     }
 
     /**
-     * Test transaction bundle put with post local reference dependency.
+     * Sets UPDATE_IF_MODIFIED_HEADER_NAME  and posts a transaction bundle with an update and a patch; both should be skipped on the server
      * Procedure has local reference to Patient.
      */
     @Test
