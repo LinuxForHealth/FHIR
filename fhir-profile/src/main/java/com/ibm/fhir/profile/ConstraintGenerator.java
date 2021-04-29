@@ -59,17 +59,17 @@ public class ConstraintGenerator {
     private final Tree tree;
 
     public ConstraintGenerator(StructureDefinition profile) {
-        Objects.requireNonNull(profile);
+        Objects.requireNonNull(profile, "profile");
         this.profile = profile;
-        elementDefinitionMap = buildElementDefinitionMap(this.profile);
-        tree = buildTree(this.profile);
+        tree = buildTree();
+        elementDefinitionMap = buildElementDefinitionMap();
     }
 
-    private Map<String, ElementDefinition> buildElementDefinitionMap(StructureDefinition profile2) {
-        Map<String, ElementDefinition> elementDefinitionMap = new LinkedHashMap<>();
-        for (ElementDefinition elementDefinition : profile.getSnapshot().getElement()) {
-            elementDefinitionMap.put(elementDefinition.getId(), elementDefinition);
-        }
+    public Tree getTree() {
+        return tree;
+    }
+
+    public Map<String, ElementDefinition> getElementDefinitionMap() {
         return elementDefinitionMap;
     }
 
@@ -100,72 +100,7 @@ public class ConstraintGenerator {
         return constraints;
     }
 
-    private Tree buildTree(StructureDefinition profile) {
-        Node root = null;
-        Map<String, Node> nodeMap = new LinkedHashMap<>();
-        Map<String, ElementDefinition> sliceDefinitionMap = new LinkedHashMap<>();
-
-        for (ElementDefinition elementDefinition : profile.getSnapshot().getElement()) {
-            String id = elementDefinition.getId();
-
-            if (isSliceDefinition(elementDefinition)) {
-                sliceDefinitionMap.put(id, elementDefinition);
-            }
-
-            int index = id.lastIndexOf(".");
-
-            Node node = new Node();
-            node.label = id.substring(index + 1);
-            node.parent = (index != -1) ? nodeMap.get(id.substring(0, index)) : null;
-
-            if (node.parent == null) {
-                root = node;
-            } else {
-                node.parent.children.add(node);
-            }
-
-            node.elementDefinition = elementDefinition;
-
-            nodeMap.put(id, node);
-        }
-
-        Tree tree = new Tree();
-        tree.root = root;
-        tree.nodeMap = nodeMap;
-        tree.sliceDefinitionMap = sliceDefinitionMap;
-
-        if (log.isLoggable(Level.FINEST)) {
-            log.finest("Element definitions BEFORE pruning:");
-            for (String id : nodeMap.keySet()) {
-                log.finest(id);
-            }
-            log.finest("");
-        }
-
-        prune(tree);
-
-        if (log.isLoggable(Level.FINEST)) {
-            log.finest("Element definitions AFTER pruning:");
-            for (String id : nodeMap.keySet()) {
-                log.finest(id);
-            }
-            log.finest("");
-
-            log.finest("Slice definitions:");
-            for (String id : sliceDefinitionMap.keySet()) {
-                log.finest(id);
-            }
-            log.finest("");
-        }
-
-        return tree;
-    }
-
-    private Constraint constraint(String id, String expr, String description) {
-        return createConstraint(id, Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, description, expr, false, true);
-    }
-
-    private String generate(Node node) {
+    public String generate(Node node) {
         StringBuilder sb = new StringBuilder();
 
         ElementDefinition elementDefinition = node.elementDefinition;
@@ -307,6 +242,79 @@ public class ConstraintGenerator {
         }
 
         return sb.toString();
+    }
+
+    private Map<String, ElementDefinition> buildElementDefinitionMap() {
+        Map<String, ElementDefinition> elementDefinitionMap = new LinkedHashMap<>();
+        for (ElementDefinition elementDefinition : profile.getSnapshot().getElement()) {
+            elementDefinitionMap.put(elementDefinition.getId(), elementDefinition);
+        }
+        return elementDefinitionMap;
+    }
+
+    private Tree buildTree() {
+        Node root = null;
+        Map<String, Node> nodeMap = new LinkedHashMap<>();
+        Map<String, ElementDefinition> sliceDefinitionMap = new LinkedHashMap<>();
+
+        for (ElementDefinition elementDefinition : profile.getSnapshot().getElement()) {
+            String id = elementDefinition.getId();
+
+            if (isSliceDefinition(elementDefinition)) {
+                sliceDefinitionMap.put(id, elementDefinition);
+            }
+
+            int index = id.lastIndexOf(".");
+
+            Node node = new Node();
+            node.label = id.substring(index + 1);
+            node.parent = (index != -1) ? nodeMap.get(id.substring(0, index)) : null;
+
+            if (node.parent == null) {
+                root = node;
+            } else {
+                node.parent.children.add(node);
+            }
+
+            node.elementDefinition = elementDefinition;
+
+            nodeMap.put(id, node);
+        }
+
+        Tree tree = new Tree();
+        tree.root = root;
+        tree.nodeMap = nodeMap;
+        tree.sliceDefinitionMap = sliceDefinitionMap;
+
+        if (log.isLoggable(Level.FINEST)) {
+            log.finest("Element definitions BEFORE pruning:");
+            for (String id : nodeMap.keySet()) {
+                log.finest(id);
+            }
+            log.finest("");
+        }
+
+        prune(tree);
+
+        if (log.isLoggable(Level.FINEST)) {
+            log.finest("Element definitions AFTER pruning:");
+            for (String id : nodeMap.keySet()) {
+                log.finest(id);
+            }
+            log.finest("");
+
+            log.finest("Slice definitions:");
+            for (String id : sliceDefinitionMap.keySet()) {
+                log.finest(id);
+            }
+            log.finest("");
+        }
+
+        return tree;
+    }
+
+    private Constraint constraint(String id, String expr, String description) {
+        return createConstraint(id, Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, description, expr, false, true);
     }
 
     private ElementDefinition getSliceDefinition(ElementDefinition slice) {
@@ -906,14 +914,14 @@ public class ConstraintGenerator {
         }
     }
 
-    static class Node {
+    public static class Node {
         String label;
         Node parent;
         List<Node> children = new ArrayList<>();
         ElementDefinition elementDefinition;
     }
 
-    static class Tree {
+    public static class Tree {
         Node root;
         Map<String, Node> nodeMap;
         Map<String, ElementDefinition> sliceDefinitionMap;
