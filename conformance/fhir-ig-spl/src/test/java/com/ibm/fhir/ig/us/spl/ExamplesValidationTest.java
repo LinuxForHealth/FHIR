@@ -21,16 +21,13 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
-import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
-import com.ibm.fhir.model.resource.Organization;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.validation.FHIRValidator;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
 public class ExamplesValidationTest {
-
     @Test
     public void testValidationJson() throws Exception {
         try (Stream<Path> paths1 = Files.list(Paths.get("src/test/resources/json"));
@@ -43,15 +40,6 @@ public class ExamplesValidationTest {
             System.out.println();
             System.out.println("Good Paths");
             goodPaths.forEach(px -> System.out.println(px));
-        }
-    }
-
-    @Test
-    public void testValidationJsonBundleEntries() throws Exception {
-        try (Stream<Path> paths1 = Files.list(Paths.get("src/test/resources/json"))) {
-            List<Path> badPaths = paths1.filter(p -> verifyBundleEntries(p)).collect(Collectors.toList());
-            System.out.println("Bad Paths");
-            badPaths.forEach(px -> System.out.println(px));
         }
     }
 
@@ -69,58 +57,11 @@ public class ExamplesValidationTest {
             for (Issue issue : validate) {
                 if (IssueSeverity.ERROR.equals(issue.getSeverity()) || IssueSeverity.ERROR.equals(issue.getSeverity())) {
                     System.out.println(issue);
-
-                    // System.out.println(r);
-
+//                  System.out.println(r);
                     invalid = true;
                 }
             }
             System.out.println("--------------------------------");
-        } catch (IOException | FHIRParserException e) {
-            e.printStackTrace();
-            invalid = true;
-        } catch (FHIRValidationException e) {
-            e.printStackTrace();
-            invalid = true;
-        }
-        return invalid;
-    }
-
-    public static boolean verifyBundleEntries(Path p) {
-        boolean invalid = false;
-        try (InputStream in = new FileInputStream(p.toFile())) {
-            Resource r = FHIRParser.parser(Format.JSON).parse(in);
-            if (r instanceof Bundle) {
-                System.out.println("Path: " + p);
-                Bundle bundle = r.as(Bundle.class);
-                for (Bundle.Entry entry : bundle.getEntry()) {
-                    if (entry.getResource() instanceof Organization) {
-                        Organization o = entry.getResource().as(Organization.class);
-                        for (Resource rr : o.getContained()) {
-                            List<Issue> validate = FHIRValidator.validator().validate(rr);
-                            for (Issue issue : validate) {
-                                if (IssueSeverity.ERROR.equals(issue.getSeverity()) || IssueSeverity.ERROR.equals(issue.getSeverity())) {
-                                    System.out.println(issue);
-                                    System.out.println(rr);
-                                    invalid = true;
-                                }
-                            }
-                        }
-                    } else {
-                        List<Issue> validate = FHIRValidator.validator().validate(entry.getResource());
-                        for (Issue issue : validate) {
-                            if (IssueSeverity.ERROR.equals(issue.getSeverity()) || IssueSeverity.ERROR.equals(issue.getSeverity())) {
-                                System.out.println(issue);
-                                System.out.println(entry.getResource());
-                                invalid = true;
-                            }
-                        }
-
-                    }
-                }
-                System.out.println("--------------------------------");
-            }
-
         } catch (IOException | FHIRParserException e) {
             e.printStackTrace();
             invalid = true;

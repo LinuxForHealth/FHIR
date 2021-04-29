@@ -67,14 +67,17 @@ public final class ProfileSupport {
         List<Constraint> constraints = new ArrayList<>();
         Set<String> difference = new HashSet<>(getKeys(profile));
         difference.removeAll(getKeys(getStructureDefinition(type)));
+        Set<String> created = new HashSet<>();
         for (ElementDefinition elementDefinition : profile.getSnapshot().getElement()) {
             if (elementDefinition.getConstraint().isEmpty()) {
                 continue;
             }
             String path = elementDefinition.getPath().getValue();
             for (ElementDefinition.Constraint constraint : elementDefinition.getConstraint()) {
-                if (difference.contains(constraint.getKey().getValue())) {
+                String key = constraint.getKey().getValue();
+                if (difference.contains(key) && !created.contains(key)) {
                     constraints.add(createConstraint(path, constraint));
+                    created.add(key);
                 }
             }
         }
