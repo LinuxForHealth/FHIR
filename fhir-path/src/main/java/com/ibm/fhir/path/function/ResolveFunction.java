@@ -8,6 +8,7 @@ package com.ibm.fhir.path.function;
 
 import static com.ibm.fhir.model.util.FHIRUtil.REFERENCE_PATTERN;
 import static com.ibm.fhir.model.util.ModelSupport.isResourceType;
+import static com.ibm.fhir.path.util.FHIRPathUtil.getSingleton;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,7 +22,6 @@ import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathResourceNode;
-import com.ibm.fhir.path.FHIRPathTree;
 import com.ibm.fhir.path.FHIRPathType;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 
@@ -81,7 +81,7 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                 if (referenceReference != null) {
                     if (referenceReference.startsWith("#")) {
                         // internal fragment reference
-                        resourceType = resolveInternalFragmentReference(evaluationContext.getTree(), referenceReference);
+                        resourceType = resolveInternalFragmentReference(evaluationContext, referenceReference);
                     } else {
                         Matcher matcher = REFERENCE_PATTERN.matcher(referenceReference);
                         if (matcher.matches()) {
@@ -109,23 +109,19 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
         return result;
     }
 
-    private String resolveInternalFragmentReference(FHIRPathTree tree, String referenceReference) {
-        if (tree != null) {
-            FHIRPathNode root = tree.getRoot();
-            if (root.isResourceNode()) {
-                Resource resource = root.asResourceNode().resource();
-                if ("#".equals(referenceReference)) {
-                    return resource.getClass().getSimpleName();
-                }
-                String id = referenceReference.substring(1);
-                if (resource instanceof DomainResource) {
-                    DomainResource domainResource = (DomainResource) resource;
-                    for (Resource contained : domainResource.getContained()) {
-                        if (contained.getId() != null &&
-                                id.equals(contained.getId())) {
-                            return contained.getClass().getSimpleName();
-                        }
-                    }
+    private String resolveInternalFragmentReference(EvaluationContext evaluationContext, String referenceReference) {
+        FHIRPathNode rootResource = getSingleton(evaluationContext.getExternalConstant("rootResource"));
+        Resource resource = rootResource.asResourceNode().resource();
+        if ("#".equals(referenceReference)) {
+            return resource.getClass().getSimpleName();
+        }
+        String id = referenceReference.substring(1);
+        if (resource instanceof DomainResource) {
+            DomainResource domainResource = (DomainResource) resource;
+            for (Resource contained : domainResource.getContained()) {
+                if (contained.getId() != null &&
+                        id.equals(contained.getId())) {
+                    return contained.getClass().getSimpleName();
                 }
             }
         }
