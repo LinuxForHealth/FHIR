@@ -47,8 +47,8 @@ import com.ibm.fhir.model.util.ModelSupport;
 /**
  * A class used to generate FHIRPath expressions from a profile
  */
-public class ConstraintGenerator {
-    private static final Logger log = Logger.getLogger(ConstraintGenerator.class.getName());
+public class ConstraintGenerator_ {
+    private static final Logger log = Logger.getLogger(ConstraintGenerator_.class.getName());
 
     private static final String MONEY_QUANTITY_PROFILE = "http://hl7.org/fhir/StructureDefinition/MoneyQuantity";
     private static final String SIMPLE_QUANTITY_PROFILE = "http://hl7.org/fhir/StructureDefinition/SimpleQuantity";
@@ -58,7 +58,7 @@ public class ConstraintGenerator {
     private final Map<String, ElementDefinition> elementDefinitionMap;
     private final Tree tree;
 
-    public ConstraintGenerator(StructureDefinition profile) {
+    public ConstraintGenerator_(StructureDefinition profile) {
         Objects.requireNonNull(profile, "profile");
         this.profile = profile;
         elementDefinitionMap = buildElementDefinitionMap();
