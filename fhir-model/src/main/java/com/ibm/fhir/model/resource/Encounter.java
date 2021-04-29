@@ -48,7 +48,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "encounter-0",
@@ -121,7 +121,7 @@ public class Encounter extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EncounterStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Current state of the encounter.",
         valueSet = "http://hl7.org/fhir/ValueSet/encounter-status|4.0.1"
     )
@@ -131,7 +131,7 @@ public class Encounter extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EncounterClass",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Classification of the encounter.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ActEncounterCode"
     )
@@ -141,7 +141,7 @@ public class Encounter extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EncounterType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The type of encounter.",
         valueSet = "http://hl7.org/fhir/ValueSet/encounter-type"
     )
@@ -149,14 +149,14 @@ public class Encounter extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EncounterServiceType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Broad categorization of the service that is to be provided.",
         valueSet = "http://hl7.org/fhir/ValueSet/service-type"
     )
     private final CodeableConcept serviceType;
     @Binding(
         bindingName = "Priority",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Indicates the urgency of the encounter.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ActPriority"
     )
@@ -179,7 +179,7 @@ public class Encounter extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EncounterReason",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "Reason why the encounter takes place.",
         valueSet = "http://hl7.org/fhir/ValueSet/encounter-reason"
     )
@@ -1609,7 +1609,7 @@ public class Encounter extends DomainResource {
     public static class StatusHistory extends BackboneElement {
         @Binding(
             bindingName = "EncounterStatus",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Current state of the encounter.",
             valueSet = "http://hl7.org/fhir/ValueSet/encounter-status|4.0.1"
         )
@@ -1892,7 +1892,7 @@ public class Encounter extends DomainResource {
     public static class ClassHistory extends BackboneElement {
         @Binding(
             bindingName = "EncounterClass",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Classification of the encounter.",
             valueSet = "http://terminology.hl7.org/ValueSet/v3-ActEncounterCode"
         )
@@ -2172,7 +2172,7 @@ public class Encounter extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ParticipantType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Role of participant in encounter.",
             valueSet = "http://hl7.org/fhir/ValueSet/encounter-participant-type"
         )
@@ -2507,7 +2507,7 @@ public class Encounter extends DomainResource {
         private final Reference condition;
         @Binding(
             bindingName = "DiagnosisRole",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "The type of diagnosis this condition represents.",
             valueSet = "http://hl7.org/fhir/ValueSet/diagnosis-role"
         )
@@ -2826,35 +2826,35 @@ public class Encounter extends DomainResource {
         private final Reference origin;
         @Binding(
             bindingName = "AdmitSource",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "From where the patient was admitted.",
             valueSet = "http://hl7.org/fhir/ValueSet/encounter-admit-source"
         )
         private final CodeableConcept admitSource;
         @Binding(
             bindingName = "ReAdmissionType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The reason for re-admission of this hospitalization encounter.",
             valueSet = "http://terminology.hl7.org/ValueSet/v2-0092"
         )
         private final CodeableConcept reAdmission;
         @Binding(
             bindingName = "PatientDiet",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Medical, cultural or ethical food preferences to help with catering requirements.",
             valueSet = "http://hl7.org/fhir/ValueSet/encounter-diet"
         )
         private final List<CodeableConcept> dietPreference;
         @Binding(
             bindingName = "Courtesies",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "Special courtesies.",
             valueSet = "http://hl7.org/fhir/ValueSet/encounter-special-courtesy"
         )
         private final List<CodeableConcept> specialCourtesy;
         @Binding(
             bindingName = "Arrangements",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "Special arrangements.",
             valueSet = "http://hl7.org/fhir/ValueSet/encounter-special-arrangements"
         )
@@ -2863,7 +2863,7 @@ public class Encounter extends DomainResource {
         private final Reference destination;
         @Binding(
             bindingName = "DischargeDisp",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Discharge Disposition.",
             valueSet = "http://hl7.org/fhir/ValueSet/encounter-discharge-disposition"
         )
@@ -3427,14 +3427,14 @@ public class Encounter extends DomainResource {
         private final Reference location;
         @Binding(
             bindingName = "EncounterLocationStatus",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The status of the location.",
             valueSet = "http://hl7.org/fhir/ValueSet/encounter-location-status|4.0.1"
         )
         private final EncounterLocationStatus status;
         @Binding(
             bindingName = "PhysicalType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Physical form of the location.",
             valueSet = "http://hl7.org/fhir/ValueSet/location-physical-type"
         )

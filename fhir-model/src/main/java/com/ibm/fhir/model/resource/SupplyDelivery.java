@@ -46,7 +46,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 1,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SupplyDelivery extends DomainResource {
@@ -60,7 +60,7 @@ public class SupplyDelivery extends DomainResource {
     @Summary
     @Binding(
         bindingName = "SupplyDeliveryStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Status of the supply delivery.",
         valueSet = "http://hl7.org/fhir/ValueSet/supplydelivery-status|4.0.1"
     )
@@ -69,7 +69,7 @@ public class SupplyDelivery extends DomainResource {
     private final Reference patient;
     @Binding(
         bindingName = "SupplyDeliveryType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The type of supply dispense.",
         valueSet = "http://hl7.org/fhir/ValueSet/supplydelivery-type|4.0.1"
     )
@@ -882,7 +882,7 @@ public class SupplyDelivery extends DomainResource {
         @Choice({ CodeableConcept.class, Reference.class })
         @Binding(
             bindingName = "SupplyDeliveryItem",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The item that was delivered.",
             valueSet = "http://hl7.org/fhir/ValueSet/supply-item"
         )

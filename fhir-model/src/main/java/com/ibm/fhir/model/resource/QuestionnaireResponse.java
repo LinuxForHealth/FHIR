@@ -55,7 +55,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 3,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "qrs-1",
@@ -79,7 +79,7 @@ public class QuestionnaireResponse extends DomainResource {
     @Summary
     @Binding(
         bindingName = "QuestionnaireResponseStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Lifecycle status of the questionnaire response.",
         valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers-status|4.0.1"
     )
@@ -1281,7 +1281,7 @@ public class QuestionnaireResponse extends DomainResource {
             @Choice({ Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class })
             @Binding(
                 bindingName = "QuestionnaireAnswer",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Code indicating the response provided for a question.",
                 valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers"
             )

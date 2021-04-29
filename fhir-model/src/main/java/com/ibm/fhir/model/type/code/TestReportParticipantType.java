@@ -24,21 +24,21 @@ public class TestReportParticipantType extends Code {
      * 
      * <p>The test execution engine.
      */
-    public static final TestReportParticipantType TEST_ENGINE = TestReportParticipantType.builder().value(ValueSet.TEST_ENGINE).build();
+    public static final TestReportParticipantType TEST_ENGINE = TestReportParticipantType.builder().value(Value.TEST_ENGINE).build();
 
     /**
      * Client
      * 
      * <p>A FHIR Client.
      */
-    public static final TestReportParticipantType CLIENT = TestReportParticipantType.builder().value(ValueSet.CLIENT).build();
+    public static final TestReportParticipantType CLIENT = TestReportParticipantType.builder().value(Value.CLIENT).build();
 
     /**
      * Server
      * 
      * <p>A FHIR Server.
      */
-    public static final TestReportParticipantType SERVER = TestReportParticipantType.builder().value(ValueSet.SERVER).build();
+    public static final TestReportParticipantType SERVER = TestReportParticipantType.builder().value(Value.SERVER).build();
 
     private volatile int hashCode;
 
@@ -46,14 +46,44 @@ public class TestReportParticipantType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this TestReportParticipantType as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this TestReportParticipantType as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating TestReportParticipantType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static TestReportParticipantType of(ValueSet value) {
+        switch (value) {
+        case TEST_ENGINE:
+            return TEST_ENGINE;
+        case CLIENT:
+            return CLIENT;
+        case SERVER:
+            return SERVER;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating TestReportParticipantType objects from a passed enum value.
      */
-    public static TestReportParticipantType of(ValueSet value) {
+    public static TestReportParticipantType of(Value value) {
         switch (value) {
         case TEST_ENGINE:
             return TEST_ENGINE;
@@ -75,7 +105,7 @@ public class TestReportParticipantType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static TestReportParticipantType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -87,7 +117,7 @@ public class TestReportParticipantType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -99,7 +129,7 @@ public class TestReportParticipantType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -161,10 +191,27 @@ public class TestReportParticipantType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for TestReportParticipantType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -174,6 +221,7 @@ public class TestReportParticipantType extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Test Engine
@@ -211,7 +259,7 @@ public class TestReportParticipantType extends Code {
         }
 
         /**
-         * Factory method for creating TestReportParticipantType.ValueSet values from a passed string value.
+         * Factory method for creating TestReportParticipantType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -225,6 +273,69 @@ public class TestReportParticipantType extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Test Engine
+         * 
+         * <p>The test execution engine.
+         */
+        TEST_ENGINE("test-engine"),
+
+        /**
+         * Client
+         * 
+         * <p>A FHIR Client.
+         */
+        CLIENT("client"),
+
+        /**
+         * Server
+         * 
+         * <p>A FHIR Server.
+         */
+        SERVER("server");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating TestReportParticipantType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding TestReportParticipantType.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "test-engine":
+                return TEST_ENGINE;
+            case "client":
+                return CLIENT;
+            case "server":
+                return SERVER;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

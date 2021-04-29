@@ -41,7 +41,7 @@ public class Attachment extends Element {
     @Summary
     @Binding(
         bindingName = "MimeType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The mime type of an attachment. Any valid mime type is allowed.",
         valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
     )
@@ -49,7 +49,7 @@ public class Attachment extends Element {
     @Summary
     @Binding(
         bindingName = "Language",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "A human language.",
         valueSet = "http://hl7.org/fhir/ValueSet/languages",
         maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"

@@ -39,15 +39,36 @@ public class PositiveInt extends Integer {
         return super.hasChildren();
     }
 
+    /**
+     * Factory method for creating PositiveInt objects from a java.lang.Integer
+     * 
+     * @param value
+     *     A java.lang.Integer, not null
+     */
     public static PositiveInt of(java.lang.Integer value) {
+        Objects.requireNonNull(value, "value");
         return PositiveInt.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating PositiveInt objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String value that can be parsed into a java.lang.Integer, not null
+     */
     public static PositiveInt of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return PositiveInt.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating PositiveInt objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String that can be parsed into a java.lang.Integer, not null
+     */
     public static Integer integer(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return PositiveInt.builder().value(value).build();
     }
 

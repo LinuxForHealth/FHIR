@@ -24,7 +24,7 @@ public class MedicationRequestStatus extends Code {
      * 
      * <p>The prescription is 'actionable', but not all actions that are implied by it have occurred yet.
      */
-    public static final MedicationRequestStatus ACTIVE = MedicationRequestStatus.builder().value(ValueSet.ACTIVE).build();
+    public static final MedicationRequestStatus ACTIVE = MedicationRequestStatus.builder().value(Value.ACTIVE).build();
 
     /**
      * On Hold
@@ -32,21 +32,21 @@ public class MedicationRequestStatus extends Code {
      * <p>Actions implied by the prescription are to be temporarily halted, but are expected to continue later. May also be 
      * called 'suspended'.
      */
-    public static final MedicationRequestStatus ON_HOLD = MedicationRequestStatus.builder().value(ValueSet.ON_HOLD).build();
+    public static final MedicationRequestStatus ON_HOLD = MedicationRequestStatus.builder().value(Value.ON_HOLD).build();
 
     /**
      * Cancelled
      * 
      * <p>The prescription has been withdrawn before any administrations have occurred
      */
-    public static final MedicationRequestStatus CANCELLED = MedicationRequestStatus.builder().value(ValueSet.CANCELLED).build();
+    public static final MedicationRequestStatus CANCELLED = MedicationRequestStatus.builder().value(Value.CANCELLED).build();
 
     /**
      * Completed
      * 
      * <p>All actions that are implied by the prescription have occurred.
      */
-    public static final MedicationRequestStatus COMPLETED = MedicationRequestStatus.builder().value(ValueSet.COMPLETED).build();
+    public static final MedicationRequestStatus COMPLETED = MedicationRequestStatus.builder().value(Value.COMPLETED).build();
 
     /**
      * Entered in Error
@@ -55,7 +55,7 @@ public class MedicationRequestStatus extends Code {
      * have been dispensed and the patient may have taken some of the medication. Clinical decision support systems should 
      * take this status into account
      */
-    public static final MedicationRequestStatus ENTERED_IN_ERROR = MedicationRequestStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
+    public static final MedicationRequestStatus ENTERED_IN_ERROR = MedicationRequestStatus.builder().value(Value.ENTERED_IN_ERROR).build();
 
     /**
      * Stopped
@@ -63,7 +63,7 @@ public class MedicationRequestStatus extends Code {
      * <p>Actions implied by the prescription are to be permanently halted, before all of the administrations occurred. This 
      * should not be used if the original order was entered in error
      */
-    public static final MedicationRequestStatus STOPPED = MedicationRequestStatus.builder().value(ValueSet.STOPPED).build();
+    public static final MedicationRequestStatus STOPPED = MedicationRequestStatus.builder().value(Value.STOPPED).build();
 
     /**
      * Draft
@@ -71,7 +71,7 @@ public class MedicationRequestStatus extends Code {
      * <p>The prescription is not yet 'actionable', e.g. it is a work in progress, requires sign-off, verification or needs 
      * to be run through decision support process.
      */
-    public static final MedicationRequestStatus DRAFT = MedicationRequestStatus.builder().value(ValueSet.DRAFT).build();
+    public static final MedicationRequestStatus DRAFT = MedicationRequestStatus.builder().value(Value.DRAFT).build();
 
     /**
      * Unknown
@@ -80,7 +80,7 @@ public class MedicationRequestStatus extends Code {
      * This concept is not to be used for 'other' - one of the listed statuses is presumed to apply, but the authoring/source 
      * system does not know which.
      */
-    public static final MedicationRequestStatus UNKNOWN = MedicationRequestStatus.builder().value(ValueSet.UNKNOWN).build();
+    public static final MedicationRequestStatus UNKNOWN = MedicationRequestStatus.builder().value(Value.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -88,14 +88,54 @@ public class MedicationRequestStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this MedicationRequestStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this MedicationRequestStatus as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating MedicationRequestStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static MedicationRequestStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case ON_HOLD:
+            return ON_HOLD;
+        case CANCELLED:
+            return CANCELLED;
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case STOPPED:
+            return STOPPED;
+        case DRAFT:
+            return DRAFT;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating MedicationRequestStatus objects from a passed enum value.
      */
-    public static MedicationRequestStatus of(ValueSet value) {
+    public static MedicationRequestStatus of(Value value) {
         switch (value) {
         case ACTIVE:
             return ACTIVE;
@@ -127,7 +167,7 @@ public class MedicationRequestStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static MedicationRequestStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -139,7 +179,7 @@ public class MedicationRequestStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -151,7 +191,7 @@ public class MedicationRequestStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -213,10 +253,27 @@ public class MedicationRequestStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for MedicationRequestStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -226,6 +283,7 @@ public class MedicationRequestStatus extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Active
@@ -305,7 +363,7 @@ public class MedicationRequestStatus extends Code {
         }
 
         /**
-         * Factory method for creating MedicationRequestStatus.ValueSet values from a passed string value.
+         * Factory method for creating MedicationRequestStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -319,6 +377,121 @@ public class MedicationRequestStatus extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Active
+         * 
+         * <p>The prescription is 'actionable', but not all actions that are implied by it have occurred yet.
+         */
+        ACTIVE("active"),
+
+        /**
+         * On Hold
+         * 
+         * <p>Actions implied by the prescription are to be temporarily halted, but are expected to continue later. May also be 
+         * called 'suspended'.
+         */
+        ON_HOLD("on-hold"),
+
+        /**
+         * Cancelled
+         * 
+         * <p>The prescription has been withdrawn before any administrations have occurred
+         */
+        CANCELLED("cancelled"),
+
+        /**
+         * Completed
+         * 
+         * <p>All actions that are implied by the prescription have occurred.
+         */
+        COMPLETED("completed"),
+
+        /**
+         * Entered in Error
+         * 
+         * <p>Some of the actions that are implied by the medication request may have occurred. For example, the medication may 
+         * have been dispensed and the patient may have taken some of the medication. Clinical decision support systems should 
+         * take this status into account
+         */
+        ENTERED_IN_ERROR("entered-in-error"),
+
+        /**
+         * Stopped
+         * 
+         * <p>Actions implied by the prescription are to be permanently halted, before all of the administrations occurred. This 
+         * should not be used if the original order was entered in error
+         */
+        STOPPED("stopped"),
+
+        /**
+         * Draft
+         * 
+         * <p>The prescription is not yet 'actionable', e.g. it is a work in progress, requires sign-off, verification or needs 
+         * to be run through decision support process.
+         */
+        DRAFT("draft"),
+
+        /**
+         * Unknown
+         * 
+         * <p>The authoring/source system does not know which of the status values currently applies for this observation. Note: 
+         * This concept is not to be used for 'other' - one of the listed statuses is presumed to apply, but the authoring/source 
+         * system does not know which.
+         */
+        UNKNOWN("unknown");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating MedicationRequestStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding MedicationRequestStatus.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "active":
+                return ACTIVE;
+            case "on-hold":
+                return ON_HOLD;
+            case "cancelled":
+                return CANCELLED;
+            case "completed":
+                return COMPLETED;
+            case "entered-in-error":
+                return ENTERED_IN_ERROR;
+            case "stopped":
+                return STOPPED;
+            case "draft":
+                return DRAFT;
+            case "unknown":
+                return UNKNOWN;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

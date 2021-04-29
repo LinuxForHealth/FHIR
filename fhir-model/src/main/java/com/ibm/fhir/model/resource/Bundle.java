@@ -45,7 +45,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 5,
-    status = StandardsStatus.ValueSet.NORMATIVE
+    status = StandardsStatus.Value.NORMATIVE
 )
 @Constraint(
     id = "bdl-1",
@@ -131,7 +131,7 @@ public class Bundle extends Resource {
     @Summary
     @Binding(
         bindingName = "BundleType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Indicates the purpose of a bundle - how it is intended to be used.",
         valueSet = "http://hl7.org/fhir/ValueSet/bundle-type|4.0.1"
     )
@@ -1285,7 +1285,7 @@ public class Bundle extends Resource {
             @Summary
             @Binding(
                 bindingName = "SearchEntryMode",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "Why an entry is in the result set - whether it's included as a match or because of an _include requirement, or to convey information or warning information about the search process.",
                 valueSet = "http://hl7.org/fhir/ValueSet/search-entry-mode|4.0.1"
             )
@@ -1557,7 +1557,7 @@ public class Bundle extends Resource {
             @Summary
             @Binding(
                 bindingName = "HTTPVerb",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "HTTP verbs (in the HTTP command line). See [HTTP rfc](https://tools.ietf.org/html/rfc7231) for details.",
                 valueSet = "http://hl7.org/fhir/ValueSet/http-verb|4.0.1"
             )

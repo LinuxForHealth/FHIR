@@ -1647,7 +1647,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            Bundle bundle = helper.doBundle(requestBundle);
+            Bundle bundle = helper.doBundle(requestBundle, false);
             assertEquals(2, bundle.getEntry().size());
             for (Entry bundleEntry : bundle.getEntry()) {
                 assertEquals(ALL_OK, bundleEntry.getResource().as(OperationOutcome.class));
@@ -1715,7 +1715,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doBundle(requestBundle);
+            helper.doBundle(requestBundle, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
@@ -1786,7 +1786,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            Bundle bundle = helper.doBundle(requestBundle);
+            Bundle bundle = helper.doBundle(requestBundle, false);
             assertEquals(2, bundle.getEntry().size());
             for (Entry bundleEntry : bundle.getEntry()) {
                 assertEquals(ALL_OK, bundleEntry.getResource().as(OperationOutcome.class));
@@ -1854,7 +1854,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            Bundle bundle = helper.doBundle(requestBundle);
+            Bundle bundle = helper.doBundle(requestBundle, false);
             assertEquals(2, bundle.getEntry().size());
             assertEquals("The requested interaction of type 'create' is not allowed for resource type 'Patient'",
                 bundle.getEntry().get(0).getResource().as(OperationOutcome.class).getIssue().get(0).getDetails().getText().getValue());

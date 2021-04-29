@@ -56,7 +56,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 0,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "cid-0",
@@ -93,7 +93,7 @@ public class ChargeItemDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -114,7 +114,7 @@ public class ChargeItemDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -127,7 +127,7 @@ public class ChargeItemDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ChargeItemDefinitionCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Billing Code defined by this ChargeItemDefinition.",
         valueSet = "http://hl7.org/fhir/ValueSet/chargeitem-billingcodes"
     )
@@ -2043,7 +2043,7 @@ public class ChargeItemDefinition extends DomainResource {
         public static class PriceComponent extends BackboneElement {
             @Binding(
                 bindingName = "ChargeItemDefinitionPriceComponentType",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "Codes indicating the kind of the price component.",
                 valueSet = "http://hl7.org/fhir/ValueSet/invoice-priceComponentType|4.0.1"
             )

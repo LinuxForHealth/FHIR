@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.search.util;
 
-import java.util.Arrays;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -14,7 +13,7 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.type.Reference;
-import com.ibm.fhir.model.type.code.FHIRResourceType;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
 
@@ -30,8 +29,8 @@ public class ReferenceUtil {
     private static final String URN = "urn:";
 
     // A set of resource type names to assist computing the base URL string
-    private static final Set<String> resourceTypes = Arrays.stream(FHIRResourceType.ValueSet.values())
-            .map(FHIRResourceType.ValueSet::value)
+    private static final Set<String> resourceTypes = ModelSupport.getResourceTypes(false).stream()
+            .map(Class::getSimpleName)
             .collect(Collectors.toSet());
 
 

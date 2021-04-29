@@ -1544,7 +1544,7 @@ public class Main {
             // over to false, migration is required to drop the tables no longer required.
             final boolean includeAbstractResourceTypes = true;
             result = ModelSupport.getResourceTypes(includeAbstractResourceTypes).stream()
-                    .map(t -> ModelSupport.getTypeName(t))
+                    .map(Class::getSimpleName)
                     .collect(Collectors.toSet());
         } else {
             result = this.resourceTypeSubset;

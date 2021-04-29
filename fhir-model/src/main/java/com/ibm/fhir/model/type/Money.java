@@ -27,7 +27,7 @@ public class Money extends Element {
     @Summary
     @Binding(
         bindingName = "CurrencyCode",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code indicating the currency, taken from ISO 4217.",
         valueSet = "http://hl7.org/fhir/ValueSet/currencies|4.0.1"
     )

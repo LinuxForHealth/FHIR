@@ -133,7 +133,7 @@ public final class ParametersUtil {
 
     private static List<SearchParameter> getSearchParameters() {
         List<SearchParameter> searchParameters = new ArrayList<>(2048);
-        for (SearchParamType.ValueSet searchParamType : SearchParamType.ValueSet.values()) {
+        for (SearchParamType.Value searchParamType : SearchParamType.Value.values()) {
             searchParameters.addAll(FHIRRegistry.getInstance().getSearchParameters(searchParamType.value()));
         }
         return searchParameters;

@@ -50,7 +50,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 0,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "ipn-1",
@@ -74,7 +74,7 @@ public class InsurancePlan extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -82,7 +82,7 @@ public class InsurancePlan extends DomainResource {
     @Summary
     @Binding(
         bindingName = "InsurancePlanType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Used to categorize the product/plan.",
         valueSet = "http://hl7.org/fhir/ValueSet/insuranceplan-type"
     )
@@ -1080,7 +1080,7 @@ public class InsurancePlan extends DomainResource {
     public static class Contact extends BackboneElement {
         @Binding(
             bindingName = "ContactPartyType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The purpose for which you would contact a contact party.",
             valueSet = "http://hl7.org/fhir/ValueSet/contactentity-type"
         )
@@ -3798,7 +3798,7 @@ public class InsurancePlan extends DomainResource {
                     private final CodeableConcept type;
                     @Binding(
                         bindingName = "BenefitCostApplicability",
-                        strength = BindingStrength.ValueSet.REQUIRED,
+                        strength = BindingStrength.Value.REQUIRED,
                         description = "Whether the cost applies to in-network or out-of-network providers.",
                         valueSet = "http://hl7.org/fhir/ValueSet/insuranceplan-applicability|4.0.1"
                     )

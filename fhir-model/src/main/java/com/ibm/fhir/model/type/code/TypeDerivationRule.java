@@ -24,14 +24,14 @@ public class TypeDerivationRule extends Code {
      * 
      * <p>This definition defines a new type that adds additional elements to the base type.
      */
-    public static final TypeDerivationRule SPECIALIZATION = TypeDerivationRule.builder().value(ValueSet.SPECIALIZATION).build();
+    public static final TypeDerivationRule SPECIALIZATION = TypeDerivationRule.builder().value(Value.SPECIALIZATION).build();
 
     /**
      * Constraint
      * 
      * <p>This definition adds additional rules to an existing concrete type.
      */
-    public static final TypeDerivationRule CONSTRAINT = TypeDerivationRule.builder().value(ValueSet.CONSTRAINT).build();
+    public static final TypeDerivationRule CONSTRAINT = TypeDerivationRule.builder().value(Value.CONSTRAINT).build();
 
     private volatile int hashCode;
 
@@ -39,14 +39,42 @@ public class TypeDerivationRule extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this TypeDerivationRule as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this TypeDerivationRule as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating TypeDerivationRule objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static TypeDerivationRule of(ValueSet value) {
+        switch (value) {
+        case SPECIALIZATION:
+            return SPECIALIZATION;
+        case CONSTRAINT:
+            return CONSTRAINT;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating TypeDerivationRule objects from a passed enum value.
      */
-    public static TypeDerivationRule of(ValueSet value) {
+    public static TypeDerivationRule of(Value value) {
         switch (value) {
         case SPECIALIZATION:
             return SPECIALIZATION;
@@ -66,7 +94,7 @@ public class TypeDerivationRule extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static TypeDerivationRule of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -78,7 +106,7 @@ public class TypeDerivationRule extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -90,7 +118,7 @@ public class TypeDerivationRule extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -152,10 +180,27 @@ public class TypeDerivationRule extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for TypeDerivationRule
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -165,6 +210,7 @@ public class TypeDerivationRule extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Specialization
@@ -195,7 +241,7 @@ public class TypeDerivationRule extends Code {
         }
 
         /**
-         * Factory method for creating TypeDerivationRule.ValueSet values from a passed string value.
+         * Factory method for creating TypeDerivationRule.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -209,6 +255,60 @@ public class TypeDerivationRule extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Specialization
+         * 
+         * <p>This definition defines a new type that adds additional elements to the base type.
+         */
+        SPECIALIZATION("specialization"),
+
+        /**
+         * Constraint
+         * 
+         * <p>This definition adds additional rules to an existing concrete type.
+         */
+        CONSTRAINT("constraint");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating TypeDerivationRule.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding TypeDerivationRule.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "specialization":
+                return SPECIALIZATION;
+            case "constraint":
+                return CONSTRAINT;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

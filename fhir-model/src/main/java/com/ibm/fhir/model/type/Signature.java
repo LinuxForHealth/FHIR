@@ -41,7 +41,7 @@ public class Signature extends Element {
     @Summary
     @Binding(
         bindingName = "SignatureType",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "An indication of the reason that an entity signed the object.",
         valueSet = "http://hl7.org/fhir/ValueSet/signature-type"
     )
@@ -59,14 +59,14 @@ public class Signature extends Element {
     private final Reference onBehalfOf;
     @Binding(
         bindingName = "MimeType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The mime type of an attachment. Any valid mime type is allowed.",
         valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
     )
     private final Code targetFormat;
     @Binding(
         bindingName = "MimeType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The mime type of an attachment. Any valid mime type is allowed.",
         valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
     )

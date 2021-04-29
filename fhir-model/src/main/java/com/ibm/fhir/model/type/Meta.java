@@ -46,7 +46,7 @@ public class Meta extends Element {
     @Summary
     @Binding(
         bindingName = "SecurityLabels",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Security Labels from the Healthcare Privacy and Security Classification System.",
         valueSet = "http://hl7.org/fhir/ValueSet/security-labels"
     )
@@ -54,7 +54,7 @@ public class Meta extends Element {
     @Summary
     @Binding(
         bindingName = "Tags",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes that represent various types of tags, commonly workflow-related; e.g. \"Needs review by Dr. Jones\".",
         valueSet = "http://hl7.org/fhir/ValueSet/common-tags"
     )

@@ -41,7 +41,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 1,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Basic extends DomainResource {
@@ -50,7 +50,7 @@ public class Basic extends DomainResource {
     @Summary
     @Binding(
         bindingName = "BasicResourceType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for identifying types of resources not yet defined by FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/basic-resource-type"
     )

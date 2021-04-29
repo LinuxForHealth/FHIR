@@ -52,11 +52,25 @@ public class Boolean extends Element {
         return super.hasChildren();
     }
 
+    /**
+     * Factory method for creating Boolean objects from a java.lang.Boolean
+     * 
+     * @param value
+     *     A java.lang.Boolean, not null
+     */
     public static Boolean of(java.lang.Boolean value) {
+        Objects.requireNonNull(value, "value");
         return Boolean.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Boolean objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String value that can be parsed into a java.lang.Boolean, not null
+     */
     public static Boolean of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Boolean.builder().value(value).build();
     }
 

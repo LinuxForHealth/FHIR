@@ -50,7 +50,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "relatedPerson-0",
@@ -81,7 +81,7 @@ public class RelatedPerson extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PatientRelationshipType",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "The nature of the relationship between a patient and the related person.",
         valueSet = "http://hl7.org/fhir/ValueSet/relatedperson-relationshiptype"
     )
@@ -93,7 +93,7 @@ public class RelatedPerson extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AdministrativeGender",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The gender of a person used for administrative purposes.",
         valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.1"
     )
@@ -941,7 +941,7 @@ public class RelatedPerson extends DomainResource {
     public static class Communication extends BackboneElement {
         @Binding(
             bindingName = "Language",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "A human language.",
             valueSet = "http://hl7.org/fhir/ValueSet/languages",
             maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"

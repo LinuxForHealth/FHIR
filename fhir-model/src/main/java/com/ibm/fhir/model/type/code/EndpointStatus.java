@@ -24,14 +24,14 @@ public class EndpointStatus extends Code {
      * 
      * <p>This endpoint is expected to be active and can be used.
      */
-    public static final EndpointStatus ACTIVE = EndpointStatus.builder().value(ValueSet.ACTIVE).build();
+    public static final EndpointStatus ACTIVE = EndpointStatus.builder().value(Value.ACTIVE).build();
 
     /**
      * Suspended
      * 
      * <p>This endpoint is temporarily unavailable.
      */
-    public static final EndpointStatus SUSPENDED = EndpointStatus.builder().value(ValueSet.SUSPENDED).build();
+    public static final EndpointStatus SUSPENDED = EndpointStatus.builder().value(Value.SUSPENDED).build();
 
     /**
      * Error
@@ -39,28 +39,28 @@ public class EndpointStatus extends Code {
      * <p>This endpoint has exceeded connectivity thresholds and is considered in an error state and should no longer be 
      * attempted to connect to until corrective action is taken.
      */
-    public static final EndpointStatus ERROR = EndpointStatus.builder().value(ValueSet.ERROR).build();
+    public static final EndpointStatus ERROR = EndpointStatus.builder().value(Value.ERROR).build();
 
     /**
      * Off
      * 
      * <p>This endpoint is no longer to be used.
      */
-    public static final EndpointStatus OFF = EndpointStatus.builder().value(ValueSet.OFF).build();
+    public static final EndpointStatus OFF = EndpointStatus.builder().value(Value.OFF).build();
 
     /**
      * Entered in error
      * 
      * <p>This instance should not have been part of this patient's medical record.
      */
-    public static final EndpointStatus ENTERED_IN_ERROR = EndpointStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
+    public static final EndpointStatus ENTERED_IN_ERROR = EndpointStatus.builder().value(Value.ENTERED_IN_ERROR).build();
 
     /**
      * Test
      * 
      * <p>This endpoint is not intended for production usage.
      */
-    public static final EndpointStatus TEST = EndpointStatus.builder().value(ValueSet.TEST).build();
+    public static final EndpointStatus TEST = EndpointStatus.builder().value(Value.TEST).build();
 
     private volatile int hashCode;
 
@@ -68,14 +68,50 @@ public class EndpointStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this EndpointStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this EndpointStatus as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating EndpointStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static EndpointStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case SUSPENDED:
+            return SUSPENDED;
+        case ERROR:
+            return ERROR;
+        case OFF:
+            return OFF;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case TEST:
+            return TEST;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating EndpointStatus objects from a passed enum value.
      */
-    public static EndpointStatus of(ValueSet value) {
+    public static EndpointStatus of(Value value) {
         switch (value) {
         case ACTIVE:
             return ACTIVE;
@@ -103,7 +139,7 @@ public class EndpointStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static EndpointStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -115,7 +151,7 @@ public class EndpointStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -127,7 +163,7 @@ public class EndpointStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -189,10 +225,27 @@ public class EndpointStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for EndpointStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -202,6 +255,7 @@ public class EndpointStatus extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Active
@@ -261,7 +315,7 @@ public class EndpointStatus extends Code {
         }
 
         /**
-         * Factory method for creating EndpointStatus.ValueSet values from a passed string value.
+         * Factory method for creating EndpointStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -275,6 +329,97 @@ public class EndpointStatus extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Active
+         * 
+         * <p>This endpoint is expected to be active and can be used.
+         */
+        ACTIVE("active"),
+
+        /**
+         * Suspended
+         * 
+         * <p>This endpoint is temporarily unavailable.
+         */
+        SUSPENDED("suspended"),
+
+        /**
+         * Error
+         * 
+         * <p>This endpoint has exceeded connectivity thresholds and is considered in an error state and should no longer be 
+         * attempted to connect to until corrective action is taken.
+         */
+        ERROR("error"),
+
+        /**
+         * Off
+         * 
+         * <p>This endpoint is no longer to be used.
+         */
+        OFF("off"),
+
+        /**
+         * Entered in error
+         * 
+         * <p>This instance should not have been part of this patient's medical record.
+         */
+        ENTERED_IN_ERROR("entered-in-error"),
+
+        /**
+         * Test
+         * 
+         * <p>This endpoint is not intended for production usage.
+         */
+        TEST("test");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating EndpointStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding EndpointStatus.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "active":
+                return ACTIVE;
+            case "suspended":
+                return SUSPENDED;
+            case "error":
+                return ERROR;
+            case "off":
+                return OFF;
+            case "entered-in-error":
+                return ENTERED_IN_ERROR;
+            case "test":
+                return TEST;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

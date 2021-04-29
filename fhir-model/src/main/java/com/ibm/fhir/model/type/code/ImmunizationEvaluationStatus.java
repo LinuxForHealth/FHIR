@@ -19,9 +19,9 @@ import javax.annotation.Generated;
 @System("http://terminology.hl7.org/CodeSystem/medication-admin-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ImmunizationEvaluationStatus extends Code {
-    public static final ImmunizationEvaluationStatus COMPLETED = ImmunizationEvaluationStatus.builder().value(ValueSet.COMPLETED).build();
+    public static final ImmunizationEvaluationStatus COMPLETED = ImmunizationEvaluationStatus.builder().value(Value.COMPLETED).build();
 
-    public static final ImmunizationEvaluationStatus ENTERED_IN_ERROR = ImmunizationEvaluationStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
+    public static final ImmunizationEvaluationStatus ENTERED_IN_ERROR = ImmunizationEvaluationStatus.builder().value(Value.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -29,14 +29,42 @@ public class ImmunizationEvaluationStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this ImmunizationEvaluationStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this ImmunizationEvaluationStatus as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating ImmunizationEvaluationStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static ImmunizationEvaluationStatus of(ValueSet value) {
+        switch (value) {
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating ImmunizationEvaluationStatus objects from a passed enum value.
      */
-    public static ImmunizationEvaluationStatus of(ValueSet value) {
+    public static ImmunizationEvaluationStatus of(Value value) {
         switch (value) {
         case COMPLETED:
             return COMPLETED;
@@ -56,7 +84,7 @@ public class ImmunizationEvaluationStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static ImmunizationEvaluationStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -68,7 +96,7 @@ public class ImmunizationEvaluationStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -80,7 +108,7 @@ public class ImmunizationEvaluationStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -142,10 +170,27 @@ public class ImmunizationEvaluationStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for ImmunizationEvaluationStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -155,6 +200,7 @@ public class ImmunizationEvaluationStatus extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         COMPLETED("completed"),
 
@@ -175,7 +221,7 @@ public class ImmunizationEvaluationStatus extends Code {
         }
 
         /**
-         * Factory method for creating ImmunizationEvaluationStatus.ValueSet values from a passed string value.
+         * Factory method for creating ImmunizationEvaluationStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -189,6 +235,50 @@ public class ImmunizationEvaluationStatus extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        COMPLETED("completed"),
+
+        ENTERED_IN_ERROR("entered-in-error");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating ImmunizationEvaluationStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding ImmunizationEvaluationStatus.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "completed":
+                return COMPLETED;
+            case "entered-in-error":
+                return ENTERED_IN_ERROR;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

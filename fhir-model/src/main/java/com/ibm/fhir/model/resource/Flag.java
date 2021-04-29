@@ -41,7 +41,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 1,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Flag extends DomainResource {
@@ -50,7 +50,7 @@ public class Flag extends DomainResource {
     @Summary
     @Binding(
         bindingName = "FlagStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Indicates whether this flag is active and needs to be displayed to a user, or whether it is no longer needed or was entered in error.",
         valueSet = "http://hl7.org/fhir/ValueSet/flag-status|4.0.1"
     )
@@ -59,7 +59,7 @@ public class Flag extends DomainResource {
     @Summary
     @Binding(
         bindingName = "FlagCategory",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A general category for flags for filtering/display purposes.",
         valueSet = "http://hl7.org/fhir/ValueSet/flag-category"
     )
@@ -67,7 +67,7 @@ public class Flag extends DomainResource {
     @Summary
     @Binding(
         bindingName = "FlagCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Detail codes identifying specific flagged issues.",
         valueSet = "http://hl7.org/fhir/ValueSet/flag-code"
     )

@@ -24,28 +24,28 @@ public class AuditEventOutcome extends Code {
      * 
      * <p>The operation completed successfully (whether with warnings or not).
      */
-    public static final AuditEventOutcome OUTCOME_0 = AuditEventOutcome.builder().value(ValueSet.OUTCOME_0).build();
+    public static final AuditEventOutcome OUTCOME_0 = AuditEventOutcome.builder().value(Value.OUTCOME_0).build();
 
     /**
      * Minor failure
      * 
      * <p>The action was not successful due to some kind of minor failure (often equivalent to an HTTP 400 response).
      */
-    public static final AuditEventOutcome OUTCOME_4 = AuditEventOutcome.builder().value(ValueSet.OUTCOME_4).build();
+    public static final AuditEventOutcome OUTCOME_4 = AuditEventOutcome.builder().value(Value.OUTCOME_4).build();
 
     /**
      * Serious failure
      * 
      * <p>The action was not successful due to some kind of unexpected error (often equivalent to an HTTP 500 response).
      */
-    public static final AuditEventOutcome OUTCOME_8 = AuditEventOutcome.builder().value(ValueSet.OUTCOME_8).build();
+    public static final AuditEventOutcome OUTCOME_8 = AuditEventOutcome.builder().value(Value.OUTCOME_8).build();
 
     /**
      * Major failure
      * 
      * <p>An error of such magnitude occurred that the system is no longer available for use (i.e. the system died).
      */
-    public static final AuditEventOutcome OUTCOME_12 = AuditEventOutcome.builder().value(ValueSet.OUTCOME_12).build();
+    public static final AuditEventOutcome OUTCOME_12 = AuditEventOutcome.builder().value(Value.OUTCOME_12).build();
 
     private volatile int hashCode;
 
@@ -53,14 +53,46 @@ public class AuditEventOutcome extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this AuditEventOutcome as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this AuditEventOutcome as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating AuditEventOutcome objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static AuditEventOutcome of(ValueSet value) {
+        switch (value) {
+        case OUTCOME_0:
+            return OUTCOME_0;
+        case OUTCOME_4:
+            return OUTCOME_4;
+        case OUTCOME_8:
+            return OUTCOME_8;
+        case OUTCOME_12:
+            return OUTCOME_12;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating AuditEventOutcome objects from a passed enum value.
      */
-    public static AuditEventOutcome of(ValueSet value) {
+    public static AuditEventOutcome of(Value value) {
         switch (value) {
         case OUTCOME_0:
             return OUTCOME_0;
@@ -84,7 +116,7 @@ public class AuditEventOutcome extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static AuditEventOutcome of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -96,7 +128,7 @@ public class AuditEventOutcome extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -108,7 +140,7 @@ public class AuditEventOutcome extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -170,10 +202,27 @@ public class AuditEventOutcome extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for AuditEventOutcome
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -183,6 +232,7 @@ public class AuditEventOutcome extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Success
@@ -227,7 +277,7 @@ public class AuditEventOutcome extends Code {
         }
 
         /**
-         * Factory method for creating AuditEventOutcome.ValueSet values from a passed string value.
+         * Factory method for creating AuditEventOutcome.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -241,6 +291,78 @@ public class AuditEventOutcome extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Success
+         * 
+         * <p>The operation completed successfully (whether with warnings or not).
+         */
+        OUTCOME_0("0"),
+
+        /**
+         * Minor failure
+         * 
+         * <p>The action was not successful due to some kind of minor failure (often equivalent to an HTTP 400 response).
+         */
+        OUTCOME_4("4"),
+
+        /**
+         * Serious failure
+         * 
+         * <p>The action was not successful due to some kind of unexpected error (often equivalent to an HTTP 500 response).
+         */
+        OUTCOME_8("8"),
+
+        /**
+         * Major failure
+         * 
+         * <p>An error of such magnitude occurred that the system is no longer available for use (i.e. the system died).
+         */
+        OUTCOME_12("12");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating AuditEventOutcome.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding AuditEventOutcome.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "0":
+                return OUTCOME_0;
+            case "4":
+                return OUTCOME_4;
+            case "8":
+                return OUTCOME_8;
+            case "12":
+                return OUTCOME_12;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

@@ -57,7 +57,7 @@ public class DataRequirement extends Element {
     @Summary
     @Binding(
         bindingName = "FHIRAllTypes",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A list of all the concrete types defined in this version of the FHIR specification - Abstract Types, Data Types and Resource Types.",
         valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.0.1"
     )
@@ -70,7 +70,7 @@ public class DataRequirement extends Element {
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SubjectType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The possible types of subjects for a data requirement (E.g., Patient, Practitioner, Organization, Location, etc.).",
         valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
     )
@@ -1316,7 +1316,7 @@ public class DataRequirement extends Element {
         @Summary
         @Binding(
             bindingName = "SortDirection",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The possible sort directions, ascending or descending.",
             valueSet = "http://hl7.org/fhir/ValueSet/sort-direction|4.0.1"
         )

@@ -62,29 +62,29 @@ public class PatientAgeCharacteristicProcessor implements CharacteristicProcesso
         } else {
             // Example: Age = 56
             // Birthdate: 2020 becomes 1964
-            QuantityComparator.ValueSet vs = comparator.getValueAsEnumConstant();
-            if (QuantityComparator.ValueSet.LESS_THAN.equals(vs)) {
+            QuantityComparator.Value vs = comparator.getValueAsEnum();
+            if (QuantityComparator.Value.LESS_THAN.equals(vs)) {
                 // gt1964
                 if (!exclude.booleanValue()) {
                     result = "gt";
                 } else {
                     result = "le";
                 }
-            } else if (QuantityComparator.ValueSet.LESS_OR_EQUALS.equals(vs)) {
+            } else if (QuantityComparator.Value.LESS_OR_EQUALS.equals(vs)) {
                 // ge1964
                 if (!exclude.booleanValue()) {
                     result = "ge";
                 } else {
                     result = "lt";
                 }
-            } else if (QuantityComparator.ValueSet.GREATER_OR_EQUALS.equals(vs)) {
+            } else if (QuantityComparator.Value.GREATER_OR_EQUALS.equals(vs)) {
                 // le1964
                 if (!exclude.booleanValue()) {
                     result = "le";
                 } else {
                     result = "gt";
                 }
-            } else if (QuantityComparator.ValueSet.GREATER_THAN.equals(vs)) {
+            } else if (QuantityComparator.Value.GREATER_THAN.equals(vs)) {
                 // lt1964
                 if (!exclude.booleanValue()) {
                     result = "lt";

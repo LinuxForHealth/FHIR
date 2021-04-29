@@ -347,7 +347,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         String resourceType = resource.getClass().getSimpleName();
         Map<ContextType, List<Scope>> approvedScopeMap = approvedScopes.stream()
                 // First filter the list to only scopes which grant the required permissions on the passed resourceType
-                .filter(s -> s.getResourceType() == ResourceType.ValueSet.RESOURCE ||
+                .filter(s -> s.getResourceType() == ResourceType.Value.RESOURCE ||
                         s.getResourceType().value().equals(resourceType))
                 .filter(s -> hasPermission(s.getPermission(),requiredPermission))
                 // Then group the scopes by their context type

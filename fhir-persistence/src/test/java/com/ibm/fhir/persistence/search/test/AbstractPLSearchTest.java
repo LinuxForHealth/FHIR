@@ -169,7 +169,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
 
         composition = Composition.builder()
                 .subject(ref)
-                .status(CompositionStatus.builder().value(CompositionStatus.ValueSet.PRELIMINARY).build())
+                .status(CompositionStatus.builder().value(CompositionStatus.Value.PRELIMINARY).build())
                 .type(CodeableConcept.builder().text(string("test")).build())
                 .category(CodeableConcept.builder().text(string("test")).build())
                 .date(DateTime.of("2019"))

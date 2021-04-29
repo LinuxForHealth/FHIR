@@ -24,21 +24,21 @@ public class Use extends Code {
      * 
      * <p>The treatment is complete and this represents a Claim for the services.
      */
-    public static final Use CLAIM = Use.builder().value(ValueSet.CLAIM).build();
+    public static final Use CLAIM = Use.builder().value(Value.CLAIM).build();
 
     /**
      * Preauthorization
      * 
      * <p>The treatment is proposed and this represents a Pre-authorization for the services.
      */
-    public static final Use PREAUTHORIZATION = Use.builder().value(ValueSet.PREAUTHORIZATION).build();
+    public static final Use PREAUTHORIZATION = Use.builder().value(Value.PREAUTHORIZATION).build();
 
     /**
      * Predetermination
      * 
      * <p>The treatment is proposed and this represents a Pre-determination for the services.
      */
-    public static final Use PREDETERMINATION = Use.builder().value(ValueSet.PREDETERMINATION).build();
+    public static final Use PREDETERMINATION = Use.builder().value(Value.PREDETERMINATION).build();
 
     private volatile int hashCode;
 
@@ -46,14 +46,44 @@ public class Use extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this Use as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this Use as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating Use objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static Use of(ValueSet value) {
+        switch (value) {
+        case CLAIM:
+            return CLAIM;
+        case PREAUTHORIZATION:
+            return PREAUTHORIZATION;
+        case PREDETERMINATION:
+            return PREDETERMINATION;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating Use objects from a passed enum value.
      */
-    public static Use of(ValueSet value) {
+    public static Use of(Value value) {
         switch (value) {
         case CLAIM:
             return CLAIM;
@@ -75,7 +105,7 @@ public class Use extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Use of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -87,7 +117,7 @@ public class Use extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -99,7 +129,7 @@ public class Use extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -161,10 +191,27 @@ public class Use extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for Use
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -174,6 +221,7 @@ public class Use extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Claim
@@ -211,7 +259,7 @@ public class Use extends Code {
         }
 
         /**
-         * Factory method for creating Use.ValueSet values from a passed string value.
+         * Factory method for creating Use.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -225,6 +273,69 @@ public class Use extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Claim
+         * 
+         * <p>The treatment is complete and this represents a Claim for the services.
+         */
+        CLAIM("claim"),
+
+        /**
+         * Preauthorization
+         * 
+         * <p>The treatment is proposed and this represents a Pre-authorization for the services.
+         */
+        PREAUTHORIZATION("preauthorization"),
+
+        /**
+         * Predetermination
+         * 
+         * <p>The treatment is proposed and this represents a Pre-determination for the services.
+         */
+        PREDETERMINATION("predetermination");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating Use.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding Use.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "claim":
+                return CLAIM;
+            case "preauthorization":
+                return PREAUTHORIZATION;
+            case "predetermination":
+                return PREDETERMINATION;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

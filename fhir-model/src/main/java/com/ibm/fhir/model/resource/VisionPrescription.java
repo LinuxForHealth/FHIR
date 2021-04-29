@@ -49,7 +49,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class VisionPrescription extends DomainResource {
@@ -57,7 +57,7 @@ public class VisionPrescription extends DomainResource {
     @Summary
     @Binding(
         bindingName = "VisionStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.1"
     )
@@ -727,7 +727,7 @@ public class VisionPrescription extends DomainResource {
         @Summary
         @Binding(
             bindingName = "VisionProduct",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "A coded concept describing the vision products.",
             valueSet = "http://hl7.org/fhir/ValueSet/vision-product"
         )
@@ -736,7 +736,7 @@ public class VisionPrescription extends DomainResource {
         @Summary
         @Binding(
             bindingName = "VisionEyes",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "A coded concept listing the eye codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/vision-eye-codes|4.0.1"
         )
@@ -1438,7 +1438,7 @@ public class VisionPrescription extends DomainResource {
             private final Decimal amount;
             @Binding(
                 bindingName = "VisionBase",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "A coded concept listing the base codes.",
                 valueSet = "http://hl7.org/fhir/ValueSet/vision-base-codes|4.0.1"
             )

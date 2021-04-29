@@ -25,7 +25,7 @@ public class CompositionStatus extends Code {
      * <p>This is a preliminary composition or document (also known as initial or interim). The content may be incomplete or 
      * unverified.
      */
-    public static final CompositionStatus PRELIMINARY = CompositionStatus.builder().value(ValueSet.PRELIMINARY).build();
+    public static final CompositionStatus PRELIMINARY = CompositionStatus.builder().value(Value.PRELIMINARY).build();
 
     /**
      * Final
@@ -33,7 +33,7 @@ public class CompositionStatus extends Code {
      * <p>This version of the composition is complete and verified by an appropriate person and no further work is planned. 
      * Any subsequent updates would be on a new version of the composition.
      */
-    public static final CompositionStatus FINAL = CompositionStatus.builder().value(ValueSet.FINAL).build();
+    public static final CompositionStatus FINAL = CompositionStatus.builder().value(Value.FINAL).build();
 
     /**
      * Amended
@@ -41,7 +41,7 @@ public class CompositionStatus extends Code {
      * <p>The composition content or the referenced resources have been modified (edited or added to) subsequent to being 
      * released as "final" and the composition is complete and verified by an authorized person.
      */
-    public static final CompositionStatus AMENDED = CompositionStatus.builder().value(ValueSet.AMENDED).build();
+    public static final CompositionStatus AMENDED = CompositionStatus.builder().value(Value.AMENDED).build();
 
     /**
      * Entered in Error
@@ -49,7 +49,7 @@ public class CompositionStatus extends Code {
      * <p>The composition or document was originally created/issued in error, and this is an amendment that marks that the 
      * entire series should not be considered as valid.
      */
-    public static final CompositionStatus ENTERED_IN_ERROR = CompositionStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
+    public static final CompositionStatus ENTERED_IN_ERROR = CompositionStatus.builder().value(Value.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -57,14 +57,46 @@ public class CompositionStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this CompositionStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this CompositionStatus as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating CompositionStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static CompositionStatus of(ValueSet value) {
+        switch (value) {
+        case PRELIMINARY:
+            return PRELIMINARY;
+        case FINAL:
+            return FINAL;
+        case AMENDED:
+            return AMENDED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating CompositionStatus objects from a passed enum value.
      */
-    public static CompositionStatus of(ValueSet value) {
+    public static CompositionStatus of(Value value) {
         switch (value) {
         case PRELIMINARY:
             return PRELIMINARY;
@@ -88,7 +120,7 @@ public class CompositionStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static CompositionStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -100,7 +132,7 @@ public class CompositionStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -112,7 +144,7 @@ public class CompositionStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -174,10 +206,27 @@ public class CompositionStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for CompositionStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -187,6 +236,7 @@ public class CompositionStatus extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Preliminary
@@ -235,7 +285,7 @@ public class CompositionStatus extends Code {
         }
 
         /**
-         * Factory method for creating CompositionStatus.ValueSet values from a passed string value.
+         * Factory method for creating CompositionStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -249,6 +299,82 @@ public class CompositionStatus extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Preliminary
+         * 
+         * <p>This is a preliminary composition or document (also known as initial or interim). The content may be incomplete or 
+         * unverified.
+         */
+        PRELIMINARY("preliminary"),
+
+        /**
+         * Final
+         * 
+         * <p>This version of the composition is complete and verified by an appropriate person and no further work is planned. 
+         * Any subsequent updates would be on a new version of the composition.
+         */
+        FINAL("final"),
+
+        /**
+         * Amended
+         * 
+         * <p>The composition content or the referenced resources have been modified (edited or added to) subsequent to being 
+         * released as "final" and the composition is complete and verified by an authorized person.
+         */
+        AMENDED("amended"),
+
+        /**
+         * Entered in Error
+         * 
+         * <p>The composition or document was originally created/issued in error, and this is an amendment that marks that the 
+         * entire series should not be considered as valid.
+         */
+        ENTERED_IN_ERROR("entered-in-error");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating CompositionStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding CompositionStatus.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "preliminary":
+                return PRELIMINARY;
+            case "final":
+                return FINAL;
+            case "amended":
+                return AMENDED;
+            case "entered-in-error":
+                return ENTERED_IN_ERROR;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

@@ -22,7 +22,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.json.Json;
 import javax.json.JsonArray;
@@ -53,8 +52,6 @@ import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Oid;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uuid;
-import com.ibm.fhir.model.type.code.ResourceType;
-import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.visitor.AbstractVisitable;
 import com.ibm.fhir.openapi.generator.FHIROpenApiGenerator;
@@ -101,7 +98,7 @@ public class FHIRSwaggerGenerator {
             filter = createAcceptAllFilter();
         }
 
-        List<String> classNames = getClassNames();
+        List<String> classNames = FHIROpenApiGenerator.getClassNames();
         for (String resourceClassName : classNames) {
             Class<?> resourceModelClass = Class.forName(FHIROpenApiGenerator.RESOURCEPACKAGENAME + "." + resourceClassName);
             if (DomainResource.class.isAssignableFrom(resourceModelClass)
@@ -1013,7 +1010,7 @@ public class FHIRSwaggerGenerator {
                 property.add("type", "string");
                 if (Resource.class == modelClass) {
                     // TODO: when a filter was passed, limit this to just the resource types included in the filter
-                    List<String> typeNames = Arrays.stream(ResourceType.ValueSet.values()).map(ResourceType.ValueSet::value).collect(Collectors.toList());
+                    List<String> typeNames = FHIROpenApiGenerator.getClassNames();
                     JsonArrayBuilder enumValues = factory.createArrayBuilder(typeNames);
                     property.add("enum", enumValues);
                     properties.add("resourceType", property.build());
@@ -1307,10 +1304,6 @@ public class FHIRSwaggerGenerator {
         throw new RuntimeException("Unable to retrieve element definition for " + elementName + " in " + modelClass.getName());
     }
 
-    private static List<String> getClassNames() {
-        return FHIRUtil.getResourceTypeNames();
-    }
-
     private static List<String> getCompartmentClassNames(String compartment) {
         try {
             return CompartmentUtil.getCompartmentResourceTypes(compartment);
@@ -1386,7 +1379,7 @@ public class FHIRSwaggerGenerator {
     // build filter map for all domain resources and operations
     private static Map<String, List<String>> buildAcceptAllFilterMap() throws Exception {
         Map<String, List<String>> filterMap = new HashMap<String, List<String>>();
-        for (String className : getClassNames()) {
+        for (String className : FHIROpenApiGenerator.getClassNames()) {
             Class<?> modelClass = Class.forName(RESOURCEPACKAGENAME + "." + className);
             if (DomainResource.class.isAssignableFrom(modelClass)) {
                 String resourceType = className;

@@ -24,14 +24,14 @@ public class ParticipantStatus extends Code {
      * 
      * <p>The participant has accepted the appointment.
      */
-    public static final ParticipantStatus ACCEPTED = ParticipantStatus.builder().value(ValueSet.ACCEPTED).build();
+    public static final ParticipantStatus ACCEPTED = ParticipantStatus.builder().value(Value.ACCEPTED).build();
 
     /**
      * Declined
      * 
      * <p>The participant has declined the appointment and will not participate in the appointment.
      */
-    public static final ParticipantStatus DECLINED = ParticipantStatus.builder().value(ValueSet.DECLINED).build();
+    public static final ParticipantStatus DECLINED = ParticipantStatus.builder().value(Value.DECLINED).build();
 
     /**
      * Tentative
@@ -39,7 +39,7 @@ public class ParticipantStatus extends Code {
      * <p>The participant has tentatively accepted the appointment. This could be automatically created by a system and 
      * requires further processing before it can be accepted. There is no commitment that attendance will occur.
      */
-    public static final ParticipantStatus TENTATIVE = ParticipantStatus.builder().value(ValueSet.TENTATIVE).build();
+    public static final ParticipantStatus TENTATIVE = ParticipantStatus.builder().value(Value.TENTATIVE).build();
 
     /**
      * Needs Action
@@ -47,7 +47,7 @@ public class ParticipantStatus extends Code {
      * <p>The participant needs to indicate if they accept the appointment by changing this status to one of the other 
      * statuses.
      */
-    public static final ParticipantStatus NEEDS_ACTION = ParticipantStatus.builder().value(ValueSet.NEEDS_ACTION).build();
+    public static final ParticipantStatus NEEDS_ACTION = ParticipantStatus.builder().value(Value.NEEDS_ACTION).build();
 
     private volatile int hashCode;
 
@@ -55,14 +55,46 @@ public class ParticipantStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this ParticipantStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this ParticipantStatus as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating ParticipantStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static ParticipantStatus of(ValueSet value) {
+        switch (value) {
+        case ACCEPTED:
+            return ACCEPTED;
+        case DECLINED:
+            return DECLINED;
+        case TENTATIVE:
+            return TENTATIVE;
+        case NEEDS_ACTION:
+            return NEEDS_ACTION;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating ParticipantStatus objects from a passed enum value.
      */
-    public static ParticipantStatus of(ValueSet value) {
+    public static ParticipantStatus of(Value value) {
         switch (value) {
         case ACCEPTED:
             return ACCEPTED;
@@ -86,7 +118,7 @@ public class ParticipantStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static ParticipantStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -98,7 +130,7 @@ public class ParticipantStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -110,7 +142,7 @@ public class ParticipantStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -172,10 +204,27 @@ public class ParticipantStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for ParticipantStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -185,6 +234,7 @@ public class ParticipantStatus extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Accepted
@@ -231,7 +281,7 @@ public class ParticipantStatus extends Code {
         }
 
         /**
-         * Factory method for creating ParticipantStatus.ValueSet values from a passed string value.
+         * Factory method for creating ParticipantStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -245,6 +295,80 @@ public class ParticipantStatus extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Accepted
+         * 
+         * <p>The participant has accepted the appointment.
+         */
+        ACCEPTED("accepted"),
+
+        /**
+         * Declined
+         * 
+         * <p>The participant has declined the appointment and will not participate in the appointment.
+         */
+        DECLINED("declined"),
+
+        /**
+         * Tentative
+         * 
+         * <p>The participant has tentatively accepted the appointment. This could be automatically created by a system and 
+         * requires further processing before it can be accepted. There is no commitment that attendance will occur.
+         */
+        TENTATIVE("tentative"),
+
+        /**
+         * Needs Action
+         * 
+         * <p>The participant needs to indicate if they accept the appointment by changing this status to one of the other 
+         * statuses.
+         */
+        NEEDS_ACTION("needs-action");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating ParticipantStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding ParticipantStatus.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "accepted":
+                return ACCEPTED;
+            case "declined":
+                return DECLINED;
+            case "tentative":
+                return TENTATIVE;
+            case "needs-action":
+                return NEEDS_ACTION;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

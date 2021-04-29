@@ -52,7 +52,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 3,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "cmd-0",
@@ -105,7 +105,7 @@ public class ConceptMap extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -125,7 +125,7 @@ public class ConceptMap extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -1871,7 +1871,7 @@ public class ConceptMap extends DomainResource {
                 private final String display;
                 @Binding(
                     bindingName = "ConceptMapEquivalence",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "The degree of equivalence between concepts.",
                     valueSet = "http://hl7.org/fhir/ValueSet/concept-map-equivalence|4.0.1"
                 )
@@ -2667,7 +2667,7 @@ public class ConceptMap extends DomainResource {
         public static class Unmapped extends BackboneElement {
             @Binding(
                 bindingName = "ConceptMapGroupUnmappedMode",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "Defines which action to take if there is no match in the group.",
                 valueSet = "http://hl7.org/fhir/ValueSet/conceptmap-unmapped-mode|4.0.1"
             )

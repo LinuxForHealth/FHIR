@@ -1,3 +1,9 @@
+/*
+ * (C) Copyright IBM Corp. 2019, 2021
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package com.ibm.fhir.examples;
 
 import static com.ibm.fhir.model.type.String.string;
@@ -27,21 +33,21 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 public class LargeValueSetCreator {
     private static final Uri TEST_URI = Uri.of("http://ibm.com/fhir/valueset/test");
-    
+
     private final PodamFactory podam;
-    
+
     public LargeValueSetCreator() throws IOException {
         super();
         podam = new PodamFactoryImpl();
     }
-    
+
     public ValueSet createValueSet() throws Exception {
         final ValueSet.Builder vsBuilder = ValueSet.builder().status(PublicationStatus.DRAFT);
         final ValueSet.Expansion.Builder expansionBuilder = ValueSet.Expansion.builder().timestamp(DateTime.now());
         final ValueSet.Expansion.Contains.Builder template = ValueSet.Expansion.Contains.builder()
                 .system(TEST_URI)
                 .version(string("1"));
-        
+
         for (int i=0; i < 100_000; i++) {
             expansionBuilder.contains(template
                     .code(Code.of(podam.manufacturePojo(String.class)))
@@ -69,24 +75,24 @@ public class LargeValueSetCreator {
     public static void main(String[] args) throws Exception {
         LargeValueSetCreator creator = new LargeValueSetCreator();
         ValueSet vs = creator.createValueSet();
-        
+
         Path json = Paths.get("ValueSet-large.json");
         try (BufferedWriter writer = Files.newBufferedWriter(json, StandardCharsets.UTF_8)) {
             FHIRGenerator.generator(Format.JSON).generate(vs, writer);
         }
-        
+
         Path xml = Paths.get("ValueSet-large.xml");
         try (BufferedWriter writer = Files.newBufferedWriter(xml, StandardCharsets.UTF_8)) {
             FHIRGenerator.generator(Format.XML).generate(vs, writer);
         }
-        
+
         Path txt = Paths.get("ValueSet-large.txt");
         try (BufferedWriter writer = Files.newBufferedWriter(txt, StandardCharsets.UTF_8)) {
             for (Contains concept : vs.getExpansion().getContains()) {
                 writer.write(concept.getSystem().getValue() + "|" + concept.getCode().getValue() + "\n");
             }
         }
-        
+
         Set<String> set = creator.convertToHashSet(vs);
         Path serializedHashSet = Paths.get("ValueSet-large-HashSet.ser");
         try (FileOutputStream os = new FileOutputStream(serializedHashSet.toFile())) {

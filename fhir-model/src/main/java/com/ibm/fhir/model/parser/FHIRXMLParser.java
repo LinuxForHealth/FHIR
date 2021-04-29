@@ -23,7 +23,6 @@ import javax.annotation.Generated;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import com.ibm.fhir.model.parser.FHIRAbstractParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.*;
 import com.ibm.fhir.model.type.*;
@@ -51215,7 +51214,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private java.lang.String getResourceType(XMLStreamReader reader) throws XMLStreamException {
         java.lang.String resourceType = reader.getLocalName();
         try {
-            ResourceType.ValueSet.from(resourceType);
+            ResourceType.Value.from(resourceType);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Invalid resource type: '" + resourceType + "'");
         }

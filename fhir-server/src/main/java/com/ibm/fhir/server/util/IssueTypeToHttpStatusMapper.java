@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2020
+ * (C) Copyright IBM Corp. 2018, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -53,15 +53,15 @@ public class IssueTypeToHttpStatusMapper {
             for (Issue issue : issues) {
                 IssueType code = issue.getCode();
                 if (code != null && code.getValue() != null) {
-                    IssueType.ValueSet issueType = code.getValueAsEnumConstant();
+                    IssueType.Value issueType = code.getValueAsEnum();
                     // Special case for IssueType CONFLICT which can be either an HTTP 409 (Conflict) or HTTP 412 (Precondition failed)
-                    if (issueType == IssueType.ValueSet.CONFLICT &&
+                    if (issueType == IssueType.Value.CONFLICT &&
                             FHIRUtil.getExtensionStringValue(code, EXTENSION_URL_HTTP_FAILED_PRECONDITION) != null) {
                         return Status.PRECONDITION_FAILED;
-                    } else if (issueType == IssueType.ValueSet.NOT_SUPPORTED &&
+                    } else if (issueType == IssueType.Value.NOT_SUPPORTED &&
                             "resource".equals(FHIRUtil.getExtensionStringValue(code, EXTENSION_URL_NOT_SUPPORTED_DETAIL))) {
                         return Status.NOT_FOUND;
-                    } else if (issueType == IssueType.ValueSet.NOT_FOUND &&
+                    } else if (issueType == IssueType.Value.NOT_FOUND &&
                             FHIRUtil.getExtensionStringValue(code, EXTENSION_URL_NOT_FOUND_DETAIL ) != null ) {
                         return Status.BAD_REQUEST;
                     }
@@ -72,7 +72,7 @@ public class IssueTypeToHttpStatusMapper {
         return Status.INTERNAL_SERVER_ERROR;
     }
 
-    private static Status issueTypeToResponseCode(IssueType.ValueSet value) {
+    private static Status issueTypeToResponseCode(IssueType.Value value) {
         switch (value) {
         case INFORMATIONAL:
             return Status.OK;

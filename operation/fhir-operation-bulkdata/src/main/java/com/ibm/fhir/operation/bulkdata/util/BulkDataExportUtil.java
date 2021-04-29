@@ -39,7 +39,7 @@ import com.ibm.fhir.server.operation.spi.FHIROperationContext;
  */
 public class BulkDataExportUtil {
     private static Set<String> RESOURCE_TYPES = ModelSupport.getResourceTypes(false).stream()
-                                                    .map(m -> m.getSimpleName())
+                                                    .map(Class::getSimpleName)
                                                     .collect(Collectors.toSet());
 
     public BulkDataExportUtil() {

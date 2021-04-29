@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -647,8 +647,8 @@ public class Main {
         // populate the RESOURCE_TYPES table
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
-                Set<String> resourceTypes = Arrays.stream(FHIRResourceType.ValueSet.values())
-                        .map(FHIRResourceType.ValueSet::value)
+                Set<String> resourceTypes = Arrays.stream(FHIRResourceType.Value.values())
+                        .map(FHIRResourceType.Value::value)
                         .collect(Collectors.toSet());
 
                 if (adapter.getTranslator().getType() == DbType.POSTGRESQL) {

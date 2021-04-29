@@ -24,28 +24,28 @@ public class DeviceMetricCalibrationType extends Code {
      * 
      * <p>Metric calibration method has not been identified.
      */
-    public static final DeviceMetricCalibrationType UNSPECIFIED = DeviceMetricCalibrationType.builder().value(ValueSet.UNSPECIFIED).build();
+    public static final DeviceMetricCalibrationType UNSPECIFIED = DeviceMetricCalibrationType.builder().value(Value.UNSPECIFIED).build();
 
     /**
      * Offset
      * 
      * <p>Offset metric calibration method.
      */
-    public static final DeviceMetricCalibrationType OFFSET = DeviceMetricCalibrationType.builder().value(ValueSet.OFFSET).build();
+    public static final DeviceMetricCalibrationType OFFSET = DeviceMetricCalibrationType.builder().value(Value.OFFSET).build();
 
     /**
      * Gain
      * 
      * <p>Gain metric calibration method.
      */
-    public static final DeviceMetricCalibrationType GAIN = DeviceMetricCalibrationType.builder().value(ValueSet.GAIN).build();
+    public static final DeviceMetricCalibrationType GAIN = DeviceMetricCalibrationType.builder().value(Value.GAIN).build();
 
     /**
      * Two Point
      * 
      * <p>Two-point metric calibration method.
      */
-    public static final DeviceMetricCalibrationType TWO_POINT = DeviceMetricCalibrationType.builder().value(ValueSet.TWO_POINT).build();
+    public static final DeviceMetricCalibrationType TWO_POINT = DeviceMetricCalibrationType.builder().value(Value.TWO_POINT).build();
 
     private volatile int hashCode;
 
@@ -53,14 +53,46 @@ public class DeviceMetricCalibrationType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this DeviceMetricCalibrationType as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this DeviceMetricCalibrationType as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating DeviceMetricCalibrationType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static DeviceMetricCalibrationType of(ValueSet value) {
+        switch (value) {
+        case UNSPECIFIED:
+            return UNSPECIFIED;
+        case OFFSET:
+            return OFFSET;
+        case GAIN:
+            return GAIN;
+        case TWO_POINT:
+            return TWO_POINT;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating DeviceMetricCalibrationType objects from a passed enum value.
      */
-    public static DeviceMetricCalibrationType of(ValueSet value) {
+    public static DeviceMetricCalibrationType of(Value value) {
         switch (value) {
         case UNSPECIFIED:
             return UNSPECIFIED;
@@ -84,7 +116,7 @@ public class DeviceMetricCalibrationType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static DeviceMetricCalibrationType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -96,7 +128,7 @@ public class DeviceMetricCalibrationType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -108,7 +140,7 @@ public class DeviceMetricCalibrationType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -170,10 +202,27 @@ public class DeviceMetricCalibrationType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for DeviceMetricCalibrationType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -183,6 +232,7 @@ public class DeviceMetricCalibrationType extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Unspecified
@@ -227,7 +277,7 @@ public class DeviceMetricCalibrationType extends Code {
         }
 
         /**
-         * Factory method for creating DeviceMetricCalibrationType.ValueSet values from a passed string value.
+         * Factory method for creating DeviceMetricCalibrationType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -241,6 +291,78 @@ public class DeviceMetricCalibrationType extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Unspecified
+         * 
+         * <p>Metric calibration method has not been identified.
+         */
+        UNSPECIFIED("unspecified"),
+
+        /**
+         * Offset
+         * 
+         * <p>Offset metric calibration method.
+         */
+        OFFSET("offset"),
+
+        /**
+         * Gain
+         * 
+         * <p>Gain metric calibration method.
+         */
+        GAIN("gain"),
+
+        /**
+         * Two Point
+         * 
+         * <p>Two-point metric calibration method.
+         */
+        TWO_POINT("two-point");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating DeviceMetricCalibrationType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding DeviceMetricCalibrationType.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "unspecified":
+                return UNSPECIFIED;
+            case "offset":
+                return OFFSET;
+            case "gain":
+                return GAIN;
+            case "two-point":
+                return TWO_POINT;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }
