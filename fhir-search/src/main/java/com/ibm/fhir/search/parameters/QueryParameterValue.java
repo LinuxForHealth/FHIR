@@ -196,9 +196,9 @@ public class QueryParameterValue {
         delim = outputBuilder(returnString, delim, valueDate);
         
         // Special handling required for token search of form "system|". In that case, valueSystem
-        // will not be null, but all following values will be null, so the above processing will
+        // will not be null, but all other values will be null, so the above processing will
         // not append the delimiter. Check if we have that case, and if so, append the delimiter.
-        if (valueSystem != null && valueCode == null && valueString == null && valueDate == null) {
+        if (valueSystem != null && valueNumber == null && valueCode == null && valueString == null && valueDate == null) {
             returnString.append(SearchConstants.PARAMETER_DELIMITER);
         }
         
