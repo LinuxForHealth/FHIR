@@ -748,7 +748,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // _revinclude parameter and add the returned 'include' resources to the 'match' resource
                 // list. All duplicates in the 'include' resources (duplicates of both 'match' and 'include'
                 // resources) will be removed and _elements processing will not be done for 'include' resources.
-                if (searchContext.hasIncludeParameters() || searchContext.hasRevIncludeParameters()) {
+                if (resources.size() > 0 && (searchContext.hasIncludeParameters() || searchContext.hasRevIncludeParameters())) {
                     List<com.ibm.fhir.persistence.jdbc.dto.Resource> includeDTOList =
                             newSearchForIncludeResources(searchContext, resourceType, queryBuilder, resourceDao, resourceDTOList);
                     resources.addAll(this.convertResourceDTOList(includeDTOList, resourceType, null));
@@ -1263,6 +1263,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         FHIRSearchContext searchContext, NewQueryBuilder queryBuilder, InclusionParameter inclusionParm,
         String includeType, Set<String> queryIds, Map<Integer, Map<String, Set<String>>> queryResultMap,
         ResourceDAO resourceDao, int iterationLevel, Set<Long> allResourceIds) throws Exception {
+
+        if (queryIds.isEmpty()) {
+            return Collections.emptyList();
+        }
 
         // Build the query. For the new query builder, we work in the actual long logical_resource_id
         // values, not strings. TODO keep the values as longs to avoid unnecessary overhead
