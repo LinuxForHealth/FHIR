@@ -863,11 +863,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 resources = this.convertResourceDTOList(resourceDTOList, resourceType, elements);
                 searchContext.setMatchCount(resources.size());
 
-                // Check if _include or _revinclude search. If so, generate queries for each _include or
-                // _revinclude parameter and add the returned 'include' resources to the 'match' resource
-                // list. All duplicates in the 'include' resources (duplicates of both 'match' and 'include'
-                // resources) will be removed and _elements processing will not be done for 'include' resources.
-                if (searchContext.hasIncludeParameters() || searchContext.hasRevIncludeParameters()) {
+                // If 'match' resources were found, check if _include or _revinclude search. If so, generate
+                // queries for each _include or _revinclude parameter and add the returned 'include' resources to the
+                // 'match' resource list. All duplicates in the 'include' resources (duplicates of both 'match' and
+                // 'include' resources) will be removed and _elements processing will not be done for 'include' resources.
+                if (resources.size() > 0 && (searchContext.hasIncludeParameters() || searchContext.hasRevIncludeParameters())) {
                     List<com.ibm.fhir.persistence.jdbc.dto.Resource> includeDTOList =
                             searchForIncludeResources(searchContext, resourceType, queryBuilder, resourceDao, resourceDTOList);
                     resources.addAll(this.convertResourceDTOList(includeDTOList, resourceType, null));
