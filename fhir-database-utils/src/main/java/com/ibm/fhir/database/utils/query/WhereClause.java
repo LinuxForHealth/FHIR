@@ -23,6 +23,13 @@ public class WhereClause {
     }
 
     /**
+     * @return true if this where clause does not contain any predicates
+     */
+    public boolean isEmpty() {
+        return this.predicateParser.isEmpty();
+    }
+
+    /**
      * Getter for the predicateParser owned by this WhereClause
      * @return
      */
@@ -32,12 +39,15 @@ public class WhereClause {
 
     @Override
     public String toString() {
-        // Render the predicate expression tree as a string
-        ExpNode predicate = predicateParser.parse();
-        StringExpNodeVisitor visitor = new StringExpNodeVisitor();
         StringBuilder result = new StringBuilder();
-        result.append("WHERE ");
-        result.append(predicate.visit(visitor));
+
+        if (!isEmpty()) {
+            // Render the predicate expression tree as a string
+            ExpNode predicate = predicateParser.parse();
+            StringExpNodeVisitor visitor = new StringExpNodeVisitor();
+            result.append("WHERE ");
+            result.append(predicate.visit(visitor));
+        }
         return result.toString();
     }
 

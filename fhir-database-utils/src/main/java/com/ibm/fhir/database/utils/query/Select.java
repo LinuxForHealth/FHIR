@@ -118,7 +118,7 @@ public class Select {
         result.append(SPACE).append(FROM);
         result.append(SPACE).append(this.fromClause.toString());
 
-        if (this.whereClause != null) {
+        if (this.whereClause != null && !this.whereClause.isEmpty()) {
             result.append(SPACE).append(this.whereClause.toString());
         }
 

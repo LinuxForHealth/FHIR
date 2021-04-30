@@ -49,6 +49,14 @@ public interface SearchQueryVisitor<T> {
     T joinResources(T queryData);
 
     /**
+     * Get the join to which we want to attach all the parameter tables.
+     * This makes it easier to build different styles of joins
+     * @param queryData
+     * @return
+     */
+    T getParameterBaseQuery(T queryData);
+
+    /**
      * The root query (select statement) for the include query. This query is different
      * than the data root because of the need to support version references for _include
      * searches. For this, we join:

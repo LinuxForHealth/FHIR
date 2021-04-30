@@ -34,7 +34,10 @@ public class SearchIncludeQuery extends SearchQuery {
 
         // Special case for the include query because we don't want to wrap
         // and join the xx_RESOURCES table...it is already part of the join.
-        T query = super.visit(visitor);
+        T query = getRoot(visitor);
+
+        // include/revinclude queries only use extensions, not parameters
+        visitExtensions(query, visitor);
 
         // now attach the requisite ordering and pagination clauses
         query = visitor.addSorting(query, "LR0");

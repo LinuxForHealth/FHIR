@@ -8,6 +8,7 @@ package com.ibm.fhir.persistence.jdbc.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
@@ -15,7 +16,8 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
  *
  */
 public abstract class SearchQuery {
-
+    private static final String CLASSNAME = SearchQuery.class.getName();
+    private static final Logger logger = Logger.getLogger(CLASSNAME);
     private final String rootResourceType;
     private final List<SearchParam> searchParams = new ArrayList<>();
 
@@ -61,19 +63,30 @@ public abstract class SearchQuery {
      * @return
      */
     public <T> T visit(SearchQueryVisitor<T> visitor) throws FHIRPersistenceException {
+        logger.entering(CLASSNAME, "visit");
         T query = getRoot(visitor);
 
         // Pre-process any extensions before we process the parameters
-        for (SearchExtension ext: this.extensions) {
-            ext.visit(query, visitor);
-        }
+        visitExtensions(query, visitor);
 
+        T parameterBase = visitor.getParameterBaseQuery(query);
         for (SearchParam sp: this.searchParams) {
-            sp.visit(query, visitor);
+            sp.visit(parameterBase, visitor);
         }
+        logger.exiting(CLASSNAME, "visit");
         return query;
     }
 
+    /**
+     * Visit each of the extensions configured for this query
+     * @param visitor
+     * @throws FHIRPersistenceException
+     */
+    public <T> void visitExtensions(T query, SearchQueryVisitor<T> visitor) throws FHIRPersistenceException {
+        for (SearchExtension ext: this.extensions) {
+            ext.visit(query, visitor);
+        }
+    }
 
     /**
      * Process the logical query definition through the visitor

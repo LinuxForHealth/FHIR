@@ -27,35 +27,45 @@ public class PredicateParser {
     private final Stack<ExpNode> operandStack = new Stack<>();
 
     // The final expression node after we've parsed it
-    private ExpNode parsedExpression = null;
+    // private ExpNode parsedExpression = null;
+
+    /**
+     * Check if anything has been added to this parser
+     * @return true if nothing has been added
+     */
+    public boolean isEmpty() {
+        return operatorStack.isEmpty() && operandStack.isEmpty();
+    }
 
     /**
      * Assumes there are no more expression nodes, so process any operators remaining
-     * on the stack. Sets the parsedExpression value so this can be called more than once
+     * on the stack.
      * @return
      */
     public ExpNode parse() {
-        if (this.parsedExpression == null) {
-            // finish processing any remaining operators on the stack
-            while (!operatorStack.isEmpty()) {
-                ExpNode operator = operatorStack.pop();
-                operator.popOperands(operandStack);
-                operandStack.push(operator);
-            }
+        // finish processing any remaining operators on the stack
+        while (!operatorStack.isEmpty()) {
+            ExpNode operator = operatorStack.pop();
 
-            // stack should contain a single node which represents the root of the expression tree
-            if (operandStack.size() == 1) {
-                this.parsedExpression = operandStack.pop();
-            } else {
-                StringBuilder msg = new StringBuilder();
-                msg.append("Invalid expression - parse failed.")
-                    .append(NEWLINE).append("Current state:").append(NEWLINE).append(parserState());
-                logger.severe(msg.toString());
-                throw new IllegalStateException("Invalid expression");
+            try {
+                operator.popOperands(operandStack);
+            } catch (Exception x) {
+                logger.severe("Operator " + operator.getClass().getSimpleName() + " failed to pop operands: " + x.getMessage());
+                throw x;
             }
+            operandStack.push(operator);
         }
 
-        return this.parsedExpression;
+        if (operandStack.size() == 1) {
+            // stack should contain a single node which represents the root of the expression tree
+            return operandStack.peek();
+        } else {
+            StringBuilder msg = new StringBuilder();
+            msg.append("Invalid expression - parse failed.")
+            .append(NEWLINE).append("Current state:").append(NEWLINE).append(parserState());
+            logger.severe(msg.toString());
+            throw new IllegalStateException("Invalid expression");
+        }
     }
 
     /**
@@ -68,9 +78,9 @@ public class PredicateParser {
     private void addNode(ExpNode token) {
         // We're not evaluating the expression here, just parsing it properly
         // into an expression tree matching precedence rules
-        if (this.parsedExpression != null) {
-            throw new IllegalStateException("Cannot modify an expression after calling parse()");
-        }
+//        if (this.parsedExpression != null) {
+//            throw new IllegalStateException("Cannot modify an expression after calling parse()");
+//        }
 
         try {
             if (token.isOperand()) {
