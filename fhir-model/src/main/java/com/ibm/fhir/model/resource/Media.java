@@ -52,7 +52,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 1,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "media-0",
@@ -74,7 +74,7 @@ public class Media extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MediaStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Codes identifying the lifecycle stage of an event.",
         valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.0.1"
     )
@@ -83,7 +83,7 @@ public class Media extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MediaType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Codes for high level media categories.",
         valueSet = "http://hl7.org/fhir/ValueSet/media-type"
     )
@@ -91,7 +91,7 @@ public class Media extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MediaModality",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Detailed information about the type of the image - its kind, purpose, or the kind of equipment used to generate it.",
         valueSet = "http://hl7.org/fhir/ValueSet/media-modality"
     )
@@ -99,7 +99,7 @@ public class Media extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MediaView",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Imaging view (projection) used when collecting an image.",
         valueSet = "http://hl7.org/fhir/ValueSet/media-view"
     )
@@ -121,7 +121,7 @@ public class Media extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MediaReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The reason for the media.",
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-reason"
     )
@@ -129,7 +129,7 @@ public class Media extends DomainResource {
     @Summary
     @Binding(
         bindingName = "BodySite",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes describing anatomical locations. May include laterality.",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )

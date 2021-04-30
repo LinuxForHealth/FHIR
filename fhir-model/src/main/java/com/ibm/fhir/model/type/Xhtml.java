@@ -61,9 +61,10 @@ public class Xhtml extends Element {
      * Factory method for creating Xhtml objects from an XHTML java.lang.String
      * 
      * @param value
-     *     A java.lang.String with valid XHTML content
+     *     A java.lang.String with valid XHTML content, not null
      */
     public static Xhtml of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Xhtml.builder().value(value).build();
     }
 
@@ -71,9 +72,10 @@ public class Xhtml extends Element {
      * Factory method for creating Xhtml objects from an XHTML java.lang.String
      * 
      * @param value
-     *     A java.lang.String with valid XHTML content
+     *     A java.lang.String with valid XHTML content, not null
      */
     public static Xhtml xhtml(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Xhtml.builder().value(value).build();
     }
 
@@ -84,9 +86,10 @@ public class Xhtml extends Element {
      * then wrap it in an XHTML {@code <div>} element with a namespace of {@code http://www.w3.org/1999/xhtml}
      * 
      * @param plainText
-     *     The text to encode and wrap for use within a Narrative
+     *     The text to encode and wrap for use within a Narrative, not null
      */
     public static Xhtml from(java.lang.String plainText) {
+        Objects.requireNonNull(plainText, "plainText");
         return Xhtml.builder().value(DIV_OPEN + Encode.forHtmlContent(plainText) + DIV_CLOSE).build();
     }
 

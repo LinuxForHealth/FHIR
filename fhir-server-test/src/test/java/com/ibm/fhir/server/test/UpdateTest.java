@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -438,8 +438,8 @@ public class UpdateTest extends FHIRServerTestBase {
             assertFalse(response3.isEmpty());
             OperationOutcome oo = response3.getResource(OperationOutcome.class);
             assertEquals(oo.getIssue().size(), 1);
-            assertTrue(oo.getIssue().get(0).getSeverity().getValueAsEnumConstant() == IssueSeverity.ValueSet.INFORMATION);
-            assertTrue(oo.getIssue().get(0).getCode().getValueAsEnumConstant() == IssueType.ValueSet.INFORMATIONAL);
+            assertTrue(oo.getIssue().get(0).getSeverity().getValueAsEnum() == IssueSeverity.Value.INFORMATION);
+            assertTrue(oo.getIssue().get(0).getCode().getValueAsEnum() == IssueType.Value.INFORMATIONAL);
             assertTrue(oo.getIssue().get(0).getDetails().getText().getValue().contains("skipping the update"));
         }
     }

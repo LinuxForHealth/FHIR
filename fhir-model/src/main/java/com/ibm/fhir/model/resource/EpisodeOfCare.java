@@ -45,7 +45,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "episodeOfCare-0",
@@ -61,7 +61,7 @@ public class EpisodeOfCare extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EpisodeOfCareStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The status of the episode of care.",
         valueSet = "http://hl7.org/fhir/ValueSet/episode-of-care-status|4.0.1"
     )
@@ -71,7 +71,7 @@ public class EpisodeOfCare extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EpisodeOfCareType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The type of the episode of care.",
         valueSet = "http://hl7.org/fhir/ValueSet/episodeofcare-type"
     )
@@ -983,7 +983,7 @@ public class EpisodeOfCare extends DomainResource {
     public static class StatusHistory extends BackboneElement {
         @Binding(
             bindingName = "EpisodeOfCareStatus",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The status of the episode of care.",
             valueSet = "http://hl7.org/fhir/ValueSet/episode-of-care-status|4.0.1"
         )
@@ -1267,7 +1267,7 @@ public class EpisodeOfCare extends DomainResource {
         @Summary
         @Binding(
             bindingName = "DiagnosisRole",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "The type of diagnosis this condition represents.",
             valueSet = "http://hl7.org/fhir/ValueSet/diagnosis-role"
         )

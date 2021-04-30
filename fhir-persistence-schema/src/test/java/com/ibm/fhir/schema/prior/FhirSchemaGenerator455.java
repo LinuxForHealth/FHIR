@@ -178,8 +178,8 @@ public class FhirSchemaGenerator455 {
      * @param schemaName
      */
     public FhirSchemaGenerator455(String adminSchemaName, String schemaName, boolean multitenant) {
-        this(adminSchemaName, schemaName, multitenant, Arrays.stream(FHIRResourceType.ValueSet.values())
-                .map(FHIRResourceType.ValueSet::value)
+        this(adminSchemaName, schemaName, multitenant, Arrays.stream(FHIRResourceType.Value.values())
+                .map(FHIRResourceType.Value::value)
                 .collect(Collectors.toSet()));
     }
 

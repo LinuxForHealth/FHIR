@@ -39,7 +39,9 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     @Test
     public void testSearchToken_string() throws Exception {
         assertSearchReturnsSavedResource("string", "testString");
+        assertSearchReturnsSavedResource("string", "TESTSTRING");
         assertSearchReturnsSavedResource("string", "|testString");
+        assertSearchReturnsSavedResource("string", "|TESTSTRING");
         assertSearchDoesntReturnSavedResource("string", "other");
     }
 
@@ -108,8 +110,13 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     @Test
     public void testSearchToken_code() throws Exception {
         assertSearchReturnsSavedResource("code", "code");
+        assertSearchReturnsSavedResource("code", "CODE");
         assertSearchReturnsSavedResource("code", "|code");
+        assertSearchReturnsSavedResource("code", "|CODE");
         assertSearchDoesntReturnSavedResource("code", "other");
+        // system is case-sensitive
+        assertSearchReturnsSavedResource("text-status", "http://hl7.org/fhir/narrative-status|extensions");
+        assertSearchDoesntReturnSavedResource("text-status", "http://hl7.org/fhir/narrative-status|EXTENSIONS");
     }
 
     @Test
@@ -221,7 +228,13 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     @Test
     public void testSearchToken_CodeableConcept() throws Exception {
         assertSearchReturnsSavedResource("CodeableConcept", "code");
+        assertSearchReturnsSavedResource("CodeableConcept", "CODE");
+        // system is not in registry - treated as not case-sensitive
         assertSearchReturnsSavedResource("CodeableConcept", "http://example.org/codesystem|code");
+        assertSearchReturnsSavedResource("CodeableConcept", "http://example.org/codesystem|CODE");
+        // system is case-sensitive
+        assertSearchReturnsSavedResource("CodeableConcept-validCodeAndSystem", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|AA");
+        assertSearchDoesntReturnSavedResource("CodeableConcept-validCodeAndSystem", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|aa");
 //        assertSearchReturnsSavedResource("CodeableConcept", "http://example.org/codesystem|");
 
         // This shouldn't return any results because the CodeableConcept has a system
@@ -335,7 +348,16 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     @Test
     public void testSearchToken_Coding() throws Exception {
         assertSearchReturnsSavedResource("Coding", "code");
+        assertSearchReturnsSavedResource("Coding", "CODE");
+        // system not in registry - treated as not case-sensitive
         assertSearchReturnsSavedResource("Coding", "http://example.org/codesystem|code");
+        assertSearchReturnsSavedResource("Coding", "http://example.org/codesystem|CODE");
+        // system is case-sensitive
+        assertSearchReturnsSavedResource("Coding-validCodeAndSystem", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|AA");
+        assertSearchDoesntReturnSavedResource("Coding-validCodeAndSystem", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|aa");
+        // system is not case-sensitive
+        assertSearchReturnsSavedResource("Coding-validCaseInsensitiveCodeAndSystem", "http://terminology.hl7.org/CodeSystem/v2-0001|F");
+        assertSearchReturnsSavedResource("Coding-validCaseInsensitiveCodeAndSystem", "http://terminology.hl7.org/CodeSystem/v2-0001|f");
 //        assertSearchReturnsSavedResource("Coding", "http://example.org/codesystem|");
 
         // This shouldn't return any results because the Coding has a system
@@ -368,7 +390,9 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     @Test
     public void testSearchToken_Coding_NoSystem() throws Exception {
         assertSearchReturnsSavedResource("Coding-noSystem", "code");
+        assertSearchReturnsSavedResource("Coding-noSystem", "CODE");
         assertSearchReturnsSavedResource("Coding-noSystem", "|code");
+        assertSearchReturnsSavedResource("Coding-noSystem", "|CODE");
     }
 
     // Currently codings with no code are skipped
@@ -463,7 +487,15 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     @Test
     public void testSearchToken_Identifier() throws Exception {
         assertSearchReturnsSavedResource("Identifier", "code");
+        assertSearchReturnsSavedResource("Identifier", "CODE");
+        // system is not in registry - treated as not case-sensitive
         assertSearchReturnsSavedResource("Identifier", "http://example.org/identifiersystem|code");
+        assertSearchReturnsSavedResource("Identifier", "http://example.org/identifiersystem|CODE");
+        // system is case-sensitive
+        assertSearchReturnsSavedResource("Identifier-validValueAndSystem", "http://hl7.org/fhir/identifier-use|official");
+        assertSearchDoesntReturnSavedResource("Identifier-validValueAndSystem", "http://hl7.org/fhir/identifier-use|OFFICIAL");
+        
+        // Search specifying only a system value is not currently supported (see issue #1409)
 //        assertSearchReturnsSavedResource("Identifier", "http://example.org/identifiersystem|");
 
         // This shouldn't return any results because the Identifier has a system
@@ -474,6 +506,8 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     public void testSearchToken_Identifier_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.Identifier", "code");
         assertSearchReturnsComposition("subject:Basic.Identifier", "http://example.org/identifiersystem|code");
+        
+        // Search specifying only a system value is not currently supported (see issue #1409)
 //        assertSearchReturnsComposition("subject:Basic.Identifier", "http://example.org/identifiersystem|");
 
         // This shouldn't return any results because the Identifier has a system
@@ -534,12 +568,14 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchToken_Identifier_in() throws Exception {
+        assertSearchReturnsSavedResource("Identifier-validValueAndSystem:in", "http://hl7.org/fhir/ValueSet/identifier-use");
         assertSearchDoesntReturnSavedResource("Identifier:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
         assertSearchDoesntReturnSavedResource("missing-Identifier:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
     }
 
     @Test
     public void testSearchToken_Identifier_not_in() throws Exception {
+        assertSearchDoesntReturnSavedResource("Identifier-validValueAndSystem:not-in", "http://hl7.org/fhir/ValueSet/identifier-use");
         assertSearchReturnsSavedResource("Identifier:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
         assertSearchReturnsSavedResource("missing-Identifier:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
     }
@@ -554,6 +590,14 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     public void testSearchToken_Identifier_NoSystem_not_in() throws Exception {
         assertSearchReturnsSavedResource("Identifier-noSystem:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
         assertSearchReturnsSavedResource("Identifier-noSystem:not-in", "http://hl7.org/fhir/ValueSet/observation-category");
+    }
+
+    @Test
+    public void testSearchToken_Identifier_of_type() throws Exception {
+        // system is not case-sensitive
+        assertSearchReturnsSavedResource("Identifier-validType:of-type", "http://terminology.hl7.org/CodeSystem/v2-0203|MR|code");
+        assertSearchReturnsSavedResource("Identifier-validType:of-type", "http://terminology.hl7.org/CodeSystem/v2-0203|mr|code");
+        assertSearchDoesntReturnSavedResource("Identifier-validType:of-type", "http://terminology.hl7.org/CodeSystem/v2-0203|MR|badcode");
     }
 
     @Test

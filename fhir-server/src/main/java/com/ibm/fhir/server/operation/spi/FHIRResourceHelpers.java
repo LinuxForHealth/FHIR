@@ -295,9 +295,12 @@ public interface FHIRResourceHelpers {
      *
      * @param bundle
      *            the request Bundle
+     * @param skippableUpdates
+     *            if true, and the bundle contains an update for which the resource content in the update matches the existing
+     *            resource on the server, then skip the update; if false, then always attempt the updates specified in the bundle
      * @return the response Bundle
      */
-    Bundle doBundle(Bundle bundle) throws Exception;
+    Bundle doBundle(Bundle bundle, boolean skippableUpdates) throws Exception;
 
     FHIRPersistenceTransaction getTransaction() throws Exception;
 

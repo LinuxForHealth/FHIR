@@ -49,7 +49,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 0,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class BiologicallyDerivedProduct extends DomainResource {
@@ -57,20 +57,20 @@ public class BiologicallyDerivedProduct extends DomainResource {
     private final List<Identifier> identifier;
     @Binding(
         bindingName = "BiologicallyDerivedProductCategory",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Biologically Derived Product Category.",
         valueSet = "http://hl7.org/fhir/ValueSet/product-category|4.0.1"
     )
     private final BiologicallyDerivedProductCategory productCategory;
     @Binding(
         bindingName = "BiologicallyDerivedProductCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Biologically Derived Product Code."
     )
     private final CodeableConcept productCode;
     @Binding(
         bindingName = "BiologicallyDerivedProductStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Biologically Derived Product Status.",
         valueSet = "http://hl7.org/fhir/ValueSet/product-status|4.0.1"
     )
@@ -1185,7 +1185,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
         private final String description;
         @Binding(
             bindingName = "BiologicallyDerivedProductProcedure",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Biologically Derived Product Procedure.",
             valueSet = "http://hl7.org/fhir/ValueSet/procedure-code"
         )
@@ -1800,7 +1800,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
         private final Decimal temperature;
         @Binding(
             bindingName = "BiologicallyDerivedProductStorageScale",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "BiologicallyDerived Product Storage Scale.",
             valueSet = "http://hl7.org/fhir/ValueSet/product-storage-scale|4.0.1"
         )

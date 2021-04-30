@@ -50,11 +50,25 @@ public class String extends Element {
         return super.hasChildren();
     }
 
+    /**
+     * Factory method for creating String objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String, not null
+     */
     public static String of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return String.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating String objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String, not null
+     */
     public static String string(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return String.builder().value(value).build();
     }
 

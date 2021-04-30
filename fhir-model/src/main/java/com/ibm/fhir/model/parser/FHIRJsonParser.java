@@ -31,8 +31,6 @@ import javax.json.JsonReaderFactory;
 import javax.json.JsonString;
 import javax.json.JsonValue;
 
-import com.ibm.fhir.model.parser.FHIRParser;
-import com.ibm.fhir.model.parser.FHIRAbstractParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.*;
 import com.ibm.fhir.model.type.*;

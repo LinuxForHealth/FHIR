@@ -52,7 +52,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 0,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Invoice extends DomainResource {
@@ -61,7 +61,7 @@ public class Invoice extends DomainResource {
     @Summary
     @Binding(
         bindingName = "InvoiceStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Codes identifying the lifecycle stage of an Invoice.",
         valueSet = "http://hl7.org/fhir/ValueSet/invoice-status|4.0.1"
     )
@@ -1669,7 +1669,7 @@ public class Invoice extends DomainResource {
         public static class PriceComponent extends BackboneElement {
             @Binding(
                 bindingName = "InvoicePriceComponentType",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "Codes indicating the kind of the price component.",
                 valueSet = "http://hl7.org/fhir/ValueSet/invoice-priceComponentType|4.0.1"
             )

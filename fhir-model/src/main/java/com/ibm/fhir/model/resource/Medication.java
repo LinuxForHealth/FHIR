@@ -48,7 +48,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 3,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Medication extends DomainResource {
@@ -57,7 +57,7 @@ public class Medication extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MedicationFormalRepresentation",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A coded concept that defines the type of a medication.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
     )
@@ -65,7 +65,7 @@ public class Medication extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MedicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A coded concept defining if the medication is in active use.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-status|4.0.1"
     )
@@ -75,7 +75,7 @@ public class Medication extends DomainResource {
     private final Reference manufacturer;
     @Binding(
         bindingName = "MedicationForm",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A coded concept defining the form of a medication.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-form-codes"
     )

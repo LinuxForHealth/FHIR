@@ -24,21 +24,21 @@ public class BundleType extends Code {
      * 
      * <p>The bundle is a document. The first resource is a Composition.
      */
-    public static final BundleType DOCUMENT = BundleType.builder().value(ValueSet.DOCUMENT).build();
+    public static final BundleType DOCUMENT = BundleType.builder().value(Value.DOCUMENT).build();
 
     /**
      * Message
      * 
      * <p>The bundle is a message. The first resource is a MessageHeader.
      */
-    public static final BundleType MESSAGE = BundleType.builder().value(ValueSet.MESSAGE).build();
+    public static final BundleType MESSAGE = BundleType.builder().value(Value.MESSAGE).build();
 
     /**
      * Transaction
      * 
      * <p>The bundle is a transaction - intended to be processed by a server as an atomic commit.
      */
-    public static final BundleType TRANSACTION = BundleType.builder().value(ValueSet.TRANSACTION).build();
+    public static final BundleType TRANSACTION = BundleType.builder().value(Value.TRANSACTION).build();
 
     /**
      * Transaction Response
@@ -46,35 +46,35 @@ public class BundleType extends Code {
      * <p>The bundle is a transaction response. Because the response is a transaction response, the transaction has 
      * succeeded, and all responses are error free.
      */
-    public static final BundleType TRANSACTION_RESPONSE = BundleType.builder().value(ValueSet.TRANSACTION_RESPONSE).build();
+    public static final BundleType TRANSACTION_RESPONSE = BundleType.builder().value(Value.TRANSACTION_RESPONSE).build();
 
     /**
      * Batch
      * 
      * <p>The bundle is a set of actions - intended to be processed by a server as a group of independent actions.
      */
-    public static final BundleType BATCH = BundleType.builder().value(ValueSet.BATCH).build();
+    public static final BundleType BATCH = BundleType.builder().value(Value.BATCH).build();
 
     /**
      * Batch Response
      * 
      * <p>The bundle is a batch response. Note that as a batch, some responses may indicate failure and others success.
      */
-    public static final BundleType BATCH_RESPONSE = BundleType.builder().value(ValueSet.BATCH_RESPONSE).build();
+    public static final BundleType BATCH_RESPONSE = BundleType.builder().value(Value.BATCH_RESPONSE).build();
 
     /**
      * History List
      * 
      * <p>The bundle is a list of resources from a history interaction on a server.
      */
-    public static final BundleType HISTORY = BundleType.builder().value(ValueSet.HISTORY).build();
+    public static final BundleType HISTORY = BundleType.builder().value(Value.HISTORY).build();
 
     /**
      * Search Results
      * 
      * <p>The bundle is a list of resources returned as a result of a search/query interaction, operation, or message.
      */
-    public static final BundleType SEARCHSET = BundleType.builder().value(ValueSet.SEARCHSET).build();
+    public static final BundleType SEARCHSET = BundleType.builder().value(Value.SEARCHSET).build();
 
     /**
      * Collection
@@ -82,7 +82,7 @@ public class BundleType extends Code {
      * <p>The bundle is a set of resources collected into a single package for ease of distribution that imposes no 
      * processing obligations or behavioral rules beyond persistence.
      */
-    public static final BundleType COLLECTION = BundleType.builder().value(ValueSet.COLLECTION).build();
+    public static final BundleType COLLECTION = BundleType.builder().value(Value.COLLECTION).build();
 
     private volatile int hashCode;
 
@@ -90,14 +90,56 @@ public class BundleType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this BundleType as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this BundleType as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating BundleType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static BundleType of(ValueSet value) {
+        switch (value) {
+        case DOCUMENT:
+            return DOCUMENT;
+        case MESSAGE:
+            return MESSAGE;
+        case TRANSACTION:
+            return TRANSACTION;
+        case TRANSACTION_RESPONSE:
+            return TRANSACTION_RESPONSE;
+        case BATCH:
+            return BATCH;
+        case BATCH_RESPONSE:
+            return BATCH_RESPONSE;
+        case HISTORY:
+            return HISTORY;
+        case SEARCHSET:
+            return SEARCHSET;
+        case COLLECTION:
+            return COLLECTION;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating BundleType objects from a passed enum value.
      */
-    public static BundleType of(ValueSet value) {
+    public static BundleType of(Value value) {
         switch (value) {
         case DOCUMENT:
             return DOCUMENT;
@@ -131,7 +173,7 @@ public class BundleType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static BundleType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -143,7 +185,7 @@ public class BundleType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -155,7 +197,7 @@ public class BundleType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -217,10 +259,27 @@ public class BundleType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for BundleType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -230,6 +289,7 @@ public class BundleType extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Document
@@ -311,7 +371,7 @@ public class BundleType extends Code {
         }
 
         /**
-         * Factory method for creating BundleType.ValueSet values from a passed string value.
+         * Factory method for creating BundleType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -325,6 +385,125 @@ public class BundleType extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Document
+         * 
+         * <p>The bundle is a document. The first resource is a Composition.
+         */
+        DOCUMENT("document"),
+
+        /**
+         * Message
+         * 
+         * <p>The bundle is a message. The first resource is a MessageHeader.
+         */
+        MESSAGE("message"),
+
+        /**
+         * Transaction
+         * 
+         * <p>The bundle is a transaction - intended to be processed by a server as an atomic commit.
+         */
+        TRANSACTION("transaction"),
+
+        /**
+         * Transaction Response
+         * 
+         * <p>The bundle is a transaction response. Because the response is a transaction response, the transaction has 
+         * succeeded, and all responses are error free.
+         */
+        TRANSACTION_RESPONSE("transaction-response"),
+
+        /**
+         * Batch
+         * 
+         * <p>The bundle is a set of actions - intended to be processed by a server as a group of independent actions.
+         */
+        BATCH("batch"),
+
+        /**
+         * Batch Response
+         * 
+         * <p>The bundle is a batch response. Note that as a batch, some responses may indicate failure and others success.
+         */
+        BATCH_RESPONSE("batch-response"),
+
+        /**
+         * History List
+         * 
+         * <p>The bundle is a list of resources from a history interaction on a server.
+         */
+        HISTORY("history"),
+
+        /**
+         * Search Results
+         * 
+         * <p>The bundle is a list of resources returned as a result of a search/query interaction, operation, or message.
+         */
+        SEARCHSET("searchset"),
+
+        /**
+         * Collection
+         * 
+         * <p>The bundle is a set of resources collected into a single package for ease of distribution that imposes no 
+         * processing obligations or behavioral rules beyond persistence.
+         */
+        COLLECTION("collection");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating BundleType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding BundleType.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "document":
+                return DOCUMENT;
+            case "message":
+                return MESSAGE;
+            case "transaction":
+                return TRANSACTION;
+            case "transaction-response":
+                return TRANSACTION_RESPONSE;
+            case "batch":
+                return BATCH;
+            case "batch-response":
+                return BATCH_RESPONSE;
+            case "history":
+                return HISTORY;
+            case "searchset":
+                return SEARCHSET;
+            case "collection":
+                return COLLECTION;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

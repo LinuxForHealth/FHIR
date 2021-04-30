@@ -50,7 +50,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 0,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DeviceDefinition extends DomainResource {
@@ -63,7 +63,7 @@ public class DeviceDefinition extends DomainResource {
     private final String modelNumber;
     @Binding(
         bindingName = "DeviceKind",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Type of device e.g. according to official classification.",
         valueSet = "http://hl7.org/fhir/ValueSet/device-kind"
     )
@@ -73,7 +73,7 @@ public class DeviceDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Safety",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/device-safety"
     )
     private final List<CodeableConcept> safety;
@@ -1699,7 +1699,7 @@ public class DeviceDefinition extends DomainResource {
         private final String name;
         @Binding(
             bindingName = "DeviceNameType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The type of name the device is referred by.",
             valueSet = "http://hl7.org/fhir/ValueSet/device-nametype|4.0.1"
         )

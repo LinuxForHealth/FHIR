@@ -40,7 +40,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 5,
-    status = StandardsStatus.ValueSet.NORMATIVE
+    status = StandardsStatus.Value.NORMATIVE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class OperationOutcome extends DomainResource {
@@ -415,7 +415,7 @@ public class OperationOutcome extends DomainResource {
         @Summary
         @Binding(
             bindingName = "IssueSeverity",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "How the issue affects the success of the action.",
             valueSet = "http://hl7.org/fhir/ValueSet/issue-severity|4.0.1"
         )
@@ -424,7 +424,7 @@ public class OperationOutcome extends DomainResource {
         @Summary
         @Binding(
             bindingName = "IssueType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "A code that describes the type of issue.",
             valueSet = "http://hl7.org/fhir/ValueSet/issue-type|4.0.1"
         )
@@ -433,7 +433,7 @@ public class OperationOutcome extends DomainResource {
         @Summary
         @Binding(
             bindingName = "IssueDetails",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "A code that provides details as the exact issue.",
             valueSet = "http://hl7.org/fhir/ValueSet/operation-outcome"
         )

@@ -50,7 +50,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 4,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MessageHeader extends DomainResource {
@@ -58,7 +58,7 @@ public class MessageHeader extends DomainResource {
     @Choice({ Coding.class, Uri.class })
     @Binding(
         bindingName = "MessageEvent",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "One of the message events defined as part of this version of FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/message-events"
     )
@@ -84,7 +84,7 @@ public class MessageHeader extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EventReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Reason for event occurrence.",
         valueSet = "http://hl7.org/fhir/ValueSet/message-reason-encounter"
     )
@@ -1570,7 +1570,7 @@ public class MessageHeader extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ResponseType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The kind of response to a message.",
             valueSet = "http://hl7.org/fhir/ValueSet/response-code|4.0.1"
         )

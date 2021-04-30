@@ -36,7 +36,7 @@ public class Identifier extends Element {
     @Summary
     @Binding(
         bindingName = "IdentifierUse",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Identifies the purpose for this identifier, if known .",
         valueSet = "http://hl7.org/fhir/ValueSet/identifier-use|4.0.1"
     )
@@ -44,7 +44,7 @@ public class Identifier extends Element {
     @Summary
     @Binding(
         bindingName = "IdentifierType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "A coded type for an identifier that can be used to determine which identifier to use for a specific purpose.",
         valueSet = "http://hl7.org/fhir/ValueSet/identifier-type"
     )

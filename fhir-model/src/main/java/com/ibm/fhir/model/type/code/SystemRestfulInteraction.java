@@ -19,13 +19,13 @@ import javax.annotation.Generated;
 @System("http://hl7.org/fhir/restful-interaction")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SystemRestfulInteraction extends Code {
-    public static final SystemRestfulInteraction TRANSACTION = SystemRestfulInteraction.builder().value(ValueSet.TRANSACTION).build();
+    public static final SystemRestfulInteraction TRANSACTION = SystemRestfulInteraction.builder().value(Value.TRANSACTION).build();
 
-    public static final SystemRestfulInteraction BATCH = SystemRestfulInteraction.builder().value(ValueSet.BATCH).build();
+    public static final SystemRestfulInteraction BATCH = SystemRestfulInteraction.builder().value(Value.BATCH).build();
 
-    public static final SystemRestfulInteraction SEARCH_SYSTEM = SystemRestfulInteraction.builder().value(ValueSet.SEARCH_SYSTEM).build();
+    public static final SystemRestfulInteraction SEARCH_SYSTEM = SystemRestfulInteraction.builder().value(Value.SEARCH_SYSTEM).build();
 
-    public static final SystemRestfulInteraction HISTORY_SYSTEM = SystemRestfulInteraction.builder().value(ValueSet.HISTORY_SYSTEM).build();
+    public static final SystemRestfulInteraction HISTORY_SYSTEM = SystemRestfulInteraction.builder().value(Value.HISTORY_SYSTEM).build();
 
     private volatile int hashCode;
 
@@ -33,14 +33,46 @@ public class SystemRestfulInteraction extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this SystemRestfulInteraction as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this SystemRestfulInteraction as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating SystemRestfulInteraction objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static SystemRestfulInteraction of(ValueSet value) {
+        switch (value) {
+        case TRANSACTION:
+            return TRANSACTION;
+        case BATCH:
+            return BATCH;
+        case SEARCH_SYSTEM:
+            return SEARCH_SYSTEM;
+        case HISTORY_SYSTEM:
+            return HISTORY_SYSTEM;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating SystemRestfulInteraction objects from a passed enum value.
      */
-    public static SystemRestfulInteraction of(ValueSet value) {
+    public static SystemRestfulInteraction of(Value value) {
         switch (value) {
         case TRANSACTION:
             return TRANSACTION;
@@ -64,7 +96,7 @@ public class SystemRestfulInteraction extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static SystemRestfulInteraction of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -76,7 +108,7 @@ public class SystemRestfulInteraction extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -88,7 +120,7 @@ public class SystemRestfulInteraction extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -150,10 +182,27 @@ public class SystemRestfulInteraction extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for SystemRestfulInteraction
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -163,6 +212,7 @@ public class SystemRestfulInteraction extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         TRANSACTION("transaction"),
 
@@ -187,7 +237,7 @@ public class SystemRestfulInteraction extends Code {
         }
 
         /**
-         * Factory method for creating SystemRestfulInteraction.ValueSet values from a passed string value.
+         * Factory method for creating SystemRestfulInteraction.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -201,6 +251,58 @@ public class SystemRestfulInteraction extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        TRANSACTION("transaction"),
+
+        BATCH("batch"),
+
+        SEARCH_SYSTEM("search-system"),
+
+        HISTORY_SYSTEM("history-system");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating SystemRestfulInteraction.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding SystemRestfulInteraction.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "transaction":
+                return TRANSACTION;
+            case "batch":
+                return BATCH;
+            case "search-system":
+                return SEARCH_SYSTEM;
+            case "history-system":
+                return HISTORY_SYSTEM;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

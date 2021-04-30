@@ -51,7 +51,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 1,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "msq-3",
@@ -81,7 +81,7 @@ public class MolecularSequence extends DomainResource {
     @Summary
     @Binding(
         bindingName = "sequenceType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Type if a sequence -- DNA, RNA, or amino acid sequence.",
         valueSet = "http://hl7.org/fhir/ValueSet/sequence-type|4.0.1"
     )
@@ -1108,7 +1108,7 @@ public class MolecularSequence extends DomainResource {
         @Summary
         @Binding(
             bindingName = "chromosome-human",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Chromosome number for human.",
             valueSet = "http://hl7.org/fhir/ValueSet/chromosome-human"
         )
@@ -1118,7 +1118,7 @@ public class MolecularSequence extends DomainResource {
         @Summary
         @Binding(
             bindingName = "orientationType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Type for orientation.",
             valueSet = "http://hl7.org/fhir/ValueSet/orientation-type|4.0.1"
         )
@@ -1126,7 +1126,7 @@ public class MolecularSequence extends DomainResource {
         @Summary
         @Binding(
             bindingName = "sequenceReference",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Reference identifier.",
             valueSet = "http://hl7.org/fhir/ValueSet/sequence-referenceSeq"
         )
@@ -1139,7 +1139,7 @@ public class MolecularSequence extends DomainResource {
         @Summary
         @Binding(
             bindingName = "strandType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Type for strand.",
             valueSet = "http://hl7.org/fhir/ValueSet/strand-type|4.0.1"
         )
@@ -2083,7 +2083,7 @@ public class MolecularSequence extends DomainResource {
         @Summary
         @Binding(
             bindingName = "qualityType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Type for quality report.",
             valueSet = "http://hl7.org/fhir/ValueSet/quality-type|4.0.1"
         )
@@ -2092,7 +2092,7 @@ public class MolecularSequence extends DomainResource {
         @Summary
         @Binding(
             bindingName = "qualityStandardSequence",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Reference identifier of the sequence that used to mark the quality of tested samples.",
             valueSet = "http://hl7.org/fhir/ValueSet/sequence-quality-standardSequence"
         )
@@ -2106,7 +2106,7 @@ public class MolecularSequence extends DomainResource {
         @Summary
         @Binding(
             bindingName = "qualityMethod",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The method used to evaluate the numerical quality of the observed sequence.",
             valueSet = "http://hl7.org/fhir/ValueSet/sequence-quality-method"
         )
@@ -3392,7 +3392,7 @@ public class MolecularSequence extends DomainResource {
         @Summary
         @Binding(
             bindingName = "repositoryType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Type for access of external URI.",
             valueSet = "http://hl7.org/fhir/ValueSet/repository-type|4.0.1"
         )
@@ -3805,7 +3805,7 @@ public class MolecularSequence extends DomainResource {
         @Summary
         @Binding(
             bindingName = "LOINC LL379-9 answerlist",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "DNA change type.",
             valueSet = "http://loinc.org/vs/LL379-9|4.0.1"
         )

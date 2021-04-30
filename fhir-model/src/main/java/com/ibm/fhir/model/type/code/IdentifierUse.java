@@ -24,7 +24,7 @@ public class IdentifierUse extends Code {
      * 
      * <p>The identifier recommended for display and use in real-world interactions.
      */
-    public static final IdentifierUse USUAL = IdentifierUse.builder().value(ValueSet.USUAL).build();
+    public static final IdentifierUse USUAL = IdentifierUse.builder().value(Value.USUAL).build();
 
     /**
      * Official
@@ -33,14 +33,14 @@ public class IdentifierUse extends Code {
      * and "main". The determination of "official" is subjective and implementation guides often provide additional 
      * guidelines for use.
      */
-    public static final IdentifierUse OFFICIAL = IdentifierUse.builder().value(ValueSet.OFFICIAL).build();
+    public static final IdentifierUse OFFICIAL = IdentifierUse.builder().value(Value.OFFICIAL).build();
 
     /**
      * Temp
      * 
      * <p>A temporary identifier.
      */
-    public static final IdentifierUse TEMP = IdentifierUse.builder().value(ValueSet.TEMP).build();
+    public static final IdentifierUse TEMP = IdentifierUse.builder().value(Value.TEMP).build();
 
     /**
      * Secondary
@@ -48,7 +48,7 @@ public class IdentifierUse extends Code {
      * <p>An identifier that was assigned in secondary use - it serves to identify the object in a relative context, but 
      * cannot be consistently assigned to the same object again in a different context.
      */
-    public static final IdentifierUse SECONDARY = IdentifierUse.builder().value(ValueSet.SECONDARY).build();
+    public static final IdentifierUse SECONDARY = IdentifierUse.builder().value(Value.SECONDARY).build();
 
     /**
      * Old
@@ -56,7 +56,7 @@ public class IdentifierUse extends Code {
      * <p>The identifier id no longer considered valid, but may be relevant for search purposes. E.g. Changes to identifier 
      * schemes, account merges, etc.
      */
-    public static final IdentifierUse OLD = IdentifierUse.builder().value(ValueSet.OLD).build();
+    public static final IdentifierUse OLD = IdentifierUse.builder().value(Value.OLD).build();
 
     private volatile int hashCode;
 
@@ -64,14 +64,48 @@ public class IdentifierUse extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this IdentifierUse as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this IdentifierUse as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating IdentifierUse objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static IdentifierUse of(ValueSet value) {
+        switch (value) {
+        case USUAL:
+            return USUAL;
+        case OFFICIAL:
+            return OFFICIAL;
+        case TEMP:
+            return TEMP;
+        case SECONDARY:
+            return SECONDARY;
+        case OLD:
+            return OLD;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating IdentifierUse objects from a passed enum value.
      */
-    public static IdentifierUse of(ValueSet value) {
+    public static IdentifierUse of(Value value) {
         switch (value) {
         case USUAL:
             return USUAL;
@@ -97,7 +131,7 @@ public class IdentifierUse extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static IdentifierUse of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -109,7 +143,7 @@ public class IdentifierUse extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -121,7 +155,7 @@ public class IdentifierUse extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -183,10 +217,27 @@ public class IdentifierUse extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for IdentifierUse
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -196,6 +247,7 @@ public class IdentifierUse extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Usual
@@ -251,7 +303,7 @@ public class IdentifierUse extends Code {
         }
 
         /**
-         * Factory method for creating IdentifierUse.ValueSet values from a passed string value.
+         * Factory method for creating IdentifierUse.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -265,6 +317,91 @@ public class IdentifierUse extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Usual
+         * 
+         * <p>The identifier recommended for display and use in real-world interactions.
+         */
+        USUAL("usual"),
+
+        /**
+         * Official
+         * 
+         * <p>The identifier considered to be most trusted for the identification of this item. Sometimes also known as "primary" 
+         * and "main". The determination of "official" is subjective and implementation guides often provide additional 
+         * guidelines for use.
+         */
+        OFFICIAL("official"),
+
+        /**
+         * Temp
+         * 
+         * <p>A temporary identifier.
+         */
+        TEMP("temp"),
+
+        /**
+         * Secondary
+         * 
+         * <p>An identifier that was assigned in secondary use - it serves to identify the object in a relative context, but 
+         * cannot be consistently assigned to the same object again in a different context.
+         */
+        SECONDARY("secondary"),
+
+        /**
+         * Old
+         * 
+         * <p>The identifier id no longer considered valid, but may be relevant for search purposes. E.g. Changes to identifier 
+         * schemes, account merges, etc.
+         */
+        OLD("old");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating IdentifierUse.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding IdentifierUse.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "usual":
+                return USUAL;
+            case "official":
+                return OFFICIAL;
+            case "temp":
+                return TEMP;
+            case "secondary":
+                return SECONDARY;
+            case "old":
+                return OLD;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

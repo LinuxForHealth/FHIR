@@ -52,7 +52,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 3,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "imm-1",
@@ -75,7 +75,7 @@ public class Immunization extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ImmunizationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A set of codes indicating the current status of an Immunization.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-status|4.0.1"
     )
@@ -83,7 +83,7 @@ public class Immunization extends DomainResource {
     private final ImmunizationStatus status;
     @Binding(
         bindingName = "ImmunizationStatusReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The reason why a vaccine was not administered.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-status-reason"
     )
@@ -91,7 +91,7 @@ public class Immunization extends DomainResource {
     @Summary
     @Binding(
         bindingName = "VaccineCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The code for vaccine product administered.",
         valueSet = "http://hl7.org/fhir/ValueSet/vaccine-code"
     )
@@ -112,7 +112,7 @@ public class Immunization extends DomainResource {
     private final Boolean primarySource;
     @Binding(
         bindingName = "ImmunizationReportOrigin",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The source of the data for a record which is not from a primary source.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-origin"
     )
@@ -125,14 +125,14 @@ public class Immunization extends DomainResource {
     private final Date expirationDate;
     @Binding(
         bindingName = "ImmunizationSite",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The site at which the vaccine was administered.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-site"
     )
     private final CodeableConcept site;
     @Binding(
         bindingName = "ImmunizationRoute",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The route by which the vaccine was administered.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-route"
     )
@@ -144,7 +144,7 @@ public class Immunization extends DomainResource {
     private final List<Annotation> note;
     @Binding(
         bindingName = "ImmunizationReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The reason why a vaccine was administered.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-reason"
     )
@@ -155,7 +155,7 @@ public class Immunization extends DomainResource {
     private final Boolean isSubpotent;
     @Binding(
         bindingName = "SubpotentReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The reason why a dose is considered to be subpotent.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-subpotent-reason"
     )
@@ -163,14 +163,14 @@ public class Immunization extends DomainResource {
     private final List<Education> education;
     @Binding(
         bindingName = "ProgramEligibility",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The patient's eligibility for a vaccation program.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-program-eligibility"
     )
     private final List<CodeableConcept> programEligibility;
     @Binding(
         bindingName = "FundingSource",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The source of funding used to purchase the vaccine administered.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-funding-source"
     )
@@ -1626,7 +1626,7 @@ public class Immunization extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ImmunizationFunction",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The role a practitioner or organization plays in the immunization event.",
             valueSet = "http://hl7.org/fhir/ValueSet/immunization-function"
         )
@@ -2539,7 +2539,7 @@ public class Immunization extends DomainResource {
         private final Reference authority;
         @Binding(
             bindingName = "TargetDisease",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The vaccine preventable disease the dose is being administered for.",
             valueSet = "http://hl7.org/fhir/ValueSet/immunization-target-disease"
         )

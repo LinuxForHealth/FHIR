@@ -29,11 +29,27 @@ public class Canonical extends Uri {
         return (value != null);
     }
 
+    /**
+     * Factory method for creating Canonical objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String, not null
+     */
     public static Canonical of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Canonical.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Canonical objects from a java.lang.String uri and version
+     * 
+     * @param value
+     *     A java.lang.String for the uri portion of the canonical reference, not null
+     * @param value
+     *     A java.lang.String for the version portion of the canonical reference
+     */
     public static Canonical of(java.lang.String uri, java.lang.String version) {
+        Objects.requireNonNull(uri, "uri");
         StringBuilder value = new StringBuilder(uri);
         if (version != null && !version.isEmpty()) {
             value.append('|');
@@ -42,7 +58,18 @@ public class Canonical extends Uri {
         return Canonical.builder().value(value.toString()).build();
     }
 
+    /**
+     * Factory method for creating Canonical objects from a java.lang.String uri, version, and fragment
+     * 
+     * @param value
+     *     A java.lang.String for the uri portion of the canonical reference, not null
+     * @param value
+     *     A java.lang.String for the version portion of the canonical reference
+     * @param value
+     *     A java.lang.String for the fragment portion of the canonical reference
+     */
     public static Canonical of(java.lang.String uri, java.lang.String version, java.lang.String fragment) {
+        Objects.requireNonNull(uri, "uri");
         StringBuilder value = new StringBuilder(uri);
         if (version != null && !version.isEmpty()) {
             value.append('|');
@@ -55,7 +82,14 @@ public class Canonical extends Uri {
         return Canonical.builder().value(value.toString()).build();
     }
 
+    /**
+     * Factory method for creating Canonical objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String that can be parsed into a valid FHIR uri value, not null
+     */
     public static Uri uri(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Canonical.builder().value(value).build();
     }
 

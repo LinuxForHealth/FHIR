@@ -56,7 +56,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 5,
-    status = StandardsStatus.ValueSet.NORMATIVE
+    status = StandardsStatus.Value.NORMATIVE
 )
 @Constraint(
     id = "vsd-0",
@@ -146,7 +146,7 @@ public class ValueSet extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -166,7 +166,7 @@ public class ValueSet extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -2309,7 +2309,7 @@ public class ValueSet extends DomainResource {
                 public static class Designation extends BackboneElement {
                     @Binding(
                         bindingName = "Language",
-                        strength = BindingStrength.ValueSet.PREFERRED,
+                        strength = BindingStrength.Value.PREFERRED,
                         description = "A human language.",
                         valueSet = "http://hl7.org/fhir/ValueSet/languages",
                         maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
@@ -2317,7 +2317,7 @@ public class ValueSet extends DomainResource {
                     private final Code language;
                     @Binding(
                         bindingName = "ConceptDesignationUse",
-                        strength = BindingStrength.ValueSet.EXTENSIBLE,
+                        strength = BindingStrength.Value.EXTENSIBLE,
                         description = "Details of how a designation would be used.",
                         valueSet = "http://hl7.org/fhir/ValueSet/designation-use"
                     )
@@ -2630,7 +2630,7 @@ public class ValueSet extends DomainResource {
                 @Summary
                 @Binding(
                     bindingName = "FilterOperator",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "The kind of operation to perform as a part of a property based filter.",
                     valueSet = "http://hl7.org/fhir/ValueSet/filter-operator|4.0.1"
                 )

@@ -74,7 +74,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "pdf-0",
@@ -147,7 +147,7 @@ public class PlanDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PlanDefinitionType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The type of PlanDefinition.",
         valueSet = "http://hl7.org/fhir/ValueSet/plan-definition-type"
     )
@@ -155,7 +155,7 @@ public class PlanDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -167,7 +167,7 @@ public class PlanDefinition extends DomainResource {
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SubjectType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The possible types of subjects for a plan definition (E.g. Patient, Practitioner, Organization, Location, etc.).",
         valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
     )
@@ -185,7 +185,7 @@ public class PlanDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -199,7 +199,7 @@ public class PlanDefinition extends DomainResource {
     private final Period effectivePeriod;
     @Binding(
         bindingName = "DefinitionTopic",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "High-level categorization of the definition, used for searching, sorting, and filtering.",
         valueSet = "http://hl7.org/fhir/ValueSet/definition-topic"
     )
@@ -1809,14 +1809,14 @@ public class PlanDefinition extends DomainResource {
     public static class Goal extends BackboneElement {
         @Binding(
             bindingName = "GoalCategory",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Example codes for grouping goals for filtering or presentation.",
             valueSet = "http://hl7.org/fhir/ValueSet/goal-category"
         )
         private final CodeableConcept category;
         @Binding(
             bindingName = "GoalDescription",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Describes goals that can be achieved.",
             valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
         )
@@ -1824,21 +1824,21 @@ public class PlanDefinition extends DomainResource {
         private final CodeableConcept description;
         @Binding(
             bindingName = "GoalPriority",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "Indicates the level of importance associated with reaching or sustaining a goal.",
             valueSet = "http://hl7.org/fhir/ValueSet/goal-priority"
         )
         private final CodeableConcept priority;
         @Binding(
             bindingName = "GoalStartEvent",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Identifies the types of events that might trigger the start of a goal.",
             valueSet = "http://hl7.org/fhir/ValueSet/goal-start-event"
         )
         private final CodeableConcept start;
         @Binding(
             bindingName = "GoalAddresses",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Identifies problems, conditions, issues, or concerns that goals may address.",
             valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
         )
@@ -2332,7 +2332,7 @@ public class PlanDefinition extends DomainResource {
         public static class Target extends BackboneElement {
             @Binding(
                 bindingName = "GoalTargetMeasure",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Identifies types of parameters that can be tracked to determine goal achievement.",
                 valueSet = "http://hl7.org/fhir/ValueSet/observation-codes"
             )
@@ -2650,7 +2650,7 @@ public class PlanDefinition extends DomainResource {
         private final String textEquivalent;
         @Binding(
             bindingName = "RequestPriority",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Identifies the level of importance to be assigned to actioning the request.",
             valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
         )
@@ -2663,7 +2663,7 @@ public class PlanDefinition extends DomainResource {
         @Choice({ CodeableConcept.class, Reference.class })
         @Binding(
             bindingName = "SubjectType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The possible types of subjects for a plan definition (E.g. Patient, Practitioner, Organization, Location, etc.).",
             valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
         )
@@ -2678,42 +2678,42 @@ public class PlanDefinition extends DomainResource {
         private final List<Participant> participant;
         @Binding(
             bindingName = "ActionType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The type of action to be performed.",
             valueSet = "http://hl7.org/fhir/ValueSet/action-type"
         )
         private final CodeableConcept type;
         @Binding(
             bindingName = "ActionGroupingBehavior",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Defines organization behavior of a group.",
             valueSet = "http://hl7.org/fhir/ValueSet/action-grouping-behavior|4.0.1"
         )
         private final ActionGroupingBehavior groupingBehavior;
         @Binding(
             bindingName = "ActionSelectionBehavior",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Defines selection behavior of a group.",
             valueSet = "http://hl7.org/fhir/ValueSet/action-selection-behavior|4.0.1"
         )
         private final ActionSelectionBehavior selectionBehavior;
         @Binding(
             bindingName = "ActionRequiredBehavior",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Defines expectations around whether an action or action group is required.",
             valueSet = "http://hl7.org/fhir/ValueSet/action-required-behavior|4.0.1"
         )
         private final ActionRequiredBehavior requiredBehavior;
         @Binding(
             bindingName = "ActionPrecheckBehavior",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Defines selection frequency behavior for an action or group.",
             valueSet = "http://hl7.org/fhir/ValueSet/action-precheck-behavior|4.0.1"
         )
         private final ActionPrecheckBehavior precheckBehavior;
         @Binding(
             bindingName = "ActionCardinalityBehavior",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Defines behavior for an action or a group for how many times that item may be repeated.",
             valueSet = "http://hl7.org/fhir/ValueSet/action-cardinality-behavior|4.0.1"
         )
@@ -4053,7 +4053,7 @@ public class PlanDefinition extends DomainResource {
         public static class Condition extends BackboneElement {
             @Binding(
                 bindingName = "ActionConditionKind",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "Defines the kinds of conditions that can appear on actions.",
                 valueSet = "http://hl7.org/fhir/ValueSet/action-condition-kind|4.0.1"
             )
@@ -4330,7 +4330,7 @@ public class PlanDefinition extends DomainResource {
             private final Id actionId;
             @Binding(
                 bindingName = "ActionRelationshipType",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "Defines the types of relationships between actions.",
                 valueSet = "http://hl7.org/fhir/ValueSet/action-relationship-type|4.0.1"
             )
@@ -4647,7 +4647,7 @@ public class PlanDefinition extends DomainResource {
         public static class Participant extends BackboneElement {
             @Binding(
                 bindingName = "ActionParticipantType",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "The type of participant for the action.",
                 valueSet = "http://hl7.org/fhir/ValueSet/action-participant-type|4.0.1"
             )
@@ -4655,7 +4655,7 @@ public class PlanDefinition extends DomainResource {
             private final ActionParticipantType type;
             @Binding(
                 bindingName = "ActionParticipantRole",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Defines roles played by participants for the action.",
                 valueSet = "http://hl7.org/fhir/ValueSet/action-participant-role"
             )

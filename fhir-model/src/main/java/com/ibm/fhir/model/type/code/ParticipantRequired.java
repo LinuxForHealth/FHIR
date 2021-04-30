@@ -24,14 +24,14 @@ public class ParticipantRequired extends Code {
      * 
      * <p>The participant is required to attend the appointment.
      */
-    public static final ParticipantRequired REQUIRED = ParticipantRequired.builder().value(ValueSet.REQUIRED).build();
+    public static final ParticipantRequired REQUIRED = ParticipantRequired.builder().value(Value.REQUIRED).build();
 
     /**
      * Optional
      * 
      * <p>The participant may optionally attend the appointment.
      */
-    public static final ParticipantRequired OPTIONAL = ParticipantRequired.builder().value(ValueSet.OPTIONAL).build();
+    public static final ParticipantRequired OPTIONAL = ParticipantRequired.builder().value(Value.OPTIONAL).build();
 
     /**
      * Information Only
@@ -39,7 +39,7 @@ public class ParticipantRequired extends Code {
      * <p>The participant is excluded from the appointment, and might not be informed of the appointment taking place. 
      * (Appointment is about them, not for them - such as 2 doctors discussing results about a patient's test).
      */
-    public static final ParticipantRequired INFORMATION_ONLY = ParticipantRequired.builder().value(ValueSet.INFORMATION_ONLY).build();
+    public static final ParticipantRequired INFORMATION_ONLY = ParticipantRequired.builder().value(Value.INFORMATION_ONLY).build();
 
     private volatile int hashCode;
 
@@ -47,14 +47,44 @@ public class ParticipantRequired extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this ParticipantRequired as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this ParticipantRequired as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating ParticipantRequired objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static ParticipantRequired of(ValueSet value) {
+        switch (value) {
+        case REQUIRED:
+            return REQUIRED;
+        case OPTIONAL:
+            return OPTIONAL;
+        case INFORMATION_ONLY:
+            return INFORMATION_ONLY;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating ParticipantRequired objects from a passed enum value.
      */
-    public static ParticipantRequired of(ValueSet value) {
+    public static ParticipantRequired of(Value value) {
         switch (value) {
         case REQUIRED:
             return REQUIRED;
@@ -76,7 +106,7 @@ public class ParticipantRequired extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static ParticipantRequired of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -88,7 +118,7 @@ public class ParticipantRequired extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -100,7 +130,7 @@ public class ParticipantRequired extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -162,10 +192,27 @@ public class ParticipantRequired extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for ParticipantRequired
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -175,6 +222,7 @@ public class ParticipantRequired extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Required
@@ -213,7 +261,7 @@ public class ParticipantRequired extends Code {
         }
 
         /**
-         * Factory method for creating ParticipantRequired.ValueSet values from a passed string value.
+         * Factory method for creating ParticipantRequired.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -227,6 +275,70 @@ public class ParticipantRequired extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Required
+         * 
+         * <p>The participant is required to attend the appointment.
+         */
+        REQUIRED("required"),
+
+        /**
+         * Optional
+         * 
+         * <p>The participant may optionally attend the appointment.
+         */
+        OPTIONAL("optional"),
+
+        /**
+         * Information Only
+         * 
+         * <p>The participant is excluded from the appointment, and might not be informed of the appointment taking place. 
+         * (Appointment is about them, not for them - such as 2 doctors discussing results about a patient's test).
+         */
+        INFORMATION_ONLY("information-only");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating ParticipantRequired.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding ParticipantRequired.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "required":
+                return REQUIRED;
+            case "optional":
+                return OPTIONAL;
+            case "information-only":
+                return INFORMATION_ONLY;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

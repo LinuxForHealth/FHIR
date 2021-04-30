@@ -51,7 +51,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CommunicationRequest extends DomainResource {
@@ -67,7 +67,7 @@ public class CommunicationRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CommunicationRequestStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The status of the communication request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.1"
     )
@@ -75,13 +75,13 @@ public class CommunicationRequest extends DomainResource {
     private final CommunicationRequestStatus status;
     @Binding(
         bindingName = "CommunicationRequestStatusReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes identifying the reason for the current state of a request."
     )
     private final CodeableConcept statusReason;
     @Binding(
         bindingName = "CommunicationCategory",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for general categories of communications such as alerts, instruction, etc.",
         valueSet = "http://hl7.org/fhir/ValueSet/communication-category"
     )
@@ -89,7 +89,7 @@ public class CommunicationRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CommunicationPriority",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Codes indicating the relative importance of a communication request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
     )
@@ -98,7 +98,7 @@ public class CommunicationRequest extends DomainResource {
     private final Boolean doNotPerform;
     @Binding(
         bindingName = "CommunicationMedium",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for communication mediums such as phone, fax, email, in person, etc.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ParticipationMode"
     )
@@ -126,7 +126,7 @@ public class CommunicationRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CommunicationReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for describing reasons for the occurrence of a communication.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ActReason"
     )

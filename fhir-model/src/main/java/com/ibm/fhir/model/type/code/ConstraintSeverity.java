@@ -24,14 +24,14 @@ public class ConstraintSeverity extends Code {
      * 
      * <p>If the constraint is violated, the resource is not conformant.
      */
-    public static final ConstraintSeverity ERROR = ConstraintSeverity.builder().value(ValueSet.ERROR).build();
+    public static final ConstraintSeverity ERROR = ConstraintSeverity.builder().value(Value.ERROR).build();
 
     /**
      * Warning
      * 
      * <p>If the constraint is violated, the resource is conformant, but it is not necessarily following best practice.
      */
-    public static final ConstraintSeverity WARNING = ConstraintSeverity.builder().value(ValueSet.WARNING).build();
+    public static final ConstraintSeverity WARNING = ConstraintSeverity.builder().value(Value.WARNING).build();
 
     private volatile int hashCode;
 
@@ -39,14 +39,42 @@ public class ConstraintSeverity extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this ConstraintSeverity as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this ConstraintSeverity as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating ConstraintSeverity objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static ConstraintSeverity of(ValueSet value) {
+        switch (value) {
+        case ERROR:
+            return ERROR;
+        case WARNING:
+            return WARNING;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating ConstraintSeverity objects from a passed enum value.
      */
-    public static ConstraintSeverity of(ValueSet value) {
+    public static ConstraintSeverity of(Value value) {
         switch (value) {
         case ERROR:
             return ERROR;
@@ -66,7 +94,7 @@ public class ConstraintSeverity extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static ConstraintSeverity of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -78,7 +106,7 @@ public class ConstraintSeverity extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -90,7 +118,7 @@ public class ConstraintSeverity extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -152,10 +180,27 @@ public class ConstraintSeverity extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for ConstraintSeverity
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -165,6 +210,7 @@ public class ConstraintSeverity extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Error
@@ -195,7 +241,7 @@ public class ConstraintSeverity extends Code {
         }
 
         /**
-         * Factory method for creating ConstraintSeverity.ValueSet values from a passed string value.
+         * Factory method for creating ConstraintSeverity.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -209,6 +255,60 @@ public class ConstraintSeverity extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Error
+         * 
+         * <p>If the constraint is violated, the resource is not conformant.
+         */
+        ERROR("error"),
+
+        /**
+         * Warning
+         * 
+         * <p>If the constraint is violated, the resource is conformant, but it is not necessarily following best practice.
+         */
+        WARNING("warning");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating ConstraintSeverity.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding ConstraintSeverity.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "error":
+                return ERROR;
+            case "warning":
+                return WARNING;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

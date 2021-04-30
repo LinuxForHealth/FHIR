@@ -76,7 +76,7 @@ public class DateTimeTest {
     public void testInstantStringInputWithShortDateValue() throws Exception {
         Instant.of("2018-2-3T20:00:00-04:00");
     }
-    
+
     @Test(groups = { "instant-tests" }, expectedExceptions = DateTimeParseException.class)
     public void testInstantStringInputWithWrongChars() throws Exception {
         Instant.of("2018-aa-bbT20:00:00-04:00");
@@ -92,11 +92,11 @@ public class DateTimeTest {
         Instant.of((String)null);
     }
 
-    @Test(groups = { "instant-tests" }, expectedExceptions = IllegalStateException.class)
+    @Test(groups = { "instant-tests" }, expectedExceptions = NullPointerException.class)
     public void testInstantWithNullZonedDateTime() throws Exception {
         Instant.of((ZonedDateTime)null);
     }
-    
+
     @Test(groups = { "instant-tests" })
     public void testInstantPrecise() throws Exception {
         assertTrue(Instant.of("2018-12-31T20:00:00.112-04:00").getValue()
@@ -117,7 +117,7 @@ public class DateTimeTest {
         assertTrue(Date.of("2018-12").isPartial());
         // Partial date with year only
         assertTrue(Date.of("2018").isPartial());
-    }    
+    }
 
     @Test(groups = { "date-tests" })
     public void testDateWithValidTemporalAccessor() throws Exception{
@@ -148,7 +148,7 @@ public class DateTimeTest {
         Date.of((String)null);
     }
 
-    @Test(groups = { "date-tests" }, expectedExceptions = IllegalStateException.class)
+    @Test(groups = { "date-tests" }, expectedExceptions = NullPointerException.class)
     public void testDateWithNullTemporalAccessor() throws Exception{
         Date.of((TemporalAccessor)null);
     }
@@ -173,7 +173,7 @@ public class DateTimeTest {
         assertTrue(DateTime.of("2018-12").isPartial());
         assertTrue(DateTime.of("2018").isPartial());
     }
-    
+
     @Test(groups = { "datetime-tests" }, expectedExceptions = DateTimeParseException.class)
     public void testDateTimeStringInputWithoutTimeZone() throws Exception {
         DateTime.of("2018-12-31T20:00:08.112");
@@ -198,7 +198,7 @@ public class DateTimeTest {
     public void testDateTimeStringInputWithShortDateValue() throws Exception {
         DateTime.of("2018-2-3T20:00:00-04:00");
     }
-    
+
     @Test(groups = { "datetime-tests" }, expectedExceptions = DateTimeParseException.class)
     public void testDateTimeStringInputWithIlegalChars() throws Exception {
         DateTime.of("2018-aa-bbT20:00:00-04:00");
@@ -209,7 +209,7 @@ public class DateTimeTest {
         DateTime.of((String)null);
     }
 
-    @Test(groups = { "datetime-tests" }, expectedExceptions = IllegalStateException.class)
+    @Test(groups = { "datetime-tests" }, expectedExceptions = NullPointerException.class)
     public void testDateTimeWithNullTemporalAccessor() throws Exception {
         DateTime.of((TemporalAccessor)null);
     }
@@ -290,7 +290,7 @@ public class DateTimeTest {
         Time.of((String)null);
     }
 
-    @Test(groups = { "time-tests" }, expectedExceptions = IllegalStateException.class)
+    @Test(groups = { "time-tests" }, expectedExceptions = NullPointerException.class)
     public void testTimeWithNullLocalTime() throws Exception {
         Time.of((LocalTime)null);
     }

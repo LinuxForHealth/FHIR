@@ -42,7 +42,7 @@ public class SearchParameterAugmenter {
 
         for (SearchParameter searchParameter : tokenParams) {
             List<ResourceType> base = searchParameter.getBase();
-            if (base.size() != 1 || base.get(0).getValueAsEnumConstant() == ResourceType.ValueSet.RESOURCE) {
+            if (base.size() != 1 || base.get(0).getValueAsEnum() == ResourceType.Value.RESOURCE) {
                 continue; // too complicated to handle this case right now
             }
 

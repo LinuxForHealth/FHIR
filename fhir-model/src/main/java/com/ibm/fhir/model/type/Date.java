@@ -62,11 +62,25 @@ public class Date extends Element {
         return super.hasChildren();
     }
 
+    /**
+     * Factory method for creating Date objects from a TemporalAccessor
+     * 
+     * @param value
+     *     A TemporalAccessor, not null
+     */
     public static Date of(TemporalAccessor value) {
+        Objects.requireNonNull(value, "value");
         return Date.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Date objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String value that can be parsed by {@link #PARSER_FORMATTER}, not null
+     */
     public static Date of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Date.builder().value(value).build();
     }
 

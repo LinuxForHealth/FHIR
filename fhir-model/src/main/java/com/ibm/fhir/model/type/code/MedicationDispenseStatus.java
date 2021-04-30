@@ -25,21 +25,21 @@ public class MedicationDispenseStatus extends Code {
      * <p>The core event has not started yet, but some staging activities have begun (e.g. initial compounding or packaging 
      * of medication). Preparation stages may be tracked for billing purposes.
      */
-    public static final MedicationDispenseStatus PREPARATION = MedicationDispenseStatus.builder().value(ValueSet.PREPARATION).build();
+    public static final MedicationDispenseStatus PREPARATION = MedicationDispenseStatus.builder().value(Value.PREPARATION).build();
 
     /**
      * In Progress
      * 
      * <p>The dispensed product is ready for pickup.
      */
-    public static final MedicationDispenseStatus IN_PROGRESS = MedicationDispenseStatus.builder().value(ValueSet.IN_PROGRESS).build();
+    public static final MedicationDispenseStatus IN_PROGRESS = MedicationDispenseStatus.builder().value(Value.IN_PROGRESS).build();
 
     /**
      * Cancelled
      * 
      * <p>The dispensed product was not and will never be picked up by the patient.
      */
-    public static final MedicationDispenseStatus CANCELLED = MedicationDispenseStatus.builder().value(ValueSet.CANCELLED).build();
+    public static final MedicationDispenseStatus CANCELLED = MedicationDispenseStatus.builder().value(Value.CANCELLED).build();
 
     /**
      * On Hold
@@ -47,35 +47,35 @@ public class MedicationDispenseStatus extends Code {
      * <p>The dispense process is paused while waiting for an external event to reactivate the dispense. For example, new 
      * stock has arrived or the prescriber has called.
      */
-    public static final MedicationDispenseStatus ON_HOLD = MedicationDispenseStatus.builder().value(ValueSet.ON_HOLD).build();
+    public static final MedicationDispenseStatus ON_HOLD = MedicationDispenseStatus.builder().value(Value.ON_HOLD).build();
 
     /**
      * Completed
      * 
      * <p>The dispensed product has been picked up.
      */
-    public static final MedicationDispenseStatus COMPLETED = MedicationDispenseStatus.builder().value(ValueSet.COMPLETED).build();
+    public static final MedicationDispenseStatus COMPLETED = MedicationDispenseStatus.builder().value(Value.COMPLETED).build();
 
     /**
      * Entered in Error
      * 
      * <p>The dispense was entered in error and therefore nullified.
      */
-    public static final MedicationDispenseStatus ENTERED_IN_ERROR = MedicationDispenseStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
+    public static final MedicationDispenseStatus ENTERED_IN_ERROR = MedicationDispenseStatus.builder().value(Value.ENTERED_IN_ERROR).build();
 
     /**
      * Stopped
      * 
      * <p>Actions implied by the dispense have been permanently halted, before all of them occurred.
      */
-    public static final MedicationDispenseStatus STOPPED = MedicationDispenseStatus.builder().value(ValueSet.STOPPED).build();
+    public static final MedicationDispenseStatus STOPPED = MedicationDispenseStatus.builder().value(Value.STOPPED).build();
 
     /**
      * Declined
      * 
      * <p>The dispense was declined and not performed.
      */
-    public static final MedicationDispenseStatus DECLINED = MedicationDispenseStatus.builder().value(ValueSet.DECLINED).build();
+    public static final MedicationDispenseStatus DECLINED = MedicationDispenseStatus.builder().value(Value.DECLINED).build();
 
     /**
      * Unknown
@@ -83,7 +83,7 @@ public class MedicationDispenseStatus extends Code {
      * <p>The authoring system does not know which of the status values applies for this medication dispense. Note: this 
      * concept is not to be used for other - one of the listed statuses is presumed to apply, it's just now known which one.
      */
-    public static final MedicationDispenseStatus UNKNOWN = MedicationDispenseStatus.builder().value(ValueSet.UNKNOWN).build();
+    public static final MedicationDispenseStatus UNKNOWN = MedicationDispenseStatus.builder().value(Value.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -91,14 +91,56 @@ public class MedicationDispenseStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this MedicationDispenseStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this MedicationDispenseStatus as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating MedicationDispenseStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static MedicationDispenseStatus of(ValueSet value) {
+        switch (value) {
+        case PREPARATION:
+            return PREPARATION;
+        case IN_PROGRESS:
+            return IN_PROGRESS;
+        case CANCELLED:
+            return CANCELLED;
+        case ON_HOLD:
+            return ON_HOLD;
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case STOPPED:
+            return STOPPED;
+        case DECLINED:
+            return DECLINED;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating MedicationDispenseStatus objects from a passed enum value.
      */
-    public static MedicationDispenseStatus of(ValueSet value) {
+    public static MedicationDispenseStatus of(Value value) {
         switch (value) {
         case PREPARATION:
             return PREPARATION;
@@ -132,7 +174,7 @@ public class MedicationDispenseStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static MedicationDispenseStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -144,7 +186,7 @@ public class MedicationDispenseStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -156,7 +198,7 @@ public class MedicationDispenseStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -218,10 +260,27 @@ public class MedicationDispenseStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for MedicationDispenseStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -231,6 +290,7 @@ public class MedicationDispenseStatus extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Preparation
@@ -313,7 +373,7 @@ public class MedicationDispenseStatus extends Code {
         }
 
         /**
-         * Factory method for creating MedicationDispenseStatus.ValueSet values from a passed string value.
+         * Factory method for creating MedicationDispenseStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -327,6 +387,126 @@ public class MedicationDispenseStatus extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Preparation
+         * 
+         * <p>The core event has not started yet, but some staging activities have begun (e.g. initial compounding or packaging 
+         * of medication). Preparation stages may be tracked for billing purposes.
+         */
+        PREPARATION("preparation"),
+
+        /**
+         * In Progress
+         * 
+         * <p>The dispensed product is ready for pickup.
+         */
+        IN_PROGRESS("in-progress"),
+
+        /**
+         * Cancelled
+         * 
+         * <p>The dispensed product was not and will never be picked up by the patient.
+         */
+        CANCELLED("cancelled"),
+
+        /**
+         * On Hold
+         * 
+         * <p>The dispense process is paused while waiting for an external event to reactivate the dispense. For example, new 
+         * stock has arrived or the prescriber has called.
+         */
+        ON_HOLD("on-hold"),
+
+        /**
+         * Completed
+         * 
+         * <p>The dispensed product has been picked up.
+         */
+        COMPLETED("completed"),
+
+        /**
+         * Entered in Error
+         * 
+         * <p>The dispense was entered in error and therefore nullified.
+         */
+        ENTERED_IN_ERROR("entered-in-error"),
+
+        /**
+         * Stopped
+         * 
+         * <p>Actions implied by the dispense have been permanently halted, before all of them occurred.
+         */
+        STOPPED("stopped"),
+
+        /**
+         * Declined
+         * 
+         * <p>The dispense was declined and not performed.
+         */
+        DECLINED("declined"),
+
+        /**
+         * Unknown
+         * 
+         * <p>The authoring system does not know which of the status values applies for this medication dispense. Note: this 
+         * concept is not to be used for other - one of the listed statuses is presumed to apply, it's just now known which one.
+         */
+        UNKNOWN("unknown");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating MedicationDispenseStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding MedicationDispenseStatus.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "preparation":
+                return PREPARATION;
+            case "in-progress":
+                return IN_PROGRESS;
+            case "cancelled":
+                return CANCELLED;
+            case "on-hold":
+                return ON_HOLD;
+            case "completed":
+                return COMPLETED;
+            case "entered-in-error":
+                return ENTERED_IN_ERROR;
+            case "stopped":
+                return STOPPED;
+            case "declined":
+                return DECLINED;
+            case "unknown":
+                return UNKNOWN;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

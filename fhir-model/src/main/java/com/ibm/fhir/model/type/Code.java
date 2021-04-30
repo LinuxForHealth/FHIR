@@ -32,15 +32,36 @@ public class Code extends String {
         return (value != null);
     }
 
+    /**
+     * Factory method for creating Code objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String, not null
+     */
     public static Code of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Code.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Code objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String, not null
+     */
     public static String string(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Code.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Code objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String that can be parsed into a valid FHIR code value, not null
+     */
     public static Code code(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Code.builder().value(value).build();
     }
 

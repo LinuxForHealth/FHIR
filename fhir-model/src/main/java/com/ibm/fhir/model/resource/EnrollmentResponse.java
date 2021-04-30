@@ -41,7 +41,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 0,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class EnrollmentResponse extends DomainResource {
@@ -49,7 +49,7 @@ public class EnrollmentResponse extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EnrollmentResponseStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.1"
     )
@@ -58,7 +58,7 @@ public class EnrollmentResponse extends DomainResource {
     private final Reference request;
     @Binding(
         bindingName = "RemittanceOutcome",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The outcome of the processing.",
         valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.0.1"
     )

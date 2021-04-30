@@ -594,16 +594,29 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             whereClauseSegment.append(LEFT_PAREN);
 
             if (Modifier.IDENTIFIER.equals(queryParm.getModifier())) {
-                // Include code
-                codeValue = SqlParameterEncoder.encode(value.getValueCode());
-
-                // Include system if present.
+                // Determine code system case-sensitivity
+                boolean codeSystemIsCaseSensitive = false;
                 if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
-                    commonTokenValueId = getCommonTokenValueId(value.getValueSystem(), value.getValueCode());
+                    // Build this piece: pX.token_value = search-attribute-value
+                    whereClauseSegment.append(tableAlias + DOT).append(TOKEN_VALUE).append(EQ).append(BIND_VAR);
 
+                    // Normalize code if code system is not case-sensitive. Otherwise leave code as is. 
+                    codeSystemIsCaseSensitive = CodeSystemSupport.isCaseSensitive(value.getValueSystem());
+                    bindVariables.add(SqlParameterEncoder.encode(codeSystemIsCaseSensitive ?
+                            value.getValueCode() : SearchUtil.normalizeForSearch(value.getValueCode())));
+                    
+                    // Get commonTokenValueId or codeSystemId
+                    commonTokenValueId = getCommonTokenValueId(value.getValueSystem(), value.getValueCode());
                     if (commonTokenValueId == null) {
                         codeSystemId = getCodeSystemId(value.getValueSystem());
                     }
+                } else {
+                    // No code system specified, search against both normalized code and unmodified code.
+                    // Build this piece: pX.token_value IN (search-attribute-value, normalized-search-sttribute-value)
+                    whereClauseSegment.append(tableAlias + DOT).append(TOKEN_VALUE).append(IN)
+                            .append(LEFT_PAREN).append(BIND_VAR).append(COMMA).append(BIND_VAR).append(RIGHT_PAREN);
+                    bindVariables.add(SqlParameterEncoder.encode(value.getValueCode()));
+                    bindVariables.add(SqlParameterEncoder.encode(SearchUtil.normalizeForSearch(value.getValueCode())));
                 }
             } else {
                 String targetResourceType = null;
@@ -645,12 +658,13 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                         codeSystemId = getCodeSystemId(targetResourceType);
                     }
                 }
+
+                // Build this piece: pX.token_value = search-attribute-value [ AND pX.code_system_id = <n> ]
+                whereClauseSegment.append(tableAlias).append(DOT).append(TOKEN_VALUE).append(EQ).append(BIND_VAR);
+                bindVariables.add(codeValue);
             }
 
-            // Build this piece: pX.token_value = search-attribute-value [ AND pX.code_system_id = <n> ]
-            whereClauseSegment.append(tableAlias).append(DOT).append(TOKEN_VALUE).append(EQ).append(BIND_VAR);
-            bindVariables.add(codeValue);
-
+            // Build this piece: [ AND pX.common_token_value_id = <n> ] or [ AND pX.code_system_id = <n> ]
             if (commonTokenValueId != null) {
                 // #1929 improves cardinality estimation
                 // resulting in far better execution plans for many search queries. Because COMMON_TOKEN_VALUE_ID
@@ -1242,8 +1256,9 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     populateCodesSubSegment(whereClauseSegment, queryParm.getModifier(), value, tableAlias);
                 } else {
                     // Include code
-                    whereClauseSegment.append(tableAlias + DOT).append(TOKEN_VALUE).append(operator).append(BIND_VAR);
                     if (LIKE.equals(operator)) {
+                        whereClauseSegment.append(tableAlias + DOT).append(TOKEN_VALUE).append(operator).append(BIND_VAR);
+
                         // Must escape special wildcard characters _ and % in the parameter value string.
                         String textSearchString = SqlParameterEncoder.encode(value.getValueCode())
                                 .replace(PERCENT_WILDCARD, ESCAPE_PERCENT)
@@ -1251,7 +1266,25 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                         bindVariables.add(SearchUtil.normalizeForSearch(textSearchString));
                         appendEscape = true;
                     } else {
-                        bindVariables.add(SqlParameterEncoder.encode(value.getValueCode()));
+                        // Determine code system case-sensitivity
+                        boolean codeSystemIsCaseSensitive = false;
+                        if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
+                            whereClauseSegment.append(tableAlias + DOT).append(TOKEN_VALUE).append(operator).append(BIND_VAR);
+
+                            // Normalize code if code system is not case-sensitive. Otherwise leave code as is. 
+                            codeSystemIsCaseSensitive = CodeSystemSupport.isCaseSensitive(value.getValueSystem());
+                            bindVariables.add(SqlParameterEncoder.encode(codeSystemIsCaseSensitive ?
+                                    value.getValueCode() : SearchUtil.normalizeForSearch(value.getValueCode())));
+                        } else {
+                            // If no code system specified, search against both normalized code and unmodified code.
+                            whereClauseSegment.append(tableAlias + DOT).append(TOKEN_VALUE);
+                            if (NE.equals(operator)) {
+                                whereClauseSegment.append(NOT);
+                            }
+                            whereClauseSegment.append(IN).append(LEFT_PAREN).append(BIND_VAR).append(COMMA).append(BIND_VAR).append(RIGHT_PAREN);
+                            bindVariables.add(SqlParameterEncoder.encode(value.getValueCode()));
+                            bindVariables.add(SqlParameterEncoder.encode(SearchUtil.normalizeForSearch(value.getValueCode())));
+                        }
                     }
 
                     // Include system if present.

@@ -45,7 +45,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 0,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CatalogEntry extends DomainResource {
@@ -63,7 +63,7 @@ public class CatalogEntry extends DomainResource {
     private final List<CodeableConcept> classification;
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -934,7 +934,7 @@ public class CatalogEntry extends DomainResource {
     public static class RelatedEntry extends BackboneElement {
         @Binding(
             bindingName = "CatalogEntryRelationType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The type of relations between entries.",
             valueSet = "http://hl7.org/fhir/ValueSet/relation-type|4.0.1"
         )

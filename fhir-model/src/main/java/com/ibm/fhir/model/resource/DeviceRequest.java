@@ -54,7 +54,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 1,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DeviceRequest extends DomainResource {
@@ -73,7 +73,7 @@ public class DeviceRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DeviceRequestStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Codes representing the status of the request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.1"
     )
@@ -81,7 +81,7 @@ public class DeviceRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "RequestIntent",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The kind of diagnostic request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.1"
     )
@@ -90,7 +90,7 @@ public class DeviceRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "RequestPriority",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Identifies the level of importance to be assigned to actioning the request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
     )
@@ -100,7 +100,7 @@ public class DeviceRequest extends DomainResource {
     @Choice({ Reference.class, CodeableConcept.class })
     @Binding(
         bindingName = "DeviceRequestCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for devices that can be requested.",
         valueSet = "http://hl7.org/fhir/ValueSet/device-kind"
     )
@@ -125,7 +125,7 @@ public class DeviceRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DeviceRequestParticipantRole",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Indicates specific responsibility of an individual within the care team, such as \"Primary physician\", \"Team coordinator\", \"Caregiver\", etc.",
         valueSet = "http://hl7.org/fhir/ValueSet/participant-role"
     )
@@ -136,7 +136,7 @@ public class DeviceRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DeviceRequestReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Diagnosis or problem codes justifying the reason for requesting the device.",
         valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
     )
@@ -1570,7 +1570,7 @@ public class DeviceRequest extends DomainResource {
     public static class Parameter extends BackboneElement {
         @Binding(
             bindingName = "ParameterCode",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "A code that identifies the device detail."
         )
         private final CodeableConcept code;

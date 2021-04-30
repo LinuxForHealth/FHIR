@@ -175,7 +175,7 @@ public class CompleteAbsentDataCreator extends DataCreatorBase {
                     // coded elements with required bindings
                     ElementInfo elementInfo = ModelSupport.getElementInfo(builder.getClass().getEnclosingClass(), method.getName());
                     if (elementInfo != null && elementInfo.hasBinding() &&
-                            (BindingStrength.ValueSet.REQUIRED == elementInfo.getBinding().strength() ||
+                            (BindingStrength.Value.REQUIRED == elementInfo.getBinding().strength() ||
                              elementInfo.getBinding().maxValueSet() != null)) {
 
                         Class<?> realType = parameterType;

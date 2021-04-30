@@ -237,7 +237,23 @@ The IBM FHIR Server does not yet support searching a token value by codesystem, 
 
 For search parameters of type token that are defined on data fields of type `ContactPoint`, the FHIR server currently uses the `ContactPoint.system` and the `ContactPoint.value` instead of the `ContactPoint.use` field as described in the specification.
 
-Searching string values via a token search parameter is not currently supported.
+For search parameters of type token that are defined on data fields of type `string`, `code`, `Coding`, `CodeableConcept`, and `Identifier`, the case-sensitivity of the specified code system is used to determine how resource values are indexed and how the FHIR server performs the search. The following table describes how a resource value is indexed, based on the case-sensitivity of the code system specified in the resource value (or in the case of `code` data fields, the code system bound to the data field if the field has a required binding):
+
+| Code System case-sensitivity setting | How resource value is indexed |
+|--------------------------------------|-------------------------------|
+|case-sensitive                        |Value is stored unmodified (case-sensitive)|
+|not case-sensitive                    |Value is stored as a normalized value (case-insensitive)|
+|case sensitivity not specified        |Value is stored as a normalized value (case-insensitive)|
+|code system not specified             |Value is stored as a normalized value (case-insensitive)|
+
+The following table describes how the FHIR server performs a token search, based on the case-sensitivity of the code system specified in the search parameter value:
+
+| Code System case-sensitivity setting | How search is performed |
+|--------------------------------------|-------------------------|
+|case-sensitive                        |Search is performed to match on unmodified search parameter token value (case-sensitive)|
+|not case-sensitive                    |Search is performed to match on normalized search parameter token value (case-insensitive)|
+|case sensitivity not specified        |Search is performed to match on normalized search parameter token value (case-insensitive)|
+|code system not specified             |Search is performed to match on unmodified search parameter token value OR normalized search parameter value|
 
 ### Searching on Number
 For fields of type `decimal`, the IBM FHIR Server computes an implicit range when the query parameter value has a prefix of `eq` (the default), `ne`, or `ap`. The computed range is based on the number of significant figures passed in the query string and further information can be found at https://www.hl7.org/fhir/R4/search.html#number.

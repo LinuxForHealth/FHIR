@@ -51,7 +51,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 1,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "researchStudy-0",
@@ -92,7 +92,7 @@ public class ResearchStudy extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ResearchStudyStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Codes that convey the current status of the research study.",
         valueSet = "http://hl7.org/fhir/ValueSet/research-study-status|4.0.1"
     )
@@ -101,7 +101,7 @@ public class ResearchStudy extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ResearchStudyPrimaryPurposeType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Codes for the main intent of the study.",
         valueSet = "http://hl7.org/fhir/ValueSet/research-study-prim-purp-type"
     )
@@ -109,7 +109,7 @@ public class ResearchStudy extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ResearchStudyPhase",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for the stage in the progression of a therapy from initial experimental use in humans in clinical trials to post-market evaluation.",
         valueSet = "http://hl7.org/fhir/ValueSet/research-study-phase"
     )
@@ -117,21 +117,21 @@ public class ResearchStudy extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ResearchStudyCategory",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes that describe the type of research study.  E.g. Study phase, Interventional/Observational, blinding type, etc."
     )
     private final List<CodeableConcept> category;
     @Summary
     @Binding(
         bindingName = "ResearchStudyFocus",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for medications, devices and other interventions."
     )
     private final List<CodeableConcept> focus;
     @Summary
     @Binding(
         bindingName = "ConditionCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Identification of the condition or diagnosis.",
         valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
     )
@@ -142,14 +142,14 @@ public class ResearchStudy extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ResearchStudyKeyword",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Words associated with the study that may be useful in discovery."
     )
     private final List<CodeableConcept> keyword;
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -172,7 +172,7 @@ public class ResearchStudy extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ResearchStudyReasonStopped",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for why the study ended prematurely.",
         valueSet = "http://hl7.org/fhir/ValueSet/research-study-reason-stopped"
     )
@@ -1925,7 +1925,7 @@ public class ResearchStudy extends DomainResource {
         private final String name;
         @Binding(
             bindingName = "ResearchStudyObjectiveType",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "Codes for the kind of study objective.",
             valueSet = "http://hl7.org/fhir/ValueSet/research-study-objective-type"
         )

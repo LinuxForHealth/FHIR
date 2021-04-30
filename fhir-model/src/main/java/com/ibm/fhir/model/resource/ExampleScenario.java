@@ -49,7 +49,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 0,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "esc-0",
@@ -79,7 +79,7 @@ public class ExampleScenario extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -98,7 +98,7 @@ public class ExampleScenario extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -1145,7 +1145,7 @@ public class ExampleScenario extends DomainResource {
         private final String actorId;
         @Binding(
             bindingName = "ExampleScenarioActorType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The type of actor - system or human.",
             valueSet = "http://hl7.org/fhir/ValueSet/examplescenario-actor-type|4.0.1"
         )
@@ -1488,7 +1488,7 @@ public class ExampleScenario extends DomainResource {
         private final String resourceId;
         @Binding(
             bindingName = "FHIRResourceType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The type of resource.",
             valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
         )

@@ -62,7 +62,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "explanationOfBenefit-0",
@@ -94,7 +94,7 @@ public class ExplanationOfBenefit extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ExplanationOfBenefitStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/explanationofbenefit-status|4.0.1"
     )
@@ -103,7 +103,7 @@ public class ExplanationOfBenefit extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ClaimType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The type or discipline-style of the claim.",
         valueSet = "http://hl7.org/fhir/ValueSet/claim-type"
     )
@@ -111,7 +111,7 @@ public class ExplanationOfBenefit extends DomainResource {
     private final CodeableConcept type;
     @Binding(
         bindingName = "ClaimSubType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A more granular claim typecode.",
         valueSet = "http://hl7.org/fhir/ValueSet/claim-subtype"
     )
@@ -119,7 +119,7 @@ public class ExplanationOfBenefit extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Use",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Complete, proposed, exploratory, other.",
         valueSet = "http://hl7.org/fhir/ValueSet/claim-use|4.0.1"
     )
@@ -146,21 +146,21 @@ public class ExplanationOfBenefit extends DomainResource {
     private final Reference provider;
     @Binding(
         bindingName = "ProcessPriority",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The timeliness with which processing is required: stat, normal, deferred.",
         valueSet = "http://terminology.hl7.org/CodeSystem/processpriority"
     )
     private final CodeableConcept priority;
     @Binding(
         bindingName = "FundsReserve",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "For whom funds are to be reserved: (Patient, Provider, None).",
         valueSet = "http://hl7.org/fhir/ValueSet/fundsreserve"
     )
     private final CodeableConcept fundsReserveRequested;
     @Binding(
         bindingName = "FundsReserve",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "For whom funds are to be reserved: (Patient, Provider, None).",
         valueSet = "http://hl7.org/fhir/ValueSet/fundsreserve"
     )
@@ -182,7 +182,7 @@ public class ExplanationOfBenefit extends DomainResource {
     @Summary
     @Binding(
         bindingName = "RemittanceOutcome",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The result of the claim processing.",
         valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.0.1"
     )
@@ -208,7 +208,7 @@ public class ExplanationOfBenefit extends DomainResource {
     private final Payment payment;
     @Binding(
         bindingName = "Forms",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The forms codes.",
         valueSet = "http://hl7.org/fhir/ValueSet/forms"
     )
@@ -2283,7 +2283,7 @@ public class ExplanationOfBenefit extends DomainResource {
         private final Reference claim;
         @Binding(
             bindingName = "RelatedClaimRelationship",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Relationship of this claim to a related Claim.",
             valueSet = "http://hl7.org/fhir/ValueSet/related-claim-relationship"
         )
@@ -2587,7 +2587,7 @@ public class ExplanationOfBenefit extends DomainResource {
     public static class Payee extends BackboneElement {
         @Binding(
             bindingName = "PayeeType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "A code for the party to be reimbursed.",
             valueSet = "http://hl7.org/fhir/ValueSet/payeetype"
         )
@@ -2871,14 +2871,14 @@ public class ExplanationOfBenefit extends DomainResource {
         private final Boolean responsible;
         @Binding(
             bindingName = "CareTeamRole",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The role codes for the care team members.",
             valueSet = "http://hl7.org/fhir/ValueSet/claim-careteamrole"
         )
         private final CodeableConcept role;
         @Binding(
             bindingName = "ProviderQualification",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Provider professional qualifications.",
             valueSet = "http://hl7.org/fhir/ValueSet/provider-qualification"
         )
@@ -3258,7 +3258,7 @@ public class ExplanationOfBenefit extends DomainResource {
         private final PositiveInt sequence;
         @Binding(
             bindingName = "InformationCategory",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The valuset used for additional information category codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/claim-informationcategory"
         )
@@ -3266,7 +3266,7 @@ public class ExplanationOfBenefit extends DomainResource {
         private final CodeableConcept category;
         @Binding(
             bindingName = "InformationCode",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The valuset used for additional information codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/claim-exception"
         )
@@ -3277,7 +3277,7 @@ public class ExplanationOfBenefit extends DomainResource {
         private final Element value;
         @Binding(
             bindingName = "MissingReason",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Reason codes for the missing teeth.",
             valueSet = "http://hl7.org/fhir/ValueSet/missing-tooth-reason"
         )
@@ -3700,7 +3700,7 @@ public class ExplanationOfBenefit extends DomainResource {
         @Choice({ CodeableConcept.class, Reference.class })
         @Binding(
             bindingName = "ICD10",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "ICD10 Diagnostic codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/icd-10"
         )
@@ -3708,21 +3708,21 @@ public class ExplanationOfBenefit extends DomainResource {
         private final Element diagnosis;
         @Binding(
             bindingName = "DiagnosisType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The type of the diagnosis: admitting, principal, discharge.",
             valueSet = "http://hl7.org/fhir/ValueSet/ex-diagnosistype"
         )
         private final List<CodeableConcept> type;
         @Binding(
             bindingName = "DiagnosisOnAdmission",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Present on admission.",
             valueSet = "http://hl7.org/fhir/ValueSet/ex-diagnosis-on-admission"
         )
         private final CodeableConcept onAdmission;
         @Binding(
             bindingName = "DiagnosisRelatedGroup",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The DRG codes associated with the diagnosis.",
             valueSet = "http://hl7.org/fhir/ValueSet/ex-diagnosisrelatedgroup"
         )
@@ -4127,7 +4127,7 @@ public class ExplanationOfBenefit extends DomainResource {
         private final PositiveInt sequence;
         @Binding(
             bindingName = "ProcedureType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Example procedure type codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/ex-procedure-type"
         )
@@ -4137,7 +4137,7 @@ public class ExplanationOfBenefit extends DomainResource {
         @Choice({ CodeableConcept.class, Reference.class })
         @Binding(
             bindingName = "ICD10_Procedures",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "ICD10 Procedure codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/icd-10-procedures"
         )
@@ -4912,7 +4912,7 @@ public class ExplanationOfBenefit extends DomainResource {
         private final Date date;
         @Binding(
             bindingName = "AccidentType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Type of accident: work place, auto, etc.",
             valueSet = "http://terminology.hl7.org/ValueSet/v3-ActIncidentCode"
         )
@@ -5233,21 +5233,21 @@ public class ExplanationOfBenefit extends DomainResource {
         private final List<PositiveInt> informationSequence;
         @Binding(
             bindingName = "RevenueCenter",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes for the revenue or cost centers supplying the service and/or products.",
             valueSet = "http://hl7.org/fhir/ValueSet/ex-revenue-center"
         )
         private final CodeableConcept revenue;
         @Binding(
             bindingName = "BenefitCategory",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Benefit categories such as: oral, medical, vision, oral-basic etc.",
             valueSet = "http://hl7.org/fhir/ValueSet/ex-benefitcategory"
         )
         private final CodeableConcept category;
         @Binding(
             bindingName = "ServiceProduct",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Allowable service and product codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
         )
@@ -5255,14 +5255,14 @@ public class ExplanationOfBenefit extends DomainResource {
         private final CodeableConcept productOrService;
         @Binding(
             bindingName = "Modifiers",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
             valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
         )
         private final List<CodeableConcept> modifier;
         @Binding(
             bindingName = "ProgramCode",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Program specific reason codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/ex-program-code"
         )
@@ -5273,7 +5273,7 @@ public class ExplanationOfBenefit extends DomainResource {
         @Choice({ CodeableConcept.class, Address.class, Reference.class })
         @Binding(
             bindingName = "ServicePlace",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Place where the service is rendered.",
             valueSet = "http://hl7.org/fhir/ValueSet/service-place"
         )
@@ -5286,14 +5286,14 @@ public class ExplanationOfBenefit extends DomainResource {
         private final List<Reference> udi;
         @Binding(
             bindingName = "OralSites",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The code for the teeth, quadrant, sextant and arch.",
             valueSet = "http://hl7.org/fhir/ValueSet/tooth"
         )
         private final CodeableConcept bodySite;
         @Binding(
             bindingName = "Surface",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The code for the tooth surface and surface combinations.",
             valueSet = "http://hl7.org/fhir/ValueSet/surface"
         )
@@ -6515,7 +6515,7 @@ public class ExplanationOfBenefit extends DomainResource {
         public static class Adjudication extends BackboneElement {
             @Binding(
                 bindingName = "Adjudication",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "The adjudication codes.",
                 valueSet = "http://hl7.org/fhir/ValueSet/adjudication"
             )
@@ -6523,7 +6523,7 @@ public class ExplanationOfBenefit extends DomainResource {
             private final CodeableConcept category;
             @Binding(
                 bindingName = "AdjudicationReason",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Adjudication reason codes.",
                 valueSet = "http://hl7.org/fhir/ValueSet/adjudication-reason"
             )
@@ -6866,21 +6866,21 @@ public class ExplanationOfBenefit extends DomainResource {
             private final PositiveInt sequence;
             @Binding(
                 bindingName = "RevenueCenter",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for the revenue or cost centers supplying the service and/or products.",
                 valueSet = "http://hl7.org/fhir/ValueSet/ex-revenue-center"
             )
             private final CodeableConcept revenue;
             @Binding(
                 bindingName = "BenefitCategory",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Benefit categories such as: oral, medical, vision, oral-basic etc.",
                 valueSet = "http://hl7.org/fhir/ValueSet/ex-benefitcategory"
             )
             private final CodeableConcept category;
             @Binding(
                 bindingName = "ServiceProduct",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Allowable service and product codes.",
                 valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
             )
@@ -6888,14 +6888,14 @@ public class ExplanationOfBenefit extends DomainResource {
             private final CodeableConcept productOrService;
             @Binding(
                 bindingName = "Modifiers",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
                 valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
             )
             private final List<CodeableConcept> modifier;
             @Binding(
                 bindingName = "ProgramCode",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Program specific reason codes.",
                 valueSet = "http://hl7.org/fhir/ValueSet/ex-program-code"
             )
@@ -7690,21 +7690,21 @@ public class ExplanationOfBenefit extends DomainResource {
                 private final PositiveInt sequence;
                 @Binding(
                     bindingName = "RevenueCenter",
-                    strength = BindingStrength.ValueSet.EXAMPLE,
+                    strength = BindingStrength.Value.EXAMPLE,
                     description = "Codes for the revenue or cost centers supplying the service and/or products.",
                     valueSet = "http://hl7.org/fhir/ValueSet/ex-revenue-center"
                 )
                 private final CodeableConcept revenue;
                 @Binding(
                     bindingName = "BenefitCategory",
-                    strength = BindingStrength.ValueSet.EXAMPLE,
+                    strength = BindingStrength.Value.EXAMPLE,
                     description = "Benefit categories such as: oral, medical, vision, oral-basic etc.",
                     valueSet = "http://hl7.org/fhir/ValueSet/ex-benefitcategory"
                 )
                 private final CodeableConcept category;
                 @Binding(
                     bindingName = "ServiceProduct",
-                    strength = BindingStrength.ValueSet.EXAMPLE,
+                    strength = BindingStrength.Value.EXAMPLE,
                     description = "Allowable service and product codes.",
                     valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
                 )
@@ -7712,14 +7712,14 @@ public class ExplanationOfBenefit extends DomainResource {
                 private final CodeableConcept productOrService;
                 @Binding(
                     bindingName = "Modifiers",
-                    strength = BindingStrength.ValueSet.EXAMPLE,
+                    strength = BindingStrength.Value.EXAMPLE,
                     description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
                     valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
                 )
                 private final List<CodeableConcept> modifier;
                 @Binding(
                     bindingName = "ProgramCode",
-                    strength = BindingStrength.ValueSet.EXAMPLE,
+                    strength = BindingStrength.Value.EXAMPLE,
                     description = "Program specific reason codes.",
                     valueSet = "http://hl7.org/fhir/ValueSet/ex-program-code"
                 )
@@ -8468,7 +8468,7 @@ public class ExplanationOfBenefit extends DomainResource {
         private final List<Reference> provider;
         @Binding(
             bindingName = "ServiceProduct",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Allowable service and product codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
         )
@@ -8476,14 +8476,14 @@ public class ExplanationOfBenefit extends DomainResource {
         private final CodeableConcept productOrService;
         @Binding(
             bindingName = "Modifiers",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
             valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
         )
         private final List<CodeableConcept> modifier;
         @Binding(
             bindingName = "ProgramCode",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Program specific reason codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/ex-program-code"
         )
@@ -8494,7 +8494,7 @@ public class ExplanationOfBenefit extends DomainResource {
         @Choice({ CodeableConcept.class, Address.class, Reference.class })
         @Binding(
             bindingName = "ServicePlace",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Place where the service is rendered.",
             valueSet = "http://hl7.org/fhir/ValueSet/service-place"
         )
@@ -8505,14 +8505,14 @@ public class ExplanationOfBenefit extends DomainResource {
         private final Money net;
         @Binding(
             bindingName = "OralSites",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The code for the teeth, quadrant, sextant and arch.",
             valueSet = "http://hl7.org/fhir/ValueSet/tooth"
         )
         private final CodeableConcept bodySite;
         @Binding(
             bindingName = "Surface",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The code for the tooth surface and surface combinations.",
             valueSet = "http://hl7.org/fhir/ValueSet/surface"
         )
@@ -9526,7 +9526,7 @@ public class ExplanationOfBenefit extends DomainResource {
         public static class Detail extends BackboneElement {
             @Binding(
                 bindingName = "ServiceProduct",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Allowable service and product codes.",
                 valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
             )
@@ -9534,7 +9534,7 @@ public class ExplanationOfBenefit extends DomainResource {
             private final CodeableConcept productOrService;
             @Binding(
                 bindingName = "Modifiers",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
                 valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
             )
@@ -10116,7 +10116,7 @@ public class ExplanationOfBenefit extends DomainResource {
             public static class SubDetail extends BackboneElement {
                 @Binding(
                     bindingName = "ServiceProduct",
-                    strength = BindingStrength.ValueSet.EXAMPLE,
+                    strength = BindingStrength.Value.EXAMPLE,
                     description = "Allowable service and product codes.",
                     valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
                 )
@@ -10124,7 +10124,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 private final CodeableConcept productOrService;
                 @Binding(
                     bindingName = "Modifiers",
-                    strength = BindingStrength.ValueSet.EXAMPLE,
+                    strength = BindingStrength.Value.EXAMPLE,
                     description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
                     valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
                 )
@@ -10658,7 +10658,7 @@ public class ExplanationOfBenefit extends DomainResource {
         @Summary
         @Binding(
             bindingName = "Adjudication",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The adjudication codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/adjudication"
         )
@@ -10942,7 +10942,7 @@ public class ExplanationOfBenefit extends DomainResource {
     public static class Payment extends BackboneElement {
         @Binding(
             bindingName = "PaymentType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The type (partial, complete) of the payment.",
             valueSet = "http://hl7.org/fhir/ValueSet/ex-paymenttype"
         )
@@ -10950,7 +10950,7 @@ public class ExplanationOfBenefit extends DomainResource {
         private final Money adjustment;
         @Binding(
             bindingName = "PaymentAdjustmentReason",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Payment Adjustment reason codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/payment-adjustment-reason"
         )
@@ -11346,7 +11346,7 @@ public class ExplanationOfBenefit extends DomainResource {
         private final PositiveInt number;
         @Binding(
             bindingName = "NoteType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The presentation types of notes.",
             valueSet = "http://hl7.org/fhir/ValueSet/note-type|4.0.1"
         )
@@ -11354,7 +11354,7 @@ public class ExplanationOfBenefit extends DomainResource {
         private final String text;
         @Binding(
             bindingName = "Language",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "A human language.",
             valueSet = "http://hl7.org/fhir/ValueSet/languages",
             maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
@@ -11684,7 +11684,7 @@ public class ExplanationOfBenefit extends DomainResource {
     public static class BenefitBalance extends BackboneElement {
         @Binding(
             bindingName = "BenefitCategory",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Benefit categories such as: oral, medical, vision, oral-basic etc.",
             valueSet = "http://hl7.org/fhir/ValueSet/ex-benefitcategory"
         )
@@ -11695,21 +11695,21 @@ public class ExplanationOfBenefit extends DomainResource {
         private final String description;
         @Binding(
             bindingName = "BenefitNetwork",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Code to classify in or out of network services.",
             valueSet = "http://hl7.org/fhir/ValueSet/benefit-network"
         )
         private final CodeableConcept network;
         @Binding(
             bindingName = "BenefitUnit",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Unit covered/serviced - individual or family.",
             valueSet = "http://hl7.org/fhir/ValueSet/benefit-unit"
         )
         private final CodeableConcept unit;
         @Binding(
             bindingName = "BenefitTerm",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Coverage unit - annual, lifetime.",
             valueSet = "http://hl7.org/fhir/ValueSet/benefit-term"
         )
@@ -12190,7 +12190,7 @@ public class ExplanationOfBenefit extends DomainResource {
         public static class Financial extends BackboneElement {
             @Binding(
                 bindingName = "BenefitType",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Deductable, visits, co-pay, etc.",
                 valueSet = "http://hl7.org/fhir/ValueSet/benefit-type"
             )

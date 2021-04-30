@@ -19,23 +19,23 @@ import javax.annotation.Generated;
 @System("http://hl7.org/fhir/restful-interaction")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class TypeRestfulInteraction extends Code {
-    public static final TypeRestfulInteraction READ = TypeRestfulInteraction.builder().value(ValueSet.READ).build();
+    public static final TypeRestfulInteraction READ = TypeRestfulInteraction.builder().value(Value.READ).build();
 
-    public static final TypeRestfulInteraction VREAD = TypeRestfulInteraction.builder().value(ValueSet.VREAD).build();
+    public static final TypeRestfulInteraction VREAD = TypeRestfulInteraction.builder().value(Value.VREAD).build();
 
-    public static final TypeRestfulInteraction UPDATE = TypeRestfulInteraction.builder().value(ValueSet.UPDATE).build();
+    public static final TypeRestfulInteraction UPDATE = TypeRestfulInteraction.builder().value(Value.UPDATE).build();
 
-    public static final TypeRestfulInteraction PATCH = TypeRestfulInteraction.builder().value(ValueSet.PATCH).build();
+    public static final TypeRestfulInteraction PATCH = TypeRestfulInteraction.builder().value(Value.PATCH).build();
 
-    public static final TypeRestfulInteraction DELETE = TypeRestfulInteraction.builder().value(ValueSet.DELETE).build();
+    public static final TypeRestfulInteraction DELETE = TypeRestfulInteraction.builder().value(Value.DELETE).build();
 
-    public static final TypeRestfulInteraction HISTORY_INSTANCE = TypeRestfulInteraction.builder().value(ValueSet.HISTORY_INSTANCE).build();
+    public static final TypeRestfulInteraction HISTORY_INSTANCE = TypeRestfulInteraction.builder().value(Value.HISTORY_INSTANCE).build();
 
-    public static final TypeRestfulInteraction HISTORY_TYPE = TypeRestfulInteraction.builder().value(ValueSet.HISTORY_TYPE).build();
+    public static final TypeRestfulInteraction HISTORY_TYPE = TypeRestfulInteraction.builder().value(Value.HISTORY_TYPE).build();
 
-    public static final TypeRestfulInteraction CREATE = TypeRestfulInteraction.builder().value(ValueSet.CREATE).build();
+    public static final TypeRestfulInteraction CREATE = TypeRestfulInteraction.builder().value(Value.CREATE).build();
 
-    public static final TypeRestfulInteraction SEARCH_TYPE = TypeRestfulInteraction.builder().value(ValueSet.SEARCH_TYPE).build();
+    public static final TypeRestfulInteraction SEARCH_TYPE = TypeRestfulInteraction.builder().value(Value.SEARCH_TYPE).build();
 
     private volatile int hashCode;
 
@@ -43,14 +43,56 @@ public class TypeRestfulInteraction extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this TypeRestfulInteraction as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this TypeRestfulInteraction as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating TypeRestfulInteraction objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static TypeRestfulInteraction of(ValueSet value) {
+        switch (value) {
+        case READ:
+            return READ;
+        case VREAD:
+            return VREAD;
+        case UPDATE:
+            return UPDATE;
+        case PATCH:
+            return PATCH;
+        case DELETE:
+            return DELETE;
+        case HISTORY_INSTANCE:
+            return HISTORY_INSTANCE;
+        case HISTORY_TYPE:
+            return HISTORY_TYPE;
+        case CREATE:
+            return CREATE;
+        case SEARCH_TYPE:
+            return SEARCH_TYPE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating TypeRestfulInteraction objects from a passed enum value.
      */
-    public static TypeRestfulInteraction of(ValueSet value) {
+    public static TypeRestfulInteraction of(Value value) {
         switch (value) {
         case READ:
             return READ;
@@ -84,7 +126,7 @@ public class TypeRestfulInteraction extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static TypeRestfulInteraction of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -96,7 +138,7 @@ public class TypeRestfulInteraction extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -108,7 +150,7 @@ public class TypeRestfulInteraction extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -170,10 +212,27 @@ public class TypeRestfulInteraction extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for TypeRestfulInteraction
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -183,6 +242,7 @@ public class TypeRestfulInteraction extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         READ("read"),
 
@@ -217,7 +277,7 @@ public class TypeRestfulInteraction extends Code {
         }
 
         /**
-         * Factory method for creating TypeRestfulInteraction.ValueSet values from a passed string value.
+         * Factory method for creating TypeRestfulInteraction.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -231,6 +291,78 @@ public class TypeRestfulInteraction extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        READ("read"),
+
+        VREAD("vread"),
+
+        UPDATE("update"),
+
+        PATCH("patch"),
+
+        DELETE("delete"),
+
+        HISTORY_INSTANCE("history-instance"),
+
+        HISTORY_TYPE("history-type"),
+
+        CREATE("create"),
+
+        SEARCH_TYPE("search-type");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating TypeRestfulInteraction.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding TypeRestfulInteraction.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "read":
+                return READ;
+            case "vread":
+                return VREAD;
+            case "update":
+                return UPDATE;
+            case "patch":
+                return PATCH;
+            case "delete":
+                return DELETE;
+            case "history-instance":
+                return HISTORY_INSTANCE;
+            case "history-type":
+                return HISTORY_TYPE;
+            case "create":
+                return CREATE;
+            case "search-type":
+                return SEARCH_TYPE;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

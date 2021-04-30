@@ -58,7 +58,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 5,
-    status = StandardsStatus.ValueSet.NORMATIVE
+    status = StandardsStatus.Value.NORMATIVE
 )
 @Constraint(
     id = "csd-0",
@@ -113,7 +113,7 @@ public class CodeSystem extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -133,7 +133,7 @@ public class CodeSystem extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -147,7 +147,7 @@ public class CodeSystem extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CodeSystemHierarchyMeaning",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The meaning of the hierarchy of concepts in a code system.",
         valueSet = "http://hl7.org/fhir/ValueSet/codesystem-hierarchy-meaning|4.0.1"
     )
@@ -159,7 +159,7 @@ public class CodeSystem extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CodeSystemContentMode",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The extent of the content of the code system (the concepts and codes it defines) are represented in a code system resource.",
         valueSet = "http://hl7.org/fhir/ValueSet/codesystem-content-mode|4.0.1"
     )
@@ -1487,7 +1487,7 @@ public class CodeSystem extends DomainResource {
         @Summary
         @Binding(
             bindingName = "FilterOperator",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The kind of operation to perform as a part of a property based filter.",
             valueSet = "http://hl7.org/fhir/ValueSet/filter-operator|4.0.1"
         )
@@ -1862,7 +1862,7 @@ public class CodeSystem extends DomainResource {
         @Summary
         @Binding(
             bindingName = "PropertyType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The type of a property value.",
             valueSet = "http://hl7.org/fhir/ValueSet/concept-property-type|4.0.1"
         )
@@ -2675,7 +2675,7 @@ public class CodeSystem extends DomainResource {
         public static class Designation extends BackboneElement {
             @Binding(
                 bindingName = "Language",
-                strength = BindingStrength.ValueSet.PREFERRED,
+                strength = BindingStrength.Value.PREFERRED,
                 description = "A human language.",
                 valueSet = "http://hl7.org/fhir/ValueSet/languages",
                 maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
@@ -2683,7 +2683,7 @@ public class CodeSystem extends DomainResource {
             private final Code language;
             @Binding(
                 bindingName = "ConceptDesignationUse",
-                strength = BindingStrength.ValueSet.EXTENSIBLE,
+                strength = BindingStrength.Value.EXTENSIBLE,
                 description = "Details of how a designation would be used.",
                 valueSet = "http://hl7.org/fhir/ValueSet/designation-use"
             )

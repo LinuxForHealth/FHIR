@@ -24,21 +24,21 @@ public class ListStatus extends Code {
      * 
      * <p>The list is considered to be an active part of the patient's record.
      */
-    public static final ListStatus CURRENT = ListStatus.builder().value(ValueSet.CURRENT).build();
+    public static final ListStatus CURRENT = ListStatus.builder().value(Value.CURRENT).build();
 
     /**
      * Retired
      * 
      * <p>The list is "old" and should no longer be considered accurate or relevant.
      */
-    public static final ListStatus RETIRED = ListStatus.builder().value(ValueSet.RETIRED).build();
+    public static final ListStatus RETIRED = ListStatus.builder().value(Value.RETIRED).build();
 
     /**
      * Entered In Error
      * 
      * <p>The list was never accurate. It is retained for medico-legal purposes only.
      */
-    public static final ListStatus ENTERED_IN_ERROR = ListStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
+    public static final ListStatus ENTERED_IN_ERROR = ListStatus.builder().value(Value.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -46,14 +46,44 @@ public class ListStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this ListStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this ListStatus as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating ListStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static ListStatus of(ValueSet value) {
+        switch (value) {
+        case CURRENT:
+            return CURRENT;
+        case RETIRED:
+            return RETIRED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating ListStatus objects from a passed enum value.
      */
-    public static ListStatus of(ValueSet value) {
+    public static ListStatus of(Value value) {
         switch (value) {
         case CURRENT:
             return CURRENT;
@@ -75,7 +105,7 @@ public class ListStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static ListStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -87,7 +117,7 @@ public class ListStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -99,7 +129,7 @@ public class ListStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -161,10 +191,27 @@ public class ListStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for ListStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -174,6 +221,7 @@ public class ListStatus extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Current
@@ -211,7 +259,7 @@ public class ListStatus extends Code {
         }
 
         /**
-         * Factory method for creating ListStatus.ValueSet values from a passed string value.
+         * Factory method for creating ListStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -225,6 +273,69 @@ public class ListStatus extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Current
+         * 
+         * <p>The list is considered to be an active part of the patient's record.
+         */
+        CURRENT("current"),
+
+        /**
+         * Retired
+         * 
+         * <p>The list is "old" and should no longer be considered accurate or relevant.
+         */
+        RETIRED("retired"),
+
+        /**
+         * Entered In Error
+         * 
+         * <p>The list was never accurate. It is retained for medico-legal purposes only.
+         */
+        ENTERED_IN_ERROR("entered-in-error");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating ListStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding ListStatus.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "current":
+                return CURRENT;
+            case "retired":
+                return RETIRED;
+            case "entered-in-error":
+                return ENTERED_IN_ERROR;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

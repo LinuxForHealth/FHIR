@@ -24,21 +24,21 @@ public class ConditionalDeleteStatus extends Code {
      * 
      * <p>No support for conditional deletes.
      */
-    public static final ConditionalDeleteStatus NOT_SUPPORTED = ConditionalDeleteStatus.builder().value(ValueSet.NOT_SUPPORTED).build();
+    public static final ConditionalDeleteStatus NOT_SUPPORTED = ConditionalDeleteStatus.builder().value(Value.NOT_SUPPORTED).build();
 
     /**
      * Single Deletes Supported
      * 
      * <p>Conditional deletes are supported, but only single resources at a time.
      */
-    public static final ConditionalDeleteStatus SINGLE = ConditionalDeleteStatus.builder().value(ValueSet.SINGLE).build();
+    public static final ConditionalDeleteStatus SINGLE = ConditionalDeleteStatus.builder().value(Value.SINGLE).build();
 
     /**
      * Multiple Deletes Supported
      * 
      * <p>Conditional deletes are supported, and multiple resources can be deleted in a single interaction.
      */
-    public static final ConditionalDeleteStatus MULTIPLE = ConditionalDeleteStatus.builder().value(ValueSet.MULTIPLE).build();
+    public static final ConditionalDeleteStatus MULTIPLE = ConditionalDeleteStatus.builder().value(Value.MULTIPLE).build();
 
     private volatile int hashCode;
 
@@ -46,14 +46,44 @@ public class ConditionalDeleteStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this ConditionalDeleteStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this ConditionalDeleteStatus as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating ConditionalDeleteStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static ConditionalDeleteStatus of(ValueSet value) {
+        switch (value) {
+        case NOT_SUPPORTED:
+            return NOT_SUPPORTED;
+        case SINGLE:
+            return SINGLE;
+        case MULTIPLE:
+            return MULTIPLE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating ConditionalDeleteStatus objects from a passed enum value.
      */
-    public static ConditionalDeleteStatus of(ValueSet value) {
+    public static ConditionalDeleteStatus of(Value value) {
         switch (value) {
         case NOT_SUPPORTED:
             return NOT_SUPPORTED;
@@ -75,7 +105,7 @@ public class ConditionalDeleteStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static ConditionalDeleteStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -87,7 +117,7 @@ public class ConditionalDeleteStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -99,7 +129,7 @@ public class ConditionalDeleteStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -161,10 +191,27 @@ public class ConditionalDeleteStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for ConditionalDeleteStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -174,6 +221,7 @@ public class ConditionalDeleteStatus extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Not Supported
@@ -211,7 +259,7 @@ public class ConditionalDeleteStatus extends Code {
         }
 
         /**
-         * Factory method for creating ConditionalDeleteStatus.ValueSet values from a passed string value.
+         * Factory method for creating ConditionalDeleteStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -225,6 +273,69 @@ public class ConditionalDeleteStatus extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Not Supported
+         * 
+         * <p>No support for conditional deletes.
+         */
+        NOT_SUPPORTED("not-supported"),
+
+        /**
+         * Single Deletes Supported
+         * 
+         * <p>Conditional deletes are supported, but only single resources at a time.
+         */
+        SINGLE("single"),
+
+        /**
+         * Multiple Deletes Supported
+         * 
+         * <p>Conditional deletes are supported, and multiple resources can be deleted in a single interaction.
+         */
+        MULTIPLE("multiple");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating ConditionalDeleteStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding ConditionalDeleteStatus.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "not-supported":
+                return NOT_SUPPORTED;
+            case "single":
+                return SINGLE;
+            case "multiple":
+                return MULTIPLE;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

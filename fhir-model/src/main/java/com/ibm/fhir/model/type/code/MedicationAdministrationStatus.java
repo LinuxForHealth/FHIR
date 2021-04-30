@@ -24,7 +24,7 @@ public class MedicationAdministrationStatus extends Code {
      * 
      * <p>The administration has started but has not yet completed.
      */
-    public static final MedicationAdministrationStatus IN_PROGRESS = MedicationAdministrationStatus.builder().value(ValueSet.IN_PROGRESS).build();
+    public static final MedicationAdministrationStatus IN_PROGRESS = MedicationAdministrationStatus.builder().value(Value.IN_PROGRESS).build();
 
     /**
      * Not Done
@@ -32,7 +32,7 @@ public class MedicationAdministrationStatus extends Code {
      * <p>The administration was terminated prior to any impact on the subject (though preparatory actions may have been 
      * taken)
      */
-    public static final MedicationAdministrationStatus NOT_DONE = MedicationAdministrationStatus.builder().value(ValueSet.NOT_DONE).build();
+    public static final MedicationAdministrationStatus NOT_DONE = MedicationAdministrationStatus.builder().value(Value.NOT_DONE).build();
 
     /**
      * On Hold
@@ -40,28 +40,28 @@ public class MedicationAdministrationStatus extends Code {
      * <p>Actions implied by the administration have been temporarily halted, but are expected to continue later. May also be 
      * called 'suspended'.
      */
-    public static final MedicationAdministrationStatus ON_HOLD = MedicationAdministrationStatus.builder().value(ValueSet.ON_HOLD).build();
+    public static final MedicationAdministrationStatus ON_HOLD = MedicationAdministrationStatus.builder().value(Value.ON_HOLD).build();
 
     /**
      * Completed
      * 
      * <p>All actions that are implied by the administration have occurred.
      */
-    public static final MedicationAdministrationStatus COMPLETED = MedicationAdministrationStatus.builder().value(ValueSet.COMPLETED).build();
+    public static final MedicationAdministrationStatus COMPLETED = MedicationAdministrationStatus.builder().value(Value.COMPLETED).build();
 
     /**
      * Entered in Error
      * 
      * <p>The administration was entered in error and therefore nullified.
      */
-    public static final MedicationAdministrationStatus ENTERED_IN_ERROR = MedicationAdministrationStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
+    public static final MedicationAdministrationStatus ENTERED_IN_ERROR = MedicationAdministrationStatus.builder().value(Value.ENTERED_IN_ERROR).build();
 
     /**
      * Stopped
      * 
      * <p>Actions implied by the administration have been permanently halted, before all of them occurred.
      */
-    public static final MedicationAdministrationStatus STOPPED = MedicationAdministrationStatus.builder().value(ValueSet.STOPPED).build();
+    public static final MedicationAdministrationStatus STOPPED = MedicationAdministrationStatus.builder().value(Value.STOPPED).build();
 
     /**
      * Unknown
@@ -69,7 +69,7 @@ public class MedicationAdministrationStatus extends Code {
      * <p>The authoring system does not know which of the status values currently applies for this request. Note: This 
      * concept is not to be used for 'other' - one of the listed statuses is presumed to apply, it's just not known which one.
      */
-    public static final MedicationAdministrationStatus UNKNOWN = MedicationAdministrationStatus.builder().value(ValueSet.UNKNOWN).build();
+    public static final MedicationAdministrationStatus UNKNOWN = MedicationAdministrationStatus.builder().value(Value.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -77,14 +77,52 @@ public class MedicationAdministrationStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this MedicationAdministrationStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this MedicationAdministrationStatus as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating MedicationAdministrationStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static MedicationAdministrationStatus of(ValueSet value) {
+        switch (value) {
+        case IN_PROGRESS:
+            return IN_PROGRESS;
+        case NOT_DONE:
+            return NOT_DONE;
+        case ON_HOLD:
+            return ON_HOLD;
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case STOPPED:
+            return STOPPED;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating MedicationAdministrationStatus objects from a passed enum value.
      */
-    public static MedicationAdministrationStatus of(ValueSet value) {
+    public static MedicationAdministrationStatus of(Value value) {
         switch (value) {
         case IN_PROGRESS:
             return IN_PROGRESS;
@@ -114,7 +152,7 @@ public class MedicationAdministrationStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static MedicationAdministrationStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -126,7 +164,7 @@ public class MedicationAdministrationStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -138,7 +176,7 @@ public class MedicationAdministrationStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -200,10 +238,27 @@ public class MedicationAdministrationStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for MedicationAdministrationStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -213,6 +268,7 @@ public class MedicationAdministrationStatus extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * In Progress
@@ -281,7 +337,7 @@ public class MedicationAdministrationStatus extends Code {
         }
 
         /**
-         * Factory method for creating MedicationAdministrationStatus.ValueSet values from a passed string value.
+         * Factory method for creating MedicationAdministrationStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -295,6 +351,108 @@ public class MedicationAdministrationStatus extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * In Progress
+         * 
+         * <p>The administration has started but has not yet completed.
+         */
+        IN_PROGRESS("in-progress"),
+
+        /**
+         * Not Done
+         * 
+         * <p>The administration was terminated prior to any impact on the subject (though preparatory actions may have been 
+         * taken)
+         */
+        NOT_DONE("not-done"),
+
+        /**
+         * On Hold
+         * 
+         * <p>Actions implied by the administration have been temporarily halted, but are expected to continue later. May also be 
+         * called 'suspended'.
+         */
+        ON_HOLD("on-hold"),
+
+        /**
+         * Completed
+         * 
+         * <p>All actions that are implied by the administration have occurred.
+         */
+        COMPLETED("completed"),
+
+        /**
+         * Entered in Error
+         * 
+         * <p>The administration was entered in error and therefore nullified.
+         */
+        ENTERED_IN_ERROR("entered-in-error"),
+
+        /**
+         * Stopped
+         * 
+         * <p>Actions implied by the administration have been permanently halted, before all of them occurred.
+         */
+        STOPPED("stopped"),
+
+        /**
+         * Unknown
+         * 
+         * <p>The authoring system does not know which of the status values currently applies for this request. Note: This 
+         * concept is not to be used for 'other' - one of the listed statuses is presumed to apply, it's just not known which one.
+         */
+        UNKNOWN("unknown");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating MedicationAdministrationStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding MedicationAdministrationStatus.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "in-progress":
+                return IN_PROGRESS;
+            case "not-done":
+                return NOT_DONE;
+            case "on-hold":
+                return ON_HOLD;
+            case "completed":
+                return COMPLETED;
+            case "entered-in-error":
+                return ENTERED_IN_ERROR;
+            case "stopped":
+                return STOPPED;
+            case "unknown":
+                return UNKNOWN;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

@@ -53,7 +53,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "fhs-1",
@@ -88,7 +88,7 @@ public class FamilyMemberHistory extends DomainResource {
     @Summary
     @Binding(
         bindingName = "FamilyHistoryStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code that identifies the status of the family history record.",
         valueSet = "http://hl7.org/fhir/ValueSet/history-status|4.0.1"
     )
@@ -97,7 +97,7 @@ public class FamilyMemberHistory extends DomainResource {
     @Summary
     @Binding(
         bindingName = "FamilyHistoryAbsentReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes describing the reason why a family member's history is not available.",
         valueSet = "http://hl7.org/fhir/ValueSet/history-absent-reason"
     )
@@ -113,7 +113,7 @@ public class FamilyMemberHistory extends DomainResource {
     @Summary
     @Binding(
         bindingName = "FamilialRelationship",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The nature of the relationship between the patient and the related person being described in the family member history.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-FamilyMember"
     )
@@ -122,7 +122,7 @@ public class FamilyMemberHistory extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Sex",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Codes describing the sex assigned at birth as documented on the birth registration.",
         valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender"
     )
@@ -140,7 +140,7 @@ public class FamilyMemberHistory extends DomainResource {
     @Summary
     @Binding(
         bindingName = "FamilyHistoryReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes indicating why the family member history was done.",
         valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
     )
@@ -1243,7 +1243,7 @@ public class FamilyMemberHistory extends DomainResource {
     public static class Condition extends BackboneElement {
         @Binding(
             bindingName = "ConditionCode",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Identification of the Condition or diagnosis.",
             valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
         )
@@ -1251,7 +1251,7 @@ public class FamilyMemberHistory extends DomainResource {
         private final CodeableConcept code;
         @Binding(
             bindingName = "ConditionOutcome",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The result of the condition for the patient; e.g. death, permanent disability, temporary disability, etc.",
             valueSet = "http://hl7.org/fhir/ValueSet/condition-outcome"
         )

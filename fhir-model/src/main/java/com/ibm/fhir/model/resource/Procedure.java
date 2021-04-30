@@ -52,7 +52,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 3,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "procedure-0",
@@ -79,7 +79,7 @@ public class Procedure extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ProcedureStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the procedure.",
         valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.0.1"
     )
@@ -88,7 +88,7 @@ public class Procedure extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ProcedureNegationReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A code that identifies the reason a procedure was not performed.",
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-not-performed-reason"
     )
@@ -96,7 +96,7 @@ public class Procedure extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ProcedureCategory",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A code that classifies a procedure for searching, sorting and display purposes.",
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-category"
     )
@@ -104,7 +104,7 @@ public class Procedure extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ProcedureCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A code to identify a specific procedure .",
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-code"
     )
@@ -133,7 +133,7 @@ public class Procedure extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ProcedureReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A code that identifies the reason a procedure is  required.",
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-reason"
     )
@@ -144,7 +144,7 @@ public class Procedure extends DomainResource {
     @Summary
     @Binding(
         bindingName = "BodySite",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes describing anatomical locations. May include laterality.",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
@@ -152,7 +152,7 @@ public class Procedure extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ProcedureOutcome",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "An outcome of a procedure - whether it was resolved or otherwise.",
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-outcome"
     )
@@ -161,7 +161,7 @@ public class Procedure extends DomainResource {
     private final List<Reference> report;
     @Binding(
         bindingName = "ProcedureComplication",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes describing complications that resulted from a procedure.",
         valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
     )
@@ -170,7 +170,7 @@ public class Procedure extends DomainResource {
     private final List<Reference> complicationDetail;
     @Binding(
         bindingName = "ProcedureFollowUp",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Specific follow up required for a procedure e.g. removal of sutures.",
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-followup"
     )
@@ -181,7 +181,7 @@ public class Procedure extends DomainResource {
     private final List<Reference> usedReference;
     @Binding(
         bindingName = "ProcedureUsed",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes describing items used during a procedure.",
         valueSet = "http://hl7.org/fhir/ValueSet/device-kind"
     )
@@ -1879,7 +1879,7 @@ public class Procedure extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ProcedurePerformerRole",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "A code that identifies the role of a performer of the procedure.",
             valueSet = "http://hl7.org/fhir/ValueSet/performer-role"
         )
@@ -2209,7 +2209,7 @@ public class Procedure extends DomainResource {
     public static class FocalDevice extends BackboneElement {
         @Binding(
             bindingName = "DeviceActionKind",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "A kind of change that happened to the device during the procedure.",
             valueSet = "http://hl7.org/fhir/ValueSet/device-action"
         )

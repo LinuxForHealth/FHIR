@@ -48,7 +48,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class PaymentReconciliation extends DomainResource {
@@ -56,7 +56,7 @@ public class PaymentReconciliation extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PaymentReconciliationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.1"
     )
@@ -76,7 +76,7 @@ public class PaymentReconciliation extends DomainResource {
     private final Reference requestor;
     @Binding(
         bindingName = "RemittanceOutcome",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The outcome of the processing.",
         valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.0.1"
     )
@@ -92,7 +92,7 @@ public class PaymentReconciliation extends DomainResource {
     private final List<Detail> detail;
     @Binding(
         bindingName = "Forms",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The forms codes.",
         valueSet = "http://hl7.org/fhir/ValueSet/forms"
     )
@@ -968,7 +968,7 @@ public class PaymentReconciliation extends DomainResource {
         private final Identifier predecessor;
         @Binding(
             bindingName = "PaymentType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The reason for the amount: payment, adjustment, advance.",
             valueSet = "http://hl7.org/fhir/ValueSet/payment-type"
         )
@@ -1522,7 +1522,7 @@ public class PaymentReconciliation extends DomainResource {
     public static class ProcessNote extends BackboneElement {
         @Binding(
             bindingName = "NoteType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The presentation types of notes.",
             valueSet = "http://hl7.org/fhir/ValueSet/note-type|4.0.1"
         )

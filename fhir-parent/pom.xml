@@ -5,7 +5,7 @@
 
     <groupId>com.ibm.fhir</groupId>
     <artifactId>fhir-parent</artifactId>
-    <version>4.7.0-SNAPSHOT</version>
+    <version>4.8.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>IBM FHIR Server</name>
 
@@ -62,8 +62,8 @@
         <fhir-persistence-jdbc.index>MINIMAL_JSON</fhir-persistence-jdbc.index>
         <fhir-server-test.index>MINIMAL_JSON</fhir-server-test.index>
         <java.version>1.8</java.version>
-        <fhir-examples.version>4.7.0-SNAPSHOT</fhir-examples.version>
-        <fhir-tools.version>4.7.0-SNAPSHOT</fhir-tools.version>
+        <fhir-examples.version>4.8.0-SNAPSHOT</fhir-examples.version>
+        <fhir-tools.version>4.8.0-SNAPSHOT</fhir-tools.version>
         <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
     </properties>
 
@@ -1035,7 +1035,7 @@
                         <configuration>
                             <!-- speed up the build -->
                             <isOffline>true</isOffline>
-                            <!-- no matter the JDK running the javadoc, it's 
+                            <!-- no matter the JDK running the javadoc, it's
                                 important this be at the minimum level we support, which is 11. -->
                             <source>11</source>
                             <!-- we don't need package -->
@@ -1055,7 +1055,7 @@
                             <windowtitle>IBM FHIR Server</windowtitle>
                             <doctitle>${project.name} ${project.version}</doctitle>
                             <additionalOptions>
-                                <!-- makes the frames visible, disabled and 
+                                <!-- makes the frames visible, disabled and
                                     going away eventually -->
                                 <additionalOption>--frames</additionalOption>
                                 <!-- Fixes the undefined redirect in search -->
@@ -1130,7 +1130,7 @@
             <build>
                 <plugins>
                     <plugin>
-                        <!-- Do not move this up to top level as it'll cause 
+                        <!-- Do not move this up to top level as it'll cause
                             a conflict with m2e restrictions on v2.6 -->
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-jar-plugin</artifactId>

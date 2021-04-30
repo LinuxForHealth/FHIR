@@ -24,14 +24,14 @@ public class EventCapabilityMode extends Code {
      * 
      * <p>The application sends requests and receives responses.
      */
-    public static final EventCapabilityMode SENDER = EventCapabilityMode.builder().value(ValueSet.SENDER).build();
+    public static final EventCapabilityMode SENDER = EventCapabilityMode.builder().value(Value.SENDER).build();
 
     /**
      * Receiver
      * 
      * <p>The application receives requests and sends responses.
      */
-    public static final EventCapabilityMode RECEIVER = EventCapabilityMode.builder().value(ValueSet.RECEIVER).build();
+    public static final EventCapabilityMode RECEIVER = EventCapabilityMode.builder().value(Value.RECEIVER).build();
 
     private volatile int hashCode;
 
@@ -39,14 +39,42 @@ public class EventCapabilityMode extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this EventCapabilityMode as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this EventCapabilityMode as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating EventCapabilityMode objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static EventCapabilityMode of(ValueSet value) {
+        switch (value) {
+        case SENDER:
+            return SENDER;
+        case RECEIVER:
+            return RECEIVER;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating EventCapabilityMode objects from a passed enum value.
      */
-    public static EventCapabilityMode of(ValueSet value) {
+    public static EventCapabilityMode of(Value value) {
         switch (value) {
         case SENDER:
             return SENDER;
@@ -66,7 +94,7 @@ public class EventCapabilityMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static EventCapabilityMode of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -78,7 +106,7 @@ public class EventCapabilityMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -90,7 +118,7 @@ public class EventCapabilityMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -152,10 +180,27 @@ public class EventCapabilityMode extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for EventCapabilityMode
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -165,6 +210,7 @@ public class EventCapabilityMode extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Sender
@@ -195,7 +241,7 @@ public class EventCapabilityMode extends Code {
         }
 
         /**
-         * Factory method for creating EventCapabilityMode.ValueSet values from a passed string value.
+         * Factory method for creating EventCapabilityMode.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -209,6 +255,60 @@ public class EventCapabilityMode extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Sender
+         * 
+         * <p>The application sends requests and receives responses.
+         */
+        SENDER("sender"),
+
+        /**
+         * Receiver
+         * 
+         * <p>The application receives requests and sends responses.
+         */
+        RECEIVER("receiver");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating EventCapabilityMode.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding EventCapabilityMode.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "sender":
+                return SENDER;
+            case "receiver":
+                return RECEIVER;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

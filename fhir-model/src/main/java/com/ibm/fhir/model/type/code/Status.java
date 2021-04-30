@@ -24,42 +24,42 @@ public class Status extends Code {
      * 
      * <p>***TODO***
      */
-    public static final Status ATTESTED = Status.builder().value(ValueSet.ATTESTED).build();
+    public static final Status ATTESTED = Status.builder().value(Value.ATTESTED).build();
 
     /**
      * Validated
      * 
      * <p>***TODO***
      */
-    public static final Status VALIDATED = Status.builder().value(ValueSet.VALIDATED).build();
+    public static final Status VALIDATED = Status.builder().value(Value.VALIDATED).build();
 
     /**
      * In process
      * 
      * <p>***TODO***
      */
-    public static final Status IN_PROCESS = Status.builder().value(ValueSet.IN_PROCESS).build();
+    public static final Status IN_PROCESS = Status.builder().value(Value.IN_PROCESS).build();
 
     /**
      * Requires revalidation
      * 
      * <p>***TODO***
      */
-    public static final Status REQ_REVALID = Status.builder().value(ValueSet.REQ_REVALID).build();
+    public static final Status REQ_REVALID = Status.builder().value(Value.REQ_REVALID).build();
 
     /**
      * Validation failed
      * 
      * <p>***TODO***
      */
-    public static final Status VAL_FAIL = Status.builder().value(ValueSet.VAL_FAIL).build();
+    public static final Status VAL_FAIL = Status.builder().value(Value.VAL_FAIL).build();
 
     /**
      * Re-Validation failed
      * 
      * <p>***TODO***
      */
-    public static final Status REVAL_FAIL = Status.builder().value(ValueSet.REVAL_FAIL).build();
+    public static final Status REVAL_FAIL = Status.builder().value(Value.REVAL_FAIL).build();
 
     private volatile int hashCode;
 
@@ -67,14 +67,50 @@ public class Status extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this Status as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this Status as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating Status objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static Status of(ValueSet value) {
+        switch (value) {
+        case ATTESTED:
+            return ATTESTED;
+        case VALIDATED:
+            return VALIDATED;
+        case IN_PROCESS:
+            return IN_PROCESS;
+        case REQ_REVALID:
+            return REQ_REVALID;
+        case VAL_FAIL:
+            return VAL_FAIL;
+        case REVAL_FAIL:
+            return REVAL_FAIL;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating Status objects from a passed enum value.
      */
-    public static Status of(ValueSet value) {
+    public static Status of(Value value) {
         switch (value) {
         case ATTESTED:
             return ATTESTED;
@@ -102,7 +138,7 @@ public class Status extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Status of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -114,7 +150,7 @@ public class Status extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -126,7 +162,7 @@ public class Status extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -188,10 +224,27 @@ public class Status extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for Status
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -201,6 +254,7 @@ public class Status extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Attested
@@ -259,7 +313,7 @@ public class Status extends Code {
         }
 
         /**
-         * Factory method for creating Status.ValueSet values from a passed string value.
+         * Factory method for creating Status.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -273,6 +327,96 @@ public class Status extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Attested
+         * 
+         * <p>***TODO***
+         */
+        ATTESTED("attested"),
+
+        /**
+         * Validated
+         * 
+         * <p>***TODO***
+         */
+        VALIDATED("validated"),
+
+        /**
+         * In process
+         * 
+         * <p>***TODO***
+         */
+        IN_PROCESS("in-process"),
+
+        /**
+         * Requires revalidation
+         * 
+         * <p>***TODO***
+         */
+        REQ_REVALID("req-revalid"),
+
+        /**
+         * Validation failed
+         * 
+         * <p>***TODO***
+         */
+        VAL_FAIL("val-fail"),
+
+        /**
+         * Re-Validation failed
+         * 
+         * <p>***TODO***
+         */
+        REVAL_FAIL("reval-fail");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating Status.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding Status.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "attested":
+                return ATTESTED;
+            case "validated":
+                return VALIDATED;
+            case "in-process":
+                return IN_PROCESS;
+            case "req-revalid":
+                return REQ_REVALID;
+            case "val-fail":
+                return VAL_FAIL;
+            case "reval-fail":
+                return REVAL_FAIL;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

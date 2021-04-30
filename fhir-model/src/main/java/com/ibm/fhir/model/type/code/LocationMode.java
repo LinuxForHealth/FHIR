@@ -24,7 +24,7 @@ public class LocationMode extends Code {
      * 
      * <p>The Location resource represents a specific instance of a location (e.g. Operating Theatre 1A).
      */
-    public static final LocationMode INSTANCE = LocationMode.builder().value(ValueSet.INSTANCE).build();
+    public static final LocationMode INSTANCE = LocationMode.builder().value(Value.INSTANCE).build();
 
     /**
      * Kind
@@ -32,7 +32,7 @@ public class LocationMode extends Code {
      * <p>The Location represents a class of locations (e.g. Any Operating Theatre) although this class of locations could be 
      * constrained within a specific boundary (such as organization, or parent location, address etc.).
      */
-    public static final LocationMode KIND = LocationMode.builder().value(ValueSet.KIND).build();
+    public static final LocationMode KIND = LocationMode.builder().value(Value.KIND).build();
 
     private volatile int hashCode;
 
@@ -40,14 +40,42 @@ public class LocationMode extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this LocationMode as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this LocationMode as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating LocationMode objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static LocationMode of(ValueSet value) {
+        switch (value) {
+        case INSTANCE:
+            return INSTANCE;
+        case KIND:
+            return KIND;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating LocationMode objects from a passed enum value.
      */
-    public static LocationMode of(ValueSet value) {
+    public static LocationMode of(Value value) {
         switch (value) {
         case INSTANCE:
             return INSTANCE;
@@ -67,7 +95,7 @@ public class LocationMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static LocationMode of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -79,7 +107,7 @@ public class LocationMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -91,7 +119,7 @@ public class LocationMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -153,10 +181,27 @@ public class LocationMode extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for LocationMode
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -166,6 +211,7 @@ public class LocationMode extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Instance
@@ -197,7 +243,7 @@ public class LocationMode extends Code {
         }
 
         /**
-         * Factory method for creating LocationMode.ValueSet values from a passed string value.
+         * Factory method for creating LocationMode.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -211,6 +257,61 @@ public class LocationMode extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Instance
+         * 
+         * <p>The Location resource represents a specific instance of a location (e.g. Operating Theatre 1A).
+         */
+        INSTANCE("instance"),
+
+        /**
+         * Kind
+         * 
+         * <p>The Location represents a class of locations (e.g. Any Operating Theatre) although this class of locations could be 
+         * constrained within a specific boundary (such as organization, or parent location, address etc.).
+         */
+        KIND("kind");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating LocationMode.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding LocationMode.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "instance":
+                return INSTANCE;
+            case "kind":
+                return KIND;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

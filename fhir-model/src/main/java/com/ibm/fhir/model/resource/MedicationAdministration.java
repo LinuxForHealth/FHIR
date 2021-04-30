@@ -52,7 +52,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "mad-1",
@@ -80,7 +80,7 @@ public class MedicationAdministration extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MedicationAdministrationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A set of codes indicating the current status of a MedicationAdministration.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-admin-status|4.0.1"
     )
@@ -88,14 +88,14 @@ public class MedicationAdministration extends DomainResource {
     private final MedicationAdministrationStatus status;
     @Binding(
         bindingName = "MedicationAdministrationNegationReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A set of codes indicating the reason why the MedicationAdministration is negated.",
         valueSet = "http://hl7.org/fhir/ValueSet/reason-medication-not-given-codes"
     )
     private final List<CodeableConcept> statusReason;
     @Binding(
         bindingName = "MedicationAdministrationCategory",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "A coded concept describing where the medication administered is expected to occur.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-admin-category"
     )
@@ -105,7 +105,7 @@ public class MedicationAdministration extends DomainResource {
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "MedicationCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes identifying substance or product that can be administered.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
     )
@@ -126,7 +126,7 @@ public class MedicationAdministration extends DomainResource {
     private final List<Performer> performer;
     @Binding(
         bindingName = "MedicationAdministrationReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A set of codes indicating the reason why the MedicationAdministration was made.",
         valueSet = "http://hl7.org/fhir/ValueSet/reason-medication-given-codes"
     )
@@ -1382,7 +1382,7 @@ public class MedicationAdministration extends DomainResource {
     public static class Performer extends BackboneElement {
         @Binding(
             bindingName = "MedicationAdministrationPerformerFunction",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "A code describing the role an individual played in administering the medication.",
             valueSet = "http://hl7.org/fhir/ValueSet/med-admin-perform-function"
         )
@@ -1670,21 +1670,21 @@ public class MedicationAdministration extends DomainResource {
         private final String text;
         @Binding(
             bindingName = "MedicationAdministrationSite",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "A coded concept describing the site location the medicine enters into or onto the body.",
             valueSet = "http://hl7.org/fhir/ValueSet/approach-site-codes"
         )
         private final CodeableConcept site;
         @Binding(
             bindingName = "RouteOfAdministration",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "A coded concept describing the route or physiological path of administration of a therapeutic agent into or onto the body of a subject.",
             valueSet = "http://hl7.org/fhir/ValueSet/route-codes"
         )
         private final CodeableConcept route;
         @Binding(
             bindingName = "MedicationAdministrationMethod",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "A coded concept describing the technique by which the medicine is administered.",
             valueSet = "http://hl7.org/fhir/ValueSet/administration-method-codes"
         )
