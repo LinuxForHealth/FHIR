@@ -453,6 +453,12 @@ public abstract class BaseWhereAdapter<T> {
         return getThis();
     }
 
+    public T not(ExpNode expr) {
+        predicateParser.not();
+        predicateParser.addToken(expr);
+        return getThis();
+    }
+
     public T mult() {
         predicateParser.mult();
         return getThis();

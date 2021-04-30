@@ -112,15 +112,9 @@ public class NewQueryBuilder {
     // Hints to use for certain queries
     private final QueryHints queryHints;
 
-    private int paramAliasCounter = 0;
-
     // Table aliases
     private static final String LR = "LR";
 
-    // Table alias prefixes
-    private static final String CR = "CR";
-    private static final String CLR = "CLR";
-    private static final String CP = "CP";
 
     /**
      * Public constructor
@@ -219,8 +213,10 @@ public class NewQueryBuilder {
         // that need to be included with the main search result
         final String includeResourceType;
         if (SearchConstants.INCLUDE.equals(inclusionType)) {
+            log.fine("Building _include query");
             includeResourceType = inclusionParm.getSearchParameterTargetType();
         } else {
+            log.fine("Building _revinclude query");
             includeResourceType = inclusionParm.getJoinResourceType();
         }
 
@@ -228,11 +224,9 @@ public class NewQueryBuilder {
         final SearchQuery domainModel;
         if (SearchConstants.INCLUDE.equals(inclusionType)) {
             // _include needs a different base in order to support versioned references
-            log.fine("Building _include query");
             domainModel = new SearchIncludeQuery(includeResourceType);
         } else {
-            log.fine("Building _revinclude query");
-            domainModel = new SearchDataQuery(includeResourceType);
+            domainModel = new SearchIncludeQuery(includeResourceType);
         }
         buildIncludeModel(domainModel, resourceType, searchContext, inclusionParm, logicalResourceIds, inclusionType);
 

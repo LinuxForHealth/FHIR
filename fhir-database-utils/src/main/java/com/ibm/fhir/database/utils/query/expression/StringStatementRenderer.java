@@ -128,7 +128,7 @@ public class StringStatementRenderer implements StatementRenderer<String> {
         result.append(FROM);
         result.append(SPACE).append(fromClause.render(this));
 
-        if (whereClause != null) {
+        if (whereClause != null && !whereClause.isEmpty()) {
             if (this.pretty) {
                 result.append(NEWLINE).append("      ");
             }

@@ -18,8 +18,14 @@ public class QueryData {
     // The query being wrapped
     private final SelectAdapter query;
 
-    // The current parameterAlias.
-    private final int parameterAlias;
+    // The alias of the parameter table which is needed as the target for reverse chaining
+    private final String paramAlias;
+
+    // The alias of the xx_LOGICAL_RESOURCES table
+    private final String lrAlias;
+
+    // Track the depth of the join when building chain/reverse-chain searches
+    private final int chainDepth;
 
     // The resource type associated with this part of the query
     private final String resourceType;
@@ -27,12 +33,31 @@ public class QueryData {
     /**
      * Public constructor
      * @param query
-     * @param parameterAlias
+     * @param lrAlias
+     * @param paramAlias
+     * @param resourceType
+     * @param chainDepth
      */
-    public QueryData(SelectAdapter query, int parameterAlias, String resourceType) {
+    public QueryData(SelectAdapter query, String lrAlias, String paramAlias, String resourceType, int chainDepth) {
         this.query = query;
-        this.parameterAlias = parameterAlias;
+        this.lrAlias = lrAlias;
+        this.paramAlias = paramAlias;
         this.resourceType = resourceType;
+        this.chainDepth = chainDepth;
+    }
+
+
+    /**
+     * Convenience function to generate the alias we use for parent xx_logical_resource tables
+     * Typically used when correlating a parameter sub-join with the parent query
+     * @return
+     */
+    public String getLRAlias() {
+        return this.lrAlias;
+    }
+
+    public String getParamAlias() {
+        return this.paramAlias;
     }
 
     /**
@@ -43,10 +68,11 @@ public class QueryData {
     }
 
     /**
-     * @return the parameterAlias
+     * Getter for the chainDepth
+     * @return the chainDepth which is >= 0
      */
-    public int getParameterAlias() {
-        return parameterAlias;
+    public int getChainDepth() {
+        return this.chainDepth;
     }
 
     /**
