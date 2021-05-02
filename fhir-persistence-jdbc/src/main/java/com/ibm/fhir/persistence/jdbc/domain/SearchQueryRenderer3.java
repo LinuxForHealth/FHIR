@@ -480,7 +480,7 @@ public class SearchQueryRenderer3 extends SearchQueryRenderer {
             // optimize token parameter joins if the expression lets us
             valuesTable = getTokenParamTable(filter, resourceType, paramTableAlias);
         } else {
-            valuesTable = QuerySegmentAggregator.tableName(resourceType, component).strip();
+            valuesTable = QuerySegmentAggregator.tableName(resourceType, component).trim();
         }
 
         if (componentNum == 1) {
@@ -531,7 +531,7 @@ public class SearchQueryRenderer3 extends SearchQueryRenderer {
             // optimize token parameter joins if the expression lets us
             valuesTable = getTokenParamTable(filter, resourceType, componentTableAlias);
         } else {
-            valuesTable = QuerySegmentAggregator.tableName(resourceType, component).strip();
+            valuesTable = QuerySegmentAggregator.tableName(resourceType, component).trim();
         }
 
         if (componentNum == 1) {

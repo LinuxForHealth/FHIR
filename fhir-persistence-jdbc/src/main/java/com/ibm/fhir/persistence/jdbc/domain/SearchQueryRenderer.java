@@ -1671,7 +1671,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             // optimize token parameter joins if the expression lets us
             valuesTable = getTokenParamTable(filter, resourceType, paramTableAlias);
         } else {
-            valuesTable = QuerySegmentAggregator.tableName(resourceType, component).strip();
+            valuesTable = QuerySegmentAggregator.tableName(resourceType, component).trim();
         }
 
         if (componentNum == 1) {
@@ -1722,7 +1722,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             // optimize token parameter joins if the expression lets us
             valuesTable = getTokenParamTable(filter, resourceType, componentTableAlias);
         } else {
-            valuesTable = QuerySegmentAggregator.tableName(resourceType, component).strip();
+            valuesTable = QuerySegmentAggregator.tableName(resourceType, component).trim();
         }
 
         if (componentNum == 1) {
