@@ -43,7 +43,7 @@ public interface StatementRenderer<T> {
      * @param orderByClause
      * @return
      */
-    T select(SelectList selectList, FromClause fromClause, WhereClause whereClause, GroupByClause groupByClause, HavingClause havingClause,
+    T select(boolean distinct, SelectList selectList, FromClause fromClause, WhereClause whereClause, GroupByClause groupByClause, HavingClause havingClause,
         OrderByClause orderByClause, PaginationClause paginationClause);
     /**
      * Wrap the given expression with parens to control precedence
@@ -121,7 +121,8 @@ public interface StatementRenderer<T> {
      * @param joinOnValue
      * @return
      */
-    T outerJoin(T joinFromValue, T joinOnValue);
+    T leftOuterJoin(T joinFromValue, T joinOnValue);
+
     /**
      * @param joinFromValue
      * @param joinOnValue

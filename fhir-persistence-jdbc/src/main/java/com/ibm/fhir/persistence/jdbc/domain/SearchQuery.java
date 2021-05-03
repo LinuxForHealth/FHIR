@@ -70,9 +70,7 @@ public abstract class SearchQuery {
         visitExtensions(query, visitor);
 
         T parameterBase = visitor.getParameterBaseQuery(query);
-        for (SearchParam sp: this.searchParams) {
-            sp.visit(parameterBase, visitor);
-        }
+        visitSearchParams(parameterBase, visitor);
         logger.exiting(CLASSNAME, "visit");
         return query;
     }
@@ -96,4 +94,16 @@ public abstract class SearchQuery {
      */
     public abstract <T> T getRoot(SearchQueryVisitor<T> visitor);
 
+    /**
+     * Visit each of the search parameters
+     * @param <T>
+     * @param query
+     * @param visitor
+     * @throws FHIRPersistenceException
+     */
+    protected <T> void visitSearchParams(T query, SearchQueryVisitor<T> visitor) throws FHIRPersistenceException {
+        for (SearchParam sp: this.searchParams) {
+            sp.visit(query, visitor);
+        }
+    }
 }

@@ -39,8 +39,12 @@ public class SearchIncludeQuery extends SearchQuery {
         // include/revinclude queries only use extensions, not parameters
         visitExtensions(query, visitor);
 
+        // Need to wrap the distinct include query as a sub-select so that we
+        // can apply sorting
+        query = visitor.wrapInclude(query);
+
         // now attach the requisite ordering and pagination clauses
-        query = visitor.addSorting(query, "LR0");
+        query = visitor.addSorting(query, "LR");
         query = visitor.addPagination(query);
 
         return query;

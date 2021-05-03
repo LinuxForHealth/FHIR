@@ -47,6 +47,21 @@ public class SelectAdapter {
         this.select.addColumns(columns);
     }
 
+    public SelectAdapter(boolean distinct, String... columns) {
+        this.select = new Select(distinct);
+        this.select.addColumns(columns);
+    }
+
+    public SelectAdapter column(String source, String name) {
+        this.select.addColumn(source, name);
+        return this;
+    }
+
+    public SelectAdapter addColumn(String source, String name, Alias alias) {
+        this.select.addColumn(source, name, alias);
+        return this;
+    }
+
     /**
      * Create a from clause for this select statement
      * @return
