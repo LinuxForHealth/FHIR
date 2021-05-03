@@ -48,6 +48,8 @@ To speed up the schema deployment and keep the schema size down, this demo envir
 * Provenance
 * Medication
 * MedicationAdministration
+* DocumentReference
+* DiagnosticReport
 * StructureDefinition
 * ElementDefinition
 * CodeSystem
