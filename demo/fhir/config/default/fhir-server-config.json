@@ -14,7 +14,75 @@
       "useStoredCompartmentParam": true
     },
     "resources": {
-      "open": true
+        "open": false,
+        "AllergyIntolerance": {
+        },
+        "CarePlan": {
+        },
+        "CareTeam": {
+        },
+        "Condition": {
+        },
+        "Coverage": {
+        },
+        "CodeSystem": {
+        },
+        "Device": {
+        },
+        "DiagnosticReport": {
+        },
+        "DocumentReference": {
+        },
+        "Encounter": {
+        },
+        "ExplanationOfBenefit": {
+        },
+        "Goal": {
+        },
+        "Group": {
+        },
+        "Immunization": {
+        },
+        "List": {
+        },
+        "Location": {
+        },
+        "Medication": {
+        },
+        "MedicationAdministration": {
+        },
+        "MedicationDispense": {
+        },
+        "MedicationRequest": {
+        },
+        "Observation": {
+        },
+        "Organization": {
+        },
+        "Patient": {
+        },
+        "Practitioner": {
+        },
+        "PractitionerRole": {
+        },
+        "Procedure": {
+        },
+        "Provenance": {
+        },
+        "StructureDefinition": {
+        },
+        "ValueSet": {
+        },
+        "Resource": {
+            "searchParameters": {
+                "_id": "http://hl7.org/fhir/SearchParameter/Resource-id",
+                "_lastUpdated": "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated",
+                "_profile": "http://hl7.org/fhir/SearchParameter/Resource-profile",
+                "_security": "http://hl7.org/fhir/SearchParameter/Resource-security",
+                "_source": "http://hl7.org/fhir/SearchParameter/Resource-source",
+                "_tag": "http://hl7.org/fhir/SearchParameter/Resource-tag"
+            }
+        }
     },
     "security": {
       "cors": true,
@@ -91,7 +159,7 @@
       "datasources": {
         "default": {
             "type": "postgresql",
-            "currentSchema": "fhirdata" 
+            "currentSchema": "fhirdata"
         }
       }
     },
