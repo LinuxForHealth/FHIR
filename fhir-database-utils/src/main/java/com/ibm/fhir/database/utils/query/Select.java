@@ -27,6 +27,8 @@ public class Select {
     // The fields, expressions we are selecting
     private final SelectList selectList = new SelectList();
 
+    private boolean distinct;
+
     // Encapsulated the tables, views, subqueries and joins being selected from
     private final FromClause fromClause = new FromClause();
 
@@ -46,6 +48,20 @@ public class Select {
     private PaginationClause paginationClause;
 
     /**
+     * Default constructor. Not a DISTINCT select.
+     */
+    protected Select() {
+    }
+
+    /**
+     * Protected constructor
+     * @param distinct if true, query will be SELECT DISTINCT ...
+     */
+    protected Select(boolean distinct) {
+        this.distinct = distinct;
+    }
+
+    /**
      * Factory to create a new instance of the builder needed to create this
      * statement
      *
@@ -53,6 +69,10 @@ public class Select {
      */
     public static SelectAdapter select(String... columns) {
         return new SelectAdapter(columns);
+    }
+
+    public static SelectAdapter select(boolean distinct, String... columns) {
+        return new SelectAdapter(distinct, columns);
     }
 
     /**
@@ -68,6 +88,10 @@ public class Select {
 
     public void addColumn(String source, String name) {
         selectList.addColumn(source, name);
+    }
+
+    public void addColumn(String source, String name, Alias alias) {
+        selectList.addColumn(source, name, alias);
     }
 
     public void addTable(String schemaName, String tableName) {
@@ -114,6 +138,9 @@ public class Select {
         // for database-specific query syntax
         StringBuilder result = new StringBuilder();
         result.append(SELECT);
+        if (this.distinct) {
+            result.append(" DISTINCT");
+        }
         result.append(SPACE).append(this.selectList.toString());
         result.append(SPACE).append(FROM);
         result.append(SPACE).append(this.fromClause.toString());
@@ -170,7 +197,7 @@ public class Select {
      * @return
      */
     public <T> T render(StatementRenderer<T> renderer) {
-        return renderer.select(selectList, fromClause, whereClause, groupByClause, havingClause, orderByClause, paginationClause);
+        return renderer.select(distinct, selectList, fromClause, whereClause, groupByClause, havingClause, orderByClause, paginationClause);
     }
 
     /**
@@ -181,6 +208,16 @@ public class Select {
      */
     public void addInnerJoin(String tableName, Alias alias, ExpNode joinOnPredicate) {
         fromClause.addInnerJoin(tableName, alias, joinOnPredicate);
+    }
+
+    /**
+     * Add a left outer join to the from clause for this select statement.
+     * @param tableName
+     * @param alias
+     * @param joinOnPredicate
+     */
+    public void addLeftOuterJoin(String tableName, Alias alias, ExpNode joinOnPredicate) {
+        fromClause.addLeftOuterJoin(tableName, alias, joinOnPredicate);
     }
 
     /**
@@ -221,5 +258,12 @@ public class Select {
      */
     public void addPagination(int offset, int rowsPerPage) {
         this.paginationClause = new PaginationClause(offset, rowsPerPage);
+    }
+
+    /**
+     * @return the ORDER BY clause object for this select statement. Can be null.
+     */
+    public OrderByClause getOrderByClause() {
+        return this.orderByClause;
     }
 }

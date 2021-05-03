@@ -28,6 +28,7 @@ import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.domain.ChainedSearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.CompositeSearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.DateSearchParam;
+import com.ibm.fhir.persistence.jdbc.domain.DomainSortParameter;
 import com.ibm.fhir.persistence.jdbc.domain.IdSearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.InclusionSearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.LastUpdatedSearchParam;
@@ -43,6 +44,7 @@ import com.ibm.fhir.persistence.jdbc.domain.SearchDataQuery;
 import com.ibm.fhir.persistence.jdbc.domain.SearchIncludeQuery;
 import com.ibm.fhir.persistence.jdbc.domain.SearchQuery;
 import com.ibm.fhir.persistence.jdbc.domain.SearchQueryRenderer;
+import com.ibm.fhir.persistence.jdbc.domain.SearchSortQuery;
 import com.ibm.fhir.persistence.jdbc.domain.StringSearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.TokenSearchParam;
 import com.ibm.fhir.persistence.jdbc.util.type.LastUpdatedParmBehaviorUtil;
@@ -54,6 +56,7 @@ import com.ibm.fhir.search.location.util.LocationUtil;
 import com.ibm.fhir.search.parameters.InclusionParameter;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
+import com.ibm.fhir.search.parameters.SortParameter;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
@@ -185,7 +188,20 @@ public class NewQueryBuilder {
         log.entering(CLASSNAME, METHODNAME,
                 new Object[] { resourceType.getSimpleName(), searchContext.getSearchParameters() });
 
-        SearchDataQuery domainModel = new SearchDataQuery(resourceType.getSimpleName());
+        final SearchQuery domainModel;
+
+        if (searchContext.hasSortParameters()) {
+            // Special variant of the query which will sort based on the given sort params
+            // and return a list of resource-ids which are then used to fetch the actual data
+            // (matching the old query builder design...for now).
+            SearchSortQuery sortQuery = new SearchSortQuery(resourceType.getSimpleName());
+            for (SortParameter sp: searchContext.getSortParameters()) {
+                sortQuery.add(new DomainSortParameter(sp));
+            }
+            domainModel = sortQuery;
+        } else {
+            domainModel = new SearchDataQuery(resourceType.getSimpleName());
+        }
         buildModelCommon(domainModel, resourceType, searchContext);
         Select result = renderQuery(domainModel, searchContext);
 
@@ -232,12 +248,9 @@ public class NewQueryBuilder {
 
         // Be careful - we need to override the searchContext here, because we don't want
         // to be using same pagination as the main query.
-        // *************************
-        // TODO CODE REVIEW!!!!! what's the correct constant?
-        // *************************
         int pageSize = searchContext.getPageSize();
         int pageNumber = searchContext.getPageNumber();
-        searchContext.setPageSize(1000); // override for this query
+        searchContext.setPageSize(SearchConstants.MAX_PAGE_SIZE+1); // so we know when we have too many
         searchContext.setPageNumber(1); // only need the first page of includes
         final Select result;
         try {

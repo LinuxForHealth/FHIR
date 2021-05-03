@@ -109,4 +109,10 @@ public class FromClause {
         TableRowSource trs = new TableRowSource(tableName);
         items.add(new FromJoin(JoinType.INNER_JOIN, trs, alias, joinOnPredicate));
     }
+
+    public void addLeftOuterJoin(String tableName, Alias alias, ExpNode joinOnPredicate) {
+        TableRowSource trs = new TableRowSource(tableName);
+        items.add(new FromJoin(JoinType.LEFT_OUTER_JOIN, trs, alias, joinOnPredicate));
+    }
+
 }

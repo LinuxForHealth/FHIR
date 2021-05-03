@@ -13,11 +13,18 @@ import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.on;
 import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.string;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.CODE_SYSTEM_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMMON_TOKEN_VALUE_ID;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DATE_START;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_PERCENT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_UNDERSCORE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.IS_DELETED;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.MAX;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.MIN;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NUMBER_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PERCENT_WILDCARD;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.QUANTITY_VALUE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.TOKEN_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNDERSCORE_WILDCARD;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants._LOGICAL_RESOURCES;
@@ -47,6 +54,7 @@ import com.ibm.fhir.database.utils.query.node.ExpNode;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.util.NewUriModifierUtil;
 import com.ibm.fhir.persistence.jdbc.util.QuerySegmentAggregator;
@@ -66,6 +74,7 @@ import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.parameters.InclusionParameter;
 import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
+import com.ibm.fhir.search.sort.Sort.Direction;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.term.util.CodeSystemSupport;
 import com.ibm.fhir.term.util.ValueSetSupport;
@@ -278,11 +287,59 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     @Override
     public QueryData includeRoot(String rootResourceType) {
 
-        // For best performance, we need to build the query all in one go, without
-        // using an exists. Just provide the select-list, and leave all the joins
-        // to the include parameter step.
-        SelectAdapter select = Select.select("R0.RESOURCE_ID", "R0.LOGICAL_RESOURCE_ID", "R0.VERSION_ID", "R0.LAST_UPDATED", "R0.IS_DELETED", "R0.DATA", "LR0.LOGICAL_ID");
+        /* Final query should like this:
+            SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID
+              FROM (
+                  SELECT DISTINCT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED,
+                         R0.IS_DELETED, R0.DATA, LR0.LOGICAL_ID
+                    FROM Procedure_TOKEN_VALUES_V AS P1
+              INNER JOIN Observation_LOGICAL_RESOURCES AS LR0
+                      ON LR0.LOGICAL_ID = P1.TOKEN_VALUE
+                     AND P1.PARAMETER_NAME_ID = 1266
+                     AND P1.CODE_SYSTEM_ID = 20184
+                     AND P1.LOGICAL_RESOURCE_ID IN (7948)
+              INNER JOIN Observation_RESOURCES AS R0
+                      ON LR0.LOGICAL_RESOURCE_ID = R0.LOGICAL_RESOURCE_ID
+                     AND COALESCE(P1.REF_VERSION_ID,LR0.VERSION_ID) = R0.VERSION_ID
+                     AND R0.IS_DELETED = 'N'
+            ) AS LR
+                ORDER BY LOGICAL_RESOURCE_ID
+             FETCH FIRST 1000 ROWS ONLY
+         */
+
+        // The root query is just the inner distinct piece. The overall query is built by wrapInclude
+        final boolean distinct = true;
+        SelectAdapter select = Select.select(distinct, "R0.RESOURCE_ID", "R0.LOGICAL_RESOURCE_ID", "R0.VERSION_ID", "R0.LAST_UPDATED", "R0.IS_DELETED", "LR0.LOGICAL_ID");
         return new QueryData(select, null, null, rootResourceType, 0);
+    }
+
+    @Override
+    public QueryData wrapInclude(QueryData query) {
+        // Need to join the RESOURCES table again to get the DATA column after the DISTINCT.
+        final String lrAlias = "LR";
+        final String rAlias = "R";
+        final String rTable = query.getResourceType() + "_RESOURCES";
+        SelectAdapter select = Select.select("LR.RESOURCE_ID", "LR.LOGICAL_RESOURCE_ID", "LR.VERSION_ID", "LR.LAST_UPDATED", "LR.IS_DELETED", "R.DATA", "LR.LOGICAL_ID");
+        select.from(query.getQuery().build(), alias(lrAlias))
+            .innerJoin(rTable, alias(rAlias), on(lrAlias, "RESOURCE_ID").eq(rAlias, "RESOURCE_ID"));
+        return new QueryData(select, lrAlias, null, query.getResourceType(), 0);
+    }
+
+    @Override
+    public QueryData sortRoot(String rootResourceType) {
+        final String xxLogicalResources = resourceLogicalResources(rootResourceType);
+        final String lrAliasName = "LR0";
+
+        // The core data query joining together the logical resources table. Query
+        // parameters are bolted on as exists statements in the WHERE clause. The final
+        // query is constructed when joinResources is called.
+        SelectAdapter select = Select.select("LR0.CURRENT_RESOURCE_ID");
+        select.from(xxLogicalResources, alias(lrAliasName))
+            .where(lrAliasName, IS_DELETED).eq().literal("N");
+
+        // We need to group the sort parameters to address any duplicates
+        select.from().groupBy("LR0.CURRENT_RESOURCE_ID");
+        return new QueryData(select, lrAliasName, null, rootResourceType, 0);
     }
 
     /**
@@ -720,6 +777,38 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         return name.toString();
     }
 
+    public String paramValuesColumnName(Type paramType) {
+        final String result;
+        switch (paramType) {
+        case URI:
+        case STRING:
+            result = "STR_VALUES";
+            break;
+        case NUMBER:
+            result = "NUMBER_VALUE";
+            break;
+        case QUANTITY:
+            result = "QUANTITY_VALUE";
+            break;
+        case DATE:
+            result = "DATE_VALUE";
+            break;
+        case SPECIAL:
+            result = "LATLNG_VALUES";
+            break;
+        case REFERENCE:
+        case TOKEN:
+            result = "TOKEN_VALUE";
+            break;
+        case COMPOSITE:
+            result = null;
+            break;
+        default:
+            result = null;
+        }
+        return result;
+    }
+
     /**
      * Get a simple filter predicate which can be used in the WHERE clause of a search query.
      * This is used at the "leaf level" of parameter processing, where the queryParm relates
@@ -1105,15 +1194,30 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         }
 
         if (!boundingAreas.isEmpty()) {
-            buildLocationQuerySegment(queryData.getQuery(), boundingAreas);
+            buildLocationQuerySegment(queryData, boundingAreas);
         }
 
         return null;
     }
 
-    protected void buildLocationQuerySegment(SelectAdapter query, List<Bounding> boundingAreas) {
-        // TODO
-        throw new IllegalStateException("unsupported");
+    /**
+     * Extension filter not associated with a particular parameter?
+     * @param queryData
+     * @param boundingAreas
+     */
+    protected void buildLocationQuerySegment(QueryData queryData, List<Bounding> boundingAreas) {
+//        final String parameterName = queryParm.getCode();
+//        final int aliasIndex = getNextAliasIndex();
+//        final SelectAdapter query = queryData.getQuery();
+//        final String paramTableName = resourceType + "_LATLNG_VALUES";
+//        final String paramAlias = "P" + aliasIndex;
+//        final String lrAlias = queryData.getLRAlias();
+//        ExpNode filter = getLocationFilter(queryParm, paramAlias).getExpression();
+//        query.from().innerJoin(paramTableName, alias(paramAlias), on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
+//            .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
+//            .and(filter));
+//
+//        return queryData;
     }
 
     @Override
@@ -1792,6 +1896,147 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         where.rightParen();
         // The only thing we can return which makes any sense is the original query
         return queryData;
+    }
+
+    @Override
+    public void addSortParam(QueryData queryData, String code, Type type, Direction direction) throws FHIRPersistenceException {
+        // Each sort parameter gets added as parameter table which is outer-joined to the
+        // core data query
+        SelectAdapter query = queryData.getQuery();
+        final int aliasIndex = getNextAliasIndex();
+        final String paramAlias = getParamAlias(aliasIndex);
+
+        addAggregateAndOrderByExpressions(queryData, code, type, direction, paramAlias);
+
+        // Now add the parameter table as an outer join
+        final String paramTable = getSortParameterTableName(queryData.getResourceType(), type);
+        final String lrAlias = queryData.getLRAlias();
+
+        query.from()
+            .leftOuterJoin(paramTable, alias(paramAlias),
+                on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
+                .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(code)));
    }
+
+    /**
+     * Returns the name of the database table corresponding to the type of the
+     * passed sort parameter.
+     *
+     * @param sortParm A valid SortParameter
+     * @return String - A database table name
+     * @throws FHIRPersistenceException
+     */
+    protected String getSortParameterTableName(String resourceType, Type type) throws FHIRPersistenceException {
+        final String METHODNAME = "getSortParameterTableName";
+        logger.entering(CLASSNAME, METHODNAME);
+
+        StringBuilder sortParameterTableName = new StringBuilder();
+        sortParameterTableName.append(resourceType).append("_");
+
+        switch (type) {
+        case URI:
+        case STRING:
+            sortParameterTableName.append("STR_VALUES");
+            break;
+        case DATE:
+            sortParameterTableName.append("DATE_VALUES");
+            break;
+        case REFERENCE:
+        case TOKEN:
+            sortParameterTableName.append("TOKEN_VALUES_V");
+            break;
+        case NUMBER:
+            sortParameterTableName.append("NUMBER_VALUES");
+            break;
+        case QUANTITY:
+            sortParameterTableName.append("QUANTITY_VALUES");
+            break;
+        default:
+            throw new FHIRPersistenceNotSupportedException("Parm type not supported: " + type.value());
+        }
+
+        logger.exiting(CLASSNAME, METHODNAME);
+        return sortParameterTableName.toString();
+    }
+
+    private void addAggregateAndOrderByExpressions(QueryData queryData, String code, Type type, Direction direction, String parmAlias)
+            throws FHIRPersistenceException {
+        final String METHODNAME = "addAggregateAndOrderByExpressions";
+        logger.entering(CLASSNAME, METHODNAME);
+
+        SelectAdapter query = queryData.getQuery();
+        List<String> valueAttributeNames;
+
+        valueAttributeNames = this.getValueAttributeNames(type);
+        for (String attributeName : valueAttributeNames) {
+            StringBuilder expression = new StringBuilder();
+            final String dirExp;
+            if (direction == Direction.INCREASING) {
+                expression.append(MIN);
+                dirExp = "ASC";
+            } else {
+                expression.append(MAX);
+                dirExp = "DESC";
+            }
+            expression.append(LEFT_PAREN);
+
+            if (SearchConstants.LAST_UPDATED.equals(code)) {
+                expression.append(queryData.getLRAlias() + ".LAST_UPDATED");
+            } else {
+                expression.append(parmAlias).append(".").append(attributeName);
+            }
+            expression.append(RIGHT_PAREN);
+
+            // add the aggregate column expression to the select list clause
+            query.addColumn(null, expression.toString(), null);
+
+            // Add the column to the order by clause
+            expression.append(" ").append(dirExp).append(" NULLS LAST");
+            query.from().orderBy(expression.toString());
+        }
+
+        logger.exiting(CLASSNAME, METHODNAME);
+    }
+
+    /**
+     * Returns the names of the Parameter attributes containing the values
+     * corresponding to the passed sort parameter type.
+     *
+     * @throws FHIRPersistenceException
+     */
+    private List<String> getValueAttributeNames(Type type) throws FHIRPersistenceException {
+        final String METHODNAME = "getValueAttributeName";
+        logger.entering(CLASSNAME, METHODNAME);
+
+        List<String> attributeNames = new ArrayList<>();
+        switch (type) {
+        case STRING:
+            attributeNames.add(STR_VALUE);
+            break;
+        case REFERENCE:
+            attributeNames.add(TOKEN_VALUE);
+            break;
+        case DATE:
+            attributeNames.add(DATE_START);
+            break;
+        case TOKEN:
+            attributeNames.add(TOKEN_VALUE);
+            break;
+        case NUMBER:
+            attributeNames.add(NUMBER_VALUE);
+            break;
+        case QUANTITY:
+            attributeNames.add(QUANTITY_VALUE);
+            break;
+        case URI:
+            attributeNames.add(STR_VALUE);
+            break;
+        default:
+            throw new FHIRPersistenceNotSupportedException("Parm type not supported: " + type.value());
+        }
+
+        logger.exiting(CLASSNAME, METHODNAME);
+        return attributeNames;
+    }
 
 }

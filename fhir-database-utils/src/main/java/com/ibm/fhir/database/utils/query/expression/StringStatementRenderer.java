@@ -110,7 +110,7 @@ public class StringStatementRenderer implements StatementRenderer<String> {
     }
 
     @Override
-    public String select(SelectList selectList, FromClause fromClause, WhereClause whereClause, GroupByClause groupByClause, HavingClause havingClause,
+    public String select(boolean distinct, SelectList selectList, FromClause fromClause, WhereClause whereClause, GroupByClause groupByClause, HavingClause havingClause,
         OrderByClause orderByClause, PaginationClause paginationClause) {
 
         StringExpNodeVisitor whereClauseRenderer = new StringExpNodeVisitor(this.translator, this.collectBindMarkersInto, this.pretty);
@@ -120,6 +120,9 @@ public class StringStatementRenderer implements StatementRenderer<String> {
             result.append(NEWLINE).append("      "); // 6 spaces
         }
         result.append(SELECT);
+        if (distinct) {
+            result.append(" DISTINCT");
+        }
         result.append(SPACE).append(selectList.toString());
         result.append(SPACE);
         if (this.pretty) {
@@ -279,9 +282,9 @@ public class StringStatementRenderer implements StatementRenderer<String> {
     }
 
     @Override
-    public String outerJoin(String joinFromValue, String joinOnValue) {
+    public String leftOuterJoin(String joinFromValue, String joinOnValue) {
         StringBuilder result = new StringBuilder();
-        result.append("OUTER JOIN ");
+        result.append("LEFT OUTER JOIN ");
         result.append(joinFromValue);
         result.append(" ON ");
         result.append(joinOnValue);

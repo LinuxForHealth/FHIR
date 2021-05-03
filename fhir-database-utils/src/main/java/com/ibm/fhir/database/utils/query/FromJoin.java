@@ -22,7 +22,7 @@ public class FromJoin extends FromItem {
     // An enumeration of join types
     public enum JoinType {
         INNER_JOIN("INNER JOIN"),
-        OUTER_JOIN("OUTER JOIN"),
+        LEFT_OUTER_JOIN("LEFT OUTER JOIN"),
         FULL_OUTER_JOIN("FULL OUTER JOIN");
 
         private final String joinText;
@@ -98,8 +98,8 @@ public class FromJoin extends FromItem {
         case INNER_JOIN:
             result = renderer.innerJoin(joinFromValue, joinOnValue);
             break;
-        case OUTER_JOIN:
-            result = renderer.outerJoin(joinFromValue, joinOnValue);
+        case LEFT_OUTER_JOIN:
+            result = renderer.leftOuterJoin(joinFromValue, joinOnValue);
             break;
         case FULL_OUTER_JOIN:
             result = renderer.fullOuterJoin(joinFromValue, joinOnValue);

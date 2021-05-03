@@ -9,8 +9,10 @@ package com.ibm.fhir.persistence.jdbc.domain;
 import java.util.List;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.parameters.InclusionParameter;
 import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.sort.Sort.Direction;
 
 /**
  * Used by the {@link SearchQuery} domain model to render the model
@@ -69,6 +71,19 @@ public interface SearchQueryVisitor<T> {
      * @return
      */
     T includeRoot(String rootResourceType);
+
+    /**
+     * @param query
+     * @return
+     */
+    T wrapInclude(T query);
+
+    /**
+     * The root of the FHIR search sort query
+     * @param rootResourceType
+     * @return
+     */
+    T sortRoot(String rootResourceType);
 
     /**
      * Filter the query using the given parameter id and token value
@@ -242,4 +257,13 @@ public interface SearchQueryVisitor<T> {
      * @return
      */
     T addRevIncludeFilter(T query, InclusionParameter inclusionParm, List<Long> logicalResourceIds) throws FHIRPersistenceException;
+
+    /**
+     * Add the given sort parameter to the sort query
+     * @param queryData
+     * @param code
+     * @param type
+     * @param direction
+     */
+    void addSortParam(T queryData, String code, Type type, Direction direction) throws FHIRPersistenceException;
 }

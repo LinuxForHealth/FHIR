@@ -51,6 +51,8 @@ public class NewLocationParmBehaviorUtil {
                 processed++;
                 if (instance > 0) {
                     whereClauseSegment.rightParen().and().leftParen();
+                } else {
+                    whereClauseSegment.leftParen();
                 }
 
                 instance++;
@@ -80,9 +82,10 @@ public class NewLocationParmBehaviorUtil {
         }
 
         if (processed > 0) {
-            for (int i = 0; i < processed; i++) {
-                whereClauseSegment.rightParen();
-            }
+            whereClauseSegment.rightParen();
+//            for (int i = 0; i < processed; i++) {
+//                whereClauseSegment.rightParen();
+//            }
         }
     }
 

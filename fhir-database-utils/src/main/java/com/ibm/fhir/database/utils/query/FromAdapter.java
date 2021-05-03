@@ -52,6 +52,11 @@ public class FromAdapter {
         return this;
     }
 
+    public FromAdapter leftOuterJoin(String tableName, Alias alias, WhereFragment joinOnPredicate) {
+        this.select.addLeftOuterJoin(tableName, alias, joinOnPredicate.getExpression());
+        return this;
+    }
+
     public FromAdapter innerJoin(Select subQuery, Alias alias) {
         return this;
     }
@@ -118,9 +123,12 @@ public class FromAdapter {
     }
 
     public OrderByAdapter orderBy(String...expressions) {
-        OrderByClause ob = new OrderByClause();
-        ob.add(expressions);
-        this.select.setOrderByClause(ob);
-        return new OrderByAdapter(select, ob);
+        OrderByClause orderBy = select.getOrderByClause();
+        if (orderBy == null) {
+            orderBy = new OrderByClause();
+            select.setOrderByClause(orderBy);
+        }
+        orderBy.add(expressions);
+        return new OrderByAdapter(select, orderBy);
     }
 }
