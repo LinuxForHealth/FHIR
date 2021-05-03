@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 ###############################################################################
-# (C) Copyright IBM Corp. 2020
+# (C) Copyright IBM Corp. 2021
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -11,7 +11,7 @@ set -o nounset
 set -o pipefail
 
 if [ ! -f /db/data/pg_hba.conf ]
-then 
+then
     chown -R postgres:postgres /db/data
     su - postgres -c "/usr/local/bin/initdb -D /db/data"
 
@@ -38,7 +38,7 @@ EOF
 
     su - postgres -c '/usr/local/bin/pg_ctl -D "/db/data" --wait --timeout=120 start'
     # Create the FHIRADMIN user
-    su - postgres -c "/usr/local/bin/psql -c \"CREATE USER fhiradmin WITH LOGIN encrypted password 'change-password';\"" 
+    su - postgres -c "/usr/local/bin/psql -c \"CREATE USER fhiradmin WITH LOGIN encrypted password 'change-password';\""
 
     # Create the Database
     su - postgres -c "/usr/local/bin/psql -c \"CREATE DATABASE fhirdb OWNER 'fhiradmin';\""

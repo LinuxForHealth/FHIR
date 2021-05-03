@@ -11,12 +11,6 @@
         <fhir.version>4.7.1</fhir.version>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>bintray</id>
-            <url>https://dl.bintray.com/ibm-watson-health/ibm-fhir-server-releases</url>
-        </repository>
-    </repositories>
 
     <dependencies>
         <dependency>
