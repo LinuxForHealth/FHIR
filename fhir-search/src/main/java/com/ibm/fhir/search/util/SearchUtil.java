@@ -299,8 +299,8 @@ public class SearchUtil {
                         results.put(code, sp);
                     } else if (log.isLoggable(Level.FINE)) {
                         log.fine("Skipping search parameter with id='" + sp.getId() + "'. "
-                                + "Tenant configuration for resource='" + resourceType + "' code='" + code + "' "
-                                + "does not match url '" + url + "'");
+                                + "Tenant configuration for resource='" + resourceType + "' code='" + code + "' url='" + configuredUrl
+                                + "' does not match url '" + url + "'");
                     }
                 } else if (includeAll) {
                     // If "*" is contained in the included SP urls, then include the search parameter
@@ -308,9 +308,10 @@ public class SearchUtil {
                     if (!results.containsKey(code)) {
                         results.put(code, sp);
                     } else {
+                        String configuredUrl = results.get(code).getUrl().getValue();
                         log.warning("Skipping search parameter with id='" + sp.getId() + "'. "
-                                + "Found multiple search parameters for code '" + code + "' on resource type '" + resourceType + "';"
-                                + " use search parameter filtering to disambiguate.");
+                                + "Found multiple search parameters, '" + configuredUrl + "' and '" + url + "', for code '" + code
+                                + "' on resource type '" + resourceType + "'; use search parameter filtering to disambiguate.");
                     }
                 }
             }
