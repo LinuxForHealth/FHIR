@@ -163,7 +163,7 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "validate-operation" })
-    public void testValidateBaduriPath() throws Exception {
+    public void testValidateBadPath() throws Exception {
         Observation obs = TestUtil.readExampleResource("json/spec/observation-example-respiratory-rate.json");
         // Clear the profile from the resource's meta
         obs = obs.toBuilder()
