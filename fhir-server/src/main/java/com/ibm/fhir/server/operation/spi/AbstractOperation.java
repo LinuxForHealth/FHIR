@@ -144,6 +144,10 @@ public abstract class AbstractOperation implements FHIROperation {
                 throw buildExceptionWithIssue(msg, IssueType.INVALID);
             } else {
                 String resourceTypeName = resourceType.getSimpleName();
+                if (resourceTypeName == null) {
+                    String msg = "Operation context RESOURCE_TYPE must include a valid ResourceType in the URL Path";
+                    throw buildExceptionWithIssue(msg, IssueType.INVALID);
+                }
                 List<String> resourceTypeNames = getResourceTypeNames();
                 if (!resourceTypeNames.contains(resourceTypeName) && !resourceTypeNames.contains("Resource")) {
                     String msg = "Resource type: '" + resourceTypeName + "' is not allowed for operation: '" + getName() + "'";
