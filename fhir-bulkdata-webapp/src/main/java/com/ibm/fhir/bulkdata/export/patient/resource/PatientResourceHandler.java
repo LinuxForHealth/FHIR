@@ -113,7 +113,8 @@ public class PatientResourceHandler extends SystemExportResourceHandler {
             queryParameters.put(SearchConstants.SORT, Arrays.asList(SearchConstants.LAST_UPDATED));
 
             if (Patient.class.isAssignableFrom(resourceType)) {
-                queryParameters.put(SearchConstants.ID, patientIds);
+                String patientIdQueryParameterValue = patientIds.stream().collect(Collectors.joining(","));
+                queryParameters.put(SearchConstants.ID, Arrays.asList(patientIdQueryParameterValue));
                 searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
             } else {
                 searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
