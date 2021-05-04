@@ -185,7 +185,7 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
 
         WebTarget target = getWebTarget();
         Response response = target.path("Fudge/$validate").request().post(Entity.json(writer.toString()), Response.class);
-        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+        assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
     }
 
     private JsonObject buildPatient() {
