@@ -17,6 +17,9 @@ import java.time.LocalTime;
 import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.SaltHash;
@@ -31,16 +34,13 @@ public class ResourceFingerprintVisitor extends PathAwareVisitor {
     private static final int BYTES_FOR_256_BITS = 256 / 8;
     private static final SecureRandom RANDOM = new SecureRandom();
 
-    // the salt we use for computing the hash
+    // The salt we use for computing the hash
     private final byte[] salt;
 
-    // The name of the resource we first encounter
-    private String currentResourceName;
+    // Paths to exclude from the fingerprint
+    private Set<String> excludePaths;
 
     private final MessageDigest digest;
-
-    // for tracking array elements
-    int index;
 
     /**
      * Public constructor. Uses the given salt
@@ -93,84 +93,82 @@ public class ResourceFingerprintVisitor extends PathAwareVisitor {
 
     @Override
     protected void doVisitStart(String elementName, int elementIndex, Resource resource) {
-        if (this.currentResourceName == null) {
-            this.currentResourceName = resource.getClass().getSimpleName();
+        if (excludePaths == null) {
+            String currentResourceName = resource.getClass().getSimpleName();
+            excludePaths = new HashSet<>(Arrays.asList(
+                currentResourceName + ".id",
+                currentResourceName + ".meta.versionId",
+                currentResourceName + ".meta.lastUpdated")
+            );
         }
+    }
+
+    @Override
+    public boolean visit(java.lang.String elementName, int index, com.ibm.fhir.model.type.String value) {
+        // Exclude meta.versionId from the fingerprint because it gets injected by the FHIR server.
+        return includePath();
+    }
+
+    @Override
+    public boolean visit(java.lang.String elementName, int index, com.ibm.fhir.model.type.Instant value) {
+        // Exclude meta.lastUpdated from the fingerprint because it gets injected by the FHIR server.
+        return includePath();
     }
 
     @Override
     public void visit(java.lang.String elementName, byte[] value) {
-        if (includePath()) {
-            digest.update(getPath().getBytes(StandardCharsets.UTF_8));
-            digest.update(value);
-        }
+        digest.update(getPath().getBytes(StandardCharsets.UTF_8));
+        digest.update(value);
     }
 
     @Override
     public void visit(java.lang.String elementName, BigDecimal value) {
-        if (includePath()) {
-            updateDigest(getPath(), value.toString());
-        }
+        updateDigest(getPath(), value.toString());
     }
 
     @Override
     public void visit(java.lang.String elementName, java.lang.Boolean value) {
-        if (includePath()) {
-            updateDigest(getPath(), value.toString());
-        }
+        updateDigest(getPath(), value.toString());
     }
 
     @Override
     public void visit(java.lang.String elementName, java.lang.Integer value) {
-        if (includePath()) {
-            ByteBuffer bb = ByteBuffer.allocate(4);
-            bb.putInt(value);
-            digest.update(bb);
-        }
+        ByteBuffer bb = ByteBuffer.allocate(4);
+        bb.putInt(value);
+        digest.update(bb);
     }
 
     @Override
     public void visit(java.lang.String elementName, LocalDate value) {
-        if (includePath()) {
-            updateDigest(getPath(), value.toString());
-        }
+        updateDigest(getPath(), value.toString());
     }
+
     @Override
     public void visit(java.lang.String elementName, LocalTime value) {
-        if (includePath()) {
-            updateDigest(getPath(), value.toString());
-        }
+        updateDigest(getPath(), value.toString());
     }
+
     @Override
     public void doVisit(java.lang.String elementName, java.lang.String value) {
-        // exclude the id and meta.versionId values from the fingerprint
-        // because they are injected by FHIR. NOTE: startsWith is important
-        // because we need to ignore any extension fields which may be
-        // present
+        // exclude the Resource.id from the fingerprint because it is injected by the FHIR server
         if (includePath()) {
             updateDigest(getPath(), value);
         }
     }
+
     @Override
     public void visit(java.lang.String elementName, Year value) {
-        if (includePath()) {
-            updateDigest(getPath(), value.toString());
-        }
+        updateDigest(getPath(), value.toString());
     }
+
     @Override
     public void visit(java.lang.String elementName, YearMonth value) {
-        if (includePath()) {
-            updateDigest(getPath(), value.toString());
-        }
+        updateDigest(getPath(), value.toString());
     }
+
     @Override
     public void visit(java.lang.String elementName, ZonedDateTime value) {
-        // Exclude the lastUpdated value from the fingerprint because this value
-        // is injected by the FHIR persistence layer
-        if (includePath()) {
-            updateDigest(getPath(), value.toString());
-        }
-
+        updateDigest(getPath(), value.toString());
     }
 
     /**
@@ -188,11 +186,6 @@ public class ResourceFingerprintVisitor extends PathAwareVisitor {
      * @return
      */
     protected boolean includePath() {
-        String idName = currentResourceName + ".id";
-        String versionIdName = currentResourceName + ".meta.versionId";
-        String lastUpdatedName = currentResourceName + ".meta.lastUpdated";
-        String path = getPath();
-        return !path.startsWith(idName) && !path.startsWith(versionIdName) && !path.startsWith(lastUpdatedName);
-
+        return !excludePaths.contains(getPath());
     }
 }
