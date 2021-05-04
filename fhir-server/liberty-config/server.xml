@@ -55,7 +55,7 @@
     <variable name="TRACE_FILE" defaultValue="trace.log"/>
     <variable name="TRACE_FORMAT" defaultValue="BASIC"/>
     <variable name="WLP_LOGGING_CONSOLE_LOGLEVEL" defaultValue="INFO"/>
-    <logging traceSpecification="*=info:com.ibm.fhir.*=fine" traceFileName="${TRACE_FILE}" traceFormat="${TRACE_FORMAT}" consoleLogLevel="${WLP_LOGGING_CONSOLE_LOGLEVEL}"/>
+    <logging traceSpecification="${TRACE_SPEC}" traceFileName="${TRACE_FILE}" traceFormat="${TRACE_FORMAT}" consoleLogLevel="${WLP_LOGGING_CONSOLE_LOGLEVEL}"/>
 
     <!-- Automatically expand WAR files and EAR files -->
     <applicationManager autoExpand="true"/>
