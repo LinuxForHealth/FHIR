@@ -42,11 +42,21 @@ public class FromClause {
         items.add(new FromItem(table, alias));
     }
 
+    /**
+     * Add a table to the FROM items list
+     * @param tableName
+     * @param alias
+     */
     public void addTable(String tableName, Alias alias) {
         TableRowSource table = new TableRowSource(tableName);
         items.add(new FromItem(table, alias));
     }
 
+    /**
+     * Add a table to the FROM items list
+     * @param tableName
+     * @param alias
+     */
     public void addTable(String tableName) {
         TableRowSource table = new TableRowSource(tableName);
         items.add(new FromItem(table));
@@ -101,6 +111,7 @@ public class FromClause {
     }
 
     /**
+     * Add an inner join clause to the FROM items list
      * @param tableName
      * @param alias
      * @param joinOnPredicate
@@ -110,6 +121,12 @@ public class FromClause {
         items.add(new FromJoin(JoinType.INNER_JOIN, trs, alias, joinOnPredicate));
     }
 
+    /**
+     * Add a left outer join clause to the FROM items list
+     * @param tableName
+     * @param alias
+     * @param joinOnPredicate
+     */
     public void addLeftOuterJoin(String tableName, Alias alias, ExpNode joinOnPredicate) {
         TableRowSource trs = new TableRowSource(tableName);
         items.add(new FromJoin(JoinType.LEFT_OUTER_JOIN, trs, alias, joinOnPredicate));

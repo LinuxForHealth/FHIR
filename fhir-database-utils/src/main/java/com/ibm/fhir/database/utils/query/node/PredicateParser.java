@@ -8,9 +8,14 @@ package com.ibm.fhir.database.utils.query.node;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Stack;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
  * Basically follows Dijkstra's shunting yard algorithm to ensure
@@ -20,14 +25,37 @@ import java.util.stream.Collectors;
 public class PredicateParser {
     private static final Logger logger = Logger.getLogger(PredicateParser.class.getName());
 
+    // newline character for clearer errors and warnings
     private static final String NEWLINE = System.lineSeparator();
 
     // Stacks used to hold expression nodes until they are ready to be shunted
     private final Stack<ExpNode> operatorStack = new Stack<>();
     private final Stack<ExpNode> operandStack = new Stack<>();
 
-    // The final expression node after we've parsed it
-    // private ExpNode parsedExpression = null;
+    // For parameter encoding
+    private static final String SQL_PARAM_ESCAPE_CHARACTER = "";
+    private static final String SQL_PARAM_BLACKLIST_CHARACTERS_REGEX = "['\"]";
+    private final Pattern escapeCharacterPattern;
+
+    public PredicateParser() {
+        escapeCharacterPattern = Pattern.compile(SQL_PARAM_BLACKLIST_CHARACTERS_REGEX);
+    }
+
+    /**
+     * Make sure any literal strings we're embedding in our SQL statements are safe. String parameters
+     * should almost always use bind variables (which don't require encoding).
+     * @param parameter
+     * @return
+     */
+    private final String encodeParameter(String parameter) {
+        String safeParameter = Optional.ofNullable(parameter).orElse("");
+        Matcher matcher = escapeCharacterPattern.matcher(safeParameter);
+        safeParameter = matcher.replaceAll(SQL_PARAM_ESCAPE_CHARACTER);
+
+        // extra check
+        DataDefinitionUtil.assertSecure(safeParameter);
+        return safeParameter;
+    }
 
     /**
      * Check if anything has been added to this parser
@@ -38,8 +66,9 @@ public class PredicateParser {
     }
 
     /**
-     * Assumes there are no more expression nodes, so process any operators remaining
-     * on the stack.
+     * Applies the shunting-yard algorithm, collapsing the operatorStack
+     * as much as possible. If the expression is valid, there should be
+     * a single node sitting on the operandStack.
      * @return
      */
     public ExpNode parse() {
@@ -78,9 +107,6 @@ public class PredicateParser {
     private void addNode(ExpNode token) {
         // We're not evaluating the expression here, just parsing it properly
         // into an expression tree matching precedence rules
-//        if (this.parsedExpression != null) {
-//            throw new IllegalStateException("Cannot modify an expression after calling parse()");
-//        }
 
         try {
             if (token.isOperand()) {
@@ -157,24 +183,42 @@ public class PredicateParser {
         addNode(new ColumnExpNode(columnName));
     }
 
+    /**
+     * Add a column to the expression
+     * @param tableAlias
+     * @param columnName
+     */
     public void column(String tableAlias, String columnName) {
         addNode(new ColumnExpNode(tableAlias, columnName));
     }
 
+    /**
+     * Add a string literal to the expression
+     * @param str
+     */
     public void literal(String str) {
+        str = encodeParameter(str);
         addNode(new StringExpNode(str));
     }
 
+    /**
+     * Add a Double literal to the expression
+     * @param dbl
+     */
     public void literal(Double dbl) {
         addNode(new DoubleExpNode(dbl));
     }
 
+    /**
+     * Add a Long literal to the expression
+     * @param lng
+     */
     public void literal(Long lng) {
         addNode(new LongExpNode(lng));
     }
 
     /**
-     * Push an and node to the stack, taking into account precedence
+     * Push an AND node to the stack, taking into account precedence
      */
     public void and() {
         addNode(new AndExpNode());
@@ -187,70 +231,122 @@ public class PredicateParser {
         addNode(new OrExpNode());
     }
 
+    /**
+     * Add an EQ node to the expression
+     */
     public void eq() {
         addNode(new EqExpNode());
     }
 
+    /**
+     * Add a LIKE node to the expression
+     */
     public void like() {
         addNode(new LikeExpNode());
     }
 
+    /**
+     * Add an ESCAPE node to the expression
+     */
     public void escape() {
         addNode(new EscapeExpNode());
     }
 
+    /**
+     * Add a NEQ node to the expression
+     */
     public void neq() {
         addNode(new NeqExpNode());
     }
 
+    /**
+     * Add a GT > node to the expression
+     */
     public void gt() {
         addNode(new GreaterExpNode());
     }
 
+    /**
+     * Add a GTE >= node to the expression
+     */
     public void gte() {
         addNode(new GreaterEqExpNode());
     }
 
+    /**
+     * Add a LT < node to the expression
+     */
     public void lt() {
         addNode(new LessExpNode());
     }
 
+    /**
+     * Add a LTE <= node to the expression
+     */
     public void lte() {
         addNode(new LessEqExpNode());
     }
 
+    /**
+     * Add a NOT node to the expression
+     */
     public void not() {
         addNode(new NotExpNode());
     }
 
+    /**
+     * Add a BETWEEN node to the expression
+     */
     public void between() {
         addNode(new BetweenExpNode());
     }
 
+    /**
+     * Add an addition + node to the expression
+     */
     public void add() {
         addNode(new AddExpNode());
     }
 
+    /**
+     * Add a subtraction node to the expression
+     */
     public void sub() {
         addNode(new SubExpNode());
     }
 
+    /**
+     * Add a multiplication node to the expression
+     */
     public void mult() {
         addNode(new MultExpNode());
     }
 
+    /**
+     * Add a division node to the expression
+     */
     public void div() {
         addNode(new DivExpNode());
     }
 
+    /**
+     * Add a LEFT PAREN ( node to the expression
+     */
     public void leftParen() {
         addNode(new LeftParenExpNode());
     }
 
+    /**
+     * Add a RIGHT PAREN ) node to the expression
+     */
     public void rightParen() {
         addNode(new RightParenExpNode());
     }
 
+    /**
+     * Add a bind marker ? and its value to the expression
+     * @param node
+     */
     public void bindMarker(BindMarkerNode node) {
         addNode(node);
     }
@@ -262,7 +358,9 @@ public class PredicateParser {
      * @param inList
      */
     public void inLiteral(String[] inList) {
-        List<ExpNode> args = Arrays.asList(inList).stream().map(v -> new StringExpNode(v)).collect(Collectors.toList());
+        // Parameters are encoded for security, but bind markers are always preferred and
+        // recommended for security.
+        List<ExpNode> args = Arrays.asList(inList).stream().map(v -> new StringExpNode(encodeParameter(v))).collect(Collectors.toList());
         addNode(new InListExpNode(args));
     }
 

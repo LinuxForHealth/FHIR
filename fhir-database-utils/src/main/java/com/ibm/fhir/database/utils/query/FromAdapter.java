@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019,2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -71,21 +71,40 @@ public class FromAdapter {
         return new WhereAdapter(this.select, wc, predicate);
     }
 
+    /**
+     * Starts building a WHERE clause with the tableAlias/columnName
+     * @param tableAlias
+     * @param columnName
+     * @return
+     */
     public WhereAdapter where(String tableAlias, String columnName) {
         WhereClause wc = establishWhereClause();
         return new WhereAdapter(this.select, wc, tableAlias, columnName);
     }
 
+    /**
+     * Starts building a WHERE clause without any predicate nodes
+     * @return
+     */
     public WhereAdapter where() {
         WhereClause wc = establishWhereClause();
         return new WhereAdapter(this.select, wc);
     }
 
+    /**
+     * Builds a WHERE clause starting with the given predicate node
+     * @param predicate
+     * @return
+     */
     public WhereAdapter where(ExpNode predicate) {
         WhereClause wc = establishWhereClause();
         return new WhereAdapter(this.select, wc, predicate);
     }
 
+    /**
+     * Adds a where clause if one does not yet exist
+     * @return
+     */
     public WhereClause establishWhereClause() {
         WhereClause wc = this.select.getWhereClause();
         if (wc == null) {
@@ -116,12 +135,22 @@ public class FromAdapter {
         return select;
     }
 
+    /**
+     * Start a group by expression
+     * @param expressions
+     * @return
+     */
     public GroupByAdapter groupBy(String... expressions) {
         GroupByClause gb = new GroupByClause();
         this.select.setGroupByClause(gb);
         return new GroupByAdapter(select, gb, expressions);
     }
 
+    /**
+     * Start an ORDER BY expression
+     * @param expressions
+     * @return
+     */
     public OrderByAdapter orderBy(String...expressions) {
         OrderByClause orderBy = select.getOrderByClause();
         if (orderBy == null) {

@@ -9,7 +9,7 @@ package com.ibm.fhir.persistence.jdbc.impl;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SEARCH_ENABLE_NEW_QUERY_BUILDER;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SEARCH_ENABLE_OPT_QUERY_BUILDER;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.util.ModelSupport.getResourceType;
@@ -207,7 +207,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     // The transactionDataImpl for use when collecting data across multiple resources in a transaction bundle
     private TransactionDataImpl<ParameterTransactionDataImpl> transactionDataImpl;
 
-    private final boolean newQueryBuilderEnabled;
+    // Use the optimized query builder when supported for the search request
+    private final boolean optQueryBuilderEnabled;
 
     /**
      * Constructor for use when running as web application in WLP.
@@ -241,7 +242,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                       Boolean.TRUE));
 
         // new query builder enabled by default
-        this.newQueryBuilderEnabled = fhirConfig.getBooleanProperty(PROPERTY_SEARCH_ENABLE_NEW_QUERY_BUILDER, true);
+        this.optQueryBuilderEnabled = fhirConfig.getBooleanProperty(PROPERTY_SEARCH_ENABLE_OPT_QUERY_BUILDER, true);
 
         // Set up the connection strategy for use within a JEE container. The actions
         // are processed the first time a connection is established to a particular tenant/datasource.
@@ -318,7 +319,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         this.transactionDataImpl = null;
 
         // Always want to be testing with the new query builder
-        this.newQueryBuilderEnabled = true;
+        this.optQueryBuilderEnabled = true;
 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -634,7 +635,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         // Fall back to the old search code for whole-system searches which are not yet supported
         // by the new code.
-        if (isSystemLevelSearch(resourceType) || !this.newQueryBuilderEnabled) {
+        if (isSystemLevelSearch(resourceType) || !this.optQueryBuilderEnabled) {
             // New query builder doesn't support system-level search at this point, so route
             // to the old way.
             return oldSearch(context, resourceType);

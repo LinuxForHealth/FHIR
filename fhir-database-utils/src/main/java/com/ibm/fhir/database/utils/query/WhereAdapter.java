@@ -82,6 +82,10 @@ public class WhereAdapter extends BaseWhereAdapter<WhereAdapter> {
         return new OrderByAdapter(select, ob);
     }
 
+    /**
+     * Get the select statement wrapped by this adapter
+     * @return
+     */
     public Select build() {
         return select;
     }
