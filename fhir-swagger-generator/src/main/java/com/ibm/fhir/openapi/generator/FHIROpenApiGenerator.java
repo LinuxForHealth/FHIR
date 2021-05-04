@@ -197,6 +197,21 @@ public class FHIROpenApiGenerator {
             definitionsToAdd.add(Bundle.Entry.Response.class);
             definitionsToAdd.add(Bundle.Entry.Search.class);
         }
+        // for /metadata
+        definitionsToAdd.add(CapabilityStatement.class);
+        definitionsToAdd.add(CapabilityStatement.Software.class);
+        definitionsToAdd.add(CapabilityStatement.Implementation.class);
+        definitionsToAdd.add(CapabilityStatement.Rest.class);
+        definitionsToAdd.add(CapabilityStatement.Rest.Security.class);
+        definitionsToAdd.add(CapabilityStatement.Rest.Resource.class);
+        definitionsToAdd.add(CapabilityStatement.Rest.Resource.Interaction.class);
+        definitionsToAdd.add(CapabilityStatement.Rest.Resource.SearchParam.class);
+        definitionsToAdd.add(CapabilityStatement.Rest.Resource.Operation.class);
+        definitionsToAdd.add(CapabilityStatement.Rest.Interaction.class);
+        definitionsToAdd.add(CapabilityStatement.Messaging.class);
+        definitionsToAdd.add(CapabilityStatement.Messaging.Endpoint.class);
+        definitionsToAdd.add(CapabilityStatement.Messaging.SupportedMessage.class);
+        definitionsToAdd.add(CapabilityStatement.Document.class);
         // for error response
         definitionsToAdd.add(OperationOutcome.class);
         definitionsToAdd.add(OperationOutcome.Issue.class);
@@ -1405,7 +1420,7 @@ public class FHIROpenApiGenerator {
     public static void addExamples(Class<?> modelClass, JsonObjectBuilder definition) throws IOException {
         if (!Modifier.isAbstract(modelClass.getModifiers())) {
             // Change this from "complete-mock" to "minimal" to reduce the size of the generated definition
-            Reader example = ExamplesUtil.resourceReader("json/ibm/complete-mock/" + modelClass.getSimpleName() + "-1.json");
+            Reader example = ExamplesUtil.resourceReader("json/ibm/minimal/" + modelClass.getSimpleName() + "-1.json");
             JsonReader jsonReader = Json.createReader(example);
             definition.add("example", jsonReader.readObject());
         }

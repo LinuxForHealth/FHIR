@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Bring your own Persistence Layer
-description: Lean how to build and test a persistence layer for the IBM FHIR Server
+description: Learn how to build and test a persistence layer for the IBM FHIR Server
 date:   2020-08-31 14:55:00 -0400
 permalink: /BringYourOwnPersistence/
 ---
