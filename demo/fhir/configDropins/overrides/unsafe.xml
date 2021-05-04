@@ -1,0 +1,4 @@
+<server>
+    <!-- Serve non-TLS traffic on port 9080 -->
+    <httpEndpoint id="defaultHttpEndpoint" httpPort="9080"/>
+</server>
