@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019,2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,6 +18,7 @@ public class OrderByClause {
     private final List<String> items = new ArrayList<>();
 
     /**
+     * Add the given expressions to the order by items list
      * @param expressions
      */
     public void add(String... expressions) {

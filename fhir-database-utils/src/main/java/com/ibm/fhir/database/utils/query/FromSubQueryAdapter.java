@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019,2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,7 +19,7 @@ public class FromSubQueryAdapter extends SelectAdapter {
 
     /**
      * constructor
-     * 
+     *
      * @param parentSelect
      * @param from
      */
@@ -31,9 +31,9 @@ public class FromSubQueryAdapter extends SelectAdapter {
     }
 
     /**
-     * End construction of this sub-query by returning out parent {@link FromAdapter} 
+     * End construction of this sub-query by returning out parent {@link FromAdapter}
      * thus allowing a caller to continue with their fluent building of the select statement
-     * 
+     *
      * @param alias
      * @return our parent {@link FromAdapter}
      */

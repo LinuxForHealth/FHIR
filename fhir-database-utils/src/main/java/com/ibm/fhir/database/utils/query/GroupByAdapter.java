@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019,2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,6 +27,11 @@ public class GroupByAdapter {
         this.groupByClause.add(expressions);
     }
 
+    /**
+     * Add the given expression to the group by clause wrapped by this adapter
+     * @param expr
+     * @return
+     */
     public GroupByAdapter expression(String expr) {
         this.groupByClause.add(expr);
         return this;
