@@ -1,0 +1,207 @@
+{
+  "__comment": "config for internal fhir-server deployments",
+  "fhirServer": {
+    "core": {
+      "tenantIdHeaderName": "X-FHIR-TENANT-ID",
+      "datastoreIdHeaderName": "X-FHIR-DSID",
+      "checkReferenceTypes": true,
+      "conditionalDeleteMaxNumber": 1,
+      "defaultPrettyPrint": true,
+      "originalRequestUriHeaderName": "X-Watson-DP-URL-in",
+      "serverRegistryResourceProviderEnabled": false
+    },
+    "search": {
+      "useStoredCompartmentParam": true
+    },
+    "resources": {
+        "open": false,
+        "AllergyIntolerance": {
+        },
+        "CarePlan": {
+        },
+        "CareTeam": {
+        },
+        "Condition": {
+        },
+        "Coverage": {
+        },
+        "CodeSystem": {
+        },
+        "Device": {
+        },
+        "DiagnosticReport": {
+        },
+        "DocumentReference": {
+        },
+        "Encounter": {
+        },
+        "ExplanationOfBenefit": {
+        },
+        "Goal": {
+        },
+        "Group": {
+        },
+        "Immunization": {
+        },
+        "List": {
+        },
+        "Location": {
+        },
+        "Medication": {
+        },
+        "MedicationAdministration": {
+        },
+        "MedicationDispense": {
+        },
+        "MedicationRequest": {
+        },
+        "Observation": {
+        },
+        "Organization": {
+        },
+        "Patient": {
+        },
+        "Practitioner": {
+        },
+        "PractitionerRole": {
+        },
+        "Procedure": {
+        },
+        "Provenance": {
+        },
+        "StructureDefinition": {
+        },
+        "ValueSet": {
+        },
+        "Resource": {
+            "searchParameters": {
+                "_id": "http://hl7.org/fhir/SearchParameter/Resource-id",
+                "_lastUpdated": "http://hl7.org/fhir/SearchParameter/Resource-lastUpdated",
+                "_profile": "http://hl7.org/fhir/SearchParameter/Resource-profile",
+                "_security": "http://hl7.org/fhir/SearchParameter/Resource-security",
+                "_source": "http://hl7.org/fhir/SearchParameter/Resource-source",
+                "_tag": "http://hl7.org/fhir/SearchParameter/Resource-tag"
+            }
+        }
+    },
+    "security": {
+      "cors": true,
+      "basic": {
+        "enabled": false
+      },
+      "certificates": {
+        "enabled": false,
+        "authFilter": {
+          "enabled": false,
+          "authorizedClientCertClientCN": "",
+          "authorizedClientCertIssuerOU": ""
+        }
+      },
+      "oauth": {
+        "enabled": true,
+        "regUrl": "https://<host>/auth/realms/master/clients-registrations/openid-connect",
+        "authUrl": "https://<host>/auth/realms/master/protocol/openid-connect/auth",
+        "tokenUrl": "https://<host>/auth/realms/master/protocol/openid-connect/token",
+        "smart": {
+          "enabled": true,
+          "scopes": ["openid", "profile", "fhirUser", "launch/patient", "offline_access",
+            "patient/*.read",
+            "patient/AllergyIntolerance.read",
+            "patient/CarePlan.read",
+            "patient/CareTeam.read",
+            "patient/Condition.read",
+            "patient/Device.read",
+            "patient/DiagnosticReport.read",
+            "patient/DocumentReference.read",
+            "patient/Encounter.read",
+            "patient/ExplanationOfBenefit.read",
+            "patient/Goal.read",
+            "patient/Immunization.read",
+            "patient/Location.read",
+            "patient/Medication.read",
+            "patient/MedicationRequest.read",
+            "patient/Observation.read",
+            "patient/Organization.read",
+            "patient/Patient.read",
+            "patient/Practitioner.read",
+            "patient/PractitionerRole.read",
+            "patient/Procedure.read",
+            "patient/Provenance.read",
+            "patient/RelatedPerson.read"],
+          "capabilities": [
+            "sso-openid-connect",
+            "launch-standalone",
+            "client-public",
+            "client-confidential-symmetric",
+            "permission-offline",
+            "context-standalone-patient",
+            "permission-patient"
+          ]
+        }
+      }
+    },
+    "audit": {
+      "serviceClassName": "com.ibm.fhir.audit.impl.NopService",
+      "serviceProperties": {
+      }
+    },
+    "persistence": {
+      "factoryClassname": "com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+      "common": {
+        "__comment": "Configuration properties common to all persistence layer implementations",
+        "updateCreateEnabled": true
+      },
+      "jdbc": {
+        "enableCodeSystemsCache": true,
+        "enableParameterNamesCache": true,
+        "enableResourceTypesCache": true
+      },
+      "datasources": {
+        "default": {
+            "type": "postgresql",
+            "currentSchema": "fhirdata"
+        }
+      }
+    },
+    "bulkdata": {
+      "enabled": true,
+      "core": {
+        "api": {
+          "url": "https://localhost:9443/ibm/api/batch",
+          "user": "fhiradmin",
+          "password": "change-password",
+          "truststore": "resources/security/fhirTrustStore.p12",
+          "truststorePassword": "change-password",
+          "trustAll": true
+        },
+        "cos" : {
+          "partUploadTriggerSizeMB": 10,
+          "objectSizeThresholdMB": 200,
+          "objectResourceCountThreshold": 200000,
+          "useServerTruststore": true
+        },
+        "pageSize": 100,
+        "batchIdEncryptionKey": "change-password",
+        "maxPartitions": 3,
+        "maxInputs": 5
+      },
+      "storageProviders": {
+        "default" : {
+          "type": "ibm-cos",
+          "bucketName": "${COS_BUCKET}",
+          "location": "${COS_LOCATION}",
+          "endpointInternal": "${COS_ENDPOINT_INTERNAL}",
+          "endpointExternal": "${COS_ENDPOINT_EXTERNAL}",
+          "auth" : {
+            "type": "hmac",
+            "accessKeyId": "${COS_ACCESS_KEY}",
+            "secretAccessKey": "${COS_SECRET_KEY}"
+          },
+          "__exportPublic": false,
+          "__disableOperationOutcomes": true,
+          "presigned": true
+        }
+      }
+    }
+  }
+}
