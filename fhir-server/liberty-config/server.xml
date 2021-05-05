@@ -11,9 +11,9 @@
         <feature>jdbc-4.1</feature>
         <feature>websocket-1.1</feature>
         <feature>localConnector-1.0</feature>
-        <!-- mpJwt-1.1 isn't used by default,
+        <!-- mpJwt-1.2 isn't used by default,
              but we include it here to avoid NoClassDefFound in our classes that *can* use it -->
-        <feature>mpJwt-1.1</feature>
+        <feature>mpJwt-1.2</feature>
     </featureManager>
 
     <!-- Disable welcome page so that internal server info won't be revealed in responses
