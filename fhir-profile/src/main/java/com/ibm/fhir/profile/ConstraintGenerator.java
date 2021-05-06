@@ -23,6 +23,7 @@ import java.util.Set;
 import java.util.StringJoiner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.resource.StructureDefinition;
@@ -41,12 +42,14 @@ import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.DiscriminatorType;
-import com.ibm.fhir.model.type.code.SlicingRules;
 import com.ibm.fhir.model.util.ModelSupport;
+
+import net.jcip.annotations.NotThreadSafe;
 
 /**
  * A class used to generate FHIRPath expressions from a profile
  */
+@NotThreadSafe
 public class ConstraintGenerator {
     private static final Logger log = Logger.getLogger(ConstraintGenerator.class.getName());
 
@@ -61,8 +64,8 @@ public class ConstraintGenerator {
     public ConstraintGenerator(StructureDefinition profile) {
         Objects.requireNonNull(profile, "profile");
         this.profile = profile;
-        elementDefinitionMap = buildElementDefinitionMap();
-        tree = buildTree();
+        elementDefinitionMap = buildElementDefinitionMap(this.profile);
+        tree = buildTree(this.profile);
     }
 
     public List<Constraint> generate() {
@@ -96,138 +99,13 @@ public class ConstraintGenerator {
         StringBuilder sb = new StringBuilder();
 
         ElementDefinition elementDefinition = node.elementDefinition;
-        String identifier = getIdentifier(elementDefinition);
 
-        if (isProhibited(elementDefinition)) {
-            sb.append(identifier).append(".exists().not()");
-            return sb.toString();
-        }
-
-        if (hasValueConstraint(elementDefinition)) {
-            return generateValueConstraint(node);
-        }
-
-        if (hasReferenceTypeConstraint(elementDefinition)) {
-            return generateReferenceTypeConstraint(elementDefinition);
-        }
-
-        if (hasVocabularyConstraint(elementDefinition)) {
-            String expr = generateVocabularyConstraint(elementDefinition);
-            if (node.children.isEmpty()) {
-                // no constraints exist on the children of this node, the expression is complete
-                return expr;
-            }
-            // there are additional constraints to generate
-            sb.append(expr).append(" and ");
-        }
-
-        if (hasExtensionConstraint(elementDefinition)) {
-            return generateExtensionConstraint(elementDefinition);
-        }
-
+        // P (antecedent) -> (implies) Q (consequent)
         if (isOptional(elementDefinition)) {
-            sb.append(identifier);
-
-            if ("extension".equals(identifier)) {
-                String url = getExtensionUrl(node);
-                if (url != null) {
-                    sb.append("('").append(url).append("')");
-                }
-            } else if (isSlice(elementDefinition)) {
-                ElementDefinition sliceDefinition = getSliceDefinition(elementDefinition);
-                if (sliceDefinition != null) {
-                    Slicing slicing = sliceDefinition.getSlicing();
-                    StringJoiner joiner = new StringJoiner(" and ");
-                    for (Discriminator discriminator : slicing.getDiscriminator()) {
-                        if (DiscriminatorType.VALUE.equals(discriminator.getType()) || DiscriminatorType.PATTERN.equals(discriminator.getType())) {
-                            String id = elementDefinition.getId() + "." + discriminator.getPath().getValue();
-                            if (tree.nodeMap.containsKey(id)) {
-                                Node dNode = tree.nodeMap.get(id);
-                                if (hasValueConstraint(dNode.elementDefinition)) {
-                                    joiner.add(generateValueConstraint(dNode));
-                                } else if (hasVocabularyConstraint(dNode.elementDefinition)) {
-                                    joiner.add(generateVocabularyConstraint(dNode.elementDefinition));
-                                } else {
-                                    log.fine("Discriminator has no value or vocabulary constraint");
-                                }
-                            } else {
-                                // no discriminator in the slice
-                                if (SlicingRules.CLOSED.equals(slicing.getRules())) {
-                                    // in the case of a closed slice with no discriminator
-                                    // we use the absence of the discriminator field to determine we're in this slice
-                                    String dPath = discriminator.getPath().getValue();
-                                    joiner.add(dPath + ".exists().not()");
-                                } else {
-                                    // setting false will cause the `implies` to short-circuit,
-                                    // effectively skipping the constraints on this slice
-                                    joiner.add("false");
-                                    log.fine("Slice for '" + id + "' is open and missing discriminator");
-                                }
-                            }
-                        } else if (DiscriminatorType.TYPE.equals(discriminator.getType())) {
-                            Type type = getTypes(elementDefinition).get(0);
-                            if (type.getCode() != null) {
-                                String code = type.getCode().getValue();
-                                sb.append(".as(").append(code).append(")");
-                            }
-                        }
-                    }
-                    if (joiner.length() > 0) {
-                        sb.append(".where(").append(joiner.toString()).append(")");
-                    }
-                }
-            }
-
-            sb.append(".exists() implies (");
+            sb.append(antecedent(node)).append(" implies (");
         }
 
-        sb.append(identifier);
-        if ("extension".equals(identifier)) {
-            String url = getExtensionUrl(node);
-            if (url != null) {
-                sb.append("('").append(url).append("')");
-            }
-        }
-
-        if (hasChoiceTypeConstraint(elementDefinition)) {
-            Type type = getTypes(elementDefinition).get(0);
-            if (type.getCode() != null) {
-                String code = type.getCode().getValue();
-                sb.append(".as(").append(code).append(")");
-            }
-        }
-
-        if (!node.children.isEmpty()) {
-            if (isRepeating(elementDefinition) && !isSlice(elementDefinition)) {
-                if (isRequired(elementDefinition)) {
-                    sb.append(".exists() and ").append(identifier);
-                }
-                sb.append(".all(");
-            } else {
-                // !isRepeating || isSlice
-                sb.append(".where(");
-            }
-
-            sb.append(generate(node.children));
-
-            sb.append(")");
-
-            if (!isRepeating(elementDefinition) || isSlice(elementDefinition)) {
-                sb.append(".exists()");
-            }
-        } else {
-            sb.append(".exists()");
-        }
-
-        if (hasProfileConstraint(elementDefinition)) {
-            String profile = getProfiles(getTypes(elementDefinition).get(0)).get(0);
-            sb.append(" and ");
-            if (isRepeating(elementDefinition)) {
-                sb.append(identifier).append(".all(conformsTo('").append(profile).append("'))");
-            } else {
-                sb.append(identifier).append(".conformsTo('").append(profile).append("')");
-            }
-        }
+        sb.append(consequent(node));
 
         if (isOptional(elementDefinition)) {
             sb.append(")");
@@ -240,11 +118,40 @@ public class ConstraintGenerator {
         return elementDefinitionMap;
     }
 
+    public StructureDefinition getProfile() {
+        return profile;
+    }
+
     public Tree getTree() {
         return tree;
     }
 
-    private Map<String, ElementDefinition> buildElementDefinitionMap() {
+    private boolean accept(List<String> paths, String relativePath) {
+        for (String path : paths) {
+            if (path.startsWith(relativePath)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private String antecedent(Node node) {
+        StringBuilder sb = new StringBuilder();
+
+        ElementDefinition elementDefinition = node.elementDefinition;
+
+        if (isSlice(elementDefinition)) {
+            sb.append(discriminator(node));
+        } else {
+            sb.append(prefix(node));
+        }
+
+        sb.append(".exists()");
+
+        return sb.toString();
+    }
+
+    private Map<String, ElementDefinition> buildElementDefinitionMap(StructureDefinition profile) {
         Map<String, ElementDefinition> elementDefinitionMap = new LinkedHashMap<>();
         for (ElementDefinition elementDefinition : profile.getSnapshot().getElement()) {
             elementDefinitionMap.put(elementDefinition.getId(), elementDefinition);
@@ -252,7 +159,7 @@ public class ConstraintGenerator {
         return elementDefinitionMap;
     }
 
-    private Tree buildTree() {
+    private Tree buildTree(StructureDefinition profile) {
         Node root = null;
         Map<String, Node> nodeMap = new LinkedHashMap<>();
         Map<String, ElementDefinition> sliceDefinitionMap = new LinkedHashMap<>();
@@ -313,8 +220,209 @@ public class ConstraintGenerator {
         return tree;
     }
 
+    private String cardinality(Node node, String expr) {
+        StringBuilder sb = new StringBuilder();
+
+        ElementDefinition elementDefinition = node.elementDefinition;
+
+        if (isSlice(elementDefinition) || (isRepeating(elementDefinition) && !hasChildren(node))) {
+            sb.append(".count()");
+
+            Integer min = elementDefinition.getMin().getValue();
+            if (isOptional(elementDefinition)) {
+                min = 1;
+            }
+            String max = elementDefinition.getMax().getValue();
+
+            if ("*".equals(max)) {
+                sb.append(" >= ").append(min);
+            } else if ("1".equals(max)) {
+                if (min == 0) {
+                    sb.append(" <= 1");
+                } else {
+                    sb.append(" = 1");
+                }
+            } else {
+                sb.append(" >= ").append(min).append(" and ").append(expr).append(".count() <= ").append(max);
+            }
+        } else if (!isRepeating(elementDefinition)) {
+            sb.append(".exists()");
+        }
+
+        return sb.toString();
+    }
+
+    private String consequent(Node node) {
+        ElementDefinition elementDefinition = node.elementDefinition;
+
+        if (isProhibited(elementDefinition)) {
+            return generateProhibitedConstraint(elementDefinition);
+        }
+
+        if (hasValueConstraint(elementDefinition)) {
+            return generateValueConstraint(node);
+        }
+
+        if (hasExtensionConstraint(elementDefinition)) {
+            return generateExtensionConstraint(node);
+        }
+
+        if (hasReferenceTypeConstraint(elementDefinition)) {
+            return generateReferenceTypeConstraint(node);
+        }
+
+        if (hasProfileConstraint(elementDefinition)) {
+            return generateProfileConstraint(node);
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        if (hasVocabularyConstraint(elementDefinition)) {
+            String expr = generateVocabularyConstraint(node);
+            if (!hasChildren(node)) {
+                // no constraints exist on the children of this node, the expression is complete
+                return expr;
+            }
+            // there are additional constraints to generate
+            sb.append(expr).append(" and ");
+        }
+
+        String prefix = prefix(node);
+        sb.append(prefix);
+
+        if (hasChildren(node)) {
+            if (isRepeating(elementDefinition) && !isSlice(elementDefinition)) {
+                if (isRequired(elementDefinition)) {
+                    sb.append(".exists() and ").append(prefix);
+                }
+                sb.append(".all(");
+            } else {
+                // !isRepeating || isSlice
+                sb.append(".where(");
+            }
+            sb.append(generate(node.children));
+            sb.append(")");
+        }
+
+        sb.append(cardinality(node, sb.toString()));
+
+        return sb.toString();
+    }
+
     private Constraint constraint(String id, String expr, String description) {
         return createConstraint(id, Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, description, expr, false, true);
+    }
+
+    private Node copy(Node node, List<String> paths, String prefix) {
+        Node nodeCopy = new Node();
+        nodeCopy.label = node.label;
+        nodeCopy.elementDefinition = node.elementDefinition;
+
+        for (Node child : node.children) {
+            String path = child.elementDefinition.getPath().getValue();
+            String relativePath = path.replace(prefix + ".", "");
+            if (accept(paths, relativePath)) {
+                Node childCopy = copy(child, paths, prefix);
+                childCopy.parent = nodeCopy;
+                nodeCopy.children.add(childCopy);
+            }
+        }
+
+        return nodeCopy;
+    }
+
+    private String discriminator(Node node) {
+        StringBuilder sb = new StringBuilder();
+
+        ElementDefinition elementDefinition = node.elementDefinition;
+        String identifier = getIdentifier(elementDefinition);
+
+        ElementDefinition sliceDefinition = getSliceDefinition(elementDefinition);
+        if (sliceDefinition != null) {
+            Slicing slicing = sliceDefinition.getSlicing();
+
+            Map<DiscriminatorType.Value, List<Discriminator>> discriminatorMap = new LinkedHashMap<>();
+            for (Discriminator discriminator : slicing.getDiscriminator()) {
+                discriminatorMap.computeIfAbsent(discriminator.getType().getValueAsEnum(), k -> new ArrayList<>()).add(discriminator);
+            }
+
+            for (DiscriminatorType.Value key : discriminatorMap.keySet()) {
+                List<Discriminator> discriminators = discriminatorMap.get(key);
+
+                List<String> paths = discriminators.stream()
+                        .map(discriminator -> discriminator.getPath().getValue())
+                        .collect(Collectors.toList());
+
+                String prefix = elementDefinition.getPath().getValue();
+
+                if (DiscriminatorType.Value.VALUE.equals(key) ||
+                        DiscriminatorType.Value.PATTERN.equals(key) ||
+                        DiscriminatorType.Value.PROFILE.equals(key)) {
+                    if ("extension".equals(identifier)) {
+                        // optimization
+                        if (hasProfileConstraint(elementDefinition)) {
+                            Type type = getTypes(elementDefinition).get(0);
+                            String profile = getProfiles(type).get(0);
+                            sb.append("extension('").append(profile).append("')");
+                        } else {
+                            String url = getExtensionUrl(node);
+                            if (url != null) {
+                                sb.append("extension('").append(url).append("')");
+                            }
+                        }
+                    } else {
+                        sb.append(expression((paths.size() == 1 && "$this".equals(paths.get(0))) ?
+                            node :
+                            copy(node, paths, prefix)));
+                    }
+                } else if (DiscriminatorType.Value.TYPE.equals(key)) {
+                    Type type = getTypes(elementDefinition).get(0);
+                    if (type.getCode() != null) {
+                        String code = type.getCode().getValue();
+                        sb.append(identifier).append(".as(").append(code).append(")");
+                    }
+                } else {
+                    throw new IllegalArgumentException("Discriminator type: " + key.value() + " is not supported");
+                }
+            }
+        } else {
+            throw new IllegalArgumentException("Slice definition not found for slice: " + elementDefinition.getId());
+        }
+
+        return sb.toString();
+    }
+
+    private String expression(Node node) {
+        ElementDefinition elementDefinition = node.elementDefinition;
+
+        if (hasValueConstraint(elementDefinition)) {
+            return generateValueConstraint(node, true);
+        }
+
+        if (hasProfileConstraint(elementDefinition)) {
+            return generateProfileConstraint(node, true);
+        }
+
+        if (hasVocabularyConstraint(elementDefinition)) {
+            return generateVocabularyConstraint(node);
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+        String identifier = getIdentifier(elementDefinition);
+        sb.append(identifier);
+
+        if (hasChildren(node)) {
+            sb.append(".where(");
+            StringJoiner joiner = new StringJoiner(" and ");
+            for (Node child : node.children) {
+                joiner.add(expression(child));
+            }
+            sb.append(joiner.toString());
+            sb.append(")");
+        }
+
+        return sb.toString();
     }
 
     private String generate(List<Node> nodes) {
@@ -332,34 +440,25 @@ public class ConstraintGenerator {
         return joiner.toString();
     }
 
-    private String generateExtensionConstraint(ElementDefinition elementDefinition) {
+    private String generateExtensionConstraint(Node node) {
         StringBuilder sb = new StringBuilder();
+
+        ElementDefinition elementDefinition = node.elementDefinition;
 
         Type type = getTypes(elementDefinition).get(0);
         String profile = getProfiles(type).get(0);
 
-        sb.append("extension('").append(profile).append("').count()");
+        sb.append("extension('").append(profile).append("')");
 
-        Integer min = elementDefinition.getMin().getValue();
-        String max = elementDefinition.getMax().getValue();
-
-        if ("*".equals(max)) {
-            sb.append(" >= ").append(min);
-        } else if ("1".equals(max)) {
-            if (min == 0) {
-                sb.append(" <= 1");
-            } else {
-                sb.append(" = 1");
-            }
-        } else {
-            sb.append(" >= ").append(min).append(" and ").append("extension('").append(profile).append("').count() <= ").append(max);
-        }
+        sb.append(cardinality(node, sb.toString()));
 
         return sb.toString();
     }
 
-    private String generateFixedValueConstraint(ElementDefinition elementDefinition) {
+    private String generateFixedValueConstraint(Node node, boolean discriminator) {
         StringBuilder sb = new StringBuilder();
+
+        ElementDefinition elementDefinition = node.elementDefinition;
 
         String identifier = getIdentifier(elementDefinition);
         sb.append(identifier);
@@ -383,19 +482,21 @@ public class ConstraintGenerator {
                 sb.append("system = '").append(system).append("' and ");
             }
 
-            sb.append("code = '").append(coding.getCode().getValue()).append("').exists()).exists()");
+            sb.append("code = '").append(coding.getCode().getValue()).append("').exists())");
+
+            if (!discriminator) {
+                sb.append(cardinality(node, sb.toString()));
+            }
         }
 
         return sb.toString();
     }
 
-    private String generatePatternValueConstraint(Node node) {
+    private String generatePatternValueConstraint(Node node, boolean discriminator) {
         StringBuilder sb = new StringBuilder();
 
         ElementDefinition elementDefinition = node.elementDefinition;
-
         String identifier = getIdentifier(elementDefinition);
-        sb.append(identifier);
 
         Element pattern = elementDefinition.getPattern();
         if (pattern.is(CodeableConcept.class)) {
@@ -403,58 +504,90 @@ public class ConstraintGenerator {
             Coding coding = codeableConcept.getCoding().get(0);
             String system = (coding.getSystem() != null) ? coding.getSystem().getValue() : null;
 
-            sb.append(".where(coding.where(");
+            sb.append(identifier).append(".where(coding.where(");
 
             if (system != null) {
                 sb.append("system = '").append(system).append("' and ");
             }
 
-            sb.append("code = '").append(coding.getCode().getValue()).append("').exists()).exists()");
+            sb.append("code = '").append(coding.getCode().getValue()).append("').exists())");
+
+            if (!discriminator) {
+                sb.append(cardinality(node, sb.toString()));
+            }
         } else if (pattern.is(Identifier.class)) {
             Identifier _identifier = pattern.as(Identifier.class);
             String system = _identifier.getSystem().getValue();
 
-            sb.append(".where(system = '").append(system).append("').count()");
+            sb.append(identifier).append(".where(system = '").append(system).append("')");
 
-            Integer min = elementDefinition.getMin().getValue();
-            String max = elementDefinition.getMax().getValue();
-
-            if ("*".equals(max)) {
-                sb.append(" >= ").append(min);
-            } else if ("1".equals(max)) {
-                if (min == 0) {
-                    sb.append(" <= 1");
-                } else {
-                    sb.append(" = 1");
-                }
-            } else {
-                sb.append(" >= ").append(min).append(" and ").append(identifier).append(".where(system = '").append(system).append("').count() <= ").append(max);
+            if (!discriminator) {
+                sb.append(cardinality(node, sb.toString()));
             }
+        } else if (pattern.is(Uri.class)) {
+            sb.append(identifier).append(" = '").append(pattern.as(Uri.class).getValue()).append("'");
+        } else if (pattern.is(Code.class)) {
+            sb.append(identifier).append(" = '").append(pattern.as(Code.class).getValue()).append("'");
+        }
 
-            if (!node.children.isEmpty()) {
-                sb.append(" and (").append(identifier).append(".where(system = '").append(system).append("').exists()").append(" implies (").append(identifier).append(".where(system = '").append(system).append("' and ").append(generate(node.children)).append(")))");
+        return sb.toString();
+    }
+
+    private String generateProfileConstraint(Node node) {
+        return generateProfileConstraint(node, false);
+    }
+
+    private String generateProfileConstraint(Node node, boolean discriminator) {
+        StringBuilder sb = new StringBuilder();
+
+        ElementDefinition elementDefinition = node.elementDefinition;
+
+        String prefix = prefix(node);
+        sb.append(prefix);
+
+        if (!isOptional(elementDefinition)) {
+            sb.append(".exists() and ").append(prefix);
+        }
+
+        if (isRepeating(elementDefinition)) {
+            if (isSlice(elementDefinition)) {
+                sb.append(".where(");
+            } else {
+                sb.append(".all(");
+            }
+        } else {
+            sb.append(".");
+        }
+
+        String profile = getProfiles(getTypes(elementDefinition).get(0)).get(0);
+        sb.append("conformsTo('").append(profile).append("')");
+
+        if (isRepeating(elementDefinition)) {
+            sb.append(")");
+            if (isSlice(elementDefinition) && !discriminator) {
+                sb.append(cardinality(node, sb.toString()));
             }
         }
 
         return sb.toString();
     }
 
-    private String generateReferenceTypeConstraint(ElementDefinition elementDefinition) {
+    private String generateProhibitedConstraint(ElementDefinition elementDefinition) {
+        StringBuilder sb = new StringBuilder();
+        String identifier = getIdentifier(elementDefinition);
+        sb.append(identifier).append(".exists().not()");
+        return sb.toString();
+    }
+
+    private String generateReferenceTypeConstraint(Node node) {
         StringBuilder sb = new StringBuilder();
 
-        String identifier = getIdentifier(elementDefinition);
+        ElementDefinition elementDefinition = node.elementDefinition;
 
-        sb.append(identifier);
-        if (hasChoiceTypeConstraint(elementDefinition)) {
-            sb.append(".as(Reference)");
-        }
+        String prefix = prefix(node);
 
-        String prefix = sb.toString();
-
-        if (isOptional(elementDefinition)) {
-            sb.append(".exists() implies (");
-        } else {
-            sb.append(".exists() and ");
+        if (!isOptional(elementDefinition)) {
+            sb.append(prefix).append(".exists() and ");
         }
 
         if (isRepeating(elementDefinition)) {
@@ -480,49 +613,29 @@ public class ConstraintGenerator {
             sb.append(")");
         }
 
-        if (isOptional(elementDefinition)) {
-            sb.append(")");
-        }
-
         return sb.toString();
     }
 
     private String generateValueConstraint(Node node) {
-        return hasFixedValueConstraint(node.elementDefinition) ? generateFixedValueConstraint(node.elementDefinition) : generatePatternValueConstraint(node);
+        return generateValueConstraint(node, false);
     }
 
-    /**
-     * Generates FHIRPath constraint based on the cardinality, choice type, and binding of the element.
-     * @param elementDefinition the element definition
-     * @return the FHIRPath constraint
-     */
-    private String generateVocabularyConstraint(ElementDefinition elementDefinition) {
+    private String generateValueConstraint(Node node, boolean discriminator) {
+        return hasFixedValueConstraint(node.elementDefinition) ?
+                generateFixedValueConstraint(node, discriminator) :
+                generatePatternValueConstraint(node, discriminator);
+    }
+
+    private String generateVocabularyConstraint(Node node) {
         StringBuilder sb = new StringBuilder();
 
-        String identifier = getIdentifier(elementDefinition);
+        ElementDefinition elementDefinition = node.elementDefinition;
 
-        sb.append(identifier);
-        if (hasChoiceTypeConstraint(elementDefinition)) {
-            Type type = getTypes(elementDefinition).get(0);
-            if (type.getCode() != null) {
-                String code = type.getCode().getValue();
-                sb.append(".as(").append(code).append(")");
-            }
-        }
+        String prefix = prefix(node);
+        sb.append(prefix);
 
-        if (isOptional(elementDefinition)) {
-            sb.append(".exists() implies (");
-        } else {
-            sb.append(".exists() and ");
-        }
-
-        sb.append(identifier);
-        if (hasChoiceTypeConstraint(elementDefinition)) {
-            Type type = getTypes(elementDefinition).get(0);
-            if (type.getCode() != null) {
-                String code = type.getCode().getValue();
-                sb.append(".as(").append(code).append(")");
-            }
+        if (!isOptional(elementDefinition)) {
+            sb.append(".exists() and ").append(prefix);
         }
 
         if (isRepeating(elementDefinition)) {
@@ -541,17 +654,10 @@ public class ConstraintGenerator {
             sb.append(")");
         }
 
-        // If the binding defines a maxValueSet, then add a "required" binding to the maxValueSet
+        // if the binding defines a maxValueSet, then add a "required" binding to the maxValueSet
         String maxValueSet = getMaxValueSet(binding);
         if (maxValueSet != null) {
-            sb.append(" and ").append(identifier);
-            if (hasChoiceTypeConstraint(elementDefinition)) {
-                Type type = getTypes(elementDefinition).get(0);
-                if (type.getCode() != null) {
-                    String code = type.getCode().getValue();
-                    sb.append(".as(").append(code).append(")");
-                }
-            }
+            sb.append(" and ").append(prefix);
 
             if (isRepeating(elementDefinition)) {
                 sb.append(".all(");
@@ -564,10 +670,6 @@ public class ConstraintGenerator {
             if (isRepeating(elementDefinition)) {
                 sb.append(")");
             }
-        }
-
-        if (isOptional(elementDefinition)) {
-            sb.append(")");
         }
 
         return sb.toString();
@@ -592,11 +694,6 @@ public class ConstraintGenerator {
         return identifier;
     }
 
-    /**
-     * Gets the URI or Canonical of the maximum allowable value set. This defines a 'required' binding over the top of the 'extensible' or 'preferred' binding.
-     * @param binding the binding
-     * @return the URI or Canonical of the maximum allowable value set, or null
-     */
     private String getMaxValueSet(Binding binding) {
         if (binding != null) {
             for (Extension extension : binding.getExtension()) {
@@ -668,6 +765,10 @@ public class ConstraintGenerator {
         return isRequired(elementDefinition) || isProhibited(elementDefinition);
     }
 
+    private boolean hasChildren(Node node) {
+        return !node.children.isEmpty();
+    }
+
     private boolean hasChoiceTypeConstraint(ElementDefinition elementDefinition) {
         return isChoiceElement(elementDefinition) && getTypes(elementDefinition).size() == 1;
     }
@@ -716,7 +817,12 @@ public class ConstraintGenerator {
     }
 
     private boolean hasFixedValueConstraint(ElementDefinition elementDefinition) {
-        return (elementDefinition.getFixed() instanceof Uri || elementDefinition.getFixed() instanceof Code || elementDefinition.getFixed() instanceof CodeableConcept);
+        Element fixed = elementDefinition.getFixed();
+        return ((fixed instanceof Uri) && (fixed.as(Uri.class).getValue() != null)) ||
+               ((fixed instanceof Code) && (fixed.as(Code.class).getValue() != null)) ||
+               ((fixed instanceof CodeableConcept) &&
+                (fixed.as(CodeableConcept.class).getCoding().stream()
+                        .allMatch(coding -> (coding.getCode() != null && coding.getCode().getValue() != null))));
     }
 
     private boolean hasPatternValueConstraint(ElementDefinition elementDefinition) {
@@ -726,7 +832,9 @@ public class ConstraintGenerator {
                         .allMatch(coding -> (coding.getCode() != null && coding.getCode().getValue() != null)))) ||
                ((pattern instanceof Identifier) &&
                 (pattern.as(Identifier.class).getSystem() != null) &&
-                (pattern.as(Identifier.class).getSystem().getValue() != null));
+                (pattern.as(Identifier.class).getSystem().getValue() != null)) ||
+               ((pattern instanceof Uri) && (pattern.as(Uri.class).getValue() != null)) ||
+               ((pattern instanceof Code) && (pattern.as(Code.class).getValue() != null));
     }
 
     private boolean hasProfileConstraint(ElementDefinition elementDefinition) {
@@ -788,7 +896,7 @@ public class ConstraintGenerator {
     }
 
     private boolean isOptional(ElementDefinition elementDefinition) {
-        return (elementDefinition.getMin().getValue() == 0) && !"0".equals(elementDefinition.getMax().getValue());
+        return (elementDefinition.getMin().getValue() == 0) && !isProhibited(elementDefinition);
     }
 
     private boolean isProhibited(ElementDefinition elementDefinition) {
@@ -825,7 +933,7 @@ public class ConstraintGenerator {
     }
 
     private boolean isRepeating(ElementDefinition elementDefinition) {
-        String max = elementDefinition.getMax().getValue();
+        String max = elementDefinition.getBase().getMax().getValue();
         return "*".equals(max) || (Integer.parseInt(max) > 1);
     }
 
@@ -877,6 +985,32 @@ public class ConstraintGenerator {
             return "uri".equals(code);
         }
         return false;
+    }
+
+    private String prefix(Node node) {
+        StringBuilder sb = new StringBuilder();
+
+        ElementDefinition elementDefinition = node.elementDefinition;
+        String identifier = getIdentifier(elementDefinition);
+
+        sb.append(identifier);
+
+        if ("extension".equals(identifier)) {
+            String url = getExtensionUrl(node);
+            if (url != null) {
+                sb.append("('").append(url).append("')");
+            }
+        }
+
+        if (hasChoiceTypeConstraint(elementDefinition)) {
+            Type type = getTypes(elementDefinition).get(0);
+            if (type.getCode() != null) {
+                String code = type.getCode().getValue();
+                sb.append(".as(").append(code).append(")");
+            }
+        }
+
+        return sb.toString();
     }
 
     private List<Node> prune(Node node) {

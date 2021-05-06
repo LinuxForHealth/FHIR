@@ -45,7 +45,12 @@ public class ExamplesValidationTest {
 
     @Test
     public void testValidationWithOrganization() throws Exception {
-        verify(Paths.get("src/test/resources/json/Organization-ExampleEstablishment.json"));
+        verify(Paths.get("src/test/resources/json/Organization-NationalPharmaIndia.json"));
+    }
+
+    @Test
+    public void testValidationWithBundle() throws Exception {
+        verify(Paths.get("src/test/resources/json/Bundle-NationalPharmaIndiaRequest.json"));
     }
 
     public static boolean verify(Path p) {
