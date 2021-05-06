@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.database.utils.query.node;
 
-
 /**
  * Represents an ESCAPE '+' expression in a SQL predicate expression
  * for use with LIKE

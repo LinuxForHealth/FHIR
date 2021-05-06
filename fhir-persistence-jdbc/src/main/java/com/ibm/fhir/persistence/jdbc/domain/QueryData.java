@@ -9,9 +9,9 @@ package com.ibm.fhir.persistence.jdbc.domain;
 import com.ibm.fhir.database.utils.query.SelectAdapter;
 
 /**
- * A simple wrapper used by the {@link SearchQueryRenderer} hold the current
- * query - {@link SelectAdapter} - and the parameterAlias which needs to be
- * incremented each time we add another parameter table or sub-query.
+ * A simple wrapper used by the {@link SearchQueryRenderer} to hold the current
+ * query - {@link SelectAdapter} - and the table alias values if this query
+ * wants to advertise them.
  * Immutable.
  */
 public class QueryData {
@@ -56,6 +56,10 @@ public class QueryData {
         return this.lrAlias;
     }
 
+    /**
+     * Get the alias of the parameter table if one is advertised by this query block
+     * @return
+     */
     public String getParamAlias() {
         return this.paramAlias;
     }

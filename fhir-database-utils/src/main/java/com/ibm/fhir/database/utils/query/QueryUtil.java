@@ -19,7 +19,7 @@ import com.ibm.fhir.database.utils.query.expression.StringStatementRenderer;
 import com.ibm.fhir.database.utils.query.node.BindMarkerNode;
 
 /**
- *
+ * Helper class to generate a PreparedStatement from a Select object.
  */
 public class QueryUtil {
     private static final Logger logger = Logger.getLogger(QueryUtil.class.getName());

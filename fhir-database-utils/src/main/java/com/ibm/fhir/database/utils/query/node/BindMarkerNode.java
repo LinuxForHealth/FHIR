@@ -8,7 +8,6 @@ package com.ibm.fhir.database.utils.query.node;
 
 import java.util.Stack;
 
-import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.query.expression.BindMarkerNodeVisitor;
 
 /**
@@ -33,9 +32,7 @@ public abstract class BindMarkerNode implements ExpNode {
 
     /**
      * Apply this node to the given visitor
-     * @param idx the parameter index in the statement
      * @param visitor
-     * @throws DataAccessException
      */
     public abstract void visit(BindMarkerNodeVisitor visitor);
 

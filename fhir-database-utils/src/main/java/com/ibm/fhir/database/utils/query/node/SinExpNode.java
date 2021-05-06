@@ -8,7 +8,6 @@ package com.ibm.fhir.database.utils.query.node;
 
 import java.util.Stack;
 
-
 /**
  * The SIN SQL function
  */

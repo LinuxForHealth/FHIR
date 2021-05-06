@@ -10,13 +10,13 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.search.parameters.QueryParameter;
 
 /**
- * A string search parameter
+ * A date search parameter
  */
 public class DateSearchParam extends SearchParam {
-    // private static final Logger logger = Logger.getLogger(StringSearchParam.class.getName());
 
     /**
      * Public constructor
+     * @param rootResourceType
      * @param name
      * @param queryParameter the search query parameter being wrapped
      */

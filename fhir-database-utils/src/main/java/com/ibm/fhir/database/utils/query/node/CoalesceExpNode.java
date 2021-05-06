@@ -12,7 +12,6 @@ import java.util.Stack;
 
 import com.ibm.fhir.database.utils.query.expression.ColumnRef;
 
-
 /**
  * The COALESCE SQL function
  */

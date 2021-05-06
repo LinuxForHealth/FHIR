@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019,2021
+ * (C) Copyright IBM Corp. 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -121,7 +121,7 @@ public abstract class BaseWhereAdapter<T> {
     }
 
     /**
-     * Add '= <ref>' to the expression
+     * Add '= {ref}' to the expression
      * @param ref
      * @return
      */
@@ -132,7 +132,7 @@ public abstract class BaseWhereAdapter<T> {
     }
 
     /**
-     * Add '= <literalValue>' to the expression
+     * Add '= {literalValue}' to the expression
      * @param literalValue
      * @return
      */
@@ -143,7 +143,7 @@ public abstract class BaseWhereAdapter<T> {
     }
 
     /**
-     * Add '= <literalValue>' to the expression
+     * Add '= {literalValue}' to the expression
      * @param literalValue
      * @return
      */
@@ -154,7 +154,7 @@ public abstract class BaseWhereAdapter<T> {
     }
 
     /**
-     * Add '= <columnExpression>' to the expression
+     * Add '= {columnExpression}' to the expression
      * @param literalValue
      * @return
      */
@@ -165,8 +165,8 @@ public abstract class BaseWhereAdapter<T> {
     }
 
     /**
-     * Add '= <str>' to the expression
-     * @param literalValue
+     * Add '= {str}' to the expression
+     * @param str
      * @return
      */
     public T eq(LiteralString str) {
@@ -176,7 +176,7 @@ public abstract class BaseWhereAdapter<T> {
     }
 
     /**
-     * Add '= <tableAlias>.<columnExpression>' to the expression
+     * Add '= {tableAlias}.{columnExpression}' to the expression
      * @param literalValue
      * @return
      */
@@ -325,17 +325,6 @@ public abstract class BaseWhereAdapter<T> {
         predicateParser.column(ref.toString());
         return getThis();
     }
-
-    /**
-     * Add the string expression directly to the statement
-     * @param expression
-     * @return
-     */
-    public T expr(String expression) {
-        predicateParser.column(expression);
-        return getThis();
-    }
-
 
     // ### NOT EQUAL ###
     /**
@@ -854,7 +843,7 @@ public abstract class BaseWhereAdapter<T> {
     }
 
     /**
-     * Add a left paren `(` to the expression
+     * Add a left paren <code>(</code> to the expression
      */
     public T leftParen() {
         predicateParser.leftParen();
@@ -862,7 +851,7 @@ public abstract class BaseWhereAdapter<T> {
     }
 
     /**
-     * Add a right paren `)` to the expression
+     * Add a right paren <code>)</code> to the expression
      */
     public T rightParen() {
         predicateParser.rightParen();

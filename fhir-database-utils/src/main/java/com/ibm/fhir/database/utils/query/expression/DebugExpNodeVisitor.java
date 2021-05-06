@@ -10,7 +10,6 @@ import java.time.Instant;
 
 import com.ibm.fhir.database.utils.query.Select;
 
-
 /**
  * Debug version of the {@link StringExpNodeVisitor} which is used to
  * render the string with the bind variable values written in-place,

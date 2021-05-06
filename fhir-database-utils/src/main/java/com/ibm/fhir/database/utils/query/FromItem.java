@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019,2021
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,6 +10,11 @@ import com.ibm.fhir.database.utils.query.expression.StatementRenderer;
 
 /**
  * An element in the FROM clause
+ *   - TableRowSource:
+ *       FROM xx_LOGICAL_RESOURCES AS LR0
+ *
+ *   - SelectRowSource:
+ *       FROM (SELECT LR.LOGICAL_ID FROM ...) AS SUB0
  */
 public class FromItem {
 
@@ -55,6 +60,11 @@ public class FromItem {
         return toPrettyString(false);
     }
 
+    /**
+     * Render a string version of the item (for use when debugging)
+     * @param pretty
+     * @return
+     */
     public String toPrettyString(boolean pretty) {
         StringBuilder result = new StringBuilder();
         result.append(rowSource.toPrettyString(pretty));
@@ -68,6 +78,12 @@ public class FromItem {
         return result.toString();
     }
 
+    /**
+     * Render this item using the given renderer
+     * @param <T>
+     * @param renderer
+     * @return
+     */
     public <T> T render(StatementRenderer<T> renderer) {
         T subValue = this.rowSource.render(renderer);
         T aliasValue = null;

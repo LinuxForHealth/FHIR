@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019,2021
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,6 +20,8 @@ public class GroupByAdapter {
      * Protected constructor for modeling the GROUP BY part of a SELECT statement.
      *
      * @param select
+     * @param gb
+     * @param expressions
      */
     protected GroupByAdapter(Select select, GroupByClause gb, String... expressions) {
         this.select = select;

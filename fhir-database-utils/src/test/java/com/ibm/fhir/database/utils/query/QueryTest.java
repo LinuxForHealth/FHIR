@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -90,7 +90,6 @@ public class QueryTest {
                 .or(col(FOO_ID)).eq(2)
                 .and(col(FOO_NAME)).eq("alice")
                 .build();
-
     }
 
     @Test
@@ -101,8 +100,5 @@ public class QueryTest {
                 .and(col(FOO_ID)).eq(2)
                 .or(col(FOO_NAME)).eq("alice")
                 .build();
-
     }
-
-
 }

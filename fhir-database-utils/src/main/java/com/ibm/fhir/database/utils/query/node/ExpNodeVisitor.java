@@ -54,6 +54,8 @@ public interface ExpNodeVisitor<T> {
     T bindMarker(Integer value);
     T bindMarker(String value);
     T bindMarker(Instant value);
+    T bindMarker(BigDecimal value);
+
     /**
      * Process a sub-select statement
      * @param select
@@ -67,11 +69,6 @@ public interface ExpNodeVisitor<T> {
      * @return
      */
     T coalesce(List<ColumnRef> columnRefs);
-    /**
-     * @param value
-     * @return
-     */
-    T bindMarker(BigDecimal value);
 
     /**
      * SQL COS function

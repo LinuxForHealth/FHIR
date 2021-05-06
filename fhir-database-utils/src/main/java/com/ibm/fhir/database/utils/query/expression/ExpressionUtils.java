@@ -31,12 +31,10 @@ import com.ibm.fhir.database.utils.query.node.StringBindMarkerNode;
 public class ExpressionUtils {
 
     /**
-     * Factory function to create a new {@link PredicateAdapter} using the given {@link Predicate}
-     * as the current expression.
-     * @return
+     * Private constructor
      */
-    public static PredicateAdapter predicate() {
-        return new PredicateAdapter();
+    private ExpressionUtils() {
+        // prevent instantiation
     }
 
     public static WhereFragment on(String col) {

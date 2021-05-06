@@ -6,9 +6,8 @@
 
 package com.ibm.fhir.database.utils.query.node;
 
-
 /**
- * Multiplication expression node
+ * Division expression node
  */
 public class DivExpNode extends MultiplicativeExpNode {
 

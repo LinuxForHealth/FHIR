@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019,2021
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,5 +30,13 @@ public class OrderByClause {
         return new StringBuilder("ORDER BY ")
                 .append(items.stream().collect(Collectors.joining(", ")))
                 .toString();
+    }
+
+    /**
+     * Is the order by items list empty
+     * @return
+     */
+    public boolean isEmpty() {
+        return this.items.isEmpty();
     }
 }

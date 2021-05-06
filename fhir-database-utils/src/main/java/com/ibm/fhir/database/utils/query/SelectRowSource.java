@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019,2021
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,7 @@ import com.ibm.fhir.database.utils.query.expression.StatementRenderer;
 import com.ibm.fhir.database.utils.query.expression.StringStatementRenderer;
 
 /**
- * Represents a table referenced in the from list
+ * Represents a sub-query referenced in the from list
  */
 public class SelectRowSource implements RowSource {
 

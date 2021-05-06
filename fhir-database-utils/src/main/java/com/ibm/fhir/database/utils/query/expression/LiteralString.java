@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.database.utils.query.expression;
 
-
 /**
  * Simple container of a String value to make overloading of some methods simpler
  * and more natural

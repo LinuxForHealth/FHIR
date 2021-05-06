@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.database.utils.query;
 
-
 import static com.ibm.fhir.database.utils.query.QueryTest.FOO_ID;
 import static com.ibm.fhir.database.utils.query.QueryTest.FOO_NAME;
 import static com.ibm.fhir.database.utils.query.QueryTest.FOO_TAB;

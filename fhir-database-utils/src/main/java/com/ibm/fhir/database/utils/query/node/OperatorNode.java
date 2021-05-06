@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.database.utils.query.node;
 
-
 /**
  * An expression node which is an operator (as opposed to an operand).
  * Used to facilitate expression parsing

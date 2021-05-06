@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.database.utils.query.expression;
 
-
 /**
  * A reference to a column. Typed to help us distinguish from literal strings
  * when building expressions

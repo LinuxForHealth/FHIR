@@ -7,14 +7,13 @@
 package com.ibm.fhir.database.utils.query.expression;
 
 /**
- * Implements the SQL "NOT" predicate
+ * Implements the SQL "LIKE" predicate
  */
 public class LikePredicate extends BinaryPredicate {
 
     public LikePredicate(Predicate left, Predicate right) {
         super(left, right);
     }
-
 
     @Override
     public <T> T render(StatementRenderer<T> renderer) {

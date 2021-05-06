@@ -21,12 +21,14 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.query.expression.BindMarkerNodeVisitor;
 
 /**
- * Visitor implementation to bind (set) values for a PreparedStatement. The bindXX
- * methods translate any SQLException to a DataAccessException which is unchecked.
- * This avoids polluting callers with SQLException for looser coupling.
+ * Visitor implementation to bind (set) values for a PreparedStatement.
+ * <br>
+ * The bindXX methods translate any SQLException to a DataAccessException
+ * which is unchecked - this avoids polluting callers with SQLException
+ * for looser coupling.
  */
 public class BindVisitor implements BindMarkerNodeVisitor {
-    public static final Calendar UTC = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+    private static final Calendar UTC = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
     private static final Logger logger = Logger.getLogger(BindVisitor.class.getName());
 
     // the statement to bind values to
@@ -136,7 +138,7 @@ public class BindVisitor implements BindMarkerNodeVisitor {
     public void bindDouble(Double value) {
         int idx = parameterIndex++;
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("setDouble(" + idx + ", " + value + ")");
+            logger.fine("bindDouble(" + idx + ", " + value + ")");
         }
 
         try {
@@ -157,7 +159,7 @@ public class BindVisitor implements BindMarkerNodeVisitor {
     public void bindBigDecimal(BigDecimal value) {
         int idx = parameterIndex++;
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("setBigDecimal(" + idx + ", " + value + ")");
+            logger.fine("bindBigDecimal(" + idx + ", " + value + ")");
         }
 
         try {

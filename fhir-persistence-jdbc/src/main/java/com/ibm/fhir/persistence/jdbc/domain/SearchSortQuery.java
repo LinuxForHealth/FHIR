@@ -15,7 +15,7 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
  * Domain model of the FHIR search context representing the query used
  * to perform the search sort operation in the database. This query
  * provides a list of ids ordered by the requested search parameters
- * and these ids are then used in a subsequent fetch query to
+ * and these ids are then used in a subsequent fetch query
  */
 public class SearchSortQuery extends SearchQuery {
     final List<DomainSortParameter> sortParameters = new ArrayList<>();
@@ -45,11 +45,10 @@ public class SearchSortQuery extends SearchQuery {
         return visitor.sortRoot(getRootResourceType());
     }
 
-
     @Override
     public <T> T visit(SearchQueryVisitor<T> visitor) throws FHIRPersistenceException {
 
-        // Special case for the include query because we don't want to wrap
+        // Special case for the sort query because we don't want to wrap
         // and join the xx_RESOURCES table...it is already part of the join.
         T query = getRoot(visitor);
 

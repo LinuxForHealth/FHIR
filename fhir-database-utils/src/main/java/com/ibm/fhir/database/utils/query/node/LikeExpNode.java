@@ -6,9 +6,8 @@
 
 package com.ibm.fhir.database.utils.query.node;
 
-
 /**
- * Represents a <col> LIKE <string-exp> | <bind-var> in a SQL predicate expression
+ * Represents a {col} LIKE {string-exp} | {bind-var} in a SQL predicate expression
  */
 public class LikeExpNode extends BinaryExpNode {
 

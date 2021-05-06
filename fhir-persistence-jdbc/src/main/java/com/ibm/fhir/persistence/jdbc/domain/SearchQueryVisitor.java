@@ -16,20 +16,13 @@ import com.ibm.fhir.search.sort.Sort.Direction;
 
 /**
  * Used by the {@link SearchQuery} domain model to render the model
- * into another form (such as a Select statement.
- *
- * TODO. Might be useful to change the structure slightly and have
- * various methods return a statement (e.g. the exists clause) which
- * can then be passed to another method for aggregation into the
- * larger query. This may be useful in promoting reuse, where the
- * same subquery structure is used in more than one context.
+ * into another form (such as a Select statement).
  */
 public interface SearchQueryVisitor<T> {
 
     /**
      * The root query (select statement) for a count query
      * @param rootResourceType
-     * @param columns
      * @return
      */
     T countRoot(String rootResourceType);
@@ -37,7 +30,6 @@ public interface SearchQueryVisitor<T> {
     /**
      * The root query (select statement) for the data query
      * @param rootResourceType
-     * @param columns
      * @return
      */
     T dataRoot(String rootResourceType);
@@ -67,7 +59,6 @@ public interface SearchQueryVisitor<T> {
      * to assert that the resource has not been deleted, so we keep:
      *   xx_LOGICAL_RESOURCES.IS_DELETED = 'N'
      * @param rootResourceType
-     * @param columns
      * @return
      */
     T includeRoot(String rootResourceType);
@@ -88,17 +79,18 @@ public interface SearchQueryVisitor<T> {
     /**
      * Filter the query using the given parameter id and token value
      * @param query
-     * @param parameterNameId
-     * @param parameterValue
+     * @param resourceType
+     * @param queryParm
      * @return
+     * @throws FHIRPersistenceException
      */
     T addTokenParam(T query, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException;
 
     /**
      * Filter the query using the given string parameter
      * @param query
-     * @param parameterNameId
-     * @param strValue
+     * @param resourceType
+     * @param queryParm
      * @return
      */
     T addStringParam(T query, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException;
@@ -156,8 +148,7 @@ public interface SearchQueryVisitor<T> {
     /**
      * Add a missing (NOT EXISTS) parameter clause to the query
      * @param query
-     * @param rootResourceType
-     * @param code
+     * @param queryParm
      * @param isMissing true if the condition should be that the parameter does not exist
      * @return
      */
@@ -166,7 +157,6 @@ public interface SearchQueryVisitor<T> {
     /**
      * Add a composite query parameter filter to the query
      * @param query
-     * @param resourceType
      * @param queryParm
      * @return
      * @throws FHIRPersistenceException
@@ -197,6 +187,7 @@ public interface SearchQueryVisitor<T> {
     /**
      * Add sorting (order by) to the query
      * @param query
+     * @param lrAlias
      * @return
      */
     T addSorting(T query, String lrAlias);
@@ -212,7 +203,6 @@ public interface SearchQueryVisitor<T> {
      * Add a chain subquery element as part of a chained parameter search
      * @param currentSubQuery
      * @param currentParm
-     * @param aliasIndex
      * @return
      */
     T addChained(T currentSubQuery, QueryParameter currentParm) throws FHIRPersistenceException;
@@ -221,7 +211,6 @@ public interface SearchQueryVisitor<T> {
      * Add a reverse chain subquery element as part of a chained parameter search
      * @param currentSubQuery
      * @param currentParm
-     * @param aliasIndex
      * @return
      */
     T addReverseChained(T currentSubQuery, QueryParameter currentParm) throws FHIRPersistenceException;
@@ -231,7 +220,6 @@ public interface SearchQueryVisitor<T> {
      * the last element of the chain.
      * @param currentSubQuery
      * @param currentParm
-     * @param aliasIndex
      */
     void addFilter(T currentSubQuery, QueryParameter currentParm) throws FHIRPersistenceException;
 
@@ -245,15 +233,15 @@ public interface SearchQueryVisitor<T> {
     /**
      * @param query
      * @param inclusionParm
-     * @param ids
+     * @param logicalResourceIds
      * @return
      */
-    T addIncludeFilter(T query, InclusionParameter inclusionParm, List<Long> logicalResourceids) throws FHIRPersistenceException;
+    T addIncludeFilter(T query, InclusionParameter inclusionParm, List<Long> logicalResourceIds) throws FHIRPersistenceException;
 
     /**
      * @param query
      * @param inclusionParm
-     * @param ids
+     * @param logicalResourceIds
      * @return
      */
     T addRevIncludeFilter(T query, InclusionParameter inclusionParm, List<Long> logicalResourceIds) throws FHIRPersistenceException;

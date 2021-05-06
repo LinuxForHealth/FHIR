@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -129,6 +129,16 @@ public interface ResourceDAO extends FHIRDbDAO {
      * @throws FHIRPersistenceDBConnectException
      */
     List<Long> searchForIds(SqlQueryData  queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
+
+    /**
+     * This method supports the execution of a specialized query designed to return Resource ids, based on the contents
+     * of the passed select statement.
+     * Note that the first column to be selected MUST be the Resource.id column.
+     * @param dataQuery
+     * @return
+     * @throws FHIRPersistenceDataAccessException
+     * @throws FHIRPersistenceDBConnectException
+     */
     List<Long> searchForIds(Select  dataQuery) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
 
     /**
@@ -152,7 +162,7 @@ public interface ResourceDAO extends FHIRDbDAO {
 
     /**
      * Executes a count query based on the data contained in the passed {@link Select} statement, using its encapsulated search string and bind variables.
-     * @param queryData - Contains a search string and (optionally) bind variables.
+     * @param countQuery - Contains a search string and (optionally) bind variables.
      * @return int A count of FHIR Resources satisfying the passed search.
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException

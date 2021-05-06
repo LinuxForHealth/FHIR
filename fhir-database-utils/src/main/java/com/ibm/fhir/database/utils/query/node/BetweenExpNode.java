@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.database.utils.query.node;
 
-
 /**
  * Addition node
  */
@@ -21,7 +20,6 @@ public class BetweenExpNode extends BinaryExpNode {
 
     @Override
     public int precedence() {
-        // TODO Auto-generated method stub
         return 6;
     }
 }

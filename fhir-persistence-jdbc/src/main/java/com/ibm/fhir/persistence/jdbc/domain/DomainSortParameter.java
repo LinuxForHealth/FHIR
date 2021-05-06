@@ -18,12 +18,17 @@ public class DomainSortParameter {
     // The SortParameter we are wrapping
     private final SortParameter sortParameter;
 
+    /**
+     * Public constructor
+     * @param sp
+     */
     public DomainSortParameter(SortParameter sp) {
         this.sortParameter = sp;
     }
 
     /**
      * Visitor to apply the sort parameter to the query builder represented by the visitor
+     * @param queryData
      * @param visitor
      */
     public <T> void visit(T queryData, SearchQueryVisitor<T> visitor) throws FHIRPersistenceException {

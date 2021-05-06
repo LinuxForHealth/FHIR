@@ -91,7 +91,8 @@ public class PredicateParser {
         } else {
             StringBuilder msg = new StringBuilder();
             msg.append("Invalid expression - parse failed.")
-            .append(NEWLINE).append("Current state:").append(NEWLINE).append(parserState());
+                .append(NEWLINE).append("Current state:")
+                .append(NEWLINE).append(parserState());
             logger.severe(msg.toString());
             throw new IllegalStateException("Invalid expression");
         }

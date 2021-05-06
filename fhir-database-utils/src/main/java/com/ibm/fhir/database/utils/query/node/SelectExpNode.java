@@ -10,9 +10,8 @@ import java.util.Stack;
 
 import com.ibm.fhir.database.utils.query.Select;
 
-
 /**
- *
+ * Wraps a Select statement in an expression tree
  */
 public class SelectExpNode implements ExpNode {
     // The select statement we are wrapping (this is a subquery)
