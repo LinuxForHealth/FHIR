@@ -8,6 +8,8 @@ package com.ibm.fhir.validation;
 
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.path.util.FHIRPathUtil.evaluatesToBoolean;
+import static com.ibm.fhir.path.util.FHIRPathUtil.getResourceNode;
+import static com.ibm.fhir.path.util.FHIRPathUtil.getRootResourceNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isFalse;
 import static com.ibm.fhir.path.util.FHIRPathUtil.singleton;
 import static com.ibm.fhir.profile.ProfileSupport.createConstraint;
@@ -25,7 +27,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.model.annotation.Constraint;
-import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.StructureDefinition;
@@ -341,8 +342,8 @@ public class FHIRValidator {
                 IssueSeverity severity = Constraint.LEVEL_WARNING.equals(constraint.level()) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
 
                 for (FHIRPathNode contextNode : initialContext) {
-                    evaluationContext.setExternalConstant("rootResource", getRootResourceNode(contextNode));
-                    evaluationContext.setExternalConstant("resource", getResourceNode(contextNode));
+                    evaluationContext.setExternalConstant("rootResource", getRootResourceNode(evaluationContext.getTree(), contextNode));
+                    evaluationContext.setExternalConstant("resource", getResourceNode(evaluationContext.getTree(), contextNode));
                     Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, constraint.expression(), singleton(contextNode));
                     issues.addAll(evaluationContext.getIssues());
                     evaluationContext.clearIssues();
@@ -360,82 +361,6 @@ public class FHIRValidator {
                     " with location: " + constraint.location() + " and expression: " + constraint.expression() +
                     " at path: " + path, e);
             }
-        }
-
-        /**
-         * Get the resource node to use as a value for the %resource external constant.
-         *
-         * @param node
-         *     the context node
-         * @return
-         *     the resource node
-         */
-        private FHIRPathResourceNode getResourceNode(FHIRPathNode node) {
-            // get resource node ancestors for the context node
-            List<FHIRPathResourceNode> resourceNodes = getResourceNodes(node);
-
-            // return nearest resource node ancestor
-            return resourceNodes.get(0);
-        }
-
-        /**
-         * Get the resource node to use as a value for the %rootResource external constant.
-         *
-         * @param node
-         *     the context node
-         * @return
-         *     the rootResource node
-         */
-        private FHIRPathResourceNode getRootResourceNode(FHIRPathNode node) {
-            // get resource node ancestors for the context node
-            List<FHIRPathResourceNode> resourceNodes = getResourceNodes(node);
-            if (isContained(resourceNodes)) {
-                return resourceNodes.get(1);
-            } else {
-                return resourceNodes.get(0);
-            }
-        }
-
-        /**
-         * Determine whether the list of resource node ancestors indicates containment within a domain resource.
-         *
-         * @param resourceNodes
-         *     the list of resource node ancestors
-         * @return
-         *     true if there is containment, false otherwise
-         */
-        private boolean isContained(List<FHIRPathResourceNode> resourceNodes) {
-            return resourceNodes.size() > 1 && resourceNodes.get(1).resource().is(DomainResource.class);
-        }
-
-        /**
-         * Get the list of resource nodes in the path of the given context node (including the context node itself).
-         * The ancestors are ordered from node to root (i.e. the node at index 0 is either the current node or
-         * the nearest resource node ancestor).
-         *
-         * @param node
-         *     the context node
-         * @return
-         *     the list of resource node ancestors
-         */
-        private List<FHIRPathResourceNode> getResourceNodes(FHIRPathNode node) {
-            List<FHIRPathResourceNode> resourceNodes = new ArrayList<>();
-
-            if (node.isResourceNode()) {
-                resourceNodes.add(node.asResourceNode());
-            }
-
-            String path = node.path();
-            int index = path.lastIndexOf(".");
-            while (index != -1) {
-                path = path.substring(0, index);
-                node = evaluationContext.getTree().getNode(path);
-                if (node.isResourceNode()) {
-                    resourceNodes.add(node.asResourceNode());
-                }
-                index = path.lastIndexOf(".");
-            }
-            return resourceNodes;
         }
     }
 }
