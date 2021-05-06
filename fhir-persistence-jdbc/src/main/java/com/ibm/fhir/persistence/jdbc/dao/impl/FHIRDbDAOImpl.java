@@ -277,8 +277,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             if (resultSet.next()) {
                 rowCount = resultSet.getInt(1);
                 if (log.isLoggable(Level.FINE)) {
-                    log.fine("Successfully retrieved count; searchArgs="
-                            + Arrays.toString(searchArgs) + NEWLINE + "  count=" + rowCount + " [took "
+                    log.fine("Successfully retrieved count; count=" + rowCount + " [took "
                             + dbCallDuration + " ms]");
                 }
             } else {
@@ -306,8 +305,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
      * Creates and executes a PreparedStatement for the passed sql containing a 'SELECT COUNT...'.
      * The count value is extracted from the ResultSet and returned as an int.
      *
-     * @param sql        - The SQL SELECT COUNT template to execute.
-     * @param searchArgs - An array of arguments to be substituted into the SQL template.
+     * @param countQuery - The SQL SELECT COUNT statement and bind variables to execute.
      * @return int - The count of results returned by the SQL query.
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException

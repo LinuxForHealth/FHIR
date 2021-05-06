@@ -6,15 +6,10 @@
 
 package com.ibm.fhir.persistence.jdbc.util;
 
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.BIND_VAR;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMMA;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DOT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LIKE;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LOGICAL_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.modifierOperatorMap;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -55,9 +50,7 @@ import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.location.util.LocationUtil;
 import com.ibm.fhir.search.parameters.InclusionParameter;
 import com.ibm.fhir.search.parameters.QueryParameter;
-import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.parameters.SortParameter;
-import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * This is the JDBC implementation of a query builder for the IBM FHIR Server
@@ -115,10 +108,6 @@ public class NewQueryBuilder {
     // Hints to use for certain queries
     private final QueryHints queryHints;
 
-    // Table aliases
-    private static final String LR = "LR";
-
-
     /**
      * Public constructor
      * @param parameterDao
@@ -146,7 +135,7 @@ public class NewQueryBuilder {
      *                      - The type of resource being searched for.
      * @param searchContext
      *                      - The search context containing the search parameters.
-     * @return String - A count query SQL string
+     * @return String - A count query SQL statement
      * @throws Exception
      */
     public Select buildCountQuery(Class<?> resourceType, FHIRSearchContext searchContext) throws Exception {
@@ -237,13 +226,7 @@ public class NewQueryBuilder {
         }
 
         // Start building a query model to fetch resources of the type we want to include
-        final SearchQuery domainModel;
-        if (SearchConstants.INCLUDE.equals(inclusionType)) {
-            // _include needs a different base in order to support versioned references
-            domainModel = new SearchIncludeQuery(includeResourceType);
-        } else {
-            domainModel = new SearchIncludeQuery(includeResourceType);
-        }
+        final SearchQuery domainModel = new SearchIncludeQuery(includeResourceType);
         buildIncludeModel(domainModel, resourceType, searchContext, inclusionParm, logicalResourceIds, inclusionType);
 
         // Be careful - we need to override the searchContext here, because we don't want
@@ -261,11 +244,9 @@ public class NewQueryBuilder {
             searchContext.setPageNumber(pageNumber);
         }
 
-
         log.exiting(CLASSNAME, METHODNAME);
         return result;
     }
-
 
     /**
      * Build the include query used to fetch additional resources for _include
@@ -274,7 +255,7 @@ public class NewQueryBuilder {
      * @param resourceType
      * @param searchContext
      * @param inclusionParm
-     * @param ids
+     * @param logicalResourceIds
      * @param inclusionType
      */
     private void buildIncludeModel(SearchQuery domainModel, Class<?> resourceType, FHIRSearchContext searchContext, InclusionParameter inclusionParm,
@@ -296,8 +277,6 @@ public class NewQueryBuilder {
      *                      The type of FHIR resource being searched for.
      * @param searchContext
      *                      The search context containing search parameters.
-     * @return QuerySegmentAggregator - A query builder helper containing processed
-     *         query segments.
      * @throws Exception
      */
     private void buildModelCommon(SearchQuery domainModel, Class<?> resourceType, FHIRSearchContext searchContext)
@@ -341,7 +320,8 @@ public class NewQueryBuilder {
      * Process the given queryParameter and add the relevant artifacts to the
      * domain model (precursor to actually building the query)
      * @param domainModel
-     * @param queryParameter
+     * @param resourceType
+     * @param queryParm
      */
     private void processQueryParameter(SearchQuery domainModel, Class<?> resourceType, QueryParameter queryParm) throws Exception {
         final String METHODNAME = "processQueryParameter";
@@ -466,64 +446,5 @@ public class NewQueryBuilder {
 
         log.exiting(CLASSNAME, METHODNAME, operator);
         return operator;
-    }
-
-    /*
-     * Builds the specific handling for exact matches on _id.
-     * The procedure here is SIMILAR to that of QuerySegmentAggregator.processFromClauseForId
-     *
-     * Results in a query like: CP1.LOGICAL_ID IN (?)
-     */
-    private SqlQueryData buildChainedIdClause(QueryParameter currentParm, String chainedParmVar) {
-        StringBuilder whereClauseSegment = new StringBuilder();
-        List<Object> bindVariables = new ArrayList<>();
-
-        whereClauseSegment
-            .append(chainedParmVar.replace("CP", "CLR")).append(DOT).append(LOGICAL_ID).append(" IN (");
-
-        List<QueryParameterValue> vals = currentParm.getValues();
-        boolean add = false;
-        for (QueryParameterValue v : vals) {
-            if (add) {
-                whereClauseSegment.append(COMMA);
-            } else {
-                add = true;
-            }
-            whereClauseSegment.append(BIND_VAR);
-            bindVariables.add(SqlParameterEncoder.encode(v.getValueCode()));
-        }
-        whereClauseSegment.append(") ");
-
-        return new SqlQueryData(whereClauseSegment.toString(), bindVariables);
-    }
-
-    /**
-     * This method handles the special case of chained inclusion criteria. Using
-     * data extracted from the passed query
-     * parameter, a new Parameter chain is built to represent the chained inclusion
-     * criteria. That new Parameter is then
-     * passed to the inherited processChainedReferenceParamter() method to generate
-     * the required where clause segment.
-     *
-     * @see https://www.hl7.org/fhir/compartments.html
-     * @param queryParm
-     *                  - A Parameter representing chained inclusion criterion.
-     * @return SqlQueryData - the where clause segment and bind variables for a
-     *         chained inclusion criterion.
-     * @throws Exception
-     */
-    private void processChainedInclusionCriteria(SearchQuery domainModel, QueryParameter queryParm) throws Exception {
-        final String METHODNAME = "processChainedInclusionCriteria";
-        log.entering(CLASSNAME, METHODNAME, queryParm.toString());
-
-        QueryParameter rootParameter = null;
-        // TODO chained inclusions are done as a separate query
-        // Transform the passed query parm into a chained parameter representation.
-        rootParameter = SearchUtil.parseChainedInclusionCriteria(queryParm);
-        // Call method to process the Parameter built by this method as a chained parameter.
-        // processChainedReferenceParm(domainModel, rootParameter);
-
-        log.exiting(CLASSNAME, METHODNAME);
-
     }
 }

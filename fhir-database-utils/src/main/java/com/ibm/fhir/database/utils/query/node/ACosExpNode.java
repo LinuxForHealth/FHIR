@@ -8,9 +8,8 @@ package com.ibm.fhir.database.utils.query.node;
 
 import java.util.Stack;
 
-
 /**
- * The COS SQL function
+ * The ACOS SQL function
  */
 public class ACosExpNode implements ExpNode {
     private final ExpNode arg;

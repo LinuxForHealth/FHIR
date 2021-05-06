@@ -9,7 +9,7 @@ package com.ibm.fhir.database.utils.query.node;
 import com.ibm.fhir.database.utils.query.expression.BindMarkerNodeVisitor;
 
 /**
- * A bind marker representing a Long value
+ * A bind marker representing a nullable Long value
  */
 public class LongBindMarkerNode extends BindMarkerNode {
     // The Long value (can be null)

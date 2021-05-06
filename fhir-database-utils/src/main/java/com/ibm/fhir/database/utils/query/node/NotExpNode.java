@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.database.utils.query.node;
 
-
 /**
  * Represents a NOT <bool-exp> in a SQL predicate expression
  */

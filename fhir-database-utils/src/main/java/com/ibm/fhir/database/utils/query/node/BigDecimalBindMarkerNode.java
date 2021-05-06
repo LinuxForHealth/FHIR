@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import com.ibm.fhir.database.utils.query.expression.BindMarkerNodeVisitor;
 
 /**
- * A bind marker representing a Long value
+ * A bind marker representing a BigDecimal value
  */
 public class BigDecimalBindMarkerNode extends BindMarkerNode {
     // The BigDecimal value (can be null)

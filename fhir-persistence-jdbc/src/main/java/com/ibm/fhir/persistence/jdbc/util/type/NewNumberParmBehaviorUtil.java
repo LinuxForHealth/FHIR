@@ -39,6 +39,13 @@ public class NewNumberParmBehaviorUtil {
         // No operation
     }
 
+    /**
+     * Add the filter predicate logic to the given whereClauseSegment
+     * @param whereClauseSegment
+     * @param queryParm
+     * @param tableAlias
+     * @throws FHIRPersistenceException
+     */
     public static void executeBehavior(WhereFragment whereClauseSegment, QueryParameter queryParm,
             String tableAlias)
             throws FHIRPersistenceException {
@@ -79,10 +86,9 @@ public class NewNumberParmBehaviorUtil {
      * Append the condition and bind the variables according to the semantics of the
      * passed prefix
      * adds the value to the whereClause.
-     *
      * @param whereClauseSegment
-     * @param bindVariables
      * @param tableAlias
+     * @param columnBase
      * @param prefix
      * @param value
      */
@@ -160,19 +166,17 @@ public class NewNumberParmBehaviorUtil {
      * circuits double matches.
      * If one exists, great, we'll return it, else we'll peek at the other column.
      * <br>
-     *
      * @param whereClauseSegment
-     * @param bindVariables
      * @param tableAlias
      * @param columnName
      * @param columnNameLowOrHigh
      * @param operator
      * @param value
+     * @param bound
      */
     public static void buildCommonClause(WhereFragment whereClauseSegment, String tableAlias,
             String columnName, String columnNameLowOrHigh, String operator, BigDecimal value, BigDecimal bound) {
 
-        // TODO get operator from string
         Operator op = OperatorUtil.convert(operator);
         whereClauseSegment.leftParen();
         whereClauseSegment.col(tableAlias, columnName).operator(op).bind(value);
@@ -183,14 +187,13 @@ public class NewNumberParmBehaviorUtil {
 
     /**
      * the build eb or sa clause considers only _VALUE_LOW and _VALUE_HIGH
-     *
      * @param whereClauseSegment
-     * @param bindVariables
      * @param tableAlias
      * @param columnName
      * @param columnNameLowOrHigh
      * @param operator
      * @param value
+     * @param bound
      */
     public static void buildEbOrSaClause(WhereFragment whereClauseSegment, String tableAlias,
             String columnName, String columnNameLowOrHigh, String operator, BigDecimal value, BigDecimal bound) {
@@ -199,6 +202,14 @@ public class NewNumberParmBehaviorUtil {
         whereClauseSegment.col(tableAlias, columnNameLowOrHigh).operator(op).bind(value);
     }
 
+    /**
+     * Add the equals range clause to the given whereClauseSegment
+     * @param whereClauseSegment
+     * @param tableAlias
+     * @param columnBase
+     * @param lowerBound
+     * @param upperBound
+     */
     public static void buildEqualsRangeClause(WhereFragment whereClauseSegment, String tableAlias,
            String columnBase, BigDecimal lowerBound, BigDecimal upperBound) {
 
@@ -213,6 +224,15 @@ public class NewNumberParmBehaviorUtil {
         whereClauseSegment.rightParen();
     }
 
+    /**
+     * Add the approx range clause to the given whereClauseSegment
+     * @param whereClauseSegment
+     * @param tableAlias
+     * @param columnBase
+     * @param lowerBound
+     * @param upperBound
+     * @param value
+     */
     public static void buildApproxRangeClause(WhereFragment whereClauseSegment, String tableAlias,
             String columnBase, BigDecimal lowerBound, BigDecimal upperBound, BigDecimal value) {
         BigDecimal factor = value.multiply(FACTOR);
@@ -228,6 +248,14 @@ public class NewNumberParmBehaviorUtil {
         whereClauseSegment.rightParen();
     }
 
+    /**
+     * Add the not-equals range clause to the given whereClauseSegment
+     * @param whereClauseSegment
+     * @param tableAlias
+     * @param columnBase
+     * @param lowerBound
+     * @param upperBound
+     */
     public static void buildNotEqualsRangeClause(WhereFragment whereClauseSegment, String tableAlias,
             String columnBase, BigDecimal lowerBound, BigDecimal upperBound) {
 
@@ -242,11 +270,21 @@ public class NewNumberParmBehaviorUtil {
         whereClauseSegment.rightParen();
     }
 
+    /**
+     * Generate the lower bound for the given value
+     * @param original
+     * @return
+     */
     public static BigDecimal generateLowerBound(BigDecimal original) {
         BigDecimal scaleFactor = new BigDecimal("5e" + -1 * (original.scale() + 1));
         return original.subtract(scaleFactor);
     }
 
+    /**
+     * Generate the upper bound for the given value
+     * @param original
+     * @return
+     */
     public static BigDecimal generateUpperBound(BigDecimal original) {
         BigDecimal scaleFactor = new BigDecimal("5e" + -1 * (original.scale() + 1));
         return original.add(scaleFactor);

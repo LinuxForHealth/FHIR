@@ -9,7 +9,7 @@ package com.ibm.fhir.database.utils.query.node;
 import java.util.Stack;
 
 /**
- * A binary expression for addition, multiplication, comparison etc
+ * A unary expression
  */
 public abstract class UnaryExpNode extends OperatorNode {
 
@@ -31,13 +31,14 @@ public abstract class UnaryExpNode extends OperatorNode {
     }
 
     /**
-     * @return the left
+     * @return the expr
      */
     public ExpNode getExpr() {
         return this.expr;
     }
+
     /**
-     * @param left the left to set
+     * @param expr the expr to set
      */
     public void setExpr(ExpNode expr) {
         this.expr = expr;
@@ -51,13 +52,6 @@ public abstract class UnaryExpNode extends OperatorNode {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder();
-        if (this.expr != null) {
-            result.append(expr.toString());
-        } else {
-            result.append("~");
-        }
-
-        return result.toString();
+        return expr != null ? expr.toString() : "~";
     }
 }

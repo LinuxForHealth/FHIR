@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019,2021
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -47,17 +47,27 @@ public class FromAdapter {
         return this;
     }
 
+    /**
+     * Add an INNER JOIN for the given table
+     * @param tableName
+     * @param alias
+     * @param joinOnPredicate
+     * @return
+     */
     public FromAdapter innerJoin(String tableName, Alias alias, WhereFragment joinOnPredicate) {
         this.select.addInnerJoin(tableName, alias, joinOnPredicate.getExpression());
         return this;
     }
 
+    /**
+     * Add a LEFT OUTER JOIN for the given table
+     * @param tableName
+     * @param alias
+     * @param joinOnPredicate
+     * @return
+     */
     public FromAdapter leftOuterJoin(String tableName, Alias alias, WhereFragment joinOnPredicate) {
         this.select.addLeftOuterJoin(tableName, alias, joinOnPredicate.getExpression());
-        return this;
-    }
-
-    public FromAdapter innerJoin(Select subQuery, Alias alias) {
         return this;
     }
 
@@ -72,7 +82,7 @@ public class FromAdapter {
     }
 
     /**
-     * Starts building a WHERE clause with the tableAlias/columnName
+     * Starts building a WHERE clause with the {tableAlias}.{columnName}
      * @param tableAlias
      * @param columnName
      * @return

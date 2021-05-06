@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.persistence.jdbc.domain;
 
-
 /**
  * A domain model of the query used to count the number of resources
  * matching a particular search context. The purpose of this class

@@ -6,9 +6,8 @@
 
 package com.ibm.fhir.database.utils.query.node;
 
-
 /**
- * A literal Long
+ * A literal Long. Nullable
  */
 public class LongExpNode extends LiteralExpNode {
     private final Long value;
@@ -28,13 +27,6 @@ public class LongExpNode extends LiteralExpNode {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder();
-        if (this.value != null) {
-            result.append(value);
-        } else {
-            result.append("~");
-        }
-
-        return result.toString();
+        return value != null ? value.toString() : "~";
     }
 }

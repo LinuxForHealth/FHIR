@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019,2021
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,12 +9,16 @@ package com.ibm.fhir.database.utils.query;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 
 /**
- * The OrderByClause SQL definition
+ * The pagination clause SQL definition
+ *   OFFSET {x} LIMIT {y}
+ * or other database-specific equivalent
  */
 public class PaginationClause {
 
+    // The row offset value
     private final int offset;
 
+    // The row limit value
     private final int rowsPerPage;
 
     public PaginationClause(int offset, int rowsPerPage) {
@@ -28,7 +32,7 @@ public class PaginationClause {
 
     @Override
     public String toString() {
-        // Just a string for info purposes
-        return "OFFSET" + this.offset + " LIMIT " + this.rowsPerPage;
+        // Just a string for info purposes (debugging)
+        return "OFFSET " + this.offset + " LIMIT " + this.rowsPerPage;
     }
 }

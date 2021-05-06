@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.database.utils.query.node;
 
-
 /**
  * Represents an EXISTS (<select>) clause in a SQL predicate expression
  */

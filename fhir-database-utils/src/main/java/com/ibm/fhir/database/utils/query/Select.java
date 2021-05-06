@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019,2021
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,7 +27,8 @@ public class Select {
     // The fields, expressions we are selecting
     private final SelectList selectList = new SelectList();
 
-    private boolean distinct;
+    // If true, prefixes DISTINCT to the select list: SELECT DISTINCT a, b, c, ... FROM
+    private final boolean distinct;
 
     // Encapsulated the tables, views, subqueries and joins being selected from
     private final FromClause fromClause = new FromClause();
@@ -51,6 +52,7 @@ public class Select {
      * Default constructor. Not a DISTINCT select.
      */
     protected Select() {
+        this.distinct = false;
     }
 
     /**
@@ -64,13 +66,19 @@ public class Select {
     /**
      * Factory to create a new instance of the builder needed to create this
      * statement
-     *
+     * @param columns
      * @return
      */
     public static SelectAdapter select(String... columns) {
         return new SelectAdapter(columns);
     }
 
+    /**
+     * Factory to start building a SELECT DISTINCT statement
+     * @param distinct
+     * @param columns
+     * @return
+     */
     public static SelectAdapter select(boolean distinct, String... columns) {
         return new SelectAdapter(distinct, columns);
     }
@@ -86,43 +94,88 @@ public class Select {
         }
     }
 
+    /**
+     * Add a single column to the select list
+     * @param source
+     * @param name
+     */
     public void addColumn(String source, String name) {
         selectList.addColumn(source, name);
     }
 
+    /**
+     * Add a single column to the select list, providing an alias for the column
+     * @param source
+     * @param name
+     * @param alias
+     */
     public void addColumn(String source, String name, Alias alias) {
         selectList.addColumn(source, name, alias);
     }
 
+    /**
+     * Add a table item to the from-clause
+     * @param schemaName
+     * @param tableName
+     */
     public void addTable(String schemaName, String tableName) {
         fromClause.addTable(schemaName, tableName);
     }
 
+    /**
+     * Add a table item with an alias to the from-clause
+     * @param tableName
+     * @param alias
+     */
     public void addTable(String tableName, Alias alias) {
         fromClause.addTable(tableName, alias);
     }
 
+    /**
+     * Add a table item to the from-clause
+     * @param tableName
+     */
     public void addTable(String tableName) {
         fromClause.addTable(tableName);
     }
 
+    /**
+     * Add a schema-qualified table item with an alias to the from clause
+     * @param schemaName
+     * @param tableName
+     * @param alias
+     */
     public void addTable(String schemaName, String tableName, Alias alias) {
         fromClause.addTable(schemaName, tableName, alias);
     }
 
+    /**
+     * Add a sub-select statement with an alias to the from-clause
+     * @param sub
+     * @param alias
+     */
     public void addFrom(Select sub, Alias alias) {
         fromClause.addFrom(sub, alias);
     }
 
+    /**
+     * Set the where-clause for this statement
+     * @param wc
+     */
     public void setWhereClause(WhereClause wc) {
         this.whereClause = wc;
     }
 
+    /**
+     * Set the group-by-clause for this statement
+     * @param gb
+     */
     public void setGroupByClause(GroupByClause gb) {
         this.groupByClause = gb;
     }
 
     /**
+     * Add a predicate to the HAVING clause for this statement
      * @param predicate
      */
     public void addHavingPredicate(String predicate) {
@@ -149,15 +202,15 @@ public class Select {
             result.append(SPACE).append(this.whereClause.toString());
         }
 
-        if (this.groupByClause != null) {
+        if (this.groupByClause != null && !this.groupByClause.isEmpty()) {
             result.append(SPACE).append(this.groupByClause.toString());
         }
 
-        if (this.havingClause != null) {
+        if (this.havingClause != null && !this.havingClause.isEmpty()) {
             result.append(SPACE).append(this.havingClause.toString());
         }
 
-        if (this.orderByClause != null) {
+        if (this.orderByClause != null && !this.orderByClause.isEmpty()) {
             result.append(SPACE).append(this.orderByClause.toString());
         }
 
@@ -172,7 +225,7 @@ public class Select {
      * A string representation of the query with the bind variables substituted
      * in place which is handy for debugging - but not to be used for actual
      * execution.
-     * @return the query string starting XELECT instead of SELECT
+     * @return the query string
      */
     public String toDebugString() {
 

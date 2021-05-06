@@ -39,10 +39,10 @@ public class FromJoin extends FromItem {
 
     /**
      * Protected constructor
-     *
      * @param joinType
      * @param rowSource
      * @param alias
+     * @param joinOnPredicate
      */
     protected FromJoin(JoinType joinType, RowSource rowSource, Alias alias, ExpNode joinOnPredicate) {
         super(rowSource, alias);
@@ -52,9 +52,9 @@ public class FromJoin extends FromItem {
 
     /**
      * Protected constructor for a join which doesn't include an alias
-     *
      * @param joinType
      * @param rowSource
+     * @param joinOnPredicate
      */
     protected FromJoin(JoinType joinType, RowSource rowSource, ExpNode joinOnPredicate) {
         super(rowSource, null);
@@ -90,6 +90,7 @@ public class FromJoin extends FromItem {
         return result.toString();
     }
 
+    @Override
     public <T> T render(StatementRenderer<T> renderer) {
         T joinFromValue = super.render(renderer);
         T joinOnValue = renderer.render(this.joinOnPredicate);

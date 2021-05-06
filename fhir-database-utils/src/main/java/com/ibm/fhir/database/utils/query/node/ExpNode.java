@@ -9,7 +9,7 @@ package com.ibm.fhir.database.utils.query.node;
 import java.util.Stack;
 
 /**
- * A node in the expression tree (for building SQL predicate statements
+ * A node in the expression tree for building SQL predicate statements
  */
 public interface ExpNode {
 
@@ -32,7 +32,7 @@ public interface ExpNode {
      * Is this expression node an operator
      * @return
      */
-    default boolean isOperator() {return false; }
+    default boolean isOperator() { return false; }
 
     /**
      * Is this expression node an operand

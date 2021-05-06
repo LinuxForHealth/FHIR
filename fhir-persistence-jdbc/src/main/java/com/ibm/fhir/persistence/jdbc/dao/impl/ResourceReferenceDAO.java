@@ -429,7 +429,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
 
     @Override
     public List<Long> readCommonTokenValueIdList(String tokenValue) {
-        List<Long> result = new ArrayList<>();
+        final List<Long> result = new ArrayList<>();
         final String SQL = ""
                 + "SELECT c.common_token_value_id "
                 + "  FROM common_token_values c "

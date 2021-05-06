@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.database.utils.query.node;
 
-
 /**
  * Subtraction expression node
  */

@@ -26,6 +26,18 @@ public class GroupByClause {
 
     @Override
     public String toString() {
-        return "GROUP BY " + items.stream().collect(Collectors.joining(", "));
+        if (isEmpty()) {
+            return "";
+        } else {
+            return "GROUP BY " + items.stream().collect(Collectors.joining(", "));
+        }
+    }
+
+    /**
+     * check if the list of items is empty
+     * @return
+     */
+    public boolean isEmpty() {
+        return this.items.isEmpty();
     }
 }

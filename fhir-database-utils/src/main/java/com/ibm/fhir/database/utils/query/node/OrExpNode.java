@@ -6,9 +6,8 @@
 
 package com.ibm.fhir.database.utils.query.node;
 
-
 /**
- * Addition node
+ * OR expression node
  */
 public class OrExpNode extends BinaryExpNode {
 

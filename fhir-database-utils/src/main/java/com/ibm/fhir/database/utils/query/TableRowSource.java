@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019,2021
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,9 @@ import com.ibm.fhir.database.utils.query.expression.StatementRenderer;
 
 /**
  * Represents a table referenced in the from list
+ *   FROM foo
+ *   or
+ *   FROM bar.foo
  */
 public class TableRowSource implements RowSource {
     // optional schema name

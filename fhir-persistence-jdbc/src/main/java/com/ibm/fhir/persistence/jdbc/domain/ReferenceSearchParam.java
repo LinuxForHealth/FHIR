@@ -10,13 +10,15 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.search.parameters.QueryParameter;
 
 /**
- * A token search parameter
+ * A reference search parameter
  */
 public class ReferenceSearchParam extends SearchParam {
 
     /**
      * Public constructor
+     * @param rootResourceType
      * @param name
+     * @param queryParameter
      */
     public ReferenceSearchParam(String rootResourceType, String name, QueryParameter queryParameter) {
         super(rootResourceType, name, queryParameter);

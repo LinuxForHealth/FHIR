@@ -9,7 +9,7 @@ package com.ibm.fhir.database.utils.query.node;
 import java.util.Stack;
 
 /**
- * An expression contained within parens
+ * Represents a right paren when parsing an expression
  */
 public class RightParenExpNode implements ExpNode {
 

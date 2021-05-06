@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.database.utils.query.node;
 
-
 /**
  * Represents IS NOT NULL in a SQL expression
  */

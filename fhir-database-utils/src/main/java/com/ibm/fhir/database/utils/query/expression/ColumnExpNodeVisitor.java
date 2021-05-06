@@ -17,7 +17,6 @@ import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.database.utils.query.node.ExpNodeVisitor;
 
-
 /**
  * Renders the expression node tree into a string
  */

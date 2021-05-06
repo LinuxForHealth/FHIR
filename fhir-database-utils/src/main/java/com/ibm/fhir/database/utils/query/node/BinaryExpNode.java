@@ -16,24 +16,28 @@ public abstract class BinaryExpNode extends OperatorNode {
     // left <OP> right
     private ExpNode left;
     private ExpNode right;
+
     /**
      * @return the left
      */
     public ExpNode getLeft() {
         return left;
     }
+
     /**
      * @param left the left to set
      */
     public void setLeft(ExpNode left) {
         this.left = left;
     }
+
     /**
      * @return the right
      */
     public ExpNode getRight() {
         return right;
     }
+
     /**
      * @param right the right to set
      */
@@ -54,7 +58,7 @@ public abstract class BinaryExpNode extends OperatorNode {
         if (this.left != null) {
             result.append(left.toString());
         } else {
-            result.append("~");
+            result.append("~"); // null value
         }
 
         result.append(", ");
@@ -62,7 +66,7 @@ public abstract class BinaryExpNode extends OperatorNode {
         if (this.right != null) {
             result.append(right.toString());
         } else {
-            result.append("~");
+            result.append("~"); // null value
         }
 
         return result.toString();

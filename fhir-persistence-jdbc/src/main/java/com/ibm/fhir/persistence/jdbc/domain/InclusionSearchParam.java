@@ -6,8 +6,6 @@
 
 package com.ibm.fhir.persistence.jdbc.domain;
 
-import java.util.logging.Logger;
-
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.search.parameters.QueryParameter;
 
@@ -15,12 +13,12 @@ import com.ibm.fhir.search.parameters.QueryParameter;
  * An inclusion search parameter
  */
 public class InclusionSearchParam extends SearchParam {
-    private static final String CLASSNAME = TokenSearchParam.class.getName();
-    private static final Logger log = Logger.getLogger(CLASSNAME);
 
     /**
      * Public constructor
+     * @param rootResourceType
      * @param name
+     * @param queryParameter
      */
     public InclusionSearchParam(String rootResourceName, String name, QueryParameter queryParameter) {
         super(rootResourceName, name, queryParameter);
@@ -28,11 +26,7 @@ public class InclusionSearchParam extends SearchParam {
 
     @Override
     public <T> T visit(T queryData, SearchQueryVisitor<T> visitor) throws FHIRPersistenceException {
-
         QueryParameter queryParm = getQueryParameter();
-        final String METHODNAME = "visit";
-        log.entering(CLASSNAME, METHODNAME, queryParm.toString());
-
         return visitor.addInclusionParam(queryData, getRootResourceType(), queryParm);
     }
 }

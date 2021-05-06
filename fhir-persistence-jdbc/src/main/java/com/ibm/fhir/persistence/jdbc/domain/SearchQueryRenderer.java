@@ -108,6 +108,8 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     /**
      * Public constructor
      * @param identityCache
+     * @param rowOffset
+     * @param rowsPerPage
      */
     public SearchQueryRenderer(JDBCIdentityCache identityCache,
         int rowOffset, int rowsPerPage) {
@@ -193,6 +195,19 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         // parameters are bolted on as exists statements in the WHERE clause.
         // No need to join with xx_RESOURCES, because we only need to count
         // undeleted logical resources, not individual resource versions
+        /*
+          SELECT COUNT(*)
+            FROM Patient_LOGICAL_RESOURCES AS LR0
+           WHERE LR0.IS_DELETED = 'N'
+             AND EXISTS (
+          SELECT 1
+            FROM Patient_LOGICAL_RESOURCES AS LR1
+      INNER JOIN Patient_STR_VALUES AS P2 ON P2.LOGICAL_RESOURCE_ID = LR1.LOGICAL_RESOURCE_ID
+             AND P2.PARAMETER_NAME_ID = 1246
+             AND (P2.STR_VALUE = ?)
+           WHERE LR1.IS_DELETED = 'N'
+             AND LR1.LOGICAL_RESOURCE_ID = LR0.LOGICAL_RESOURCE_ID)
+         */
         SelectAdapter select = Select.select("COUNT(*)");
         select.from(xxLogicalResources, alias(lrAliasName))
             .where(lrAliasName, IS_DELETED).eq(string("N"));
@@ -206,35 +221,23 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         // then inner join to the xx_RESOURCES table as a final step. This is
         // crucial to enable the optimizer to generate the correct plan.
         // The final query looks something like this:
-            SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID
-                    FROM (
-                  SELECT LR0.LOGICAL_RESOURCE_ID, LR0.LOGICAL_ID, LR0.CURRENT_RESOURCE_ID     -- <=== we are building this inner select here
-                    FROM fhirdata.ExplanationOfBenefit_LOGICAL_RESOURCES AS LR0
-                   WHERE LR0.IS_DELETED = 'N'
-                     AND (EXISTS (
-                  SELECT 1
-                    FROM fhirdata.ExplanationOfBenefit_RESOURCE_TOKEN_REFS AS P1
-                   WHERE P1.LOGICAL_RESOURCE_ID = LR0.LOGICAL_RESOURCE_ID
-                     AND P1.PARAMETER_NAME_ID = 2582160
-                     AND (P1.COMMON_TOKEN_VALUE_ID = 2092796)))
-                     AND EXISTS (
-                  SELECT 1
-                    FROM fhirdata.ExplanationOfBenefit_DATE_VALUES AS P1
-                   WHERE P1.LOGICAL_RESOURCE_ID = LR0.LOGICAL_RESOURCE_ID
-                     AND P1.PARAMETER_NAME_ID = 10041
-                     AND (P1.DATE_END >= '2001-01-01T04:00:00Z'))
-                     AND EXISTS (
-                  SELECT 1
-                    FROM fhirdata.ExplanationOfBenefit_DATE_VALUES AS P1
-                   WHERE P1.LOGICAL_RESOURCE_ID = LR0.LOGICAL_RESOURCE_ID
-                     AND P1.PARAMETER_NAME_ID = 10041
-                     AND (P1.DATE_START < '2022-01-01T03:59:59.999999Z'))) AS LR
-              INNER JOIN fhirdata.ExplanationOfBenefit_RESOURCES AS R ON LR.CURRENT_RESOURCE_ID = R.RESOURCE_ID
-                ORDER BY LR.LOGICAL_RESOURCE_ID
-             LIMIT 1
-         *
+              SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID
+                FROM (
+              SELECT LR0.LOGICAL_RESOURCE_ID, LR0.LOGICAL_ID, LR0.CURRENT_RESOURCE_ID
+                FROM Patient_LOGICAL_RESOURCES AS LR0
+               WHERE LR0.IS_DELETED = 'N'
+                 AND EXISTS (
+              SELECT 1
+                FROM Patient_LOGICAL_RESOURCES AS LR1
+          INNER JOIN Patient_STR_VALUES AS P2 ON P2.LOGICAL_RESOURCE_ID = LR1.LOGICAL_RESOURCE_ID
+                 AND P2.PARAMETER_NAME_ID = 1246
+                 AND (P2.STR_VALUE = ?)
+               WHERE LR1.IS_DELETED = 'N'
+                 AND LR1.LOGICAL_RESOURCE_ID = LR0.LOGICAL_RESOURCE_ID)) AS LR
+          INNER JOIN Patient_RESOURCES AS R ON LR.CURRENT_RESOURCE_ID = R.RESOURCE_ID
+            ORDER BY LR.LOGICAL_RESOURCE_ID
+         FETCH FIRST 10 ROWS ONLY
         */
-        final int aliasIndex = 0;
         final String xxLogicalResources = resourceLogicalResources(rootResourceType);
         final String lrAliasName = "LR0";
 
@@ -267,7 +270,9 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         // Add this exists to the parent query
         parent.getQuery().from().where().and().exists(exists.build());
 
-        // We are starting a sub-query, so future params need to add themselves to this
+        // This bit is important to understanding how this works. We return the
+        // sub-query here, not the main query. The sub-query is returned because
+        // it is the query to which we attach all the parameter table joins
         return new QueryData(exists, lrAlias, null, parent.getResourceType(), 0);
     }
 
@@ -288,23 +293,22 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     public QueryData includeRoot(String rootResourceType) {
 
         /* Final query should like this:
-            SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID
-              FROM (
-                  SELECT DISTINCT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED,
-                         R0.IS_DELETED, R0.DATA, LR0.LOGICAL_ID
-                    FROM Procedure_TOKEN_VALUES_V AS P1
-              INNER JOIN Observation_LOGICAL_RESOURCES AS LR0
-                      ON LR0.LOGICAL_ID = P1.TOKEN_VALUE
-                     AND P1.PARAMETER_NAME_ID = 1266
-                     AND P1.CODE_SYSTEM_ID = 20184
-                     AND P1.LOGICAL_RESOURCE_ID IN (7948)
-              INNER JOIN Observation_RESOURCES AS R0
-                      ON LR0.LOGICAL_RESOURCE_ID = R0.LOGICAL_RESOURCE_ID
-                     AND COALESCE(P1.REF_VERSION_ID,LR0.VERSION_ID) = R0.VERSION_ID
-                     AND R0.IS_DELETED = 'N'
-            ) AS LR
-                ORDER BY LOGICAL_RESOURCE_ID
-             FETCH FIRST 1000 ROWS ONLY
+        SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, LR.LOGICAL_ID
+                FROM (
+              SELECT LR0.LOGICAL_RESOURCE_ID, LR0.LOGICAL_ID, LR0.CURRENT_RESOURCE_ID
+                FROM Patient_LOGICAL_RESOURCES AS LR0
+               WHERE LR0.IS_DELETED = 'N'
+                 AND EXISTS (
+              SELECT 1
+                FROM Patient_LOGICAL_RESOURCES AS LR1
+          INNER JOIN Patient_STR_VALUES AS P2 ON P2.LOGICAL_RESOURCE_ID = LR1.LOGICAL_RESOURCE_ID
+                 AND P2.PARAMETER_NAME_ID = 1246
+                 AND (P2.STR_VALUE = ?)
+               WHERE LR1.IS_DELETED = 'N'
+                 AND LR1.LOGICAL_RESOURCE_ID = LR0.LOGICAL_RESOURCE_ID)) AS LR
+          INNER JOIN Patient_RESOURCES AS R ON LR.CURRENT_RESOURCE_ID = R.RESOURCE_ID
+            ORDER BY LR.LOGICAL_RESOURCE_ID
+         FETCH FIRST 10 ROWS ONLY
          */
 
         // The root query is just the inner distinct piece. The overall query is built by wrapInclude
@@ -344,7 +348,6 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
 
     /**
      * Get the filter predicate for the given token query parameter
-     * @param paramExists the exists select statement to which we need to AND the filter predicate
      * @param queryParm the token query parameter
      * @param paramAlias the alias used for the token values table
      * @throws FHIRPersistenceException
@@ -391,7 +394,6 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     /**
      * Get the filter predicate for the given token query parameter. This variant
      * handles cases where operator is not a simple EQUALS.
-     * @param paramExists the exists select statement to which we need to AND the filter predicate
      * @param queryParm the token query parameter
      * @param paramAlias the alias used for the token values table
      * @throws FHIRPersistenceException
@@ -420,7 +422,6 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             } else {
                 where.or();
             }
-
 
             // The expression may be complex, and we may need to OR them together. To avoid any
             // precedence drama, we simply wrap everything in parens just to be safe
@@ -486,7 +487,11 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     }
 
     /**
-     *
+     * Adds a filter predicate for COMMON_TOKEN_VALUE_ID. Fetches the list of possible matches (there's no code-system,
+     * so there could be multiple). If no match, then -1 is used to make sure the row isn't produced. If there is a
+     * single match, the predicate is COMMON_TOKEN_VALUE_ID = {n}. If there are multiple matches, the predicate is
+     * COMMON_TOKEN_VALUE_ID IN (1, 2, 3, ...).
+     * The query uses literal values not bind variables on purpose (better performance).
      * @param where
      * @param paramAlias
      * @param searchValue
@@ -513,7 +518,10 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     }
 
     /**
-     *
+     * Adds a filter predicate for COMMON_TOKEN_VALUE_ID. If tje ctvs list is empty, then -1 is used to make
+     * sure the row isn't produced. If there is a single match, the predicate is COMMON_TOKEN_VALUE_ID = {n}.
+     * If there are multiple matches, the predicate is COMMON_TOKEN_VALUE_ID IN (1, 2, 3, ...).
+     * The query uses literal values not bind variables on purpose (better performance).
      * @param where
      * @param paramAlias
      * @param ctvs
@@ -591,8 +599,6 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             }
         }
     }
-
-
 
     /**
      * Add a filter expression to the given parameter sub-query (which is used as an EXISTS clause)
@@ -724,7 +730,6 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         }
     }
 
-
     @Override
     public QueryData addSorting(QueryData queryData, String lrAlias) {
         final String lrLogicalResourceId = DataDefinitionUtil.getQualifiedName(lrAlias, "LOGICAL_RESOURCE_ID");
@@ -777,6 +782,11 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         return name.toString();
     }
 
+    /**
+     * Get the column name to use for the given paramType
+     * @param paramType
+     * @return
+     */
     public String paramValuesColumnName(Type paramType) {
         final String result;
         switch (paramType) {
@@ -863,6 +873,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     /**
      * Add a filter on the LOGICAL_ID for the given query parameter values
      * @param queryData
+     * @param queryParm
      */
     protected void addIdFilter(QueryData queryData, QueryParameter queryParm) throws FHIRPersistenceException {
         final SelectAdapter currentSubQuery = queryData.getQuery();
@@ -880,7 +891,6 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
 
     /**
      * Get a filter predicate for the given number query parameter
-     * @param exists
      * @param queryParm
      * @param paramAlias
      */
@@ -892,7 +902,6 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
 
     /**
      * Add a filter predicate to the given exists sub-query
-     * @param exists
      * @param queryParm
      * @param paramAlias
      */
@@ -903,10 +912,8 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         return where;
     }
 
-
     /**
      * Add a filter predicate to the given exists sub-query
-     * @param exists
      * @param queryParm
      * @param paramAlias
      */
@@ -919,7 +926,6 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
 
     /**
      * Add a filter predicate to the given exists sub-query
-     * @param exists
      * @param queryParm
      * @param paramAlias
      */
@@ -987,8 +993,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     }
 
     /**
-     * Add the filter predicate to the given sub-select
-     * @param exists
+     * Create a filter predicate for the given reference query parameter
      * @param queryParm
      * @param paramAlias
      * @throws FHIRPersistenceException
@@ -1113,6 +1118,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
 
     /**
      * Get the operator we need to use for matching values for this parameter
+     * @param queryParameter
      * @return
      */
     protected Operator getOperator(QueryParameter queryParameter) {
@@ -1135,7 +1141,6 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     protected Operator getOperator(QueryParameter queryParm, String defaultOverride) {
         return OperatorUtil.getOperator(queryParm, defaultOverride);
     }
-
 
     /**
      * Get the filter predicate expression for the given query parameter taking into account its type,
@@ -1194,30 +1199,12 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         }
 
         if (!boundingAreas.isEmpty()) {
-            buildLocationQuerySegment(queryData, boundingAreas);
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("buildLocationQuerySegment no longer needed");
+            }
         }
 
         return null;
-    }
-
-    /**
-     * Extension filter not associated with a particular parameter?
-     * @param queryData
-     * @param boundingAreas
-     */
-    protected void buildLocationQuerySegment(QueryData queryData, List<Bounding> boundingAreas) {
-//        final String parameterName = queryParm.getCode();
-//        final int aliasIndex = getNextAliasIndex();
-//        final SelectAdapter query = queryData.getQuery();
-//        final String paramTableName = resourceType + "_LATLNG_VALUES";
-//        final String paramAlias = "P" + aliasIndex;
-//        final String lrAlias = queryData.getLRAlias();
-//        ExpNode filter = getLocationFilter(queryParm, paramAlias).getExpression();
-//        query.from().innerJoin(paramTableName, alias(paramAlias), on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
-//            .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
-//            .and(filter));
-//
-//        return queryData;
     }
 
     @Override
@@ -1354,7 +1341,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
 
     @Override
     public QueryData addTokenParam(QueryData queryData, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException {
-        // Add a join to the query. The NOT/NOT_IN modifiers are tricker because
+        // Add a join to the query. The NOT/NOT_IN modifiers are trickier because
         // they need to be handled as a NOT EXISTS clause.
         final int aliasIndex = getNextAliasIndex();
         final SelectAdapter query = queryData.getQuery();
@@ -1379,16 +1366,10 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         if (queryParm.getModifier() == Modifier.NOT || queryParm.getModifier() == Modifier.NOT_IN) {
             // Use a nested NOT EXISTS (...) instead of a simple join
             SelectAdapter exists = Select.select("1");
+            exists.from(xxTokenValues, alias(paramAlias))
+            .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
+            .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName));
 
-            if (operator == Operator.EQ) {
-                exists.from(xxTokenValues, alias(paramAlias))
-                .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
-                .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName));
-            } else {
-                exists.from(xxTokenValues, alias(paramAlias))
-                .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
-                .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName));
-            }
             // add the filter predicate to the exists where clause
             exists.from().where().and(filter);
             query.from().where().and().notExists(exists.build());
@@ -1403,14 +1384,6 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         return queryData;
     }
 
-    /**
-     * Add AND EXISTS (filterSubselect) to the WHERE clause of the given query
-     * @param query
-     * @param resourceType
-     * @param parameterName
-     * @param aliasIndex
-     * @param filter
-     */
     @Override
     public QueryData addStringParam(QueryData queryData, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException {
         // Join to the string parameter table
@@ -1753,13 +1726,15 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
     }
 
     /**
-     * @param where
+     * Add a parameter table filter for a composite parameter
+     * @param query
      * @param resourceType
      * @param lrAlias
      * @param component
      * @param componentNum
      * @param firstAliasIndex
-     * @return
+     * @return the parameter alias, so we can find the first composite param table alias
+     * @throws FHIRPersistenceException
      */
     private int addCompositeParamTable(SelectAdapter query, String resourceType, String lrAlias, QueryParameter component, int componentNum,
         int firstAliasIndex) throws FHIRPersistenceException {
@@ -1959,6 +1934,15 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         return sortParameterTableName.toString();
     }
 
+    /**
+     * Add the min/max aggregate and sort expressions to the SORT query
+     * @param queryData
+     * @param code
+     * @param type
+     * @param direction
+     * @param parmAlias
+     * @throws FHIRPersistenceException
+     */
     private void addAggregateAndOrderByExpressions(QueryData queryData, String code, Type type, Direction direction, String parmAlias)
             throws FHIRPersistenceException {
         final String METHODNAME = "addAggregateAndOrderByExpressions";
@@ -2001,7 +1985,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
     /**
      * Returns the names of the Parameter attributes containing the values
      * corresponding to the passed sort parameter type.
-     *
+     * @param type
      * @throws FHIRPersistenceException
      */
     private List<String> getValueAttributeNames(Type type) throws FHIRPersistenceException {
