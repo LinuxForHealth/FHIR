@@ -8,6 +8,7 @@ package com.ibm.fhir.profile;
 
 import static com.ibm.fhir.model.util.ModelSupport.delimit;
 import static com.ibm.fhir.model.util.ModelSupport.isKeyword;
+import static com.ibm.fhir.model.util.ModelSupport.isResourceType;
 import static com.ibm.fhir.profile.ProfileSupport.HL7_STRUCTURE_DEFINITION_URL_PREFIX;
 import static com.ibm.fhir.profile.ProfileSupport.createConstraint;
 import static com.ibm.fhir.profile.ProfileSupport.getBinding;
@@ -559,8 +560,14 @@ public class ConstraintGenerator {
             sb.append(".");
         }
 
-        String profile = getProfiles(getTypes(elementDefinition).get(0)).get(0);
-        sb.append("conformsTo('").append(profile).append("')");
+        Type type = getTypes(elementDefinition).get(0);
+        String profile = getProfiles(type).get(0);
+        String code = type.getCode().getValue();
+        if (isResourceType(code)) {
+            sb.append("conformsTo('").append(profile).append("', true)");
+        } else {
+            sb.append("conformsTo('").append(profile).append("')");
+        }
 
         if (isRepeating(elementDefinition)) {
             sb.append(")");

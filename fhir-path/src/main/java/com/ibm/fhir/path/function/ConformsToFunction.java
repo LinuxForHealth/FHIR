@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,8 +10,10 @@ import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_FALSE;
 import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
 import static com.ibm.fhir.path.util.FHIRPathUtil.empty;
 import static com.ibm.fhir.path.util.FHIRPathUtil.evaluatesToBoolean;
+import static com.ibm.fhir.path.util.FHIRPathUtil.getBoolean;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getSingleton;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getStringValue;
+import static com.ibm.fhir.path.util.FHIRPathUtil.isBooleanValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isElementNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isFalse;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isResourceNode;
@@ -24,7 +26,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.StructureDefinition;
+import com.ibm.fhir.model.type.Canonical;
+import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.StructureDefinitionKind;
@@ -52,7 +57,7 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
 
     @Override
     public int getMaxArity() {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -69,10 +74,15 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
             throw new IllegalArgumentException("The argument to the 'conformsTo' function must be a string value");
         }
 
+        if (arguments.size() == 2 && !isBooleanValue(arguments.get(1))) {
+            throw new IllegalArgumentException("The optional second argument to the 'conformsTo' function must be a boolean value");
+        }
+
         FHIRPathNode node = getSingleton(context);
         FHIRPathType type = node.type();
         Class<?> modelClass = type.modelClass();
         String url = getStringValue(arguments.get(0)).string();
+        boolean skipEvaluation = (arguments.size() == 2) ? getBoolean(arguments.get(1)) : false;
 
         if (FHIRRegistry.getInstance().hasResource(url, StructureDefinition.class)) {
             StructureDefinition structureDefinition = FHIRRegistry.getInstance().getResource(url,  StructureDefinition.class);
@@ -98,6 +108,38 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
             if (node.isResourceNode() && node.asResourceNode().resource() == null) {
                 // the node was created by the 'resolve' function and is not backed by a FHIR resource
                 return SINGLETON_TRUE;
+            }
+
+            if (node.isResourceNode() && skipEvaluation) {
+                // optimization
+                Resource resource = node.asResourceNode().resource();
+                Meta meta = resource.getMeta();
+                if (meta != null) {
+                    for (Canonical profile : meta.getProfile()) {
+                        String value = profile.getValue();
+
+                        if (value == null) {
+                            continue;
+                        }
+
+                        String uri = value;
+                        String version = null;
+
+                        int index = value.indexOf("|");
+                        if (index != -1) {
+                            uri = value.substring(0, index);
+                            version = value.substring(index + 1);
+                        }
+
+                        if (uri.equals(structureDefinition.getUrl().getValue()) &&
+                                (version == null || structureDefinition.getVersion() == null || version.equals(structureDefinition.getVersion().getValue()))) {
+                            if (log.isLoggable(Level.FINEST)) {
+                                log.finest("Skipping constraint evaluation for profile '" + url + "'");
+                            }
+                            return SINGLETON_TRUE;
+                        }
+                    }
+                }
             }
 
             // save parent constraint reference
