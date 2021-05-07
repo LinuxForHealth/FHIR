@@ -68,6 +68,11 @@ public class FHIROperationContext {
      * The property is of the Response
      */
     public static final String PROPNAME_RESPONSE = "RESPONSE";
+    
+    /**
+     * The property is of the Path Parameter
+     */
+    public static final String PROPNAME_PATH_PARAMETER = "PATH_PARAMETER";
 
     private Type type = null;
     private Map<String, Object> properties = null;
