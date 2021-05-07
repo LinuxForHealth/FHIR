@@ -24,6 +24,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.cache.CachingProxy;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.ConceptMap;
@@ -40,6 +41,7 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
 import com.ibm.fhir.model.type.code.ConceptSubsumptionOutcome;
+import com.ibm.fhir.term.config.FHIRTermConfig;
 import com.ibm.fhir.term.service.LookupOutcome.Designation;
 import com.ibm.fhir.term.service.LookupOutcome.Property;
 import com.ibm.fhir.term.service.TranslationOutcome.Match;
@@ -1011,7 +1013,7 @@ public class FHIRTermService {
 
     private List<FHIRTermServiceProvider> loadProviders() {
         List<FHIRTermServiceProvider> providers = new ArrayList<>();
-        providers.add(new RegistryTermServiceProvider());
+        providers.add(FHIRTermConfig.isCachingDisabled() ? new RegistryTermServiceProvider() : CachingProxy.newInstance(FHIRTermServiceProvider.class, new RegistryTermServiceProvider()));
         Iterator<FHIRTermServiceProvider> iterator = ServiceLoader.load(FHIRTermServiceProvider.class).iterator();
         while (iterator.hasNext()) {
             providers.add(iterator.next());
