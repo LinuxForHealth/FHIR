@@ -44,6 +44,7 @@ import com.ibm.fhir.path.FHIRPathType;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.term.service.FHIRTermService;
 import com.ibm.fhir.term.service.ValidationOutcome;
+import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
 import com.ibm.fhir.term.util.CodeSystemSupport;
 
 /**
@@ -104,40 +105,43 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
             if (strength != null && ValidationSupport.hasOnlyDataAbsentReasonExtension(element)) {
                 return SINGLETON_TRUE;
             }
-
             FHIRTermService service = FHIRTermService.getInstance();
             if (isExpanded(valueSet) || service.isExpandable(valueSet)) {
-                // Validate against expanded value set
-                if (element.is(Code.class)) {
-                    Uri system = getSystem(evaluationContext.getTree(), elementNode);
-                    Code code = element.as(Code.class);
-                    if ((system != null && validateCode(service, valueSet, system, null, code, null, evaluationContext, elementNode, strength)) ||
-                            (system == null && validateCode(service, valueSet, code, evaluationContext, elementNode, strength))) {
-                        return SINGLETON_TRUE;
+                try {
+                    // Validate against expanded value set
+                    if (element.is(Code.class)) {
+                        Uri system = getSystem(evaluationContext.getTree(), elementNode);
+                        Code code = element.as(Code.class);
+                        if ((system != null && validateCode(service, valueSet, system, null, code, null, evaluationContext, elementNode, strength)) ||
+                                (system == null && validateCode(service, valueSet, code, evaluationContext, elementNode, strength))) {
+                            return SINGLETON_TRUE;
+                        }
+                    } else if (element.is(Coding.class)) {
+                        Coding coding = element.as(Coding.class);
+                        if (validateCode(service, valueSet, coding, evaluationContext, elementNode, strength)) {
+                            return SINGLETON_TRUE;
+                        }
+                    } else if (element.is(CodeableConcept.class)) {
+                        CodeableConcept codeableConcept = element.as(CodeableConcept.class);
+                        if (codeableConcept.getCoding() != null && validateCode(service, valueSet, codeableConcept, evaluationContext, elementNode, strength)) {
+                            return SINGLETON_TRUE;
+                        }
+                    } else if (element.is(Quantity.class)) {
+                        Quantity quantity = element.as(Quantity.class);
+                        if (validateCode(service, valueSet, quantity.getSystem(), null, quantity.getCode(), null, evaluationContext, elementNode, strength)) {
+                            return SINGLETON_TRUE;
+                        }
+                    } else {
+                        // element.is(FHIR_STRING) || element.is(Uri.class)
+                        Code code = element.is(FHIR_STRING) ? Code.of(element.as(FHIR_STRING).getValue()) : Code.of(element.as(Uri.class).getValue());
+                        if (validateCode(service, valueSet, code, evaluationContext, elementNode, strength)) {
+                            return SINGLETON_TRUE;
+                        }
                     }
-                } else if (element.is(Coding.class)) {
-                    Coding coding = element.as(Coding.class);
-                    if (validateCode(service, valueSet, coding, evaluationContext, elementNode, strength)) {
-                        return SINGLETON_TRUE;
-                    }
-                } else if (element.is(CodeableConcept.class)) {
-                    CodeableConcept codeableConcept = element.as(CodeableConcept.class);
-                    if (codeableConcept.getCoding() != null && validateCode(service, valueSet, codeableConcept, evaluationContext, elementNode, strength)) {
-                        return SINGLETON_TRUE;
-                    }
-                } else if (element.is(Quantity.class)) {
-                    Quantity quantity = element.as(Quantity.class);
-                    if (validateCode(service, valueSet, quantity.getSystem(), null, quantity.getCode(), null, evaluationContext, elementNode, strength)) {
-                        return SINGLETON_TRUE;
-                    }
-                } else {
-                    // element.is(FHIR_STRING) || element.is(Uri.class)
-                    Code code = element.is(FHIR_STRING) ? Code.of(element.as(FHIR_STRING).getValue()) : Code.of(element.as(Uri.class).getValue());
-                    if (validateCode(service, valueSet, code, evaluationContext, elementNode, strength)) {
-                        return SINGLETON_TRUE;
-                    }
+                    return membershipCheckFailed(evaluationContext, elementNode, url, strength);
+                } catch (FHIRTermServiceException e) {
+                    generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.INCOMPLETE, "Membership check was not performed: value set '" + url + "' could not be expanded due to the following error: " + e.getMessage(), elementNode.path());
                 }
-                return membershipCheckFailed(evaluationContext, elementNode, url, strength);
             } else if (isSyntaxBased(valueSet)) {
                 // Validate against syntax-based value set
                 try {
