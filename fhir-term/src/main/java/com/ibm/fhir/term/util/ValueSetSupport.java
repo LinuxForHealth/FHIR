@@ -44,6 +44,7 @@ import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.term.config.FHIRTermConfig;
 import com.ibm.fhir.term.service.FHIRTermService;
+import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
 
 /**
  * A utility class for expanding FHIR value sets
@@ -211,6 +212,8 @@ public final class ValueSetSupport {
                 }
             }
             return codeSetMap;
+        } catch (FHIRTermServiceException e) {
+            throw e;
         } catch (Exception e) {
             java.lang.String url = (valueSet.getUrl() != null) ? valueSet.getUrl().getValue() : "<no url>";
             java.lang.String version = (valueSet.getVersion() != null) ? valueSet.getVersion().getValue() : "<no version>";

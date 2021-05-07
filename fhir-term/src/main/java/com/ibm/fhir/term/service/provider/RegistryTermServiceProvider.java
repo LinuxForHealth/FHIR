@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
+import com.ibm.fhir.cache.annotation.Cacheable;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.ValueSet.Compose.Include.Filter;
@@ -31,6 +32,7 @@ public class RegistryTermServiceProvider extends AbstractTermServiceProvider {
         return CodeSystemSupport.getConcepts(concept);
     }
 
+    @Cacheable
     @Override
     public Concept getConcept(CodeSystem codeSystem, Code code) {
         checkArguments(codeSystem, code);
