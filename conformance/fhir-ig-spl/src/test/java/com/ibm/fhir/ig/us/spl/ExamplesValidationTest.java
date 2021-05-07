@@ -62,7 +62,6 @@ public class ExamplesValidationTest {
             for (Issue issue : validate) {
                 if (IssueSeverity.ERROR.equals(issue.getSeverity()) || IssueSeverity.ERROR.equals(issue.getSeverity())) {
                     System.out.println(issue);
-//                  System.out.println(r);
                     invalid = true;
                 }
             }
