@@ -223,8 +223,9 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                 }
             }
             if (Boolean.FALSE.equals(outcome.getResult())) {
-                outcome = ValidationOutcome.builder()
-                        .result(Boolean.FALSE)
+                outcome = outcome.toBuilder()
+                        .message(null)
+                        .display(null)
                         .build();
             }
         } else {
