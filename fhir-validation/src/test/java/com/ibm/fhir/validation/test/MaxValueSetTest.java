@@ -78,7 +78,7 @@ public class MaxValueSetTest {
         List<Constraint> constraints = generator.generate();
         assertEquals(constraints.size(), 7);
         constraints.forEach(constraint -> compile(constraint.expression()));
-        assertEquals(constraints.get(3).expression(), "statusReason.exists()");
+        assertEquals(constraints.get(3).expression(), "statusReason.count() >= 1");
         assertEquals(constraints.get(4).expression(), "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/languages', 'extensible') and type.memberOf('http://hl7.org/fhir/ValueSet/all-languages', 'required'))");
         assertEquals(constraints.get(5).expression(), "specialization.exists() implies (specialization.all(systemType.exists() and systemType.memberOf('http://hl7.org/fhir/ValueSet/languages', 'extensible') and systemType.memberOf('http://hl7.org/fhir/ValueSet/all-languages', 'required')))");
         assertEquals(constraints.get(6).expression(), "safety.exists() implies (safety.all(memberOf('http://hl7.org/fhir/ValueSet/languages', 'extensible')) and safety.all(memberOf('http://hl7.org/fhir/ValueSet/all-languages', 'required')))");
@@ -183,6 +183,7 @@ public class MaxValueSetTest {
                 .extension(Collections.singletonList(Extension.builder().url("http://ibm.com/fhir/StructureDefinition/test-language-primary-extension")
                 .value(CodeableConcept.builder().coding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("tlh")).build()).build()).build())).build();
         issues = FHIRValidator.validator().validate(device);
+        issues.forEach(System.out::println);
         assertEquals(FHIRValidationUtil.countErrors(issues), 0);
         assertEquals(FHIRValidationUtil.countWarnings(issues), 1);
 
