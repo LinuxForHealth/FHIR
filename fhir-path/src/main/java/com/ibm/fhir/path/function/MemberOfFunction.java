@@ -23,7 +23,10 @@ import static com.ibm.fhir.term.util.ValueSetSupport.isExpanded;
 import java.util.Collection;
 import java.util.List;
 
+import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.ValueSet;
+import com.ibm.fhir.model.resource.ValueSet.Compose;
+import com.ibm.fhir.model.resource.ValueSet.Compose.Include;
 import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -41,6 +44,7 @@ import com.ibm.fhir.path.FHIRPathType;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.term.service.FHIRTermService;
 import com.ibm.fhir.term.service.ValidationOutcome;
+import com.ibm.fhir.term.util.CodeSystemSupport;
 
 /**
  * Implementation of the 'memberOf' FHIRPath function per: <a href="http://hl7.org/fhir/fhirpath.html#functions">http://hl7.org/fhir/fhirpath.html#functions</a>
@@ -96,7 +100,6 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
 
         ValueSet valueSet = getValueSet(url);
         if (valueSet != null) {
-
             // Validate against data-absent-reason extension (only if using extended version of operation)
             if (strength != null && ValidationSupport.hasOnlyDataAbsentReasonExtension(element)) {
                 return SINGLETON_TRUE;
@@ -104,7 +107,6 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
 
             FHIRTermService service = FHIRTermService.getInstance();
             if (isExpanded(valueSet) || service.isExpandable(valueSet)) {
-
                 // Validate against expanded value set
                 if (element.is(Code.class)) {
                     Uri system = getSystem(evaluationContext.getTree(), elementNode);
@@ -137,7 +139,6 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                 }
                 return membershipCheckFailed(evaluationContext, elementNode, url, strength);
             } else if (isSyntaxBased(valueSet)) {
-
                 // Validate against syntax-based value set
                 try {
                     ValidationSupport.checkValueSetBinding(elementNode.element(), elementNode.path(), valueSet.getUrl().getValue(), null);
@@ -179,7 +180,14 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
         if (system == null && version == null && code == null && display == null) {
             return false;
         }
-        ValidationOutcome outcome = service.validateCode(valueSet, system, version, code, display);
+        ValidationOutcome outcome = null;
+        if (convertsToCodeSystemValidateCode(valueSet, system, version, code)) {
+            // optimization
+            CodeSystem codeSystem = getCodeSystem(valueSet, system, version);
+            outcome = service.validateCode(codeSystem, code, display);
+        } else {
+            outcome = service.validateCode(valueSet, system, version, code, display);
+        }
         if (Boolean.FALSE.equals(outcome.getResult())) {
             generateIssue(outcome, evaluationContext, elementNode, strength);
             return false;
@@ -188,7 +196,14 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
     }
 
     private boolean validateCode(FHIRTermService service, ValueSet valueSet, Coding coding, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
-        ValidationOutcome outcome = service.validateCode(valueSet, coding);
+        ValidationOutcome outcome = null;
+        if (convertsToCodeSystemValidateCode(valueSet, coding)) {
+            // optimization
+            CodeSystem codeSystem = getCodeSystem(valueSet, coding);
+            outcome = service.validateCode(codeSystem, coding);
+        } else {
+            outcome = service.validateCode(valueSet, coding);
+        }
         if (Boolean.FALSE.equals(outcome.getResult())) {
             generateIssue(outcome, evaluationContext, elementNode, strength);
             return false;
@@ -197,7 +212,24 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
     }
 
     private boolean validateCode(FHIRTermService service, ValueSet valueSet, CodeableConcept codeableConcept, EvaluationContext evaluationContext, FHIRPathElementNode elementNode, String strength) {
-        ValidationOutcome outcome = service.validateCode(valueSet, codeableConcept);
+        ValidationOutcome outcome = null;
+        if (convertsToCodeSystemValidateCode(valueSet, codeableConcept)) {
+            // optimization
+            for (Coding coding : codeableConcept.getCoding()) {
+                CodeSystem codeSystem = getCodeSystem(valueSet, coding);
+                outcome = service.validateCode(codeSystem, coding);
+                if (Boolean.TRUE.equals(outcome.getResult())) {
+                    break;
+                }
+            }
+            if (Boolean.FALSE.equals(outcome.getResult())) {
+                outcome = ValidationOutcome.builder()
+                        .result(Boolean.FALSE)
+                        .build();
+            }
+        } else {
+            outcome = service.validateCode(valueSet, codeableConcept);
+        }
         if (Boolean.FALSE.equals(outcome.getResult())) {
             generateIssue(outcome, evaluationContext, elementNode, strength);
             return false;
@@ -250,11 +282,74 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
      * @return
      *     the URI-typed sibling of the given element node with name "system", or null if no such sibling exists
      */
-    protected Uri getSystem(FHIRPathTree tree, FHIRPathElementNode elementNode) {
+    private Uri getSystem(FHIRPathTree tree, FHIRPathElementNode elementNode) {
         if (tree != null) {
             FHIRPathNode systemNode = tree.getSibling(elementNode, "system");
             if (systemNode != null && FHIRPathType.FHIR_URI.equals(systemNode.type())) {
                 return systemNode.asElementNode().element().as(Uri.class);
+            }
+        }
+        return null;
+    }
+
+    private boolean convertsToCodeSystemValidateCode(ValueSet valueSet, CodeableConcept codeableConcept) {
+        if (codeableConcept.getCoding().isEmpty()) {
+            return false;
+        }
+        for (Coding coding : codeableConcept.getCoding()) {
+            if (!convertsToCodeSystemValidateCode(valueSet, coding)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean convertsToCodeSystemValidateCode(ValueSet valueSet, Coding coding) {
+        return convertsToCodeSystemValidateCode(valueSet, coding.getSystem(), coding.getVersion(), coding.getCode());
+    }
+
+    private boolean convertsToCodeSystemValidateCode(ValueSet valueSet, Uri system, com.ibm.fhir.model.type.String version, Code code) {
+        if (system == null || system.getValue() == null || code == null || code.getValue() == null) {
+            return false;
+        }
+
+        if (isExpanded(valueSet)) {
+            return false;
+        }
+
+        Compose compose = valueSet.getCompose();
+
+        if (!compose.getExclude().isEmpty()) {
+            return false;
+        }
+
+        for (Include include : compose.getInclude()) {
+            if (!include.getConcept().isEmpty() ||
+                    !include.getFilter().isEmpty() ||
+                    !include.getValueSet().isEmpty() ||
+                    include.getSystem() == null) {
+                return false;
+            }
+        }
+
+        return hasCodeSystem(valueSet, system, version);
+    }
+
+    private boolean hasCodeSystem(ValueSet valueSet, Uri system, com.ibm.fhir.model.type.String version) {
+        return getCodeSystem(valueSet, system, version) != null;
+    }
+
+    private CodeSystem getCodeSystem(ValueSet valueSet, Coding coding) {
+        return getCodeSystem(valueSet, coding.getSystem(), coding.getVersion());
+    }
+
+    private CodeSystem getCodeSystem(ValueSet valueSet, Uri system, com.ibm.fhir.model.type.String version) {
+        Compose compose = valueSet.getCompose();
+        for (Include include : compose.getInclude()) {
+            if (include.getSystem().equals(system) &&
+                    (include.getVersion() == null || version == null || include.getVersion().equals(version))) {
+                String url = (version != null && version.getValue() != null) ? system.getValue() + "|" + version.getValue() : system.getValue();
+                return CodeSystemSupport.getCodeSystem(url);
             }
         }
         return null;
