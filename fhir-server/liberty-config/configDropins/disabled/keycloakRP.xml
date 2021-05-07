@@ -2,8 +2,8 @@
 
     <!-- Enable features -->
     <featureManager>
-        <!-- mpJwt-1.1 is already enabled in the default server.xml, but it doesn't hurt to repeat it here -->
-        <feature>mpJwt-1.1</feature>
+        <!-- mpJwt-1.2 is already enabled in the default server.xml, but it doesn't hurt to repeat it here -->
+        <feature>mpJwt-1.2</feature>
     </featureManager>
 
     <!-- Override the application-bnd binding of the main webapp -->

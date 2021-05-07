@@ -50,6 +50,10 @@ services:
         source: ./fhir/userlib
         target: /opt/ol/wlp/usr/servers/defaultServer/userlib
         read_only: true
+      - type: bind
+        source: ./fhir/openapi.json
+        target: /opt/ol/wlp/usr/servers/defaultServer/apps/expanded/fhir-openapi.war/META-INF/openapi.json
+        read_only: true
     command: bash -c "
       java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
         --db-type postgresql --prop db.host=postgres --prop db.port=5432 --prop db.database=fhirdb --prop user=fhiradmin --prop password=change-password
