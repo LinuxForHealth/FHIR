@@ -196,7 +196,7 @@ public final class FHIRRegistry {
      */
     public Collection<SearchParameter> getSearchParameters(String type) {
         Objects.requireNonNull(type);
-        SearchParamType.ValueSet.from(type);
+        SearchParamType.Value.from(type);
         List<SearchParameter> searchParameters = new ArrayList<>();
         for (FHIRRegistryResourceProvider provider : providers) {
             for (FHIRRegistryResource registryResource : provider.getSearchParameterResources(type)) {
