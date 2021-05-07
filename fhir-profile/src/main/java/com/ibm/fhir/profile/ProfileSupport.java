@@ -69,18 +69,16 @@ public final class ProfileSupport {
         List<Constraint> constraints = new ArrayList<>();
         Set<String> difference = new HashSet<>(getKeys(profile));
         difference.removeAll(getKeys(getStructureDefinition(type)));
-        Set<String> created = new HashSet<>();
         for (ElementDefinition elementDefinition : profile.getSnapshot().getElement()) {
             if (elementDefinition.getConstraint().isEmpty()) {
                 continue;
             }
-            Set<String> refKeys = getRefKeys(elementDefinition);
+            Set<String> profileKeys = getProfileKeys(elementDefinition);
             String path = elementDefinition.getPath().getValue();
             for (ElementDefinition.Constraint constraint : elementDefinition.getConstraint()) {
                 String key = constraint.getKey().getValue();
-                if (difference.contains(key) && !refKeys.contains(key) && !created.contains(key)) {
+                if (difference.contains(key) && !profileKeys.contains(key)) {
                     constraints.add(createConstraint(path, constraint));
-                    created.add(key);
                 }
             }
         }
@@ -90,8 +88,8 @@ public final class ProfileSupport {
         return constraints;
     }
 
-    private static Set<String> getRefKeys(ElementDefinition elementDefinition) {
-        Set<String> refKeys = new HashSet<>();
+    private static Set<String> getProfileKeys(ElementDefinition elementDefinition) {
+        Set<String> profileKeys = new HashSet<>();
         for (Type type : elementDefinition.getType()) {
             for (Canonical canonical : type.getProfile()) {
                 String url = canonical.getValue();
@@ -102,10 +100,10 @@ public final class ProfileSupport {
                 if (profile == null || profile.getSnapshot() == null) {
                     continue;
                 }
-                refKeys.addAll(getKeys(profile.getSnapshot().getElement().get(0)));
+                profileKeys.addAll(getKeys(profile.getSnapshot().getElement().get(0)));
             }
         }
-        return refKeys;
+        return profileKeys;
     }
 
     private static Map<String, ElementDefinition> computeElementDefinitionMap(String url) {
