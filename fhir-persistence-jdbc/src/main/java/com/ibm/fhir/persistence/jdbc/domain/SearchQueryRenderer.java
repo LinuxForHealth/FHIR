@@ -347,58 +347,12 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     }
 
     /**
-     * Get the filter predicate for the given token query parameter
+     * Get the filter predicate for the given token query parameter.
      * @param queryParm the token query parameter
      * @param paramAlias the alias used for the token values table
      * @throws FHIRPersistenceException
      */
     protected WhereFragment getTokenFilter(QueryParameter queryParm, String paramAlias) throws FHIRPersistenceException {
-        final String parameterName = queryParm.getCode();
-
-        WhereFragment where = new WhereFragment();
-        if (logger.isLoggable(Level.FINE)) {
-            logger.fine("getTokenFilter: '" + parameterName + "'");
-        }
-
-        boolean first = true;
-        where.leftParen();
-        for (QueryParameterValue pv: queryParm.getValues()) {
-            if (first) {
-                first = false;
-            } else {
-                where.or();
-            }
-            final String codeSystem = pv.getValueSystem();
-
-            if (codeSystem == null || codeSystem.isEmpty() || codeSystem.equals("*")) {
-                Set<Long> ctvs = new HashSet<>();
-                fetchCommonTokenValues(ctvs, SqlParameterEncoder.encode(pv.getValueCode()));
-                fetchCommonTokenValues(ctvs, SqlParameterEncoder.encode(SearchUtil.normalizeForSearch(pv.getValueCode())));
-                addCommonTokenValueIdFilter(where, paramAlias, ctvs);
-            } else {
-                // should map to a single common_token_value_id, if it exists. Normalize for
-                // case-sensitivity if we have to
-                boolean codeSystemIsCaseSensitive = CodeSystemSupport.isCaseSensitive(pv.getValueSystem());
-                final String normalizedValue = SqlParameterEncoder.encode(codeSystemIsCaseSensitive ?
-                        pv.getValueCode() : SearchUtil.normalizeForSearch(pv.getValueCode()));
-
-                final Long commonTokenValueId = identityCache.getCommonTokenValueId(codeSystem, normalizedValue);
-                where.col(paramAlias, "COMMON_TOKEN_VALUE_ID").eq(nullCheck(commonTokenValueId));
-            }
-        }
-        where.rightParen();
-
-        return where;
-    }
-
-    /**
-     * Get the filter predicate for the given token query parameter. This variant
-     * handles cases where operator is not a simple EQUALS.
-     * @param queryParm the token query parameter
-     * @param paramAlias the alias used for the token values table
-     * @throws FHIRPersistenceException
-     */
-    protected WhereFragment getComplexTokenFilter(QueryParameter queryParm, String paramAlias) throws FHIRPersistenceException {
         final Operator operator = getOperator(queryParm, EQ);
         WhereFragment where = new WhereFragment();
 
@@ -412,7 +366,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         }
 
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("getComplexTokenFilter: '" + parameterName + "'" + ", Operator: " + operator + ", modifier: " + queryParm.getModifier());
+            logger.fine("getTokenFilter: '" + parameterName + "'" + ", Operator: " + operator + ", modifier: " + queryParm.getModifier());
         }
 
         for (QueryParameterValue value : queryParm.getValues()) {
@@ -433,20 +387,21 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             } else {
                 // Include code
                 if (operator == Operator.EQ) {
-                    if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
-                        boolean codeSystemIsCaseSensitive = CodeSystemSupport.isCaseSensitive(value.getValueSystem());
-                        final String normalizedValue = SqlParameterEncoder.encode(codeSystemIsCaseSensitive ?
-                                value.getValueCode() : SearchUtil.normalizeForSearch(value.getValueCode()));
-
-                        Long commonTokenValueId = identityCache.getCommonTokenValueId(value.getValueSystem(), normalizedValue);
-                        where.col(paramAlias, COMMON_TOKEN_VALUE_ID).eq(nullCheck(commonTokenValueId));
-                    } else {
+                    final String codeSystem = value.getValueSystem();
+                    if (codeSystem == null || codeSystem.isEmpty() || codeSystem.equals("*")) {
                         // Even though we don't have a system, we can still use a list of
                         // common_token_value_ids matching the value-code, allowing a similar optimization
                         Set<Long> ctvs = new HashSet<>();
                         fetchCommonTokenValues(ctvs, SqlParameterEncoder.encode(value.getValueCode()));
                         fetchCommonTokenValues(ctvs, SqlParameterEncoder.encode(SearchUtil.normalizeForSearch(value.getValueCode())));
                         addCommonTokenValueIdFilter(where, paramAlias, ctvs);
+                    } else {
+                        boolean codeSystemIsCaseSensitive = CodeSystemSupport.isCaseSensitive(value.getValueSystem());
+                        final String normalizedValue = SqlParameterEncoder.encode(codeSystemIsCaseSensitive ?
+                                value.getValueCode() : SearchUtil.normalizeForSearch(value.getValueCode()));
+
+                        Long commonTokenValueId = identityCache.getCommonTokenValueId(value.getValueSystem(), normalizedValue);
+                        where.col(paramAlias, COMMON_TOKEN_VALUE_ID).eq(nullCheck(commonTokenValueId));
                     }
                 } else {
                     // traditional approach, using a join to xx_TOKEN_VALUES_V
@@ -1345,15 +1300,10 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         // they need to be handled as a NOT EXISTS clause.
         final int aliasIndex = getNextAliasIndex();
         final SelectAdapter query = queryData.getQuery();
-        final Operator operator = getOperator(queryParm);
         final String paramAlias = "P" + aliasIndex;
         final String lrAlias = queryData.getLRAlias(); // join to LR at the same query level
         final ExpNode filter;
-        if (operator == Operator.EQ) {
-            filter = getTokenFilter(queryParm, paramAlias).getExpression();
-        } else {
-            filter = getComplexTokenFilter(queryParm, paramAlias).getExpression();
-        }
+        filter = getTokenFilter(queryParm, paramAlias).getExpression();
         // which table we join against depends on the fields used by the filter expression
         final String xxTokenValues = getTokenParamTable(filter, resourceType, paramAlias);
 
@@ -2022,5 +1972,4 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         logger.exiting(CLASSNAME, METHODNAME);
         return attributeNames;
     }
-
 }
