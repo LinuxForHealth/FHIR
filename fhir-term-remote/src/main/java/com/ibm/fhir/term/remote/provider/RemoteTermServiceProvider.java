@@ -66,9 +66,12 @@ import com.ibm.fhir.model.resource.ValueSet.Compose;
 import com.ibm.fhir.model.resource.ValueSet.Compose.Include;
 import com.ibm.fhir.model.resource.ValueSet.Compose.Include.Filter;
 import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.code.ConceptSubsumptionOutcome;
 import com.ibm.fhir.model.type.code.FilterOperator;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.provider.FHIRJsonProvider;
 import com.ibm.fhir.provider.FHIRProvider;
@@ -241,7 +244,7 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 return result;
             }
 
-            throw errorOccurred(response, "ValueSet $expand");
+            throw errorOccurred(response, "ValueSet", "expand");
         } finally {
             if (response != null) {
                 response.close();
@@ -356,7 +359,7 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 }
             }
 
-            throw errorOccurred(response, "CodeSystem $subsumes");
+            throw errorOccurred(response, "CodeSystem", "subsumes");
         } finally {
             if (response != null) {
                 response.close();
@@ -382,15 +385,32 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
             .build();
     }
 
-    private FHIRTermServiceException errorOccurred(Response response, String op) {
+    private FHIRTermServiceException errorOccurred(Response response, String type, String op) {
         OperationOutcome outcome = null;
         try {
             outcome = response.readEntity(OperationOutcome.class);
         } catch (IllegalArgumentException | ProcessingException e) {
             log.log(Level.SEVERE, "An error occurred while reading the entity", e);
         }
-        List<Issue> issues = (outcome != null) ? outcome.getIssue() : Collections.emptyList();
-        return new FHIRTermServiceException("An error occurred during the " + op + " operation", issues);
+
+        String message = String.format("RemoteTermServiceProvider: a communication or processing error occurred during the remote %s %s operation", type, op);
+
+        List<Issue> issues = new ArrayList<>();
+
+        issues.add(Issue.builder()
+            .severity(IssueSeverity.ERROR)
+            .code(IssueType.EXCEPTION)
+            .details(CodeableConcept.builder()
+                .text(string(message))
+                .build())
+            .diagnostics(string(String.format("Remote endpoint: %s/%s/$%s", base, type, op)))
+            .build());
+
+        if (outcome != null) {
+            issues.addAll(outcome.getIssue());
+        }
+
+        return new FHIRTermServiceException(message, issues);
     }
 
     private KeyStore loadKeyStoreFile(Configuration.TrustStore trustStore) {
