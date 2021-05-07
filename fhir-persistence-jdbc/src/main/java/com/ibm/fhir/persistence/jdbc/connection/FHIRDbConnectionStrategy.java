@@ -47,6 +47,7 @@ public interface FHIRDbConnectionStrategy {
      * Apply any optimizer options configured to improve search query performance
      * See issue-1911 for details.
      * @param c the connection to be configured
+     * @param isCompartment true if the query is a compartment-based search
      */
-    public void applySearchOptimizerOptions(Connection c);
+    public void applySearchOptimizerOptions(Connection c, boolean isCompartment);
 }

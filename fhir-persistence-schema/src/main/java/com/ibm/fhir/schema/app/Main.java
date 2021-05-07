@@ -76,7 +76,7 @@ import com.ibm.fhir.schema.control.GetResourceChangeLogEmpty;
 import com.ibm.fhir.schema.control.GetResourceTypeList;
 import com.ibm.fhir.schema.control.GetTenantInfo;
 import com.ibm.fhir.schema.control.GetTenantList;
-import com.ibm.fhir.schema.control.GetXXXLogicalResourceNeedsMigration;
+import com.ibm.fhir.schema.control.GetXXLogicalResourceNeedsMigration;
 import com.ibm.fhir.schema.control.InitializeLogicalResourceDenorms;
 import com.ibm.fhir.schema.control.JavaBatchSchemaGenerator;
 import com.ibm.fhir.schema.control.OAuthSchemaGenerator;
@@ -1570,7 +1570,7 @@ public class Main {
                     SetTenantIdDb2 setTenantId = new SetTenantIdDb2(schema.getAdminSchemaName(), ti.getTenantId());
                     adapter.runStatement(setTenantId);
 
-                    GetXXXLogicalResourceNeedsMigration needsMigrating = new GetXXXLogicalResourceNeedsMigration(schema.getSchemaName(), resourceTypeName);
+                    GetXXLogicalResourceNeedsMigration needsMigrating = new GetXXLogicalResourceNeedsMigration(schema.getSchemaName(), resourceTypeName);
                     if (adapter.runStatement(needsMigrating)) {
                         logger.info("V0010 Migration: Updating " + resourceTypeName + "_LOGICAL_RESOURCES.IS_DELETED "
                                 + "for tenant '" + ti.getTenantName() + "', schema '" + ti.getTenantSchema() + "'");
@@ -1601,7 +1601,7 @@ public class Main {
                     // which have not yet had their data migrated. The migration can't be
                     // done as part of the schema change because some tables need a REORG which
                     // has to be done after the transaction in which the alter table was performed.
-                    GetXXXLogicalResourceNeedsMigration needsMigrating = new GetXXXLogicalResourceNeedsMigration(schema.getSchemaName(), resourceTypeName);
+                    GetXXLogicalResourceNeedsMigration needsMigrating = new GetXXLogicalResourceNeedsMigration(schema.getSchemaName(), resourceTypeName);
                     if (adapter.runStatement(needsMigrating)) {
                         logger.info("V0010-V0012 Migration: Updating " + resourceTypeName + "_LOGICAL_RESOURCES denormalized columns in schema " + schema.getSchemaName());
                         InitializeLogicalResourceDenorms cmd = new InitializeLogicalResourceDenorms(schema.getSchemaName(), resourceTypeName);

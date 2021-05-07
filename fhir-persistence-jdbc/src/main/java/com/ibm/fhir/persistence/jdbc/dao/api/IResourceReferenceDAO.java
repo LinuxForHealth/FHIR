@@ -7,6 +7,7 @@
 package com.ibm.fhir.persistence.jdbc.dao.api;
 
 import java.util.Collection;
+import java.util.List;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
@@ -52,4 +53,11 @@ public interface IResourceReferenceDAO {
      * @return the matching id from common_token_values.common_token_value_id or null if not found
      */
     CommonTokenValueResult readCommonTokenValueId(String codeSystem, String tokenValue);
+
+    /**
+     * Fetch the list of matching common_token_value_id records for the given tokenValue.
+     * @param tokenValue
+     * @return
+     */
+    List<Long> readCommonTokenValueIdList(String tokenValue);
 }

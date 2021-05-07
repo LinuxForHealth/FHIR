@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
 
+import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceVersionIdMismatchException;
@@ -86,6 +87,15 @@ public interface ResourceDAO extends FHIRDbDAO {
     List<Resource> search(SqlQueryData queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
 
     /**
+     * Executes the search contained in the passed {@link Select}, using its encapsulated search string and bind variables.
+     * @param select - Contains a search query and (optionally) bind variables.
+     * @return List<Resource> A list of FHIR Resources satisfying the passed search.
+     * @throws FHIRPersistenceDataAccessException
+     * @throws FHIRPersistenceDBConnectException
+     */
+    List<Resource> search(Select select) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
+
+    /**
      * Executes the search contained in the passed SqlQueryData, using it's encapsulated search string and bind variables.
      * @param queryData - Contains a search string and (optionally) bind variables.
      * @return List<String> A list of strings satisfying the passed search.
@@ -121,6 +131,17 @@ public interface ResourceDAO extends FHIRDbDAO {
     List<Long> searchForIds(SqlQueryData  queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
 
     /**
+     * This method supports the execution of a specialized query designed to return Resource ids, based on the contents
+     * of the passed select statement.
+     * Note that the first column to be selected MUST be the Resource.id column.
+     * @param dataQuery
+     * @return
+     * @throws FHIRPersistenceDataAccessException
+     * @throws FHIRPersistenceDBConnectException
+     */
+    List<Long> searchForIds(Select  dataQuery) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
+
+    /**
      * Searches for Resources that contain one of the passed ids.
      * @param resourceType - The type of the FHIR Resource
      * @param resourceIds - A List of resource ids.
@@ -138,6 +159,15 @@ public interface ResourceDAO extends FHIRDbDAO {
      * @throws FHIRPersistenceDBConnectException
      */
     int searchCount(SqlQueryData queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
+
+    /**
+     * Executes a count query based on the data contained in the passed {@link Select} statement, using its encapsulated search string and bind variables.
+     * @param countQuery - Contains a search string and (optionally) bind variables.
+     * @return int A count of FHIR Resources satisfying the passed search.
+     * @throws FHIRPersistenceDataAccessException
+     * @throws FHIRPersistenceDBConnectException
+     */
+    int searchCount(Select countQuery) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
 
     /**
      * Executes the passed fully-formed SQL Select COUNT statement and returns the integer count.

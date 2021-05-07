@@ -2032,6 +2032,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/audit/serviceProperties/kafka`|object|A set of name value pairs used as part of the 'config' for publishing to the kafka service. These should only be Kafka properties.|
 |`fhirServer/audit/hostname`|string|A string used to identify the Hostname, useful in containerized environments|
 |`fhirServer/audit/ip`|string|A string used to identify the IP address, useful to identify only one IP|
+|`fhirServer/search/enableOptQueryBuilder`|boolean|True, enable the optimized query builder for supported searches.|
 |`fhirServer/search/useBoundingRadius`|boolean|True, the bounding area is a Radius, else the bounding area is a box.|
 |`fhirServer/search/useStoredCompartmentParam`|boolean|False, Compute and store parameter to accelerate compartment searches. Requires reindex using at least IBM FHIR Server version 4.5.1 before this feature is enabled |
 |`fhirServer/bulkdata/enabled`| string|Enabling the BulkData operations |
@@ -2137,6 +2138,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/persistence/datasources/<datasourceId>/type`|derby|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|16|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|16|
+|`fhirServer/search/enableOptQueryBuilder`|boolean|true|
 |`fhirServer/security/cors`|boolean|true|
 |`fhirServer/security/basic/enabled`|boolean|false|
 |`fhirServer/security/certificates/enabled`|boolean|false|
@@ -2260,6 +2262,7 @@ must restart the server for that change to take effect.
 |`fhirServer/persistence/datasources/<datasourceId>/type`|Y|N|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|Y|Y|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|Y|Y|
+|`fhirServer/search/enableOptQueryBuilder`|Y|Y|
 |`fhirServer/security/cors`|Y|Y|
 |`fhirServer/security/basic/enabled`|Y|Y|
 |`fhirServer/security/certificates/enabled`|Y|Y|
