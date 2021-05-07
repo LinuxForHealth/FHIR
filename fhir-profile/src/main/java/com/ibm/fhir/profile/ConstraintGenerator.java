@@ -79,13 +79,12 @@ public class ConstraintGenerator {
 
         Set<String> generated = new HashSet<>();
 
-        log.finest("Generated constraint expressions:");
+        log.finest("Element definition -> constraint expression:");
         for (Node child : tree.root.children) {
             String expr = generate(child);
             if (generated.contains(expr)) {
                 continue;
             }
-            log.finest(expr);
             String description = "Constraint violation: " + expr;
             constraints.add(constraint("generated-" + prefix + "-" + index, expr, description));
             index++;
@@ -93,38 +92,15 @@ public class ConstraintGenerator {
         }
         log.finest("");
 
+        if (log.isLoggable(Level.FINEST)) {
+            log.finest("Generated constraints:");
+            for (Constraint constraint : constraints) {
+                log.finest(constraint.id() + ": " + constraint.expression());
+            }
+            log.finest("");
+        }
+
         return constraints;
-    }
-
-    public String generate(Node node) {
-        StringBuilder sb = new StringBuilder();
-
-        ElementDefinition elementDefinition = node.elementDefinition;
-
-        // P (antecedent) -> (implies) Q (consequent)
-        if (isOptional(elementDefinition)) {
-            sb.append(antecedent(node)).append(" implies (");
-        }
-
-        sb.append(consequent(node));
-
-        if (isOptional(elementDefinition)) {
-            sb.append(")");
-        }
-
-        return sb.toString();
-    }
-
-    public Map<String, ElementDefinition> getElementDefinitionMap() {
-        return elementDefinitionMap;
-    }
-
-    public StructureDefinition getProfile() {
-        return profile;
-    }
-
-    public Tree getTree() {
-        return tree;
     }
 
     private boolean accept(List<String> paths, String relativePath) {
@@ -439,6 +415,25 @@ public class ConstraintGenerator {
             }
         }
         return joiner.toString();
+    }
+
+    private String generate(Node node) {
+        StringBuilder sb = new StringBuilder();
+
+        ElementDefinition elementDefinition = node.elementDefinition;
+
+        // P (antecedent) -> (implies) Q (consequent)
+        if (isOptional(elementDefinition)) {
+            sb.append(antecedent(node)).append(" implies (");
+        }
+
+        sb.append(consequent(node));
+
+        if (isOptional(elementDefinition)) {
+            sb.append(")");
+        }
+
+        return trace(node, sb.toString());
     }
 
     private String generateExtensionConstraint(Node node) {
@@ -1041,6 +1036,13 @@ public class ConstraintGenerator {
         }
     }
 
+    private String trace(Node node, String expr) {
+        if (log.isLoggable(Level.FINEST)) {
+            log.finest(node.elementDefinition.getId() + " -> " + expr);
+        }
+        return expr;
+    }
+
     private boolean valueSetEqualsIgnoreVersion(String valueSet, String baseValueSet) {
         if (baseValueSet == null) {
             return false;
@@ -1055,14 +1057,14 @@ public class ConstraintGenerator {
         return url.equals(baseUrl);
     }
 
-    public static class Node {
+    static class Node {
         String label;
         Node parent;
         List<Node> children = new ArrayList<>();
         ElementDefinition elementDefinition;
     }
 
-    public static class Tree {
+    static class Tree {
         Node root;
         Map<String, Node> nodeMap;
         Map<String, ElementDefinition> sliceDefinitionMap;
