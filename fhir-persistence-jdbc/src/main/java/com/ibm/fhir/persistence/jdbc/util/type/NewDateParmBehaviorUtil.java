@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.persistence.jdbc.util.type;
 
-import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.bind;
+import static com.ibm.fhir.database.utils.query.expression.ExpressionSupport.bind;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DATE_END;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DATE_START;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.GT;

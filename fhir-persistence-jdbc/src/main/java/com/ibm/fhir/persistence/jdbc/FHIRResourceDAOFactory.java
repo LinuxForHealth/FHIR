@@ -11,6 +11,7 @@ import java.sql.Connection;
 import javax.transaction.TransactionSynchronizationRegistry;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.common.DatabaseTranslatorFactory;
 import com.ibm.fhir.database.utils.db2.Db2Translator;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
@@ -106,22 +107,7 @@ public class FHIRResourceDAOFactory {
      * @return
      */
     public static IDatabaseTranslator getTranslatorForFlavor(FHIRDbFlavor flavor) {
-        IDatabaseTranslator result;
-
-        switch (flavor.getType()) {
-        case DB2:
-            result = new Db2Translator();
-            break;
-        case DERBY:
-            result = new DerbyTranslator();
-            break;
-        case POSTGRESQL:
-            result = new PostgresTranslator();
-            break;
-        default:
-            throw new IllegalStateException("Unsupported database flavor: " + flavor.toString());
-        }
-        return result;
+        return DatabaseTranslatorFactory.getTranslator(flavor.getType());
     }
 
     /**

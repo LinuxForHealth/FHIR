@@ -38,9 +38,9 @@ public interface ExpNodeVisitor<T> {
     T literal(Double value);
     T column(String tableAlias, String columnName);
     T add(T left, T right);
-    T sub(T left, T right);
-    T mult(T left, T right);
-    T div(T left, T right);
+    T subtract(T left, T right);
+    T multiply(T left, T right);
+    T divide(T left, T right);
     T isNull(T expr);
     T isNotNull(T expr);
     T between(T leftValue, T rightValue);

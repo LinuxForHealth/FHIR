@@ -1,13 +1,13 @@
 /*
- * (C) Copyright IBM Corp. 2019,2020
+ * (C) Copyright IBM Corp. 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.persistence.jdbc.util.type;
 
-import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.bind;
-import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.col;
+import static com.ibm.fhir.database.utils.query.expression.ExpressionSupport.bind;
+import static com.ibm.fhir.database.utils.query.expression.ExpressionSupport.col;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LATITUDE_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LONGITUDE_VALUE;
 
@@ -27,6 +27,9 @@ import com.ibm.fhir.search.location.bounding.BoundingType;
  */
 public class NewLocationParmBehaviorUtil {
 
+    /**
+     * Public constructor
+     */
     public NewLocationParmBehaviorUtil() {
         // No Operation
     }
@@ -83,12 +86,15 @@ public class NewLocationParmBehaviorUtil {
 
         if (processed > 0) {
             whereClauseSegment.rightParen();
-//            for (int i = 0; i < processed; i++) {
-//                whereClauseSegment.rightParen();
-//            }
         }
     }
 
+    /**
+     * Process missing area. No longer performed here, but in another missing
+     * clause.
+     * @param whereClauseSegment
+     * @param missingArea
+     */
     public void buildQueryForBoundingMissing(WhereFragment whereClauseSegment,
             BoundingMissing missingArea) {
         // No Operation - the main logic is contained in the process Missing parameter
@@ -98,8 +104,8 @@ public class NewLocationParmBehaviorUtil {
      * build query for bounding box.
      *
      * @param whereClauseSegment
-     * @param bindVariables
      * @param boundingBox
+     * @param paramTableAlias
      */
     public void buildQueryForBoundingBox(WhereFragment whereClauseSegment,
             BoundingBox boundingBox, String paramTableAlias) {
@@ -107,25 +113,25 @@ public class NewLocationParmBehaviorUtil {
         // Now build the piece that compares the BoundingBox longitude and latitude values
         // to the persisted longitude and latitude parameters.
         whereClauseSegment.leftParen()
-        // LAT <= ? --- LAT >= MIN_LAT
-        .col(paramTableAlias, LATITUDE_VALUE).gte().bind(boundingBox.getMinLatitude())
-        // LAT <= ? --- LAT <= MAX_LAT
-        .and()
-        .col(paramTableAlias, LATITUDE_VALUE).lte().bind(boundingBox.getMaxLatitude())
-        // LON <= ? --- LON >= MIN_LON
-        .and()
-        .col(paramTableAlias, LONGITUDE_VALUE).gte().bind(boundingBox.getMinLongitude())
-        // LON <= ? --- LON <= MAX_LON
-        .and()
-        .col(paramTableAlias, LONGITUDE_VALUE).lte().bind(boundingBox.getMaxLongitude())
-        .rightParen();
+            // LAT <= ? --- LAT >= MIN_LAT
+            .col(paramTableAlias, LATITUDE_VALUE).gte().bind(boundingBox.getMinLatitude())
+            // LAT <= ? --- LAT <= MAX_LAT
+            .and()
+            .col(paramTableAlias, LATITUDE_VALUE).lte().bind(boundingBox.getMaxLatitude())
+            // LON <= ? --- LON >= MIN_LON
+            .and()
+            .col(paramTableAlias, LONGITUDE_VALUE).gte().bind(boundingBox.getMinLongitude())
+            // LON <= ? --- LON <= MAX_LON
+            .and()
+            .col(paramTableAlias, LONGITUDE_VALUE).lte().bind(boundingBox.getMaxLongitude())
+            .rightParen();
     }
 
     /**
      * build query for bounding radius.
      *
      * @param whereClauseSegment
-     * @param bindVariables
+     * @param paramAlias
      * @param boundingBox
      */
     public void buildQueryForBoundingRadius(WhereFragment whereClauseSegment, String paramAlias,
@@ -145,15 +151,15 @@ public class NewLocationParmBehaviorUtil {
             .acos(col(paramAlias, LONGITUDE_VALUE));
 
         whereClauseSegment.leftParen()
-        .col(paramAlias, LATITUDE_VALUE).lte().bind(boundingRadius.getLatitude())
-        .and()
-        .col(paramAlias, LATITUDE_VALUE).gte().bind(boundingRadius.getLatitude())
-        .and()
-        .col(paramAlias, LONGITUDE_VALUE).lte().bind(boundingRadius.getLongitude())
-        .and()
-        .col(paramAlias, LONGITUDE_VALUE).gte().bind(boundingRadius.getLongitude())
-        // Check the ARC Radius
-        .and().acos(arcRadius.getExpression()).lte().bind(boundingRadius.getRadius());
-        whereClauseSegment.rightParen();
+            .col(paramAlias, LATITUDE_VALUE).lte().bind(boundingRadius.getLatitude())
+            .and()
+            .col(paramAlias, LATITUDE_VALUE).gte().bind(boundingRadius.getLatitude())
+            .and()
+            .col(paramAlias, LONGITUDE_VALUE).lte().bind(boundingRadius.getLongitude())
+            .and()
+            .col(paramAlias, LONGITUDE_VALUE).gte().bind(boundingRadius.getLongitude())
+            // Check the ARC Radius
+            .and().acos(arcRadius.getExpression()).lte().bind(boundingRadius.getRadius());
+            whereClauseSegment.rightParen();
     }
 }

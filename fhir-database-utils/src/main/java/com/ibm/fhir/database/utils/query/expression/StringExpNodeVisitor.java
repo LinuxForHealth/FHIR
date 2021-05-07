@@ -9,9 +9,13 @@ package com.ibm.fhir.database.utils.query.expression;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.database.utils.query.node.BigDecimalBindMarkerNode;
 import com.ibm.fhir.database.utils.query.node.BindMarkerNode;
@@ -37,17 +41,29 @@ public class StringExpNodeVisitor implements ExpNodeVisitor<String> {
 
     private final IDatabaseTranslator translator;
 
+    // For parameter encoding
+    private static final String SQL_PARAM_ESCAPE_CHARACTER = "";
+    private static final String SQL_PARAM_BLACKLIST_CHARACTERS_REGEX = "['\"]";
+    private final Pattern escapeCharacterPattern;
+
     /**
      * Simple rendering of the expression tree to a string, ignoring
      * the bind marker values
      */
     public StringExpNodeVisitor() {
+        escapeCharacterPattern = Pattern.compile(SQL_PARAM_BLACKLIST_CHARACTERS_REGEX);
         this.translator = null;
         this.bindMarkers = null;
         this.pretty = false;
     }
 
+    /**
+     * For rendering the expression tree to a string with additional formatting
+     * to improve readability.
+     * @param pretty
+     */
     public StringExpNodeVisitor(boolean pretty) {
+        escapeCharacterPattern = Pattern.compile(SQL_PARAM_BLACKLIST_CHARACTERS_REGEX);
         this.translator = null;
         this.bindMarkers = null;
         this.pretty = pretty;
@@ -55,9 +71,11 @@ public class StringExpNodeVisitor implements ExpNodeVisitor<String> {
 
     /**
      * Collect the bind marker values into the given list
+     * @param translator
      * @param collectBindMarkersInto
      */
     public StringExpNodeVisitor(IDatabaseTranslator translator, List<BindMarkerNode> collectBindMarkersInto, boolean pretty) {
+        escapeCharacterPattern = Pattern.compile(SQL_PARAM_BLACKLIST_CHARACTERS_REGEX);
         this.translator = translator;
         this.bindMarkers = collectBindMarkersInto;
         this.pretty = pretty;
@@ -189,10 +207,11 @@ public class StringExpNodeVisitor implements ExpNodeVisitor<String> {
     }
 
     @Override
-    public String literal(String value) {
+    public String literal(final String value) {
+        final String safeValue = encodeLiteralString(value);
         StringBuilder result = new StringBuilder();
         result.append("'");
-        result.append(value);
+        result.append(safeValue);
         result.append("'");
         return result.toString();
     }
@@ -221,7 +240,7 @@ public class StringExpNodeVisitor implements ExpNodeVisitor<String> {
     }
 
     @Override
-    public String sub(String left, String right) {
+    public String subtract(String left, String right) {
         StringBuilder result = new StringBuilder();
         result.append(left);
         result.append(" - ");
@@ -230,7 +249,7 @@ public class StringExpNodeVisitor implements ExpNodeVisitor<String> {
     }
 
     @Override
-    public String mult(String left, String right) {
+    public String multiply(String left, String right) {
         StringBuilder result = new StringBuilder();
         result.append(left);
         result.append(" * ");
@@ -239,7 +258,7 @@ public class StringExpNodeVisitor implements ExpNodeVisitor<String> {
     }
 
     @Override
-    public String div(String left, String right) {
+    public String divide(String left, String right) {
         StringBuilder result = new StringBuilder();
         result.append(left);
         result.append(" / ");
@@ -277,9 +296,15 @@ public class StringExpNodeVisitor implements ExpNodeVisitor<String> {
     public String column(String tableAlias, String columnName) {
         StringBuilder result = new StringBuilder();
         if (tableAlias != null) {
+            // check safety
+            DataDefinitionUtil.assertValidName(tableAlias);
+            DataDefinitionUtil.assertValidName(columnName);
             result.append(tableAlias);
             result.append(".");
         }
+
+        // Currently, columnName by itself may be a more complex expression
+        // which isn't ideal. Consider refactor as part of #2321
         result.append(columnName);
         return result.toString();
     }
@@ -326,6 +351,10 @@ public class StringExpNodeVisitor implements ExpNodeVisitor<String> {
 
     @Override
     public String in(String left, List<String> args) {
+        // Each argument here should already have been rendered into a SQL
+        // string value - one that has been quoted. This also means that
+        // the values are already encoded fpr safety, so there's no need
+        // to encode again (which would break the statement syntax).
         StringBuilder result = new StringBuilder();
         result.append(left);
         result.append(" IN (");
@@ -402,5 +431,23 @@ public class StringExpNodeVisitor implements ExpNodeVisitor<String> {
         result.append(arg);
         result.append(")");
         return result.toString();
+    }
+
+    /**
+     * Make sure any literal strings we're embedding in our SQL statements are safe. String parameters
+     * should almost always use bind variables (which don't require encoding).
+     * <br>
+     * If parameter is null, returns empty string
+     * @param parameter
+     * @return SQL-safe encoded value
+     */
+    private final String encodeLiteralString(String parameter) {
+        String safeParameter = Optional.ofNullable(parameter).orElse("");
+        Matcher matcher = escapeCharacterPattern.matcher(safeParameter);
+        safeParameter = matcher.replaceAll(SQL_PARAM_ESCAPE_CHARACTER);
+
+        // extra check
+        DataDefinitionUtil.assertSecure(safeParameter);
+        return safeParameter;
     }
 }

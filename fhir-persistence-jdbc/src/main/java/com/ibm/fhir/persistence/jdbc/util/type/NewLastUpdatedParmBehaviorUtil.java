@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -63,10 +63,6 @@ public class NewLastUpdatedParmBehaviorUtil {
      * @param parameters
      */
     public void buildLastUpdatedDerivedTable(WhereFragment fromClause, List<QueryParameter> parameters) {
-//        fromClause.append(LEFT_PAREN);
-//        fromClause.append(" SELECT * FROM ");
-//        fromClause.append(target);
-//        fromClause.append("_RESOURCES IR WHERE ");
 
         boolean parmProcessed = false;
         for (QueryParameter queryParm : parameters) {
@@ -79,9 +75,6 @@ public class NewLastUpdatedParmBehaviorUtil {
             }
             executeBehavior(fromClause, queryParm);
         }
-
-        // Close out the Derived Tables
-//        fromClause.append(RIGHT_PAREN);
     }
 
     /**

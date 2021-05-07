@@ -7,9 +7,8 @@
 package com.ibm.fhir.database.utils.query;
 
 import static com.ibm.fhir.database.utils.query.Select.select;
-import static com.ibm.fhir.database.utils.query.SqlConstants.IS_NOT_NULL;
-import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.alias;
-import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.col;
+import static com.ibm.fhir.database.utils.query.expression.ExpressionSupport.alias;
+import static com.ibm.fhir.database.utils.query.expression.ExpressionSupport.col;
 import static org.testng.Assert.assertEquals;
 
 import org.testng.annotations.Test;
@@ -35,7 +34,7 @@ public class QueryTest {
     public void plainQuery() {
         Select query = Select.select(FOO_ID, FOO_NAME, FOO_AGE)
                 .from(FOO_TAB)
-                .where(FOO_AGE + " " + IS_NOT_NULL)
+                .where(FOO_AGE).isNotNull()
                 .build();
 
         // What our statement should look like
@@ -48,7 +47,7 @@ public class QueryTest {
         // Find the age of the oldest person by towns with a population of 10 or more
         Select query = Select.select(FOO_TOWN, "MAX(" + FOO_AGE + ")")
             .from(FOO_TAB)
-            .where(FOO_AGE + " " + IS_NOT_NULL)
+            .where(FOO_AGE).isNotNull()
             .groupBy(FOO_TOWN)
             .having("COUNT(*) > 10")
             .build();

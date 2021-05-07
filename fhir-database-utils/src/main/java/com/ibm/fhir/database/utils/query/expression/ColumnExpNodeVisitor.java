@@ -122,17 +122,17 @@ public class ColumnExpNodeVisitor implements ExpNodeVisitor<Set<String>> {
     }
 
     @Override
-    public Set<String> sub(Set<String> left, Set<String> right) {
+    public Set<String> subtract(Set<String> left, Set<String> right) {
         return merge(left, right);
     }
 
     @Override
-    public Set<String> mult(Set<String> left, Set<String> right) {
+    public Set<String> multiply(Set<String> left, Set<String> right) {
         return merge(left, right);
     }
 
     @Override
-    public Set<String> div(Set<String> left, Set<String> right) {
+    public Set<String> divide(Set<String> left, Set<String> right) {
         return merge(left, right);
     }
 

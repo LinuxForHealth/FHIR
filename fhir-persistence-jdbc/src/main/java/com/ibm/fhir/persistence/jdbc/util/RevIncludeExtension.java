@@ -13,9 +13,8 @@ import com.ibm.fhir.persistence.jdbc.domain.SearchExtension;
 import com.ibm.fhir.persistence.jdbc.domain.SearchQueryVisitor;
 import com.ibm.fhir.search.parameters.InclusionParameter;
 
-
 /**
- *
+ * SearchExtension for building _revinclude queries
  */
 public class RevIncludeExtension implements SearchExtension {
 

@@ -48,65 +48,13 @@ public class StringStatementRenderer implements StatementRenderer<String> {
     /**
      * Public constructor
      * @param translator
+     * @param collectBindMarkersInto
+     * @param pretty
      */
     public StringStatementRenderer(IDatabaseTranslator translator, List<BindMarkerNode> collectBindMarkersInto, boolean pretty) {
         this.translator = translator;
         this.collectBindMarkersInto = collectBindMarkersInto;
         this.pretty = pretty;
-    }
-
-    @Override
-    public String and(String left, String right) {
-        StringBuilder result = new StringBuilder();
-//        result.append(left);
-//        result.append(" AND ");
-//        result.append(right);
-        return result.toString();
-    }
-
-    @Override
-    public String or(String left, String right) {
-        StringBuilder result = new StringBuilder();
-//        result.append(left);
-//        result.append(" OR ");
-//        result.append(right);
-        return result.toString();
-    }
-
-    @Override
-    public String equals(String left, String right) {
-        throw new IllegalStateException("not supported");
-//        StringBuilder result = new StringBuilder();
-//        result.append(left);
-//        result.append(" = ");
-//        result.append(right);
-//        return result.toString();
-    }
-
-    @Override
-    public String notEquals(String left, String right) {
-        StringBuilder result = new StringBuilder();
-//        result.append(left);
-//        result.append(" != ");
-//        result.append(right);
-        return result.toString();
-    }
-
-    @Override
-    public String not(String param) {
-        StringBuilder result = new StringBuilder();
-//        result.append("NOT ");
-//        result.append(param);
-        return result.toString();
-    }
-
-    @Override
-    public String exists(String statement) {
-        StringBuilder result = new StringBuilder();
-//        result.append("EXISTS (");
-//        result.append(statement);
-//        result.append(")");
-        return result.toString();
     }
 
     @Override
@@ -169,36 +117,6 @@ public class StringStatementRenderer implements StatementRenderer<String> {
 
         return result.toString();
     }
-
-    @Override
-    public String paren(String expression) {
-        StringBuilder result = new StringBuilder();
-        result.append("(");
-        result.append(expression);
-        result.append(")");
-        return result.toString();
-    }
-
-    @Override
-    public String expression(String expr) {
-        // an expression which hasn't been broken into an expression tree (not a literal!)
-        return expr;
-    }
-
-    @Override
-    public String bind() {
-        return "?";
-    }
-
-    @Override
-    public String like(String left, String right) {
-        StringBuilder result = new StringBuilder();
-        result.append(left);
-        result.append(" LIKE ");
-        result.append(right);
-        result.append(" ESCAPE '" + this.escapeChar + "'");
-        return result.toString();
-   }
 
     @Override
     public String from(List<FromItem> items) {

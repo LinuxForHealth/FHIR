@@ -13,27 +13,29 @@ import com.ibm.fhir.persistence.jdbc.domain.SearchExtension;
 import com.ibm.fhir.persistence.jdbc.domain.SearchQueryVisitor;
 import com.ibm.fhir.search.parameters.InclusionParameter;
 
-
 /**
- *
+ * A SearchExtension used to add InclusionParameter filters to the
+ * include query.
  */
 public class IncludeExtension implements SearchExtension {
+    // The parameter being processed
     private final InclusionParameter inclusionParm;
 
-    private final List<Long> ids;
+    // The list of LOGICAL_RESOURCE_ID values to filter the query
+    private final List<Long> logicalResourceIds;
 
     /**
      * Public constructor
      * @param inclusionParm
-     * @param ids
+     * @param logicalResourcesIds
      */
-    public IncludeExtension(InclusionParameter inclusionParm, List<Long> ids) {
+    public IncludeExtension(InclusionParameter inclusionParm, List<Long> logicalResourceIds) {
         this.inclusionParm = inclusionParm;
-        this.ids = ids;
+        this.logicalResourceIds = logicalResourceIds;
     }
 
     @Override
     public <T> T visit(T query, SearchQueryVisitor<T> visitor) throws FHIRPersistenceException {
-        return visitor.addIncludeFilter(query, inclusionParm, ids);
+        return visitor.addIncludeFilter(query, inclusionParm, logicalResourceIds);
     }
 }

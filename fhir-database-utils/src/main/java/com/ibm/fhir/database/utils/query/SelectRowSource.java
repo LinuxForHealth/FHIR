@@ -41,7 +41,7 @@ public class SelectRowSource implements RowSource {
     public String toPrettyString(boolean pretty) {
 
         // TODO get rid, because we don't have a translator so can't really render
-        // a correct string
+        // a correct string. See issue #2321.
         StringStatementRenderer renderer = new StringStatementRenderer(null, null, pretty);
         return select.render(renderer);
     }

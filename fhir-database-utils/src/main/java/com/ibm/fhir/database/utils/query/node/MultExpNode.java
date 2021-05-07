@@ -15,6 +15,6 @@ public class MultExpNode extends MultiplicativeExpNode {
     public <T> T visit(ExpNodeVisitor<T> visitor) {
         T leftValue = getLeft().visit(visitor);
         T rightValue = getRight().visit(visitor);
-        return visitor.mult(leftValue, rightValue);
+        return visitor.multiply(leftValue, rightValue);
     }
 }

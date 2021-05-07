@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,7 @@
 package com.ibm.fhir.persistence.jdbc.test.util;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -95,16 +96,18 @@ public class NewNumberParmBehaviorUtilTest {
         assertEquals(actualWhereClauseString, expectedSql);
         assertEquals(collectBindMarkersInto.size(), expectedBindVariables.size());
 
-        // TODO check bind values are correct
-//        for (Object o : expectedBindVariables) {
-//            actualBindVariables.remove(o);
-//        }
-//
-//        if (log.isLoggable(LOG_LEVEL)) {
-//            log.info("leftover - bind variables -> " + actualBindVariables);
-//        }
-//        assertEquals(actualBindVariables.size(), 0);
+        for (int i=0; i<expectedBindVariables.size(); i++) {
+            Object expectedValue = expectedBindVariables.get(i);
+            BindMarkerNode bindMarker = collectBindMarkersInto.get(i);
 
+            if (!bindMarker.checkTypeAndValue(expectedValue)) {
+                StringBuilder msg = new StringBuilder();
+                msg.append("BIND[").append(i).append("] ")
+                    .append("EXPECTED=").append(expectedValue)
+                    .append("; ACTUAL=").append(bindMarker.toValueString("~"));
+                assertTrue(false, msg.toString());
+            }
+        }
     }
 
     @BeforeClass
@@ -161,14 +164,12 @@ public class NewNumberParmBehaviorUtilTest {
         queryParm             = generateParameter(SearchConstants.Prefix.SA, null, "1e3");
         expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("1E+3"));
-        // expectedBindVariables.add(new BigDecimal("1E+3"));
         expectedSql = "Basic.NUMBER_VALUE_LOW > ?";
         runTest(queryParm, expectedBindVariables, expectedSql);
 
         // eb - Ends before
         queryParm             = generateParameter(SearchConstants.Prefix.EB, null, "1e3");
         expectedBindVariables = new ArrayList<>();
-        // expectedBindVariables.add(new BigDecimal("1E+3"));
         expectedBindVariables.add(new BigDecimal("1E+3"));
         expectedSql = "Basic.NUMBER_VALUE_HIGH < ?";
         runTest(queryParm, expectedBindVariables, expectedSql);
@@ -181,7 +182,6 @@ public class NewNumberParmBehaviorUtilTest {
                 generateParameter(SearchConstants.Prefix.SA, null, "window-end", new String[] { "1" });
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("1"));
-        // expectedBindVariables.add(new BigDecimal("1"));
         String expectedSql = "MolecularSequence.NUMBER_VALUE_LOW > ?";
         runTest(queryParm, expectedBindVariables, expectedSql, "MolecularSequence", MolecularSequence.class);
     }
@@ -193,7 +193,6 @@ public class NewNumberParmBehaviorUtilTest {
                 generateParameter(SearchConstants.Prefix.EB, null, "window-end", new String[] { "1" });
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("1"));
-        // expectedBindVariables.add(new BigDecimal("1"));
         String expectedSql = "MolecularSequence.NUMBER_VALUE_HIGH < ?";
         runTest(queryParm, expectedBindVariables, expectedSql, "MolecularSequence", MolecularSequence.class);
     }
@@ -281,10 +280,10 @@ public class NewNumberParmBehaviorUtilTest {
 
         QueryParameter queryParm = generateParameter(SearchConstants.Prefix.AP, null, "100");
         List<Object> expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(new BigDecimal("89.5"));
-        expectedBindVariables.add(new BigDecimal("110.5"));
-        expectedBindVariables.add(new BigDecimal("99.5"));
-        expectedBindVariables.add(new BigDecimal("100.5"));
+        expectedBindVariables.add(new BigDecimal("89.5"));  // V >= lowerBound - factor
+        expectedBindVariables.add(new BigDecimal("110.5")); // V <  upperBound + factor
+        expectedBindVariables.add(new BigDecimal("100.5")); // L <= upperBound
+        expectedBindVariables.add(new BigDecimal("99.5"));  // H >= lowerBound
         String expectedSql = "(Basic.NUMBER_VALUE >= ? AND Basic.NUMBER_VALUE < ? "
                 + "OR Basic.NUMBER_VALUE_LOW <= ? AND Basic.NUMBER_VALUE_HIGH >= ?)";
         runTest(queryParm, expectedBindVariables, expectedSql);
@@ -325,8 +324,8 @@ public class NewNumberParmBehaviorUtilTest {
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("89.5"));
         expectedBindVariables.add(new BigDecimal("110.5"));
-        expectedBindVariables.add(new BigDecimal("99.5"));
         expectedBindVariables.add(new BigDecimal("100.5"));
+        expectedBindVariables.add(new BigDecimal("99.5"));
         String expectedSql = "(Basic.NUMBER_VALUE >= ? AND Basic.NUMBER_VALUE < ? OR Basic.NUMBER_VALUE_LOW <= ? AND Basic.NUMBER_VALUE_HIGH >= ?)";
         runTest(queryParm, expectedBindVariables, expectedSql);
     }
@@ -343,12 +342,12 @@ public class NewNumberParmBehaviorUtilTest {
         List<Object> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(new BigDecimal("89.5"));
         expectedBindVariables.add(new BigDecimal("110.5"));
-        expectedBindVariables.add(new BigDecimal("99.5"));
         expectedBindVariables.add(new BigDecimal("100.5"));
+        expectedBindVariables.add(new BigDecimal("99.5"));
         expectedBindVariables.add(new BigDecimal("89.995"));
         expectedBindVariables.add(new BigDecimal("110.005"));
-        expectedBindVariables.add(new BigDecimal("99.995"));
         expectedBindVariables.add(new BigDecimal("100.005"));
+        expectedBindVariables.add(new BigDecimal("99.995"));
         String expectedSql =
                 "(Basic.NUMBER_VALUE >= ? AND Basic.NUMBER_VALUE < ? OR Basic.NUMBER_VALUE_LOW <= ? AND Basic.NUMBER_VALUE_HIGH >= ?) "
                 + "OR (Basic.NUMBER_VALUE >= ? AND Basic.NUMBER_VALUE < ? OR Basic.NUMBER_VALUE_LOW <= ? AND Basic.NUMBER_VALUE_HIGH >= ?)";

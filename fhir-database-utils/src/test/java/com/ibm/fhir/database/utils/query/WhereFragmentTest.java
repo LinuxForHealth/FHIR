@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.database.utils.query;
 
-import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.bind;
+import static com.ibm.fhir.database.utils.query.expression.ExpressionSupport.bind;
 import static org.testng.Assert.assertEquals;
 
 import org.testng.annotations.Test;

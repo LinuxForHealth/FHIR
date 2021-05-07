@@ -41,10 +41,8 @@ public class TableRowSource implements RowSource {
 
     /**
      * Protected constructor for a table qualified by schema name
-     *
      * @param schemaName
      * @param tableName
-     * @param alias
      */
     protected TableRowSource(String schemaName, String tableName) {
         DataDefinitionUtil.assertValidName(schemaName);

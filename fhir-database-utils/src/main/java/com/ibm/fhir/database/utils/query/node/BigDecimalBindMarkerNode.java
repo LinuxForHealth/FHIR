@@ -30,4 +30,20 @@ public class BigDecimalBindMarkerNode extends BindMarkerNode {
     public void visit(BindMarkerNodeVisitor visitor) {
         visitor.bindBigDecimal(value);
     }
+
+    @Override
+    public boolean checkTypeAndValue(Object expectedValue) {
+        if (value == null) {
+            return expectedValue == null;
+        } else if (expectedValue instanceof BigDecimal) {
+            return this.value.equals(expectedValue);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public String toValueString(String defaultValue) {
+        return this.value != null ? value.toString() : defaultValue;
+    }
 }

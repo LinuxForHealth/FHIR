@@ -676,7 +676,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             checkModifiers(searchContext, isSystemLevelSearch(resourceType));
             queryBuilder = new NewQueryBuilder(connectionStrategy.getQueryHints(), identityCache);
 
-
             // Skip count query if _total=none
             if (!TotalValueSet.NONE.equals(searchContext.getTotalParameter())) {
                 countQuery = queryBuilder.buildCountQuery(resourceType, searchContext);
@@ -771,7 +770,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         }
     }
 
-
+    /**
+     * Search query implementation based on the original string-based query builder.
+     * Still used for whole-system search.
+     * @param context
+     * @param resourceType
+     * @return
+     * @throws FHIRPersistenceException
+     */
     public MultiResourceResult<Resource> oldSearch(FHIRPersistenceContext context, Class<? extends Resource> resourceType)
             throws FHIRPersistenceException {
         final String METHODNAME = "search";

@@ -15,6 +15,6 @@ public class SubExpNode extends AdditiveExpNode {
     public <T> T visit(ExpNodeVisitor<T> visitor) {
         T leftValue = getLeft().visit(visitor);
         T rightValue = getRight().visit(visitor);
-        return visitor.sub(leftValue, rightValue);
+        return visitor.subtract(leftValue, rightValue);
     }
 }
