@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,7 +24,7 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
 /**
  * Quantity parameter handling using the Select model.
  *
- * <a href="https://hl7.org/fhir/search.html#quantity>FHIR Search - Quantity</a>
+ * <a href="https://hl7.org/fhir/search.html#quantity">FHIR Search - Quantity</a>
  * <br>
  * This utility encapsulates the logic specific to fhir-search related to
  * quantity.

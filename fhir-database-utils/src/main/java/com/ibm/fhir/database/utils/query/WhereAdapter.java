@@ -29,8 +29,8 @@ public class WhereAdapter extends BaseWhereAdapter<WhereAdapter> {
 
     /**
      * Public constructor
-     *
      * @param select
+     * @param whereClause
      * @param predicate
      */
     public WhereAdapter(Select select, WhereClause whereClause, String predicate) {

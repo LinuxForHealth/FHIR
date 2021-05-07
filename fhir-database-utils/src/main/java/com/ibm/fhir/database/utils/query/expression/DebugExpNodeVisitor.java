@@ -28,20 +28,12 @@ public class DebugExpNodeVisitor extends StringExpNodeVisitor {
 
     @Override
     public String bindMarker(Double value) {
-        if (value != null) {
-            return value.toString();
-        } else {
-            return NULL;
-        }
+        return value != null ? value.toString() : NULL;
     }
 
     @Override
     public String bindMarker(Long value) {
-        if (value != null) {
-            return value.toString();
-        } else {
-            return NULL;
-        }
+        return value != null ? value.toString() : NULL;
     }
 
     @Override
@@ -55,20 +47,12 @@ public class DebugExpNodeVisitor extends StringExpNodeVisitor {
 
     @Override
     public String bindMarker(Instant value) {
-        if (value != null) {
-            return value.toString();
-        } else {
-            return NULL;
-        }
+        return value != null ? value.toString() : NULL;
     }
 
     @Override
     public String bindMarker(Integer value) {
-        if (value != null) {
-            return value.toString();
-        } else {
-            return NULL;
-        }
+        return value != null ? value.toString() : NULL;
     }
 
     @Override

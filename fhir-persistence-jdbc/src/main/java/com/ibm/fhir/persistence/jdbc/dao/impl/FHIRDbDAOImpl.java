@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,10 +17,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
-import com.ibm.fhir.database.utils.db2.Db2Translator;
-import com.ibm.fhir.database.utils.derby.DerbyTranslator;
+import com.ibm.fhir.database.utils.common.DatabaseTranslatorFactory;
 import com.ibm.fhir.database.utils.model.DbType;
-import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.database.utils.query.QueryUtil;
 import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
@@ -214,8 +212,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             fhirObjects = this.createDTOs(resultSet);
 
             if (log.isLoggable(Level.FINE)) {
-                // don't print the SQL statement here - it's already been logged
-                log.fine("Successfully retrieved FHIR objects; searchArgs="
+                log.fine("Successfully retrieved FHIR objects; SQL=" + sql + NEWLINE + "searchArgs="
                         + Arrays.toString(searchArgs) + " [took " + dbCallDuration + " ms]");
             }
         } catch (FHIRPersistenceException e) {
@@ -319,6 +316,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         long dbCallStartTime;
         double dbCallDuration;
 
+        // Query string is FINE logged inside prepareSelect, so no need to log again here
         try (PreparedStatement stmt = QueryUtil.prepareSelect(connection, countQuery, getTranslator())) {
             dbCallStartTime = System.nanoTime();
             ResultSet resultSet = stmt.executeQuery();
@@ -363,7 +361,6 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
 
         List<Resource> fhirObjects = new ArrayList<>();
         ResultSet resultSet = null;
-        String errMsg;
         long dbCallStartTime;
         double dbCallDuration;
 
@@ -512,22 +509,6 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
      * @return
      */
     protected IDatabaseTranslator getTranslator() {
-        IDatabaseTranslator result;
-
-        switch (this.flavor.getType()) {
-        case DERBY:
-            result = new DerbyTranslator();
-            break;
-        case DB2:
-            result = new Db2Translator();
-            break;
-        case POSTGRESQL:
-            result = new PostgresTranslator();
-            break;
-        default:
-            throw new IllegalStateException("DbType not supported: " + this.flavor.getType());
-        }
-
-        return result;
+        return DatabaseTranslatorFactory.getTranslator(this.flavor.getType());
     }
 }

@@ -16,7 +16,7 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
 
 
 /**
- * Handles search for missing params
+ * Handles search for the missing param
  */
 public class MissingSearchParam extends SearchParam {
     private static final Logger logger = Logger.getLogger(MissingSearchParam.class.getName());

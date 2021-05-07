@@ -8,14 +8,9 @@ package com.ibm.fhir.database.utils.query.node;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.Stack;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
  * Basically follows Dijkstra's shunting yard algorithm to ensure
@@ -29,32 +24,14 @@ public class PredicateParser {
     private static final String NEWLINE = System.lineSeparator();
 
     // Stacks used to hold expression nodes until they are ready to be shunted
+    // TODO Stack is synchronized...consider alternatives
     private final Stack<ExpNode> operatorStack = new Stack<>();
     private final Stack<ExpNode> operandStack = new Stack<>();
 
-    // For parameter encoding
-    private static final String SQL_PARAM_ESCAPE_CHARACTER = "";
-    private static final String SQL_PARAM_BLACKLIST_CHARACTERS_REGEX = "['\"]";
-    private final Pattern escapeCharacterPattern;
-
-    public PredicateParser() {
-        escapeCharacterPattern = Pattern.compile(SQL_PARAM_BLACKLIST_CHARACTERS_REGEX);
-    }
-
     /**
-     * Make sure any literal strings we're embedding in our SQL statements are safe. String parameters
-     * should almost always use bind variables (which don't require encoding).
-     * @param parameter
-     * @return
+     * Default constructor
      */
-    private final String encodeParameter(String parameter) {
-        String safeParameter = Optional.ofNullable(parameter).orElse("");
-        Matcher matcher = escapeCharacterPattern.matcher(safeParameter);
-        safeParameter = matcher.replaceAll(SQL_PARAM_ESCAPE_CHARACTER);
-
-        // extra check
-        DataDefinitionUtil.assertSecure(safeParameter);
-        return safeParameter;
+    public PredicateParser() {
     }
 
     /**
@@ -198,7 +175,6 @@ public class PredicateParser {
      * @param str
      */
     public void literal(String str) {
-        str = encodeParameter(str);
         addNode(new StringExpNode(str));
     }
 
@@ -361,7 +337,7 @@ public class PredicateParser {
     public void inLiteral(String[] inList) {
         // Parameters are encoded for security, but bind markers are always preferred and
         // recommended for security.
-        List<ExpNode> args = Arrays.asList(inList).stream().map(v -> new StringExpNode(encodeParameter(v))).collect(Collectors.toList());
+        List<ExpNode> args = Arrays.asList(inList).stream().map(v -> new StringExpNode(v)).collect(Collectors.toList());
         addNode(new InListExpNode(args));
     }
 

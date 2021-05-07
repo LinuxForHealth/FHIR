@@ -6,12 +6,12 @@
 
 package com.ibm.fhir.database.utils.query;
 
-import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.alias;
-import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.bind;
-import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.col;
-import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.isDeleted;
-import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.on;
-import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.string;
+import static com.ibm.fhir.database.utils.query.expression.ExpressionSupport.alias;
+import static com.ibm.fhir.database.utils.query.expression.ExpressionSupport.bind;
+import static com.ibm.fhir.database.utils.query.expression.ExpressionSupport.col;
+import static com.ibm.fhir.database.utils.query.expression.ExpressionSupport.isDeleted;
+import static com.ibm.fhir.database.utils.query.expression.ExpressionSupport.on;
+import static com.ibm.fhir.database.utils.query.expression.ExpressionSupport.string;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 

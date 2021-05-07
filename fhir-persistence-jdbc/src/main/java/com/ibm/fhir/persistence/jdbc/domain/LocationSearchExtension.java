@@ -7,7 +7,6 @@
 package com.ibm.fhir.persistence.jdbc.domain;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.search.parameters.QueryParameter;
@@ -16,14 +15,13 @@ import com.ibm.fhir.search.parameters.QueryParameter;
  * A search extension for the NEAR location logic
  */
 public class LocationSearchExtension implements SearchExtension {
-    private static final String CLASSNAME = LocationSearchExtension.class.getName();
-    private static final Logger log = Logger.getLogger(CLASSNAME);
 
+    // The list of query parameters to process for location search
     private final List<QueryParameter> queryParameters;
 
     /**
      * Public constructor
-     * @param name
+     * @param queryParameters
      */
     public LocationSearchExtension(List<QueryParameter> queryParameters) {
         // No need to copy this...we trust the list won't be changing

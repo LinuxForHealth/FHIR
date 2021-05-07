@@ -15,6 +15,6 @@ public class DivExpNode extends MultiplicativeExpNode {
     public <T> T visit(ExpNodeVisitor<T> visitor) {
         T leftValue = getLeft().visit(visitor);
         T rightValue = getRight().visit(visitor);
-        return visitor.div(leftValue, rightValue);
+        return visitor.divide(leftValue, rightValue);
     }
 }

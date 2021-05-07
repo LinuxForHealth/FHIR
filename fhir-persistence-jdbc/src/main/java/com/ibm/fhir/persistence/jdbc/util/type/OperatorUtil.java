@@ -26,6 +26,11 @@ import com.ibm.fhir.search.parameters.QueryParameter;
 public class OperatorUtil {
 
     /**
+     * Private constructor to prevent instantiation
+     */
+    private OperatorUtil() {
+    }
+    /**
      * Get the operator we need to use for matching values for this parameter
      * @return
      */

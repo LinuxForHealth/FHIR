@@ -16,7 +16,9 @@ public class TokenSearchParam extends SearchParam {
 
     /**
      * Public constructor
+     * @param rootResourceName
      * @param name
+     * @param queryParameter
      */
     public TokenSearchParam(String rootResourceName, String name, QueryParameter queryParameter) {
         super(rootResourceName, name, queryParameter);

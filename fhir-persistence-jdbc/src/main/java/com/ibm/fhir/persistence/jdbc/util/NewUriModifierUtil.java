@@ -1,12 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2018,2019
+ * (C) Copyright IBM Corp. 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.persistence.jdbc.util;
 
-import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.bind;
+import static com.ibm.fhir.database.utils.query.expression.ExpressionSupport.bind;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PATH_CHAR;
 
 import java.util.ArrayList;
@@ -25,16 +25,20 @@ import com.ibm.fhir.database.utils.query.WhereFragment;
  */
 public class NewUriModifierUtil {
 
+    /**
+     * Private constructor
+     */
     private NewUriModifierUtil() {
         // No Operation
     }
 
     /**
      * generates the uri:above query
-     *
-     * @param searchValue
-     * @param conditionalBuilder
+     * @param expression
+     * @param paramAlias
      * @param tableColumnName
+     * @param searchValue
+     * @param operator
      */
     public static void generateAboveValuesQuery(WhereFragment expression, String paramAlias, String tableColumnName, String searchValue,
         Operator operator) {
@@ -76,18 +80,19 @@ public class NewUriModifierUtil {
 
     /**
      * generates the uri:below query
-     *
-     * @param conditionalBuilder
+     * @param expression
      * @param tableColumnName
+     * @param value1
+     * @param value2
      */
-    public static void generateBelowValuesQuery(WhereFragment whereAdapter,
+    public static void generateBelowValuesQuery(WhereFragment expression,
             String tableColumnName, String value1, String value2) {
         // uri:below
         // SQL:
         // <pre>
         // TABLE.MY_STR_VALUES = ? )  OR  ( TABLE.MY_STR_VALUES LIKE ?
         // </pre>
-        whereAdapter.and().leftParen()
+        expression.and().leftParen()
             .col(tableColumnName).eq(bind(value1))
             .or(tableColumnName).like(bind(value2))
             .rightParen();

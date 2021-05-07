@@ -39,16 +39,8 @@ public class WhereClause {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder();
-
-        if (!isEmpty()) {
-            // Render the predicate expression tree as a string
-            ExpNode predicate = predicateParser.parse();
-            StringExpNodeVisitor visitor = new StringExpNodeVisitor();
-            result.append("WHERE ");
-            result.append(predicate.visit(visitor));
-        }
-        return result.toString();
+        StringExpNodeVisitor visitor = new StringExpNodeVisitor();
+        return renderPredicate(visitor);
     }
 
     /**
@@ -56,12 +48,22 @@ public class WhereClause {
      * @return
      */
     public String toDebugString() {
-        // Render the predicate expression tree as a string
-        ExpNode predicate = predicateParser.parse();
         DebugExpNodeVisitor visitor = new DebugExpNodeVisitor();
+        return renderPredicate(visitor);
+    }
+
+    /**
+     * Render the member predicate expression as a string using the given visitor
+     * @param visitor
+     * @return
+     */
+    private String renderPredicate(StringExpNodeVisitor visitor) {
         StringBuilder result = new StringBuilder();
-        result.append("WHERE ");
-        result.append(predicate.visit(visitor));
+        if (!isEmpty()) {
+            ExpNode predicate = predicateParser.parse();
+            result.append("WHERE ");
+            result.append(predicate.visit(visitor));
+        }
         return result.toString();
     }
 

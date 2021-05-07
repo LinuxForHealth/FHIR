@@ -25,52 +25,22 @@ import com.ibm.fhir.database.utils.query.node.ExpNode;
  */
 public interface StatementRenderer<T> {
 
-    T and(T left, T right);
-    T or(T left, T right);
-    T equals(T left, T right);
-    T notEquals(T left, T right);
-    T not(T left);
-    T exists(T statement);
-
     /**
      * Render the select statement using each of the components, some of which
      * may be optional (null)
+     * @param distinct
      * @param selectList
      * @param fromClause
      * @param whereClause
      * @param groupByClause
      * @param havingClause
      * @param orderByClause
+     * @param paginationClause
      * @return
      */
     T select(boolean distinct, SelectList selectList, FromClause fromClause, WhereClause whereClause, GroupByClause groupByClause, HavingClause havingClause,
         OrderByClause orderByClause, PaginationClause paginationClause);
-    /**
-     * Wrap the given expression with parens to control precedence
-     * @param render
-     * @return
-     */
-    T paren(T expression);
 
-    /**
-     * Render the string expression
-     * @param expr
-     * @return
-     */
-    T expression(String expr);
-
-    /**
-     * Render a bind parameter marker
-     * @return
-     */
-    T bind();
-
-    /**
-     * @param left
-     * @param right
-     * @return
-     */
-    T like(T left, T right);
     /**
      * @param items
      * @return
@@ -83,39 +53,46 @@ public interface StatementRenderer<T> {
      * @return
      */
     T fromItem(FromItem item);
+
     /**
      * @param sub
      * @return
      */
     T rowSource(T sub);
+
     /**
      * @param subValue
      * @param aliasValue
      * @return
      */
     T fromItem(T subValue, T aliasValue);
+
     /**
      * @param alias
      * @return
      */
     T alias(String alias);
+
     /**
      * @param schemaName
      * @param tableName
      * @return
      */
     T rowSource(String schemaName, String tableName);
+
     /**
      * @param joinOnPredicate
      * @return
      */
     T render(ExpNode joinOnPredicate);
+
     /**
      * @param joinFromValue
      * @param joinOnValue
      * @return
      */
     T innerJoin(T joinFromValue, T joinOnValue);
+
     /**
      * @param joinFromValue
      * @param joinOnValue

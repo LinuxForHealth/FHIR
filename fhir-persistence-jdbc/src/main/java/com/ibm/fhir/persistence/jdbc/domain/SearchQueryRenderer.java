@@ -6,11 +6,11 @@
 
 package com.ibm.fhir.persistence.jdbc.domain;
 
-import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.alias;
-import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.bind;
-import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.col;
-import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.on;
-import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.string;
+import static com.ibm.fhir.database.utils.query.expression.ExpressionSupport.alias;
+import static com.ibm.fhir.database.utils.query.expression.ExpressionSupport.bind;
+import static com.ibm.fhir.database.utils.query.expression.ExpressionSupport.col;
+import static com.ibm.fhir.database.utils.query.expression.ExpressionSupport.on;
+import static com.ibm.fhir.database.utils.query.expression.ExpressionSupport.string;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.CODE_SYSTEM_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMMON_TOKEN_VALUE_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DATE_START;
@@ -93,7 +93,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     private final static String STR_VALUE = "STR_VALUE";
     private final static String STR_VALUE_LCASE = "STR_VALUE_LCASE";
 
-
+    // A cache providing access to various database reference ids
     private final JDBCIdentityCache identityCache;
 
     // pagination page number
@@ -285,7 +285,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         select.from(logicalResources.build(), alias(lrAliasName))
             .innerJoin(xxResources, alias("R"), on(lrAliasName, "CURRENT_RESOURCE_ID").eq("R", "RESOURCE_ID"));
 
-        // The final query (still needs ordering/pagination to be applied
+        // The final query still needs ordering/pagination to be applied
         return new QueryData(select, lrAliasName, null, queryData.getResourceType(), queryData.getChainDepth());
     }
 

@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import java.time.Instant;
 
 import com.ibm.fhir.database.utils.query.Alias;
-import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.database.utils.query.WhereFragment;
 import com.ibm.fhir.database.utils.query.node.ACosExpNode;
 import com.ibm.fhir.database.utils.query.node.BigDecimalBindMarkerNode;
@@ -28,35 +27,38 @@ import com.ibm.fhir.database.utils.query.node.StringBindMarkerNode;
  * Collection of utility functions for building predicate expressions. Consumers
  * should static import the functions they require for cleaner syntax.
  */
-public class ExpressionUtils {
+public class ExpressionSupport {
 
     /**
      * Private constructor
      */
-    private ExpressionUtils() {
+    private ExpressionSupport() {
         // prevent instantiation
     }
 
+    /**
+     * Creates a {@link WhereFragment} starting with a simple column reference
+     * for use in a join clause
+     * @param col
+     * @return
+     */
     public static WhereFragment on(String col) {
         WhereFragment where = new WhereFragment();
         where.col(col);
         return where;
     }
 
+    /**
+     * Creates a {@link WhereFragment} starting with a qualified column reference
+     * for use in a join clause
+     * @param tableAlias
+     * @param col
+     * @return
+     */
     public static WhereFragment on(String tableAlias, String col) {
         WhereFragment where = new WhereFragment();
         where.col(tableAlias, col);
         return where;
-    }
-
-    /**
-     * Factory function to create a new {@link Exists} predicate expression
-     * based on the given {@link Select} statement
-     * @param s
-     * @return
-     */
-    public static Exists exists(Select s) {
-        return new Exists(s);
     }
 
     /**
@@ -100,38 +102,92 @@ public class ExpressionUtils {
         return new StringBindMarkerNode(value);
     }
 
+    /**
+     * Factory function to create a BindMarkerNode with the
+     * given value
+     * @param value
+     * @return
+     */
     public static BindMarkerNode bind(Long value) {
         return new LongBindMarkerNode(value);
     }
 
+    /**
+     * Factory function to create a BindMarkerNode with the
+     * given value
+     * @param value
+     * @return
+     */
     public static BindMarkerNode bind(Integer value) {
         return new IntegerBindMarkerNode(value);
     }
 
+    /**
+     * Factory function to create a BindMarkerNode with the
+     * given value
+     * @param value
+     * @return
+     */
     public static BindMarkerNode bind(Double value) {
         return new DoubleBindMarkerNode(value);
     }
 
+    /**
+     * Factory function to create a BindMarkerNode with the
+     * given value
+     * @param value
+     * @return
+     */
     public static BindMarkerNode bind(Instant value) {
         return new InstantBindMarkerNode(value);
     }
 
+    /**
+     * Factory function to create a BindMarkerNode with the
+     * given value
+     * @param value
+     * @return
+     */
     public static BindMarkerNode bind(BigDecimal value) {
         return new BigDecimalBindMarkerNode(value);
     }
 
+    /**
+     * Factory function to create a SinExpNode with the
+     * given value
+     * @param value
+     * @return
+     */
     public static ExpNode sin(ExpNode arg) {
         return new SinExpNode(arg);
     }
 
+    /**
+     * Factory function to create a CosExpNode with the
+     * given value
+     * @param value
+     * @return
+     */
     public static ExpNode cos(ExpNode arg) {
         return new CosExpNode(arg);
     }
 
+    /**
+     * Factory function to create a ACosExpNode with the
+     * given value
+     * @param value
+     * @return
+     */
     public static ExpNode acos(ExpNode arg) {
         return new ACosExpNode(arg);
     }
 
+    /**
+     * Factory function to create the expression
+     *   {alias}.IS_DELETED = 'N'
+     * @param value
+     * @return
+     */
     public static ExpNode isDeleted(String alias) {
         return new WhereFragment().col(alias, "IS_DELETED").eq(string("N")).getExpression();
     }

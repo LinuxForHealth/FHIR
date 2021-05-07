@@ -13,7 +13,10 @@ import java.util.logging.Logger;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
- *
+ * Abstract model of a FHIR search query we intend to build.
+ * The purpose of this class and its sub-classes is to drive
+ * calls to a {@link SearchQueryVisitor} implementation to render
+ * a runnable SQL statement.
  */
 public abstract class SearchQuery {
     private static final String CLASSNAME = SearchQuery.class.getName();
@@ -77,6 +80,8 @@ public abstract class SearchQuery {
 
     /**
      * Visit each of the extensions configured for this query
+     * @param <T>
+     * @param query
      * @param visitor
      * @throws FHIRPersistenceException
      */

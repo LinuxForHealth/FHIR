@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,7 +10,7 @@ import static com.ibm.fhir.database.utils.query.QueryTest.FOO_ID;
 import static com.ibm.fhir.database.utils.query.QueryTest.FOO_NAME;
 import static com.ibm.fhir.database.utils.query.QueryTest.FOO_TAB;
 import static com.ibm.fhir.database.utils.query.QueryTest.FOO_TOWN;
-import static com.ibm.fhir.database.utils.query.expression.ExpressionUtils.alias;
+import static com.ibm.fhir.database.utils.query.expression.ExpressionSupport.alias;
 import static org.testng.Assert.assertEquals;
 
 import org.testng.annotations.Test;
