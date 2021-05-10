@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ibm.fhir.core.context.impl.FHIRPagingContextImpl;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.TotalValueSet;
 import com.ibm.fhir.search.context.FHIRSearchContext;
@@ -27,6 +28,7 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
     private List<String> elementsParameters = null;
     private SummaryValueSet summaryParameter = null;
     private TotalValueSet totalParameter = null;
+    private List<Issue> outcomeIssues = null;
 
     public FHIRSearchContextImpl() {
         searchParameters = new ArrayList<>();
@@ -142,6 +144,19 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
     }
 
     @Override
+    public List<Issue> getOutcomeIssues() {
+        return this.outcomeIssues;
+    }
+
+    @Override
+    public void addOutcomeIssue(Issue outcomeIssue) {
+        if (outcomeIssues == null) {
+            outcomeIssues = new ArrayList<>();
+        }
+        outcomeIssues.add(outcomeIssue);
+    }
+
+    @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("FHIRSearchContextImpl [searchResourceTypes=");
@@ -160,6 +175,8 @@ public class FHIRSearchContextImpl extends FHIRPagingContextImpl implements FHIR
         builder.append(summaryParameter);
         builder.append(", totalParameter=");
         builder.append(totalParameter);
+        builder.append(", outcomeIssues=");
+        builder.append(outcomeIssues);
         builder.append("]");
         return builder.toString();
     }

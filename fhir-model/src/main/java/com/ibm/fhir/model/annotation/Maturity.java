@@ -16,5 +16,5 @@ import com.ibm.fhir.model.type.code.StandardsStatus;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Maturity {
     int level();
-    StandardsStatus.ValueSet status();
+    StandardsStatus.Value status();
 }

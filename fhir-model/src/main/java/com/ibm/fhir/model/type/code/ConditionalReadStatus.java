@@ -24,28 +24,28 @@ public class ConditionalReadStatus extends Code {
      * 
      * <p>No support for conditional reads.
      */
-    public static final ConditionalReadStatus NOT_SUPPORTED = ConditionalReadStatus.builder().value(ValueSet.NOT_SUPPORTED).build();
+    public static final ConditionalReadStatus NOT_SUPPORTED = ConditionalReadStatus.builder().value(Value.NOT_SUPPORTED).build();
 
     /**
      * If-Modified-Since
      * 
      * <p>Conditional reads are supported, but only with the If-Modified-Since HTTP Header.
      */
-    public static final ConditionalReadStatus MODIFIED_SINCE = ConditionalReadStatus.builder().value(ValueSet.MODIFIED_SINCE).build();
+    public static final ConditionalReadStatus MODIFIED_SINCE = ConditionalReadStatus.builder().value(Value.MODIFIED_SINCE).build();
 
     /**
      * If-None-Match
      * 
      * <p>Conditional reads are supported, but only with the If-None-Match HTTP Header.
      */
-    public static final ConditionalReadStatus NOT_MATCH = ConditionalReadStatus.builder().value(ValueSet.NOT_MATCH).build();
+    public static final ConditionalReadStatus NOT_MATCH = ConditionalReadStatus.builder().value(Value.NOT_MATCH).build();
 
     /**
      * Full Support
      * 
      * <p>Conditional reads are supported, with both If-Modified-Since and If-None-Match HTTP Headers.
      */
-    public static final ConditionalReadStatus FULL_SUPPORT = ConditionalReadStatus.builder().value(ValueSet.FULL_SUPPORT).build();
+    public static final ConditionalReadStatus FULL_SUPPORT = ConditionalReadStatus.builder().value(Value.FULL_SUPPORT).build();
 
     private volatile int hashCode;
 
@@ -53,14 +53,46 @@ public class ConditionalReadStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this ConditionalReadStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this ConditionalReadStatus as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating ConditionalReadStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static ConditionalReadStatus of(ValueSet value) {
+        switch (value) {
+        case NOT_SUPPORTED:
+            return NOT_SUPPORTED;
+        case MODIFIED_SINCE:
+            return MODIFIED_SINCE;
+        case NOT_MATCH:
+            return NOT_MATCH;
+        case FULL_SUPPORT:
+            return FULL_SUPPORT;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating ConditionalReadStatus objects from a passed enum value.
      */
-    public static ConditionalReadStatus of(ValueSet value) {
+    public static ConditionalReadStatus of(Value value) {
         switch (value) {
         case NOT_SUPPORTED:
             return NOT_SUPPORTED;
@@ -84,7 +116,7 @@ public class ConditionalReadStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static ConditionalReadStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -96,7 +128,7 @@ public class ConditionalReadStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -108,7 +140,7 @@ public class ConditionalReadStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -170,10 +202,27 @@ public class ConditionalReadStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for ConditionalReadStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -183,6 +232,7 @@ public class ConditionalReadStatus extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Not Supported
@@ -227,7 +277,7 @@ public class ConditionalReadStatus extends Code {
         }
 
         /**
-         * Factory method for creating ConditionalReadStatus.ValueSet values from a passed string value.
+         * Factory method for creating ConditionalReadStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -241,6 +291,78 @@ public class ConditionalReadStatus extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Not Supported
+         * 
+         * <p>No support for conditional reads.
+         */
+        NOT_SUPPORTED("not-supported"),
+
+        /**
+         * If-Modified-Since
+         * 
+         * <p>Conditional reads are supported, but only with the If-Modified-Since HTTP Header.
+         */
+        MODIFIED_SINCE("modified-since"),
+
+        /**
+         * If-None-Match
+         * 
+         * <p>Conditional reads are supported, but only with the If-None-Match HTTP Header.
+         */
+        NOT_MATCH("not-match"),
+
+        /**
+         * Full Support
+         * 
+         * <p>Conditional reads are supported, with both If-Modified-Since and If-None-Match HTTP Headers.
+         */
+        FULL_SUPPORT("full-support");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating ConditionalReadStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding ConditionalReadStatus.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "not-supported":
+                return NOT_SUPPORTED;
+            case "modified-since":
+                return MODIFIED_SINCE;
+            case "not-match":
+                return NOT_MATCH;
+            case "full-support":
+                return FULL_SUPPORT;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

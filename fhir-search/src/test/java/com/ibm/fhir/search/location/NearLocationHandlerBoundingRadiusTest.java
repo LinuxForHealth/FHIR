@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019,2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,12 +21,13 @@ import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.location.bounding.Bounding;
 import com.ibm.fhir.search.location.bounding.BoundingRadius;
 import com.ibm.fhir.search.location.bounding.BoundingType;
+import com.ibm.fhir.search.test.BaseSearchTest;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
  * Test the BoundingRadius with NearLocationHandler
  */
-public class NearLocationHandlerBoundingRadiusTest {
+public class NearLocationHandlerBoundingRadiusTest extends BaseSearchTest {
 
     @Test
     public void testLocationBoundaryPositionsFromParameters() throws Exception {

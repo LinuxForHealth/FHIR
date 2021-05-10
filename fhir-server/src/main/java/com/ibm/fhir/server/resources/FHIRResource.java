@@ -19,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -34,6 +35,8 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
 
+import org.owasp.encoder.Encode;
+
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
@@ -43,6 +46,7 @@ import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.code.IssueSeverity;
@@ -286,7 +290,26 @@ public class FHIRResource {
             sb.append("\nOperationOutcome:\n").append(serializeOperationOutcome(oo));
             log.log(Level.FINE, sb.toString());
         }
-        return Response.status(status).entity(oo).build();
+
+        // Single Location to ensure the Operation Outcomes are Encode.forHtml and avoids any injections.
+        Collection<Issue> currentIssues = oo.getIssue();
+        List<Issue> issues = new ArrayList<>();
+        for (Issue current : currentIssues) {
+            if (current.getDiagnostics() != null) {
+                String diagnostics = current.getDiagnostics().getValue();
+                issues.add(
+                    current.toBuilder()
+                       .diagnostics(string(Encode.forHtml(diagnostics)))
+                    .build());
+            } else {
+                issues.add(current);
+            }
+        }
+        return Response.status(status)
+                .entity(oo.toBuilder()
+                    .issue(issues)
+                    .build())
+                .build();
     }
 
     private String serializeOperationOutcome(OperationOutcome oo) {

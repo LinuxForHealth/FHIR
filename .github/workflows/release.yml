@@ -6,6 +6,7 @@ on:
       - '*.*'
     paths-ignore:
     - 'docs/**'
+    - 'demo/**'
     - '.github/workflows/site.yml'
     - '.github/workflows/javadocs.yml'
 

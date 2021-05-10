@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -54,7 +54,7 @@ public class SubsumedByFunction extends FHIRPathAbstractTermFunction {
             return empty();
         }
 
-        switch (outcome.getValueAsEnumConstant()) {
+        switch (outcome.getValueAsEnum()) {
         case EQUIVALENT:
         case SUBSUMED_BY:
             return SINGLETON_TRUE;

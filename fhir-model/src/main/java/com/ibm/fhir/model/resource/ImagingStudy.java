@@ -51,7 +51,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 3,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "imagingStudy-0",
@@ -100,7 +100,7 @@ public class ImagingStudy extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ImagingStudyStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The status of the ImagingStudy.",
         valueSet = "http://hl7.org/fhir/ValueSet/imagingstudy-status|4.0.1"
     )
@@ -109,7 +109,7 @@ public class ImagingStudy extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ImagingModality",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Type of acquired data in the instance.",
         valueSet = "http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html"
     )
@@ -145,7 +145,7 @@ public class ImagingStudy extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ImagingProcedureCode",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The performed procedure type.",
         valueSet = "http://www.rsna.org/RadLex_Playbook.aspx"
     )
@@ -156,7 +156,7 @@ public class ImagingStudy extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ImagingReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The reason for the study.",
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-reason"
     )
@@ -1433,7 +1433,7 @@ public class ImagingStudy extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ImagingModality",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Type of acquired data in the instance.",
             valueSet = "http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html"
         )
@@ -1449,7 +1449,7 @@ public class ImagingStudy extends DomainResource {
         @Summary
         @Binding(
             bindingName = "BodySite",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes describing anatomical locations. May include laterality.",
             valueSet = "http://hl7.org/fhir/ValueSet/body-site"
         )
@@ -1457,7 +1457,7 @@ public class ImagingStudy extends DomainResource {
         @Summary
         @Binding(
             bindingName = "Laterality",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes describing body site laterality (left, right, etc.).",
             valueSet = "http://hl7.org/fhir/ValueSet/bodysite-laterality"
         )
@@ -2171,7 +2171,7 @@ public class ImagingStudy extends DomainResource {
             @Summary
             @Binding(
                 bindingName = "EventPerformerFunction",
-                strength = BindingStrength.ValueSet.EXTENSIBLE,
+                strength = BindingStrength.Value.EXTENSIBLE,
                 description = "The type of involvement of the performer.",
                 valueSet = "http://hl7.org/fhir/ValueSet/series-performer-function"
             )
@@ -2462,7 +2462,7 @@ public class ImagingStudy extends DomainResource {
             private final Id uid;
             @Binding(
                 bindingName = "sopClass",
-                strength = BindingStrength.ValueSet.EXTENSIBLE,
+                strength = BindingStrength.Value.EXTENSIBLE,
                 description = "The sopClass for the instance.",
                 valueSet = "http://dicom.nema.org/medical/dicom/current/output/chtml/part04/sect_B.5.html#table_B.5-1"
             )

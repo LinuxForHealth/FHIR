@@ -6,20 +6,30 @@
 
 package com.ibm.fhir.server.operation.spi;
 
+import static com.ibm.fhir.model.type.String.string;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.owasp.encoder.Encode;
+
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Extension;
+import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.OperationParameterUse;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.server.util.FHIRRestHelper;
 
 public abstract class AbstractOperation implements FHIROperation {
     protected final OperationDefinition definition;
@@ -143,6 +153,14 @@ public abstract class AbstractOperation implements FHIROperation {
                 String msg = "Operation context RESOURCE_TYPE is not allowed for operation: '" + getName() + "'";
                 throw buildExceptionWithIssue(msg, IssueType.INVALID);
             } else {
+                if (resourceType == null) {
+                    String actualPath = "null-path";
+                    Object val = operationContext.getProperty(FHIROperationContext.PROPNAME_PATH_PARAMETER);
+                    if (val instanceof java.lang.String) {
+                        actualPath = (String) val;
+                    }
+                    throw buildUnsupportedResourceTypeException(actualPath);
+                }
                 String resourceTypeName = resourceType.getSimpleName();
                 List<String> resourceTypeNames = getResourceTypeNames();
                 if (!resourceTypeNames.contains(resourceTypeName) && !resourceTypeNames.contains("Resource")) {
@@ -160,6 +178,21 @@ public abstract class AbstractOperation implements FHIROperation {
         default:
             break;
         }
+    }
+
+    private FHIROperationException buildUnsupportedResourceTypeException(String resourceTypeName) {
+        String msg = "'" + resourceTypeName + "' is not a valid resource type.";
+        Issue issue = OperationOutcome.Issue.builder()
+                .severity(IssueSeverity.FATAL)
+                .code(IssueType.NOT_SUPPORTED.toBuilder()
+                        .extension(Extension.builder()
+                            .url(FHIRRestHelper.EXTENSION_URL +  "/not-supported-detail")
+                            .value(Code.of("resource"))
+                            .build())
+                        .build())
+                .details(CodeableConcept.builder().text(string(Encode.forHtml(msg))).build())
+                .build();
+        return new FHIROperationException(msg).withIssue(issue);
     }
 
     protected void validateOutputParameters(Parameters result) throws FHIROperationException {

@@ -50,7 +50,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Communication extends DomainResource {
@@ -69,7 +69,7 @@ public class Communication extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CommunicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The status of the communication.",
         valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.0.1"
     )
@@ -78,14 +78,14 @@ public class Communication extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CommunicationNotDoneReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for the reason why a communication did not happen.",
         valueSet = "http://hl7.org/fhir/ValueSet/communication-not-done-reason"
     )
     private final CodeableConcept statusReason;
     @Binding(
         bindingName = "CommunicationCategory",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for general categories of communications such as alerts, instructions, etc.",
         valueSet = "http://hl7.org/fhir/ValueSet/communication-category"
     )
@@ -93,14 +93,14 @@ public class Communication extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CommunicationPriority",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Codes indicating the relative importance of a communication.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
     )
     private final CommunicationPriority priority;
     @Binding(
         bindingName = "CommunicationMedium",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for communication mediums such as phone, fax, email, in person, etc.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ParticipationMode"
     )
@@ -110,7 +110,7 @@ public class Communication extends DomainResource {
     private final Reference subject;
     @Binding(
         bindingName = "CommunicationTopic",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes describing the purpose or content of the communication.",
         valueSet = "http://hl7.org/fhir/ValueSet/communication-topic"
     )
@@ -128,7 +128,7 @@ public class Communication extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CommunicationReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for describing reasons for the occurrence of a communication.",
         valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
     )

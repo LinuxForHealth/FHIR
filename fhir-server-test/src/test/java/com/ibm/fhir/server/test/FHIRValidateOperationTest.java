@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -160,6 +160,32 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
         assertEquals(1, operationOutcome.getIssue().size());
         assertEquals(IssueSeverity.ERROR, operationOutcome.getIssue().get(0).getSeverity());
         assertTrue(operationOutcome.getIssue().get(0).getDetails().getText().getValue().startsWith("generated-heartrate"));
+    }
+
+    @Test(groups = { "validate-operation" })
+    public void testValidateBadPath() throws Exception {
+        Observation obs = TestUtil.readExampleResource("json/spec/observation-example-respiratory-rate.json");
+        // Clear the profile from the resource's meta
+        obs = obs.toBuilder()
+                .meta(obs.getMeta().toBuilder().profile(Collections.emptySet()).build())
+                .build();
+        Parameters parameters = Parameters.builder()
+                .parameter(Parameters.Parameter.builder()
+                    .name(string("resource"))
+                    .resource(obs)
+                    .build())
+                .parameter(Parameters.Parameter.builder()
+                    .name(string("profile"))
+                    .value(Uri.of("http://hl7.org/fhir/StructureDefinition/heartrate"))
+                    .build())
+                .build();
+
+        StringWriter writer = new StringWriter();
+        FHIRGenerator.generator(Format.JSON).generate(parameters, writer);
+
+        WebTarget target = getWebTarget();
+        Response response = target.path("Fudge/$validate").request().post(Entity.json(writer.toString()), Response.class);
+        assertResponse(response, Response.Status.NOT_FOUND.getStatusCode());
     }
 
     private JsonObject buildPatient() {

@@ -52,7 +52,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 3,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "sev-1",
@@ -154,7 +154,7 @@ public class AuditEvent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AuditEventType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Type of event.",
         valueSet = "http://hl7.org/fhir/ValueSet/audit-event-type"
     )
@@ -163,7 +163,7 @@ public class AuditEvent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AuditEventSubType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Sub-type of event.",
         valueSet = "http://hl7.org/fhir/ValueSet/audit-event-sub-type"
     )
@@ -171,7 +171,7 @@ public class AuditEvent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AuditEventAction",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Indicator for type of action performed during the event that generated the event.",
         valueSet = "http://hl7.org/fhir/ValueSet/audit-event-action|4.0.1"
     )
@@ -183,7 +183,7 @@ public class AuditEvent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AuditEventOutcome",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Indicates whether the event succeeded or failed.",
         valueSet = "http://hl7.org/fhir/ValueSet/audit-event-outcome|4.0.1"
     )
@@ -193,7 +193,7 @@ public class AuditEvent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AuditPurposeOfUse",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The reason the activity took place.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-PurposeOfUse"
     )
@@ -951,14 +951,14 @@ public class AuditEvent extends DomainResource {
     public static class Agent extends BackboneElement {
         @Binding(
             bindingName = "AuditAgentType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The Participation type of the agent to the event.",
             valueSet = "http://hl7.org/fhir/ValueSet/participation-role-type"
         )
         private final CodeableConcept type;
         @Binding(
             bindingName = "AuditAgentRole",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "What security role enabled the agent to participate in the event.",
             valueSet = "http://hl7.org/fhir/ValueSet/security-role-type"
         )
@@ -976,7 +976,7 @@ public class AuditEvent extends DomainResource {
         private final List<Uri> policy;
         @Binding(
             bindingName = "DICOMMediaType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Used when the event is about exporting/importing onto media.",
             valueSet = "http://hl7.org/fhir/ValueSet/dicm-405-mediatype"
         )
@@ -984,7 +984,7 @@ public class AuditEvent extends DomainResource {
         private final Network network;
         @Binding(
             bindingName = "AuditPurposeOfUse",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The reason the activity took place.",
             valueSet = "http://terminology.hl7.org/ValueSet/v3-PurposeOfUse"
         )
@@ -1624,7 +1624,7 @@ public class AuditEvent extends DomainResource {
             private final String address;
             @Binding(
                 bindingName = "AuditEventAgentNetworkType",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "The type of network access point of this agent in the audit event.",
                 valueSet = "http://hl7.org/fhir/ValueSet/network-type|4.0.1"
             )
@@ -1896,7 +1896,7 @@ public class AuditEvent extends DomainResource {
         private final Reference observer;
         @Binding(
             bindingName = "AuditEventSourceType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Code specifying the type of system that detected and recorded the event.",
             valueSet = "http://hl7.org/fhir/ValueSet/audit-source-type"
         )
@@ -2235,28 +2235,28 @@ public class AuditEvent extends DomainResource {
         private final Reference what;
         @Binding(
             bindingName = "AuditEventEntityType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Code for the entity type involved in the audit event.",
             valueSet = "http://hl7.org/fhir/ValueSet/audit-entity-type"
         )
         private final Coding type;
         @Binding(
             bindingName = "AuditEventEntityRole",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Code representing the role the entity played in the audit event.",
             valueSet = "http://hl7.org/fhir/ValueSet/object-role"
         )
         private final Coding role;
         @Binding(
             bindingName = "AuditEventEntityLifecycle",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Identifier for the data life-cycle stage for the entity.",
             valueSet = "http://hl7.org/fhir/ValueSet/object-lifecycle-events"
         )
         private final Coding lifecycle;
         @Binding(
             bindingName = "SecurityLabels",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Security Labels from the Healthcare Privacy and Security Classification System.",
             valueSet = "http://hl7.org/fhir/ValueSet/security-labels"
         )

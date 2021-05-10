@@ -55,7 +55,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 5,
-    status = StandardsStatus.ValueSet.NORMATIVE
+    status = StandardsStatus.Value.NORMATIVE
 )
 @Constraint(
     id = "sdf-0",
@@ -266,7 +266,7 @@ public class StructureDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -286,7 +286,7 @@ public class StructureDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -296,7 +296,7 @@ public class StructureDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "StructureDefinitionKeyword",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Codes for the meaning of the defined structure (SNOMED CT and LOINC codes, as an example).",
         valueSet = "http://hl7.org/fhir/ValueSet/definition-use"
     )
@@ -304,7 +304,7 @@ public class StructureDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "FHIRVersion",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "All published FHIR Versions.",
         valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.0.1"
     )
@@ -313,7 +313,7 @@ public class StructureDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "StructureDefinitionKind",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Defines the type of structure that a definition is describing.",
         valueSet = "http://hl7.org/fhir/ValueSet/structure-definition-kind|4.0.1"
     )
@@ -329,7 +329,7 @@ public class StructureDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "FHIRDefinedTypeExt",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Either a resource or a data type, including logical model types.",
         valueSet = "http://hl7.org/fhir/ValueSet/defined-types"
     )
@@ -340,7 +340,7 @@ public class StructureDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "TypeDerivationRule",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "How a type relates to its baseDefinition.",
         valueSet = "http://hl7.org/fhir/ValueSet/type-derivation-rule|4.0.1"
     )
@@ -2060,7 +2060,7 @@ public class StructureDefinition extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ExtensionContextType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "How an extension context is interpreted.",
             valueSet = "http://hl7.org/fhir/ValueSet/extension-context-type|4.0.1"
         )

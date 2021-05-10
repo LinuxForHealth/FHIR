@@ -24,14 +24,14 @@ public class AllergyIntoleranceCategory extends Code {
      * 
      * <p>Any substance consumed to provide nutritional support for the body.
      */
-    public static final AllergyIntoleranceCategory FOOD = AllergyIntoleranceCategory.builder().value(ValueSet.FOOD).build();
+    public static final AllergyIntoleranceCategory FOOD = AllergyIntoleranceCategory.builder().value(Value.FOOD).build();
 
     /**
      * Medication
      * 
      * <p>Substances administered to achieve a physiological effect.
      */
-    public static final AllergyIntoleranceCategory MEDICATION = AllergyIntoleranceCategory.builder().value(ValueSet.MEDICATION).build();
+    public static final AllergyIntoleranceCategory MEDICATION = AllergyIntoleranceCategory.builder().value(Value.MEDICATION).build();
 
     /**
      * Environment
@@ -39,7 +39,7 @@ public class AllergyIntoleranceCategory extends Code {
      * <p>Any substances that are encountered in the environment, including any substance not already classified as food, 
      * medication, or biologic.
      */
-    public static final AllergyIntoleranceCategory ENVIRONMENT = AllergyIntoleranceCategory.builder().value(ValueSet.ENVIRONMENT).build();
+    public static final AllergyIntoleranceCategory ENVIRONMENT = AllergyIntoleranceCategory.builder().value(Value.ENVIRONMENT).build();
 
     /**
      * Biologic
@@ -50,7 +50,7 @@ public class AllergyIntoleranceCategory extends Code {
      * allergy shots); gene therapies; cellular therapies. There are other biologic products, such as tissues, which are not 
      * typically associated with allergies.
      */
-    public static final AllergyIntoleranceCategory BIOLOGIC = AllergyIntoleranceCategory.builder().value(ValueSet.BIOLOGIC).build();
+    public static final AllergyIntoleranceCategory BIOLOGIC = AllergyIntoleranceCategory.builder().value(Value.BIOLOGIC).build();
 
     private volatile int hashCode;
 
@@ -58,14 +58,46 @@ public class AllergyIntoleranceCategory extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this AllergyIntoleranceCategory as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this AllergyIntoleranceCategory as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating AllergyIntoleranceCategory objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static AllergyIntoleranceCategory of(ValueSet value) {
+        switch (value) {
+        case FOOD:
+            return FOOD;
+        case MEDICATION:
+            return MEDICATION;
+        case ENVIRONMENT:
+            return ENVIRONMENT;
+        case BIOLOGIC:
+            return BIOLOGIC;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating AllergyIntoleranceCategory objects from a passed enum value.
      */
-    public static AllergyIntoleranceCategory of(ValueSet value) {
+    public static AllergyIntoleranceCategory of(Value value) {
         switch (value) {
         case FOOD:
             return FOOD;
@@ -89,7 +121,7 @@ public class AllergyIntoleranceCategory extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static AllergyIntoleranceCategory of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -101,7 +133,7 @@ public class AllergyIntoleranceCategory extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -113,7 +145,7 @@ public class AllergyIntoleranceCategory extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -175,10 +207,27 @@ public class AllergyIntoleranceCategory extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for AllergyIntoleranceCategory
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -188,6 +237,7 @@ public class AllergyIntoleranceCategory extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Food
@@ -237,7 +287,7 @@ public class AllergyIntoleranceCategory extends Code {
         }
 
         /**
-         * Factory method for creating AllergyIntoleranceCategory.ValueSet values from a passed string value.
+         * Factory method for creating AllergyIntoleranceCategory.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -251,6 +301,83 @@ public class AllergyIntoleranceCategory extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Food
+         * 
+         * <p>Any substance consumed to provide nutritional support for the body.
+         */
+        FOOD("food"),
+
+        /**
+         * Medication
+         * 
+         * <p>Substances administered to achieve a physiological effect.
+         */
+        MEDICATION("medication"),
+
+        /**
+         * Environment
+         * 
+         * <p>Any substances that are encountered in the environment, including any substance not already classified as food, 
+         * medication, or biologic.
+         */
+        ENVIRONMENT("environment"),
+
+        /**
+         * Biologic
+         * 
+         * <p>A preparation that is synthesized from living organisms or their products, especially a human or animal protein, 
+         * such as a hormone or antitoxin, that is used as a diagnostic, preventive, or therapeutic agent. Examples of biologic 
+         * medications include: vaccines; allergenic extracts, which are used for both diagnosis and treatment (for example, 
+         * allergy shots); gene therapies; cellular therapies. There are other biologic products, such as tissues, which are not 
+         * typically associated with allergies.
+         */
+        BIOLOGIC("biologic");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating AllergyIntoleranceCategory.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding AllergyIntoleranceCategory.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "food":
+                return FOOD;
+            case "medication":
+                return MEDICATION;
+            case "environment":
+                return ENVIRONMENT;
+            case "biologic":
+                return BIOLOGIC;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

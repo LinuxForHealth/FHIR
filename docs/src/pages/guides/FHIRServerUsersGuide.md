@@ -1953,9 +1953,24 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/extendedCodeableConceptValidation`|boolean|A boolean flag which indicates whether extended validation is performed by the server during object construction for code, Coding, CodeableConcept, Quantity, Uri, and String elements which have required bindings to value sets.|
 |`fhirServer/core/disabledOperations`|string|A comma-separated list of operations which are not allowed to run on the IBM FHIR Server, for example, `validate,import`. Note, do not include the dollar sign `$`|
 |`fhirServer/core/defaultPageSize`|integer|Sets the pageSize to use in search and history when no _count parameter is specified in the request. If a user-specified value exceeds the max page size (1000), then a warning is logged and max page size will be used. If not provided, the default page size (10) is used.|
-|`fhirServer/term/graphTermServiceProvider/enabled`|boolean|Indicates whether the graph term service provider should be used by the FHIR term service to access code system content|
-|`fhirServer/term/graphTermServiceProvider/timeLimit`|integer|Graph traversal time limit (in milliseconds)|
-|`fhirServer/term/graphTermServiceProvider/configuration`|object (name/value pairs)|A JSON object that contains the name/value pairs used to configure the graph database behind the graph term service provider see: [https://docs.janusgraph.org/basics/configuration-reference/](https://docs.janusgraph.org/basics/configuration-reference/)|
+|`fhirServer/term/disableCaching`|boolean|Indicates whether caching is disabled for the FHIR terminology module, this includes caching in `CodeSystemSupport`, `ValueSetSupport`, `GraphTermServiceProvider`, and `RemoteTermServiceProvider`|
+|`fhirServer/term/graphTermServiceProviders`|array of objects|The `graphTermServiceProviders` element is an array of objects|
+|`fhirServer/term/graphTermServiceProviders/enabled`|boolean|Indicates whether the graph term service provider should be used by the FHIR term service to access code system content|
+|`fhirServer/term/graphTermServiceProviders/timeLimit`|integer|Graph traversal time limit (in milliseconds)|
+|`fhirServer/term/graphTermServiceProviders/configuration`|object (name/value pairs)|A JSON object that contains the name/value pairs used to configure the graph database behind the graph term service provider see: [https://docs.janusgraph.org/basics/configuration-reference/](https://docs.janusgraph.org/basics/configuration-reference/)|
+|`fhirServer/term/remoteTermServiceProviders`|array of objects|The `remoteTermServiceProviders` element is an array of objects|
+|`fhirServer/term/remoteTermServiceProviders/enabled`|boolean|Indicates whether this remote term service provider should be used by the FHIR term service to access code system content|
+|`fhirServer/term/remoteTermServiceProviders/base`|string|The base URL for this remote term service provider|
+|`fhirServer/term/remoteTermServiceProviders/trustStore/location`|string|The trust store location for this remote term service provider|
+|`fhirServer/term/remoteTermServiceProviders/trustStore/password`|string|The trust store password for this remote term service provider|
+|`fhirServer/term/remoteTermServiceProviders/trustStore/type`|string|The trust store type (e.g. pkcs12) for this remote term service provider|
+|`fhirServer/term/remoteTermServiceProviders/hostnameVerificationEnabled`|boolean|Indicates whether hostname verification should be performed when using SSL transport|
+|`fhirServer/term/remoteTermServiceProviders/basicAuth/username`|string|The basic authentication username for this remote term service provider|
+|`fhirServer/term/remoteTermServiceProviders/basicAuth/password`|string|The basic authentication password for this remote term service provider|
+|`fhirServer/term/remoteTermServiceProviders/httpTimeout`|integer|The HTTP read timeout for this remote term service provider (in milliseconds)|
+|`fhirServer/term/remoteTermServiceProviders/supports`|array of objects|The `supports` element is an array of objects|
+|`fhirServer/term/remoteTermServiceProviders/supports/system`|string|The system URI supported by this remote term service provider|
+|`fhirServer/term/remoteTermServiceProviders/supports/version`|string|The system version supported by this remote term service provider|
 |`fhirServer/resources/open`|boolean|Whether resources that are not explicitly listed in the configuration should be supported by the FHIR Server REST layer. When open is set to `false`, only the resources listed in fhir-server-config.json are supported.|
 |`fhirServer/resources/Resource/interactions`|string list|A list of strings that represent the RESTful interactions (create, read, vread, update, patch, delete, history, and/or search) supported for resource types. Omitting this property is equivalent to supporting all FHIR interactions for the supported resources. An empty list, `[]`, can be used to indicate that no REST methods are supported. This property can be overridden for specific resource types via the `fhirServer/resources/<resourceType>/interactions` property.|
 |`fhirServer/resources/Resource/searchParameters`|object|The set of search parameters to support for all supported resource types. Omitting this property is equivalent to supporting all search parameters in the server's registry that apply to resource type "Resource" (all resources). An empty object, `{}`, can be used to indicate that no global search parameters are supported.|
@@ -2017,6 +2032,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/audit/serviceProperties/kafka`|object|A set of name value pairs used as part of the 'config' for publishing to the kafka service. These should only be Kafka properties.|
 |`fhirServer/audit/hostname`|string|A string used to identify the Hostname, useful in containerized environments|
 |`fhirServer/audit/ip`|string|A string used to identify the IP address, useful to identify only one IP|
+|`fhirServer/search/enableOptQueryBuilder`|boolean|True, enable the optimized query builder for supported searches.|
 |`fhirServer/search/useBoundingRadius`|boolean|True, the bounding area is a Radius, else the bounding area is a box.|
 |`fhirServer/search/useStoredCompartmentParam`|boolean|False, Compute and store parameter to accelerate compartment searches. Requires reindex using at least IBM FHIR Server version 4.5.1 before this feature is enabled |
 |`fhirServer/bulkdata/enabled`| string|Enabling the BulkData operations |
@@ -2081,8 +2097,12 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/capabilityStatementCacheTimeout`|60|
 |`fhirServer/core/extendedCodeableConceptValidation`|true|
 |`fhirServer/core/defaultPageSize`|10|
-|`fhirServer/term/graphTermServiceProvider/enabled`|false|
-|`fhirServer/term/graphTermServiceProvider/timeLimit`|90000|
+|`fhirServer/term/cachingDisabled`|false|
+|`fhirServer/term/graphTermServiceProviders/enabled`|false|
+|`fhirServer/term/graphTermServiceProviders/timeLimit`|90000|
+|`fhirServer/term/remoteTermServiceProviders/enabled`|false|
+|`fhirServer/term/remoteTermServiceProviders/hostnameVerificationEnabled`|true|
+|`fhirServer/term/remoteTermServiceProviders/httpTimeout`|60000|
 |`fhirServer/resources/open`|true|
 |`fhirServer/resources/Resource/interactions`|null (all interactions supported)|
 |`fhirServer/resources/Resource/searchParameters`|null (all global search parameters supported)|
@@ -2118,6 +2138,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/persistence/datasources/<datasourceId>/type`|derby|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|16|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|16|
+|`fhirServer/search/enableOptQueryBuilder`|boolean|true|
 |`fhirServer/security/cors`|boolean|true|
 |`fhirServer/security/basic/enabled`|boolean|false|
 |`fhirServer/security/certificates/enabled`|boolean|false|
@@ -2194,9 +2215,17 @@ must restart the server for that change to take effect.
 |`fhirServer/core/extendedCodeableConceptValidation`|N|N|
 |`fhirServer/core/disabledOperations`|N|N|
 |`fhirServer/core/defaultPageSize`|Y|Y|
-|`fhirServer/term/graphTermServiceProvider/enabled`|N|N|
-|`fhirServer/term/graphTermServiceProvider/timeLimit`|N|N|
-|`fhirServer/term/graphTermServiceProvider/configuration`|N|N|
+|`fhirServer/term/cachingDisabled`|N|N|
+|`fhirServer/term/graphTermServiceProviders/enabled`|N|N|
+|`fhirServer/term/graphTermServiceProviders/timeLimit`|N|N|
+|`fhirServer/term/graphTermServiceProviders/configuration`|N|N|
+|`fhirServer/term/remoteTermServiceProviders/enabled`|N|N|
+|`fhirServer/term/remoteTermServiceProviders/base`|N|N|
+|`fhirServer/term/remoteTermServiceProviders/trustStore`|N|N|
+|`fhirServer/term/remoteTermServiceProviders/hostnameVerificationEnabled`|N|N|
+|`fhirServer/term/remoteTermServiceProviders/basicAuth`|N|N|
+|`fhirServer/term/remoteTermServiceProviders/httpTimeout`|N|N|
+|`fhirServer/term/remoteTermServiceProviders/supports`|N|N|
 |`fhirServer/resources/open`|Y|Y|
 |`fhirServer/resources/Resource/interactions`|Y|Y|
 |`fhirServer/resources/Resource/searchParameters`|Y|Y|
@@ -2233,6 +2262,7 @@ must restart the server for that change to take effect.
 |`fhirServer/persistence/datasources/<datasourceId>/type`|Y|N|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|Y|Y|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|Y|Y|
+|`fhirServer/search/enableOptQueryBuilder`|Y|Y|
 |`fhirServer/security/cors`|Y|Y|
 |`fhirServer/security/basic/enabled`|Y|Y|
 |`fhirServer/security/certificates/enabled`|Y|Y|
@@ -2302,6 +2332,8 @@ must restart the server for that change to take effect.
 
 ### 5.2.1 Background
 As stated earlier, the FHIR server is installed with a default configuration in `server.xml` which includes the definition of a keystore (`fhirKeyStore.p12`) and a truststore (`fhirTrustStore.p12`)<sup id="a7">[7](#f7)</sup>. These files are provided only as examples and while they may suffice in a test environment, the FHIR server deployer should generate a new keystore and truststore for any installations where security is a concern. Review the information in the following topics to learn how to configure a secure keystore and truststore.
+
+Additionally, the server has a trustDefault.xml config dropin that references the SEC_TLS_TRUSTDEFAULTCERTS variable (defaultValue = true) to indicate whether or not the JVM truststore should be used in combination with the configured trust store.
 
 ### 5.2.2 WebApp security
 By default, the FHIR server REST API is only available via HTTPS on port 9443 and is protected by HTTP basic authentication.
@@ -2565,6 +2597,7 @@ IBM FHIR Server Supports the following custom HTTP Headers:
 |`X-FHIR-TENANT-ID`|Specifies which tenant config should be used for the request. Default is `default`. The header name can be overridden via config property `fhirServer/core/tenantIdHeaderName`.|
 |`X-FHIR-DSID`|Specifies which datastore config should be used for the request. Default is `default`. The header name can be overridden via config property `fhirServer/core/dataSourceIdHeaderName`.|
 |`X-FHIR-FORWARDED-URL`|The original (user-facing) request URL; used for constructing absolute URLs within the server response. Only enabled when explicitly configured in the default fhir-server-config.json. If either the config property or the header itself is missing, the server will use the actual request URL. The header name can be overridden via config property `fhirServer/core/originalRequestUriHeaderName`.|
+|`X-FHIR-UPDATE-IF-MODIFIED`|When set to true, for update and patch requests, the server will perform a resource comparison and only perform the update if the contents of the resource have changed. For all other values, the update will be executed as normal.|
 
 # 6 Related topics
 For more information about topics related to configuring a FHIR server, see the following documentation:

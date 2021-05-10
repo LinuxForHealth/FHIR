@@ -44,7 +44,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class PaymentNotice extends DomainResource {
@@ -52,7 +52,7 @@ public class PaymentNotice extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PaymentNoticeStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.1"
     )
@@ -81,7 +81,7 @@ public class PaymentNotice extends DomainResource {
     private final Money amount;
     @Binding(
         bindingName = "PaymentStatus",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The payment conveyance status codes.",
         valueSet = "http://hl7.org/fhir/ValueSet/payment-status"
     )

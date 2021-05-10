@@ -24,21 +24,21 @@ public class LocationStatus extends Code {
      * 
      * <p>The location is operational.
      */
-    public static final LocationStatus ACTIVE = LocationStatus.builder().value(ValueSet.ACTIVE).build();
+    public static final LocationStatus ACTIVE = LocationStatus.builder().value(Value.ACTIVE).build();
 
     /**
      * Suspended
      * 
      * <p>The location is temporarily closed.
      */
-    public static final LocationStatus SUSPENDED = LocationStatus.builder().value(ValueSet.SUSPENDED).build();
+    public static final LocationStatus SUSPENDED = LocationStatus.builder().value(Value.SUSPENDED).build();
 
     /**
      * Inactive
      * 
      * <p>The location is no longer used.
      */
-    public static final LocationStatus INACTIVE = LocationStatus.builder().value(ValueSet.INACTIVE).build();
+    public static final LocationStatus INACTIVE = LocationStatus.builder().value(Value.INACTIVE).build();
 
     private volatile int hashCode;
 
@@ -46,14 +46,44 @@ public class LocationStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this LocationStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this LocationStatus as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating LocationStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static LocationStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case SUSPENDED:
+            return SUSPENDED;
+        case INACTIVE:
+            return INACTIVE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating LocationStatus objects from a passed enum value.
      */
-    public static LocationStatus of(ValueSet value) {
+    public static LocationStatus of(Value value) {
         switch (value) {
         case ACTIVE:
             return ACTIVE;
@@ -75,7 +105,7 @@ public class LocationStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static LocationStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -87,7 +117,7 @@ public class LocationStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -99,7 +129,7 @@ public class LocationStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -161,10 +191,27 @@ public class LocationStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for LocationStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -174,6 +221,7 @@ public class LocationStatus extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Active
@@ -211,7 +259,7 @@ public class LocationStatus extends Code {
         }
 
         /**
-         * Factory method for creating LocationStatus.ValueSet values from a passed string value.
+         * Factory method for creating LocationStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -225,6 +273,69 @@ public class LocationStatus extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Active
+         * 
+         * <p>The location is operational.
+         */
+        ACTIVE("active"),
+
+        /**
+         * Suspended
+         * 
+         * <p>The location is temporarily closed.
+         */
+        SUSPENDED("suspended"),
+
+        /**
+         * Inactive
+         * 
+         * <p>The location is no longer used.
+         */
+        INACTIVE("inactive");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating LocationStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding LocationStatus.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "active":
+                return ACTIVE;
+            case "suspended":
+                return SUSPENDED;
+            case "inactive":
+                return INACTIVE;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

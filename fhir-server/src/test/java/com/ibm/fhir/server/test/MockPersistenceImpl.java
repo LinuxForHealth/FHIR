@@ -36,7 +36,10 @@ public class MockPersistenceImpl implements FHIRPersistence {
     @SuppressWarnings("unchecked")
     @Override
     public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
-        T updatedResource = (T) resource.toBuilder().id(generateResourceId()).meta(Meta.builder().versionId(Id.of("1")).lastUpdated(Instant.now()).build()).build();
+        T updatedResource = (T) resource.toBuilder()
+                .id(generateResourceId())
+                .meta(Meta.builder().versionId(Id.of("1")).lastUpdated(Instant.now()).build())
+                .build();
         SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                 .success(true)
                 .resource(updatedResource);

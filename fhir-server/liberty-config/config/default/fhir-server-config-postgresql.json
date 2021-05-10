@@ -7,6 +7,7 @@
             "originalRequestUriHeaderName": "X-FHIR-FORWARDED-URL",
             "checkReferenceTypes": true,
             "conditionalDeleteMaxNumber": 10,
+            "serverRegistryResourceProviderEnabled": true,
             "disabledOperations": ""
         },
         "security": {

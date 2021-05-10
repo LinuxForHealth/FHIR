@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018,2019
+ * (C) Copyright IBM Corp. 2018, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -56,6 +56,7 @@ public class ElementsParameterParseTest extends BaseSearchTest {
 
         String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), context);
         assertFalse(selfUri.contains(queryString), selfUri + " contains unexpected " + queryString);
+        assertEquals(2, context.getOutcomeIssues().size());
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
@@ -83,6 +84,7 @@ public class ElementsParameterParseTest extends BaseSearchTest {
         assertTrue(selfUri.contains("contact"), selfUri + " does not contain expected elements param 'contact'");
         assertTrue(selfUri.contains("name"), selfUri + " does not contain expected elements param 'name'");
         assertFalse(selfUri.contains("bogus"), selfUri + " contains unexpected elements param 'bogus'");
+        assertEquals(2, context.getOutcomeIssues().size());
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
@@ -107,6 +109,7 @@ public class ElementsParameterParseTest extends BaseSearchTest {
 
         String selfUri = SearchUtil.buildSearchSelfUri("http://example.com/" + resourceType.getSimpleName(), context);
         assertTrue(selfUri.contains("id"), selfUri + " does not contain expected elements param 'id'");
+        assertEquals(1, context.getOutcomeIssues().size());
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })

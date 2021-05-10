@@ -45,14 +45,14 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 3,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Subscription extends DomainResource {
     @Summary
     @Binding(
         bindingName = "SubscriptionStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The status of a subscription.",
         valueSet = "http://hl7.org/fhir/ValueSet/subscription-status|4.0.1"
     )
@@ -637,7 +637,7 @@ public class Subscription extends DomainResource {
         @Summary
         @Binding(
             bindingName = "SubscriptionChannelType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The type of method used to execute a subscription.",
             valueSet = "http://hl7.org/fhir/ValueSet/subscription-channel-type|4.0.1"
         )
@@ -648,7 +648,7 @@ public class Subscription extends DomainResource {
         @Summary
         @Binding(
             bindingName = "MimeType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The mime type of an attachment. Any valid mime type is allowed.",
             valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
         )

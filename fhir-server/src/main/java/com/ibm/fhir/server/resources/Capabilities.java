@@ -100,8 +100,8 @@ public class Capabilities extends FHIRResource {
     private static final String BASE_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base";
     private static final String BASE_2_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base2";
     private static final List<String> ALL_INTERACTIONS = Arrays.asList("create", "read", "vread", "update", "patch", "delete", "history", "search");
-    private static final List<ResourceType.ValueSet> ALL_RESOURCE_TYPES = ModelSupport.getResourceTypes(false).stream()
-            .map(rt -> ResourceType.ValueSet.from(rt.getSimpleName()))
+    private static final List<ResourceType.Value> ALL_RESOURCE_TYPES = ModelSupport.getResourceTypes(false).stream()
+            .map(rt -> ResourceType.Value.from(rt.getSimpleName()))
             .collect(Collectors.toList());
 
     // Error Messages
@@ -193,7 +193,7 @@ public class Capabilities extends FHIRResource {
         List<com.ibm.fhir.model.type.String> defaultSearchIncludes = Collections.emptyList();
         List<com.ibm.fhir.model.type.String> defaultSearchRevIncludes = Collections.emptyList();
         if (rsrcsGroup != null) {
-            PropertyGroup parentResourcePropGroup = rsrcsGroup.getPropertyGroup(ResourceType.ValueSet.RESOURCE.value());
+            PropertyGroup parentResourcePropGroup = rsrcsGroup.getPropertyGroup(ResourceType.Value.RESOURCE.value());
             if (parentResourcePropGroup != null) {
                 List<String> interactionConfig = parentResourcePropGroup.getStringListProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_INTERACTIONS);
                 if (interactionConfig != null) {
@@ -213,7 +213,7 @@ public class Capabilities extends FHIRResource {
 
         // Build the lists of operations that are supported
         List<OperationDefinition> systemOps = new ArrayList<>();
-        Map<ResourceType.ValueSet, List<OperationDefinition>> typeOps = new HashMap<>();
+        Map<ResourceType.Value, List<OperationDefinition>> typeOps = new HashMap<>();
 
         FHIROperationRegistry opRegistry = FHIROperationRegistry.getInstance();
         List<String> operationNames = opRegistry.getOperationNames();
@@ -224,7 +224,7 @@ public class Capabilities extends FHIRResource {
                 systemOps.add(opDef);
             }
             for (ResourceType resourceType : opDef.getResource()) {
-                ResourceType.ValueSet typeValue = resourceType.getValueAsEnumConstant();
+                ResourceType.Value typeValue = resourceType.getValueAsEnum();
                 if (typeOps.containsKey(typeValue)) {
                     typeOps.get(typeValue).add(opDef);
                 } else {
@@ -240,9 +240,9 @@ public class Capabilities extends FHIRResource {
         // Build the list of supported resources.
         List<Rest.Resource> resources = new ArrayList<>();
 
-        List<ResourceType.ValueSet> resourceTypes = getSupportedResourceTypes(rsrcsGroup);
+        List<ResourceType.Value> resourceTypes = getSupportedResourceTypes(rsrcsGroup);
 
-        for (ResourceType.ValueSet resourceType : resourceTypes) {
+        for (ResourceType.Value resourceType : resourceTypes) {
             String resourceTypeName = resourceType.value();
 
             // Build the set of ConformanceSearchParams for this resource type.
@@ -267,9 +267,9 @@ public class Capabilities extends FHIRResource {
             List<Operation> ops = mapOperationDefinitionsToRestOperations(typeOps.get(resourceType));
             // If the type is an abstract resource ("Resource" or "DomainResource")
             // then the operation can be invoked on any concrete specialization.
-            ops.addAll(mapOperationDefinitionsToRestOperations(typeOps.get(ResourceType.ValueSet.RESOURCE)));
+            ops.addAll(mapOperationDefinitionsToRestOperations(typeOps.get(ResourceType.Value.RESOURCE)));
             if (DomainResource.class.isAssignableFrom(ModelSupport.getResourceType(resourceTypeName))) {
-                ops.addAll(mapOperationDefinitionsToRestOperations(typeOps.get(ResourceType.ValueSet.DOMAIN_RESOURCE)));
+                ops.addAll(mapOperationDefinitionsToRestOperations(typeOps.get(ResourceType.Value.DOMAIN_RESOURCE)));
             }
 
             // Build the list of interactions, searchIncludes, and searchRevIncludes supported for the resource type.
@@ -481,12 +481,12 @@ public class Capabilities extends FHIRResource {
      * @return a list of resource types to support
      * @throws Exception
      */
-    private List<ResourceType.ValueSet> getSupportedResourceTypes(PropertyGroup rsrcsGroup) throws Exception {
+    private List<ResourceType.Value> getSupportedResourceTypes(PropertyGroup rsrcsGroup) throws Exception {
         if (rsrcsGroup == null) {
             return ALL_RESOURCE_TYPES;
         }
 
-        List<ResourceType.ValueSet> resourceTypes = new ArrayList<>();
+        List<ResourceType.Value> resourceTypes = new ArrayList<>();
         if (rsrcsGroup.getBooleanProperty(FHIRConfiguration.PROPERTY_FIELD_RESOURCES_OPEN, true)) {
             resourceTypes = ALL_RESOURCE_TYPES;
         } else {
@@ -499,7 +499,7 @@ public class Capabilities extends FHIRResource {
                         // Skip the abstract types Resource and DomainResource
                         if (!Resource.class.equals(ModelSupport.getResourceType(name)) &&
                                 !DomainResource.class.equals(ModelSupport.getResourceType(name))) {
-                            resourceTypes.add(ResourceType.ValueSet.from(name));
+                            resourceTypes.add(ResourceType.Value.from(name));
                         }
                     }
                 }
@@ -522,7 +522,7 @@ public class Capabilities extends FHIRResource {
             if (registeredCapability != null && registeredCapability.getUrl() != null) {
                 boolean isServerCS = false;
                 for(Rest r : registeredCapability.getRest()) {
-                    if (RestfulCapabilityMode.ValueSet.SERVER == r.getMode().getValueAsEnumConstant()) {
+                    if (RestfulCapabilityMode.Value.SERVER == r.getMode().getValueAsEnum()) {
                         isServerCS = true;
                     }
                 }

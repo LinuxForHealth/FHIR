@@ -9,19 +9,18 @@ permalink: /FHIRServerPerformanceGuide/
 
 **Table of Contents**
 
-- [1. Overview](#1-overview)
+- [1 Overview](#1-overview)
 - [2 System Sizing](#2-system-sizing)
 - [3 FHIR Server Configuration](#3-fhir-server-configuration)
     - [3.1 Concurrency](#31-concurrency)
         - [3.1.1 Liberty Profile Concurrency](#311-liberty-profile-concurrency)
         - [3.1.2 Database Max Connections](#312-database-max-connections)
         - [3.1.3 JEE Datasource Default, Recommended](#313-jee-datasource-default-recommended)
-        - [3.1.4 Proxy Datasource Legacy](#314-proxy-datasource-legacy)
+        - [3.1.4 Proxy Datasource (Deprecated)](#314-proxy-datasource-deprecated)
     - [3.2 Transaction Timeout](#32-transaction-timeout)
     - [3.3 Session Affinity](#33-session-affinity)
     - [3.4 Value-Id Caches](#34-value-id-caches)
-    - [3.5 Logical Id Generation](#35-logical-id-generation)
-    - [3.6 Compartment Search Optimization](#36-compartment-search-optimization)
+    - [3.5 Compartment Search Optimization](#35-compartment-search-optimization)
 - [4 Database Tuning](#4-database-tuning)
     - [4.1 PostgreSQL](#41-postgresql)
         - [4.1.1 Fillfactor](#411-fillfactor)
@@ -31,15 +30,18 @@ permalink: /FHIRServerPerformanceGuide/
         - [4.1.5 Max Locks](#415-max-locks)
     - [4.2 IBM Db2](#42-ibm-db2)
     - [4.3 Derby](#43-derby)
-- [5 Client Access Scenarios](#5-client-access-scenarios)
-    - [5.1 Read](#51-read)
-    - [5.2 Version Read](#52-version-read)
-    - [5.3 History](#53-history)
-    - [5.4 Search Performance](#54-search-performance)
-    - [5.5 Search Examples](#55-search-examples)
-    - [5.6 Tools](#56-tools)
-    - [5.7 Making FHIR Requests With curl](#57-making-fhir-requests-with-curl)
-    - [5.8 Making FHIR Requests with IBM FHIR Server Client](#58-making-fhir-requests-with-ibm-fhir-server-client)
+- [5 Ingestion Scenarios](#5-ingestion-scenarios)
+    - [5.1 Logical Id Generation](#51-logical-id-generation)
+    - [5.2 Conditional Update](#52-conditional-update)
+- [6 Client Access Scenarios](#6-client-access-scenarios)
+    - [6.1 Read](#61-read)
+    - [6.2 Version Read](#62-version-read)
+    - [6.3 History](#63-history)
+    - [6.4 Search Performance](#64-search-performance)
+    - [6.5 Search Examples](#65-search-examples)
+    - [6.6 Tools](#66-tools)
+    - [6.7 Making FHIR Requests With curl](#67-making-fhir-requests-with-curl)
+    - [6.8 Making FHIR Requests with IBM FHIR Server Client](#68-making-fhir-requests-with-the-ibm-fhir-server-client)
 
 # 1. Overview
 
@@ -150,7 +152,7 @@ Because each datasource gets its own connection manager you can tune each indepe
 
 Each JTA datasource should be configured in its own `.xml` server configuration file and placed into `{fhir-server-home}/configDropins/overrides` where it will be picked up automatically by Liberty Profile on startup.
 
-### 3.1.4. Proxy Datasource (Legacy)
+### 3.1.4. Proxy Datasource (Deprecated)
 
 The IBM FHIR Server proxy datasource is based on a custom datasource implementation which allows datasources to be programmatically added and removed without a server restart, something not supported natively in Liberty Profile. This implementation has been deprecated and is no longer the default configuration.
 
@@ -185,7 +187,7 @@ Note, the FHIRProxyXADataSource is only called to provide new connections. Most 
 
 ## 3.2. Transaction Timeout
 
-Long transactions consume significant resources so to protect the system, Liberty Profile will time-out a transaction after 2 minutes (120s) by default. When a transaction times out, Liberty Profile will forcibly close any database connection currently executing a statement and the IBM FHIR Server will return an HTTP 500 response to the caller. The maximum transaction time can be extended using the `<transaction>` element in the Liberty Profile configuration. See Database Access TransactionManager Timeout in the [IBM FHIR Server User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide/) for a description how to configure this in the IBM FHIR Server.
+Long transactions consume significant resources so to protect the system, Liberty will time-out a transaction after 2 minutes (120s) by default. When a transaction times out, Liberty will forcibly close any database connection currently executing a statement and the IBM FHIR Server will return an HTTP 500 response to the caller. The maximum transaction time can be modified using the `<transaction>` element in the Liberty server configuration and, by default, the IBM FHIR Server will set this from  the `FHIR_TRANSACTION_MANAGER_TIMEOUT` variable as described in Section 3.3.1.3 Database Access TransactionManager Timeout of the [IBM FHIR Server User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide/#331-the-jdbc-persistence-layer).
 
 The following table summarizes how the transaction timeout is used for different request types:
 
@@ -269,19 +271,7 @@ Currently no cache-hit metrics are exposed related to the caches. Tuning relies 
 
 The values for PARAMETER_NAMES and RESOURCE_TYPES are supposed to be fully cached. Any substantial reads (selects) from these tables after initial startup/first request should be considered a defect.
 
-## 3.5. Logical Id Generation
-
-Using random values for resource identifiers can cause performance issues in large databases. This is a particular issue when using PostgreSQL with the IBM FHIR Server due to an issue known as write amplification from full page writes. For details, see this blog post: https://www.2ndquadrant.com/en/blog/on-the-impact-of-full-page-writes.
-
-For best performance, ids generated by clients should not be purely random but instead be structured to include a prefix which increments over time. This causes index entries for new values to share pages (right-hand inserts), greatly reducing the write amplification overhead.
-
-One example of a suitable id generation strategy can be found in the [IBM FHIR Server fhir-persistence-jdbc project](https://github.com/IBM/FHIR/blob/main/fhir-persistence-jdbc/src/main/java/com/ibm/fhir/persistence/jdbc/util/TimestampPrefixedUUID.java).
-
-This strategy provides both the desirable trait of global uniqueness as well as a low write amplification overhead thanks to the time-based prefix.
-
-The IBM FHIR Server also uses normalization to avoid storing (and indexing) long identifier strings in multiple places. This saves space, and the database-generated identity values are based on sequences which naturally produce the desired right-hand-insert behavior.
-
-## 3.6. Compartment Search Optimization
+## 3.5. Compartment Search Optimization
 
 Resources are assigned to various compartments using expressions with multiple terms. In the IBM FHIR Server JDBC persistence layer, these expressions are translated to SQL predicates with multiple `OR` statements. These `ORs` make it more difficult for the query optimizer to compute the most efficient execution plan resulting in a slow query. To address this, the IBM FHIR Server evaluates the compartment membership expression during ingestion and stores the results. The SQL query can then be written using a single value predicate resulting in faster query.
 
@@ -480,8 +470,45 @@ TBD.
 
 Derby is not recommended for production use and therefore tuning Derby will not be addressed in this guide.
 
+# 5. Ingestion Scenarios
 
-# 5. Client Access Scenarios
+## 5.1. Logical Id Generation
+
+Using random values for resource identifiers can cause performance issues in large databases. This is a particular issue when using PostgreSQL with the IBM FHIR Server due to an issue known as write amplification from full page writes. For details, see this blog post: https://www.2ndquadrant.com/en/blog/on-the-impact-of-full-page-writes.
+
+For best performance, ids generated by clients should not be purely random but instead be structured to include a prefix which increments over time. This causes index entries for new values to share pages (right-hand inserts), greatly reducing the write amplification overhead.
+
+One example of a suitable id generation strategy can be found in the [IBM FHIR Server fhir-persistence-jdbc project](https://github.com/IBM/FHIR/blob/main/fhir-persistence-jdbc/src/main/java/com/ibm/fhir/persistence/jdbc/util/TimestampPrefixedUUID.java).
+
+This strategy provides both the desirable trait of global uniqueness as well as a low write amplification overhead thanks to the time-based prefix.
+
+The IBM FHIR Server also uses normalization to avoid storing (and indexing) long identifier strings in multiple places. This saves space, and the database-generated identity values are based on sequences which naturally produce the desired right-hand-insert behavior.
+
+## 5.2. Conditional Update
+
+In scenarios where the server is not the source of truth, clients may want to reload/refresh the server with all of their data on some periodic basis.
+
+One technique for this is to use client-assigned resource ids and perform an HTTP PUT (update or create-on-update) with the content on each ingestion run. However, this can lead to unnecessarily updating each FHIR resource on each ingestion run.
+
+Avoiding these unnecessary updates is important for two reasons:
+1. ingestion performance (each update performs work in the database)
+2. database size (each version of each resource is stored in the database)
+
+The HL7 FHIR specification includes experimental support for both [conditional create](https://www.hl7.org/fhir/R4/http.html#ccreate) and [conditional update](https://www.hl7.org/fhir/R4/http.html#cond-update) and the IBM FHIR server implements each of these. However, this approach suffers multiple issues:
+1. each update must perform a search which can be more costly than simply performing read before the update
+2. conditional requests require intricate locking techniques to avoid race conditions and the currently-implemented approach has [significant limitations](https://github.com/IBM/FHIR/issues/2051)
+
+Instead, IBM FHIR Server version 4.7.1 introduces support for a server-enabled optimization to avoid performing unnecessary updates. When users pass the `X-FHIR-UPDATE-IF-MODIFIED` header with a value of `true`, the server will perform a comparison of the resource contents from the update with the contents of the resource in the database.
+
+Two resources will be considered equivalent based on the following criteria:
+* whitespace between the resource elements (both XML and JSON) is ignored
+* the server-assigned fields (`Resource.meta.lastUpdated` and `Resource.meta.versionId`) are ignored
+* the value of all other fields in the resource must be equivalent
+
+When the update is skipped, the response will contain a Location header that points to the *existing* resource version (e.g. `[base]/Patient/1234/_history/1`) instead of a newly created instance of this resource (`[base]/Patient/1234/_history/2`) and the response body will be sent according to the client's (return preference)[https://www.hl7.org/fhir/R4/http.html#ops].
+If the client indicates a return preference of OperationOutcome and the update is skipped on the server, the response will contain an informational issue to indicate this case.
+
+# 6. Client Access Scenarios
 
 The IBM FHIR Server translates a FHIR search request into a SQL query. The database performs query optimization to generate what it thinks is the most efficient execution plan before running the query. This optimization depends on the database having good statistics (and a clever algorithm) to make the right choice. When this goes wrong, the result is a slow response which can also end up consuming significant resources which impact the capacity of the system as a whole.
 
@@ -501,7 +528,7 @@ There are many ways to retrieve data:
 
 There may also be some subtle semantic differences among searches which might appear to be equivalent. This is particularly true for compartment-based queries due to the complex definition of compartment membership defined in the FHIR specification.
 
-## 5.1. Read
+## 6.1. Read
 
 Logical id-based read requests are the fastest way to access a resource, for example:
 
@@ -535,7 +562,7 @@ Planning Time: 0.313 ms
 Execution Time: 0.127 ms
 ```
 
-## 5.2. Version Read
+## 6.2. Version Read
 
 The FHIR specification supports reading a specific version of a resource:
 
@@ -554,7 +581,7 @@ SELECT R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID,
    AND R.VERSION_ID = ?
 ```
 
-## 5.3. History
+## 6.3. History
 
 The history query returns all versions of a resource. Because there is no limit to the number of versions for a given resource, the results are ordered by the version_id (resource version number) and paginated using OFFSET and FETCH NEXT ROWS clauses:
 
@@ -581,7 +608,7 @@ SELECT COUNT(R.VERSION_ID)
 
 In most cases the history queries will execute very quickly. Performance will be slower for cases where a single resource has thousands of versions. To avoid this, ingestion pipelines must ensure they only update a version when necessary.
 
-## 5.4. Search Performance
+## 6.4. Search Performance
 
 **Predicate Order**
 
@@ -614,7 +641,7 @@ Patient/175517d8bea-32d33eec-d98f-4c99-a3cf-06a113ddcf08/CareTeam?status=http://
 Explicitly providing the code is always preferred. If no system is provided, in some cases the IBM FHIR Server can determine the correct code-system to use automatically, which helps query performance.
 
 
-## 5.5. Search Examples
+## 6.5. Search Examples
 
 The section contains search examples and performance considerations for various types of search parameters.
 
@@ -853,9 +880,9 @@ The IBM FHIR server implements such element filtering directly in its resource p
 
 This can provide significant savings for search requests that bring back lots of data (large pages and/or many field per resource).
 
-## 5.6. Tools
+## 6.6. Tools
 
-## 5.7. Making FHIR Requests With curl
+## 6.7. Making FHIR Requests With curl
 
 ```
 curl -k -i \
@@ -899,6 +926,6 @@ Examples of valid resources can be found in the [fhir-examples](https://github.c
 
 
 
-## 5.8. Making FHIR Requests with IBM FHIR Server Client
+## 6.8. Making FHIR Requests with the IBM FHIR Server Client
 
 See FHIR client API in the [IBM FHIR Server User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide).

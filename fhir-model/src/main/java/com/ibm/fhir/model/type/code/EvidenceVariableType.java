@@ -24,21 +24,21 @@ public class EvidenceVariableType extends Code {
      * 
      * <p>The variable is dichotomous, such as present or absent.
      */
-    public static final EvidenceVariableType DICHOTOMOUS = EvidenceVariableType.builder().value(ValueSet.DICHOTOMOUS).build();
+    public static final EvidenceVariableType DICHOTOMOUS = EvidenceVariableType.builder().value(Value.DICHOTOMOUS).build();
 
     /**
      * Continuous
      * 
      * <p>The variable is a continuous result such as a quantity.
      */
-    public static final EvidenceVariableType CONTINUOUS = EvidenceVariableType.builder().value(ValueSet.CONTINUOUS).build();
+    public static final EvidenceVariableType CONTINUOUS = EvidenceVariableType.builder().value(Value.CONTINUOUS).build();
 
     /**
      * Descriptive
      * 
      * <p>The variable is described narratively rather than quantitatively.
      */
-    public static final EvidenceVariableType DESCRIPTIVE = EvidenceVariableType.builder().value(ValueSet.DESCRIPTIVE).build();
+    public static final EvidenceVariableType DESCRIPTIVE = EvidenceVariableType.builder().value(Value.DESCRIPTIVE).build();
 
     private volatile int hashCode;
 
@@ -46,14 +46,44 @@ public class EvidenceVariableType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this EvidenceVariableType as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this EvidenceVariableType as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating EvidenceVariableType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static EvidenceVariableType of(ValueSet value) {
+        switch (value) {
+        case DICHOTOMOUS:
+            return DICHOTOMOUS;
+        case CONTINUOUS:
+            return CONTINUOUS;
+        case DESCRIPTIVE:
+            return DESCRIPTIVE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating EvidenceVariableType objects from a passed enum value.
      */
-    public static EvidenceVariableType of(ValueSet value) {
+    public static EvidenceVariableType of(Value value) {
         switch (value) {
         case DICHOTOMOUS:
             return DICHOTOMOUS;
@@ -75,7 +105,7 @@ public class EvidenceVariableType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static EvidenceVariableType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -87,7 +117,7 @@ public class EvidenceVariableType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -99,7 +129,7 @@ public class EvidenceVariableType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -161,10 +191,27 @@ public class EvidenceVariableType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for EvidenceVariableType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -174,6 +221,7 @@ public class EvidenceVariableType extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Dichotomous
@@ -211,7 +259,7 @@ public class EvidenceVariableType extends Code {
         }
 
         /**
-         * Factory method for creating EvidenceVariableType.ValueSet values from a passed string value.
+         * Factory method for creating EvidenceVariableType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -225,6 +273,69 @@ public class EvidenceVariableType extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Dichotomous
+         * 
+         * <p>The variable is dichotomous, such as present or absent.
+         */
+        DICHOTOMOUS("dichotomous"),
+
+        /**
+         * Continuous
+         * 
+         * <p>The variable is a continuous result such as a quantity.
+         */
+        CONTINUOUS("continuous"),
+
+        /**
+         * Descriptive
+         * 
+         * <p>The variable is described narratively rather than quantitatively.
+         */
+        DESCRIPTIVE("descriptive");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating EvidenceVariableType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding EvidenceVariableType.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "dichotomous":
+                return DICHOTOMOUS;
+            case "continuous":
+                return CONTINUOUS;
+            case "descriptive":
+                return DESCRIPTIVE;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

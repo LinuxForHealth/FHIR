@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.parser.FHIRParser;
@@ -38,7 +37,7 @@ import com.ibm.fhir.model.type.MoneyQuantity;
 import com.ibm.fhir.model.type.code.ContactPointUse;
 import com.ibm.fhir.model.type.code.QuantityComparator;
 import com.ibm.fhir.model.type.code.ResourceType;
-import com.ibm.fhir.model.type.code.ResourceType.ValueSet;
+import com.ibm.fhir.model.type.code.ResourceType.Value;
 
 /**
  * This class exercises the getters in the resource package.
@@ -99,11 +98,11 @@ public class ResourceCoverageTest {
     @Test
     public void testResources() throws Exception {
         List<String> SKIP = Arrays.asList("DomainResource", "Resource", "Builder");
-        ValueSet[] values = ResourceType.ValueSet.values();
-        for (ValueSet valueSet : values) {
-            if (!SKIP.contains(valueSet.value())) {
+        Value[] values = ResourceType.Value.values();
+        for (Value value : values) {
+            if (!SKIP.contains(value.value())) {
                 Resource resource =
-                        TestUtil.readExampleResource("json/ibm/complete-mock/" + valueSet.value() + "-1.json");
+                        TestUtil.readExampleResource("json/ibm/complete-mock/" + value.value() + "-1.json");
                 Method[] methods = resource.getClass().getMethods();
                 runMethods(resource, methods);
                 Class<?>[] clzs = resource.getClass().getClasses();
@@ -130,11 +129,11 @@ public class ResourceCoverageTest {
     @Test
     public void testResourcesWithXml() throws Exception {
         List<String> SKIP = Arrays.asList("DomainResource", "Resource", "Builder");
-        ValueSet[] values = ResourceType.ValueSet.values();
-        for (ValueSet valueSet : values) {
-            if (!SKIP.contains(valueSet.value())) {
+        Value[] values = ResourceType.Value.values();
+        for (Value value : values) {
+            if (!SKIP.contains(value.value())) {
                 Resource resource =
-                        TestUtil.readExampleResource("xml/ibm/complete-mock/" + valueSet.value() + "-1.xml");
+                        TestUtil.readExampleResource("xml/ibm/complete-mock/" + value.value() + "-1.xml");
 
                 Resource.Builder builder = resource.toBuilder();
                 Method[] methods = builder.getClass().getMethods();

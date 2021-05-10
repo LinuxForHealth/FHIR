@@ -24,14 +24,14 @@ public class ConsentProvisionType extends Code {
      * 
      * <p>Consent is denied for actions meeting these rules.
      */
-    public static final ConsentProvisionType DENY = ConsentProvisionType.builder().value(ValueSet.DENY).build();
+    public static final ConsentProvisionType DENY = ConsentProvisionType.builder().value(Value.DENY).build();
 
     /**
      * Opt In
      * 
      * <p>Consent is provided for actions meeting these rules.
      */
-    public static final ConsentProvisionType PERMIT = ConsentProvisionType.builder().value(ValueSet.PERMIT).build();
+    public static final ConsentProvisionType PERMIT = ConsentProvisionType.builder().value(Value.PERMIT).build();
 
     private volatile int hashCode;
 
@@ -39,14 +39,42 @@ public class ConsentProvisionType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this ConsentProvisionType as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this ConsentProvisionType as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating ConsentProvisionType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static ConsentProvisionType of(ValueSet value) {
+        switch (value) {
+        case DENY:
+            return DENY;
+        case PERMIT:
+            return PERMIT;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating ConsentProvisionType objects from a passed enum value.
      */
-    public static ConsentProvisionType of(ValueSet value) {
+    public static ConsentProvisionType of(Value value) {
         switch (value) {
         case DENY:
             return DENY;
@@ -66,7 +94,7 @@ public class ConsentProvisionType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static ConsentProvisionType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -78,7 +106,7 @@ public class ConsentProvisionType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -90,7 +118,7 @@ public class ConsentProvisionType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -152,10 +180,27 @@ public class ConsentProvisionType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for ConsentProvisionType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -165,6 +210,7 @@ public class ConsentProvisionType extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Opt Out
@@ -195,7 +241,7 @@ public class ConsentProvisionType extends Code {
         }
 
         /**
-         * Factory method for creating ConsentProvisionType.ValueSet values from a passed string value.
+         * Factory method for creating ConsentProvisionType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -209,6 +255,60 @@ public class ConsentProvisionType extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Opt Out
+         * 
+         * <p>Consent is denied for actions meeting these rules.
+         */
+        DENY("deny"),
+
+        /**
+         * Opt In
+         * 
+         * <p>Consent is provided for actions meeting these rules.
+         */
+        PERMIT("permit");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating ConsentProvisionType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding ConsentProvisionType.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "deny":
+                return DENY;
+            case "permit":
+                return PERMIT;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

@@ -368,7 +368,7 @@ public class RestAuditLogger {
                 for (Entry bundleEntry : requestBundle.getEntry()) {
                     if (bundleEntry.getRequest() != null && bundleEntry.getRequest().getMethod() != null) {
                         requestMethod = bundleEntry.getRequest().getMethod();
-                        switch (HTTPVerb.ValueSet.from(requestMethod.getValue())) {
+                        switch (HTTPVerb.Value.from(requestMethod.getValue())) {
                         case GET:
                             readCount++;
                             break;

@@ -47,7 +47,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Person extends DomainResource {
@@ -59,7 +59,7 @@ public class Person extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AdministrativeGender",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The gender of a person used for administrative purposes.",
         valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.1"
     )
@@ -800,7 +800,7 @@ public class Person extends DomainResource {
         private final Reference target;
         @Binding(
             bindingName = "IdentityAssuranceLevel",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The level of confidence that this link represents the same actual person, based on NIST Authentication Levels.",
             valueSet = "http://hl7.org/fhir/ValueSet/identity-assuranceLevel|4.0.1"
         )

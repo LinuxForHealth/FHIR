@@ -56,7 +56,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "cpl-3",
@@ -85,7 +85,7 @@ public class CarePlan extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CarePlanStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Indicates whether the plan is currently being acted upon, represents future intentions or is now a historical record.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.1"
     )
@@ -94,7 +94,7 @@ public class CarePlan extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CarePlanIntent",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Codes indicating the degree of authority/intentionality associated with a care plan.",
         valueSet = "http://hl7.org/fhir/ValueSet/care-plan-intent|4.0.1"
     )
@@ -103,7 +103,7 @@ public class CarePlan extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CarePlanCategory",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Identifies what \"kind\" of plan this is to support differentiation between multiple co-existing plans; e.g. \"Home health\", \"psychiatric\", \"asthma\", \"disease management\", etc.",
         valueSet = "http://hl7.org/fhir/ValueSet/care-plan-category"
     )
@@ -1586,7 +1586,7 @@ public class CarePlan extends DomainResource {
     public static class Activity extends BackboneElement {
         @Binding(
             bindingName = "CarePlanActivityOutcome",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Identifies the results of the activity.",
             valueSet = "http://hl7.org/fhir/ValueSet/care-plan-activity-outcome"
         )
@@ -2035,7 +2035,7 @@ public class CarePlan extends DomainResource {
         public static class Detail extends BackboneElement {
             @Binding(
                 bindingName = "CarePlanActivityKind",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "Resource types defined as part of FHIR that can be represented as in-line definitions of a care plan activity.",
                 valueSet = "http://hl7.org/fhir/ValueSet/care-plan-activity-kind|4.0.1"
             )
@@ -2044,14 +2044,14 @@ public class CarePlan extends DomainResource {
             private final List<Uri> instantiatesUri;
             @Binding(
                 bindingName = "CarePlanActivityType",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Detailed description of the type of activity; e.g. What lab test, what procedure, what kind of encounter.",
                 valueSet = "http://hl7.org/fhir/ValueSet/procedure-code"
             )
             private final CodeableConcept code;
             @Binding(
                 bindingName = "CarePlanActivityReason",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Identifies why a care plan activity is needed.  Can include any health condition codes as well as such concepts as \"general wellness\", prophylaxis, surgical preparation, etc.",
                 valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
             )
@@ -2062,7 +2062,7 @@ public class CarePlan extends DomainResource {
             private final List<Reference> goal;
             @Binding(
                 bindingName = "CarePlanActivityStatus",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "Codes that reflect the current state of a care plan activity within its overall life cycle.",
                 valueSet = "http://hl7.org/fhir/ValueSet/care-plan-activity-status|4.0.1"
             )
@@ -2080,7 +2080,7 @@ public class CarePlan extends DomainResource {
             @Choice({ CodeableConcept.class, Reference.class })
             @Binding(
                 bindingName = "CarePlanProduct",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "A product supplied or administered as part of a care plan activity.",
                 valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
             )

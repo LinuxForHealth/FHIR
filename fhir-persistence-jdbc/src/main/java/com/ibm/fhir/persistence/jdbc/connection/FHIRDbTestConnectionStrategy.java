@@ -98,7 +98,7 @@ public class FHIRDbTestConnectionStrategy implements FHIRDbConnectionStrategy {
     }
 
     @Override
-    public void applySearchOptimizerOptions(Connection c) {
+    public void applySearchOptimizerOptions(Connection c, boolean isCompartment) {
         // NOP
     }
 }

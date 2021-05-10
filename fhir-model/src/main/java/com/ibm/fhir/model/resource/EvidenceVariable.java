@@ -62,7 +62,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 0,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "evv-0",
@@ -97,7 +97,7 @@ public class EvidenceVariable extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -117,7 +117,7 @@ public class EvidenceVariable extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -129,7 +129,7 @@ public class EvidenceVariable extends DomainResource {
     private final Period effectivePeriod;
     @Binding(
         bindingName = "DefinitionTopic",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "High-level categorization of the definition, used for searching, sorting, and filtering.",
         valueSet = "http://hl7.org/fhir/ValueSet/definition-topic"
     )
@@ -142,7 +142,7 @@ public class EvidenceVariable extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EvidenceVariableType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The possible types of variables for exposures or outcomes (E.g. Dichotomous, Continuous, Descriptive).",
         valueSet = "http://hl7.org/fhir/ValueSet/variable-type|4.0.1"
     )
@@ -1607,7 +1607,7 @@ public class EvidenceVariable extends DomainResource {
         private final Duration timeFromStart;
         @Binding(
             bindingName = "GroupMeasure",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Possible group measure aggregates (E.g. Mean, Median).",
             valueSet = "http://hl7.org/fhir/ValueSet/group-measure|4.0.1"
         )

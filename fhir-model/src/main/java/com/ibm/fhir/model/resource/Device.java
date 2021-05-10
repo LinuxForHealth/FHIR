@@ -51,7 +51,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "device-0",
@@ -71,14 +71,14 @@ public class Device extends DomainResource {
     @Summary
     @Binding(
         bindingName = "FHIRDeviceStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The availability status of the device.",
         valueSet = "http://hl7.org/fhir/ValueSet/device-status|4.0.1"
     )
     private final FHIRDeviceStatus status;
     @Binding(
         bindingName = "FHIRDeviceStatusReason",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The availability status reason of the device.",
         valueSet = "http://hl7.org/fhir/ValueSet/device-status-reason"
     )
@@ -94,7 +94,7 @@ public class Device extends DomainResource {
     private final String partNumber;
     @Binding(
         bindingName = "DeviceType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes to identify medical devices.",
         valueSet = "http://hl7.org/fhir/ValueSet/device-type"
     )
@@ -1487,7 +1487,7 @@ public class Device extends DomainResource {
         private final String carrierHRF;
         @Binding(
             bindingName = "UDIEntryType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Codes to identify how UDI data was entered.",
             valueSet = "http://hl7.org/fhir/ValueSet/udi-entry-type|4.0.1"
         )
@@ -1909,7 +1909,7 @@ public class Device extends DomainResource {
         private final String name;
         @Binding(
             bindingName = "DeviceNameType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The type of name the device is referred by.",
             valueSet = "http://hl7.org/fhir/ValueSet/device-nametype|4.0.1"
         )

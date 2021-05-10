@@ -251,4 +251,20 @@ public class PostgresTranslator implements IDatabaseTranslator {
     public String limit(String arg) {
         return "LIMIT " + arg;
     }
+
+    @Override
+    public String pagination(int offset, int rowsPerPage) {
+        StringBuilder result = new StringBuilder();
+        if (offset == 0) {
+            result.append("LIMIT ");
+            result.append(rowsPerPage);
+        } else {
+            result.append("OFFSET ");
+            result.append(offset);
+            result.append(" LIMIT ");
+            result.append(rowsPerPage);
+        }
+        return result.toString();
+    }
+
 }

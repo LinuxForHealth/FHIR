@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,8 +22,10 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.StructureDefinition;
+import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.ElementDefinition;
 import com.ibm.fhir.model.type.ElementDefinition.Binding;
+import com.ibm.fhir.model.type.ElementDefinition.Type;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.code.TypeDerivationRule;
 import com.ibm.fhir.model.util.ModelSupport;
@@ -71,9 +73,11 @@ public final class ProfileSupport {
             if (elementDefinition.getConstraint().isEmpty()) {
                 continue;
             }
+            Set<String> profileKeys = getProfileKeys(elementDefinition);
             String path = elementDefinition.getPath().getValue();
             for (ElementDefinition.Constraint constraint : elementDefinition.getConstraint()) {
-                if (difference.contains(constraint.getKey().getValue())) {
+                String key = constraint.getKey().getValue();
+                if (difference.contains(key) && !profileKeys.contains(key)) {
                     constraints.add(createConstraint(path, constraint));
                 }
             }
@@ -82,6 +86,24 @@ public final class ProfileSupport {
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         constraints.addAll(generator.generate());
         return constraints;
+    }
+
+    private static Set<String> getProfileKeys(ElementDefinition elementDefinition) {
+        Set<String> profileKeys = new HashSet<>();
+        for (Type type : elementDefinition.getType()) {
+            for (Canonical canonical : type.getProfile()) {
+                String url = canonical.getValue();
+                if (url == null) {
+                    continue;
+                }
+                StructureDefinition profile = getProfile(url);
+                if (profile == null || profile.getSnapshot() == null) {
+                    continue;
+                }
+                profileKeys.addAll(getKeys(profile.getSnapshot().getElement().get(0)));
+            }
+        }
+        return profileKeys;
     }
 
     private static Map<String, ElementDefinition> computeElementDefinitionMap(String url) {
@@ -243,9 +265,15 @@ public final class ProfileSupport {
         Set<String> keys = new HashSet<>();
         Objects.requireNonNull(structureDefinition.getSnapshot(), "StructureDefinition.snapshot element is required");
         for (ElementDefinition elementDefinition : structureDefinition.getSnapshot().getElement()) {
-            for (ElementDefinition.Constraint constraint : elementDefinition.getConstraint()) {
-                keys.add(constraint.getKey().getValue());
-            }
+            keys.addAll(getKeys(elementDefinition));
+        }
+        return keys;
+    }
+
+    private static Set<String> getKeys(ElementDefinition elementDefinition) {
+        Set<String> keys = new HashSet<>();
+        for (ElementDefinition.Constraint constraint : elementDefinition.getConstraint()) {
+            keys.add(constraint.getKey().getValue());
         }
         return keys;
     }

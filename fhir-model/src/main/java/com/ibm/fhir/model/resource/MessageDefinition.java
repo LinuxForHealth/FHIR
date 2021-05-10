@@ -55,7 +55,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 1,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "msd-0",
@@ -96,7 +96,7 @@ public class MessageDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -118,7 +118,7 @@ public class MessageDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -134,7 +134,7 @@ public class MessageDefinition extends DomainResource {
     @Choice({ Coding.class, Uri.class })
     @Binding(
         bindingName = "MessageEvent",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "One of the message events defined as part of this version of FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/message-events"
     )
@@ -143,7 +143,7 @@ public class MessageDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MessageSignificanceCategory",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The impact of the content of a message.",
         valueSet = "http://hl7.org/fhir/ValueSet/message-significance-category|4.0.1"
     )
@@ -152,7 +152,7 @@ public class MessageDefinition extends DomainResource {
     private final List<Focus> focus;
     @Binding(
         bindingName = "messageheader-response-request",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "HL7-defined table of codes which identify conditions under which acknowledgments are required to be returned in response to a message.",
         valueSet = "http://hl7.org/fhir/ValueSet/messageheader-response-request|4.0.1"
     )
@@ -1447,7 +1447,7 @@ public class MessageDefinition extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ResourceType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "One of the resource types defined as part of this version of FHIR.",
             valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
         )

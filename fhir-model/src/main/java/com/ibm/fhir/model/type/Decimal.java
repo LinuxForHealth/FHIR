@@ -50,15 +50,36 @@ public class Decimal extends Element {
         return super.hasChildren();
     }
 
+    /**
+     * Factory method for creating Decimal objects from a BigDecimal
+     * 
+     * @param value
+     *     A BigDecimal, not null
+     */
     public static Decimal of(BigDecimal value) {
+        Objects.requireNonNull(value, "value");
         return Decimal.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Decimal objects from a Number
+     * 
+     * @param value
+     *     A Number, not null
+     */
     public static Decimal of(Number value) {
+        Objects.requireNonNull(value, "value");
         return Decimal.builder().value(value.toString()).build();
     }
 
+    /**
+     * Factory method for creating Decimal objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String value that can be parsed into a BigDecimal, not null
+     */
     public static Decimal of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Decimal.builder().value(value).build();
     }
 

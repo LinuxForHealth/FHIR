@@ -50,7 +50,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 0,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "tcp-0",
@@ -115,7 +115,7 @@ public class TerminologyCapabilities extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -136,7 +136,7 @@ public class TerminologyCapabilities extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -147,7 +147,7 @@ public class TerminologyCapabilities extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CapabilityStatementKind",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "How a capability statement is intended to be used.",
         valueSet = "http://hl7.org/fhir/ValueSet/capability-statement-kind|4.0.1"
     )
@@ -163,7 +163,7 @@ public class TerminologyCapabilities extends DomainResource {
     private final Expansion expansion;
     @Binding(
         bindingName = "CodeSearchSupport",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The degree to which the server supports the code search parameter on ValueSet, if it is supported.",
         valueSet = "http://hl7.org/fhir/ValueSet/code-search-support|4.0.1"
     )

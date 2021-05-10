@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -49,12 +49,6 @@ public class FHIROperationContext {
     public static final String PROPNAME_HTTP_HEADERS = "HTTP_HEADERS";
 
     /**
-     * This property is of type {@link java.util.Map<String,String>} and contains the
-     * set of additional request properties associated with the REST API request.
-     */
-    public static final String PROPNAME_REQUEST_PROPERTIES = "REQUEST_PROPERTIES";
-
-    /**
      * This property is of type javax.ws.rs.core.SecurityContext and contains security-related information
      * associated with the REST API request for which the interceptor is being invoked.
      */
@@ -74,6 +68,11 @@ public class FHIROperationContext {
      * The property is of the Response
      */
     public static final String PROPNAME_RESPONSE = "RESPONSE";
+    
+    /**
+     * The property is of the Path Parameter
+     */
+    public static final String PROPNAME_PATH_PARAMETER = "PATH_PARAMETER";
 
     /**
      * The property is of the Http Request object
@@ -111,15 +110,6 @@ public class FHIROperationContext {
         return (HttpHeaders) getProperty(PROPNAME_HTTP_HEADERS);
     }
 
-    /**
-     * Returns the Map containing additional request properties associated with the
-     * FHIR REST API request that triggered the interceptor invocation.
-     */
-    @SuppressWarnings("unchecked")
-    public Map<String, String> getRequestProperties() {
-        return (Map<String, String>) getProperty(PROPNAME_REQUEST_PROPERTIES);
-    }
-
     public static FHIROperationContext createSystemOperationContext() {
         return new FHIROperationContext(Type.SYSTEM);
     }
@@ -133,18 +123,13 @@ public class FHIROperationContext {
     }
 
     /**
-     * Retrieves the specified header from the combined list of request headers
-     * and additional request properties associated with the request.
+     * Retrieves the specified header from the list of request headers.
      * @param headerName the name of the header to retrieve
      * @return the value of the request header or null if not present
      */
     public String getHeaderString(String headerName) {
         String value = null;
-        Map<String, String> props = getRequestProperties();
-        if (props != null) {
-            value = props.get(headerName);
-        }
-        if (value == null && getHttpHeaders() != null) {
+        if (getHttpHeaders() != null) {
             value = getHttpHeaders().getHeaderString(headerName);
         }
         return value;

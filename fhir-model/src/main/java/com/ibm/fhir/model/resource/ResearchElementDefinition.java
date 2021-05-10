@@ -62,7 +62,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 0,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "red-0",
@@ -105,7 +105,7 @@ public class ResearchElementDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -117,7 +117,7 @@ public class ResearchElementDefinition extends DomainResource {
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SubjectType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The possible types of subjects for a measure (E.g. Patient, Practitioner, Organization, Location, etc.).",
         valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
     )
@@ -136,7 +136,7 @@ public class ResearchElementDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -150,7 +150,7 @@ public class ResearchElementDefinition extends DomainResource {
     private final Period effectivePeriod;
     @Binding(
         bindingName = "DefinitionTopic",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "High-level categorization of the definition, used for searching, sorting, and filtering.",
         valueSet = "http://hl7.org/fhir/ValueSet/definition-topic"
     )
@@ -164,7 +164,7 @@ public class ResearchElementDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ResearchElementType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The possible types of research elements (E.g. Population, Exposure, Outcome).",
         valueSet = "http://hl7.org/fhir/ValueSet/research-element-type|4.0.1"
     )
@@ -172,7 +172,7 @@ public class ResearchElementDefinition extends DomainResource {
     private final ResearchElementType type;
     @Binding(
         bindingName = "VariableType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The possible types of variables for exposures or outcomes (E.g. Dichotomous, Continuous, Descriptive).",
         valueSet = "http://hl7.org/fhir/ValueSet/variable-type|4.0.1"
     )
@@ -1857,7 +1857,7 @@ public class ResearchElementDefinition extends DomainResource {
         private final Boolean exclude;
         @Binding(
             bindingName = "UCUMUnits",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Unified Code for Units of Measure (UCUM).",
             valueSet = "http://hl7.org/fhir/ValueSet/ucum-units|4.0.1"
         )
@@ -1868,7 +1868,7 @@ public class ResearchElementDefinition extends DomainResource {
         private final Duration studyEffectiveTimeFromStart;
         @Binding(
             bindingName = "GroupMeasure",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Possible group measure aggregates (E.g. Mean, Median).",
             valueSet = "http://hl7.org/fhir/ValueSet/group-measure|4.0.1"
         )
@@ -1879,7 +1879,7 @@ public class ResearchElementDefinition extends DomainResource {
         private final Duration participantEffectiveTimeFromStart;
         @Binding(
             bindingName = "GroupMeasure",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Possible group measure aggregates (E.g. Mean, Median).",
             valueSet = "http://hl7.org/fhir/ValueSet/group-measure|4.0.1"
         )

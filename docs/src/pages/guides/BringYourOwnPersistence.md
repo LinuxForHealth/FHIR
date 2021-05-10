@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Bring your own Persistence Layer
-description: Lean how to build and test a persistence layer for the IBM FHIR Server
+description: Learn how to build and test a persistence layer for the IBM FHIR Server
 date:   2020-08-31 14:55:00 -0400
 permalink: /BringYourOwnPersistence/
 ---
@@ -19,7 +19,10 @@ Persistence layer interfaces are defined in the `fhir-persistence` project.
 ### Config
 Which persistence layer is used by the server is determined by the `/fhirServer/persistence/factoryClassname` property in `fhir-server-config.json`.
 
-When the default `com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory` is used, the returned FHIRPersistenceJDBCImpl instance will look up a corresponding datasource name using the value of the `fhirServer/persistence/jdbc/dataSourceJndiName` property in the tenant-specific configuration (`jdbc/fhirProxyDataSource` by default) and establish the connection.
+When the default `com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory` is used, the returned FHIRPersistenceJDBCImpl instance will look up a corresponding datasource, by JNDI name, using the combination of the tenant id and datastore id from the request context. Specifically, the connection strategy will use the `fhirServer/persistence/<datastore_id>/jndiName` property in the tenant config, or--if the property is omitted--it will construct the name via the following pattern:
+```
+jdbc/fhir_<tenant_id>_<datastore_id>[_ro]
+```
 
 ## Adding support for another relational database
 Adding a new relational database type is not for the faint of heart, but the IBM FHIR Server team is here to help!

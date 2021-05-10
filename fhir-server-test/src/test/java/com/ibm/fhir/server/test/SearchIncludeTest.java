@@ -844,7 +844,7 @@ public class SearchIncludeTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(5, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 5);
         assertEquals(patient3Id, bundle.getEntry().get(0).getResource().getId());
         assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
         assertEquals(patient2Id, bundle.getEntry().get(1).getResource().getId());

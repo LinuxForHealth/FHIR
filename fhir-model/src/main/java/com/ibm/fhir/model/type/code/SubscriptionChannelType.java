@@ -25,7 +25,7 @@ public class SubscriptionChannelType extends Code {
      * <p>The channel is executed by making a post to the URI. If a payload is included, the URL is interpreted as the 
      * service base, and an update (PUT) is made.
      */
-    public static final SubscriptionChannelType REST_HOOK = SubscriptionChannelType.builder().value(ValueSet.REST_HOOK).build();
+    public static final SubscriptionChannelType REST_HOOK = SubscriptionChannelType.builder().value(Value.REST_HOOK).build();
 
     /**
      * Websocket
@@ -33,21 +33,21 @@ public class SubscriptionChannelType extends Code {
      * <p>The channel is executed by sending a packet across a web socket connection maintained by the client. The URL 
      * identifies the websocket, and the client binds to this URL.
      */
-    public static final SubscriptionChannelType WEBSOCKET = SubscriptionChannelType.builder().value(ValueSet.WEBSOCKET).build();
+    public static final SubscriptionChannelType WEBSOCKET = SubscriptionChannelType.builder().value(Value.WEBSOCKET).build();
 
     /**
      * Email
      * 
      * <p>The channel is executed by sending an email to the email addressed in the URI (which must be a mailto:).
      */
-    public static final SubscriptionChannelType EMAIL = SubscriptionChannelType.builder().value(ValueSet.EMAIL).build();
+    public static final SubscriptionChannelType EMAIL = SubscriptionChannelType.builder().value(Value.EMAIL).build();
 
     /**
      * SMS
      * 
      * <p>The channel is executed by sending an SMS message to the phone number identified in the URL (tel:).
      */
-    public static final SubscriptionChannelType SMS = SubscriptionChannelType.builder().value(ValueSet.SMS).build();
+    public static final SubscriptionChannelType SMS = SubscriptionChannelType.builder().value(Value.SMS).build();
 
     /**
      * Message
@@ -55,7 +55,7 @@ public class SubscriptionChannelType extends Code {
      * <p>The channel is executed by sending a message (e.g. a Bundle with a MessageHeader resource etc.) to the application 
      * identified in the URI.
      */
-    public static final SubscriptionChannelType MESSAGE = SubscriptionChannelType.builder().value(ValueSet.MESSAGE).build();
+    public static final SubscriptionChannelType MESSAGE = SubscriptionChannelType.builder().value(Value.MESSAGE).build();
 
     private volatile int hashCode;
 
@@ -63,14 +63,48 @@ public class SubscriptionChannelType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this SubscriptionChannelType as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this SubscriptionChannelType as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating SubscriptionChannelType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static SubscriptionChannelType of(ValueSet value) {
+        switch (value) {
+        case REST_HOOK:
+            return REST_HOOK;
+        case WEBSOCKET:
+            return WEBSOCKET;
+        case EMAIL:
+            return EMAIL;
+        case SMS:
+            return SMS;
+        case MESSAGE:
+            return MESSAGE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating SubscriptionChannelType objects from a passed enum value.
      */
-    public static SubscriptionChannelType of(ValueSet value) {
+    public static SubscriptionChannelType of(Value value) {
         switch (value) {
         case REST_HOOK:
             return REST_HOOK;
@@ -96,7 +130,7 @@ public class SubscriptionChannelType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static SubscriptionChannelType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -108,7 +142,7 @@ public class SubscriptionChannelType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -120,7 +154,7 @@ public class SubscriptionChannelType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -182,10 +216,27 @@ public class SubscriptionChannelType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for SubscriptionChannelType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -195,6 +246,7 @@ public class SubscriptionChannelType extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Rest Hook
@@ -249,7 +301,7 @@ public class SubscriptionChannelType extends Code {
         }
 
         /**
-         * Factory method for creating SubscriptionChannelType.ValueSet values from a passed string value.
+         * Factory method for creating SubscriptionChannelType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -263,6 +315,90 @@ public class SubscriptionChannelType extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Rest Hook
+         * 
+         * <p>The channel is executed by making a post to the URI. If a payload is included, the URL is interpreted as the 
+         * service base, and an update (PUT) is made.
+         */
+        REST_HOOK("rest-hook"),
+
+        /**
+         * Websocket
+         * 
+         * <p>The channel is executed by sending a packet across a web socket connection maintained by the client. The URL 
+         * identifies the websocket, and the client binds to this URL.
+         */
+        WEBSOCKET("websocket"),
+
+        /**
+         * Email
+         * 
+         * <p>The channel is executed by sending an email to the email addressed in the URI (which must be a mailto:).
+         */
+        EMAIL("email"),
+
+        /**
+         * SMS
+         * 
+         * <p>The channel is executed by sending an SMS message to the phone number identified in the URL (tel:).
+         */
+        SMS("sms"),
+
+        /**
+         * Message
+         * 
+         * <p>The channel is executed by sending a message (e.g. a Bundle with a MessageHeader resource etc.) to the application 
+         * identified in the URI.
+         */
+        MESSAGE("message");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating SubscriptionChannelType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding SubscriptionChannelType.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "rest-hook":
+                return REST_HOOK;
+            case "websocket":
+                return WEBSOCKET;
+            case "email":
+                return EMAIL;
+            case "sms":
+                return SMS;
+            case "message":
+                return MESSAGE;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

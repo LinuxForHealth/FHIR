@@ -36,6 +36,7 @@ import org.apache.tinkerpop.gremlin.process.traversal.step.filter.TimeLimitStep;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
 import org.janusgraph.core.attribute.Text;
 
+import com.ibm.fhir.cache.annotation.Cacheable;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.CodeSystem.Concept.Designation;
@@ -56,13 +57,14 @@ import com.ibm.fhir.model.type.code.PropertyType;
 import com.ibm.fhir.term.graph.FHIRTermGraph;
 import com.ibm.fhir.term.graph.factory.FHIRTermGraphFactory;
 import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
+import com.ibm.fhir.term.service.provider.AbstractTermServiceProvider;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
 import com.ibm.fhir.term.util.CodeSystemSupport;
 
 /**
  * Graph-based implementation of the {@link FHIRTermServiceProvider} interface using {@link FHIRTermGraph}
  */
-public class GraphTermServiceProvider implements FHIRTermServiceProvider {
+public class GraphTermServiceProvider extends AbstractTermServiceProvider {
     public static final int DEFAULT_TIME_LIMIT = 90000;   // 90 seconds
     private static final int DEFAULT_COUNT = 1000;
 
@@ -92,6 +94,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
     }
 
     @SuppressWarnings("unchecked")
+    @Cacheable
     @Override
     public Set<Concept> closure(CodeSystem codeSystem, Code code) {
         checkArguments(codeSystem, code);
@@ -116,20 +119,29 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         return concepts;
     }
 
+    @Cacheable
+    @Override
+    public Map<Code, Set<Concept>> closure(CodeSystem codeSystem, Set<Code> codes) {
+        return super.closure(codeSystem, codes);
+    }
+
+    @Cacheable
     @Override
     public Concept getConcept(CodeSystem codeSystem, Code code) {
         checkArguments(codeSystem, code);
         return getConcept(codeSystem, code, true, true);
     }
 
+    @Cacheable
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem) {
         return getConcepts(codeSystem, Function.identity());
     }
 
+    @Cacheable
     @Override
     public <R> Set<R> getConcepts(CodeSystem codeSystem, Function<Concept, ? extends R> function) {
-        checkArgument(codeSystem);
+        checkArguments(codeSystem, function);
 
         Set<R> concepts = new LinkedHashSet<>(getCount(codeSystem));
 
@@ -145,11 +157,13 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         return concepts;
     }
 
+    @Cacheable
     @Override
     public Set<Concept> getConcepts(CodeSystem codeSystem, List<Filter> filters) {
         return getConcepts(codeSystem, filters, Function.identity());
     }
 
+    @Cacheable
     @Override
     public <R> Set<R> getConcepts(CodeSystem codeSystem, List<Filter> filters, Function<Concept, ? extends R> function) {
         checkArguments(codeSystem, filters);
@@ -160,7 +174,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
 
         boolean first = true;
         for (Filter filter : filters) {
-            switch (filter.getOp().getValueAsEnumConstant()) {
+            switch (filter.getOp().getValueAsEnum()) {
             case DESCENDENT_OF:
                 // descendants
                 g = applyDescendentOfFilter(codeSystem, filter, g);
@@ -218,18 +232,27 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         return timeLimit;
     }
 
+    @Cacheable
     @Override
     public boolean hasConcept(CodeSystem codeSystem, Code code) {
         checkArguments(codeSystem, code);
         return whereCodeSystem(hasCode(vertices(), code.getValue(), isCaseSensitive(codeSystem)), codeSystem).hasNext();
     }
 
+    @Cacheable
+    @Override
+    public boolean hasConcepts(CodeSystem codeSystem, Set<Code> codes) {
+        return super.hasConcepts(codeSystem, codes);
+    }
+
+    @Cacheable
     @Override
     public boolean isSupported(CodeSystem codeSystem) {
         checkArgument(codeSystem);
         return hasVersion(hasUrl(vertices(), codeSystem.getUrl()), codeSystem.getVersion()).hasNext();
     }
 
+    @Cacheable
     @Override
     public boolean subsumes(CodeSystem codeSystem, Code codeA, Code codeB) {
         checkArguments(codeSystem, codeA, codeB);
@@ -481,43 +504,6 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
         throw filterNotApplied(filter);
     }
 
-    private void checkArgument(Code code, String message) {
-        requireNonNull(code, message);
-        requireNonNull(code.getValue(), "Code.value");
-    }
-
-    private void checkArgument(CodeSystem codeSystem) {
-        requireNonNull(codeSystem, "codeSystem");
-        requireNonNull(codeSystem.getUrl(), "CodeSystem.url");
-    }
-
-    private void checkArgument(Filter filter) {
-        requireNonNull(filter, "filter");
-        requireNonNull(filter.getProperty(), "Filter.property");
-        requireNonNull(filter.getProperty().getValue(), "Filter.property.value");
-        requireNonNull(filter.getOp(), "Filter.op");
-        requireNonNull(filter.getOp().getValue(), "Filter.op.value");
-        requireNonNull(filter.getValue(), "Filter.value");
-        requireNonNull(filter.getValue().getValue(), "Filter.value.value");
-    }
-
-    private void checkArguments(CodeSystem codeSystem, Code code) {
-        checkArgument(codeSystem);
-        checkArgument(code, "code");
-    }
-
-    private void checkArguments(CodeSystem codeSystem, Code codeA, Code codeB) {
-        checkArgument(codeSystem);
-        checkArgument(codeA, "codeA");
-        checkArgument(codeB, "codeB");
-    }
-
-    private void checkArguments(CodeSystem codeSystem, List<Filter> filters) {
-        checkArgument(codeSystem);
-        requireNonNull(filters, "filters");
-        filters.forEach(filter -> checkArgument(filter));
-    }
-
     private void checkTimeLimit(TimeLimitStep<?> timeLimitStep) {
         if (timeLimitStep.getTimedOut()) {
             throw new FHIRTermServiceException("Graph traversal timed out", Collections.singletonList(Issue.builder()
@@ -628,7 +614,7 @@ public class GraphTermServiceProvider implements FHIRTermServiceProvider {
     }
 
     private String getPropertyKey(PropertyType type) {
-        switch (type.getValueAsEnumConstant()) {
+        switch (type.getValueAsEnum()) {
         case BOOLEAN:
             return "valueBoolean";
         case CODE:

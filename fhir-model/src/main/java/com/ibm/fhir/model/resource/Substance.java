@@ -48,7 +48,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "substance-0",
@@ -65,7 +65,7 @@ public class Substance extends DomainResource {
     @Summary
     @Binding(
         bindingName = "FHIRSubstanceStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code to indicate if the substance is actively used.",
         valueSet = "http://hl7.org/fhir/ValueSet/substance-status|4.0.1"
     )
@@ -73,7 +73,7 @@ public class Substance extends DomainResource {
     @Summary
     @Binding(
         bindingName = "SubstanceCategory",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Category or classification of substance.",
         valueSet = "http://hl7.org/fhir/ValueSet/substance-category"
     )
@@ -81,7 +81,7 @@ public class Substance extends DomainResource {
     @Summary
     @Binding(
         bindingName = "SubstanceCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Substance codes.",
         valueSet = "http://hl7.org/fhir/ValueSet/substance-code"
     )
@@ -1005,7 +1005,7 @@ public class Substance extends DomainResource {
         @Choice({ CodeableConcept.class, Reference.class })
         @Binding(
             bindingName = "SubstanceIngredient",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Substance Ingredient codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/substance-code"
         )

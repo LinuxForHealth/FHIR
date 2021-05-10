@@ -52,7 +52,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 3,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "location-0",
@@ -77,7 +77,7 @@ public class Location extends DomainResource {
     @Summary
     @Binding(
         bindingName = "LocationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Indicates whether the location is still in use.",
         valueSet = "http://hl7.org/fhir/ValueSet/location-status|4.0.1"
     )
@@ -85,7 +85,7 @@ public class Location extends DomainResource {
     @Summary
     @Binding(
         bindingName = "OperationalStatus",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "The operational status if the location (where typically a bed/room).",
         valueSet = "http://terminology.hl7.org/ValueSet/v2-0116"
     )
@@ -98,7 +98,7 @@ public class Location extends DomainResource {
     @Summary
     @Binding(
         bindingName = "LocationMode",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Indicates whether a resource instance represents a specific location or a class of locations.",
         valueSet = "http://hl7.org/fhir/ValueSet/location-mode|4.0.1"
     )
@@ -106,7 +106,7 @@ public class Location extends DomainResource {
     @Summary
     @Binding(
         bindingName = "LocationType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Indicates the type of function performed at the location.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ServiceDeliveryLocationRoleType"
     )
@@ -116,7 +116,7 @@ public class Location extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PhysicalType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Physical form of the location.",
         valueSet = "http://hl7.org/fhir/ValueSet/location-physical-type"
     )
@@ -1434,7 +1434,7 @@ public class Location extends DomainResource {
     public static class HoursOfOperation extends BackboneElement {
         @Binding(
             bindingName = "DaysOfWeek",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The days of the week.",
             valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.0.1"
         )

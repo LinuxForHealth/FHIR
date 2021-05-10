@@ -146,7 +146,8 @@ public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchReference_Reference_identifier() throws Exception {
-        // should the server index the Reference.identifier field if there is no valued reference?
+        assertSearchReturnsSavedResource("Reference-id:identifier", "http://example.org/identifier|abc");
+        assertSearchReturnsSavedResource("Reference-id:identifier", "http://example.org/identifier|ABC");
     }
 
     @Test

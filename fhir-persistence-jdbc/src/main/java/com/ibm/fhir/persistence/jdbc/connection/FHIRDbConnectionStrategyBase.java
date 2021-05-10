@@ -190,7 +190,7 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
     }
 
     @Override
-    public void applySearchOptimizerOptions(Connection c) {
+    public void applySearchOptimizerOptions(Connection c, boolean isCompartment) {
         String datastoreId = FHIRRequestContext.get().getDataStoreId();
 
         switch (this.flavor.getType()) {
@@ -199,7 +199,7 @@ public abstract class FHIRDbConnectionStrategyBase implements FHIRDbConnectionSt
             // as described in issue 1911
             final String pgName = FHIRConfiguration.PROPERTY_DATASOURCES + "/" + datastoreId + "/" + FHIRConfiguration.PROPERTY_JDBC_SEARCH_OPTIMIZER_OPTIONS;
             PropertyGroup optPG = FHIRConfigHelper.getPropertyGroup(pgName);
-            SetPostgresOptimizerOptions cmd = new SetPostgresOptimizerOptions(optPG); // null optPG is OK
+            SetPostgresOptimizerOptions cmd = new SetPostgresOptimizerOptions(optPG, isCompartment); // null optPG is OK
             cmd.applyTo(c);
             break;
         default:

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -179,11 +179,11 @@ public class DeleteTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertNotNull(bundle.getEntry());
         assertEquals(2, bundle.getEntry().size());
-        assertBundleEntry(bundle.getEntry().get(0), deletedType + "/" + deletedId, "2", HTTPVerb.ValueSet.DELETE);
-        assertBundleEntry(bundle.getEntry().get(1), deletedType, "1", HTTPVerb.ValueSet.POST);
+        assertBundleEntry(bundle.getEntry().get(0), deletedType + "/" + deletedId, "2", HTTPVerb.Value.DELETE);
+        assertBundleEntry(bundle.getEntry().get(1), deletedType, "1", HTTPVerb.Value.POST);
     }
 
-    private void assertBundleEntry(Bundle.Entry entry, String expectedURL, String expectedVersionId, HTTPVerb.ValueSet expectedMethod) throws Exception {
+    private void assertBundleEntry(Bundle.Entry entry, String expectedURL, String expectedVersionId, HTTPVerb.Value expectedMethod) throws Exception {
         if (!deleteSupported) {
             return;
         }
@@ -257,9 +257,9 @@ public class DeleteTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertNotNull(bundle.getEntry());
         assertEquals(3, bundle.getEntry().size());
-        assertBundleEntry(bundle.getEntry().get(0), deletedType + "/" + deletedId, "3", HTTPVerb.ValueSet.PUT);
-        assertBundleEntry(bundle.getEntry().get(1), deletedType + "/" + deletedId, "2", HTTPVerb.ValueSet.DELETE);
-        assertBundleEntry(bundle.getEntry().get(2), deletedType, "1", HTTPVerb.ValueSet.POST);
+        assertBundleEntry(bundle.getEntry().get(0), deletedType + "/" + deletedId, "3", HTTPVerb.Value.PUT);
+        assertBundleEntry(bundle.getEntry().get(1), deletedType + "/" + deletedId, "2", HTTPVerb.Value.DELETE);
+        assertBundleEntry(bundle.getEntry().get(2), deletedType, "1", HTTPVerb.Value.POST);
     }
 
     @Test(dependsOnMethods = {"testHistory2"})
@@ -291,10 +291,10 @@ public class DeleteTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertNotNull(bundle.getEntry());
         assertEquals(4, bundle.getEntry().size());
-        assertBundleEntry(bundle.getEntry().get(0), deletedType + "/" + deletedId, "4", HTTPVerb.ValueSet.DELETE);
-        assertBundleEntry(bundle.getEntry().get(1), deletedType + "/" + deletedId, "3", HTTPVerb.ValueSet.PUT);
-        assertBundleEntry(bundle.getEntry().get(2), deletedType + "/" + deletedId, "2", HTTPVerb.ValueSet.DELETE);
-        assertBundleEntry(bundle.getEntry().get(3), deletedType, "1", HTTPVerb.ValueSet.POST);
+        assertBundleEntry(bundle.getEntry().get(0), deletedType + "/" + deletedId, "4", HTTPVerb.Value.DELETE);
+        assertBundleEntry(bundle.getEntry().get(1), deletedType + "/" + deletedId, "3", HTTPVerb.Value.PUT);
+        assertBundleEntry(bundle.getEntry().get(2), deletedType + "/" + deletedId, "2", HTTPVerb.Value.DELETE);
+        assertBundleEntry(bundle.getEntry().get(3), deletedType, "1", HTTPVerb.Value.POST);
     }
 
     @Test

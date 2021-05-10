@@ -6,7 +6,7 @@
 
 package com.ibm.fhir.term.util;
 
-import static com.ibm.fhir.core.util.LRUCache.createLRUCache;
+import static com.ibm.fhir.cache.CacheKey.key;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_BOOLEAN;
 import static com.ibm.fhir.model.util.ModelSupport.FHIR_INTEGER;
@@ -31,6 +31,9 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.cache.CacheKey;
+import com.ibm.fhir.cache.CacheManager;
+import com.ibm.fhir.cache.CacheManager.Configuration;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
@@ -50,6 +53,7 @@ import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.PropertyType;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.term.config.FHIRTermConfig;
 import com.ibm.fhir.term.exception.FHIRTermException;
 import com.ibm.fhir.term.service.FHIRTermService;
 
@@ -57,6 +61,11 @@ import com.ibm.fhir.term.service.FHIRTermService;
  * A utility class for working with FHIR code systems
  */
 public final class CodeSystemSupport {
+    public static final java.lang.String ANCESTORS_AND_SELF_CACHE_NAME = "com.ibm.fhir.term.util.CodeSystemSupport.ancestorsAndSelfCache";
+    public static final java.lang.String DESCENDANTS_AND_SELF_CACHE_NAME = "com.ibm.fhir.term.util.CodeSystemSupport.descendantsAndSelfCache";
+    public static final Configuration ANCESTORS_AND_SELF_CACHE_CONFIG = Configuration.of(128);
+    public static final Configuration DESCENDANTS_AND_SELF_CACHE_CONFIG = Configuration.of(128);
+
     /**
      * A function that maps a code system concept to its code value
      */
@@ -122,10 +131,7 @@ public final class CodeSystemSupport {
         }
     };
 
-    private static final Map<java.lang.String, java.lang.Boolean> CASE_SENSITIVITY_CACHE = createLRUCache(2048);
     private static final Pattern IN_COMBINING_DIACRITICAL_MARKS_PATTERN = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
-    private static final Map<java.lang.String, Set<java.lang.String>> ANCESTORS_AND_SELF_CACHE = createLRUCache(128);
-    private static final Map<java.lang.String, Set<java.lang.String>> DESCENDANTS_AND_SELF_CACHE = createLRUCache(128);
 
     private CodeSystemSupport() { }
 
@@ -175,7 +181,7 @@ public final class CodeSystemSupport {
      *     the code system concept that matches the specified code, or null if not such concept exists
      */
     public static Concept findConcept(CodeSystem codeSystem, Concept concept, Code code) {
-        if (concept.getCode().equals(code) || (!isCaseSensitive(codeSystem)) && normalize(concept.getCode().getValue()).equals(normalize(code.getValue()))) {
+        if (concept.getCode().equals(code) || (!isCaseSensitive(codeSystem) && normalize(concept.getCode().getValue()).equals(normalize(code.getValue())))) {
             return concept;
         }
         Concept result = null;
@@ -188,8 +194,23 @@ public final class CodeSystemSupport {
         return result;
     }
 
+    /**
+     * Get all of the concepts, from the provided code system, that subsume the concept with the specified code.
+     *
+     * @param codeSystem
+     *     the code system
+     * @param code
+     *     the code
+     * @return
+     *     a set containing the code value for all concepts that subsume the concept with the specified code
+     */
     public static Set<java.lang.String> getAncestorsAndSelf(CodeSystem codeSystem, Code code) {
-        return ANCESTORS_AND_SELF_CACHE.computeIfAbsent(code.getValue(), k -> computeAncestorsAndSelf(codeSystem, code));
+        if (FHIRTermConfig.isCachingDisabled()) {
+            return computeAncestorsAndSelf(codeSystem, code);
+        }
+        CacheKey key = key(codeSystem, code);
+        Map<CacheKey, Set<java.lang.String>> cacheAsMap = CacheManager.getCacheAsMap(ANCESTORS_AND_SELF_CACHE_NAME, ANCESTORS_AND_SELF_CACHE_CONFIG);
+        return cacheAsMap.computeIfAbsent(key, k -> computeAncestorsAndSelf(codeSystem, code));
     }
 
     /**
@@ -421,8 +442,23 @@ public final class CodeSystemSupport {
         return result;
     }
 
+    /**
+     * Get all of the concepts, from the provided code system, that are subsumed by the concept with the specified code.
+     *
+     * @param codeSystem
+     *     the code system
+     * @param code
+     *     the code
+     * @return
+     *     a set containing the code value for all concepts that are subsumed by the concept with the specified code
+     */
     public static Set<java.lang.String> getDescendantsAndSelf(CodeSystem codeSystem, Code code) {
-        return DESCENDANTS_AND_SELF_CACHE.computeIfAbsent(code.getValue(), k -> computeDescendantsAndSelf(codeSystem, code));
+        if (FHIRTermConfig.isCachingDisabled()) {
+            return computeDescendantsAndSelf(codeSystem, code);
+        }
+        CacheKey key = key(codeSystem, code);
+        Map<CacheKey, Set<java.lang.String>> cacheAsMap = CacheManager.getCacheAsMap(DESCENDANTS_AND_SELF_CACHE_NAME, DESCENDANTS_AND_SELF_CACHE_CONFIG);
+        return cacheAsMap.computeIfAbsent(key, k -> computeDescendantsAndSelf(codeSystem, code));
     }
 
     /**
@@ -496,7 +532,7 @@ public final class CodeSystemSupport {
      *     true if the code system with the given is case sensitive, false otherwise
      */
     public static boolean isCaseSensitive(java.lang.String url) {
-        return CASE_SENSITIVITY_CACHE.computeIfAbsent(url, k -> isCaseSensitive(getCodeSystem(url)));
+        return isCaseSensitive(getCodeSystem(url));
     }
 
     /**
@@ -538,7 +574,7 @@ public final class CodeSystemSupport {
      *     or null if the type isn't supported
      */
     public static Element toElement(java.lang.String value, PropertyType type) {
-        switch (type.getValueAsEnumConstant()) {
+        switch (type.getValueAsEnum()) {
         case BOOLEAN:
             return Boolean.of(value);
         case CODE:
@@ -568,7 +604,7 @@ public final class CodeSystemSupport {
      *     or null if the type isn't supported
      */
     public static Element toElement(String value, PropertyType type) {
-        switch (type.getValueAsEnumConstant()) {
+        switch (type.getValueAsEnum()) {
         case BOOLEAN:
             return Boolean.of(value.getValue());
         case CODE:
@@ -658,7 +694,7 @@ public final class CodeSystemSupport {
         List<ConceptFilter> conceptFilters = new ArrayList<>(filters.size());
         for (Include.Filter filter : filters) {
             ConceptFilter conceptFilter = null;
-            switch (filter.getOp().getValueAsEnumConstant()) {
+            switch (filter.getOp().getValueAsEnum()) {
             case DESCENDENT_OF:
                 conceptFilter = createDescendentOfFilter(codeSystem, filter);
                 break;

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -130,12 +130,12 @@ public class Main {
      * @param adapter the adapter wrapping the target database connection
      */
     private void dropOldConstraints(IDatabaseAdapter adapter) {
-        Set<String> resourceTypes = new HashSet<>(Arrays.stream(FHIRResourceType.ValueSet.values())
-                .map(FHIRResourceType.ValueSet::value)
+        Set<String> resourceTypes = new HashSet<>(Arrays.stream(FHIRResourceType.Value.values())
+                .map(FHIRResourceType.Value::value)
                 .collect(Collectors.toSet()));
-        
+
         final List<String> params = Arrays.asList("STR", "NUMBER", "DATE", "TOKEN", "QUANTITY", "LATLNG");
-        
+
         for (String resourceType: resourceTypes) {
             final String tableName = resourceType + "_COMPOSITES";
             for (String param: params) {

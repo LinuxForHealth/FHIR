@@ -51,7 +51,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 2,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "coverage-0",
@@ -92,7 +92,7 @@ public class Coverage extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CoverageStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.1"
     )
@@ -101,7 +101,7 @@ public class Coverage extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CoverageType",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "The type of insurance: public health, worker compensation; private accident, auto, private health, etc.) or a direct payment by an individual or organization.",
         valueSet = "http://hl7.org/fhir/ValueSet/coverage-type"
     )
@@ -122,7 +122,7 @@ public class Coverage extends DomainResource {
     private final String dependent;
     @Binding(
         bindingName = "Relationship",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The relationship between the Subscriber and the Beneficiary (insured/covered party/patient).",
         valueSet = "http://hl7.org/fhir/ValueSet/subscriber-relationship"
     )
@@ -1159,7 +1159,7 @@ public class Coverage extends DomainResource {
         @Summary
         @Binding(
             bindingName = "CoverageClass",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The policy classifications, eg. Group, Plan, Class, etc.",
             valueSet = "http://hl7.org/fhir/ValueSet/coverage-class"
         )
@@ -1476,7 +1476,7 @@ public class Coverage extends DomainResource {
         @Summary
         @Binding(
             bindingName = "CopayTypes",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The types of services to which patient copayments are specified.",
             valueSet = "http://hl7.org/fhir/ValueSet/coverage-copay-type"
         )
@@ -1811,7 +1811,7 @@ public class Coverage extends DomainResource {
             @Summary
             @Binding(
                 bindingName = "CoverageFinancialException",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "The types of exceptions from the part or full value of financial obligations such as copays.",
                 valueSet = "http://hl7.org/fhir/ValueSet/coverage-financial-exception"
             )

@@ -39,7 +39,7 @@ public class UsageContext extends Element {
     @Summary
     @Binding(
         bindingName = "UsageContextType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "A code that specifies a type of context being specified by a usage context.",
         valueSet = "http://hl7.org/fhir/ValueSet/usage-context-type"
     )
@@ -50,7 +50,7 @@ public class UsageContext extends Element {
     @Choice({ CodeableConcept.class, Quantity.class, Range.class, Reference.class })
     @Binding(
         bindingName = "UsageContextValue",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A code that defines the specific value for the context being specified.",
         valueSet = "http://hl7.org/fhir/ValueSet/use-context"
     )

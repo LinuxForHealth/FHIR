@@ -73,19 +73,43 @@ public class DateTime extends Element {
         return super.hasChildren();
     }
 
+    /**
+     * Factory method for creating DateTime objects from a TemporalAccessor
+     * 
+     * @param value
+     *     A TemporalAccessor, not null
+     */
     public static DateTime of(TemporalAccessor value) {
+        Objects.requireNonNull(value, "value");
         return DateTime.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating DateTime objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String value that can be parsed by {@link #PARSER_FORMATTER}, not null
+     */
     public static DateTime of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return DateTime.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating a DateTime that represents the current DateTime
+     */
     public static DateTime now() {
         return DateTime.builder().value(ZonedDateTime.now()).build();
     }
 
+    /**
+     * Factory method for creating a DateTime that represents the current DateTime in the passed time zone
+     * 
+     * @param offset
+     *     The ZoneOffset for the desired time zone, not null
+     */
     public static DateTime now(ZoneOffset offset) {
+        Objects.requireNonNull(offset, "offset");
         return DateTime.builder().value(ZonedDateTime.now(offset)).build();
     }
 

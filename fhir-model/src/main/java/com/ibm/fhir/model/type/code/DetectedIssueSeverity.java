@@ -24,7 +24,7 @@ public class DetectedIssueSeverity extends Code {
      * 
      * <p>Indicates the issue may be life-threatening or has the potential to cause permanent injury.
      */
-    public static final DetectedIssueSeverity HIGH = DetectedIssueSeverity.builder().value(ValueSet.HIGH).build();
+    public static final DetectedIssueSeverity HIGH = DetectedIssueSeverity.builder().value(Value.HIGH).build();
 
     /**
      * Moderate
@@ -32,7 +32,7 @@ public class DetectedIssueSeverity extends Code {
      * <p>Indicates the issue may result in noticeable adverse consequences but is unlikely to be life-threatening or cause 
      * permanent injury.
      */
-    public static final DetectedIssueSeverity MODERATE = DetectedIssueSeverity.builder().value(ValueSet.MODERATE).build();
+    public static final DetectedIssueSeverity MODERATE = DetectedIssueSeverity.builder().value(Value.MODERATE).build();
 
     /**
      * Low
@@ -40,7 +40,7 @@ public class DetectedIssueSeverity extends Code {
      * <p>Indicates the issue may result in some adverse consequences but is unlikely to substantially affect the situation 
      * of the subject.
      */
-    public static final DetectedIssueSeverity LOW = DetectedIssueSeverity.builder().value(ValueSet.LOW).build();
+    public static final DetectedIssueSeverity LOW = DetectedIssueSeverity.builder().value(Value.LOW).build();
 
     private volatile int hashCode;
 
@@ -48,14 +48,44 @@ public class DetectedIssueSeverity extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this DetectedIssueSeverity as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this DetectedIssueSeverity as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating DetectedIssueSeverity objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static DetectedIssueSeverity of(ValueSet value) {
+        switch (value) {
+        case HIGH:
+            return HIGH;
+        case MODERATE:
+            return MODERATE;
+        case LOW:
+            return LOW;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating DetectedIssueSeverity objects from a passed enum value.
      */
-    public static DetectedIssueSeverity of(ValueSet value) {
+    public static DetectedIssueSeverity of(Value value) {
         switch (value) {
         case HIGH:
             return HIGH;
@@ -77,7 +107,7 @@ public class DetectedIssueSeverity extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static DetectedIssueSeverity of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -89,7 +119,7 @@ public class DetectedIssueSeverity extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -101,7 +131,7 @@ public class DetectedIssueSeverity extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -163,10 +193,27 @@ public class DetectedIssueSeverity extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for DetectedIssueSeverity
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -176,6 +223,7 @@ public class DetectedIssueSeverity extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * High
@@ -215,7 +263,7 @@ public class DetectedIssueSeverity extends Code {
         }
 
         /**
-         * Factory method for creating DetectedIssueSeverity.ValueSet values from a passed string value.
+         * Factory method for creating DetectedIssueSeverity.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -229,6 +277,71 @@ public class DetectedIssueSeverity extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * High
+         * 
+         * <p>Indicates the issue may be life-threatening or has the potential to cause permanent injury.
+         */
+        HIGH("high"),
+
+        /**
+         * Moderate
+         * 
+         * <p>Indicates the issue may result in noticeable adverse consequences but is unlikely to be life-threatening or cause 
+         * permanent injury.
+         */
+        MODERATE("moderate"),
+
+        /**
+         * Low
+         * 
+         * <p>Indicates the issue may result in some adverse consequences but is unlikely to substantially affect the situation 
+         * of the subject.
+         */
+        LOW("low");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating DetectedIssueSeverity.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding DetectedIssueSeverity.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "high":
+                return HIGH;
+            case "moderate":
+                return MODERATE;
+            case "low":
+                return LOW;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

@@ -93,11 +93,12 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
         } catch (FHIRParserException e) {
             if (RuntimeType.SERVER.equals(runtimeType)) {
                 String acceptHeader = httpHeaders.getFirst(HttpHeaders.ACCEPT);
+                String encMsg = Encode.forHtml(e.getMessage());
                 Response response =
                         buildResponse(
                                 buildOperationOutcome(Collections.singletonList(
                                         buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.INVALID,
-                                                "FHIRProvider: " + e.getMessage(), e.getPath()))),
+                                                "FHIRProvider: " + encMsg, e.getPath()))),
                                 getMediaType(acceptHeader));
                 throw new WebApplicationException(response);
             } else {

@@ -55,7 +55,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 0,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ChargeItem extends DomainResource {
@@ -66,7 +66,7 @@ public class ChargeItem extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ChargeItemStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Codes identifying the lifecycle stage of a ChargeItem.",
         valueSet = "http://hl7.org/fhir/ValueSet/chargeitem-status|4.0.1"
     )
@@ -77,7 +77,7 @@ public class ChargeItem extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ChargeItemCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Example set of codes that can be used for billing purposes.",
         valueSet = "http://hl7.org/fhir/ValueSet/chargeitem-billingcodes"
     )
@@ -105,7 +105,7 @@ public class ChargeItem extends DomainResource {
     @Summary
     @Binding(
         bindingName = "BodySite",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes describing anatomical locations. May include laterality.",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
@@ -120,7 +120,7 @@ public class ChargeItem extends DomainResource {
     private final DateTime enteredDate;
     @Binding(
         bindingName = "ChargeItemReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Example binding for reason.",
         valueSet = "http://hl7.org/fhir/ValueSet/icd-10"
     )
@@ -131,7 +131,7 @@ public class ChargeItem extends DomainResource {
     @Choice({ Reference.class, CodeableConcept.class })
     @Binding(
         bindingName = "ChargeItemProduct",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Example binding for product type.",
         valueSet = "http://hl7.org/fhir/ValueSet/device-kind"
     )
@@ -1600,7 +1600,7 @@ public class ChargeItem extends DomainResource {
     public static class Performer extends BackboneElement {
         @Binding(
             bindingName = "ChargeItemPerformerFunction",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes describing the types of functional roles performers can take on when performing events.",
             valueSet = "http://hl7.org/fhir/ValueSet/performer-role"
         )

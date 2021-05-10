@@ -40,13 +40,13 @@ jobs:
       run: |
             cd fhir
             mvn -B -ntp clean install --file fhir-examples -Ddeploy.version=${TAG_VERSION} -Dmaven.wagon.http.retryHandler.count=3
-            mvn -ntp -B -N -Pdeploy-version-release clean -f fhir-examples -Ddeploy.version=${TAG_VERSION} -Dmaven.wagon.http.retryHandler.count=3
+            mvn -ntp -B -N -Pset-version-release clean -f fhir-examples -Ddeploy.version=${TAG_VERSION} -Dmaven.wagon.http.retryHandler.count=3
             mvn -ntp -B install --file fhir-examples -DskipTests -Ddeploy.version=${TAG_VERSION} -Dmaven.wagon.http.retryHandler.count=3
     - name: Build fhir-parent without tests
       run: |
             cd fhir
             export JAVA_HOME=/opt/hostedtoolcache/AdoptOpenJDK/1.0.0-ga-11-jdk-hotspot-linux-x64-normal-latest/x64/
-            mvn -ntp -B -N -Pdeploy-version-release clean -f fhir-parent -Ddeploy.version=${TAG_VERSION} -Dfhir-tools.version=${TAG_VERSION} -Dmaven.wagon.http.retryHandler.count=3
+            mvn -ntp -B -N -Pset-version-release clean -f fhir-parent -Ddeploy.version=${TAG_VERSION} -Dfhir-tools.version=${TAG_VERSION} -Dmaven.wagon.http.retryHandler.count=3
             mvn -ntp -B install --file fhir-parent -DskipTests -Ddeploy.version=${TAG_VERSION} -Dfhir-tools.version=${TAG_VERSION} -Dmaven.wagon.http.retryHandler.count=3
             mvn -ntp -B site --file fhir-parent -DskipTests -Ddeploy.version=${TAG_VERSION} -Dfhir-tools.version=${TAG_VERSION} -Dmaven.wagon.http.retryHandler.count=3
             cp -R fhir-parent/target/site/apidocs ../apidocs/

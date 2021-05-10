@@ -426,4 +426,25 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             insertResourceTokenRefs(entry.getKey(), entry.getValue());
         }
     }
+
+    @Override
+    public List<Long> readCommonTokenValueIdList(final String tokenValue) {
+        final List<Long> result = new ArrayList<>();
+        final String SQL = ""
+                + "SELECT c.common_token_value_id "
+                + "  FROM common_token_values c "
+                + " WHERE c.token_value = ?";
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setString(1, tokenValue);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                result.add(rs.getLong(1));
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, SQL, x);
+            throw translator.translate(x);
+        }
+
+        return result;
+    }
 }

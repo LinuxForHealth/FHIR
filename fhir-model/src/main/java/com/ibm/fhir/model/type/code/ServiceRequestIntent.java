@@ -25,35 +25,35 @@ public class ServiceRequestIntent extends Code {
      * <p>The request is a suggestion made by someone/something that does not have an intention to ensure it occurs and 
      * without providing an authorization to act.
      */
-    public static final ServiceRequestIntent PROPOSAL = ServiceRequestIntent.builder().value(ValueSet.PROPOSAL).build();
+    public static final ServiceRequestIntent PROPOSAL = ServiceRequestIntent.builder().value(Value.PROPOSAL).build();
 
     /**
      * Plan
      * 
      * <p>The request represents an intention to ensure something occurs without providing an authorization for others to act.
      */
-    public static final ServiceRequestIntent PLAN = ServiceRequestIntent.builder().value(ValueSet.PLAN).build();
+    public static final ServiceRequestIntent PLAN = ServiceRequestIntent.builder().value(Value.PLAN).build();
 
     /**
      * Directive
      * 
      * <p>The request represents a legally binding instruction authored by a Patient or RelatedPerson.
      */
-    public static final ServiceRequestIntent DIRECTIVE = ServiceRequestIntent.builder().value(ValueSet.DIRECTIVE).build();
+    public static final ServiceRequestIntent DIRECTIVE = ServiceRequestIntent.builder().value(Value.DIRECTIVE).build();
 
     /**
      * Order
      * 
      * <p>The request represents a request/demand and authorization for action by a Practitioner.
      */
-    public static final ServiceRequestIntent ORDER = ServiceRequestIntent.builder().value(ValueSet.ORDER).build();
+    public static final ServiceRequestIntent ORDER = ServiceRequestIntent.builder().value(Value.ORDER).build();
 
     /**
      * Original Order
      * 
      * <p>The request represents an original authorization for action.
      */
-    public static final ServiceRequestIntent ORIGINAL_ORDER = ServiceRequestIntent.builder().value(ValueSet.ORIGINAL_ORDER).build();
+    public static final ServiceRequestIntent ORIGINAL_ORDER = ServiceRequestIntent.builder().value(Value.ORIGINAL_ORDER).build();
 
     /**
      * Reflex Order
@@ -61,7 +61,7 @@ public class ServiceRequestIntent extends Code {
      * <p>The request represents an automatically generated supplemental authorization for action based on a parent 
      * authorization together with initial results of the action taken against that parent authorization.
      */
-    public static final ServiceRequestIntent REFLEX_ORDER = ServiceRequestIntent.builder().value(ValueSet.REFLEX_ORDER).build();
+    public static final ServiceRequestIntent REFLEX_ORDER = ServiceRequestIntent.builder().value(Value.REFLEX_ORDER).build();
 
     /**
      * Filler Order
@@ -69,7 +69,7 @@ public class ServiceRequestIntent extends Code {
      * <p>The request represents the view of an authorization instantiated by a fulfilling system representing the details of 
      * the fulfiller's intention to act upon a submitted order.
      */
-    public static final ServiceRequestIntent FILLER_ORDER = ServiceRequestIntent.builder().value(ValueSet.FILLER_ORDER).build();
+    public static final ServiceRequestIntent FILLER_ORDER = ServiceRequestIntent.builder().value(Value.FILLER_ORDER).build();
 
     /**
      * Instance Order
@@ -77,7 +77,7 @@ public class ServiceRequestIntent extends Code {
      * <p>An order created in fulfillment of a broader order that represents the authorization for a single activity 
      * occurrence. E.g. The administration of a single dose of a drug.
      */
-    public static final ServiceRequestIntent INSTANCE_ORDER = ServiceRequestIntent.builder().value(ValueSet.INSTANCE_ORDER).build();
+    public static final ServiceRequestIntent INSTANCE_ORDER = ServiceRequestIntent.builder().value(Value.INSTANCE_ORDER).build();
 
     /**
      * Option
@@ -86,7 +86,7 @@ public class ServiceRequestIntent extends Code {
      * other constraints among a set of requests. Refer to [[[RequestGroup]]] for additional information on how this status 
      * is used.
      */
-    public static final ServiceRequestIntent OPTION = ServiceRequestIntent.builder().value(ValueSet.OPTION).build();
+    public static final ServiceRequestIntent OPTION = ServiceRequestIntent.builder().value(Value.OPTION).build();
 
     private volatile int hashCode;
 
@@ -94,14 +94,56 @@ public class ServiceRequestIntent extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this ServiceRequestIntent as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this ServiceRequestIntent as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating ServiceRequestIntent objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static ServiceRequestIntent of(ValueSet value) {
+        switch (value) {
+        case PROPOSAL:
+            return PROPOSAL;
+        case PLAN:
+            return PLAN;
+        case DIRECTIVE:
+            return DIRECTIVE;
+        case ORDER:
+            return ORDER;
+        case ORIGINAL_ORDER:
+            return ORIGINAL_ORDER;
+        case REFLEX_ORDER:
+            return REFLEX_ORDER;
+        case FILLER_ORDER:
+            return FILLER_ORDER;
+        case INSTANCE_ORDER:
+            return INSTANCE_ORDER;
+        case OPTION:
+            return OPTION;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating ServiceRequestIntent objects from a passed enum value.
      */
-    public static ServiceRequestIntent of(ValueSet value) {
+    public static ServiceRequestIntent of(Value value) {
         switch (value) {
         case PROPOSAL:
             return PROPOSAL;
@@ -135,7 +177,7 @@ public class ServiceRequestIntent extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static ServiceRequestIntent of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -147,7 +189,7 @@ public class ServiceRequestIntent extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -159,7 +201,7 @@ public class ServiceRequestIntent extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -221,10 +263,27 @@ public class ServiceRequestIntent extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for ServiceRequestIntent
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
@@ -234,6 +293,7 @@ public class ServiceRequestIntent extends Code {
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Proposal
@@ -319,7 +379,7 @@ public class ServiceRequestIntent extends Code {
         }
 
         /**
-         * Factory method for creating ServiceRequestIntent.ValueSet values from a passed string value.
+         * Factory method for creating ServiceRequestIntent.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -333,6 +393,129 @@ public class ServiceRequestIntent extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Proposal
+         * 
+         * <p>The request is a suggestion made by someone/something that does not have an intention to ensure it occurs and 
+         * without providing an authorization to act.
+         */
+        PROPOSAL("proposal"),
+
+        /**
+         * Plan
+         * 
+         * <p>The request represents an intention to ensure something occurs without providing an authorization for others to act.
+         */
+        PLAN("plan"),
+
+        /**
+         * Directive
+         * 
+         * <p>The request represents a legally binding instruction authored by a Patient or RelatedPerson.
+         */
+        DIRECTIVE("directive"),
+
+        /**
+         * Order
+         * 
+         * <p>The request represents a request/demand and authorization for action by a Practitioner.
+         */
+        ORDER("order"),
+
+        /**
+         * Original Order
+         * 
+         * <p>The request represents an original authorization for action.
+         */
+        ORIGINAL_ORDER("original-order"),
+
+        /**
+         * Reflex Order
+         * 
+         * <p>The request represents an automatically generated supplemental authorization for action based on a parent 
+         * authorization together with initial results of the action taken against that parent authorization.
+         */
+        REFLEX_ORDER("reflex-order"),
+
+        /**
+         * Filler Order
+         * 
+         * <p>The request represents the view of an authorization instantiated by a fulfilling system representing the details of 
+         * the fulfiller's intention to act upon a submitted order.
+         */
+        FILLER_ORDER("filler-order"),
+
+        /**
+         * Instance Order
+         * 
+         * <p>An order created in fulfillment of a broader order that represents the authorization for a single activity 
+         * occurrence. E.g. The administration of a single dose of a drug.
+         */
+        INSTANCE_ORDER("instance-order"),
+
+        /**
+         * Option
+         * 
+         * <p>The request represents a component or option for a RequestGroup that establishes timing, conditionality and/or 
+         * other constraints among a set of requests. Refer to [[[RequestGroup]]] for additional information on how this status 
+         * is used.
+         */
+        OPTION("option");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating ServiceRequestIntent.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding ServiceRequestIntent.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "proposal":
+                return PROPOSAL;
+            case "plan":
+                return PLAN;
+            case "directive":
+                return DIRECTIVE;
+            case "order":
+                return ORDER;
+            case "original-order":
+                return ORIGINAL_ORDER;
+            case "reflex-order":
+                return REFLEX_ORDER;
+            case "filler-order":
+                return FILLER_ORDER;
+            case "instance-order":
+                return INSTANCE_ORDER;
+            case "option":
+                return OPTION;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

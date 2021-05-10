@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.jdbc.dao.impl;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -115,5 +116,10 @@ public class JDBCIdentityCacheImpl implements JDBCIdentityCache {
             }
         }
         return result;
+    }
+
+    @Override
+    public List<Long> getCommonTokenValueIdList(String tokenValue) {
+        return resourceReferenceDAO.readCommonTokenValueIdList(tokenValue);
     }
 }

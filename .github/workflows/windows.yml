@@ -4,6 +4,7 @@ on:
   pull_request:
     paths-ignore:
       - 'docs/**'
+      - 'demo/**'
       - '.github/workflows/site.yml'
 
 jobs:

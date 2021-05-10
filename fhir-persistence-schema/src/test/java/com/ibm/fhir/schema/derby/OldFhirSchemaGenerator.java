@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -175,8 +175,8 @@ public class OldFhirSchemaGenerator {
      * @param schemaName
      */
     public OldFhirSchemaGenerator(String adminSchemaName, String schemaName) {
-        this(adminSchemaName, schemaName, Arrays.stream(FHIRResourceType.ValueSet.values())
-                .map(FHIRResourceType.ValueSet::value)
+        this(adminSchemaName, schemaName, Arrays.stream(FHIRResourceType.Value.values())
+                .map(FHIRResourceType.Value::value)
                 .collect(Collectors.toSet()));
     }
 

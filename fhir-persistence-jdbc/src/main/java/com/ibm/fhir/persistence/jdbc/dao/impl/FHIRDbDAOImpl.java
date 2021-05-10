@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,8 +16,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.common.DatabaseTranslatorFactory;
 import com.ibm.fhir.database.utils.model.DbType;
+import com.ibm.fhir.database.utils.query.QueryUtil;
+import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
@@ -47,10 +50,10 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
 
     // The connection the DAO operates against
     private final Connection connection;
-    
+
     // The name of the FHIR data schema (containing the FHIR resource tables).
     private final String schemaName;
-    
+
     // The type of database we are connected to. Perhaps should use translator instead?
     private final FHIRDbFlavor flavor;
 
@@ -141,7 +144,7 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
                 log.log(Level.SEVERE, ce.getMessage(), ce);
             }
         }
-        
+
         log.exiting(CLASSNAME, METHODNAME);
     }
 
@@ -209,8 +212,8 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             fhirObjects = this.createDTOs(resultSet);
 
             if (log.isLoggable(Level.FINE)) {
-                log.fine("Successfully retrieved FHIR objects. SQL=" + sql + "  searchArgs="
-                        + Arrays.toString(searchArgs) + " executionTime=" + dbCallDuration + "ms");
+                log.fine("Successfully retrieved FHIR objects; SQL=" + sql + NEWLINE + "searchArgs="
+                        + Arrays.toString(searchArgs) + " [took " + dbCallDuration + " ms]");
             }
         } catch (FHIRPersistenceException e) {
             throw e;
@@ -252,6 +255,10 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
         double dbCallDuration;
 
         try {
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Count SQL = " + sql + NEWLINE + "; searchArgs="
+                        + Arrays.toString(searchArgs));
+            }
             stmt = connection.prepareStatement(sql);
             // Inject arguments into the prepared stmt.
             for (int i = 0; i < searchArgs.length; i++) {
@@ -267,9 +274,8 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             if (resultSet.next()) {
                 rowCount = resultSet.getInt(1);
                 if (log.isLoggable(Level.FINE)) {
-                    log.fine("Successfully retrieved count. SQL=" + sql + NEWLINE + "  searchArgs="
-                            + Arrays.toString(searchArgs) + NEWLINE + "  count=" + rowCount + " executionTime="
-                            + dbCallDuration + "ms");
+                    log.fine("Successfully retrieved count; count=" + rowCount + " [took "
+                            + dbCallDuration + " ms]");
                 }
             } else {
                 // Don't emit the SQL text in an exception - it risks returning it to the client in a response
@@ -291,6 +297,97 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
 
         return rowCount;
     }
+
+    /**
+     * Creates and executes a PreparedStatement for the passed sql containing a 'SELECT COUNT...'.
+     * The count value is extracted from the ResultSet and returned as an int.
+     *
+     * @param countQuery - The SQL SELECT COUNT statement and bind variables to execute.
+     * @return int - The count of results returned by the SQL query.
+     * @throws FHIRPersistenceDataAccessException
+     * @throws FHIRPersistenceDBConnectException
+     */
+    protected int runCountQuery(Select countQuery)
+            throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "runCountQuery";
+        log.entering(CLASSNAME, METHODNAME);
+
+        int rowCount = 0;
+        long dbCallStartTime;
+        double dbCallDuration;
+
+        // Query string is FINE logged inside prepareSelect, so no need to log again here
+        try (PreparedStatement stmt = QueryUtil.prepareSelect(connection, countQuery, getTranslator())) {
+            dbCallStartTime = System.nanoTime();
+            ResultSet resultSet = stmt.executeQuery();
+            dbCallDuration = (System.nanoTime() - dbCallStartTime) / 1e6;
+            if (resultSet.next()) {
+                rowCount = resultSet.getInt(1);
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Successfully retrieved count; count=" + rowCount + " [took "
+                            + dbCallDuration + " ms]");
+                }
+            } else {
+                // Don't emit the SQL text in an exception - it risks returning it to the client in a response
+                FHIRPersistenceDataAccessException fx =
+                        new FHIRPersistenceDataAccessException("Server error: failure retrieving count");
+                throw severe(log, fx, countQuery.toDebugString(), null);
+            }
+        } catch (FHIRPersistenceException e) {
+            throw e;
+        } catch (Throwable e) {
+            // Don't emit the SQL text in an exception - it risks returning it to the client in a response
+            FHIRPersistenceDataAccessException fx =
+                    new FHIRPersistenceDataAccessException("Server error: failure retrieving count");
+            throw severe(log, fx, countQuery.toDebugString(), e);
+        } finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+
+        return rowCount;
+    }
+
+    /**
+     * Retrieve the FHIR objects by executing the given {@link Select} statement
+     * @param select
+     * @return
+     * @throws FHIRPersistenceDataAccessException
+     * @throws FHIRPersistenceDBConnectException
+     */
+    protected List<Resource> runQuery(Select select)
+            throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException {
+        final String METHODNAME = "runQuery";
+        log.entering(CLASSNAME, METHODNAME);
+
+        List<Resource> fhirObjects = new ArrayList<>();
+        ResultSet resultSet = null;
+        long dbCallStartTime;
+        double dbCallDuration;
+
+        try (PreparedStatement stmt = QueryUtil.prepareSelect(connection, select, getTranslator())) {
+            dbCallStartTime = System.nanoTime();
+            resultSet = stmt.executeQuery();
+            dbCallDuration = (System.nanoTime() - dbCallStartTime) / 1e6;
+            // Transform the resultSet into a collection of Data Transfer Objects
+            fhirObjects = this.createDTOs(resultSet);
+
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Successfully retrieved FHIR objects [took " + dbCallDuration + " ms]");
+            }
+        } catch (FHIRPersistenceException e) {
+            throw e;
+        } catch (Throwable e) {
+            // avoid leaking SQL because the exception message might be returned to a client
+            FHIRPersistenceDataAccessException fx =
+                    new FHIRPersistenceDataAccessException("Failure retrieving FHIR objects");
+            throw severe(log, fx, select.toDebugString(), e);
+        } finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+
+        return fhirObjects;
+    }
+
 
     /**
      * An method for creating a collection of Data Transfer Objects of type T from the contents of the passed ResultSet.
@@ -405,5 +502,13 @@ public class FHIRDbDAOImpl implements FHIRDbDAO {
             log.exiting(CLASSNAME, METHODNAME);
         }
         return strValues;
+    }
+
+    /**
+     * Get the translator appropriate for the flavor of database we are using
+     * @return
+     */
+    protected IDatabaseTranslator getTranslator() {
+        return DatabaseTranslatorFactory.getTranslator(this.flavor.getType());
     }
 }

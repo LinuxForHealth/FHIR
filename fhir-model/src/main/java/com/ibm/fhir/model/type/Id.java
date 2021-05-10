@@ -32,11 +32,25 @@ public class Id extends String {
         return (value != null);
     }
 
+    /**
+     * Factory method for creating Id objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String, not null
+     */
     public static Id of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Id.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Id objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String, not null
+     */
     public static String string(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Id.builder().value(value).build();
     }
 

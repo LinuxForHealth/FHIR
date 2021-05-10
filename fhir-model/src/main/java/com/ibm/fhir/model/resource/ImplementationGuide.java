@@ -59,7 +59,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 1,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "ig-0",
@@ -105,7 +105,7 @@ public class ImplementationGuide extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -125,7 +125,7 @@ public class ImplementationGuide extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -137,7 +137,7 @@ public class ImplementationGuide extends DomainResource {
     @Summary
     @Binding(
         bindingName = "SPDXLicense",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The license that applies to an Implementation Guide (using an SPDX license Identifiers, or 'not-open-source'). The binding is required but new SPDX license Identifiers are allowed to be used (https://spdx.org/licenses/).",
         valueSet = "http://hl7.org/fhir/ValueSet/spdx-license|4.0.1"
     )
@@ -145,7 +145,7 @@ public class ImplementationGuide extends DomainResource {
     @Summary
     @Binding(
         bindingName = "FHIRVersion",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "All published FHIR Versions.",
         valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.0.1"
     )
@@ -1574,7 +1574,7 @@ public class ImplementationGuide extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ResourceType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "One of the resource types defined as part of this version of FHIR.",
             valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
         )
@@ -2579,7 +2579,7 @@ public class ImplementationGuide extends DomainResource {
             private final Reference reference;
             @Binding(
                 bindingName = "FHIRVersion",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "All published FHIR Versions.",
                 valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.0.1"
             )
@@ -3020,7 +3020,7 @@ public class ImplementationGuide extends DomainResource {
             private final String title;
             @Binding(
                 bindingName = "GuidePageGeneration",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "A code that indicates how the page is generated.",
                 valueSet = "http://hl7.org/fhir/ValueSet/guide-page-generation|4.0.1"
             )
@@ -3395,7 +3395,7 @@ public class ImplementationGuide extends DomainResource {
         public static class Parameter extends BackboneElement {
             @Binding(
                 bindingName = "GuideParameterCode",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "Code of parameter that is input to the guide.",
                 valueSet = "http://hl7.org/fhir/ValueSet/guide-parameter-code|4.0.1"
             )

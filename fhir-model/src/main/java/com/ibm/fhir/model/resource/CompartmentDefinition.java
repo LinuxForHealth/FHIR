@@ -46,7 +46,7 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Maturity(
     level = 1,
-    status = StandardsStatus.ValueSet.TRIAL_USE
+    status = StandardsStatus.Value.TRIAL_USE
 )
 @Constraint(
     id = "cpd-0",
@@ -68,7 +68,7 @@ public class CompartmentDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -89,7 +89,7 @@ public class CompartmentDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CompartmentType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Which type a compartment definition describes.",
         valueSet = "http://hl7.org/fhir/ValueSet/compartment-type|4.0.1"
     )
@@ -949,7 +949,7 @@ public class CompartmentDefinition extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ResourceType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "One of the resource types defined as part of this version of FHIR.",
             valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
         )

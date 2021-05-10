@@ -358,6 +358,22 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
     }
 
     /**
+     * This test queries an Observation and requests the inclusion of a referenced Patient,
+     * where the _total parameter is set to none. Since there is no Observation, no match
+     * or included resource will be returned.
+     * @throws Exception
+     */
+    @Test
+    public void testIncludeWithTotalNone() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_id", Collections.singletonList(savedOrg1.getId()));
+        queryParms.put("_include", Collections.singletonList("Observation:patient"));
+        List<Resource> resources = runQueryTest(Observation.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(0, resources.size());
+    }
+
+    /**
      * This test queries an Observation and requests the inclusion of a referenced Patient and a referenced Encounter.
      * The Observation only contains a referenced patient.
      * @throws Exception
@@ -820,7 +836,7 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
             }
         }
         // verify all related managing organizations are in the same page.
-        assertTrue(numOfMatchedOrgs == foundPatientOrgIds.size());
+        assertEquals(numOfMatchedOrgs, foundPatientOrgIds.size());
     }
     /**
      * This test queries page of Patient with inclusion of the referenced managing organizations.

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,7 +9,6 @@ package com.ibm.fhir.smart;
 import java.util.Objects;
 
 import com.ibm.fhir.model.type.code.ResourceType;
-import com.ibm.fhir.model.type.code.ResourceType.ValueSet;
 
 /**
  * @see <a href="http://www.hl7.org/fhir/smart-app-launch/scopes-and-launch-context/index.html">
@@ -19,7 +18,7 @@ public class Scope {
     public static final String SCOPE_STRING_REGEX = "(user|patient)/" + "([a-zA-Z]+|\\*)" + "\\." + "(read|write|\\*)";
 
     private final ContextType contextType;
-    private final ResourceType.ValueSet resourceType;
+    private final ResourceType.Value resourceType;
     private final Permission permission;
 
     /**
@@ -36,7 +35,7 @@ public class Scope {
         String[] split2 = split1[1].split("\\.");
 
         this.resourceType = split2[0].charAt(0) == '*' ?
-                ResourceType.ValueSet.RESOURCE : ResourceType.ValueSet.from(split2[0]);
+                ResourceType.Value.RESOURCE : ResourceType.Value.from(split2[0]);
 
         this.permission = Permission.from(split2[1]);
     }
@@ -46,7 +45,7 @@ public class Scope {
      * @param resourceType "Resource" for all resource types
      * @param permission
      */
-    public Scope(ContextType contextType, ResourceType.ValueSet resourceType, Permission permission) {
+    public Scope(ContextType contextType, ResourceType.Value resourceType, Permission permission) {
         this.contextType = contextType;
         this.resourceType = resourceType;
         this.permission = permission;
@@ -62,7 +61,7 @@ public class Scope {
     /**
      * @return the resourceType; "Resource" for all resource types
      */
-    public ResourceType.ValueSet getResourceType() {
+    public ResourceType.Value getResourceType() {
         return resourceType;
     }
 
@@ -79,7 +78,7 @@ public class Scope {
     @Override
     public String toString() {
         String resourceTypeString =
-                resourceType == ValueSet.RESOURCE ? "*" : resourceType.value();
+                resourceType == ResourceType.Value.RESOURCE ? "*" : resourceType.value();
         return contextType.value + "/" + resourceTypeString + "." + permission.value;
     }
 

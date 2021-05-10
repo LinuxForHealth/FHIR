@@ -9,6 +9,7 @@ package com.ibm.fhir.search.context;
 import java.util.List;
 
 import com.ibm.fhir.core.context.FHIRPagingContext;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.search.SummaryValueSet;
 import com.ibm.fhir.search.TotalValueSet;
 import com.ibm.fhir.search.parameters.InclusionParameter;
@@ -102,5 +103,17 @@ public interface FHIRSearchContext extends FHIRPagingContext {
      * @param total the value
      */
     void setTotalParameter(TotalValueSet total);
+
+    /**
+     * Get the list of issues to be returned in the search outcome.
+     * @return a list of issues to be returned in the search outcome
+     */
+    List<Issue> getOutcomeIssues();
+
+    /**
+     * Adds an issue the list of issues to be returned in the search outcome.
+     * @param outcomeIssue the issue
+     */
+    void addOutcomeIssue(Issue outcomeIssue);
 
 }
