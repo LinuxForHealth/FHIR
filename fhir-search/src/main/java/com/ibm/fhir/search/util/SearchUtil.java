@@ -1380,7 +1380,11 @@ public class SearchUtil {
                 } else if (parts.length == 2) {
                     parameterValue.setValueSystem(unescapeSearchParm(parts[0]));
                     parameterValue.setValueCode(unescapeSearchParm(parts[1]));
+                } else if (parts.length == 1 && v.endsWith("|") && v.indexOf("|") == v.length()-1) {
+                    // Only a system was specified (uri followed by a single '|')
+                    parameterValue.setValueSystem(unescapeSearchParm(parts[0]));
                 } else {
+                    // Treat as a single code.
                     // Optimization for search parameters that always reference the same system, added under #1929
                     if (!Modifier.MISSING.equals(modifier)) {
                         try {

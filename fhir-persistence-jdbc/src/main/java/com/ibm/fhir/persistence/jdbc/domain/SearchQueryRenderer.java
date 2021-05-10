@@ -385,50 +385,62 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                     Modifier.ABOVE.equals(queryParm.getModifier()) || Modifier.BELOW.equals(queryParm.getModifier())) {
                 populateCodesSubSegment(where, queryParm.getModifier(), value, paramAlias);
             } else {
+                final String system = value.getValueSystem() != null && !value.getValueSystem().isEmpty() ? value.getValueSystem() : null;
+                final String code = value.getValueCode() != null ? value.getValueCode() : null; // empty code is a valid value
+
+                // Determine code normalization based on code system case-sensitivity
+                String normalizedCode = null;
+                if (code != null) {
+                    if (system != null) {
+                        boolean codeSystemIsCaseSensitive = CodeSystemSupport.isCaseSensitive(system);
+                        normalizedCode = SqlParameterEncoder.encode(codeSystemIsCaseSensitive ?
+                                            code : SearchUtil.normalizeForSearch(code));
+                    } else {
+                        normalizedCode = SqlParameterEncoder.encode(SearchUtil.normalizeForSearch(code));
+                    }
+                }
+
                 // Include code
-                if (operator == Operator.EQ) {
-                    final String codeSystem = value.getValueSystem();
-                    if (codeSystem == null || codeSystem.isEmpty() || codeSystem.equals("*")) {
+                if (operator == Operator.EQ && code != null) {
+                    if (system == null || system.equals("*")) {
                         // Even though we don't have a system, we can still use a list of
                         // common_token_value_ids matching the value-code, allowing a similar optimization
                         Set<Long> ctvs = new HashSet<>();
-                        fetchCommonTokenValues(ctvs, SqlParameterEncoder.encode(value.getValueCode()));
-                        fetchCommonTokenValues(ctvs, SqlParameterEncoder.encode(SearchUtil.normalizeForSearch(value.getValueCode())));
+                        fetchCommonTokenValues(ctvs, SqlParameterEncoder.encode(code));
+                        fetchCommonTokenValues(ctvs, SqlParameterEncoder.encode(SearchUtil.normalizeForSearch(code)));
                         addCommonTokenValueIdFilter(where, paramAlias, ctvs);
                     } else {
-                        boolean codeSystemIsCaseSensitive = CodeSystemSupport.isCaseSensitive(value.getValueSystem());
-                        final String normalizedValue = SqlParameterEncoder.encode(codeSystemIsCaseSensitive ?
-                                value.getValueCode() : SearchUtil.normalizeForSearch(value.getValueCode()));
-
-                        Long commonTokenValueId = identityCache.getCommonTokenValueId(value.getValueSystem(), normalizedValue);
+                        Long commonTokenValueId = identityCache.getCommonTokenValueId(system, normalizedCode);
                         where.col(paramAlias, COMMON_TOKEN_VALUE_ID).eq(nullCheck(commonTokenValueId));
                     }
                 } else {
-                    // traditional approach, using a join to xx_TOKEN_VALUES_V
-                    where.col(paramAlias, "TOKEN_VALUE").operator(operator);
-                    if (operator == Operator.LIKE) {
-                        // Must escape special wildcard characters _ and % in the parameter value string.
-                        String textSearchString = SqlParameterEncoder.encode(value.getValueCode())
-                                .replace(PERCENT_WILDCARD, ESCAPE_PERCENT)
-                                .replace(UNDERSCORE_WILDCARD, ESCAPE_UNDERSCORE)
-                                .replace("+", "++")+ PERCENT_WILDCARD;
-                        where.bind(SearchUtil.normalizeForSearch(textSearchString)).escape("+");
-
-                    } else {
-                        where.bind(SqlParameterEncoder.encode(value.getValueCode()));
+                    // Traditional approach, using a join to xx_TOKEN_VALUES_V
+                    
+                    // Include code if present
+                    if (code != null) {
+                        where.col(paramAlias, TOKEN_VALUE).operator(operator);
+                        if (operator == Operator.LIKE) {
+                            // Must escape special wildcard characters _ and % in the parameter value string.
+                            String textSearchString = normalizedCode
+                                    .replace(PERCENT_WILDCARD, ESCAPE_PERCENT)
+                                    .replace(UNDERSCORE_WILDCARD, ESCAPE_UNDERSCORE)
+                                    .replace("+", "++")+ PERCENT_WILDCARD;
+                            where.bind(SearchUtil.normalizeForSearch(textSearchString)).escape("+");
+    
+                        } else {
+                            where.bind(normalizedCode);
+                        }
                     }
 
-                    // Include system if present.
-                    if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
-                        if (operator == Operator.NE) {
-                            where.or();
-                        } else {
+                    // Include system if present
+                    if (system != null) {
+                        if (code != null) {
                             where.and();
                         }
 
-                        // filter on the code system for the given parameter
-                        Integer codeSystemId = identityCache.getCodeSystemId(value.getValueSystem());
-                        where.col(paramAlias, CODE_SYSTEM_ID).operator(operator).literal(nullCheck(codeSystemId));
+                        // Filter on the code system for the given parameter
+                        Integer codeSystemId = identityCache.getCodeSystemId(system);
+                        where.col(paramAlias, CODE_SYSTEM_ID).eq().literal(nullCheck(codeSystemId));
                     }
                 }
             }
@@ -934,7 +946,8 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     protected String getTokenParamTable(ExpNode filter, String resourceType, String paramAlias) {
         ColumnExpNodeVisitor visitor = new ColumnExpNodeVisitor(); // gathers all columns used in the filter expression
         Set<String> columns = filter.visit(visitor);
-        boolean usesTokenValue = columns.contains(DataDefinitionUtil.getQualifiedName(paramAlias, "TOKEN_VALUE"));
+        boolean usesTokenValue = columns.contains(DataDefinitionUtil.getQualifiedName(paramAlias, TOKEN_VALUE)) ||
+                                    columns.contains(DataDefinitionUtil.getQualifiedName(paramAlias, CODE_SYSTEM_ID));
 
         final String xxTokenValues;
         if (usesTokenValue) {
