@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -451,20 +452,27 @@ public class SearchUtil {
             Set<SearchParameter> params = getSearchParametersByCodeFromTenantOrBuiltIn(resourceType, code, tenantSpMap);
 
             if (params != null && !params.isEmpty()) {
-                result = params.iterator().next();
-                if (params.size() > 1) {
-                    log.warning("Found multiple resource-specific search parameters for code '" + code + "' on resource type " + resourceType + ";"
-                            + " use search parameter filtering to disambiguate. Using '" + result.getUrl().getValue() + "'.");
+                Iterator<SearchParameter> iterator = params.iterator();
+                result = iterator.next();
+                String configuredUrl = result.getUrl().getValue();
+                while (iterator.hasNext()) {
+                    SearchParameter conflict = iterator.next();
+                    log.warning("Found multiple resource-specific search parameters, '" + configuredUrl + "' and '" + conflict.getUrl().getValue()
+                        + "', for code '" + code + "' on resource type '" + resourceType + "';"
+                        + " use search parameter filtering to disambiguate. Using '" + configuredUrl + "'.");
                 }
             }
         } else if (parentResourceFilterRules == null || parentResourceFilterRules.containsKey(SearchConstants.WILDCARD)) {
             Set<SearchParameter> params = getSearchParametersByCodeFromTenantOrBuiltIn(SearchConstants.RESOURCE_RESOURCE, code, tenantSpMap);
 
             if (params != null && !params.isEmpty()) {
-                result = params.iterator().next();
-                if (params.size() > 1) {
-                    log.warning("Found multiple cross-resource search parameters for code '" + code + "';"
-                            + " use search parameter filtering to disambiguate. Using '" + result.getUrl().getValue() + "'.");
+                Iterator<SearchParameter> iterator = params.iterator();
+                result = iterator.next();
+                String configuredUrl = result.getUrl().getValue();
+                while (iterator.hasNext()) {
+                    SearchParameter conflict = iterator.next();
+                    log.warning("Found multiple cross-resource search parameters, '" + configuredUrl + "' and '" + conflict.getUrl().getValue()
+                        + "', for code '" + code + "'; use search parameter filtering to disambiguate. Using '" + configuredUrl + "'.");
                 }
             }
         }
