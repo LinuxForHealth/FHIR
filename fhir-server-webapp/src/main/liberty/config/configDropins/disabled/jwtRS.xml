@@ -1,0 +1,31 @@
+<server description="fhir-server">
+    <featureManager>
+        <!-- mpJwt-1.1 is already enabled in the default server.xml, but it doesn't hurt to repeat it here -->
+        <feature>mpJwt-1.1</feature>
+    </featureManager>
+
+    <!-- Override the application-bnd binding of the main webapp -->
+    <webApplication contextRoot="fhir-server/api/v4" id="fhir-server-webapp" location="fhir-server.war" name="fhir-server-webapp">
+        <application-bnd id="bind">
+            <security-role id="users" name="FHIRUsers">
+                <group id="usersGroup" access-id="group:https://localhost:8443/auth/realms/test/fhirUser"/>
+            </security-role>
+        </application-bnd>
+    </webApplication>
+
+    <!-- The MP JWT configuration that injects the caller's JWT into a
+         ResourceScoped bean for inspection. -->
+    <mpJwt id="jwtConsumer"
+           jwksUri="http://keycloak:8080/auth/realms/test/protocol/openid-connect/certs"
+           issuer="https://localhost:8443/auth/realms/test"
+           audiences="http://fhir-server:9080/fhir-server/api/v4"
+           userNameAttribute="sub"
+           groupNameAttribute="group"
+           authFilterRef="filter"/>
+
+    <authFilter id="filter">
+        <requestUrl urlPattern="/fhir-server" />
+        <requestUrl matchType="notContain" urlPattern="/fhir-server/api/v4/metadata" />
+        <requestUrl matchType="notContain" urlPattern="/fhir-server/api/v4/.well-known/smart-configuration" />
+    </authFilter>
+</server>
