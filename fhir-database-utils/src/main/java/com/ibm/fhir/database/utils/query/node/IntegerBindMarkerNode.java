@@ -12,7 +12,7 @@ import com.ibm.fhir.database.utils.query.expression.BindMarkerNodeVisitor;
  * A bind marker representing an Integer value
  */
 public class IntegerBindMarkerNode extends BindMarkerNode {
-    // The Long value (can be null)
+    // The Integer value (can be null)
     private final Integer value;
 
     public IntegerBindMarkerNode(Integer value) {
