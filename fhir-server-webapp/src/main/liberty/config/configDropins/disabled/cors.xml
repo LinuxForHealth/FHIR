@@ -1,0 +1,6 @@
+<server description="fhir-server">
+    <!-- Enable CORS (Cross Origin Resource Sharing) -->
+    <cors allowCredentials="true" allowedMethods="GET, PUT, POST"
+        allowedHeaders="Content-Type, Authorization, Accept, Origin"
+        allowedOrigins="*" domain="/fhir-server/api/v4" maxAge="3600"/>
+</server>
