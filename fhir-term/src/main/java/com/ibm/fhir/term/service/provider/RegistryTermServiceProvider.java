@@ -32,7 +32,7 @@ public class RegistryTermServiceProvider extends AbstractTermServiceProvider {
         return CodeSystemSupport.getConcepts(concept);
     }
 
-    @Cacheable
+    @Cacheable(maximumSize = 1024)
     @Override
     public Concept getConcept(CodeSystem codeSystem, Code code) {
         checkArguments(codeSystem, code);
