@@ -622,6 +622,20 @@ public class ParameterExtractionTest {
     }
 
     @Test
+    public void testQuantity_valueOnly() throws FHIRPersistenceProcessorException {
+        JDBCParameterBuildingVisitor parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, quantitySearchParam);
+        Quantity.builder()
+                .value(Decimal.of(1))
+                .build()
+                .accept(parameterBuilder);
+        List<ExtractedParameterValue> params = parameterBuilder.getResult();
+        assertEquals(params.size(), 1, "Number of extracted parameters");
+        assertEquals(((QuantityParmVal) params.get(0)).getValueNumber().intValue(), 1);
+        assertEquals(((QuantityParmVal) params.get(0)).getValueSystem(), JDBCConstants.DEFAULT_TOKEN_SYSTEM);
+        assertEquals(((QuantityParmVal) params.get(0)).getValueCode(), "");
+    }
+
+    @Test
     public void testQuantity_null() throws FHIRPersistenceProcessorException {
         assertNullValueReturnsNoParameters(quantitySearchParam, Quantity.builder());
     }

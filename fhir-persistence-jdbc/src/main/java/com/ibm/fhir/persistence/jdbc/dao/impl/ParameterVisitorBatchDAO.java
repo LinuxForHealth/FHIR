@@ -399,10 +399,11 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         BigDecimal quantityLow = param.getValueNumberLow();
         BigDecimal quantityHigh = param.getValueNumberHigh();
 
-        // XXX why no check for isBase on this one?
+        // XX why no check for isBase on this one?
 
-        // Skip anything with a null code
-        if (code == null || code.isEmpty()) {
+        // Skip anything with a null code, since CODE column is non-nullable,
+        // but allow empty code for when no code or unit is specified
+        if (code == null) {
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine("CODELESS QUANTITY (skipped): " + parameterName + "=" + code + ":" + codeSystem + "{" + quantityValue + ", " + quantityLow + ", " + quantityHigh + "}");
             }
