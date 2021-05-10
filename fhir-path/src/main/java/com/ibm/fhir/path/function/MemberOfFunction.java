@@ -140,7 +140,7 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                     }
                     return membershipCheckFailed(evaluationContext, elementNode, url, strength);
                 } catch (FHIRTermServiceException e) {
-                    generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.INCOMPLETE, "Membership check was not performed: value set '" + url + "' could not be expanded due to the following error: " + e.getMessage(), elementNode.path());
+                    generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.INCOMPLETE, "Membership check was not performed: value set '" + url + "' membership could not be checked due to the following error: '" + e.getMessage() + "'", elementNode.path());
                 }
             } else if (isSyntaxBased(valueSet)) {
                 // Validate against syntax-based value set

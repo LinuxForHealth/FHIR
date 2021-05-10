@@ -502,15 +502,15 @@ public final class ValidationSupport {
      */
     public static void checkValueSetBinding(Element element, String elementName, String valueSet, String system, String... codes) {
         if (element != null) {
-            boolean advancedCodeableConceptValidation = FHIRModelConfig.getExtendedCodeableConceptValidation();
+            boolean extendedCodeableConceptValidation = FHIRModelConfig.getExtendedCodeableConceptValidation();
             List<String> codeList = Arrays.asList(codes);
 
             if (element instanceof CodeableConcept) {
-                checkCodeableConcept((CodeableConcept)element, elementName, valueSet, system, codeList, advancedCodeableConceptValidation);
+                checkCodeableConcept((CodeableConcept)element, elementName, valueSet, system, codeList, extendedCodeableConceptValidation);
             } else if (element instanceof Coding || element instanceof Quantity) {
-                checkCoding(element, elementName, valueSet, system, codeList, advancedCodeableConceptValidation);
+                checkCoding(element, elementName, valueSet, system, codeList, extendedCodeableConceptValidation);
             } else if (element instanceof Code || element instanceof Uri || element instanceof com.ibm.fhir.model.type.String) {
-                checkCode(element, elementName, valueSet, codeList, advancedCodeableConceptValidation);
+                checkCode(element, elementName, valueSet, codeList, extendedCodeableConceptValidation);
             }
         }
     }
@@ -518,12 +518,12 @@ public final class ValidationSupport {
     /**
      * @throws IllegalStateExeption if the CodeableConcept element does not include a code from the required binding
      */
-    private static void checkCodeableConcept(CodeableConcept codeableConcept, String elementName, String valueSet, String system, List<String> codes, boolean advancedCodeableConceptValidation) {
-        if (advancedCodeableConceptValidation) {
+    private static void checkCodeableConcept(CodeableConcept codeableConcept, String elementName, String valueSet, String system, List<String> codes, boolean extendedCodeableConceptValidation) {
+        if (extendedCodeableConceptValidation) {
             if (codeableConcept.getCoding() != null) {
                 for (Coding coding : codeableConcept.getCoding()) {
                     try {
-                        checkCoding(coding, elementName, valueSet, system, codes, advancedCodeableConceptValidation);
+                        checkCoding(coding, elementName, valueSet, system, codes, extendedCodeableConceptValidation);
                         return;
                     } catch (IllegalStateException e) {}
                 }
@@ -544,8 +544,8 @@ public final class ValidationSupport {
     /**
      * @throws IllegalStateExeption if the Coding element does not include a code from the required binding
      */
-    private static void checkCoding(Element element, String elementName, String valueSet, String system, List<String> codes, boolean advancedCodeableConceptValidation) {
-        if (advancedCodeableConceptValidation) {
+    private static void checkCoding(Element element, String elementName, String valueSet, String system, List<String> codes, boolean extendedCodeableConceptValidation) {
+        if (extendedCodeableConceptValidation) {
             if (!hasOnlyDataAbsentReasonExtension(element)) {
                 if (hasSystemAndCodeValues(element)) {
                     String codingSystem = null;
@@ -558,12 +558,12 @@ public final class ValidationSupport {
                         codingCode = element.as(Quantity.class).getCode();
                     }
                     if (isSyntaxValidatedValueSet(valueSet)) {
-                        checkSyntaxValidatedCode(codingCode.getValue(), codingSystem, elementName, valueSet, advancedCodeableConceptValidation);
+                        checkSyntaxValidatedCode(codingCode.getValue(), codingSystem, elementName, valueSet, extendedCodeableConceptValidation);
                     } else {
                         if (!codingSystem.equals(system)) {
                             throw new IllegalStateException(String.format("Element '%s': '%s' is not a valid system for value set '%s'", elementName, codingSystem, valueSet));
                         } else {
-                            checkCode(codingCode, elementName, valueSet, codes, advancedCodeableConceptValidation);
+                            checkCode(codingCode, elementName, valueSet, codes, extendedCodeableConceptValidation);
                         }
                     }
                 } else {
@@ -576,8 +576,8 @@ public final class ValidationSupport {
     /**
      * @throws IllegalStateExeption if the code element is not from the required binding
      */
-    private static void checkCode(Element element, String elementName, String valueSet, List<String> codes, boolean advancedCodeableConceptValidation) {
-        if (advancedCodeableConceptValidation) {
+    private static void checkCode(Element element, String elementName, String valueSet, List<String> codes, boolean extendedCodeableConceptValidation) {
+        if (extendedCodeableConceptValidation) {
             if (!hasOnlyDataAbsentReasonExtension(element)) {
                 String codeValue = null;
                 if (element instanceof Code) {
@@ -589,7 +589,7 @@ public final class ValidationSupport {
                 }
                 if (codeValue != null) {
                     if (isSyntaxValidatedValueSet(valueSet)) {
-                        checkSyntaxValidatedCode(codeValue, null, elementName, valueSet, advancedCodeableConceptValidation);
+                        checkSyntaxValidatedCode(codeValue, null, elementName, valueSet, extendedCodeableConceptValidation);
                     } else if (!codes.contains(codeValue)) {
                         throw new IllegalStateException(String.format("Element '%s': '%s' is not a valid code for value set '%s'", elementName, codeValue, valueSet));
                     }
@@ -603,8 +603,8 @@ public final class ValidationSupport {
     /**
      * @throws IllegalStateExeption if the code element is not from the required binding
      */
-    private static void checkSyntaxValidatedCode(String code, String system, String elementName, String valueSet, boolean advancedCodeableConceptValidation) {
-        if (advancedCodeableConceptValidation) {
+    private static void checkSyntaxValidatedCode(String code, String system, String elementName, String valueSet, boolean extendedCodeableConceptValidation) {
+        if (extendedCodeableConceptValidation) {
             if (ALL_LANG_VALUE_SET_URL.contentEquals(valueSet)) {
                 if (system != null && !BCP_47_URN.equals(system)) {
                     throw new IllegalStateException(String.format("Element '%s': '%s' is not a valid system for value set '%s'", elementName, system, valueSet));

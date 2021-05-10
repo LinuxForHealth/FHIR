@@ -170,6 +170,8 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
         try {
             WebTarget target = client.target(base);
 
+            long initialTime = System.currentTimeMillis();
+
             response = (codeSystem.getVersion() != null) ?
                 target.path("CodeSystem").path("$lookup")
                     .queryParam("system", codeSystem.getUrl().getValue())
@@ -182,6 +184,8 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                     .queryParam("code", code.getValue())
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                     .get();
+
+            log("GET", "CodeSystem/$lookup", response.getStatus(), elapsedSecs(initialTime));
 
             if (response.getStatus() == Status.OK.getStatusCode()) {
                 Parameters parameters = response.readEntity(Parameters.class);
@@ -225,9 +229,13 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
         try {
             WebTarget target = client.target(base);
 
+            long initialTime = System.currentTimeMillis();
+
             response = target.path("ValueSet").path("$expand")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .post(Entity.entity(parameters, FHIRMediaType.APPLICATION_FHIR_JSON));
+
+            log("POST", "ValueSet/$expand", response.getStatus(), elapsedSecs(initialTime));
 
             if (response.getStatus() == Status.OK.getStatusCode()) {
                 JsonObject valueSet = response.readEntity(JsonObject.class);
@@ -244,7 +252,7 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 return result;
             }
 
-            throw errorOccurred(response, "ValueSet", "expand");
+            throw errorOccurred(response, "ValueSet/$expand");
         } finally {
             if (response != null) {
                 response.close();
@@ -271,6 +279,8 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
         try {
             WebTarget target = client.target(base);
 
+            long initialTime = System.currentTimeMillis();
+
             response = (codeSystem.getVersion() != null) ?
                 target.path("CodeSystem")
                     .path("$validate-code")
@@ -285,6 +295,8 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                     .queryParam("code", code.getValue())
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                     .get();
+
+            log("GET", "CodeSystem/$validate-code", response.getStatus(), elapsedSecs(initialTime));
 
             if (response.getStatus() == Status.OK.getStatusCode()) {
                 Parameters parameters = response.readEntity(Parameters.class);
@@ -333,6 +345,8 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
         try {
             WebTarget target = client.target(base);
 
+            long initialTime = System.currentTimeMillis();
+
             response = (codeSystem.getVersion() != null) ?
                 target.path("CodeSystem")
                     .path("$subsumes")
@@ -350,6 +364,8 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                     .get();
 
+            log("GET", "CodeSystem/$subsumes", response.getStatus(), elapsedSecs(initialTime));
+
             if (response.getStatus() == Status.OK.getStatusCode()) {
                 Parameters parameters = response.readEntity(Parameters.class);
                 Parameter outcomeParameter = getParameter(parameters, "outcome");
@@ -359,12 +375,30 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 }
             }
 
-            throw errorOccurred(response, "CodeSystem", "subsumes");
+            throw errorOccurred(response, "CodeSystem/$subsumes");
         } finally {
             if (response != null) {
                 response.close();
             }
         }
+    }
+
+    private String buildErrorMessage(String op) {
+        return new StringBuilder()
+            .append("A communication or processing error occurred during the remote ")
+            .append(op)
+            .append(" operation (endpoint: ")
+            .append(buildRemoteRequestUri(op))
+            .append(")")
+            .toString();
+    }
+
+    private String buildRemoteRequestUri(String op) {
+        return new StringBuilder()
+            .append(base)
+            .append("/")
+            .append(op)
+            .toString();
     }
 
     private Parameters buildValueSetExpandParameters(CodeSystem codeSystem, List<Filter> filters) {
@@ -385,15 +419,14 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
             .build();
     }
 
-    private FHIRTermServiceException errorOccurred(Response response, String type, String op) {
-        OperationOutcome outcome = null;
-        try {
-            outcome = response.readEntity(OperationOutcome.class);
-        } catch (IllegalArgumentException | ProcessingException e) {
-            log.log(Level.SEVERE, "An error occurred while reading the entity", e);
-        }
+    private double elapsedSecs(long initialTime) {
+        return (System.currentTimeMillis() - initialTime) / 1000.0;
+    }
 
-        String message = String.format("RemoteTermServiceProvider: a communication or processing error occurred during the remote %s %s operation", type, op);
+    private FHIRTermServiceException errorOccurred(Response response, String op) {
+        OperationOutcome outcome = getOperationOutcome(response);
+
+        String message = buildErrorMessage(op);
 
         List<Issue> issues = new ArrayList<>();
 
@@ -403,7 +436,6 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
             .details(CodeableConcept.builder()
                 .text(string(message))
                 .build())
-            .diagnostics(string(String.format("Remote endpoint: %s/%s/$%s", base, type, op)))
             .build());
 
         if (outcome != null) {
@@ -411,6 +443,16 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
         }
 
         return new FHIRTermServiceException(message, issues);
+    }
+
+    private OperationOutcome getOperationOutcome(Response response) {
+        OperationOutcome outcome = null;
+        try {
+            outcome = response.readEntity(OperationOutcome.class);
+        } catch (IllegalArgumentException | ProcessingException e) {
+            log.log(Level.SEVERE, "An error occurred while reading the entity", e);
+        }
+        return outcome;
     }
 
     private KeyStore loadKeyStoreFile(Configuration.TrustStore trustStore) {
@@ -449,6 +491,22 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                     in.close();
                 } catch (Throwable t) { }
             }
+        }
+    }
+
+    private void log(String method, String op, int status, double elapsedSecs) {
+        if (log.isLoggable(Level.FINEST)) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("method:[")
+                .append(method)
+                .append("] uri:[")
+                .append(buildRemoteRequestUri(op))
+                .append("] status:[")
+                .append(status)
+                .append("] elapsed:[")
+                .append(elapsedSecs)
+                .append(" secs]");
+            log.finest(sb.toString());
         }
     }
 
