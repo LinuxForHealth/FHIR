@@ -1659,15 +1659,15 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             // If we're working on a 'transaction' type interaction, or an interaction
-            // where we're processing only GET requests, then start a new transaction now.
+            // where we're processing only GET or HEAD requests, then start a new transaction now.
             BundleType.Value bundleType = requestBundle.getType().getValueAsEnum();
             if (bundleType == BundleType.Value.TRANSACTION ||
-                    (!requestEntriesByMethod.get(HTTPVerb.Value.GET).isEmpty() &&
+                    ((!requestEntriesByMethod.get(HTTPVerb.Value.GET).isEmpty() ||
+                            !requestEntriesByMethod.get(HTTPVerb.Value.HEAD).isEmpty()) &&
                             requestEntriesByMethod.get(HTTPVerb.Value.DELETE).isEmpty() &&
                             requestEntriesByMethod.get(HTTPVerb.Value.POST).isEmpty() &&
                             requestEntriesByMethod.get(HTTPVerb.Value.PUT).isEmpty() &&
-                            requestEntriesByMethod.get(HTTPVerb.Value.PATCH).isEmpty() &&
-                            requestEntriesByMethod.get(HTTPVerb.Value.HEAD).isEmpty())) {
+                            requestEntriesByMethod.get(HTTPVerb.Value.PATCH).isEmpty())) {
                 txn = new FHIRTransactionHelper(getTransaction());
                 txn.begin();
                 if (log.isLoggable(Level.FINE)) {
