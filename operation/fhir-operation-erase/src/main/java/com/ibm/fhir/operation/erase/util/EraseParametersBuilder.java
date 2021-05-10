@@ -30,10 +30,8 @@ public final class EraseParametersBuilder {
 
     private static final String REASON = "reason";
     private static final String PATIENT = "patient";
-    private static final String TIMEOUT = "timeout";
     private static final String VERSION = "version";
     private static final String ID = "id";
-    private static final String COUNT = "count";
 
     private Parameters.Builder builder = null;
     private List<Parameter> parameters = new ArrayList<>();
@@ -121,84 +119,6 @@ public final class EraseParametersBuilder {
     public EraseParametersBuilder absentPatient() {
         com.ibm.fhir.model.type.String str = com.ibm.fhir.model.type.String.builder().extension(DATA_ABSENT).build();
         parameters.add(Parameter.builder().name(string(PATIENT)).value(str).build());
-        return this;
-    }
-
-    /**
-     *
-     * @param timeout
-     *            to add to built parameters object
-     * @return a builder with the timeout parameter
-     */
-    public EraseParametersBuilder timeout(Integer timeout) {
-        parameters.add(Parameter.builder().name(string(TIMEOUT)).value(com.ibm.fhir.model.type.Integer.of(timeout)).build());
-        return this;
-    }
-
-    /**
-     *
-     * @return a bad timeout in the builder
-     */
-    public EraseParametersBuilder badTimeout() {
-        parameters.add(Parameter.builder().name(string(TIMEOUT)).value(string("1")).build());
-        return this;
-    }
-
-    /**
-     *
-     * @return a null timeout in the builder
-     */
-    public EraseParametersBuilder nullTimeout() {
-        parameters.add(Parameter.builder().name(string(TIMEOUT)).build());
-        return this;
-    }
-
-    /**
-     *
-     * @return a parameter that is data-absent for timeout
-     */
-    public EraseParametersBuilder absentTimeout() {
-        com.ibm.fhir.model.type.Integer itr = com.ibm.fhir.model.type.Integer.builder().extension(DATA_ABSENT).build();
-        parameters.add(Parameter.builder().name(string(TIMEOUT)).value(itr).build());
-        return this;
-    }
-
-    /**
-     *
-     * @param count
-     *            to add to built parameters object
-     * @return a builder with the count parameter
-     */
-    public EraseParametersBuilder count(Integer count) {
-        parameters.add(Parameter.builder().name(string(COUNT)).value(com.ibm.fhir.model.type.Integer.of(count)).build());
-        return this;
-    }
-
-    /**
-     *
-     * @return a bad count in the builder
-     */
-    public EraseParametersBuilder badCount() {
-        parameters.add(Parameter.builder().name(string(COUNT)).value(string("1")).build());
-        return this;
-    }
-
-    /**
-     *
-     * @return a null count in the builder
-     */
-    public EraseParametersBuilder nullCount() {
-        parameters.add(Parameter.builder().name(string(COUNT)).build());
-        return this;
-    }
-
-    /**
-     *
-     * @return a parameter that is data-absent for count
-     */
-    public EraseParametersBuilder absentCount() {
-        com.ibm.fhir.model.type.Integer itr = com.ibm.fhir.model.type.Integer.builder().extension(DATA_ABSENT).build();
-        parameters.add(Parameter.builder().name(string(COUNT)).value(itr).build());
         return this;
     }
 

@@ -132,14 +132,6 @@ public class EraseRestImpl implements EraseRest {
         // Cardinality: 1..1
         processReason(dto, evaluator, evaluationContext, issues);
 
-        // Parameter: timeout
-        // Cardinality: 0..1
-        processTimeout(dto, evaluator, evaluationContext, issues);
-
-        // Parameter: count
-        // Cardinality: 0..1
-        processCount(dto, evaluator, evaluationContext, issues);
-
         // Parameter: version
         // Cardinality: 0..1
         processVersion(dto, evaluator, evaluationContext, issues);
@@ -262,106 +254,6 @@ public class EraseRestImpl implements EraseRest {
            logException(issues, e);
        }
    }
-
-   /**
-    * processes the 'count' from the parameters object in the evaluation context.
-    *
-    * @param dto the data transfer object that is to be sent to the DAO
-    * @param evaluator the FHIRPath Evaluator that is used to evaluate the value
-    * @param evaluationContext the context which includes the input Parameters object
-    * @param issues the aggregate issues list.
-    */
-   public void processCount(EraseDTO dto, FHIRPathEvaluator evaluator, EvaluationContext evaluationContext, List<Issue> issues) {
-        try {
-            Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "parameter.where(name = 'count').value");
-            Iterator<FHIRPathNode> iter = result.iterator();
-
-            boolean hasMoreThanOne = false;
-            while (iter.hasNext()) {
-                if (hasMoreThanOne) {
-                    issues.add(Issue.builder()
-                        .diagnostics(string("more than one 'count' parameter provided"))
-                        .code(IssueType.INVALID)
-                        .severity(IssueSeverity.FATAL)
-                        .build());
-                    break;
-                }
-                FHIRPathElementNode node = iter.next().as(FHIRPathElementNode.class);
-                if (!node.asElementNode().element().is(com.ibm.fhir.model.type.Integer.class)) {
-                    issues.add(Issue.builder()
-                        .diagnostics(string("'count' must be of type Integer"))
-                        .code(IssueType.INVALID)
-                        .severity(IssueSeverity.FATAL)
-                        .build());
-                } else {
-                    Integer val = node.asElementNode().element().as(com.ibm.fhir.model.type.Integer.class).getValue();
-                    if (val == null) { // We check null, just in case data absent reason
-                        issues.add(Issue.builder()
-                            .diagnostics(string("Operation[$erase] must have a non-null count"))
-                            .code(IssueType.INVALID)
-                            .severity(IssueSeverity.FATAL)
-                            .build());
-                    } else {
-                        dto.setCount(val);
-                    }
-                }
-                hasMoreThanOne = true;
-            }
-        } catch (FHIRPathException e) {
-            logException(issues, e);
-        }
-    }
-
-
-    /**
-     * processes the 'timeout' from the parameters object in the evaluation context.
-     *
-     * @param dto the data transfer object that is to be sent to the DAO
-     * @param evaluator the FHIRPath Evaluator that is used to evaluate the value
-     * @param evaluationContext the context which includes the input Parameters object
-     * @param issues the aggregate issues list.
-     */
-    public void processTimeout(EraseDTO dto, FHIRPathEvaluator evaluator, EvaluationContext evaluationContext, List<Issue> issues) {
-        try {
-            Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "parameter.where(name = 'timeout').value");
-            Iterator<FHIRPathNode> iter = result.iterator();
-
-            boolean hasMoreThanOne = false;
-            while (iter.hasNext()) {
-                if (hasMoreThanOne) {
-                    issues.add(Issue.builder()
-                        .diagnostics(string("more than one 'timeout' parameter provided"))
-                        .code(IssueType.INVALID)
-                        .severity(IssueSeverity.FATAL)
-                        .build());
-                    break;
-                }
-
-                FHIRPathElementNode node = iter.next().as(FHIRPathElementNode.class);
-                if (!node.asElementNode().element().is(com.ibm.fhir.model.type.Integer.class)) {
-                    issues.add(Issue.builder()
-                        .diagnostics(string("'timeout' must be of type Integer"))
-                        .code(IssueType.INVALID)
-                        .severity(IssueSeverity.FATAL)
-                        .build());
-                } else {
-                    Integer val = node.asElementNode().element().as(com.ibm.fhir.model.type.Integer.class).getValue();
-                    if (val == null) { // We check null, just in case data absent reason
-                        issues.add(Issue.builder()
-                            .diagnostics(string("Operation[$erase] must have a non-null timeout"))
-                            .code(IssueType.INVALID)
-                            .severity(IssueSeverity.FATAL)
-                            .build());
-                    } else {
-                        dto.setTimeout(val);
-                    }
-                }
-                hasMoreThanOne = true;
-            }
-        } catch (FHIRPathException e) {
-            logException(issues, e);
-        }
-    }
 
     /**
      * processes the 'reason' from the parameters object in the evaluation context.

@@ -238,5 +238,4 @@ public abstract class AbstractEraseTest extends AbstractPersistenceTest {
         SingleResourceResult<? extends Basic> result = persistence.read(getDefaultPersistenceContext(), resource1.getClass(), resource1.getId());
         assertNotNull(result.getResource());
     }
-
 }

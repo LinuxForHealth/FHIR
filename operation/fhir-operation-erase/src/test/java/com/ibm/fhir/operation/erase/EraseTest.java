@@ -113,11 +113,9 @@ public class EraseTest {
      * @param logicalId note these are optional
      * @param patient note these are optional
      * @param reason note these are optional
-     * @param timeout note these are optional
-     * @param count note these are optional
      * @param version note these are optional
      */
-    public void verifyDto(EraseDTO dto, Class<? extends Resource> resourceType, String logicalId, Optional<String> patient, Optional<String> reason, Optional<Integer> timeout, Optional<Integer> count, Optional<Integer> version) {
+    public void verifyDto(EraseDTO dto, Class<? extends Resource> resourceType, String logicalId, Optional<String> patient, Optional<String> reason, Optional<Integer> version) {
         // These are always not null
         assertNotNull(dto.getResourceType());
         assertNotNull(dto.getLogicalId());
@@ -138,20 +136,6 @@ public class EraseTest {
             assertEquals(dto.getReason(), reason.get());
         } else {
             assertNull(dto.getReason());
-        }
-
-        if (timeout.isPresent()) {
-            assertNotNull(dto.getTimeout());
-            assertEquals(dto.getTimeout(), timeout.get());
-        } else {
-            assertNull(dto.getTimeout());
-        }
-
-        if (count.isPresent()) {
-            assertNotNull(dto.getCount());
-            assertEquals(dto.getCount(), count.get());
-        } else {
-            assertNull(dto.getCount());
         }
 
         if (version.isPresent()) {
@@ -193,47 +177,35 @@ public class EraseTest {
     @Test
     public void testEraseParametersBuilder() {
         Parameters parameters = EraseParametersBuilder.builder()
-                .badCount()
                 .badPatient()
                 .badReason()
-                .badTimeout()
-                .nullCount()
                 .nullPatient()
                 .nullReason()
-                .nullTimeout()
                 .patient("Patient/1")
                 .reason("The Real Reason")
                 .id("1-2-3-4")
                 .version(1)
-                .timeout(1)
-                .count(123)
             .build(true);
         assertNotNull(parameters);
-        assertEquals(parameters.getParameter().size(), 14);
+        assertEquals(parameters.getParameter().size(), 8);
     }
 
     @Test
     public void testEraseParametersBuilderIncludeEmpty() {
         Parameters parameters = EraseParametersBuilder.builder()
-                .badCount()
                 .badPatient()
                 .badReason()
-                .badTimeout()
-                .nullCount()
                 .nullPatient()
                 .nullReason()
-                .nullTimeout()
                 .nullId()
                 .nullVersion()
                 .patient("Patient/1")
                 .reason("The Real Reason")
                 .badId()
                 .badVersion()
-                .timeout(1)
-                .count(123)
             .build(false);
         assertNotNull(parameters);
-        assertEquals(parameters.getParameter().size(), 16);
+        assertEquals(parameters.getParameter().size(), 10);
     }
 
     @Test
@@ -390,7 +362,7 @@ public class EraseTest {
         erase.authorize();
         EraseDTO dto = erase.verify();
         assertNotNull(dto);
-        verifyDto(dto, resourceType, logicalId, Optional.empty(), Optional.of("My own reason"), Optional.empty(), Optional.empty(), Optional.empty());
+        verifyDto(dto, resourceType, logicalId, Optional.empty(), Optional.of("My own reason"), Optional.empty());
     }
 
     @Test(expectedExceptions = {FHIROperationException.class})
@@ -481,7 +453,7 @@ public class EraseTest {
         erase.authorize();
         EraseDTO dto = erase.verify();
         assertNotNull(dto);
-        verifyDto(dto, resourceType, logicalId, Optional.empty(), Optional.of("My own reason"), Optional.empty(), Optional.empty(), Optional.empty());
+        verifyDto(dto, resourceType, logicalId, Optional.empty(), Optional.of("My own reason"), Optional.empty());
     }
 
 
@@ -597,7 +569,7 @@ public class EraseTest {
         erase.authorize();
         EraseDTO dto = erase.verify();
         assertNotNull(dto);
-        verifyDto(dto, resourceType, logicalId, Optional.of("Patient/1"), Optional.of("My own reason"), Optional.empty(), Optional.empty(), Optional.empty());
+        verifyDto(dto, resourceType, logicalId, Optional.of("Patient/1"), Optional.of("My own reason"), Optional.empty());
     }
 
     @Test(expectedExceptions = {FHIROperationException.class})
@@ -718,169 +690,13 @@ public class EraseTest {
         erase.authorize();
         EraseDTO dto = erase.verify();
         assertNotNull(dto);
-        verifyDto(dto, resourceType, logicalId, Optional.of("123-ptnt"), Optional.of("123-Reason"), Optional.empty(), Optional.empty(), Optional.empty());
+        verifyDto(dto, resourceType, logicalId, Optional.of("123-ptnt"), Optional.of("123-Reason"), Optional.empty());
     }
 
     @Test(expectedExceptions = {FHIROperationException.class})
     public void testEraseOperationAuthorizeNoPatientVerifyWithReasonInCompartment_tenant_defaulta() throws FHIROperationException {
         Parameters parameters = EraseParametersBuilder.builder()
                 .reason("123-Reason")
-                .build(false);
-        assertNotNull(parameters);
-        Class<? extends Resource> resourceType = Patient.class;
-        String logicalId = UUID.randomUUID().toString();
-        FHIROperationContext operationContext = generateContext("POST", "FHIROpsAdmin");
-        EraseRest erase = EraseRestFactory.getInstance(operationContext, parameters, resourceType, logicalId);
-        assertNotNull(erase);
-        erase.authorize();
-        erase.verify();
-        fail();
-    }
-
-    @Test
-    public void testEraseOperationTimeout_tenant_defaulta() throws FHIROperationException {
-        Parameters parameters = EraseParametersBuilder.builder()
-                .reason("123-Reason")
-                .patient("Patient/1")
-                .timeout(1)
-                .build(false);
-        assertNotNull(parameters);
-        Class<? extends Resource> resourceType = Patient.class;
-        String logicalId = UUID.randomUUID().toString();
-        FHIROperationContext operationContext = generateContext("POST", "FHIROpsAdmin");
-        EraseRest erase = EraseRestFactory.getInstance(operationContext, parameters, resourceType, logicalId);
-        assertNotNull(erase);
-        erase.authorize();
-        EraseDTO dto = erase.verify();
-        assertNotNull(dto);
-        verifyDto(dto, resourceType, logicalId, Optional.of("Patient/1"), Optional.of("123-Reason"), Optional.of(1), Optional.empty(), Optional.empty());
-    }
-
-    @Test(expectedExceptions = {FHIROperationException.class})
-    public void testEraseOperationTimeoutBad_tenant_defaulta() throws FHIROperationException {
-        Parameters parameters = EraseParametersBuilder.builder()
-                .reason("123-Reason")
-                .patient("Patient/1")
-                .badTimeout()
-                .build(false);
-        assertNotNull(parameters);
-        Class<? extends Resource> resourceType = Patient.class;
-        String logicalId = UUID.randomUUID().toString();
-        FHIROperationContext operationContext = generateContext("POST", "FHIROpsAdmin");
-        EraseRest erase = EraseRestFactory.getInstance(operationContext, parameters, resourceType, logicalId);
-        assertNotNull(erase);
-        erase.authorize();
-        erase.verify();
-        fail();
-    }
-
-    @Test
-    public void testEraseOperationTimeoutNull_tenant_defaulta() throws FHIROperationException {
-        Parameters parameters = EraseParametersBuilder.builder()
-                .reason("123-Reason")
-                .patient("Patient/1")
-                .nullTimeout()
-                .build(false);
-        assertNotNull(parameters);
-        Class<? extends Resource> resourceType = Patient.class;
-        String logicalId = UUID.randomUUID().toString();
-        FHIROperationContext operationContext = generateContext("POST", "FHIROpsAdmin");
-        EraseRest erase = EraseRestFactory.getInstance(operationContext, parameters, resourceType, logicalId);
-        assertNotNull(erase);
-        erase.authorize();
-
-        EraseDTO dto = erase.verify();
-        assertNotNull(dto);
-        verifyDto(dto, resourceType, logicalId, Optional.of("Patient/1"), Optional.of("123-Reason"), Optional.empty(), Optional.empty(), Optional.empty());
-    }
-
-    @Test(expectedExceptions = {FHIROperationException.class})
-    public void testEraseOperationTimeoutMany_tenant_defaulta() throws FHIROperationException {
-        Parameters parameters = EraseParametersBuilder.builder()
-                .reason("123-Reason")
-                .patient("Patient/1")
-                .timeout(1)
-                .timeout(2)
-                .build(false);
-        assertNotNull(parameters);
-        Class<? extends Resource> resourceType = Patient.class;
-        String logicalId = UUID.randomUUID().toString();
-        FHIROperationContext operationContext = generateContext("POST", "FHIROpsAdmin");
-        EraseRest erase = EraseRestFactory.getInstance(operationContext, parameters, resourceType, logicalId);
-        assertNotNull(erase);
-        erase.authorize();
-        erase.verify();
-        fail();
-    }
-
-    @Test
-    public void testEraseOperationCount_tenant_defaulta() throws FHIROperationException {
-        Parameters parameters = EraseParametersBuilder.builder()
-                .reason("123-Reason")
-                .patient("Patient/1")
-                .timeout(1)
-                .count(2)
-                .build(false);
-        assertNotNull(parameters);
-        Class<? extends Resource> resourceType = Patient.class;
-        String logicalId = UUID.randomUUID().toString();
-        FHIROperationContext operationContext = generateContext("POST", "FHIROpsAdmin");
-        EraseRest erase = EraseRestFactory.getInstance(operationContext, parameters, resourceType, logicalId);
-        assertNotNull(erase);
-        erase.authorize();
-
-        EraseDTO dto = erase.verify();
-        assertNotNull(dto);
-        verifyDto(dto, resourceType, logicalId, Optional.of("Patient/1"), Optional.of("123-Reason"), Optional.of(1), Optional.of(2), Optional.empty());
-    }
-
-    @Test(expectedExceptions = {FHIROperationException.class})
-    public void testEraseOperationCountBad_tenant_defaulta() throws FHIROperationException {
-        Parameters parameters = EraseParametersBuilder.builder()
-                .reason("123-Reason")
-                .patient("Patient/1")
-                .timeout(1)
-                .badCount()
-                .build(false);
-        assertNotNull(parameters);
-        Class<? extends Resource> resourceType = Patient.class;
-        String logicalId = UUID.randomUUID().toString();
-        FHIROperationContext operationContext = generateContext("POST", "FHIROpsAdmin");
-        EraseRest erase = EraseRestFactory.getInstance(operationContext, parameters, resourceType, logicalId);
-        assertNotNull(erase);
-        erase.authorize();
-        erase.verify();
-        fail();
-    }
-
-    @Test
-    public void testEraseOperationCountNull_tenant_defaulta() throws FHIROperationException {
-        Parameters parameters = EraseParametersBuilder.builder()
-                .reason("123-Reason")
-                .patient("Patient/1")
-                .timeout(1)
-                .nullCount()
-                .build(false);
-        assertNotNull(parameters);
-        Class<? extends Resource> resourceType = Patient.class;
-        String logicalId = UUID.randomUUID().toString();
-        FHIROperationContext operationContext = generateContext("POST", "FHIROpsAdmin");
-        EraseRest erase = EraseRestFactory.getInstance(operationContext, parameters, resourceType, logicalId);
-        assertNotNull(erase);
-        erase.authorize();
-
-        EraseDTO dto = erase.verify();
-        assertNotNull(dto);
-        verifyDto(dto, resourceType, logicalId, Optional.of("Patient/1"), Optional.of("123-Reason"), Optional.of(1), Optional.empty(), Optional.empty());
-    }
-
-    @Test(expectedExceptions = {FHIROperationException.class})
-    public void testEraseOperationCountMany_tenant_defaulta() throws FHIROperationException {
-        Parameters parameters = EraseParametersBuilder.builder()
-                .reason("123-Reason")
-                .patient("Patient/1")
-                .count(1)
-                .count(2)
                 .build(false);
         assertNotNull(parameters);
         Class<? extends Resource> resourceType = Patient.class;
@@ -915,8 +731,6 @@ public class EraseTest {
         Parameters parameters = EraseParametersBuilder.builder()
                 .absentReason()
                 .absentPatient()
-                .absentCount()
-                .absentTimeout()
                 .build(false);
         assertNotNull(parameters);
         Class<? extends Resource> resourceType = StructureDefinition.class;
@@ -934,8 +748,6 @@ public class EraseTest {
         Parameters parameters = EraseParametersBuilder.builder()
                 .absentReason()
                 .absentPatient()
-                .absentCount()
-                .absentTimeout()
                 .build(false);
         assertNotNull(parameters);
         Class<? extends Resource> resourceType = StructureDefinition.class;
@@ -948,69 +760,12 @@ public class EraseTest {
     }
 
     @Test
-    public void testMockProcessCountFhirPathException() throws FHIRPathException {
-        Parameters parameters = EraseParametersBuilder.builder()
-                .absentReason()
-                .absentPatient()
-                .absentCount()
-                .absentTimeout()
-                .build(false);
-        assertNotNull(parameters);
-        Class<? extends Resource> resourceType = StructureDefinition.class;
-        String logicalId = UUID.randomUUID().toString();
-
-        EraseRestImpl erase = new EraseRestImpl("POST", new MockSecurityContext("FHIROpsAdmin"), parameters, resourceType, logicalId);
-
-        // Return a bean
-        EraseDTO bean = new EraseDTO();
-
-        FHIRPathEvaluator evaluator = mock(FHIRPathEvaluator.class);
-        EvaluationContext evaluationContext = new EvaluationContext(parameters);
-        when(evaluator.evaluate(evaluationContext, "parameter.where(name = 'count').value"))
-            .thenThrow(new FHIRPathException("Test"));
-
-        java.util.List<Issue> issues = new ArrayList<>();
-        erase.processCount(bean, evaluator, evaluationContext, issues);
-        assertEquals(issues.size(), 1);
-    }
-
-    @Test
-    public void testMockProcessTimeoutFhirPathException() throws FHIRPathException {
-        Parameters parameters = EraseParametersBuilder.builder()
-                .absentReason()
-                .absentPatient()
-                .absentCount()
-                .absentTimeout()
-                .build(false);
-        assertNotNull(parameters);
-        Class<? extends Resource> resourceType = StructureDefinition.class;
-        String logicalId = UUID.randomUUID().toString();
-
-        EraseRestImpl erase = new EraseRestImpl("POST", new MockSecurityContext("FHIROpsAdmin"), parameters, resourceType, logicalId);
-
-        // Return a bean
-        EraseDTO bean = new EraseDTO();
-
-        FHIRPathEvaluator evaluator = mock(FHIRPathEvaluator.class);
-        EvaluationContext evaluationContext = new EvaluationContext(parameters);
-        when(evaluator.evaluate(evaluationContext, "parameter.where(name = 'timeout').value"))
-            .thenThrow(new FHIRPathException("Test"));
-
-        java.util.List<Issue> issues = new ArrayList<>();
-        erase.processTimeout(bean, evaluator, evaluationContext, issues);
-        assertEquals(issues.size(), 1);
-    }
-
-    @Test
     public void testMockProcessVersionFhirPathException() throws FHIRPathException {
         Parameters parameters = EraseParametersBuilder.builder()
                 .absentReason()
                 .absentPatient()
-                .absentCount()
-                .absentTimeout()
                 .absentVersion()
                 .absentId()
-                .absentTimeout()
                 .build(false);
         assertNotNull(parameters);
         Class<? extends Resource> resourceType = StructureDefinition.class;
@@ -1036,8 +791,6 @@ public class EraseTest {
         Parameters parameters = EraseParametersBuilder.builder()
                 .absentReason()
                 .absentPatient()
-                .absentCount()
-                .absentTimeout()
                 .build(false);
         assertNotNull(parameters);
         Class<? extends Resource> resourceType = StructureDefinition.class;
@@ -1064,8 +817,6 @@ public class EraseTest {
         Parameters parameters = EraseParametersBuilder.builder()
                 .absentReason()
                 .absentPatient()
-                .absentCount()
-                .absentTimeout()
                 .absentId()
                 .build(false);
         assertNotNull(parameters);
@@ -1091,8 +842,6 @@ public class EraseTest {
         Parameters parameters = EraseParametersBuilder.builder()
                 .absentReason()
                 .absentPatient()
-                .absentCount()
-                .absentTimeout()
                 .build(false);
         assertNotNull(parameters);
         Class<? extends Resource> resourceType = StructureDefinition.class;
@@ -1288,7 +1037,7 @@ public class EraseTest {
 
         EraseDTO dto = erase.verify();
         assertNotNull(dto);
-        verifyDto(dto, resourceType, logicalId, Optional.of("Patient/1"), Optional.of("123-Reason"), Optional.empty(), Optional.of(1), Optional.empty());
+        verifyDto(dto, resourceType, logicalId, Optional.of("Patient/1"), Optional.of("123-Reason"), Optional.of(1));
     }
 
     @Test(expectedExceptions = {FHIROperationException.class})
@@ -1326,7 +1075,7 @@ public class EraseTest {
 
         EraseDTO dto = erase.verify();
         assertNotNull(dto);
-        verifyDto(dto, resourceType, logicalId, Optional.of("Patient/1"), Optional.of("123-Reason"), Optional.empty(), Optional.empty(), Optional.empty());
+        verifyDto(dto, resourceType, logicalId, Optional.of("Patient/1"), Optional.of("123-Reason"), Optional.empty());
     }
 
     @Test(expectedExceptions = {FHIROperationException.class})

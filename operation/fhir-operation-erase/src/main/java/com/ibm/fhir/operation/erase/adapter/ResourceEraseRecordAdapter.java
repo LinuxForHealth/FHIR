@@ -39,7 +39,9 @@ public class ResourceEraseRecordAdapter {
      * Adapts from an eraseRecord and eraseDto to the Parameters resource and
      * wraps in an output parameters object.
      *
-     * @implNote due to the framework it's double wrapped in FHIROperationUtil.getOutputParameters.
+     * @implNote due to the framework it's double wrapped in FHIROperationUtil.getOutputParameters. In the first
+     * iteration, the adapt method set the reason and patient on the response, this is really duplicating the data.
+     * It's best to return the
      *
      * @param eraseRecord the output from the erase dao
      * @param eraseDto the input from the user send to the erase dao
@@ -49,17 +51,8 @@ public class ResourceEraseRecordAdapter {
         Parameters.Builder builder = Parameters.builder();
         builder.id(UUID.randomUUID().toString());
         List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder()
-                        .name(string("reason"))
-                        .value(string(eraseDto.getReason()))
-                        .build());
-        if (eraseDto.getPatient() != null) {
-            parameters.add(Parameter.builder()
-                            .name(string("patient"))
-                            .value(string(eraseDto.getPatient()))
-                            .build());
-        }
 
+        // Generate Reference indicates the [Type]/[Id] or [Type]/[Id]/_history/[Version]
         parameters.add(Parameter.builder()
                         .name(string("resource"))
                         .value(string(eraseDto.generateReference()))

@@ -9,13 +9,10 @@
 -- 
 -- p_resource_type: the resource type
 -- p_logical_id: the resource logical id
--- p_chunk_size: the size of the resources to delete
---               Note: not-used (however inplace for design)
 -- o_deleted: the total number of resource versions that are deleted
 -- ----------------------------------------------------------------------------
     ( IN p_resource_type                VARCHAR(  36),
       IN p_logical_id                   VARCHAR( 255),
-      IN p_chunk_size                   INT,
       OUT o_deleted                     BIGINT)
     RETURNS BIGINT
     LANGUAGE plpgsql

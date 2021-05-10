@@ -23,12 +23,6 @@ public class EraseDTO {
     // The reason that the erase operation is executed.
     private String reason;
 
-    // The timeout of the operation.
-    private Integer timeout;
-
-    // The number of records to be erased starting at 1..
-    private Integer count;
-
     /**
      * @return the patient identifier
      */
@@ -59,36 +53,6 @@ public class EraseDTO {
      */
     public void setReason(String reason) {
         this.reason = reason;
-    }
-
-    /**
-     * @return the timeout
-     */
-    public Integer getTimeout() {
-        return timeout;
-    }
-
-    /**
-     * @param timeout
-     *            the timeout to set
-     */
-    public void setTimeout(Integer timeout) {
-        this.timeout = timeout;
-    }
-
-    /**
-     * @return the count
-     */
-    public Integer getCount() {
-        return count;
-    }
-
-    /**
-     * @param count
-     *            the count to set
-     */
-    public void setCount(Integer count) {
-        this.count = count;
     }
 
     /**
@@ -157,7 +121,7 @@ public class EraseDTO {
 
     @Override
     public String toString() {
-        return "EraseDTO [patient=" + patient + ", reason=" + reason + ", timeout=" + timeout + ", count=" + count + ", resourceType=" + resourceType
+        return "EraseDTO [patient=" + patient + ", reason=" + reason + ", resourceType=" + resourceType
                 + ", logicalId=" + logicalId + ", version=" + version + "]";
     }
 }

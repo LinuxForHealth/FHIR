@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.UUID;
 
 import javax.ws.rs.client.Entity;
@@ -143,7 +144,35 @@ public class EraseOperationTest extends FHIRServerTestBase {
      * @param reasonMsg the string to provide
      */
     private void eraseResource(String resourceType, String logicalId, boolean error, String msg, boolean patient, boolean reason, String reasonMsg) {
-        Entity<Parameters> entity = Entity.entity(generateParameters(patient, reason, reasonMsg), FHIRMediaType.APPLICATION_FHIR_JSON);
+        Entity<Parameters> entity = Entity.entity(generateParameters(patient, reason, reasonMsg, Optional.empty()), FHIRMediaType.APPLICATION_FHIR_JSON);
+
+        Response r = getWebTarget()
+            .path("/" + resourceType + "/" + logicalId + "/$erase")
+            .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+            .header("X-FHIR-TENANT-ID", "default")
+            .header("X-FHIR-DSID", "default")
+            .post(entity, Response.class);
+        if (error) {
+            assertEquals(r.getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
+        } else {
+            assertEquals(r.getStatus(), Response.Status.OK.getStatusCode());
+        }
+    }
+
+    /**
+     * erases the given resource's version
+     *
+     * @param resourceType
+     * @param logicalId
+     * @param version - the version to be deleted
+     * @param error do you expect an error?
+     * @param msg the error message
+     * @param patient should include patientId?
+     * @param reason should include the reason?
+     * @param reasonMsg the string to provide
+     */
+    private void eraseResourceByVersion(String resourceType, String logicalId, Integer version, boolean error, String msg, boolean patient, boolean reason, String reasonMsg) {
+        Entity<Parameters> entity = Entity.entity(generateParameters(patient, reason, reasonMsg, Optional.of(version)), FHIRMediaType.APPLICATION_FHIR_JSON);
 
         Response r = getWebTarget()
             .path("/" + resourceType + "/" + logicalId + "/$erase")
@@ -189,9 +218,34 @@ public class EraseOperationTest extends FHIRServerTestBase {
      * @param patient indicating that the patient parameter should be included
      * @param reason should include the reason?
      * @param reasonMsg the string to provide
+     * @param version TODO
      * @return
      */
-    public Parameters generateParameters(boolean patient, boolean reason, String reasonMsg) {
+    public Parameters generateParameters(boolean patient, boolean reason, String reasonMsg, Optional<Integer> version) {
+        List<Parameter> parameters = new ArrayList<>();
+        if (patient) {
+            parameters.add(Parameter.builder().name(string("patient")).value(string("Patient/1-2-3-4")).build());
+        }
+
+        if (reason) {
+            if (reasonMsg == null) {
+                parameters.add(Parameter.builder().name(string("reason")).value(string("Patient has requested an erase")).build());
+            } else {
+                parameters.add(Parameter.builder().name(string("reason")).value(string(reasonMsg)).build());
+            }
+        }
+
+        if (version != null && version.isPresent()) {
+            parameters.add(Parameter.builder().name(string("version")).value(com.ibm.fhir.model.type.Integer.of(version.get())).build());
+        }
+
+        Parameters.Builder builder = Parameters.builder();
+        builder.id(UUID.randomUUID().toString());
+        builder.parameter(parameters);
+        return builder.build();
+    }
+
+    public Parameters generateParameters(boolean patient, boolean reason, String reasonMsg, int version) {
         List<Parameter> parameters = new ArrayList<>();
         if (patient) {
             parameters.add(Parameter.builder().name(string("patient")).value(string("Patient/1-2-3-4")).build());
@@ -241,6 +295,54 @@ public class EraseOperationTest extends FHIRServerTestBase {
     }
 
     /**
+     * checks the resource is Deleted, not erased
+     * @param resourceType
+     * @param logicalId
+     */
+    private void checkResourceDeletedNotErased(String resourceType, String logicalId) {
+        WebTarget target = getWebTarget();
+        target = target.path("/" + resourceType + "/" + logicalId);
+        Response r = target.request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "default")
+                .header("X-FHIR-DSID", "default")
+                .get(Response.class);
+        assertEquals(r.getStatus(), Status.GONE.getStatusCode());
+    }
+
+    /**
+     * checks that the resource history does not exist
+     * @param resourceType
+     * @param logicalId
+     * @param version
+     */
+    private void checkResourceHistoryDoesNotExist(String resourceType, String logicalId, Integer version) {
+        WebTarget target = getWebTarget();
+        target = target.path("/" + resourceType + "/" + logicalId + "/_history/" + version);
+        Response r = target.request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "default")
+                .header("X-FHIR-DSID", "default")
+                .get(Response.class);
+        assertEquals(r.getStatus(), Status.NOT_FOUND.getStatusCode());
+    }
+
+    /**
+     * checks that the resource history exists
+     * @param resourceType
+     * @param logicalId
+     * @param version
+     * @param status
+     */
+    private void checkResourceHistoryExists(String resourceType, String logicalId, Integer version, Status status) {
+        WebTarget target = getWebTarget();
+        target = target.path("/" + resourceType + "/" + logicalId + "/_history/" + version);
+        Response r = target.request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "default")
+                .header("X-FHIR-DSID", "default")
+                .get(Response.class);
+        assertEquals(r.getStatus(), status.getStatusCode());
+    }
+
+    /**
      * verifies a bundle
      * @param r
      */
@@ -285,7 +387,210 @@ public class EraseOperationTest extends FHIRServerTestBase {
             assertResponse(response, Response.Status.OK.getStatusCode());
         }
 
-        // TODO Run  Delete
+        eraseResource("Patient", id, false, "message");
+        checkResourceNoLongerExists("Patient", id);
+    }
+
+    @Test
+    public void testEraseWhenResourceExistsWithLogicalId() throws IOException, FHIRParserException {
+        WebTarget target = getWebTarget();
+        String id = null;
+        Patient r = null;
+        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/Patient-1.json"))) {
+            r = FHIRParser.parser(Format.JSON).parse(example);
+            Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
+            Response response = target.path("Patient").request().post(entity, Response.class);
+            assertResponse(response, Response.Status.CREATED.getStatusCode());
+            id = getLocationLogicalId(response);
+            response = target.path("Patient/" + id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+            assertResponse(response, Response.Status.OK.getStatusCode());
+        }
+
+        List<Parameter> parameters = new ArrayList<>();
+        parameters.add(Parameter.builder().name(string("patient")).value(string("Patient/1-2-3-4")).build());
+        parameters.add(Parameter.builder().name(string("reason")).value(string("Patient has requested an erase")).build());
+        parameters.add(Parameter.builder().name(string("id")).value(string(id)).build());
+
+        Parameters.Builder builder = Parameters.builder();
+        builder.id(UUID.randomUUID().toString());
+        builder.parameter(parameters);
+
+        Entity<Parameters> entity = Entity.entity(builder.build(), FHIRMediaType.APPLICATION_FHIR_JSON);
+
+        Response response = getWebTarget()
+            .path("/Patient/$erase")
+            .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+            .header("X-FHIR-TENANT-ID", "default")
+            .header("X-FHIR-DSID", "default")
+            .post(entity, Response.class);
+        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+        checkResourceNoLongerExists("Patient", id);
+    }
+
+    @Test
+    public void testEraseWhenResourceExistsWithLogicalIdUsingVersion1() throws IOException, FHIRParserException {
+        WebTarget target = getWebTarget();
+        String id = null;
+        Patient r = null;
+        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/Patient-1.json"))) {
+            r = FHIRParser.parser(Format.JSON).parse(example);
+            Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
+            Response response = target.path("Patient").request().post(entity, Response.class);
+            assertResponse(response, Response.Status.CREATED.getStatusCode());
+            id = getLocationLogicalId(response);
+            response = target.path("Patient/" + id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+            assertResponse(response, Response.Status.OK.getStatusCode());
+        }
+
+        List<Parameter> parameters = new ArrayList<>();
+        parameters.add(Parameter.builder().name(string("patient")).value(string("Patient/1-2-3-4")).build());
+        parameters.add(Parameter.builder().name(string("reason")).value(string("Patient has requested an erase")).build());
+        parameters.add(Parameter.builder().name(string("id")).value(string(id)).build());
+        parameters.add(Parameter.builder().name(string("version")).value(com.ibm.fhir.model.type.Integer.of(1)).build());
+
+        Parameters.Builder builder = Parameters.builder();
+        builder.id(UUID.randomUUID().toString());
+        builder.parameter(parameters);
+
+        Entity<Parameters> entity = Entity.entity(builder.build(), FHIRMediaType.APPLICATION_FHIR_JSON);
+
+        Response response = getWebTarget()
+            .path("/Patient/$erase")
+            .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+            .header("X-FHIR-TENANT-ID", "default")
+            .header("X-FHIR-DSID", "default")
+            .post(entity, Response.class);
+        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+        checkResourceNoLongerExists("Patient", id);
+    }
+
+    @Test
+    public void testEraseWhenResourceExistsWithLogicalIdUsingVersion1MultipleVersions() throws IOException, FHIRParserException {
+        WebTarget target = getWebTarget();
+        String id = null;
+        Patient r = null;
+        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/Patient-1.json"))) {
+            r = FHIRParser.parser(Format.JSON).parse(example);
+            Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
+            Response response = target.path("Patient").request().post(entity, Response.class);
+            assertResponse(response, Response.Status.CREATED.getStatusCode());
+            id = getLocationLogicalId(response);
+            response = target.path("Patient/" + id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+            assertResponse(response, Response.Status.OK.getStatusCode());
+
+            // Version 2 (Update)
+            r = response.readEntity(Patient.class);
+            entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
+            response = target.path("Patient/" + id).request().put(entity, Response.class);
+        }
+
+        List<Parameter> parameters = new ArrayList<>();
+        parameters.add(Parameter.builder().name(string("patient")).value(string("Patient/1-2-3-4")).build());
+        parameters.add(Parameter.builder().name(string("reason")).value(string("Patient has requested an erase")).build());
+        parameters.add(Parameter.builder().name(string("id")).value(string(id)).build());
+        parameters.add(Parameter.builder().name(string("version")).value(com.ibm.fhir.model.type.Integer.of(1)).build());
+
+        Parameters.Builder builder = Parameters.builder();
+        builder.id(UUID.randomUUID().toString());
+        builder.parameter(parameters);
+
+        Entity<Parameters> entity = Entity.entity(builder.build(), FHIRMediaType.APPLICATION_FHIR_JSON);
+
+        Response response = getWebTarget()
+            .path("/Patient/$erase")
+            .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+            .header("X-FHIR-TENANT-ID", "default")
+            .header("X-FHIR-DSID", "default")
+            .post(entity, Response.class);
+        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+        checkResourceExists("Patient", id);
+    }
+
+    @Test
+    public void testEraseWhenResourceExistsWithLogicalIdUsingVersion2MultipleVersionsBad() throws IOException, FHIRParserException {
+        WebTarget target = getWebTarget();
+        String id = null;
+        Patient r = null;
+        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/Patient-1.json"))) {
+            r = FHIRParser.parser(Format.JSON).parse(example);
+            Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
+            Response response = target.path("Patient").request().post(entity, Response.class);
+            assertResponse(response, Response.Status.CREATED.getStatusCode());
+            id = getLocationLogicalId(response);
+            response = target.path("Patient/" + id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+            assertResponse(response, Response.Status.OK.getStatusCode());
+
+            // Version 2 (Update)
+            r = response.readEntity(Patient.class);
+            entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
+            response = target.path("Patient/" + id).request().put(entity, Response.class);
+        }
+
+        List<Parameter> parameters = new ArrayList<>();
+        parameters.add(Parameter.builder().name(string("patient")).value(string("Patient/1-2-3-4")).build());
+        parameters.add(Parameter.builder().name(string("reason")).value(string("Patient has requested an erase")).build());
+        parameters.add(Parameter.builder().name(string("id")).value(string(id)).build());
+        parameters.add(Parameter.builder().name(string("version")).value(com.ibm.fhir.model.type.Integer.of(2)).build());
+
+        Parameters.Builder builder = Parameters.builder();
+        builder.id(UUID.randomUUID().toString());
+        builder.parameter(parameters);
+
+        Entity<Parameters> entity = Entity.entity(builder.build(), FHIRMediaType.APPLICATION_FHIR_JSON);
+
+        Response response = getWebTarget()
+            .path("/Patient/$erase")
+            .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+            .header("X-FHIR-TENANT-ID", "default")
+            .header("X-FHIR-DSID", "default")
+            .post(entity, Response.class);
+        assertEquals(response.getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
+        checkResourceExists("Patient", id);
+    }
+
+    @Test
+    public void testEraseWhenResourceExistsByVersionUsingVersion1() throws IOException, FHIRParserException {
+        WebTarget target = getWebTarget();
+        String id = null;
+        Patient r = null;
+        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/Patient-1.json"))) {
+            r = FHIRParser.parser(Format.JSON).parse(example);
+            Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
+            Response response = target.path("Patient").request().post(entity, Response.class);
+            assertResponse(response, Response.Status.CREATED.getStatusCode());
+            id = getLocationLogicalId(response);
+            response = target.path("Patient/" + id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+            assertResponse(response, Response.Status.OK.getStatusCode());
+        }
+
+        eraseResourceByVersion("Patient", id, 1, false, "message", true, true, "message");
+        checkResourceNoLongerExists("Patient", id);
+    }
+
+    @Test
+    public void testEraseWhenResourceExistsByVersionUsingVersion1WithMultipleVersions() throws IOException, FHIRParserException {
+        WebTarget target = getWebTarget();
+        String id = null;
+        Patient r = null;
+        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/Patient-1.json"))) {
+            r = FHIRParser.parser(Format.JSON).parse(example);
+            Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
+            Response response = target.path("Patient").request().post(entity, Response.class);
+            assertResponse(response, Response.Status.CREATED.getStatusCode());
+            id = getLocationLogicalId(response);
+            response = target.path("Patient/" + id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+            assertResponse(response, Response.Status.OK.getStatusCode());
+
+            // Version 2 (Update)
+            r = response.readEntity(Patient.class);
+            entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
+            response = target.path("Patient/" + id).request().put(entity, Response.class);
+        }
+
+        eraseResourceByVersion("Patient", id, 1, false, "message", true, true, "message");
+        checkResourceExists("Patient", id);
+        checkResourceHistoryDoesNotExist("Patient", id, 1);
+        checkResourceHistoryExists("Patient", id, 2, Status.OK);
     }
 
     /**
@@ -316,7 +621,51 @@ public class EraseOperationTest extends FHIRServerTestBase {
             assertResponse(response, Response.Status.OK.getStatusCode());
         }
 
-        //  DELETE
+        eraseResource("Patient", id, false, "message");
+        checkResourceNoLongerExists("Patient", id);
+    }
+
+    @Test
+    public void testEraseWhenResourceVersionDelete() throws FHIRParserException, IOException {
+        WebTarget target = getWebTarget();
+        String id = null;
+        Patient r = null;
+        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/Patient-1.json"))) {
+            r = FHIRParser.parser(Format.JSON).parse(example);
+            Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
+            Response response = target.path("Patient").request().post(entity, Response.class);
+            assertResponse(response, Response.Status.CREATED.getStatusCode());
+            id = getLocationLogicalId(response);
+            response = target.path("Patient/" + id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+            assertResponse(response, Response.Status.OK.getStatusCode());
+        }
+
+        eraseResourceByVersion("Patient", id, 1, false, "message", true, true, "message");
+        checkResourceExists("Patient", id);
+    }
+
+    @Test
+    public void testEraseWhenResourceExistsLatestDeletedWithVersion() throws IOException, FHIRParserException {
+        WebTarget target = getWebTarget();
+        String id = null;
+        Patient r = null;
+        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/Patient-1.json"))) {
+            r = FHIRParser.parser(Format.JSON).parse(example);
+            Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
+            Response response = target.path("Patient").request().post(entity, Response.class);
+            assertResponse(response, Response.Status.CREATED.getStatusCode());
+            id = getLocationLogicalId(response);
+            response = target.path("Patient/" + id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+            assertResponse(response, Response.Status.OK.getStatusCode());
+
+            // Version 2 (Deleted)
+            response = target.path("Patient/" + id).request().delete();
+        }
+
+        eraseResourceByVersion("Patient", id, 1, false, "message", true, true, "message");
+        checkResourceDeletedNotErased("Patient", id);
+        checkResourceHistoryDoesNotExist("Patient", id, 1);
+        checkResourceHistoryExists("Patient", id, 2, Status.GONE);
     }
 
     /**
@@ -403,14 +752,14 @@ public class EraseOperationTest extends FHIRServerTestBase {
                         .method(HTTPVerb.POST)
                         .url(Uri.of("Patient/" + patientId1 + "/$erase"))
                         .build())
-                .resource(generateParameters(true, true, "Need to Remove the file"))
+                .resource(generateParameters(true, true, "Need to Remove the file", null))
                 .build());
         entries.add(Bundle.Entry.builder()
             .request(Request.builder()
                     .method(HTTPVerb.POST)
                     .url(Uri.of("Patient/" + patientId2 + "/$erase"))
                     .build())
-            .resource(generateParameters(true, true, "Need to Remove the file"))
+            .resource(generateParameters(true, true, "Need to Remove the file", null))
             .build());
         Bundle bundle = Bundle.builder()
                 .type(BundleType.TRANSACTION)
@@ -452,14 +801,14 @@ public class EraseOperationTest extends FHIRServerTestBase {
                         .method(HTTPVerb.POST)
                         .url(Uri.of("Patient/" + patientId1 + "/$erase"))
                         .build())
-                .resource(generateParameters(true, true, "Need to Remove the file"))
+                .resource(generateParameters(true, true, "Need to Remove the file", null))
                 .build());
         entries.add(Bundle.Entry.builder()
             .request(Request.builder()
                     .method(HTTPVerb.POST)
                     .url(Uri.of("Patient/" + patientId2 + "/$erase"))
                     .build())
-            .resource(generateParameters(true, true, "Need to Remove the file"))
+            .resource(generateParameters(true, true, "Need to Remove the file", null))
             .build());
         Bundle bundle = Bundle.builder()
                 .type(BundleType.BATCH)
@@ -517,14 +866,14 @@ public class EraseOperationTest extends FHIRServerTestBase {
                         .method(HTTPVerb.POST)
                         .url(Uri.of("Patient/" + patientId1 + "/$erase"))
                         .build())
-                .resource(generateParameters(true, true, "Need to Remove the file"))
+                .resource(generateParameters(true, true, "Need to Remove the file", null))
                 .build());
         entries.add(Bundle.Entry.builder()
             .request(Request.builder()
                     .method(HTTPVerb.POST)
                     .url(Uri.of("Patient/" + patientId2 + "/$erase"))
                     .build())
-            .resource(generateParameters(true, true, "Need to Remove the file"))
+            .resource(generateParameters(true, true, "Need to Remove the file", null))
             .build());
         Bundle bundle = Bundle.builder()
                 .type(BundleType.TRANSACTION)
@@ -564,14 +913,14 @@ public class EraseOperationTest extends FHIRServerTestBase {
                         .method(HTTPVerb.POST)
                         .url(Uri.of("Patient/" + patientId1 + "/$erase"))
                         .build())
-                .resource(generateParameters(true, true, "Need to Remove the file"))
+                .resource(generateParameters(true, true, "Need to Remove the file", null))
                 .build());
         entries.add(Bundle.Entry.builder()
             .request(Request.builder()
                     .method(HTTPVerb.POST)
                     .url(Uri.of("Patient/" + patientId2 + "/$erase"))
                     .build())
-            .resource(generateParameters(true, true, "Need to Remove the file"))
+            .resource(generateParameters(true, true, "Need to Remove the file", null))
             .build());
         Bundle bundle = Bundle.builder()
                 .type(BundleType.BATCH)
@@ -624,7 +973,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
             assertResponse(response, Response.Status.OK.getStatusCode());
         }
 
-        Entity<Parameters> entity = Entity.entity(generateParameters(true, true, null),
+        Entity<Parameters> entity = Entity.entity(generateParameters(true, true, null, null),
             FHIRMediaType.APPLICATION_FHIR_JSON);
 
         target = target.path("/Patient/" + id + "/$erase");
@@ -674,7 +1023,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
     public void testEraseWhenResourceDoesNotExist() {
         String resourceType = "Patient";
         String logicalId = "1-2-3-4-5-BAD";
-        Entity<Parameters> entity = Entity.entity(generateParameters(true, true, null),
+        Entity<Parameters> entity = Entity.entity(generateParameters(true, true, null, null),
             FHIRMediaType.APPLICATION_FHIR_JSON);
 
         WebTarget target = getWebTarget();

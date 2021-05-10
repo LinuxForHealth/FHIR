@@ -183,7 +183,7 @@
       "type": "string"
     },
     {
-      "name": "logicalId",
+      "name": "id",
       "use": "in",
       "min": 0,
       "max": "*",
@@ -196,22 +196,6 @@
       "min": 0,
       "max": "*",
       "documentation": "The specific version that is to be deleted.",
-      "type": "integer"
-    },
-    {
-      "name": "timeout",
-      "use": "in",
-      "min": 0,
-      "max": "*",
-      "documentation": "The maximum goldilocks time in seconds the $erase operation should execute.",
-      "type": "integer"
-    },
-    {
-      "name": "count",
-      "use": "in",
-      "min": 0,
-      "max": "*",
-      "documentation": "The number of versions to erase (starting at the earliest to latest).",
       "type": "integer"
     }
   ]

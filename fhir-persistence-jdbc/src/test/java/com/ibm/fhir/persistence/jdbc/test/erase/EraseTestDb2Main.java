@@ -67,14 +67,11 @@ public class EraseTestDb2Main {
 
 
                     ResourceEraseRecord record = new ResourceEraseRecord(true);
-                    EraseDTO eraseBean = new EraseDTO();
-                    eraseBean.setResourceType("Patient");
-                    eraseBean.setTimeout(30);
+                    EraseDTO eraseDto = new EraseDTO();
+                    eraseDto.setResourceType("Patient");
 
-                    //      350001 178f70bd344-f0a13e93-88b9-4964-86ce-6376759bab55
-
-                    eraseBean.setLogicalId("178f70bd344-f0a13e93-88b9-4964-86ce-6376759bab55");
-                    dao.erase(record, eraseBean);
+                    eraseDto.setLogicalId("178f70bd344-f0a13e93-88b9-4964-86ce-6376759bab55");
+                    dao.erase(record, eraseDto);
                     System.out.println(record);
                 } catch (Exception x) {
                     System.out.println("Error Condition Encountered.");

@@ -10,28 +10,8 @@ import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.Hashtable;
-import java.util.List;
 import java.util.Properties;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
-
-import javax.enterprise.concurrent.ManagedExecutorService;
-import javax.naming.Binding;
-import javax.naming.Context;
-import javax.naming.Name;
-import javax.naming.NameClassPair;
-import javax.naming.NameParser;
-import javax.naming.NamingEnumeration;
-import javax.naming.NamingException;
-import javax.naming.spi.InitialContextFactory;
 
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
@@ -56,15 +36,13 @@ import com.ibm.fhir.persistence.jdbc.dao.EraseResourceDAO;
  * EraseTestMain is a test driver for the EraseResourceDAO
  * so it can be debugged during development.
  */
-public class EraseTestPostgresMain implements InitialContextFactory {
+public class EraseTestPostgresMain {
     private static final String CLASSNAME = EraseTestPostgresMain.class.getSimpleName();
     private static final Logger logger = Logger.getLogger(CLASSNAME);
 
     private IDatabaseTranslator translator = new PostgresTranslator();
     private DbType dbType = DbType.POSTGRESQL;
     private Properties properties = null;
-
-    private static ExecutorService svc = Executors.newFixedThreadPool(5);
 
     public EraseTestPostgresMain(Properties properties) {
         this.properties = properties;
@@ -79,15 +57,11 @@ public class EraseTestPostgresMain implements InitialContextFactory {
                     EraseResourceDAO dao = new EraseResourceDAO(c, translator, "fhirdata", flavor, null, null);
 
                     ResourceEraseRecord record = new ResourceEraseRecord(true);
-                    EraseDTO eraseBean = new EraseDTO();
-                    eraseBean.setResourceType("Patient");
-                    eraseBean.setTimeout(30);
-
-                    //      350001 178f70bd344-f0a13e93-88b9-4964-86ce-6376759bab55
-
-                    eraseBean.setLogicalId("1791f19a126-28b0239c-f1a1-4d15-979f-920af8d12446");
+                    EraseDTO eraseDto = new EraseDTO();
+                    eraseDto.setResourceType("Patient");
+                    eraseDto.setLogicalId("1791f19a126-28b0239c-f1a1-4d15-979f-920af8d12446");
                     System.out.println("Able to Erase...");
-                    dao.erase(record, eraseBean);
+                    dao.erase(record, eraseDto);
                     System.out.println(record);
                 } catch (Exception x) {
                     System.out.println("Error Condition Encountered.");
@@ -99,8 +73,6 @@ public class EraseTestPostgresMain implements InitialContextFactory {
         } catch (SQLException x) {
             throw translator.translate(x);
         }
-
-        svc.shutdownNow();
     }
 
     /**
@@ -108,7 +80,6 @@ public class EraseTestPostgresMain implements InitialContextFactory {
      * @throws Exception
      */
     public static void main(String[] args) throws Exception {
-        System.setProperty(Context.INITIAL_CONTEXT_FACTORY, CLS_FACTORY);
         Properties properties = new Properties();
         properties.load(new FileInputStream("src/test/resources/test.erase.postgres.properties"));
         EraseTestPostgresMain main = new EraseTestPostgresMain(properties);
@@ -183,265 +154,4 @@ public class EraseTestPostgresMain implements InitialContextFactory {
             throw new IllegalStateException("Unsupported db type: " + dbType);
         }
     }
-
-
-    /*
-     * The following code facilitates the erase operation testing.
-     */
-    private static final String CLS_FACTORY = "com.ibm.fhir.persistence.jdbc.test.JDBCEraseTest";
-
-    @Override
-    public Context getInitialContext(Hashtable<?, ?> environment) throws NamingException {
-        Hashtable<String, String> hashtable = new Hashtable<>();
-        hashtable.put(Context.INITIAL_CONTEXT_FACTORY, CLS_FACTORY);
-
-        Context ctx = new Context() {
-
-            @Override
-            public Object lookup(Name name) throws NamingException {
-
-                return null;
-            }
-
-            @Override
-            public Object lookup(String name) throws NamingException {
-                return facade;
-            }
-
-            @Override
-            public void bind(Name name, Object obj) throws NamingException {
-
-
-            }
-
-            @Override
-            public void bind(String name, Object obj) throws NamingException {
-
-
-            }
-
-            @Override
-            public void rebind(Name name, Object obj) throws NamingException {
-
-
-            }
-
-            @Override
-            public void rebind(String name, Object obj) throws NamingException {
-
-
-            }
-
-            @Override
-            public void unbind(Name name) throws NamingException {
-
-
-            }
-
-            @Override
-            public void unbind(String name) throws NamingException {
-
-
-            }
-
-            @Override
-            public void rename(Name oldName, Name newName) throws NamingException {
-
-
-            }
-
-            @Override
-            public void rename(String oldName, String newName) throws NamingException {
-
-
-            }
-
-            @Override
-            public NamingEnumeration<NameClassPair> list(Name name) throws NamingException {
-
-                return null;
-            }
-
-            @Override
-            public NamingEnumeration<NameClassPair> list(String name) throws NamingException {
-
-                return null;
-            }
-
-            @Override
-            public NamingEnumeration<Binding> listBindings(Name name) throws NamingException {
-
-                return null;
-            }
-
-            @Override
-            public NamingEnumeration<Binding> listBindings(String name) throws NamingException {
-
-                return null;
-            }
-
-            @Override
-            public void destroySubcontext(Name name) throws NamingException {
-
-
-            }
-
-            @Override
-            public void destroySubcontext(String name) throws NamingException {
-
-
-            }
-
-            @Override
-            public Context createSubcontext(Name name) throws NamingException {
-
-                return null;
-            }
-
-            @Override
-            public Context createSubcontext(String name) throws NamingException {
-
-                return null;
-            }
-
-            @Override
-            public Object lookupLink(Name name) throws NamingException {
-
-                return null;
-            }
-
-            @Override
-            public Object lookupLink(String name) throws NamingException {
-
-                return null;
-            }
-
-            @Override
-            public NameParser getNameParser(Name name) throws NamingException {
-
-                return null;
-            }
-
-            @Override
-            public NameParser getNameParser(String name) throws NamingException {
-
-                return null;
-            }
-
-            @Override
-            public Name composeName(Name name, Name prefix) throws NamingException {
-
-                return null;
-            }
-
-            @Override
-            public String composeName(String name, String prefix) throws NamingException {
-
-                return null;
-            }
-
-            @Override
-            public Object addToEnvironment(String propName, Object propVal) throws NamingException {
-
-                return null;
-            }
-
-            @Override
-            public Object removeFromEnvironment(String propName) throws NamingException {
-
-                return null;
-            }
-
-            @Override
-            public Hashtable<?, ?> getEnvironment() throws NamingException {
-
-                return null;
-            }
-
-            @Override
-            public void close() throws NamingException {
-
-
-            }
-
-            @Override
-            public String getNameInNamespace() throws NamingException {
-
-                return null;
-            }
-
-        };
-        ctx.bind("concurrent/fhir-erase", facade);
-        return ctx;
-    }
-
-
-    private static ManagedExecutorService facade = new ManagedExecutorService() {
-
-        @Override
-        public void shutdown() {
-        }
-
-        @Override
-        public List<Runnable> shutdownNow() {
-            return null;
-        }
-
-        @Override
-        public boolean isShutdown() {
-            return false;
-        }
-
-        @Override
-        public boolean isTerminated() {
-            return false;
-        }
-
-        @Override
-        public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
-            return false;
-        }
-
-        @Override
-        public <T> Future<T> submit(Callable<T> task) {
-            return svc.submit(task);
-        }
-
-        @Override
-        public <T> Future<T> submit(Runnable task, T result) {
-            return null;
-        }
-
-        @Override
-        public Future<?> submit(Runnable task) {
-            return null;
-        }
-
-        @Override
-        public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks) throws InterruptedException {
-            return null;
-        }
-
-        @Override
-        public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit) throws InterruptedException {
-            return null;
-        }
-
-        @Override
-        public <T> T invokeAny(Collection<? extends Callable<T>> tasks) throws InterruptedException, ExecutionException {
-            return null;
-        }
-
-        @Override
-        public <T> T invokeAny(Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
-            throws InterruptedException, ExecutionException, TimeoutException {
-            return null;
-        }
-
-        @Override
-        public void execute(Runnable command) {
-
-        }
-
-    };
 }
