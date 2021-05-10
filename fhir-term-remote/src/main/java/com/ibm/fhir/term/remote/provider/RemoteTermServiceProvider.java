@@ -419,23 +419,6 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
             .build();
     }
     
-    private void log(String method, String op, int status, double elapsedSecs) {
-        if (log.isLoggable(Level.FINEST)) {
-            StringBuilder sb = new StringBuilder();
-            sb.append("Completed remote request [")
-                .append(elapsedSecs)
-                .append(" secs]: " )
-                .append("method: [")
-                .append(method)
-                .append("] uri: [")
-                .append(buildRemoteRequestUri(op))
-                .append("] status: [")
-                .append(status)
-                .append("]");
-            log.finest(sb.toString());
-        }
-    }
-    
     private double elapsedSecs(long initialTime) {
         return (System.currentTimeMillis() - initialTime) / 1000.0;
     }
@@ -508,6 +491,23 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                     in.close();
                 } catch (Throwable t) { }
             }
+        }
+    }
+
+    private void log(String method, String op, int status, double elapsedSecs) {
+        if (log.isLoggable(Level.FINEST)) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Completed remote request [")
+                .append(elapsedSecs)
+                .append(" secs]: " )
+                .append("method: [")
+                .append(method)
+                .append("] uri: [")
+                .append(buildRemoteRequestUri(op))
+                .append("] status: [")
+                .append(status)
+                .append("]");
+            log.finest(sb.toString());
         }
     }
 
