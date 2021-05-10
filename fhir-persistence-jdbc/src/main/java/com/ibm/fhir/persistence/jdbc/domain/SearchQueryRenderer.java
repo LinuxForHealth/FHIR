@@ -440,7 +440,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
 
                         // Filter on the code system for the given parameter
                         Integer codeSystemId = identityCache.getCodeSystemId(system);
-                        where.col(paramAlias, CODE_SYSTEM_ID).operator(operator).literal(nullCheck(codeSystemId));
+                        where.col(paramAlias, CODE_SYSTEM_ID).eq().literal(nullCheck(codeSystemId));
                     }
                 }
             }
