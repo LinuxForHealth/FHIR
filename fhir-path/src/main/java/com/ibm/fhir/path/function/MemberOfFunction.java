@@ -10,8 +10,11 @@ import static com.ibm.fhir.model.util.ModelSupport.FHIR_STRING;
 import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_FALSE;
 import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
 import static com.ibm.fhir.path.util.FHIRPathUtil.empty;
+import static com.ibm.fhir.path.util.FHIRPathUtil.getDisplay;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getElementNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getString;
+import static com.ibm.fhir.path.util.FHIRPathUtil.getSystem;
+import static com.ibm.fhir.path.util.FHIRPathUtil.getVersion;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isCodedElementNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isQuantityNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isStringElementNode;
@@ -40,7 +43,6 @@ import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.path.FHIRPathElementNode;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathTree;
-import com.ibm.fhir.path.FHIRPathType;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.term.service.FHIRTermService;
 import com.ibm.fhir.term.service.ValidationOutcome;
@@ -110,9 +112,12 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
                 try {
                     // Validate against expanded value set
                     if (element.is(Code.class)) {
-                        Uri system = getSystem(evaluationContext.getTree(), elementNode);
+                        FHIRPathTree tree = evaluationContext.getTree();
+                        Uri system = getSystem(tree, elementNode);
+                        com.ibm.fhir.model.type.String version = getVersion(tree, elementNode);
                         Code code = element.as(Code.class);
-                        if ((system != null && validateCode(service, valueSet, system, null, code, null, evaluationContext, elementNode, strength)) ||
+                        com.ibm.fhir.model.type.String display = getDisplay(tree, elementNode);
+                        if ((system != null && validateCode(service, valueSet, system, version, code, display, evaluationContext, elementNode, strength)) ||
                                 (system == null && validateCode(service, valueSet, code, evaluationContext, elementNode, strength))) {
                             return SINGLETON_TRUE;
                         }
@@ -275,26 +280,6 @@ public class MemberOfFunction extends FHIRPathAbstractFunction {
             return SINGLETON_TRUE;
         }
         return SINGLETON_FALSE;
-    }
-
-    /**
-     * Get the URI-typed sibling of the given element node with name "system".
-     *
-     * @param tree
-     *     the tree
-     * @param elementNode
-     *     the element node
-     * @return
-     *     the URI-typed sibling of the given element node with name "system", or null if no such sibling exists
-     */
-    private Uri getSystem(FHIRPathTree tree, FHIRPathElementNode elementNode) {
-        if (tree != null) {
-            FHIRPathNode systemNode = tree.getSibling(elementNode, "system");
-            if (systemNode != null && FHIRPathType.FHIR_URI.equals(systemNode.type())) {
-                return systemNode.asElementNode().element().as(Uri.class);
-            }
-        }
-        return null;
     }
 
     private boolean convertsToCodeSystemValidateCode(ValueSet valueSet, CodeableConcept codeableConcept) {
