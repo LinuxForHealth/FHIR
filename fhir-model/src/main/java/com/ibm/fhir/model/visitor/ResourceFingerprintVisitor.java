@@ -186,6 +186,6 @@ public class ResourceFingerprintVisitor extends PathAwareVisitor {
      * @return
      */
     protected boolean includePath() {
-        return !excludePaths.contains(getPath());
+        return excludePaths == null ? true : !excludePaths.contains(getPath());
     }
 }

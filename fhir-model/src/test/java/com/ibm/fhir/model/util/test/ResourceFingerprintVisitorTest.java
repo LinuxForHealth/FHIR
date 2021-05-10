@@ -132,7 +132,6 @@ public class ResourceFingerprintVisitorTest {
         ResourceFingerprintVisitor resourceFingerprintVisitor = new ResourceFingerprintVisitor();
         patient.accept(resourceFingerprintVisitor);
         SaltHash baseline = resourceFingerprintVisitor.getSaltAndHash();
-        System.out.println(patient);
 
         patient = patient.toBuilder()
                 .id("test")
@@ -144,7 +143,6 @@ public class ResourceFingerprintVisitorTest {
         resourceFingerprintVisitor = new ResourceFingerprintVisitor(baseline);
         patient.accept(resourceFingerprintVisitor);
 
-        System.out.println(patient);
         assertEquals(resourceFingerprintVisitor.getSaltAndHash(), baseline);
     }
 
