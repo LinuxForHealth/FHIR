@@ -169,7 +169,7 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
         Response response = null;
         try {
             WebTarget target = client.target(base);
-            
+
             long initialTime = System.currentTimeMillis();
 
             response = (codeSystem.getVersion() != null) ?
@@ -184,14 +184,14 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                     .queryParam("code", code.getValue())
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                     .get();
-                    
+
             log("GET", "CodeSystem/$lookup", response.getStatus(), elapsedSecs(initialTime));
 
             if (response.getStatus() == Status.OK.getStatusCode()) {
                 Parameters parameters = response.readEntity(Parameters.class);
                 return toConcept(code, parameters);
             }
-            
+
             return null;
         } finally {
             if (response != null) {
@@ -228,13 +228,13 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
         Response response = null;
         try {
             WebTarget target = client.target(base);
-            
+
             long initialTime = System.currentTimeMillis();
 
             response = target.path("ValueSet").path("$expand")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .post(Entity.entity(parameters, FHIRMediaType.APPLICATION_FHIR_JSON));
-            
+
             log("POST", "ValueSet/$expand", response.getStatus(), elapsedSecs(initialTime));
 
             if (response.getStatus() == Status.OK.getStatusCode()) {
@@ -278,7 +278,7 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
         Response response = null;
         try {
             WebTarget target = client.target(base);
-            
+
             long initialTime = System.currentTimeMillis();
 
             response = (codeSystem.getVersion() != null) ?
@@ -295,7 +295,7 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                     .queryParam("code", code.getValue())
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                     .get();
-                    
+
             log("GET", "CodeSystem/$validate-code", response.getStatus(), elapsedSecs(initialTime));
 
             if (response.getStatus() == Status.OK.getStatusCode()) {
@@ -344,7 +344,7 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
         Response response = null;
         try {
             WebTarget target = client.target(base);
-            
+
             long initialTime = System.currentTimeMillis();
 
             response = (codeSystem.getVersion() != null) ?
@@ -363,7 +363,7 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                     .queryParam("codeB", codeB.getValue())
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                     .get();
-                                                    
+
             log("GET", "CodeSystem/$subsumes", response.getStatus(), elapsedSecs(initialTime));
 
             if (response.getStatus() == Status.OK.getStatusCode()) {
@@ -418,11 +418,11 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 .build())
             .build();
     }
-    
+
     private double elapsedSecs(long initialTime) {
         return (System.currentTimeMillis() - initialTime) / 1000.0;
     }
-    
+
     private FHIRTermServiceException errorOccurred(Response response, String op) {
         OperationOutcome outcome = getOperationOutcome(response);
 
@@ -497,16 +497,15 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
     private void log(String method, String op, int status, double elapsedSecs) {
         if (log.isLoggable(Level.FINEST)) {
             StringBuilder sb = new StringBuilder();
-            sb.append("Completed remote request [")
-                .append(elapsedSecs)
-                .append(" secs]: " )
-                .append("method: [")
+            sb.append("method:[")
                 .append(method)
-                .append("] uri: [")
+                .append("] uri:[")
                 .append(buildRemoteRequestUri(op))
-                .append("] status: [")
+                .append("] status:[")
                 .append(status)
-                .append("]");
+                .append("] elapsed:[")
+                .append(elapsedSecs)
+                .append(" secs]");
             log.finest(sb.toString());
         }
     }

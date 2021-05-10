@@ -36,7 +36,7 @@ import com.ibm.fhir.term.util.CodeSystemSupport;
 
 public class RemoteTermServiceProviderTest {
     public static void main(String[] args) {
-        Logger logger = Logger.getLogger(CachingProxy.class.getName());
+        Logger logger = Logger.getLogger(RemoteTermServiceProvider.class.getName());
         logger.setLevel(Level.FINEST);
         Handler handler = new ConsoleHandler();
         handler.setLevel(Level.FINEST);
