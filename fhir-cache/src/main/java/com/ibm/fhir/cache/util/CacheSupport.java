@@ -180,7 +180,7 @@ public final class CacheSupport {
      *     a thread-safe map view of entries in the cache instance
      */
     public static <K, V> Map<K, V> createCacheAsMap(int maximumSize) {
-        Cache<K,V> cache = createCache(maximumSize);
+        Cache<K, V> cache = createCache(maximumSize);
         return cache.asMap();
     }
 

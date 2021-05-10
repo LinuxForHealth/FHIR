@@ -1559,8 +1559,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     private Bundle processBundleEntries(Bundle requestBundle, Map<Integer, Entry> validationResponseEntries, boolean skippableUpdates) throws Exception {
         log.entering(this.getClass().getName(), "processBundleEntries");
 
-        FHIRTransactionHelper txn = null;
-
         // Generate a request correlation id for this request bundle.
         bundleRequestCorrelationId = UUID.randomUUID().toString();
         if (log.isLoggable(Level.FINE)) {
@@ -1568,47 +1566,24 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
 
         try {
-            BundleType.Value bundleType = requestBundle.getType().getValueAsEnum();
-            // If we're working on a 'transaction' type interaction, then start a new transaction now
-            if (bundleType == BundleType.Value.TRANSACTION) {
-                txn = new FHIRTransactionHelper(getTransaction());
-                txn.begin();
-                if (log.isLoggable(Level.FINE)) {
-                    log.fine("Started new transaction for transaction bundle, request-correlation-id="
-                        + bundleRequestCorrelationId);
-                }
-            }
-
             // Build a mapping of local identifiers to external identifiers for local reference resolution.
             Map<String, String> localRefMap = buildLocalRefMap(requestBundle, validationResponseEntries);
 
             // Process entries.
+            BundleType.Value bundleType = requestBundle.getType().getValueAsEnum();
             List<Entry> responseEntries = processEntriesByMethod(requestBundle, validationResponseEntries,
-                    txn != null, localRefMap, bundleRequestCorrelationId, skippableUpdates);
+                    bundleType == BundleType.Value.TRANSACTION, localRefMap, bundleRequestCorrelationId, skippableUpdates);
 
             // Build the response bundle.
+            // TODO add support for posting history bundles
             Bundle.Builder bundleResponseBuilder = Bundle.builder().entry(responseEntries);
             if (bundleType == BundleType.Value.BATCH) {
                 bundleResponseBuilder.type(BundleType.BATCH_RESPONSE);
             } else if (bundleType == BundleType.Value.TRANSACTION) {
                 bundleResponseBuilder.type(BundleType.TRANSACTION_RESPONSE);
-            } else {
-                // TODO add support for posting history bundles
-                String msg = "Bundle.type must be either 'batch' or 'transaction'.";
-                throw buildRestException(msg, IssueType.VALUE);
             }
-            Bundle responseBundle = bundleResponseBuilder.build();
 
-            // Commit transaction if started
-            if (txn != null) {
-                if (log.isLoggable(Level.FINE)) {
-                    log.fine("Committing transaction for transaction bundle, request-correlation-id="
-                        + bundleRequestCorrelationId);
-                }
-                txn.commit();
-                txn = null;
-            }
-            return responseBundle;
+            return bundleResponseBuilder.build();
 
         } finally {
             if (log.isLoggable(Level.FINE)) {
@@ -1619,10 +1594,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // Clear the request correlation id field since we're done processing the bundle.
             bundleRequestCorrelationId = null;
 
-            if (txn != null) {
-                txn.rollback();
-                txn = null;
-            }
             log.exiting(this.getClass().getName(), "processBundleEntries");
         }
     }
@@ -1651,6 +1622,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     private List<Entry> processEntriesByMethod(Bundle requestBundle, Map<Integer, Entry> validationResponseEntries,
             boolean failFast, Map<String, String> localRefMap, String bundleRequestCorrelationId, boolean skippableUpdates) throws Exception {
         log.entering(this.getClass().getName(), "processEntriesByMethod");
+
+        FHIRTransactionHelper txn = null;
 
         try {
             // Placeholder for response entries
@@ -1683,6 +1656,24 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         "GET" + requestEntriesByMethod.get(HTTPVerb.Value.GET) + ", " +
                         "PATCH" + requestEntriesByMethod.get(HTTPVerb.Value.PATCH) + ", " +
                         "HEAD" + requestEntriesByMethod.get(HTTPVerb.Value.HEAD));
+            }
+
+            // If we're working on a 'transaction' type interaction, or an interaction
+            // where we're processing only GET or HEAD requests, then start a new transaction now.
+            BundleType.Value bundleType = requestBundle.getType().getValueAsEnum();
+            if (bundleType == BundleType.Value.TRANSACTION ||
+                    ((!requestEntriesByMethod.get(HTTPVerb.Value.GET).isEmpty() ||
+                            !requestEntriesByMethod.get(HTTPVerb.Value.HEAD).isEmpty()) &&
+                            requestEntriesByMethod.get(HTTPVerb.Value.DELETE).isEmpty() &&
+                            requestEntriesByMethod.get(HTTPVerb.Value.POST).isEmpty() &&
+                            requestEntriesByMethod.get(HTTPVerb.Value.PUT).isEmpty() &&
+                            requestEntriesByMethod.get(HTTPVerb.Value.PATCH).isEmpty())) {
+                txn = new FHIRTransactionHelper(getTransaction());
+                txn.begin();
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Started new transaction for '" + bundleType.toString() +
+                            "' bundle, request-correlation-id=" + bundleRequestCorrelationId);
+                }
             }
 
             for (Map.Entry<HTTPVerb.Value, List<Integer>> methodIndices : requestEntriesByMethod.entrySet()) {
@@ -1810,9 +1801,23 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 }
             } // end foreach method
 
+            // Commit transaction if started
+            if (txn != null) {
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Committing transaction for '" + bundleType.toString() +
+                            "' bundle, request-correlation-id=" + bundleRequestCorrelationId);
+                }
+                txn.commit();
+                txn = null;
+            }
+            
             return Arrays.asList(responseEntries);
 
         } finally {
+            if (txn != null) {
+                txn.rollback();
+                txn = null;
+            }
             log.exiting(this.getClass().getName(), "processEntriesForMethod");
         }
     }
