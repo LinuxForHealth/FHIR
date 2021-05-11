@@ -38,6 +38,28 @@ These values are passed as a FHIR Parameters Resource.
 
 ### POST
 
+
+*Delete all versions*
+
+```
+curl --location --request POST 'https://test.fhirexample.com/fhir-server/api/v4/Patient/1785fb0759b-1452d2e5-f568-442e-9841-3dc3940af5bc/$erase' \
+--header 'Content-Type: application/fhir+json' \
+--header 'Authorization: Basic ...' \
+--data-raw '{
+  "resourceType": "Parameters",
+  "parameter": [
+    {
+      "name": "patient",
+      "valueString": "patient-id-is-this-id"
+    },
+    {
+      "name": "reason",
+      "valueString": "My Reason for removing this resource"
+    }
+  ]
+}'
+```
+
 *Delete a specific version*
 
 ```
@@ -58,27 +80,6 @@ curl --location --request POST 'https://test.fhirexample.com/fhir-server/api/v4/
     {
       "name": "version",
       "valueInteger": 1
-    }
-  ]
-}'
-```
-
-* Delete all versions*
-
-```
-curl --location --request POST 'https://test.fhirexample.com/fhir-server/api/v4/Patient/1785fb0759b-1452d2e5-f568-442e-9841-3dc3940af5bc/$erase' \
---header 'Content-Type: application/fhir+json' \
---header 'Authorization: Basic ...' \
---data-raw '{
-  "resourceType": "Parameters",
-  "parameter": [
-    {
-      "name": "patient",
-      "valueString": "patient-id-is-this-id"
-    },
-    {
-      "name": "reason",
-      "valueString": "My Reason for removing this resource"
     }
   ]
 }'

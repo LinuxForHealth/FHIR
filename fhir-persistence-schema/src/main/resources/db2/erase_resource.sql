@@ -71,6 +71,7 @@ BEGIN
     || ' WHERE R1.LOGICAL_RESOURCE_ID = ? AND R1.VERSION_ID <= ?'
     || '    FETCH FIRST 1000 ROWS ONLY)';
 
+    XYZ----TODO---XYZ
     -- Start the delete_loop (up to the v_version)
     -- Implementation Note: We may have to delete this last for integrity reasons, thus not using <=
     delete_loop:
@@ -88,7 +89,7 @@ BEGIN
       SET v_cur = (v_cur + 1000);
     END WHILE;
 
-    SET v_msg = 'Total: ' || CAST(v_total AS VARCHAR(128));
+    --SET v_msg = 'Total: ' || CAST(v_total AS VARCHAR(128));
 
     -- Step 3: Delete from All Parameters Tables
     PREPARE d_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_str_values          WHERE logical_resource_id = ?';
