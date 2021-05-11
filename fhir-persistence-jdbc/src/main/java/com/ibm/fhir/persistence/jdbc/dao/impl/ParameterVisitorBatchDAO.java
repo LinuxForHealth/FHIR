@@ -277,6 +277,8 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         BigDecimal valueLow = param.getValueNumberLow();
         BigDecimal valueHigh = param.getValueNumberHigh();
 
+        // No isBase check because there are no system-level number search parameters
+
         try {
             int parameterNameId = getParameterNameId(parameterName);
 
@@ -399,7 +401,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         BigDecimal quantityLow = param.getValueNumberLow();
         BigDecimal quantityHigh = param.getValueNumberHigh();
 
-        // XX why no check for isBase on this one?
+        // No isBase check because there are no system-level quantity search parameters
 
         // Skip anything with a null code, since CODE column is non-nullable,
         // but allow empty code for when no code or unit is specified
@@ -450,6 +452,8 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         String parameterName = param.getName();
         double lat = param.getValueLatitude();
         double lng = param.getValueLongitude();
+
+        // No isBase check because there are no system-level location search parameters
 
         try {
             PreparedStatement insert = connection.prepareStatement(insertLocation);
