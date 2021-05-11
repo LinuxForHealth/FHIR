@@ -27,7 +27,6 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LIKE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LOGICAL_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LOGICAL_RESOURCE_ID;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NOT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OR;
@@ -606,7 +605,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                             value.getValueCode() : SearchUtil.normalizeForSearch(value.getValueCode())));
                     
                     // Get commonTokenValueId or codeSystemId
-                    commonTokenValueId = getCommonTokenValueId(value.getValueSystem(), value.getValueCode());
+                    commonTokenValueId = getCommonTokenValueId(value.getValueSystem(),
+                        codeSystemIsCaseSensitive ? value.getValueCode() : SearchUtil.normalizeForSearch(value.getValueCode()));
                     if (commonTokenValueId == null) {
                         codeSystemId = getCodeSystemId(value.getValueSystem());
                     }
@@ -1255,6 +1255,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                         Modifier.ABOVE.equals(queryParm.getModifier()) || Modifier.BELOW.equals(queryParm.getModifier())) {
                     populateCodesSubSegment(whereClauseSegment, queryParm.getModifier(), value, tableAlias);
                 } else {
+                    boolean codeSystemIsCaseSensitive = false;
+
                     // Include code if present.
                     if (value.getValueCode() != null) {
                         if (LIKE.equals(operator)) {
@@ -1268,7 +1270,6 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                             appendEscape = true;
                         } else {
                             // Determine code system case-sensitivity
-                            boolean codeSystemIsCaseSensitive = false;
                             if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
                                 whereClauseSegment.append(tableAlias + DOT).append(TOKEN_VALUE).append(operator).append(BIND_VAR);
 
@@ -1278,11 +1279,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                                         value.getValueCode() : SearchUtil.normalizeForSearch(value.getValueCode())));
                             } else {
                                 // If no code system specified, search against both normalized code and unmodified code.
-                                whereClauseSegment.append(tableAlias + DOT).append(TOKEN_VALUE);
-                                if (NE.equals(operator)) {
-                                    whereClauseSegment.append(NOT);
-                                }
-                                whereClauseSegment.append(IN).append(LEFT_PAREN).append(BIND_VAR).append(COMMA).append(BIND_VAR).append(RIGHT_PAREN);
+                                whereClauseSegment.append(tableAlias + DOT).append(TOKEN_VALUE).append(IN)
+                                        .append(LEFT_PAREN).append(BIND_VAR).append(COMMA).append(BIND_VAR).append(RIGHT_PAREN);
                                 bindVariables.add(SqlParameterEncoder.encode(value.getValueCode()));
                                 bindVariables.add(SqlParameterEncoder.encode(SearchUtil.normalizeForSearch(value.getValueCode())));
                             }
@@ -1296,7 +1294,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                             whereClauseSegment.append(AND);
 
                             // use #1929 optimization if we can
-                            commonTokenValueId = getCommonTokenValueId(value.getValueSystem(), value.getValueCode());
+                            commonTokenValueId = getCommonTokenValueId(value.getValueSystem(),
+                                    codeSystemIsCaseSensitive ? value.getValueCode() : SearchUtil.normalizeForSearch(value.getValueCode()));
                         }
 
                         if (commonTokenValueId != null) {
@@ -1304,13 +1303,13 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                             // resulting in far better execution plans for many search queries. Because COMMON_TOKEN_VALUE_ID
                             // is the primary key for the common_token_values table, we don't need the CODE_SYSTEM_ID = ? predicate.
                             whereClauseSegment.append(tableAlias).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ)
-                            .append(commonTokenValueId);
+                                    .append(commonTokenValueId);
                         } else {
                             // common token value not found so we can't use the optimization. Filter the code-system-id
                             // instead, which ends up being the logical equivalent.
                             Integer codeSystemId = identityCache.getCodeSystemId(value.getValueSystem());
-                            whereClauseSegment.append(tableAlias).append(DOT).append(CODE_SYSTEM_ID).append(operator)
-                            .append(nullCheck(codeSystemId));
+                            whereClauseSegment.append(tableAlias).append(DOT).append(CODE_SYSTEM_ID).append(EQ)
+                                    .append(nullCheck(codeSystemId));
                         }
                     }
                 }
