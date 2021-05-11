@@ -107,6 +107,7 @@ public class Capabilities extends FHIRResource {
     // Constants
     private static final String FHIR_SERVER_NAME = "IBM FHIR Server";
     private static final String FHIR_COPYRIGHT = "(C) Copyright IBM Corporation 2016, 2021";
+    private static final String FHIR_PUBLISHER = "IBM Corporation";
     private static final String EXTENSION_URL = "http://ibm.com/fhir/extension";
     private static final String BASE_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base";
     private static final String BASE_2_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base2";
@@ -199,7 +200,7 @@ public class Capabilities extends FHIRResource {
             .name(string(FHIR_SERVER_NAME))
             .description(Markdown.of(buildDescription))
             .copyright(Markdown.of(FHIR_COPYRIGHT))
-            .publisher(string("IBM Corporation"))
+            .publisher(string(FHIR_PUBLISHER))
             .software(TerminologyCapabilities.Software.builder()
                 .name(string(FHIR_SERVER_NAME))
                 .version(string(buildInfo.getBuildVersion()))
@@ -492,7 +493,7 @@ public class Capabilities extends FHIRResource {
                 .name(string(FHIR_SERVER_NAME))
                 .description(Markdown.of(buildDescription))
                 .copyright(Markdown.of(FHIR_COPYRIGHT))
-                .publisher(string("IBM Corporation"))
+                .publisher(string(FHIR_PUBLISHER))
                 .software(CapabilityStatement.Software.builder()
                           .name(string(FHIR_SERVER_NAME))
                           .version(string(buildInfo.getBuildVersion()))
