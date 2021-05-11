@@ -201,10 +201,10 @@ public class Capabilities extends FHIRResource {
             .copyright(Markdown.of(FHIR_COPYRIGHT))
             .publisher(string("IBM Corporation"))
             .software(TerminologyCapabilities.Software.builder()
-                  .name(string(FHIR_SERVER_NAME))
-                  .version(string(buildInfo.getBuildVersion()))
-                  .id(buildInfo.getBuildId())
-                  .build())
+                .name(string(FHIR_SERVER_NAME))
+                .version(string(buildInfo.getBuildVersion()))
+                .id(buildInfo.getBuildId())
+                .build())
             .codeSystem(buildCodeSystem())
             .expansion(Expansion.builder()
                 .hierarchical(com.ibm.fhir.model.type.Boolean.FALSE)
@@ -219,7 +219,8 @@ public class Capabilities extends FHIRResource {
             .translation(Translation.builder()
                 .needsMap(com.ibm.fhir.model.type.Boolean.TRUE)
                 .build())
-            .closure(Closure.builder().translation(com.ibm.fhir.model.type.Boolean.FALSE).build())
+            .closure(Closure.builder().translation(com.ibm.fhir.model.type.Boolean.FALSE)
+                .build())
             .build();
     }
 
