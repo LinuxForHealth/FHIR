@@ -47,6 +47,22 @@ public final class FHIRRegistry {
     }
 
     /**
+     * Get a list of registry resources that have the given resource type.
+     *
+     * @param resourceType
+     *     the resource type
+     * @return
+     *     a list of registry resources that have the given resource type
+     */
+    public List<FHIRRegistryResource> getRegistryResources(Class<? extends Resource> resourceType) {
+        List<FHIRRegistryResource> registryResources = new ArrayList<>();
+        for (FHIRRegistryResourceProvider provider : providers) {
+            registryResources.addAll(provider.getRegistryResources(resourceType));
+        }
+        return registryResources;
+    }
+
+    /**
      * Add a registry resource provider to the registry
      *
      * @implNote

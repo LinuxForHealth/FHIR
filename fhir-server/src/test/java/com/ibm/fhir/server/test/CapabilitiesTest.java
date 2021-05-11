@@ -45,7 +45,7 @@ public class CapabilitiesTest {
         FHIRRequestContext.get().setOriginalRequestUri("http://example.com/metadata");
         CapabilitiesChild c = new CapabilitiesChild();
 
-        Response capabilities = c.capabilities();
+        Response capabilities = c.capabilities("full");
         CapabilityStatement capabilityStatement = capabilities.readEntity(CapabilityStatement.class);
 
         assertEquals(capabilityStatement.getRest().size(), 1, "Number of REST Elements");
@@ -60,7 +60,7 @@ public class CapabilitiesTest {
         FHIRRequestContext.get().setOriginalRequestUri("http://example.com/metadata");
         CapabilitiesChild c = new CapabilitiesChild();
 
-        Response capabilities = c.capabilities();
+        Response capabilities = c.capabilities("full");
         CapabilityStatement capabilityStatement = capabilities.readEntity(CapabilityStatement.class);
 
         assertEquals(capabilityStatement.getRest().size(), 1, "Number of REST Elements");
@@ -75,7 +75,7 @@ public class CapabilitiesTest {
         FHIRRequestContext.get().setOriginalRequestUri("http://example.com/metadata");
         CapabilitiesChild c = new CapabilitiesChild();
 
-        Response capabilities = c.capabilities();
+        Response capabilities = c.capabilities("full");
         CapabilityStatement capabilityStatement = capabilities.readEntity(CapabilityStatement.class);
 
         assertEquals(capabilityStatement.getRest().size(), 1, "Number of REST Elements");
@@ -121,9 +121,9 @@ public class CapabilitiesTest {
         }
 
         @Override
-        public Response capabilities() {
+        public Response capabilities(String mode) {
             httpServletRequest = new MockHttpServletRequest();
-            return super.capabilities();
+            return super.capabilities(mode);
         }
     }
 }
