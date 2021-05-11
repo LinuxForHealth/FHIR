@@ -498,7 +498,7 @@ public class SearchTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
-        
+
         response =
                 target.path("Patient").queryParam("identifier", "test|"+ patientIdentifierValue.toUpperCase())
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
@@ -1052,9 +1052,9 @@ public class SearchTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreateObservation" })
-    public void test_SearchObservationCodeSystem() throws Exception {
+    public void testSearchObservationValueOnly() throws Exception {
         FHIRParameters parameters = new FHIRParameters();
-        parameters.searchParam("component-value-quantity", "125.0||mmHg");
+        parameters.searchParam("component-value-quantity", "125.0");
         FHIRRequestHeader header =
                 new FHIRRequestHeader("X-FHIR-TENANT-ID", tenantName);
         FHIRRequestHeader header2 =
@@ -2283,7 +2283,7 @@ public class SearchTest extends FHIRServerTestBase {
             SearchAllTest.generateOutput(bundle);
         }
         assertTrue(bundle.getEntry().isEmpty());
-        
+
         response =
                 target.path("Condition")
                 .queryParam("evidence", "A4")
@@ -2298,7 +2298,7 @@ public class SearchTest extends FHIRServerTestBase {
             SearchAllTest.generateOutput(bundle);
         }
         assertTrue(bundle.getEntry().size() >= 1);
-        
+
         response =
                 target.path("Condition")
                 .queryParam("evidence", "a4")
@@ -2313,7 +2313,7 @@ public class SearchTest extends FHIRServerTestBase {
             SearchAllTest.generateOutput(bundle);
         }
         assertTrue(bundle.getEntry().isEmpty());
-        
+
         response =
                 target.path("Condition")
                 .queryParam("evidence", "http://terminology.hl7.org/CodeSystem/v2-0080|ST")
@@ -2328,7 +2328,7 @@ public class SearchTest extends FHIRServerTestBase {
             SearchAllTest.generateOutput(bundle);
         }
         assertTrue(bundle.getEntry().size() >= 1);
-        
+
         response =
                 target.path("Condition")
                 .queryParam("evidence", "http://terminology.hl7.org/CodeSystem/v2-0080|st")
@@ -2343,7 +2343,7 @@ public class SearchTest extends FHIRServerTestBase {
             SearchAllTest.generateOutput(bundle);
         }
         assertTrue(bundle.getEntry().size() >= 1);
-        
+
         response =
                 target.path("Condition")
                 .queryParam("evidence", "st")

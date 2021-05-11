@@ -553,6 +553,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             BigDecimal value = quantity.getValue().getValue();
             BigDecimal valueLow = NumberParmBehaviorUtil.generateLowerBound(value);
             BigDecimal valueHigh = NumberParmBehaviorUtil.generateUpperBound(value);
+            boolean addedCodeOrUnit = false;
 
             // see https://gforge.hl7.org/gf/project/fhir/tracker/?action=TrackerItemEdit&tracker_item_id=19597
             if (quantity.getCode() != null && quantity.getCode().hasValue()) {
@@ -567,6 +568,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                     p.setValueSystem(quantity.getSystem().getValue());
                 }
                 result.add(p);
+                addedCodeOrUnit = true;
             }
             if (quantity.getUnit() != null && quantity.getUnit().hasValue()) {
                 String displayUnit = quantity.getUnit().getValue();
@@ -580,7 +582,18 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                     p.setValueNumberHigh(valueHigh);
                     p.setValueCode(displayUnit);
                     result.add(p);
+                    addedCodeOrUnit = true;
                 }
+            }
+            // If neither code nor unit was specified, add a QuantityParmVal just with the value
+            if (!addedCodeOrUnit) {
+                QuantityParmVal p = new QuantityParmVal();
+                p.setResourceType(resourceType);
+                p.setName(searchParamCode);
+                p.setValueNumber(value);
+                p.setValueNumberLow(valueLow);
+                p.setValueNumberHigh(valueHigh);
+                result.add(p);
             }
         }
         return false;
