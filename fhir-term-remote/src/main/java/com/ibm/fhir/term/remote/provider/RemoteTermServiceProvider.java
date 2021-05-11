@@ -87,6 +87,13 @@ import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
 public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
     private static final Logger log = Logger.getLogger(RemoteTermServiceProvider.class.getName());
 
+    private static final String GET = "GET";
+    private static final String POST = "POST";
+    private static final String CODE_SYSTEM_LOOKUP = "CodeSystem/$lookup";
+    private static final String VALUE_SET_EXPAND = "ValueSet/$expand";
+    private static final String CODE_SYSTEM_VALIDATE_CODE = "CodeSystem/$validate-code";
+    private static final String CODE_SYSTEM_SUBSUMES = "CodeSystem/$subsumes";
+
     private final Configuration configuration;
     private final String base;
     private Client client;
@@ -173,19 +180,19 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
             long start = System.currentTimeMillis();
 
             response = (codeSystem.getVersion() != null) ?
-                target.path("CodeSystem").path("$lookup")
+                target.path(CODE_SYSTEM_LOOKUP)
                     .queryParam("system", codeSystem.getUrl().getValue())
                     .queryParam("version", codeSystem.getVersion().getValue())
                     .queryParam("code", code.getValue())
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                     .get() :
-                target.path("CodeSystem").path("$lookup")
+                target.path(CODE_SYSTEM_LOOKUP)
                     .queryParam("system", codeSystem.getUrl().getValue())
                     .queryParam("code", code.getValue())
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                     .get();
 
-            log("GET", uri("CodeSystem/$lookup"), response.getStatus(), elapsed(start));
+            log(GET, uri(CODE_SYSTEM_LOOKUP), response.getStatus(), elapsed(start));
 
             if (response.getStatus() == Status.OK.getStatusCode()) {
                 Parameters parameters = response.readEntity(Parameters.class);
@@ -231,11 +238,11 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
 
             long start = System.currentTimeMillis();
 
-            response = target.path("ValueSet").path("$expand")
+            response = target.path(VALUE_SET_EXPAND)
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .post(Entity.entity(parameters, FHIRMediaType.APPLICATION_FHIR_JSON));
 
-            log("POST", uri("ValueSet/$expand"), response.getStatus(), elapsed(start));
+            log(POST, uri(VALUE_SET_EXPAND), response.getStatus(), elapsed(start));
 
             if (response.getStatus() == Status.OK.getStatusCode()) {
                 JsonObject valueSet = response.readEntity(JsonObject.class);
@@ -252,7 +259,7 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 return result;
             }
 
-            throw errorOccurred(response, "ValueSet/$expand");
+            throw errorOccurred(VALUE_SET_EXPAND, response);
         } finally {
             if (response != null) {
                 response.close();
@@ -282,21 +289,19 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
             long start = System.currentTimeMillis();
 
             response = (codeSystem.getVersion() != null) ?
-                target.path("CodeSystem")
-                    .path("$validate-code")
+                target.path(CODE_SYSTEM_VALIDATE_CODE)
                     .queryParam("url", codeSystem.getUrl().getValue())
                     .queryParam("version", codeSystem.getVersion().getValue())
                     .queryParam("code", code.getValue())
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                     .get() :
-                target.path("CodeSystem")
-                    .path("$validate-code")
+                target.path(CODE_SYSTEM_VALIDATE_CODE)
                     .queryParam("url", codeSystem.getUrl().getValue())
                     .queryParam("code", code.getValue())
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                     .get();
 
-            log("GET", uri("CodeSystem/$validate-code"), response.getStatus(), elapsed(start));
+            log(GET, uri(CODE_SYSTEM_VALIDATE_CODE), response.getStatus(), elapsed(start));
 
             if (response.getStatus() == Status.OK.getStatusCode()) {
                 Parameters parameters = response.readEntity(Parameters.class);
@@ -348,23 +353,21 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
             long start = System.currentTimeMillis();
 
             response = (codeSystem.getVersion() != null) ?
-                target.path("CodeSystem")
-                    .path("$subsumes")
+                target.path(CODE_SYSTEM_SUBSUMES)
                     .queryParam("system", codeSystem.getUrl().getValue())
                     .queryParam("version", codeSystem.getVersion().getValue())
                     .queryParam("codeA", codeA.getValue())
                     .queryParam("codeB", codeB.getValue())
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                     .get() :
-                target.path("CodeSystem")
-                    .path("$subsumes")
+                target.path(CODE_SYSTEM_SUBSUMES)
                     .queryParam("system", codeSystem.getUrl().getValue())
                     .queryParam("codeA", codeA.getValue())
                     .queryParam("codeB", codeB.getValue())
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                     .get();
 
-            log("GET", uri("CodeSystem/$subsumes"), response.getStatus(), elapsed(start));
+            log(GET, uri(CODE_SYSTEM_SUBSUMES), response.getStatus(), elapsed(start));
 
             if (response.getStatus() == Status.OK.getStatusCode()) {
                 Parameters parameters = response.readEntity(Parameters.class);
@@ -375,7 +378,7 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 }
             }
 
-            throw errorOccurred(response, "CodeSystem/$subsumes");
+            throw errorOccurred(CODE_SYSTEM_SUBSUMES, response);
         } finally {
             if (response != null) {
                 response.close();
@@ -387,8 +390,8 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
         return (System.currentTimeMillis() - start) / 1000.0;
     }
 
-    private FHIRTermServiceException errorOccurred(Response response, String op) {
-        String message = message(op);
+    private FHIRTermServiceException errorOccurred(String path, Response response) {
+        String message = message(path);
 
         List<Issue> issues = new ArrayList<>();
 
