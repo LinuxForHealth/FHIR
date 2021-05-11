@@ -22,6 +22,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
@@ -237,6 +238,16 @@ public class Main {
     public void loadPropertyFile(String filename) {
         try (InputStream is = new FileInputStream(filename)) {
             properties.load(is);
+            // Trim leading and trailing whitespace from property values (except password)
+            for (Entry<Object, Object> entry : properties.entrySet()) {
+                if (!"password".equals(entry.getKey())) {
+                    String trimmedValue = entry.getValue().toString().trim();
+                    if (!trimmedValue.equals(entry.getValue().toString())) {
+                        logger.warning("Whitespace trimmed from value of property '" + entry.getKey() + "'");
+                        entry.setValue(trimmedValue);
+                    }
+                }
+            }
         } catch (IOException x) {
             throw new IllegalArgumentException(x);
         }
@@ -250,7 +261,16 @@ public class Main {
     public void addProperty(String pair) {
         String[] kv = pair.split("=");
         if (kv.length == 2) {
-            properties.put(kv[0], kv[1]);
+            // Trim leading and trailing whitespace from property value (except password)
+            if (!"password".equals(kv[0])) {
+                String trimmedValue = kv[1].trim();
+                if (!trimmedValue.equals(kv[1])) {
+                    logger.warning("Whitespace trimmed from value of property '" + kv[0] + "'");
+                }
+                properties.put(kv[0], trimmedValue);
+            } else {
+                properties.put(kv[0], kv[1]);
+            }
         } else {
             throw new IllegalArgumentException("Property must be defined as key=value, not: " + pair);
         }

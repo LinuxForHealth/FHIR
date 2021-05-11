@@ -1534,12 +1534,14 @@ public class Main {
     public void loadPropertyFile(String filename) {
         try (InputStream is = new FileInputStream(filename)) {
             properties.load(is);
-            // Trim leading and trailing whitespace from property values
+            // Trim leading and trailing whitespace from property values (except password)
             for (Entry<Object, Object> entry : properties.entrySet()) {
-                String trimmedValue = entry.getValue().toString().trim();
-                if (!trimmedValue.equals(entry.getValue().toString())) {
-                    logger.warning("Whitespace trimmed from value of property '" + entry.getKey() + "'");
-                    entry.setValue(trimmedValue);
+                if (!"password".equals(entry.getKey())) {
+                    String trimmedValue = entry.getValue().toString().trim();
+                    if (!trimmedValue.equals(entry.getValue().toString())) {
+                        logger.warning("Whitespace trimmed from value of property '" + entry.getKey() + "'");
+                        entry.setValue(trimmedValue);
+                    }
                 }
             }
         } catch (IOException x) {
@@ -1555,12 +1557,16 @@ public class Main {
     public void addProperty(String pair) {
         String[] kv = pair.split("=");
         if (kv.length == 2) {
-            // Trim leading and trailing whitespace from property value
-            String trimmedValue = kv[1].trim();
-            if (!trimmedValue.equals(kv[1])) {
-                logger.warning("Whitespace trimmed from value of property '" + kv[0] + "'");
+            // Trim leading and trailing whitespace from property value (except password)
+            if (!"password".equals(kv[0])) {
+                String trimmedValue = kv[1].trim();
+                if (!trimmedValue.equals(kv[1])) {
+                    logger.warning("Whitespace trimmed from value of property '" + kv[0] + "'");
+                }
+                properties.put(kv[0], trimmedValue);
+            } else {
+                properties.put(kv[0], kv[1]);
             }
-            properties.put(kv[0], trimmedValue);
         } else {
             throw new IllegalArgumentException("Property must be defined as key=value, not: " + pair);
         }
