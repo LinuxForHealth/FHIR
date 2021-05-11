@@ -318,15 +318,15 @@ public interface FHIRResourceHelpers {
      * @throws Exception
      */
     int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, String resourceLogicalId) throws Exception;
-  
+
     /**
      * Invoke the FHIR Persistence erase operation for a specific instance of the erase.
      * @param operationContext
-     * @param eraseBean
+     * @param eraseDto
      * @return
      * @throws Exception
      */
-    default ResourceEraseRecord doErase(FHIROperationContext operationContext, EraseDTO eraseBean) throws FHIROperationException {
+    default ResourceEraseRecord doErase(FHIROperationContext operationContext, EraseDTO eraseDto) throws FHIROperationException {
         /*
          * @implNote, to keep from breaking other implementations, we are marking it as Unsupported and throwing an exception.
          */

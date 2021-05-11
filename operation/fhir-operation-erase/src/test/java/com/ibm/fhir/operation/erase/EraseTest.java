@@ -54,6 +54,7 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.persistence.ResourceEraseRecord;
+import com.ibm.fhir.persistence.ResourceEraseRecord.Status;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 
@@ -964,8 +965,8 @@ public class EraseTest {
         FHIROperationContext operationContext = generateContext("POST", "FHIROpsAdmin");
 
         EraseOperationAuditLogger auditLogger = new EraseOperationAuditLogger(operationContext);
-        EraseDTO eraseBean = new EraseDTO();
-        auditLogger.audit(parameters, eraseBean);
+        EraseDTO eraseDto = new EraseDTO();
+        auditLogger.audit(parameters, eraseDto);
         assertTrue(true);
     }
 
@@ -1014,9 +1015,20 @@ public class EraseTest {
     @Test
     public void testAdapter_tenant_mockaudit() throws FHIROperationException {
         ResourceEraseRecordAdapter adapter = new ResourceEraseRecordAdapter();
-        EraseDTO eraseBean = new EraseDTO();
-        eraseBean.setReason("dummy");
-        Parameters parameter = adapter.adapt(new ResourceEraseRecord(), eraseBean);
+        EraseDTO eraseDto = new EraseDTO();
+        eraseDto.setReason("dummy");
+        Parameters parameter = adapter.adapt(new ResourceEraseRecord(), eraseDto);
+        assertNotNull(parameter);
+    }
+
+    @Test
+    public void testAdapterDone_tenant_mockaudit() throws FHIROperationException {
+        ResourceEraseRecordAdapter adapter = new ResourceEraseRecordAdapter();
+        EraseDTO eraseDto = new EraseDTO();
+        eraseDto.setReason("dummy");
+        ResourceEraseRecord eraseRecord = new ResourceEraseRecord();
+        eraseRecord.setStatus(Status.DONE);
+        Parameters parameter = adapter.adapt(eraseRecord, eraseDto);
         assertNotNull(parameter);
     }
 

@@ -54,32 +54,32 @@ public class EraseOperation extends AbstractOperation {
         // Authorize should be executed first so it is the first error before enabled check.
         erase.authorize();
         erase.enabled();
-        EraseDTO eraseBean = erase.verify();
+        EraseDTO eraseDto = erase.verify();
 
         try {
-            ResourceEraseRecord eraseRecord = resourceHelper.doErase(operationContext, eraseBean);
+            ResourceEraseRecord eraseRecord = resourceHelper.doErase(operationContext, eraseDto);
             // Checks to see if it's not found
             if (ResourceEraseRecord.Status.NOT_FOUND == eraseRecord.getStatus()) {
                 FHIROperationException notFoundEx = FHIROperationUtil.buildExceptionWithIssue("Resource not found", IssueType.NOT_FOUND);
-                audit.error(parameters, notFoundEx, eraseBean);
+                audit.error(parameters, notFoundEx, eraseDto);
                 throw notFoundEx;
             } else if (ResourceEraseRecord.Status.NOT_SUPPORTED_GREATER == eraseRecord.getStatus()) {
                 FHIROperationException badVersion = FHIROperationUtil.buildExceptionWithIssue("Resource Version specified is greater than version found", IssueType.INVALID);
-                audit.error(parameters, badVersion, eraseBean);
+                audit.error(parameters, badVersion, eraseDto);
                 throw badVersion;
             } else if (ResourceEraseRecord.Status.NOT_SUPPORTED_LATEST == eraseRecord.getStatus()) {
                 FHIROperationException badVersion = FHIROperationUtil.buildExceptionWithIssue("Resource Version specified is latest version found", IssueType.INVALID);
-                audit.error(parameters, badVersion, eraseBean);
+                audit.error(parameters, badVersion, eraseDto);
                 throw badVersion;
             }
 
             // Adapt to the output type and log it.
-            Parameters response = adapter.adapt(eraseRecord, eraseBean);
-            audit.audit(response, eraseBean);
+            Parameters response = adapter.adapt(eraseRecord, eraseDto);
+            audit.audit(response, eraseDto);
 
             return response;
         } catch (FHIROperationException e) {
-            audit.error(parameters, e, eraseBean);
+            audit.error(parameters, e, eraseDto);
             throw e;
         }
     }

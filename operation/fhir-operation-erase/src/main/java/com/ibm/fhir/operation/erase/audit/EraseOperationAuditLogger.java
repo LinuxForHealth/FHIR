@@ -57,11 +57,11 @@ public class EraseOperationAuditLogger extends RestAuditLogger {
      * runs the audit over the returned records
      *
      * @param response
-     * @param eraseBean
+     * @param eraseDto
      * @throws FHIROperationException
      */
-    public void audit(Parameters response, EraseDTO eraseBean) throws FHIROperationException {
-        logEraseOperation(getAuditLogService(), response, Response.Status.OK, eraseBean.getReason(), eraseBean.getPatient());
+    public void audit(Parameters response, EraseDTO eraseDto) throws FHIROperationException {
+        logEraseOperation(getAuditLogService(), response, Response.Status.OK, eraseDto.getReason(), eraseDto.getPatient());
     }
 
     /**

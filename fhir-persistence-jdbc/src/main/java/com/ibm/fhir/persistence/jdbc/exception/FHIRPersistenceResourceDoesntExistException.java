@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,29 +14,26 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 /**
  * This is an exception indicating that the resource does not exist
  */
-public class FHIRPersistenceDoesntExistException extends FHIRPersistenceException {
+public class FHIRPersistenceResourceDoesntExistException extends FHIRPersistenceException {
 
     private static final long serialVersionUID = -8350452448890112596L;
 
-    // hint as to whether or not the transaction can be retried
-    private boolean transactionRetryable = false;
-
-    public FHIRPersistenceDoesntExistException(String message) {
+    public FHIRPersistenceResourceDoesntExistException(String message) {
         super(message);
     }
 
-    public FHIRPersistenceDoesntExistException(String message, Throwable cause) {
+    public FHIRPersistenceResourceDoesntExistException(String message, Throwable cause) {
         super(message, cause);
     }
 
     @Override
-    public FHIRPersistenceDoesntExistException withIssue(OperationOutcome.Issue... issues) {
+    public FHIRPersistenceResourceDoesntExistException withIssue(OperationOutcome.Issue... issues) {
         super.withIssue(issues);
         return this;
     }
 
     @Override
-    public FHIRPersistenceDoesntExistException withIssue(Collection<OperationOutcome.Issue> issues) {
+    public FHIRPersistenceResourceDoesntExistException withIssue(Collection<OperationOutcome.Issue> issues) {
         super.withIssue(issues);
         return this;
     }

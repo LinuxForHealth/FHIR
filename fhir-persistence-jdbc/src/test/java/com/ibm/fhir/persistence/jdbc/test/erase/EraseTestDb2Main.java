@@ -66,7 +66,7 @@ public class EraseTestDb2Main {
                     schemaNameSupplier.getSchemaForRequestContext(c);
 
 
-                    ResourceEraseRecord record = new ResourceEraseRecord(true);
+                    ResourceEraseRecord record = new ResourceEraseRecord();
                     EraseDTO eraseDto = new EraseDTO();
                     eraseDto.setResourceType("Patient");
 

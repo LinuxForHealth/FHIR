@@ -3381,7 +3381,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     @Override
-    public ResourceEraseRecord doErase(FHIROperationContext operationContext, EraseDTO eraseBean) throws FHIROperationException {
+    public ResourceEraseRecord doErase(FHIROperationContext operationContext, EraseDTO eraseDto) throws FHIROperationException {
         // @implNote doReindex has a nice pattern to handle some retries in case of deadlock exceptions
         final int TX_ATTEMPTS = 5;
         int attempt = 1;
@@ -3391,7 +3391,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             try {
                 txn = new FHIRTransactionHelper(getTransaction());
                 txn.begin();
-                eraseRecord = persistence.erase(eraseBean);
+                eraseRecord = persistence.erase(eraseDto);
                 attempt = TX_ATTEMPTS; // end the retry loop
             } catch (FHIRPersistenceDataAccessException x) {
                 if (x.isTransactionRetryable() && attempt < TX_ATTEMPTS) {

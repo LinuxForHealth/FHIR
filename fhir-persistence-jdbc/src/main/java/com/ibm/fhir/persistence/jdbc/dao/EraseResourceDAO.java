@@ -92,7 +92,6 @@ public class EraseResourceDAO extends ResourceDAOImpl {
             }
 
             eraseRecord.setTotal(deleted);
-            eraseRecord.setPartial(false);
 
             ResourceEraseRecord.Status status = ResourceEraseRecord.Status.DONE;
             if (deleted == -1) {
@@ -286,7 +285,6 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         }
 
         eraseRecord.setTotal(total);
-        eraseRecord.setPartial(false);
         eraseRecord.setStatus(ResourceEraseRecord.Status.DONE);
     }
 

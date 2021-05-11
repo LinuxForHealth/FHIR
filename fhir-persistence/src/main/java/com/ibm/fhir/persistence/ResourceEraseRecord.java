@@ -10,33 +10,12 @@ package com.ibm.fhir.persistence;
  * Wraps the output from the Erase DAO
  */
 public class ResourceEraseRecord {
-
-    private boolean partial = false;
     private Integer total = -1;
 
     private Status status = Status.PARTIAL;
 
     public ResourceEraseRecord() {
         // NOP
-    }
-
-    public ResourceEraseRecord(boolean partial) {
-        this.partial = partial;
-    }
-
-    /**
-     * @return the partial
-     */
-    public boolean isPartial() {
-        return partial;
-    }
-
-    /**
-     * @param partial
-     *            the partial to set
-     */
-    public void setPartial(boolean partial) {
-        this.partial = partial;
     }
 
     /**
@@ -83,7 +62,6 @@ public class ResourceEraseRecord {
 
     @Override
     public String toString() {
-        return "ResourceEraseRecord [partial=" + partial + ", total=" + total + ", status=" + status + "]";
+        return "ResourceEraseRecord [total=" + total + ", status=" + status + "]";
     }
-
 }

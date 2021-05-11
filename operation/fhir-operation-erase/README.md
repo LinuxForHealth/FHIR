@@ -16,8 +16,8 @@ This document outlines the design and acceptance criteria for the *fhir-operatio
 
 **Parameters**
 
-|Parameter Name|Type|Value|
-|------|-----|-----|
+|Parameter Name|Type|Value|Description|
+|------|-----|-----|-----|
 |`reason`|required|string|the textual reason to add to the Audit Event. A maximum of a 1000 characters.|
 |`patient`|optional|string|the patient id to add to the Audit Event. Required, if the resource is being erased is within the Patient Compartment|
 |`id`|optional|string|Required, if the logical ID when executing an erase at the Resource Type level, else it must not be included.|

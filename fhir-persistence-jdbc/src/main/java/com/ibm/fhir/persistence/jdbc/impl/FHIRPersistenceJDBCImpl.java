@@ -2686,7 +2686,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         final String METHODNAME = "erase";
         log.entering(CLASSNAME, METHODNAME);
 
-        ResourceEraseRecord eraseRecord = new ResourceEraseRecord(true);
+        ResourceEraseRecord eraseRecord = new ResourceEraseRecord();
         try (Connection connection = openConnection()) {
             IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
             IResourceReferenceDAO rrd = makeResourceReferenceDAO(connection);
@@ -2695,7 +2695,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         } catch(FHIRPersistenceResourceNotFoundException e) {
             throw e;
         } catch(FHIRPersistenceException e) {
-            // Other Perisstence exceptions are implied, such as FHIRPersistenceFKVException.
+            // Other Peristence exceptions are implied, such as FHIRPersistenceFKVException.
             getTransaction().setRollbackOnly();
             throw e;
         } catch (DataAccessException dax) {

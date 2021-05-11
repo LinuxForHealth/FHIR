@@ -68,14 +68,14 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     }
 
     @Override
-    public ResourceEraseRecord doErase(FHIROperationContext operationContext, EraseDTO eraseBean) throws FHIROperationException {
+    public ResourceEraseRecord doErase(FHIROperationContext operationContext, EraseDTO eraseDto) throws FHIROperationException {
         if (throwEx) {
             throw FHIROperationUtil.buildExceptionWithIssue("Bad Deal", IssueType.EXCEPTION, new Exception("Test"));
         }
 
         ResourceEraseRecord record = new ResourceEraseRecord();
         if (partial) {
-            record.setPartial(true);
+            record.setStatus(Status.PARTIAL);
         }
 
         if (notFound) {

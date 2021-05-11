@@ -56,7 +56,7 @@ public class EraseTestPostgresMain {
                     FHIRDbFlavor flavor = new FHIRDbFlavorImpl(DbType.POSTGRESQL, true);
                     EraseResourceDAO dao = new EraseResourceDAO(c, translator, "fhirdata", flavor, null, null);
 
-                    ResourceEraseRecord record = new ResourceEraseRecord(true);
+                    ResourceEraseRecord record = new ResourceEraseRecord();
                     EraseDTO eraseDto = new EraseDTO();
                     eraseDto.setResourceType("Patient");
                     eraseDto.setLogicalId("1791f19a126-28b0239c-f1a1-4d15-979f-920af8d12446");

@@ -15,6 +15,7 @@ import java.util.UUID;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.persistence.ResourceEraseRecord;
+import com.ibm.fhir.persistence.ResourceEraseRecord.Status;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.server.util.FHIROperationUtil;
 
@@ -58,7 +59,7 @@ public class ResourceEraseRecordAdapter {
                         .value(string(eraseDto.generateReference()))
                         .build());
 
-        if (eraseRecord.isPartial()) {
+        if (eraseRecord.getStatus() == Status.PARTIAL) {
             parameters.add(PARTIAL_TRUE);
         } else {
             parameters.add(PARTIAL_FALSE);
