@@ -148,7 +148,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <forkNode implementation="org.apache.maven.plugin.surefire.extensions.SurefireForkNodeFactory"/>
+                    <forkCount>0</forkCount>
                     <argLine>-Xms1G -Xmx4G</argLine>
                     <systemPropertyVariables>
                         <com.ibm.fhir.server.test.R4ExampleServerTest.index>${fhir-server-test.index}</com.ibm.fhir.server.test.R4ExampleServerTest.index>

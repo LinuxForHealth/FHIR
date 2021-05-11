@@ -47,7 +47,7 @@
         <surefire.plugin.version>3.0.0-M5</surefire.plugin.version>
         <!-- needed for generating jacoco aggregate report in fhir-coverage-reports -->
         <maven.surefire.report.plugin>${surefire.plugin.version}</maven.surefire.report.plugin>
-        <jacoco.plugin.version>0.8.5</jacoco.plugin.version>
+        <jacoco.plugin.version>0.8.7</jacoco.plugin.version>
         <argLine>-Dfile.encoding=UTF-8</argLine>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <my.maven.war.plugin>3.2.3</my.maven.war.plugin>
