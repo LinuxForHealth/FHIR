@@ -10,18 +10,21 @@ import static com.ibm.fhir.model.type.String.string;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.fail;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedHashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -65,13 +68,35 @@ public class EraseOperationTest extends FHIRServerTestBase {
                     "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 
     /**
+     * used when processing Erase on all Resources
+     */
+    private static class SubmitResourceAndErase implements Callable<Integer> {
+        private EraseOperationTest test;
+        private String resourceType;
+
+        SubmitResourceAndErase(EraseOperationTest test, String resourceType) {
+            this.test = test;
+            this.resourceType = resourceType;
+        }
+
+        @Override
+        public Integer call() throws Exception {
+            String logicalId = test.generateMockResource(resourceType);
+            test.eraseResource(resourceType, logicalId, false, "message");
+            test.checkResourceNoLongerExists(resourceType, logicalId);
+            System.out.println("Done testing erase on " + resourceType + "/" + logicalId + "'");
+            return 1;
+        }
+
+    }
+
+    /**
      * @return a map of String(resource type), String(logical-id)
      */
-    private Map<String,String> generateResourcesForAllTypes() throws Exception {
-        Map<String,String> results = new LinkedHashMap<>();
+    private Set<String> generateResourcesForAllTypes() throws Exception {
+        Set<String> results = new HashSet<>();
         for (Class<? extends Resource> flz : ModelSupport.getResourceTypes(false)) {
-            String resourceType = flz.getSimpleName();
-            results.put(resourceType, generateMockResource(resourceType));
+            results.add(flz.getSimpleName());
         }
         return results;
     }
@@ -82,7 +107,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
      * @return the logical id
      * @throws Exception
      */
-    private String generateMockResource(String resourceType) throws Exception {
+    public String generateMockResource(String resourceType) throws Exception {
         try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/" + resourceType + "-1.json"))) {
             Resource r = FHIRParser.parser(Format.JSON).parse(example);
             WebTarget target = getWebTarget();
@@ -218,7 +243,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
      * @param patient indicating that the patient parameter should be included
      * @param reason should include the reason?
      * @param reasonMsg the string to provide
-     * @param version TODO
+     * @param version the version that is to be erased
      * @return
      */
     public Parameters generateParameters(boolean patient, boolean reason, String reasonMsg, Optional<Integer> version) {
@@ -352,7 +377,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
         assertFalse(bundle.getEntry().isEmpty());
         for(Bundle.Entry entry : bundle.getEntry()){
             Bundle.Entry.Response response = entry.getResponse();
-            assertEquals("200", response.getStatus().getValue());
+            assertEquals(response.getStatus().getValue(), "" + Status.OK.getStatusCode());
         }
     }
 
@@ -641,7 +666,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
         }
 
         eraseResourceByVersion("Patient", id, 1, false, "message", true, true, "message");
-        checkResourceExists("Patient", id);
+        checkResourceNoLongerExists("Patient", id);
     }
 
     @Test
@@ -698,10 +723,34 @@ public class EraseOperationTest extends FHIRServerTestBase {
             id = getLocationLogicalId(response);
             response = target.path("Patient/" + id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
             assertResponse(response, Response.Status.OK.getStatusCode());
+
+            // Version 2 (delete)
+            response = target.path("Patient/" + id).request().delete();
+
+            // Version 3 (Update)
+            Collection<Extension> exts = Arrays.asList(
+                                            Extension.builder()
+                                            .url("dummy")
+                                            .value(string("Version: " + 3))
+                                        .build());
+            r = r.toBuilder()
+                    .meta(r.getMeta().toBuilder()
+                        .id(id)
+                        .build())
+                    .id(id)
+                    .extension(Extension.builder()
+                        .url("http://ibm.com/fhir/test")
+                        .extension(exts)
+                        .build())
+                    .build();
+            entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
+            response = target.path("Patient/" + id).request().put(entity, Response.class);
+            assertResponse(response, Response.Status.CREATED.getStatusCode());
         }
 
+        // Version 4, 5 (Update)
         Patient.Builder builder = r.toBuilder();
-        for (int i = 1; i <= 2; i++) {
+        for (int i = 4; i <= 6; i++) {
             r = builder.build();
             Collection<Extension> exts = Arrays.asList(
                                             Extension.builder()
@@ -727,8 +776,8 @@ public class EraseOperationTest extends FHIRServerTestBase {
             assertResponse(response, Response.Status.OK.getStatusCode());
         }
 
-        //  TODO  delete
-
+        eraseResource("Patient", id, false, "message", true, true, "message");
+        checkResourceNoLongerExists("Patient", id);
     }
 
     /**
@@ -1073,7 +1122,6 @@ public class EraseOperationTest extends FHIRServerTestBase {
 
         eraseResource("Patient", id, false, "Deleting per Patient Request");
         checkResourceNoLongerExists("Patient", id);
-
     }
 
     public void loadLargeBundle(Patient r, String id) {
@@ -1082,10 +1130,11 @@ public class EraseOperationTest extends FHIRServerTestBase {
         // 1001 is delete block size (+1)
         Patient.Builder builder = r.toBuilder();
 
+        // Originally this made 1000 Bundle.Entry - I chose to use a 100 for IT.
         for (int j = 1; j <= 10; j++) {
             List<Bundle.Entry> entries = new ArrayList<>();
             Bundle.Builder bundleBuilder = Bundle.builder();
-            for (int i = 1; i <= 100; i++) {
+            for (int i = 1; i <= 10; i++) {
                 r = builder.build();
                 Collection<Extension> exts = Arrays.asList(
                                                 Extension.builder()
@@ -1134,12 +1183,23 @@ public class EraseOperationTest extends FHIRServerTestBase {
      */
     @Test
     public void testEraseOnAllResources() throws Exception {
-        Map<String,String> allResourcesById = generateResourcesForAllTypes();
+        System.out.println("testEraseOnAllResources is long running... and just started");
+        Set<String> allResourcesById = generateResourcesForAllTypes();
         assertFalse(allResourcesById.isEmpty());
-        for(Entry<String,String> entry : allResourcesById.entrySet()) {
-            eraseResource(entry.getKey(), entry.getValue(), false, "message");
-            checkResourceNoLongerExists(entry.getKey(), entry.getValue());
+        List<SubmitResourceAndErase> callables = new ArrayList<>();
+        ThreadPoolExecutor exec = (ThreadPoolExecutor) Executors.newFixedThreadPool(20);
+        try {
+            for(String entry: allResourcesById) {
+                callables.add(new SubmitResourceAndErase(this, entry));
+            }
+            exec.invokeAll(callables);
+        } catch (Exception e) {
+            System.out.println();
+            e.printStackTrace();
+            fail();
         }
+        System.out.println();
+        System.out.println("Finished long running test");
     }
 
     /**

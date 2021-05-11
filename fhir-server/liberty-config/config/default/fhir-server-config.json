@@ -193,6 +193,15 @@
                     "presigned": true
                 }
             }
+        },
+        "operations": {
+            "erase": {
+                "enabled": true,
+                "allowedRoles": [
+                    "FHIROperationAdmin",
+                    "FHIRUsers"
+                ]
+            }
         }
     }
 }
