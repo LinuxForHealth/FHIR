@@ -1157,4 +1157,64 @@ public final class FHIRPathUtil {
         }
         return Collections.emptyList();
     }
+
+    /**
+     * Get the URI-typed sibling of the given element node with name "system".
+     *
+     * @param tree
+     *     the tree
+     * @param elementNode
+     *     the element node
+     * @return
+     *     the URI-typed sibling of the given element node with name "system", or null if no such sibling exists
+     */
+    public static Uri getSystem(FHIRPathTree tree, FHIRPathElementNode elementNode) {
+        if (tree != null) {
+            FHIRPathNode systemNode = tree.getSibling(elementNode, "system");
+            if (systemNode != null && FHIRPathType.FHIR_URI.equals(systemNode.type())) {
+                return systemNode.asElementNode().element().as(Uri.class);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the String-typed sibling of the given element node with name "version".
+     *
+     * @param tree
+     *     the tree
+     * @param elementNode
+     *     the element node
+     * @return
+     *     the String-typed sibling of the given element node with name "version", or null if no such sibling exists
+     */
+    public static com.ibm.fhir.model.type.String getVersion(FHIRPathTree tree, FHIRPathElementNode elementNode) {
+        if (tree != null) {
+            FHIRPathNode versionNode = tree.getSibling(elementNode, "version");
+            if (versionNode != null && FHIRPathType.FHIR_STRING.equals(versionNode.type())) {
+                return versionNode.asElementNode().element().as(FHIR_STRING);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the String-typed sibling of the given element node with name "display".
+     *
+     * @param tree
+     *     the tree
+     * @param elementNode
+     *     the element node
+     * @return
+     *     the String-typed sibling of the given element node with name "display", or null if no such sibling exists
+     */
+    public static com.ibm.fhir.model.type.String getDisplay(FHIRPathTree tree, FHIRPathElementNode elementNode) {
+        if (tree != null) {
+            FHIRPathNode displayNode = tree.getSibling(elementNode, "display");
+            if (displayNode != null && FHIRPathType.FHIR_STRING.equals(displayNode.type())) {
+                return displayNode.asElementNode().element().as(FHIR_STRING);
+            }
+        }
+        return null;
+    }
 }
