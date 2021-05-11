@@ -1811,7 +1811,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 txn.commit();
                 txn = null;
             }
-            
+
             return Arrays.asList(responseEntries);
 
         } finally {
@@ -1919,7 +1919,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, "GET");
                 operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_SECURITY_CONTEXT));
                 operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_HTTP_REQUEST));
-                resource = doInvoke(operationContext, null, null, null, operationName, null, queryParams, null);
+                resource = doInvoke(operationContext, null, null, null, operationName, null, queryParams);
                 break;
             case 2:
                 operationContext = FHIROperationContext.createResourceTypeOperationContext();
@@ -1928,7 +1928,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, "GET");
                 operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_SECURITY_CONTEXT));
                 operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_HTTP_REQUEST));
-                resource = doInvoke(operationContext, pathTokens[0], null, null, operationName, null, queryParams, null);
+                resource = doInvoke(operationContext, pathTokens[0], null, null, operationName, null, queryParams);
                 break;
             case 3:
                 operationContext = FHIROperationContext.createInstanceOperationContext();
@@ -1937,7 +1937,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, "GET");
                 operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_SECURITY_CONTEXT));
                 operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_HTTP_REQUEST));
-                resource = doInvoke(operationContext, pathTokens[0], pathTokens[1], null, operationName, null, queryParams, null);
+                resource = doInvoke(operationContext, pathTokens[0], pathTokens[1], null, operationName, null, queryParams);
                 break;
             default:
                 String msg = "Invalid URL for custom operation '" + pathTokens[pathTokens.length - 1] + "'";
@@ -2034,7 +2034,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, "POST");
                 operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_SECURITY_CONTEXT));
                 operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_HTTP_REQUEST));
-                result = doInvoke(operationContext, null, null, null, operationName, resource, queryParams, null);
+                result = doInvoke(operationContext, null, null, null, operationName, resource, queryParams);
                 break;
             case 2:
                 operationContext = FHIROperationContext.createResourceTypeOperationContext();
@@ -2043,7 +2043,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, "POST");
                 operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_SECURITY_CONTEXT));
                 operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_HTTP_REQUEST));
-                result = doInvoke(operationContext, pathTokens[0], null, null, operationName, resource, queryParams, null);
+                result = doInvoke(operationContext, pathTokens[0], null, null, operationName, resource, queryParams);
                 break;
             case 3:
                 operationContext = FHIROperationContext.createInstanceOperationContext();
@@ -2052,7 +2052,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, "POST");
                 operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_SECURITY_CONTEXT));
                 operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_HTTP_REQUEST));
-                result = doInvoke(operationContext, pathTokens[0], pathTokens[1], null, operationName, resource, queryParams, null);
+                result = doInvoke(operationContext, pathTokens[0], pathTokens[1], null, operationName, resource, queryParams);
                 break;
             default:
                 String msg = "Invalid URL for custom operation '" + pathTokens[pathTokens.length - 1] + "'";

@@ -7,7 +7,6 @@
 package com.ibm.fhir.operation.erase.mock;
 
 import java.time.Instant;
-import java.util.Map;
 
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -57,91 +56,6 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     }
 
     @Override
-    public FHIRRestOperationResponse doCreate(String type, Resource resource, String ifNoneExist, Map<String, String> requestProperties,
-        boolean doValidation) throws Exception {
-        return null;
-    }
-
-    @Override
-    public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue, String searchQueryString,
-        Map<String, String> requestProperties, boolean doValidation) throws Exception {
-        return null;
-    }
-
-    @Override
-    public FHIRRestOperationResponse doPatch(String type, String id, FHIRPatch patch, String ifMatchValue, String searchQueryString,
-        Map<String, String> requestProperties) throws Exception {
-        return null;
-    }
-
-    @Override
-    public FHIRRestOperationResponse doDelete(String type, String id, String searchQueryString, Map<String, String> requestProperties)
-        throws Exception {
-
-        return null;
-    }
-
-    @Override
-    public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted, Map<String, String> requestProperties,
-        Resource contextResource, MultivaluedMap<String, String> queryParameters) throws Exception {
-
-        return null;
-    }
-
-    @Override
-    public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted, Map<String, String> requestProperties,
-        Resource contextResource) throws Exception {
-
-        return null;
-    }
-
-    @Override
-    public Resource doVRead(String type, String id, String versionId, Map<String, String> requestProperties,
-        MultivaluedMap<String, String> queryParameters) throws Exception {
-
-        return null;
-    }
-
-    @Override
-    public Resource doVRead(String type, String id, String versionId, Map<String, String> requestProperties) throws Exception {
-
-        return null;
-    }
-
-    @Override
-    public Bundle doHistory(String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri,
-        Map<String, String> requestProperties) throws Exception {
-
-        return null;
-    }
-
-    @Override
-    public Bundle doHistory(MultivaluedMap<String, String> queryParameters, String requestUri, Map<String, String> requestProperties) throws Exception {
-
-        return null;
-    }
-
-    @Override
-    public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri,
-        Map<String, String> requestProperties, Resource contextResource) throws Exception {
-
-        return null;
-    }
-
-    @Override
-    public Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId, String operationName,
-        Resource resource, MultivaluedMap<String, String> queryParameters, Map<String, String> requestProperties) throws Exception {
-
-        return null;
-    }
-
-    @Override
-    public Bundle doBundle(Bundle bundle, Map<String, String> requestProperties) throws Exception {
-
-        return null;
-    }
-
-    @Override
     public FHIRPersistenceTransaction getTransaction() throws Exception {
 
         return null;
@@ -172,5 +86,76 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
             record.setStatus(Status.NOT_SUPPORTED_LATEST);
         }
         return record;
+    }
+
+    @Override
+    public FHIRRestOperationResponse doCreate(String type, Resource resource, String ifNoneExist, boolean doValidation) throws Exception {
+
+        return null;
+    }
+
+    @Override
+    public FHIRRestOperationResponse doUpdate(String type, String id, Resource newResource, String ifMatchValue, String searchQueryString,
+        boolean skippableUpdate, boolean doValidation) throws Exception {
+
+        return null;
+    }
+
+    @Override
+    public FHIRRestOperationResponse doPatch(String type, String id, FHIRPatch patch, String ifMatchValue, String searchQueryString, boolean skippableUpdate)
+        throws Exception {
+
+        return null;
+    }
+
+    @Override
+    public FHIRRestOperationResponse doDelete(String type, String id, String searchQueryString) throws Exception {
+
+        return null;
+    }
+
+    @Override
+    public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted, Resource contextResource,
+        MultivaluedMap<String, String> queryParameters) throws Exception {
+
+        return null;
+    }
+
+    @Override
+    public Resource doVRead(String type, String id, String versionId, MultivaluedMap<String, String> queryParameters) throws Exception {
+
+        return null;
+    }
+
+    @Override
+    public Bundle doHistory(String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception {
+
+        return null;
+    }
+
+    @Override
+    public Bundle doHistory(MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception {
+
+        return null;
+    }
+
+    @Override
+    public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri,
+        Resource contextResource) throws Exception {
+
+        return null;
+    }
+
+    @Override
+    public Resource doInvoke(FHIROperationContext operationContext, String resourceTypeName, String logicalId, String versionId, String operationName,
+        Resource resource, MultivaluedMap<String, String> queryParameters) throws Exception {
+
+        return null;
+    }
+
+    @Override
+    public Bundle doBundle(Bundle bundle, boolean skippableUpdates) throws Exception {
+
+        return null;
     }
 }
