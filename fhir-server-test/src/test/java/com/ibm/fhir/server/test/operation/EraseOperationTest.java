@@ -81,7 +81,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
 
         @Override
         public Integer call() throws Exception {
-            String logicalId = test.generateMockResource(resourceType);
+            String logicalId = test.generateCompleteMockResource(resourceType);
             test.eraseResource(resourceType, logicalId, false, "message");
             test.checkResourceNoLongerExists(resourceType, logicalId);
             System.out.println("Done testing erase on " + resourceType + "/" + logicalId + "'");
@@ -109,6 +109,26 @@ public class EraseOperationTest extends FHIRServerTestBase {
      */
     public String generateMockResource(String resourceType) throws Exception {
         try (Reader example = ExamplesUtil.resourceReader(("json/ibm/fhir-operation-erase/" + resourceType + "-1.json"))) {
+            Resource r = FHIRParser.parser(Format.JSON).parse(example);
+            WebTarget target = getWebTarget();
+            Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
+            Response response = target.path(resourceType).request().post(entity, Response.class);
+            assertResponse(response, Response.Status.CREATED.getStatusCode());
+            String id = getLocationLogicalId(response);
+            response = target.path(resourceType + "/" + id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+            assertResponse(response, Response.Status.OK.getStatusCode());
+            return id;
+        }
+    }
+
+    /**
+     * generates a mock resource for the fhir-operation-erase test.
+     * @param resourceType
+     * @return the logical id
+     * @throws Exception
+     */
+    public String generateCompleteMockResource(String resourceType) throws Exception {
+        try (Reader example = ExamplesUtil.resourceReader(("json/ibm/complete-mock/" + resourceType + "-1.json"))) {
             Resource r = FHIRParser.parser(Format.JSON).parse(example);
             WebTarget target = getWebTarget();
             Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
