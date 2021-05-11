@@ -10,6 +10,7 @@ import static com.ibm.fhir.model.type.String.string;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 import java.io.IOException;
@@ -322,6 +323,16 @@ public class EraseOperationTest extends FHIRServerTestBase {
                 .header("X-FHIR-DSID", "default")
                 .get(Response.class);
         assertEquals(r.getStatus(), Status.NOT_FOUND.getStatusCode());
+        r = getWebTarget().path("/" + resourceType)
+                .queryParam("_id", logicalId)
+                .queryParam("_tag", "6aAf1ugE47")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "default")
+                .header("X-FHIR-DSID", "default")
+                .get();
+        Bundle bundle = r.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().isEmpty());
     }
 
     /**
@@ -337,6 +348,32 @@ public class EraseOperationTest extends FHIRServerTestBase {
                 .header("X-FHIR-DSID", "default")
                 .get(Response.class);
         assertEquals(r.getStatus(), Status.OK.getStatusCode());
+        if ("Patient".equals(resourceType)) {
+            r = getWebTarget().path("/" + resourceType)
+                    .queryParam("_id", logicalId)
+                    .queryParam("_tag", "6aAf1ugE47")
+                    .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .header("X-FHIR-TENANT-ID", "default")
+                    .header("X-FHIR-DSID", "default")
+                    .get();
+            Bundle bundle = r.readEntity(Bundle.class);
+            assertNotNull(bundle);
+            assertFalse(bundle.getEntry().isEmpty());
+            assertEquals(bundle.getEntry().size(), 1);
+        } else {
+            // must  be structure definition
+            r = getWebTarget().path("/" + resourceType)
+                    .queryParam("_id", logicalId)
+                    .queryParam("kind", "resource")
+                    .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .header("X-FHIR-TENANT-ID", "default")
+                    .header("X-FHIR-DSID", "default")
+                    .get();
+            Bundle bundle = r.readEntity(Bundle.class);
+            assertNotNull(bundle);
+            assertFalse(bundle.getEntry().isEmpty());
+            assertEquals(bundle.getEntry().size(), 1);
+        }
     }
 
     /**

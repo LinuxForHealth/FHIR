@@ -119,6 +119,7 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         int version = -1;
         Integer total = 0;
 
+        // The connection is going to be closed upstream.
         Connection conn = getConnection();
 
         // Prep 1: Get the v_resource_type_id
@@ -142,7 +143,8 @@ public class EraseResourceDAO extends ResourceDAOImpl {
                 "SELECT logical_resource_id " +
                         "  FROM logical_resources" +
                         "  WHERE resource_type_id = ? AND logical_id = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(GET_LOGICAL_RESOURCES_SYSTEM)) {
+        // Note the addForUpdate is important on the logical_resources query
+        try (PreparedStatement stmt = conn.prepareStatement(translator.addForUpdate(GET_LOGICAL_RESOURCES_SYSTEM))) {
             stmt.setLong(1, resourceTypeId);
             stmt.setString(2, logicalId);
             ResultSet rs = stmt.executeQuery();
@@ -227,16 +229,10 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         final String DELETE_ALL_VERSIONS =
                 "DELETE FROM " + resourceType + "_RESOURCES WHERE RESOURCE_ID IN (" +
                         "    SELECT R1.RESOURCE_ID FROM  " + resourceType + "_RESOURCES R1" +
-                        "    WHERE R1.LOGICAL_RESOURCE_ID = ? AND  R1.VERSION_ID <= ?" +
-                        "        FETCH FIRST 1000 ROWS ONLY)";
+                        "    WHERE R1.LOGICAL_RESOURCE_ID = ?)";
         try (PreparedStatement stmt = conn.prepareStatement(DELETE_ALL_VERSIONS)) {
-            int count = 1;
-            while (count > 0) {
-                stmt.setLong(1, logicalResourceId);
-                stmt.setInt(2, version);
-                count = stmt.executeUpdate();
-                total += count;
-            }
+            stmt.setLong(1, logicalResourceId);
+            total = stmt.executeUpdate();
         } catch (SQLException x) {
             LOG.log(Level.SEVERE, DELETE_ALL_VERSIONS, x);
             throw translator.translate(x);
