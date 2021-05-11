@@ -219,7 +219,8 @@ public class Capabilities extends FHIRResource {
             .translation(Translation.builder()
                 .needsMap(com.ibm.fhir.model.type.Boolean.TRUE)
                 .build())
-            .closure(Closure.builder().translation(com.ibm.fhir.model.type.Boolean.FALSE)
+            .closure(Closure.builder()
+                .translation(com.ibm.fhir.model.type.Boolean.FALSE)
                 .build())
             .build();
     }
