@@ -26,7 +26,7 @@ import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIROperationUtil;
 
 /**
- * Helper for Mocking failure tests with the FHIR REsource Helpers
+ * Helper for Mocking failure tests with the FHIR Resource Helpers
  */
 public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     private boolean throwEx;

@@ -64,11 +64,11 @@ public class EraseOperation extends AbstractOperation {
                 audit.error(parameters, notFoundEx, eraseDto);
                 throw notFoundEx;
             } else if (ResourceEraseRecord.Status.NOT_SUPPORTED_GREATER == eraseRecord.getStatus()) {
-                FHIROperationException badVersion = FHIROperationUtil.buildExceptionWithIssue("Resource Version specified is greater than version found", IssueType.INVALID);
+                FHIROperationException badVersion = FHIROperationUtil.buildExceptionWithIssue("Resource Version specified is greater than the version found", IssueType.INVALID);
                 audit.error(parameters, badVersion, eraseDto);
                 throw badVersion;
             } else if (ResourceEraseRecord.Status.NOT_SUPPORTED_LATEST == eraseRecord.getStatus()) {
-                FHIROperationException badVersion = FHIROperationUtil.buildExceptionWithIssue("Resource Version specified is latest version found", IssueType.INVALID);
+                FHIROperationException badVersion = FHIROperationUtil.buildExceptionWithIssue("Resource Version specified is the latest version found", IssueType.INVALID);
                 audit.error(parameters, badVersion, eraseDto);
                 throw badVersion;
             }

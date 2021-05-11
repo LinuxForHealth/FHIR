@@ -35,6 +35,7 @@ public class VerifyResourceTypesDidntChangeTest {
         List<String> resources = ModelSupport.getResourceTypes(false)
                 .stream()
                 .map(r -> r.getSimpleName())
+                .sorted()
                 .collect(Collectors.toList());
         OperationDefinition def = FHIRParser.parser(Format.JSON)
                 .parse(new FileInputStream("src/main/resources/erase.json"));
