@@ -17,9 +17,9 @@ import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper.issueListToStatus;
 
 import java.net.URI;
+import java.time.Duration;
 import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.temporal.TemporalAccessor;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -29,7 +29,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -42,9 +41,10 @@ import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.ibm.fhir.cache.CacheManager;
+import com.ibm.fhir.cache.CacheManager.Configuration;
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
-import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
 import com.ibm.fhir.core.FHIRMediaType;
@@ -108,9 +108,8 @@ public class Capabilities extends FHIRResource {
     private static final String ERROR_MSG = "Caught exception while processing 'metadata' request.";
     private static final String ERROR_CONSTRUCTING = "An error occurred while constructing the Conformance statement.";
 
-    // Capability Statement Cache per Tenant
-    private static ConcurrentHashMap<String, CapabilityStatement> CAPABILITY_STATEMENT_CACHE_PER_TENANT =
-            new ConcurrentHashMap<>();
+    private static final Object PRESENT = new Object();
+    private static final String CAPABILITY_STATEMENT_CACHE_NAME = "com.ibm.fhir.server.resources.Capabilities.statementCache";
 
     // Constructor
     public Capabilities() throws Exception {
@@ -125,21 +124,20 @@ public class Capabilities extends FHIRResource {
             Date startTime = new Date();
             checkInitComplete();
 
-            FHIRRequestContext ctx = FHIRRequestContext.get();
-            String tenantId = ctx.getTenantId();
-
             // Defaults to 60 minutes (or what's in the fhirConfig)
-            int cacheLength = FHIRConfigHelper.getIntProperty(PROPERTY_CAPABILITY_STATEMENT_CACHE, 60);
+            int cacheTimeout = FHIRConfigHelper.getIntProperty(PROPERTY_CAPABILITY_STATEMENT_CACHE, 60);
+            Configuration configuration = Configuration.of(Duration.of(cacheTimeout, ChronoUnit.MINUTES));
 
-            CapabilityStatement capabilityStatement = CAPABILITY_STATEMENT_CACHE_PER_TENANT.compute(tenantId,
-                    (k,v) -> getOrCreateCapabilityStatement(v, cacheLength));
+            Map<Object, CapabilityStatement> cacheAsMap = CacheManager.getCacheAsMap(CAPABILITY_STATEMENT_CACHE_NAME, configuration);
+            CapabilityStatement capabilityStatement = cacheAsMap.computeIfAbsent(PRESENT, k -> computeCapabilityStatement());
+
             RestAuditLogger.logMetadata(httpServletRequest, startTime, new Date(), Response.Status.OK);
 
             CacheControl cacheControl = new CacheControl();
             cacheControl.setPrivate(true);
-            cacheControl.setMaxAge(60 * cacheLength);
+            cacheControl.setMaxAge(60 * cacheTimeout);
             return Response.ok().entity(capabilityStatement).cacheControl(cacheControl).build();
-        } catch (IllegalArgumentException e) {
+        } catch (RuntimeException e) {
             FHIROperationException foe = buildRestException(ERROR_CONSTRUCTING, IssueType.EXCEPTION);
             if (e.getCause() != null) {
                 log.log(Level.SEVERE, ERROR_MSG, e.getCause());
@@ -155,27 +153,11 @@ public class Capabilities extends FHIRResource {
         }
     }
 
-    /*
-     * get or create capability statement
-     */
-    private CapabilityStatement getOrCreateCapabilityStatement(CapabilityStatement statement, int cacheLength) {
+    private CapabilityStatement computeCapabilityStatement() {
         try {
-            if (statement == null) {
-                statement = buildCapabilityStatement();
-            } else {
-                TemporalAccessor acc = statement.getDate().getValue();
-                ZonedDateTime cachedTime = ZonedDateTime.from(acc);
-
-                // If UTC now is after the time the statement was generated
-                // plus a cacheLength then, rebuild the statement.
-                if (ZonedDateTime.now(ZoneOffset.UTC).isAfter(cachedTime.plusMinutes(cacheLength))) {
-                    statement = buildCapabilityStatement();
-                }
-            }
-            return statement;
-        } catch (Throwable t) {
-            // We pack it in an IllegalArgument so it's used cleanly in compute.
-            throw new IllegalArgumentException(t);
+            return buildCapabilityStatement();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 
