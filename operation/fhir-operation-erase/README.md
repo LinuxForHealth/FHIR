@@ -38,8 +38,7 @@ These values are passed as a FHIR Parameters Resource.
 
 ### POST
 
-
-*Delete all versions*
+*Delete all versions on Instance*
 
 ```
 curl --location --request POST 'https://test.fhirexample.com/fhir-server/api/v4/Patient/1785fb0759b-1452d2e5-f568-442e-9841-3dc3940af5bc/$erase' \
@@ -60,7 +59,32 @@ curl --location --request POST 'https://test.fhirexample.com/fhir-server/api/v4/
 }'
 ```
 
-*Delete a specific version*
+*Delete a specific version on Resource*
+
+```
+curl --location --request POST 'https://test.fhirexample.com/fhir-server/api/v4/Patient/$erase' \
+--header 'Content-Type: application/fhir+json' \
+--header 'Authorization: Basic ...' \
+--data-raw '{
+  "resourceType": "Parameters",
+  "parameter": [
+    {
+      "name": "patient",
+      "valueString": "patient-id-is-this-id"
+    },
+    {
+      "name": "reason",
+      "valueString": "My Reason for removing this resource"
+    },
+    {
+      "name": "id",
+      "valueString": "1785fb0759b-1452d2e5-f568-442e-9841-3dc3940af5bc"
+    }
+  ]
+}'
+```
+
+*Delete a specific version on Instance*
 
 ```
 curl --location --request POST 'https://test.fhirexample.com/fhir-server/api/v4/Patient/1785fb0759b-1452d2e5-f568-442e-9841-3dc3940af5bc/$erase' \
@@ -76,6 +100,98 @@ curl --location --request POST 'https://test.fhirexample.com/fhir-server/api/v4/
     {
       "name": "reason",
       "valueString": "My Reason for removing this resource"
+    },
+    {
+      "name": "version",
+      "valueInteger": 1
+    }
+  ]
+}'
+```
+
+*Delete a specific version on Resource*
+
+```
+curl --location --request POST 'https://test.fhirexample.com/fhir-server/api/v4/Patient/$erase' \
+--header 'Content-Type: application/fhir+json' \
+--header 'Authorization: Basic ...' \
+--data-raw '{
+  "resourceType": "Parameters",
+  "parameter": [
+    {
+      "name": "patient",
+      "valueString": "patient-id-is-this-id"
+    },
+    {
+      "name": "reason",
+      "valueString": "My Reason for removing this resource"
+    },
+    {
+      "name": "id",
+      "valueString": "1785fb0759b-1452d2e5-f568-442e-9841-3dc3940af5bc"
+    },
+    {
+      "name": "version",
+      "valueInteger": 1
+    }
+  ]
+}'
+```
+
+*Delete all versions on Instance outside the Patient Compartment*
+
+```
+curl --location --request POST 'https://test.fhirexample.com/fhir-server/api/v4/StructureDefinition/1785fb0759b-1452d2e5-f568-442e-9841-3dc3940af5bc/$erase' \
+--header 'Content-Type: application/fhir+json' \
+--header 'Authorization: Basic ...' \
+--data-raw '{
+  "resourceType": "Parameters",
+  "parameter": [
+    {
+      "name": "reason",
+      "valueString": "My Reason for removing this resource"
+    }
+  ]
+}'
+```
+
+*Delete all versions on Resource outside the Patient Compartment*
+
+```
+curl --location --request POST 'https://test.fhirexample.com/fhir-server/api/v4/StructureDefinition/$erase' \
+--header 'Content-Type: application/fhir+json' \
+--header 'Authorization: Basic ...' \
+--data-raw '{
+  "resourceType": "Parameters",
+  "parameter": [
+    {
+      "name": "reason",
+      "valueString": "My Reason for removing this resource"
+    },
+    {
+      "name": "id",
+      "valueString": "1785fb0759b-1452d2e5-f568-442e-9841-3dc3940af5bc"
+    }
+  ]
+}'
+```
+
+*Delete a specific version on Resource outside the Patient Compartment*
+
+```
+curl --location --request POST 'https://test.fhirexample.com/fhir-server/api/v4/StructureDefinition/$erase' \
+--header 'Content-Type: application/fhir+json' \
+--header 'Authorization: Basic ...' \
+--data-raw '{
+  "resourceType": "Parameters",
+  "parameter": [
+    {
+      "name": "reason",
+      "valueString": "My Reason for removing this resource"
+    },
+    {
+      "name": "id",
+      "valueString": "1785fb0759b-1452d2e5-f568-442e-9841-3dc3940af5bc"
     },
     {
       "name": "version",
