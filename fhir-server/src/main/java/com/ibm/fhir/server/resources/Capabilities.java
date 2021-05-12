@@ -90,6 +90,7 @@ import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
+import com.ibm.fhir.registry.resource.FHIRRegistryResource.Version;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.FHIRBuildIdentifier;
 import com.ibm.fhir.server.operation.FHIROperationRegistry;
@@ -194,6 +195,7 @@ public class Capabilities extends FHIRResource {
         String buildDescription = FHIR_SERVER_NAME + " version " + buildInfo.getBuildVersion() + " build id " + buildInfo.getBuildId() + "";
         return TerminologyCapabilities.builder()
             .status(PublicationStatus.ACTIVE)
+            .experimental(com.ibm.fhir.model.type.Boolean.TRUE)
             .date(DateTime.now(ZoneOffset.UTC))
             .kind(CapabilityStatementKind.INSTANCE)
             .version(string(buildInfo.getBuildVersion()))
@@ -234,7 +236,7 @@ public class Capabilities extends FHIRResource {
             FHIRRegistryResource.Version version = registryResource.getVersion();
 
             List<TerminologyCapabilities.CodeSystem.Version> versions = versionMap.computeIfAbsent(url, k -> new ArrayList<>());
-            if (!FHIRRegistryResource.NO_VERSION.equals(version)) {
+            if (!Version.NO_VERSION.equals(version)) {
                 versions.add(TerminologyCapabilities.CodeSystem.Version.builder()
                     .code(string(version.toString()))
                     .build());

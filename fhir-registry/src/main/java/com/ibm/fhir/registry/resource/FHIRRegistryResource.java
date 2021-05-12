@@ -22,8 +22,6 @@ import com.ibm.fhir.registry.util.FHIRRegistryUtil;
 public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
     private static final Logger log = Logger.getLogger(FHIRRegistryResource.class.getName());
 
-    public static final Version NO_VERSION = Version.from("<no version>");
-
     protected final Class<? extends Resource> resourceType;
     protected final String id;
     protected final String url;
@@ -129,6 +127,8 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
      * Represents a version that can either be lexical or follow the Semantic Versioning format
      */
     public static class Version implements Comparable<Version> {
+        public static final Version NO_VERSION = Version.from("<no version>");
+
         public enum CompareMode { SEMVER, LEXICAL };
 
         private final String version;
@@ -256,6 +256,6 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
             type = searchParameter.getType().getValue();
         }
 
-        return new FHIRRegistryResource(resourceType, id, url, (version != null) ? Version.from(version) : FHIRRegistryResource.NO_VERSION, kind, type, resource);
+        return new FHIRRegistryResource(resourceType, id, url, (version != null) ? Version.from(version) : Version.NO_VERSION, kind, type, resource);
     }
 }
