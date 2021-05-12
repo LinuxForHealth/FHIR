@@ -127,6 +127,8 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
      * Represents a version that can either be lexical or follow the Semantic Versioning format
      */
     public static class Version implements Comparable<Version> {
+        public static final FHIRRegistryResource.Version NO_VERSION = FHIRRegistryResource.Version.from("<no version>");
+
         public enum CompareMode { SEMVER, LEXICAL };
 
         private final String version;
@@ -134,7 +136,6 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
         private final Integer minor;
         private final Integer patch;
         private final CompareMode mode;
-        public static final FHIRRegistryResource.Version NO_VERSION = FHIRRegistryResource.Version.from("<no version>");
 
         private Version(String version) {
             this.version = version;
