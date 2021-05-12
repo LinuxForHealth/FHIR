@@ -26,6 +26,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,9 +35,11 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.CacheControl;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -54,10 +57,16 @@ import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest.Resource.Interaction;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest.Resource.Operation;
+import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
+import com.ibm.fhir.model.resource.TerminologyCapabilities;
+import com.ibm.fhir.model.resource.TerminologyCapabilities.Closure;
+import com.ibm.fhir.model.resource.TerminologyCapabilities.Expansion;
+import com.ibm.fhir.model.resource.TerminologyCapabilities.Translation;
+import com.ibm.fhir.model.resource.TerminologyCapabilities.ValidateCode;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -67,6 +76,7 @@ import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.CapabilityStatementKind;
+import com.ibm.fhir.model.type.code.CodeSearchSupport;
 import com.ibm.fhir.model.type.code.ConditionalDeleteStatus;
 import com.ibm.fhir.model.type.code.ConditionalReadStatus;
 import com.ibm.fhir.model.type.code.FHIRVersion;
@@ -79,6 +89,7 @@ import com.ibm.fhir.model.type.code.TypeRestfulInteraction;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.registry.FHIRRegistry;
+import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.FHIRBuildIdentifier;
 import com.ibm.fhir.server.operation.FHIROperationRegistry;
@@ -96,6 +107,7 @@ public class Capabilities extends FHIRResource {
     // Constants
     private static final String FHIR_SERVER_NAME = "IBM FHIR Server";
     private static final String FHIR_COPYRIGHT = "(C) Copyright IBM Corporation 2016, 2021";
+    private static final String FHIR_PUBLISHER = "IBM Corporation";
     private static final String EXTENSION_URL = "http://ibm.com/fhir/extension";
     private static final String BASE_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base";
     private static final String BASE_2_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base2";
@@ -108,7 +120,6 @@ public class Capabilities extends FHIRResource {
     private static final String ERROR_MSG = "Caught exception while processing 'metadata' request.";
     private static final String ERROR_CONSTRUCTING = "An error occurred while constructing the Conformance statement.";
 
-    private static final Object PRESENT = new Object();
     private static final String CAPABILITY_STATEMENT_CACHE_NAME = "com.ibm.fhir.server.resources.Capabilities.statementCache";
 
     // Constructor
@@ -118,18 +129,22 @@ public class Capabilities extends FHIRResource {
 
     @GET
     @Path("metadata")
-    public Response capabilities() {
+    public Response capabilities(@QueryParam("mode") @DefaultValue("full") String mode) {
         log.entering(this.getClass().getName(), "capabilities()");
         try {
             Date startTime = new Date();
             checkInitComplete();
 
+            if (!isValidMode(mode)) {
+                throw new IllegalArgumentException("Invalid mode parameter: must be one of [full, normative, terminology]");
+            }
+
             // Defaults to 60 minutes (or what's in the fhirConfig)
             int cacheTimeout = FHIRConfigHelper.getIntProperty(PROPERTY_CAPABILITY_STATEMENT_CACHE, 60);
             Configuration configuration = Configuration.of(Duration.of(cacheTimeout, ChronoUnit.MINUTES));
 
-            Map<Object, CapabilityStatement> cacheAsMap = CacheManager.getCacheAsMap(CAPABILITY_STATEMENT_CACHE_NAME, configuration);
-            CapabilityStatement capabilityStatement = cacheAsMap.computeIfAbsent(PRESENT, k -> computeCapabilityStatement());
+            Map<String, Resource> cacheAsMap = CacheManager.getCacheAsMap(CAPABILITY_STATEMENT_CACHE_NAME, configuration);
+            Resource capabilityStatement = cacheAsMap.computeIfAbsent(mode, k -> computeCapabilityStatement(mode));
 
             RestAuditLogger.logMetadata(httpServletRequest, startTime, new Date(), Response.Status.OK);
 
@@ -137,6 +152,8 @@ public class Capabilities extends FHIRResource {
             cacheControl.setPrivate(true);
             cacheControl.setMaxAge(60 * cacheTimeout);
             return Response.ok().entity(capabilityStatement).cacheControl(cacheControl).build();
+        } catch (IllegalArgumentException e) {
+            return exceptionResponse(e, Response.Status.BAD_REQUEST);
         } catch (RuntimeException e) {
             FHIROperationException foe = buildRestException(ERROR_CONSTRUCTING, IssueType.EXCEPTION);
             if (e.getCause() != null) {
@@ -153,12 +170,88 @@ public class Capabilities extends FHIRResource {
         }
     }
 
-    private CapabilityStatement computeCapabilityStatement() {
+    private boolean isValidMode(String mode) {
+        return "full".equals(mode) || "normative".equals(mode) || "terminology".equals(mode);
+    }
+
+    private Resource computeCapabilityStatement(String mode) {
         try {
-            return buildCapabilityStatement();
+            switch (mode) {
+            case "terminology":
+                return buildTerminologyCapabilities();
+            case "full":
+            case "normative":
+            default:
+                return buildCapabilityStatement();
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private TerminologyCapabilities buildTerminologyCapabilities() {
+        FHIRBuildIdentifier buildInfo = new FHIRBuildIdentifier();
+        String buildDescription = FHIR_SERVER_NAME + " version " + buildInfo.getBuildVersion() + " build id " + buildInfo.getBuildId() + "";
+        return TerminologyCapabilities.builder()
+            .status(PublicationStatus.ACTIVE)
+            .date(DateTime.now(ZoneOffset.UTC))
+            .kind(CapabilityStatementKind.INSTANCE)
+            .version(string(buildInfo.getBuildVersion()))
+            .name(string(FHIR_SERVER_NAME))
+            .description(Markdown.of(buildDescription))
+            .copyright(Markdown.of(FHIR_COPYRIGHT))
+            .publisher(string(FHIR_PUBLISHER))
+            .software(TerminologyCapabilities.Software.builder()
+                .name(string(FHIR_SERVER_NAME))
+                .version(string(buildInfo.getBuildVersion()))
+                .id(buildInfo.getBuildId())
+                .build())
+            .codeSystem(buildCodeSystem())
+            .expansion(Expansion.builder()
+                .hierarchical(com.ibm.fhir.model.type.Boolean.FALSE)
+                .paging(com.ibm.fhir.model.type.Boolean.FALSE)
+                .incomplete(com.ibm.fhir.model.type.Boolean.FALSE)
+                .textFilter(Markdown.of("Text searching is not supported"))
+                .build())
+            .codeSearch(CodeSearchSupport.ALL)
+            .validateCode(ValidateCode.builder()
+                .translations(com.ibm.fhir.model.type.Boolean.FALSE)
+                .build())
+            .translation(Translation.builder()
+                .needsMap(com.ibm.fhir.model.type.Boolean.TRUE)
+                .build())
+            .closure(Closure.builder()
+                .translation(com.ibm.fhir.model.type.Boolean.FALSE)
+                .build())
+            .build();
+    }
+
+    private List<TerminologyCapabilities.CodeSystem> buildCodeSystem() {
+        Map<String, List<TerminologyCapabilities.CodeSystem.Version>> versionMap = new LinkedHashMap<>();
+
+        for (FHIRRegistryResource registryResource : FHIRRegistry.getInstance().getRegistryResources(CodeSystem.class)) {
+            String url = registryResource.getUrl();
+            FHIRRegistryResource.Version version = registryResource.getVersion();
+
+            List<TerminologyCapabilities.CodeSystem.Version> versions = versionMap.computeIfAbsent(url, k -> new ArrayList<>());
+            if (!FHIRRegistryResource.NO_VERSION.equals(version)) {
+                versions.add(TerminologyCapabilities.CodeSystem.Version.builder()
+                    .code(string(version.toString()))
+                    .build());
+            }
+        }
+
+        List<TerminologyCapabilities.CodeSystem> codeSystems = new ArrayList<>(versionMap.keySet().size());
+
+        for (String url : versionMap.keySet()) {
+            List<TerminologyCapabilities.CodeSystem.Version> versions = versionMap.get(url);
+            codeSystems.add(TerminologyCapabilities.CodeSystem.builder()
+                .uri(Canonical.of(url))
+                .version(versions)
+                .build());
+        }
+
+        return codeSystems;
     }
 
     /**
@@ -390,7 +483,7 @@ public class Capabilities extends FHIRResource {
         CapabilityStatement conformance = CapabilityStatement.builder()
                 .status(PublicationStatus.ACTIVE)
                 .date(DateTime.now(ZoneOffset.UTC))
-                .kind(CapabilityStatementKind.CAPABILITY)
+                .kind(CapabilityStatementKind.INSTANCE)
                 .fhirVersion(FHIRVersion.VERSION_4_0_1)
                 .format(format)
                 .patchFormat(Code.of(FHIRMediaType.APPLICATION_JSON_PATCH),
@@ -400,7 +493,7 @@ public class Capabilities extends FHIRResource {
                 .name(string(FHIR_SERVER_NAME))
                 .description(Markdown.of(buildDescription))
                 .copyright(Markdown.of(FHIR_COPYRIGHT))
-                .publisher(string("IBM Corporation"))
+                .publisher(string(FHIR_PUBLISHER))
                 .software(CapabilityStatement.Software.builder()
                           .name(string(FHIR_SERVER_NAME))
                           .version(string(buildInfo.getBuildVersion()))

@@ -165,6 +165,8 @@ public final class FHIRRegistry {
     /**
      * Get the resources for the given resource type
      *
+     * <p>Use this method to get actual FHIR resources and not FHIR registry resources (metadata)
+     *
      * @param resourceType
      *     the resource type
      * @return
@@ -182,6 +184,28 @@ public final class FHIRRegistry {
             }
         }
         return Collections.unmodifiableList(resources);
+    }
+
+    /**
+     * Get the registry resources for the given resource type
+     *
+     * <p>Use this method to get FHIR registry resources (metadata) and not actual FHIR resources
+     *
+     * @param resourceType
+     *     the resource type
+     * @return
+     *     the registry resources for the given resource type
+     * @throws IllegalArgumentException
+     *     if the resource type is not a definitional resource type
+     */
+    public Collection<FHIRRegistryResource> getRegistryResources(Class<? extends Resource> resourceType) {
+        Objects.requireNonNull(resourceType);
+        requireDefinitionalResourceType(resourceType);
+        List<FHIRRegistryResource> registryResources = new ArrayList<>();
+        for (FHIRRegistryResourceProvider provider : providers) {
+            registryResources.addAll(provider.getRegistryResources(resourceType));
+        }
+        return registryResources;
     }
 
     /**
