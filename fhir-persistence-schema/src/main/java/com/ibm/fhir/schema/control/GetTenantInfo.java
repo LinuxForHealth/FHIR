@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,7 +22,7 @@ import com.ibm.fhir.database.utils.api.TenantStatus;
 public class GetTenantInfo implements IDatabaseSupplier<TenantInfo> {
     // The FHIR admin schema name
     private final String adminSchema;
-    
+
     // The name of the tenant for which we want the info
     private final String tenantName;
 
@@ -53,7 +53,7 @@ public class GetTenantInfo implements IDatabaseSupplier<TenantInfo> {
                 + "             ON (dp.tabname = 'LOGICAL_RESOURCES' "
                 + "            AND dp.datapartitionname = CONCAT('TENANT', t.mt_id))"
                 + " WHERE t.tenant_name = ?";
-        
+
 
         try (PreparedStatement s = c.prepareStatement(SQL)) {
             s.setString(1, tenantName);
@@ -63,14 +63,18 @@ public class GetTenantInfo implements IDatabaseSupplier<TenantInfo> {
                 result.setTenantId(rs.getInt(1));
                 result.setTenantName(rs.getString(2));
                 result.setTenantStatus(TenantStatus.valueOf(rs.getString(3)));
-                result.setTenantSchema(rs.getString(4));
+                // DB2 pads SYSCAT.DATAPARTITIONS.TABSCHEMA with spaces if less than 8 characters
+                String tenantSchema = rs.getString(4);
+                if (tenantSchema != null) {
+                    result.setTenantSchema(tenantSchema.trim());
+                }
             } else {
                 result = null;
             }
         } catch (SQLException x) {
             throw translator.translate(x);
         }
-        
+
         return result;
     }
 
