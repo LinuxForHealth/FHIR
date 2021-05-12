@@ -41,7 +41,7 @@ import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.registry.FHIRRegistry;
-import com.ibm.fhir.registry.resource.FHIRRegistryResource;
+import com.ibm.fhir.registry.resource.FHIRRegistryResource.Version;
 import com.ibm.fhir.term.config.FHIRTermConfig;
 import com.ibm.fhir.term.service.FHIRTermService;
 import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
@@ -335,7 +335,7 @@ public final class ValueSetSupport {
 
     private static String getLatestVersion(Uri system) {
         java.lang.String version = FHIRRegistry.getInstance().getLatestVersion(system.getValue(), CodeSystem.class);
-        return (version != null && !FHIRRegistryResource.NO_VERSION.toString().equals(version)) ? string(version) : null;
+        return (version != null && !Version.NO_VERSION.toString().equals(version)) ? string(version) : null;
     }
 
     private static Set<java.lang.String> getValueSetReferences(List<Include> includesAndExcludes) {
