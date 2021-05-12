@@ -25,7 +25,7 @@ db2 grant connect on database TO USER testuser
 # 2 - use tool / exercise without TENANT_KEY
 docker-compose run tool --tool.behavior=onboard --db.host=192.168.86.29 --db.port=50000 --user=db2inst1 --password=change-password --db.database=fhirdb --sslConnection=false --db.type=db2 --schema.name.fhir=CLINIC --grant.to=testuser     --tenant.name=CLINICA
 
-# Check the TENANTS table // Should be 2700+
+# Check the TENANTS table
 docker-compose exec -it db su - db2inst1 -c "db2 connect to fhirdb; db2 SELECT COUNT(*) FROM FHIR_ADMIN.TENANTS"
 # You should see the tenant listed, and you should see the end CLINIC
 
