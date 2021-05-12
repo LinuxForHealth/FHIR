@@ -48,7 +48,7 @@ public class EraseRestImpl implements EraseRest {
     private String resourceType = null;
     private String logicalId = null;
 
-    // For the errors this list of issues the aggregates the issues across the inputs.
+    // For the errors this list aggregates the issues across the inputs.
     private List<OperationOutcome.Issue> issues = new ArrayList<>();
 
     /**
