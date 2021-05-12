@@ -157,7 +157,7 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         }
 
         /// Not found, return and stop processing.
-        if (resourceTypeId == -1) {
+        if (logicalResourceId == -1) {
             eraseRecord.setStatus(ResourceEraseRecord.Status.NOT_FOUND);
             return;
         }
