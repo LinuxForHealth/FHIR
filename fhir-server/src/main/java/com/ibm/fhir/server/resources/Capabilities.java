@@ -194,6 +194,7 @@ public class Capabilities extends FHIRResource {
         String buildDescription = FHIR_SERVER_NAME + " version " + buildInfo.getBuildVersion() + " build id " + buildInfo.getBuildId() + "";
         return TerminologyCapabilities.builder()
             .status(PublicationStatus.ACTIVE)
+            .experimental(com.ibm.fhir.model.type.Boolean.TRUE)
             .date(DateTime.now(ZoneOffset.UTC))
             .kind(CapabilityStatementKind.INSTANCE)
             .version(string(buildInfo.getBuildVersion()))
