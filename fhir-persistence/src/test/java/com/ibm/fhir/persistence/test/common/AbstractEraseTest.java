@@ -238,4 +238,20 @@ public abstract class AbstractEraseTest extends AbstractPersistenceTest {
         SingleResourceResult<? extends Basic> result = persistence.read(getDefaultPersistenceContext(), resource1.getClass(), resource1.getId());
         assertNotNull(result.getResource());
     }
+
+    @Test
+    public void testEraseSingleResourceWithVersion1() throws Exception {
+        Basic resource1 = persistence.create(getDefaultPersistenceContext(), allTypesBuilder.meta(tag("eraseTest")).build()).getResource();
+        resources.add(resource1);
+        EraseDTO dto = new EraseDTO();
+        dto.setLogicalId(resource1.getId());
+        dto.setResourceType("Basic");
+        dto.setVersion(1);
+        ResourceEraseRecord eraseRecord = persistence.erase(dto);
+        assertNotNull(eraseRecord);
+        assertEquals((int) eraseRecord.getTotal(), 1);
+        assertEquals(eraseRecord.getStatus(), ResourceEraseRecord.Status.DONE);
+        SingleResourceResult<? extends Basic> result = persistence.read(getDefaultPersistenceContext(), resource1.getClass(), resource1.getId());
+        assertNull(result.getResource());
+    }
 }

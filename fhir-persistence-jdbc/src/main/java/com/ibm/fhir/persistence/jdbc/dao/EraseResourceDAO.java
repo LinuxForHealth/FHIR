@@ -162,12 +162,11 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         // Step 1: Get the Details for the Resource/Logical_Resource
         // the resource_id and version_id need to be fetched.
         // these should never be null since we have a lock, and the resource exists.
-        final String RESOURCE_LOGICAL_DETAILS =
-                "SELECT R1.RESOURCE_ID, R1.VERSION_ID" +
-                        "    FROM " + resourceType + "_RESOURCES R1" +
-                        "    WHERE R1.LOGICAL_RESOURCE_ID = ?" +
-                        "    ORDER BY R1.VERSION_ID DESC";
-        try (PreparedStatement stmt = getConnection().prepareStatement(RESOURCE_LOGICAL_DETAILS)) {
+        final String LOGICAL_RESOURCE_DETAILS =
+                "SELECT LR1.CURRENT_RESOURCE_ID, LR1.VERSION_ID" +
+                        "    FROM " + resourceType + "_LOGICAL_RESOURCES LR1" +
+                        "    WHERE LR1.LOGICAL_RESOURCE_ID = ?";
+        try (PreparedStatement stmt = getConnection().prepareStatement(LOGICAL_RESOURCE_DETAILS)) {
             stmt.setLong(1, logicalResourceId);
 
             ResultSet rs = stmt.executeQuery();
@@ -176,7 +175,7 @@ public class EraseResourceDAO extends ResourceDAOImpl {
                 version = rs.getInt(2);
             }
         } catch (SQLException x) {
-            LOG.log(Level.SEVERE, RESOURCE_LOGICAL_DETAILS, x);
+            LOG.log(Level.SEVERE, LOGICAL_RESOURCE_DETAILS, x);
             throw translator.translate(x);
         }
 
@@ -220,13 +219,13 @@ public class EraseResourceDAO extends ResourceDAOImpl {
             eraseRecord.setStatus(ResourceEraseRecord.Status.VERSION);
             return;
         }
+
         // Step 2: Delete All Versions from Resources Table
         // Create the prepared statement to delete Resource Versions in chunks
         // Implementation note: fetch must be the last part of the sub-select
         final String DELETE_ALL_VERSIONS =
-                "DELETE FROM " + resourceType + "_RESOURCES WHERE RESOURCE_ID IN (" +
-                        "    SELECT R1.RESOURCE_ID FROM  " + resourceType + "_RESOURCES R1" +
-                        "    WHERE R1.LOGICAL_RESOURCE_ID = ?)";
+                "DELETE FROM " + resourceType + "_RESOURCES" +
+                        "    WHERE LOGICAL_RESOURCE_ID = ?";
         try (PreparedStatement stmt = getConnection().prepareStatement(DELETE_ALL_VERSIONS)) {
             stmt.setLong(1, logicalResourceId);
             total = stmt.executeUpdate();
