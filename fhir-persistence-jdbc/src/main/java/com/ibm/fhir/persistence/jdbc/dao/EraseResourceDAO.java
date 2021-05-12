@@ -119,15 +119,12 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         int version = -1;
         Integer total = 0;
 
-        // The connection is going to be closed upstream.
-        Connection conn = getConnection();
-
         // Prep 1: Get the v_resource_type_id
         final String GET_RESOURCE_TYPE_ID =
                 "SELECT resource_type_id" +
                         "  FROM resource_types" +
                         "  WHERE resource_type = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(GET_RESOURCE_TYPE_ID)) {
+        try (PreparedStatement stmt = getConnection().prepareStatement(GET_RESOURCE_TYPE_ID)) {
             stmt.setString(1, resourceType);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
@@ -144,7 +141,7 @@ public class EraseResourceDAO extends ResourceDAOImpl {
                         "  FROM logical_resources" +
                         "  WHERE resource_type_id = ? AND logical_id = ?";
         // Note the addForUpdate is important on the logical_resources query
-        try (PreparedStatement stmt = conn.prepareStatement(translator.addForUpdate(GET_LOGICAL_RESOURCES_SYSTEM))) {
+        try (PreparedStatement stmt = getConnection().prepareStatement(translator.addForUpdate(GET_LOGICAL_RESOURCES_SYSTEM))) {
             stmt.setLong(1, resourceTypeId);
             stmt.setString(2, logicalId);
             ResultSet rs = stmt.executeQuery();
@@ -170,7 +167,7 @@ public class EraseResourceDAO extends ResourceDAOImpl {
                         "    FROM " + resourceType + "_RESOURCES R1" +
                         "    WHERE R1.LOGICAL_RESOURCE_ID = ?" +
                         "    ORDER BY R1.VERSION_ID DESC";
-        try (PreparedStatement stmt = conn.prepareStatement(RESOURCE_LOGICAL_DETAILS)) {
+        try (PreparedStatement stmt = getConnection().prepareStatement(RESOURCE_LOGICAL_DETAILS)) {
             stmt.setLong(1, logicalResourceId);
 
             ResultSet rs = stmt.executeQuery();
@@ -210,7 +207,7 @@ public class EraseResourceDAO extends ResourceDAOImpl {
                     "UPDATE " + resourceType + "_RESOURCES" +
                             "    SET DATA = NULL" +
                             "    WHERE LOGICAL_RESOURCE_ID = ? AND VERSION_ID = ?";
-            try (PreparedStatement stmt = conn.prepareStatement(UPDATE_RESOURCE_PAYLOAD)) {
+            try (PreparedStatement stmt = getConnection().prepareStatement(UPDATE_RESOURCE_PAYLOAD)) {
                 stmt.setLong(1, logicalResourceId);
                 stmt.setInt(2, eraseDto.getVersion());
                 int count = stmt.executeUpdate();
@@ -230,7 +227,7 @@ public class EraseResourceDAO extends ResourceDAOImpl {
                 "DELETE FROM " + resourceType + "_RESOURCES WHERE RESOURCE_ID IN (" +
                         "    SELECT R1.RESOURCE_ID FROM  " + resourceType + "_RESOURCES R1" +
                         "    WHERE R1.LOGICAL_RESOURCE_ID = ?)";
-        try (PreparedStatement stmt = conn.prepareStatement(DELETE_ALL_VERSIONS)) {
+        try (PreparedStatement stmt = getConnection().prepareStatement(DELETE_ALL_VERSIONS)) {
             stmt.setLong(1, logicalResourceId);
             total = stmt.executeUpdate();
         } catch (SQLException x) {
@@ -239,12 +236,12 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         }
 
         // Step 3: Delete from parameters tables
-        deleteFromAllParametersTables(conn, resourceType, logicalResourceId);
+        deleteFromAllParametersTables(resourceType, logicalResourceId);
 
         // Step 4: Delete from Logical Resources table
         final String DELETE_LOGICAL_RESOURCE =
                 "DELETE FROM " + resourceType + "_LOGICAL_RESOURCES WHERE LOGICAL_RESOURCE_ID = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(DELETE_LOGICAL_RESOURCE)) {
+        try (PreparedStatement stmt = getConnection().prepareStatement(DELETE_LOGICAL_RESOURCE)) {
             stmt.setLong(1, logicalResourceId);
             int count = stmt.executeUpdate();
             LOG.fine(() -> "Count of Resource_LR deleted is " + count);
@@ -256,7 +253,7 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         // Step 5: Delete from Global Logical Resources
         final String GLOBAL_DELETE_LOGICAL_RESOURCE =
                 "DELETE FROM LOGICAL_RESOURCES WHERE LOGICAL_RESOURCE_ID = ? AND RESOURCE_TYPE_ID = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(GLOBAL_DELETE_LOGICAL_RESOURCE)) {
+        try (PreparedStatement stmt = getConnection().prepareStatement(GLOBAL_DELETE_LOGICAL_RESOURCE)) {
             stmt.setLong(1, logicalResourceId);
             stmt.setLong(2, resourceTypeId);
             int count = stmt.executeUpdate();
@@ -270,7 +267,7 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         final String CL_DELETE =
                 "DELETE FROM resource_change_log WHERE LOGICAL_RESOURCE_ID = ? AND RESOURCE_TYPE_ID = ?"
                         + " AND RESOURCE_ID = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(CL_DELETE)) {
+        try (PreparedStatement stmt = getConnection().prepareStatement(CL_DELETE)) {
             stmt.setLong(1, logicalResourceId);
             stmt.setLong(2, resourceTypeId);
             stmt.setLong(3, resourceId);
@@ -288,40 +285,38 @@ public class EraseResourceDAO extends ResourceDAOImpl {
     /**
      * Deletes from the Parameters
      *
-     * @param conn
      * @param tablePrefix
      * @param logicalResourceId
      * @throws SQLException
      */
-    public void deleteFromAllParametersTables(Connection conn, String tablePrefix, long logicalResourceId) throws SQLException {
+    public void deleteFromAllParametersTables(String tablePrefix, long logicalResourceId) throws SQLException {
         final String method = "deleteFromAllParametersTables";
         LOG.entering(CLASSNAME, method);
 
         // existing resource, so need to delete all its parameters
-        deleteFromParameterTable(conn, tablePrefix + "_str_values", logicalResourceId);
-        deleteFromParameterTable(conn, tablePrefix + "_number_values", logicalResourceId);
-        deleteFromParameterTable(conn, tablePrefix + "_date_values", logicalResourceId);
-        deleteFromParameterTable(conn, tablePrefix + "_latlng_values", logicalResourceId);
-        deleteFromParameterTable(conn, tablePrefix + "_resource_token_refs", logicalResourceId);
-        deleteFromParameterTable(conn, tablePrefix + "_quantity_values", logicalResourceId);
-        deleteFromParameterTable(conn, "str_values", logicalResourceId);
-        deleteFromParameterTable(conn, "date_values", logicalResourceId);
-        deleteFromParameterTable(conn, "resource_token_refs", logicalResourceId);
+        deleteFromParameterTable(tablePrefix + "_str_values", logicalResourceId);
+        deleteFromParameterTable(tablePrefix + "_number_values", logicalResourceId);
+        deleteFromParameterTable(tablePrefix + "_date_values", logicalResourceId);
+        deleteFromParameterTable(tablePrefix + "_latlng_values", logicalResourceId);
+        deleteFromParameterTable(tablePrefix + "_resource_token_refs", logicalResourceId);
+        deleteFromParameterTable(tablePrefix + "_quantity_values", logicalResourceId);
+        deleteFromParameterTable("str_values", logicalResourceId);
+        deleteFromParameterTable("date_values", logicalResourceId);
+        deleteFromParameterTable("resource_token_refs", logicalResourceId);
         LOG.exiting(CLASSNAME, method);
     }
 
     /**
      * Delete all parameters for the given logical resource id from the parameters table
      *
-     * @param conn
      * @param tableName
      * @param logicalResourceId
      * @throws SQLException
      */
-    public void deleteFromParameterTable(Connection conn, String tableName, long logicalResourceId) throws SQLException {
+    public void deleteFromParameterTable(String tableName, long logicalResourceId) throws SQLException {
         final String DML = "DELETE FROM " + tableName + " WHERE logical_resource_id = ?";
 
-        try (PreparedStatement stmt = conn.prepareStatement(DML)) {
+        try (PreparedStatement stmt = getConnection().prepareStatement(DML)) {
             // bind parameters
             stmt.setLong(1, logicalResourceId);
             int deleted = stmt.executeUpdate();
