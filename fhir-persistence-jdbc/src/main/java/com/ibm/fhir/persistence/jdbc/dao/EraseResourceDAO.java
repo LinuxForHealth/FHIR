@@ -105,7 +105,7 @@ public class EraseResourceDAO extends ResourceDAOImpl {
     }
 
     /**
-     * Executes the SQL logic as part of the dao rather than
+     * Executes the SQL logic as part of the dao rather than via a stored procedure/function.
      *
      * @throws SQLException
      */
@@ -238,6 +238,7 @@ public class EraseResourceDAO extends ResourceDAOImpl {
             throw translator.translate(x);
         }
 
+        // Step 3: Delete from parameters tables
         deleteFromAllParametersTables(conn, resourceType, logicalResourceId);
 
         // Step 4: Delete from Logical Resources table

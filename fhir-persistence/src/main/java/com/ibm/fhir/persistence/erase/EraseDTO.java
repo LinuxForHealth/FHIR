@@ -113,7 +113,7 @@ public class EraseDTO {
         if (version != null) {
             // version specific at this point, such as version 54 of a specific resource
             // <code>Patient/17941bac037-ea376c66-69d4-4afe-a204-041bb25cc26e/_history/54</code>
-            reference.append("_history")
+            reference.append("/_history/")
                 .append(getVersion());
         }
         return reference.toString();

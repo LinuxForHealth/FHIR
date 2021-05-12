@@ -40,10 +40,6 @@ public class ResourceEraseRecordAdapter {
      * Adapts from an eraseRecord and eraseDto to the Parameters resource and
      * wraps in an output parameters object.
      *
-     * @implNote due to the framework it's double wrapped in FHIROperationUtil.getOutputParameters. In the first
-     * iteration, the adapt method set the reason and patient on the response, this is really duplicating the data.
-     * It's best to return the
-     *
      * @param eraseRecord the output from the erase dao
      * @param eraseDto the input from the user send to the erase dao
      * @return

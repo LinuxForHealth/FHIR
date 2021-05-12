@@ -120,7 +120,7 @@ public class EraseRestImpl implements EraseRest {
         // Return a dto
         EraseDTO dto = new EraseDTO();
 
-        // While  we accept 0..* we want too squash that down.
+        // While  we accept 0..* we want to squash that down.
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         EvaluationContext evaluationContext = new EvaluationContext(parameters);
 
