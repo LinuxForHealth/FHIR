@@ -1,0 +1,36 @@
+version: '3.7'
+services:
+  db:
+    image: ibmcom/db2:11.5.5.1
+    restart: always
+    environment:
+      DB2INST1_PASSWORD: change-password
+      LICENSE: accept
+      DBNAME: fhirdb
+    shm_size: 256MB
+    tty: true
+    stdin_open: true
+    hostname: db
+    sysctls:
+      net.core.somaxconn: 256
+      net.ipv4.tcp_syncookies: 0
+    privileged: true
+    ports:
+      - "50000:50000"
+  tool:
+    image: ibmcom/ibm-fhir-schematool:latest
+    restart: always
+    environment:
+      PLACEHOLDER: change-password
+    tty: true
+    stdin_open: true
+    hostname: tool
+    stop_grace_period: 2m
+    sysctls:
+      net.core.somaxconn: 256
+      net.ipv4.tcp_syncookies: 0
+      # To use all of 2 gigabytes
+      kernel.shmmax: 1055092736
+      kernel.shmall: 257591
+    privileged: true
+    command: tail -f /dev/null
