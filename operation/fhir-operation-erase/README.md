@@ -9,7 +9,7 @@ This document outlines the design and acceptance criteria for the *fhir-operatio
 |PATH Name|Required|Value|
 |------|-----|-----|
 |`RESOURCE`|required|The Resource Type|
-|`ID`|optional|The Resource ID, which implies the parameter logicalId must be set in the parameters object|
+|`ID`|optional|The Resource ID. If specified, the parameter logicalId must not be set in the parameters object. If not specified, the parameter logicalId must be set in the parameters object.|
 
 **Method**
 - POST - We do not support **GET**.
@@ -19,8 +19,8 @@ This document outlines the design and acceptance criteria for the *fhir-operatio
 |Parameter Name|Type|Value|Description|
 |------|-----|-----|-----|
 |`reason`|required|string|the textual reason to add to the Audit Event. A maximum of a 1000 characters.|
-|`patient`|optional|string|the patient id to add to the Audit Event. Required, if the resource is being erased is within the Patient Compartment|
-|`id`|optional|string|Required, if the logical ID when executing an erase at the Resource Type level, else it must not be included.|
+|`patient`|optional|string|the patient id to add to the Audit Event. Required, if the resource being erased is within the Patient Compartment.|
+|`id`|optional|string|Required, if executing an erase at the Resource Type level, else it must not be included.|
 |`version`|optional|integer|If included, the version of the resource is erased.|
 
 These values are passed as a FHIR Parameters Resource.
@@ -147,7 +147,7 @@ Response Body: Return Operation Outcome.
 **Implementation Considerations**
 
 1. Resources which are created incorrectly, should be $erased, rather than updated. For instance, a resource incorrectly identified with MRN1 which should be MRN2. However, deleting the offending version is possible once the offending version is NOT the latest version.
-2. When execution a version on the Instance, erase removes all versions of a Resource to maintain the integrity of the datastore. When executing on the Instance and the version, erase removes the specific version.
+2. When executing on the Instance, erase removes all versions of a Resource to maintain the integrity of the datastore. When executing on the Instance and the version, erase removes the specific version.
 3. The Audit Record that is generated includes a patient specific id and reason for the deleted record that is added to the Audit Record.
 4. While not preferred, the UUID may be reused, however any dangling references may reference the new resource improperly.
 5. Bundles, both Batch and Transaction types, are supported.
