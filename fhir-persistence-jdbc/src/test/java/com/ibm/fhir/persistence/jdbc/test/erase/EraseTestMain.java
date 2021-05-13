@@ -10,28 +10,26 @@ import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-import com.ibm.fhir.database.utils.api.IConnectionProvider;
-import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
-import com.ibm.fhir.database.utils.common.JdbcTarget;
-import com.ibm.fhir.database.utils.db2.Db2Adapter;
-import com.ibm.fhir.database.utils.db2.Db2PropertyAdapter;
-import com.ibm.fhir.database.utils.derby.DerbyAdapter;
-import com.ibm.fhir.database.utils.derby.DerbyPropertyAdapter;
 import com.ibm.fhir.database.utils.model.DbType;
-import com.ibm.fhir.database.utils.postgres.PostgresAdapter;
-import com.ibm.fhir.database.utils.postgres.PostgresPropertyAdapter;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
+import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.ResourceEraseRecord;
 import com.ibm.fhir.persistence.erase.EraseDTO;
+import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavorImpl;
 import com.ibm.fhir.persistence.jdbc.dao.EraseResourceDAO;
+import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
+import com.ibm.fhir.schema.app.util.CommonUtil;
 
 /**
  * EraseTestMain is a test driver for the EraseResourceDAO so it can be debugged during development.
@@ -48,6 +46,7 @@ import com.ibm.fhir.persistence.jdbc.dao.EraseResourceDAO;
  * </code>
  */
 public class EraseTestMain {
+
     private static final String CLASSNAME = EraseTestMain.class.getSimpleName();
     private static final Logger logger = Logger.getLogger(CLASSNAME);
 
@@ -61,19 +60,31 @@ public class EraseTestMain {
     private String resourceType = null;
     private String logicalId = null;
 
-
+    /**
+     * Public Constructor
+     *
+     * @param properties
+     *            the properties file with the database information and the type.
+     * @param args
+     *            from the inputs on the commandline
+     */
     public EraseTestMain(Properties properties, String[] args) {
         this.args = args;
         this.inProperties = properties;
     }
 
+    /**
+     * erases the given resource type and logical id
+     *
+     * @throws Exception
+     */
     protected void erase() throws Exception {
         try {
             try (Connection c = createConnection()) {
                 System.out.println("Got a Connection");
                 try {
                     FHIRDbFlavor flavor = new FHIRDbFlavorImpl(dbType, true);
-                    EraseResourceDAO dao = new EraseResourceDAO(c, translator, schemaName, flavor, null, null);
+                    EraseResourceDAO dao = new EraseResourceDAO(c, translator, schemaName, flavor, new MockLocalCache(), null);
 
                     ResourceEraseRecord record = new ResourceEraseRecord();
                     EraseDTO eraseDto = new EraseDTO();
@@ -97,7 +108,7 @@ public class EraseTestMain {
     /**
      * determines the flavor and schema of the execution.
      */
-    public void determineFlavorAnSchema() {
+    public void determineFlavorAndSchema() {
         if (inProperties.getProperty("type") != null && inProperties.getProperty("type").equals("db2")) {
             dbType = DbType.DB2;
             if (inProperties.getProperty("db2.schemaName") != null) {
@@ -119,7 +130,7 @@ public class EraseTestMain {
             prefix = "postgres.";
         }
         dbProperties = new Properties();
-        for(Entry<Object, Object> prop : inProperties.entrySet()) {
+        for (Entry<Object, Object> prop : inProperties.entrySet()) {
             String key = (String) prop.getKey();
             if (key.startsWith(prefix)) {
                 dbProperties.put(key.replace(prefix, ""), prop.getValue());
@@ -130,21 +141,13 @@ public class EraseTestMain {
     }
 
     /**
-     * @param args
-     * @throws Exception
+     * Creates the Connection specific to this Erase Operation.
+     *
+     * @return
      */
-    public static void main(String[] args) throws Exception {
-        Properties properties = new Properties();
-        properties.load(new FileInputStream("src/test/resources/test.erase.properties"));
-        EraseTestMain main = new EraseTestMain(properties, args);
-        main.determineFlavorAnSchema();
-        main.processArgs();
-        main.erase();
-    }
-
     protected Connection createConnection() {
         Properties connectionProperties = new Properties();
-        JdbcPropertyAdapter adapter = getPropertyAdapter(dbType, dbProperties);
+        JdbcPropertyAdapter adapter = CommonUtil.getPropertyAdapter(dbType, dbProperties);
         adapter.getExtraProperties(connectionProperties);
 
         String url = translator.getUrl(dbProperties);
@@ -160,52 +163,91 @@ public class EraseTestMain {
     }
 
     /**
-     * Load the driver class
+     * Mocks the JDBC Cache
      */
-    public static void loadDriver(IDatabaseTranslator translator) {
-        try {
-            Class.forName(translator.getDriverClassName());
-        } catch (ClassNotFoundException e) {
-            throw new IllegalStateException(e);
+    private static class MockLocalCache implements FHIRPersistenceJDBCCache {
+
+        @Override
+        public boolean needToPrefill() {
+            return false;
+        }
+
+        @Override
+        public ICommonTokenValuesCache getResourceReferenceCache() {
+            return null;
+        }
+
+        @Override
+        public INameIdCache<Integer> getResourceTypeCache() {
+            // Used to mock the resource_type_id in the db
+            INameIdCache<Integer> cache = new INameIdCache<Integer>() {
+
+                @Override
+                public Integer getId(String resourceType) {
+                    int count = 0;
+                    for (Class<? extends Resource> resource : ModelSupport.getResourceTypes(false)) {
+                        if (resource.getSimpleName().equals(resourceType)) {
+                            break;
+                        }
+                        count++;
+                    }
+                    return count;
+                }
+
+                @Override
+                public void addEntry(String key, Integer id) {
+                    // NOP
+                }
+
+                @Override
+                public void updateSharedMaps() {
+                    // NOP
+                }
+
+                @Override
+                public void reset() {
+                    // NOP
+                }
+
+                @Override
+                public void clearLocalMaps() {
+                    // NOP
+                }
+
+                @Override
+                public void prefill(Map content) {
+                    // NOP
+                }
+            };
+            return cache;
+        }
+
+        @Override
+        public INameIdCache<Integer> getParameterNameCache() {
+            return null;
+        }
+
+        @Override
+        public void transactionCommitted() {
+            // No Operation
+        }
+
+        @Override
+        public void transactionRolledBack() {
+            // No Operation
         }
     }
 
-    public static JdbcPropertyAdapter getPropertyAdapter(DbType dbType, Properties props) {
-        switch (dbType) {
-        case DB2:
-            return new Db2PropertyAdapter(props);
-        case DERBY:
-            return new DerbyPropertyAdapter(props);
-        case POSTGRESQL:
-            return new PostgresPropertyAdapter(props);
-        default:
-            throw new IllegalStateException("Unsupported db type: " + dbType);
-        }
-    }
-
-    public static IDatabaseAdapter getDbAdapter(DbType dbType, JdbcTarget target) {
-        switch (dbType) {
-        case DB2:
-            return new Db2Adapter(target);
-        case DERBY:
-            return new DerbyAdapter(target);
-        case POSTGRESQL:
-            return new PostgresAdapter(target);
-        default:
-            throw new IllegalStateException("Unsupported db type: " + dbType);
-        }
-    }
-
-    public static IDatabaseAdapter getDbAdapter(DbType dbType, IConnectionProvider connectionProvider) {
-        switch (dbType) {
-        case DB2:
-            return new Db2Adapter(connectionProvider);
-        case DERBY:
-            return new DerbyAdapter(connectionProvider);
-        case POSTGRESQL:
-            return new PostgresAdapter(connectionProvider);
-        default:
-            throw new IllegalStateException("Unsupported db type: " + dbType);
-        }
+    /**
+     * @param args
+     * @throws Exception
+     */
+    public static void main(String[] args) throws Exception {
+        Properties properties = new Properties();
+        properties.load(new FileInputStream("src/test/resources/test.erase.properties"));
+        EraseTestMain main = new EraseTestMain(properties, args);
+        main.determineFlavorAndSchema();
+        main.processArgs();
+        main.erase();
     }
 }

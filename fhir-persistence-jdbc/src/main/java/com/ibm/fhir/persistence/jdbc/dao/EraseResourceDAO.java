@@ -54,12 +54,11 @@ public class EraseResourceDAO extends ResourceDAOImpl {
 
     private ResourceEraseRecord eraseRecord;
     private EraseDTO eraseDto;
-    private Connection conn;
 
     /**
      * Public constructor
      *
-     * @param connection
+     * @param conn
      * @param translator
      * @param schemaName
      * @param flavor
@@ -70,7 +69,6 @@ public class EraseResourceDAO extends ResourceDAOImpl {
             IResourceReferenceDAO rrd) {
         super(conn, schemaName, flavor, cache, rrd);
         this.translator = translator;
-        this.conn = getConnection();
     }
 
     /**
@@ -80,13 +78,13 @@ public class EraseResourceDAO extends ResourceDAOImpl {
      * @throws Exception
      */
     private void runCallableStatement(String callStr) throws Exception {
-        try (CallableStatement call = conn.prepareCall(String.format(callStr, getSchemaName()));){
+        try (CallableStatement call = getConnection().prepareCall(String.format(callStr, getSchemaName()))){
             call.setString(1, eraseDto.getResourceType());
             call.setString(2, eraseDto.getLogicalId());
             call.registerOutParameter(3, Types.BIGINT);
             call.execute();
 
-            Integer deleted = (int) call.getLong(3);
+            int deleted = (int) call.getLong(3);
             if (LOG.isLoggable(Level.FINEST)) {
                 LOG.finest("Deleted from [" + eraseDto.getResourceType() + "/" + eraseDto.getLogicalId() + "] deleted [" + deleted + "]");
             }
@@ -113,26 +111,16 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         String resourceType = eraseDto.getResourceType();
         String logicalId = eraseDto.getLogicalId();
 
-        long resourceTypeId = -1;
-        long logicalResourceId = -1;
         long resourceId = -1;
+        long logicalResourceId = -1;
         int version = -1;
         Integer total = 0;
 
         // Prep 1: Get the v_resource_type_id
-        final String GET_RESOURCE_TYPE_ID =
-                "SELECT resource_type_id" +
-                        "  FROM resource_types" +
-                        "  WHERE resource_type = ?";
-        try (PreparedStatement stmt = getConnection().prepareStatement(GET_RESOURCE_TYPE_ID)) {
-            stmt.setString(1, resourceType);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                resourceTypeId = rs.getLong(1);
-            }
-        } catch (SQLException x) {
-            LOG.log(Level.SEVERE, GET_RESOURCE_TYPE_ID, x);
-            throw translator.translate(x);
+        Integer resourceTypeId = getResourceTypeIdFromCaches(resourceType);
+        if (resourceTypeId == null) {
+            // There are a couple of options... this one happens to be great for injection during mockups.
+            resourceTypeId = getCache().getResourceTypeCache().getId(resourceType);
         }
 
         // Prep 2: Get the logical from the system-wide logical resource level
@@ -149,7 +137,7 @@ public class EraseResourceDAO extends ResourceDAOImpl {
                 logicalResourceId = rs.getLong(1);
             }
         } catch (SQLException x) {
-            LOG.log(Level.SEVERE, GET_RESOURCE_TYPE_ID, x);
+            LOG.log(Level.SEVERE, GET_LOGICAL_RESOURCES_SYSTEM, x);
             throw translator.translate(x);
         }
 

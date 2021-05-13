@@ -150,7 +150,7 @@
                 <configuration>
                     <printSummary>true</printSummary>
                     <forkCount>1C</forkCount>
-                    <argLine>-Xms2G -Xmx6G</argLine>
+                    <argLine>-Xms2G -Xmx4G</argLine>
                     <systemPropertyVariables>
                         <com.ibm.fhir.server.test.R4ExampleServerTest.index>${fhir-server-test.index}</com.ibm.fhir.server.test.R4ExampleServerTest.index>
                     </systemPropertyVariables>
