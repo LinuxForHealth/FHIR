@@ -59,7 +59,7 @@ curl --location --request POST 'https://test.fhirexample.com/fhir-server/api/v4/
 }'
 ```
 
-*Delete a specific version on Resource*
+*Delete all versions on Resource*
 
 ```
 curl --location --request POST 'https://test.fhirexample.com/fhir-server/api/v4/Patient/$erase' \
