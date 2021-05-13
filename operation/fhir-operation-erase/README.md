@@ -2,6 +2,8 @@
 
 This document outlines the design and acceptance criteria for the *fhir-operation-erase*. 
 
+The $erase operation hard deletes the version or instance of a Resource, completely removing the Resource from the database.
+
 **API Path** 
 - `/fhir-server/api/v4/[RESOURCE]/[ID]/$erase`
 - `/fhir-server/api/v4/[RESOURCE]/$erase`

@@ -333,6 +333,8 @@ public class EraseOperationTest extends FHIRServerTestBase {
         Bundle bundle = r.readEntity(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().isEmpty());
+        assertNotNull(bundle.getTotal().getValue());
+        assertEquals((int) bundle.getTotal().getValue(), 0);
     }
 
     /**
@@ -1244,7 +1246,7 @@ public class EraseOperationTest extends FHIRServerTestBase {
         Set<String> allResourcesById = generateResourcesForAllTypes();
         assertFalse(allResourcesById.isEmpty());
         List<SubmitResourceAndErase> callables = new ArrayList<>();
-        ThreadPoolExecutor exec = (ThreadPoolExecutor) Executors.newFixedThreadPool(20);
+        ThreadPoolExecutor exec = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
         try {
             for(String entry: allResourcesById) {
                 callables.add(new SubmitResourceAndErase(this, entry));
