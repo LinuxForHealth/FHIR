@@ -170,16 +170,23 @@ public final class FHIROperationUtil {
         return parametersBuilder.build();
     }
 
+    /**
+     * Generates an output Parameter resource
+     * @param resource
+     * @return
+     */
     public static Parameters getOutputParameters(Resource resource) {
-        return Parameters.builder()
-                .parameter(Parameter.builder()
-                    .name(string("return"))
-                    .resource(resource)
-                    .build())
-                .build();
+        return getOutputParameters("return", resource);
     }
 
-    public static Parameters getOutputParameters(String name, Resource resource) throws Exception {
+    /**
+     * generates an output parameter with a specific name.
+     *
+     * @param name
+     * @param resource
+     * @return
+     */
+    public static Parameters getOutputParameters(String name, Resource resource) {
         return Parameters.builder()
                 .parameter(Parameter.builder()
                     .name(string(name))
@@ -225,13 +232,24 @@ public final class FHIROperationUtil {
         return operationException;
     }
 
-    public static FHIROperationException buildExceptionWithIssue(final String msg, IssueType issueType)
-        throws FHIROperationException {
+    /**
+     * Helper method to generate a FHIROperationException with a fixed IssueType
+     * @param msg the message to be packed in the exception
+     * @param issueType the type of the issue
+     * @return
+     */
+    public static FHIROperationException buildExceptionWithIssue(final String msg, IssueType issueType) {
         return buildExceptionWithIssue(msg, issueType, null);
     }
 
-    public static FHIROperationException buildExceptionWithIssue(final String msg, IssueType issueType, final Throwable cause)
-        throws FHIROperationException {
+    /**
+     * Helper method to generate a FHIROperationException with a fixed IssueType
+     * @param msg the message to be packed in the exception
+     * @param issueType the type of the issue
+     * @param cause the throwable that causes this OperationOutcome/Exception
+     * @return
+     */
+    public static FHIROperationException buildExceptionWithIssue(final String msg, IssueType issueType, final Throwable cause) {
         OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
         return new FHIROperationException(msg, cause).withIssue(ooi);
     }
