@@ -38,6 +38,7 @@ import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.DatabaseNotReadyException;
+import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.ITransaction;
@@ -902,7 +903,9 @@ public class Main {
                 List<TenantInfo> tenants = adapter.runStatement(rtListGetter);
 
                 System.out.println(TenantInfo.getHeader());
-                tenants.forEach(t -> System.out.println(t.toString()));
+                tenants.forEach(System.out::println);
+            } catch(UndefinedNameException x) {
+                System.out.println("The FHIR_ADMIN schema appears not to be deployed with the TENANTS table");
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
