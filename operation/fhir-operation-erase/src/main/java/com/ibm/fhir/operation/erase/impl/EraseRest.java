@@ -30,8 +30,9 @@ public interface EraseRest {
 
     /**
      * verifies the HttpMethod and incoming parameters are supported,
-     * and creates an intermediate EraseBean
+     * and creates an intermediate EraseDTO
      *
+     * @return a valid DTO
      * @throws FHIROperationException
      */
     EraseDTO verify() throws FHIROperationException;

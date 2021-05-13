@@ -20,7 +20,7 @@ import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.server.util.FHIROperationUtil;
 
 /**
- * Adapts the ResourceEraseRecord and EraseBean to a Parameters object
+ * Adapts the ResourceEraseRecord and EraseDTO to a Parameters object
  */
 public class ResourceEraseRecordAdapter {
     private static final Parameter PARTIAL_TRUE = Parameter.builder()
