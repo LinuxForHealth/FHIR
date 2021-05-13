@@ -76,7 +76,7 @@ import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.provider.FHIRJsonProvider;
 import com.ibm.fhir.provider.FHIRProvider;
 import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
-import com.ibm.fhir.term.service.provider.AbstractTermServiceProvider;
+import com.ibm.fhir.term.spi.AbstractTermServiceProvider;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
 
 /**

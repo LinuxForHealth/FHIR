@@ -29,34 +29,42 @@ import com.ibm.fhir.registry.resource.FHIRRegistryResource;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource.Version;
 import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
 
-public class FHIRRegistryLatestVersionTest {
+public class FHIRRegistryDefaultVersionTest {
     static {
         FHIRRegistry.getInstance().addProvider(
             createRegistryResourceProvider(
-                createRegistryResource(createStructureDefinition("1.0.0")),
-                createRegistryResource(createStructureDefinition("2.0.0")),
-                createRegistryResource(createStructureDefinition("3.0.0"))));
+                FHIRRegistryResource.from(createStructureDefinition("http://ibm.com/fhir/StructureDefinition-test", "1.0.0")),
+                FHIRRegistryResource.from(createStructureDefinition("http://ibm.com/fhir/StructureDefinition-test", "2.0.0")),
+                FHIRRegistryResource.from(createStructureDefinition("http://ibm.com/fhir/StructureDefinition-test", "3.0.0")),
+                FHIRRegistryResource.from(createStructureDefinition("http://ibm.com/fhir/StructureDefinition-test-x", "1.0.0"))));
         FHIRRegistry.getInstance().addProvider(
             createRegistryResourceProvider(
-                createRegistryResource(createStructureDefinition("4.0.0")),
-                createRegistryResource(createStructureDefinition("5.0.0")),
-                createRegistryResource(createStructureDefinition("6.0.0"))));
+                FHIRRegistryResource.from(createStructureDefinition("http://ibm.com/fhir/StructureDefinition-test", "4.0.0")),
+                FHIRRegistryResource.from(createStructureDefinition("http://ibm.com/fhir/StructureDefinition-test", "5.0.0")),
+                FHIRRegistryResource.from(createStructureDefinition("http://ibm.com/fhir/StructureDefinition-test", "6.0.0")),
+                FHIRRegistryResource.from(createStructureDefinition("http://ibm.com/fhir/StructureDefinition-test-x", "2.0.0"), true)));
         FHIRRegistry.getInstance().addProvider(
             createRegistryResourceProvider(
-                createRegistryResource(createStructureDefinition("7.0.0")),
-                createRegistryResource(createStructureDefinition("8.0.0")),
-                createRegistryResource(createStructureDefinition("9.0.0"))));
+                FHIRRegistryResource.from(createStructureDefinition("http://ibm.com/fhir/StructureDefinition-test", "7.0.0")),
+                FHIRRegistryResource.from(createStructureDefinition("http://ibm.com/fhir/StructureDefinition-test", "8.0.0")),
+                FHIRRegistryResource.from(createStructureDefinition("http://ibm.com/fhir/StructureDefinition-test", "9.0.0")),
+                FHIRRegistryResource.from(createStructureDefinition("http://ibm.com/fhir/StructureDefinition-test-x", "3.0.0"))));
     }
 
     @Test
-    public void testLatestVersion() throws Exception {
-        assertEquals(FHIRRegistry.getInstance().getLatestVersion("http://ibm.com/fhir/StructureDefinition-test", StructureDefinition.class), "9.0.0");
+    public void testDefaultVersion1() throws Exception {
+        assertEquals(FHIRRegistry.getInstance().getDefaultVersion("http://ibm.com/fhir/StructureDefinition-test", StructureDefinition.class), "9.0.0");
     }
 
-    private static StructureDefinition createStructureDefinition(String version) {
+    @Test
+    public void testDefaultVersion2() throws Exception {
+        assertEquals(FHIRRegistry.getInstance().getDefaultVersion("http://ibm.com/fhir/StructureDefinition-test-x", StructureDefinition.class), "2.0.0");
+    }
+
+    private static StructureDefinition createStructureDefinition(String url, String version) {
         return StructureDefinition.builder()
                 .id("test")
-                .url(Uri.of("http://ibm.com/fhir/StructureDefinition-test"))
+                .url(Uri.of(url))
                 .version(string(version))
                 .status(PublicationStatus.DRAFT)
                 .name(string("Test Profile"))
@@ -65,22 +73,6 @@ public class FHIRRegistryLatestVersionTest {
                 ._abstract(Boolean.FALSE)
                 .type(Uri.of("Patient"))
                 .build();
-    }
-
-
-    private static FHIRRegistryResource createRegistryResource(StructureDefinition structureDefinition) {
-        return new FHIRRegistryResource(
-                StructureDefinition.class,
-                structureDefinition.getId(),
-                structureDefinition.getUrl().getValue(),
-                Version.from(structureDefinition.getVersion().getValue()),
-                structureDefinition.getKind().getValue(),
-                structureDefinition.getType().getValue()) {
-            @Override
-            public Resource getResource() {
-                return structureDefinition;
-            }
-        };
     }
 
     private static FHIRRegistryResourceProvider createRegistryResourceProvider(FHIRRegistryResource... registryResources) {
