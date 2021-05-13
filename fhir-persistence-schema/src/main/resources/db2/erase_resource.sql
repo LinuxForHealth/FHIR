@@ -100,12 +100,8 @@ BEGIN
     EXECUTE dglr_stmt USING v_logical_resource_id, v_resource_type_id;
 
     -- Step 6: Delete from resource_change_log
-    PREPARE drcl_stmt FROM 
-       'DELETE FROM {{SCHEMA_NAME}}.resource_change_log'
-    || '  WHERE RESOURCE_ID = ?'
-    || '    AND RESOURCE_TYPE_ID = ?'
-    || '    AND LOGICAL_RESOURCE_ID = ?';
-    EXECUTE drcl_stmt USING v_resource_id, v_resource_type_id, v_logical_resource_id;
+    PREPARE drcl_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.resource_change_log WHERE RESOURCE_ID = ?';
+    EXECUTE drcl_stmt USING v_resource_id;
   END IF;
 
   -- Return the total number of deleted versions

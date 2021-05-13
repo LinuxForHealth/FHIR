@@ -251,17 +251,13 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         }
 
         // Step 6: Delete from resource_change_log
-        final String CL_DELETE =
-                "DELETE FROM resource_change_log WHERE LOGICAL_RESOURCE_ID = ? AND RESOURCE_TYPE_ID = ?"
-                        + " AND RESOURCE_ID = ?";
-        try (PreparedStatement stmt = getConnection().prepareStatement(CL_DELETE)) {
-            stmt.setLong(1, logicalResourceId);
-            stmt.setLong(2, resourceTypeId);
-            stmt.setLong(3, resourceId);
+        final String RCL_DELETE = "DELETE FROM resource_change_log WHERE RESOURCE_ID = ?";
+        try (PreparedStatement stmt = getConnection().prepareStatement(RCL_DELETE)) {
+            stmt.setLong(1, resourceId);
             int count = stmt.executeUpdate();
             LOG.fine(() -> "Count of resource_change_log deleted is " + count);
         } catch (SQLException x) {
-            LOG.log(Level.SEVERE, CL_DELETE, x);
+            LOG.log(Level.SEVERE, RCL_DELETE, x);
             throw translator.translate(x);
         }
 

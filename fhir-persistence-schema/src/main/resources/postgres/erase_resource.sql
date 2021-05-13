@@ -86,9 +86,8 @@ BEGIN
     USING v_logical_resource_id, v_resource_type_id;
 
     -- Step 6: Delete from resource_change_log
-    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.resource_change_log'
-    || '  WHERE RESOURCE_ID = $1 AND RESOURCE_TYPE_ID = $2 AND LOGICAL_RESOURCE_ID = $3'
-    USING v_resource_id, v_resource_type_id, v_logical_resource_id;
+    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.resource_change_log WHERE RESOURCE_ID = $1'
+    USING v_resource_id;
   END IF;
 
   -- Return the total number of deleted versions
