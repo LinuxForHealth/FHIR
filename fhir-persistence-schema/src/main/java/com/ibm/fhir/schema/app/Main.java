@@ -901,7 +901,9 @@ public class Main {
                 List<TenantInfo> tenants = adapter.runStatement(rtListGetter);
 
                 System.out.println(TenantInfo.getHeader());
-                tenants.forEach(t -> System.out.println(t.toString()));
+                tenants.forEach(System.out::println);
+            } catch(UndefinedNameException x) {
+                System.out.println("The FHIR_ADMIN schema appears not be deployed with the TENANTS table");
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
