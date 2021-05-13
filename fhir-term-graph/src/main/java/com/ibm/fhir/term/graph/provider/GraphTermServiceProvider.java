@@ -57,7 +57,7 @@ import com.ibm.fhir.model.type.code.PropertyType;
 import com.ibm.fhir.term.graph.FHIRTermGraph;
 import com.ibm.fhir.term.graph.factory.FHIRTermGraphFactory;
 import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
-import com.ibm.fhir.term.service.provider.AbstractTermServiceProvider;
+import com.ibm.fhir.term.spi.AbstractTermServiceProvider;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
 import com.ibm.fhir.term.util.CodeSystemSupport;
 

@@ -255,7 +255,7 @@ public final class ValueSetSupport {
         if (includeOrExclude.getSystem() != null) {
             Uri system = includeOrExclude.getSystem();
             String version = (includeOrExclude.getVersion() != null) ?
-                    includeOrExclude.getVersion() : getLatestVersion(system);
+                    includeOrExclude.getVersion() : getDefaultVersion(system);
             if (!includeOrExclude.getConcept().isEmpty()) {
                 for (Include.Concept concept : includeOrExclude.getConcept()) {
                     Code code = (concept.getCode() != null) ? concept.getCode() : null;
@@ -333,8 +333,8 @@ public final class ValueSetSupport {
         return result;
     }
 
-    private static String getLatestVersion(Uri system) {
-        java.lang.String version = FHIRRegistry.getInstance().getLatestVersion(system.getValue(), CodeSystem.class);
+    private static String getDefaultVersion(Uri system) {
+        java.lang.String version = FHIRRegistry.getInstance().getDefaultVersion(system.getValue(), CodeSystem.class);
         return (version != null && !Version.NO_VERSION.toString().equals(version)) ? string(version) : null;
     }
 

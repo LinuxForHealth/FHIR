@@ -18,6 +18,7 @@ import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.code.CodeSystemContentMode;
 import com.ibm.fhir.term.exception.FHIRTermException;
 import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
+import com.ibm.fhir.term.spi.AbstractTermServiceProvider;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
 import com.ibm.fhir.term.util.CodeSystemSupport;
 

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-package com.ibm.fhir.term.service.provider;
+package com.ibm.fhir.term.spi;
 
 import static java.util.Objects.requireNonNull;
 
@@ -16,7 +16,6 @@ import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.CodeSystem.Concept;
 import com.ibm.fhir.model.resource.ValueSet.Compose.Include.Filter;
 import com.ibm.fhir.model.type.Code;
-import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
 
 public abstract class AbstractTermServiceProvider implements FHIRTermServiceProvider {
     @Override

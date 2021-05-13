@@ -61,16 +61,16 @@ public final class FHIRRegistry {
     }
 
     /**
-     * Get the latest version of a resource for the given url and resource type
+     * Get the default (or latest) version of a resource with the given url and resource type
      *
      * @param url
      *     the url
      * @param resourceType
      *     the resource type
      * @return
-     *     the latest version of a resource for the given url and resource type if exists, null otherwise
+     *     the default (or latest) version of a resource with the given url and resource type if exists, null otherwise
      */
-    public String getLatestVersion(String url, Class<? extends Resource> resourceType) {
+    public String getDefaultVersion(String url, Class<? extends Resource> resourceType) {
         if (url == null || resourceType == null || !isDefinitionalResourceType(resourceType)) {
             return null;
         }
@@ -265,8 +265,16 @@ public final class FHIRRegistry {
     }
 
     private FHIRRegistryResource findRegistryResource(Class<? extends Resource> resourceType, String url, String version) {
-        if (version == null) {
-            // find the latest version of the registry resource with the specified resourceType and url (across all providers)
+        if (version != null) {
+            // find the first registry resource with the specified resourceType, url, and version (across all providers)
+            for (FHIRRegistryResourceProvider provider : providers) {
+                FHIRRegistryResource registryResource = provider.getRegistryResource(resourceType, url, version);
+                if (registryResource != null) {
+                    return registryResource;
+                }
+            }
+        } else {
+            // find the default (or latest) version of the registry resource with the specified resourceType and url (across all providers)
             Set<FHIRRegistryResource> distinct = new HashSet<>();
             for (FHIRRegistryResourceProvider provider : providers) {
                 FHIRRegistryResource registryResource = provider.getRegistryResource(resourceType, url, version);
@@ -276,13 +284,15 @@ public final class FHIRRegistry {
             }
             List<FHIRRegistryResource> registryResources = new ArrayList<>(distinct);
             Collections.sort(registryResources);
-            return !registryResources.isEmpty() ? registryResources.get(registryResources.size() - 1) : null;
-        }
-        // find the first registry resource with the specified resourceType, url, and version
-        for (FHIRRegistryResourceProvider provider : providers) {
-            FHIRRegistryResource registryResource = provider.getRegistryResource(resourceType, url, version);
-            if (registryResource != null) {
-                return registryResource;
+            if (!registryResources.isEmpty()) {
+                for (FHIRRegistryResource registryResource : registryResources) {
+                    if (registryResource.isDefaultVersion()) {
+                        // default version
+                        return registryResource;
+                    }
+                }
+                // latest version
+                return registryResources.get(registryResources.size() - 1);
             }
         }
         return null;

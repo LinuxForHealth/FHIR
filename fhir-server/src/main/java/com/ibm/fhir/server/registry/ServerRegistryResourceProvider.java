@@ -37,12 +37,11 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.persistence.helper.PersistenceHelper;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
-import com.ibm.fhir.registry.resource.FHIRRegistryResource.Version;
-import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
+import com.ibm.fhir.registry.spi.AbstractRegistryResourceProvider;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.util.SearchUtil;
 
-public class ServerRegistryResourceProvider implements FHIRRegistryResourceProvider {
+public class ServerRegistryResourceProvider extends AbstractRegistryResourceProvider {
     public static final Logger log = Logger.getLogger(ServerRegistryResourceProvider.class.getName());
 
     private final PersistenceHelper persistenceHelper;
@@ -58,25 +57,11 @@ public class ServerRegistryResourceProvider implements FHIRRegistryResourceProvi
     }
 
     @Override
-    public FHIRRegistryResource getRegistryResource(Class<? extends Resource> resourceType, String url, String version) {
+    protected List<FHIRRegistryResource> getRegistryResources(Class<? extends Resource> resourceType, String url) {
         String tenantId = FHIRRequestContext.get().getTenantId();
         String dataStoreId = FHIRRequestContext.get().getDataStoreId();
         CacheKey key = key(tenantId, dataStoreId, url);
-        List<FHIRRegistryResource> registryResources = registryResourceCache.computeIfAbsent(key, k -> computeRegistryResources(resourceType, url));
-        if (!registryResources.isEmpty()) {
-            if (version != null) {
-                Version v = Version.from(version);
-                for (FHIRRegistryResource resource : registryResources) {
-                    if (resource.getVersion().equals(v)) {
-                        return resource;
-                    }
-                }
-                log.warning("Unable to find resource: " + url + " with version: " + version);
-            } else {
-                return registryResources.get(registryResources.size() - 1);
-            }
-        }
-        return null;
+        return registryResourceCache.computeIfAbsent(key, k -> computeRegistryResources(resourceType, url));
     }
 
     @Override
