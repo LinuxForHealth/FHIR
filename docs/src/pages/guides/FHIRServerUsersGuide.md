@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2021
-lastupdated: "2021-04-13"
+lastupdated: "2021-05-13"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -2337,7 +2337,7 @@ Additionally, the server has a trustDefault.xml config dropin that references th
 
 ### 5.2.2 WebApp security
 By default, the FHIR server REST API is only available via HTTPS on port 9443 and is protected by HTTP basic authentication.
-Alternatively, the server can use OpenID Connect and OAuth 2.0 via a Bearer Token as described in [Section 5.2.4 Oauth 2.0](#524-oauth-20).
+Alternatively, the server can use OpenID Connect and OAuth 2.0 via a Bearer Token as described in [Section 5.3 OpenID Connect and OAuth 2.0](#53-openid-connect-and-oauth-20).
 In addition, the FHIR server web application can be secured via client certificate-based authentication.
 
 Here are some notes related to these authentication schemes:
@@ -2411,9 +2411,9 @@ The precise steps required to configure certificate-based authentication for a c
 The FHIR specification recommends the use of OAuth 2.0.
 The IBM FHIR Server supports OAuth 2.0 through the use of WebSphere Liberty / OpenLiberty features.
 
-While it is possible to configure Liberty as an [OpenID Connect Client](https://openliberty.io/docs/latest/reference/config/openidConnectClient.html), more typically the IBM FHIR Server will be configured as a generic Oauth 2.0 "Protected Resource Server" that works with JWT access tokens that have been issued by a trusted Authorization Server like [Keycloak](https://www.keycloak.org).
+While it is possible to configure Liberty as an [OpenID Connect Client](https://openliberty.io/docs/latest/reference/config/openidConnectClient.html), more typically the IBM FHIR Server will be configured as a generic OAuth 2.0 "Protected Resource Server" that works with JWT access tokens that have been issued by a trusted Authorization Server like [Keycloak](https://www.keycloak.org).
 
-### 5.3.1 Configure Liberty to be an Oauth 2.0 Protected Resource Server
+### 5.3.1 Configure Liberty to be an OAuth 2.0 Protected Resource Server
 Liberty can be configured to act as an OAuth 2.0 Protected Resource Server via either the [openidConnectClient feature](https://www.ibm.com/docs/en/was-liberty/core?topic=connect-configuring-oauth-20-protected-resources-in-liberty) or the [mpJwt feature](https://openliberty.io/guides/microprofile-jwt.html).
 
 One advantage of the mpJwt approach is that users can be mapped into pre-defined JEE security roles.
