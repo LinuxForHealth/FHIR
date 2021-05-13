@@ -904,7 +904,7 @@ public class Main {
                 System.out.println(TenantInfo.getHeader());
                 tenants.forEach(System.out::println);
             } catch(UndefinedNameException x) {
-                System.out.println("The FHIR_ADMIN schema appears not be deployed with the TENANTS table");
+                System.out.println("The FHIR_ADMIN schema appears not to be deployed with the TENANTS table");
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
