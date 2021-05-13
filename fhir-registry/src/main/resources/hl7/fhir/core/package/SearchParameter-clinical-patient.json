@@ -73,7 +73,6 @@
     "xpath": "f:AllergyIntolerance/f:patient | f:CarePlan/f:subject | f:CareTeam/f:subject | f:ClinicalImpression/f:subject | f:Composition/f:subject | f:Condition/f:subject | f:Consent/f:patient | f:DetectedIssue/f:patient | f:DeviceRequest/f:subject | f:DeviceUseStatement/f:subject | f:DiagnosticReport/f:subject | f:DocumentManifest/f:subject | f:DocumentReference/f:subject | f:Encounter/f:subject | f:EpisodeOfCare/f:patient | f:FamilyMemberHistory/f:patient | f:Flag/f:subject | f:Goal/f:subject | f:ImagingStudy/f:subject | f:Immunization/f:patient | f:List/f:subject | f:MedicationAdministration/f:subject | f:MedicationDispense/f:subject | f:MedicationRequest/f:subject | f:MedicationStatement/f:subject | f:NutritionOrder/f:patient | f:Observation/f:subject | f:Procedure/f:subject | f:RiskAssessment/f:subject | f:ServiceRequest/f:subject | f:SupplyDelivery/f:patient | f:VisionPrescription/f:patient",
     "xpathUsage": "normal",
     "target": [
-        "Patient",
-        "Group"
+        "Patient"
     ]
 }
