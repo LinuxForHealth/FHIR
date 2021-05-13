@@ -37,6 +37,7 @@ import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.DatabaseNotReadyException;
+import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.ITransaction;
@@ -69,7 +70,6 @@ import com.ibm.fhir.schema.app.util.TenantKeyFileUtil;
 import com.ibm.fhir.schema.control.BackfillResourceChangeLog;
 import com.ibm.fhir.schema.control.BackfillResourceChangeLogDb2;
 import com.ibm.fhir.schema.control.DisableForeignKey;
-import com.ibm.fhir.schema.control.DropForeignKey;
 import com.ibm.fhir.schema.control.EnableForeignKey;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
@@ -444,21 +444,6 @@ public class Main {
         PhysicalDataModel pdm = new PhysicalDataModel();
         buildCommonModel(pdm, dropFhirSchema, dropOauthSchema, dropJavaBatchSchema);
 
-        // Dropping the schema in PostgreSQL can fail with an out of shared memory error
-        // which is apparently related to max_locks_per_transaction. It may not be possible
-        // to increase this value (e.g. in cloud databases) and so to work around this, before
-        // dropping the schema objects, we knock out all the FOREIGN KEY constraints first.
-        if (dropFhirSchema || dropOauthSchema || dropJavaBatchSchema) {
-            logger.info("Dropping FK constraints in the data schema: " + this.schema.getSchemaName());
-            dropForeignKeyConstraints(pdm, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
-        }
-
-        if (dropAdmin) {
-            // Also drop the FK constraints within the administration schema
-            logger.info("Dropping FK constraints in the admin schema: " + this.schema.getAdminSchemaName());
-            dropForeignKeyConstraints(pdm, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.ADMIN_GROUP);
-        }
-
         try {
             try (Connection c = createConnection()) {
                 try {
@@ -480,31 +465,6 @@ public class Main {
                 }
                 c.commit();
             }
-        } catch (SQLException x) {
-            throw translator.translate(x);
-        }
-    }
-
-    /**
-     * Add part of the schema drop process, we first kill all
-     * the foreign key constraints. The rest of the drop is
-     * performed in a second transaction.
-     * @param pdm
-     */
-    private void dropForeignKeyConstraints(PhysicalDataModel pdm, String tagGroup, String tag) {
-        try (Connection c = createConnection()) {
-            try {
-                JdbcTarget target = new JdbcTarget(c);
-                IDatabaseAdapter adapter = getDbAdapter(dbType, target);
-
-                Set<Table> referencedTables = new HashSet<>();
-                DropForeignKey dropper = new DropForeignKey(adapter, referencedTables);
-                pdm.visit(dropper, tagGroup, tag);
-            } catch (Exception x) {
-                c.rollback();
-                throw x;
-            }
-            c.commit();
         } catch (SQLException x) {
             throw translator.translate(x);
         }
@@ -901,7 +861,9 @@ public class Main {
                 List<TenantInfo> tenants = adapter.runStatement(rtListGetter);
 
                 System.out.println(TenantInfo.getHeader());
-                tenants.forEach(t -> System.out.println(t.toString()));
+                tenants.forEach(System.out::println);
+            } catch(UndefinedNameException x) {
+                System.out.println("The FHIR_ADMIN schema appears not be deployed with the TENANTS table");
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
