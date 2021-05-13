@@ -239,6 +239,7 @@ public class Capabilities extends FHIRResource {
             if (!Version.NO_VERSION.equals(version)) {
                 versions.add(TerminologyCapabilities.CodeSystem.Version.builder()
                     .code(string(version.toString()))
+                    .isDefault(registryResource.isDefaultVersion() ? com.ibm.fhir.model.type.Boolean.TRUE : null)
                     .build());
             }
         }
