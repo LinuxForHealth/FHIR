@@ -24,8 +24,8 @@ import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.server.test.FHIRServerTestBase;
 
 /**
- * These tests exercise the $lookup operation on a CodeSystem 
- * 
+ * These tests exercise the $lookup operation on a CodeSystem
+ *
  * <pre>
  * curl -k -v -X POST -u "fhiruser:change-password" -H 'Content-Type: application/fhir+json' -d {@literal @}src/test/resources/testdata/CodeSystem.json 'https://localhost:9443/fhir-server/api/v4'
  *
@@ -55,10 +55,10 @@ public class LookupOperationTest extends FHIRServerTestBase {
     public void setup() throws Exception {
         Properties testProperties = TestUtil.readTestProperties("test.properties");
         setUp(testProperties);
-        
+
         JsonObject jsonObject = TestUtil.readJsonObject("testdata/CodeSystem.json");
         Entity<JsonObject> entity = Entity.entity(jsonObject,  FHIRMediaType.APPLICATION_FHIR_JSON);
-        
+
         Response response = getWebTarget().path("/CodeSystem/1749c179cd5-bfbb6872-3f47-4f7d-97f6-fc4231e5cba5")
                 .request().put(entity,Response.class);
         assertEquals( response.getStatusInfo().getFamily(), Response.Status.Family.SUCCESSFUL );
@@ -84,7 +84,7 @@ public class LookupOperationTest extends FHIRServerTestBase {
         Response response = doGet(BASE_VALID_URL, FORMAT, "INVALID", EXAMPLE_CODE);
         assertEquals(response.getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
         String entity = response.readEntity(String.class);
-        assertTrue( entity.contains("not-found"), entity );
+        assertTrue( entity.contains("not available"), entity );
     }
 
     @Test(groups = { TEST_GROUP_NAME })
