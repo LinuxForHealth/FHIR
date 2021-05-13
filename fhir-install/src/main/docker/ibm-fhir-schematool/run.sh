@@ -255,7 +255,7 @@ function allocate_tenant {
         fi
 
         # Only in the case where we have a file we are loading we hit the issue
-        # where we need to override the default behavior or exiting on failure.
+        # where we need to override the default behavior of exiting on failure.
         set +o errexit
         set +o pipefail
 
