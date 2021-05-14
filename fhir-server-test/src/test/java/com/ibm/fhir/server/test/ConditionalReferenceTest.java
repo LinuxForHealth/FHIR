@@ -67,12 +67,14 @@ public class ConditionalReferenceTest extends FHIRServerTestBase {
 
         Response response = target.request()
                 .post(Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON));
-        int status = response.getStatus();
-        assertTrue(status == Response.Status.OK.getStatusCode());
+        if (response.getStatus() != Response.Status.OK.getStatusCode()) {
+            String entity = response.readEntity(String.class);
+            System.err.println("entity: " + entity);
+        }
+        assertResponse(response, Response.Status.OK.getStatusCode());
 
         response = target.path("Observation/67890").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-        status = response.getStatus();
-        assertTrue(status == Response.Status.OK.getStatusCode());
+        assertResponse(response, Response.Status.OK.getStatusCode());
 
         Observation observation = response.readEntity(Observation.class);
         assertEquals(observation.getSubject().getReference().getValue(), "Patient/12345");
@@ -99,8 +101,7 @@ public class ConditionalReferenceTest extends FHIRServerTestBase {
 
         Response response = target.request()
                 .post(Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON));
-        int status = response.getStatus();
-        assertTrue(status == Response.Status.BAD_REQUEST.getStatusCode());
+        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
 
         OperationOutcome outcome = response.readEntity(OperationOutcome.class);
         assertEquals(outcome.getIssue().get(0).getDetails().getText().getValue(), "Invalid conditional reference: no query parameters found");
@@ -127,8 +128,7 @@ public class ConditionalReferenceTest extends FHIRServerTestBase {
 
         Response response = target.request()
                 .post(Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON));
-        int status = response.getStatus();
-        assertTrue(status == Response.Status.BAD_REQUEST.getStatusCode());
+        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
 
         OperationOutcome outcome = response.readEntity(OperationOutcome.class);
         assertEquals(outcome.getIssue().get(0).getDetails().getText().getValue(), "Invalid conditional reference: only filtering parameters are allowed");
@@ -155,8 +155,7 @@ public class ConditionalReferenceTest extends FHIRServerTestBase {
 
         Response response = target.request()
                 .post(Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON));
-        int status = response.getStatus();
-        assertTrue(status == Response.Status.BAD_REQUEST.getStatusCode());
+        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
 
         OperationOutcome outcome = response.readEntity(OperationOutcome.class);
         assertEquals(outcome.getIssue().get(0).getCode(), IssueType.NOT_FOUND);
@@ -184,8 +183,7 @@ public class ConditionalReferenceTest extends FHIRServerTestBase {
 
         Response response = target.request()
                 .post(Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON));
-        int status = response.getStatus();
-        assertTrue(status == Response.Status.BAD_REQUEST.getStatusCode());
+        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
 
         OperationOutcome outcome = response.readEntity(OperationOutcome.class);
         assertEquals(outcome.getIssue().get(0).getCode(), IssueType.MULTIPLE_MATCHES);
