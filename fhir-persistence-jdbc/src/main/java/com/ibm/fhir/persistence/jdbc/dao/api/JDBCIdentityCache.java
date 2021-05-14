@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.persistence.jdbc.dao.api;
 
+import java.util.List;
+
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
@@ -46,4 +48,16 @@ public interface JDBCIdentityCache {
      * @param tokenValue
      */
     Long getCommonTokenValueId(String codeSystem, String tokenValue);
+
+    /**
+     * Get a list of matching common_token_value_id values. Implementations may decide
+     * to cache, but only if the cache can be invalidated when the list changes due to
+     * ingestion. The simplest approach is to always read from the database. The performance
+     * benefit to the FHIR search query this is being used for is orders of magnitude
+     * greater than the cost of this query (think 80+ seconds to 250 milliseconds improvement
+     * in search query time).
+     * @param tokenValue
+     * @return
+     */
+    List<Long> getCommonTokenValueIdList(String tokenValue);
 }

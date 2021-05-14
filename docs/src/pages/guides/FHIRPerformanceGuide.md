@@ -610,6 +610,15 @@ In most cases the history queries will execute very quickly. Performance will be
 
 ## 6.4. Search Performance
 
+**Omitting the count**
+
+For search queries with low specificity, the response time is dominated by the "count query" that is used to determine how many total results match the query.
+The IBM FHIR Server supports skipping this step when clients set a query parameter named `_total` to the value of `none` as described at https://www.hl7.org/fhir/search.html#total.
+
+**Resource subsetting**
+
+For search queries that return lots of data (e.g. ones that return large resources such as Patient resources that embed a profile picture), the response time can be dominated by the network between the client and the server. By default, a FHIR search response bundle will contain the entire contents of each resource being returned. However, it is possible to request the server to return a subset of each resource through either the [`_summary`](https://www.hl7.org/fhir/search.html#summary) or [`_elements`](https://www.hl7.org/fhir/search.html#elements) parameters.
+
 **Predicate Order**
 
 The IBM FHIR Server translates FHIR search queries into SQL statements which may require many tables to be joined. The database attempts to optimize the query execution plan by analyzing join conditions, filter predicates, available indexes and column statistics. The optimizer also attempts to order the joins in order to reduce the amount of work it must do. This usually involves computing the most selective clauses first. When there are many tables involved, the database optimizer may not always find the most efficient execution plan which can result in higher response times or `500` server errors if the total time exceeds the transaction timeout limit. For example, on a large database the following query may perform poorly if there are many ExplanationOfBenefit records with a Claim matching one of the given priorities:
@@ -871,14 +880,6 @@ If multiple resource types are of interest, consider packaging multiple search r
     "type": "transaction"
 }
 ```
-
-**RESOURCE SUBSETTING**
-
-HL7 FHIR defines return parameters `_summary` and `_elements` for requesting the server to subset the resources to be returned via search.
-
-The IBM FHIR server implements such element filtering directly in its resource parser, meaning that the feature can save time in the parse as well as reducing the size of the response to the client.
-
-This can provide significant savings for search requests that bring back lots of data (large pages and/or many field per resource).
 
 ## 6.6. Tools
 

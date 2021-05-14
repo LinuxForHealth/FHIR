@@ -57,7 +57,7 @@ import com.ibm.fhir.model.type.code.PropertyType;
 import com.ibm.fhir.term.graph.FHIRTermGraph;
 import com.ibm.fhir.term.graph.factory.FHIRTermGraphFactory;
 import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
-import com.ibm.fhir.term.service.provider.AbstractTermServiceProvider;
+import com.ibm.fhir.term.spi.AbstractTermServiceProvider;
 import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
 import com.ibm.fhir.term.util.CodeSystemSupport;
 
@@ -174,7 +174,7 @@ public class GraphTermServiceProvider extends AbstractTermServiceProvider {
 
         boolean first = true;
         for (Filter filter : filters) {
-            switch (filter.getOp().getValueAsEnumConstant()) {
+            switch (filter.getOp().getValueAsEnum()) {
             case DESCENDENT_OF:
                 // descendants
                 g = applyDescendentOfFilter(codeSystem, filter, g);
@@ -614,7 +614,7 @@ public class GraphTermServiceProvider extends AbstractTermServiceProvider {
     }
 
     private String getPropertyKey(PropertyType type) {
-        switch (type.getValueAsEnumConstant()) {
+        switch (type.getValueAsEnum()) {
         case BOOLEAN:
             return "valueBoolean";
         case CODE:

@@ -61,16 +61,16 @@ public final class FHIRRegistry {
     }
 
     /**
-     * Get the latest version of a resource for the given url and resource type
+     * Get the default (or latest) version of a resource with the given url and resource type
      *
      * @param url
      *     the url
      * @param resourceType
      *     the resource type
      * @return
-     *     the latest version of a resource for the given url and resource type if exists, null otherwise
+     *     the default (or latest) version of a resource with the given url and resource type if exists, null otherwise
      */
-    public String getLatestVersion(String url, Class<? extends Resource> resourceType) {
+    public String getDefaultVersion(String url, Class<? extends Resource> resourceType) {
         if (url == null || resourceType == null || !isDefinitionalResourceType(resourceType)) {
             return null;
         }
@@ -165,6 +165,8 @@ public final class FHIRRegistry {
     /**
      * Get the resources for the given resource type
      *
+     * <p>Use this method to get actual FHIR resources and not FHIR registry resources (metadata)
+     *
      * @param resourceType
      *     the resource type
      * @return
@@ -185,6 +187,28 @@ public final class FHIRRegistry {
     }
 
     /**
+     * Get the registry resources for the given resource type
+     *
+     * <p>Use this method to get FHIR registry resources (metadata) and not actual FHIR resources
+     *
+     * @param resourceType
+     *     the resource type
+     * @return
+     *     the registry resources for the given resource type
+     * @throws IllegalArgumentException
+     *     if the resource type is not a definitional resource type
+     */
+    public Collection<FHIRRegistryResource> getRegistryResources(Class<? extends Resource> resourceType) {
+        Objects.requireNonNull(resourceType);
+        requireDefinitionalResourceType(resourceType);
+        List<FHIRRegistryResource> registryResources = new ArrayList<>();
+        for (FHIRRegistryResourceProvider provider : providers) {
+            registryResources.addAll(provider.getRegistryResources(resourceType));
+        }
+        return registryResources;
+    }
+
+    /**
      * Get the search parameters with the given search parameter type (e.g. string, token, etc.)
      *
      * <p>The method {@link FHIRRegistry#getResources(Class)} can be used to get all search parameters regardless of type
@@ -196,7 +220,7 @@ public final class FHIRRegistry {
      */
     public Collection<SearchParameter> getSearchParameters(String type) {
         Objects.requireNonNull(type);
-        SearchParamType.ValueSet.from(type);
+        SearchParamType.Value.from(type);
         List<SearchParameter> searchParameters = new ArrayList<>();
         for (FHIRRegistryResourceProvider provider : providers) {
             for (FHIRRegistryResource registryResource : provider.getSearchParameterResources(type)) {
@@ -241,8 +265,16 @@ public final class FHIRRegistry {
     }
 
     private FHIRRegistryResource findRegistryResource(Class<? extends Resource> resourceType, String url, String version) {
-        if (version == null) {
-            // find the latest version of the registry resource with the specified resourceType and url (across all providers)
+        if (version != null) {
+            // find the first registry resource with the specified resourceType, url, and version (across all providers)
+            for (FHIRRegistryResourceProvider provider : providers) {
+                FHIRRegistryResource registryResource = provider.getRegistryResource(resourceType, url, version);
+                if (registryResource != null) {
+                    return registryResource;
+                }
+            }
+        } else {
+            // find the default (or latest) version of the registry resource with the specified resourceType and url (across all providers)
             Set<FHIRRegistryResource> distinct = new HashSet<>();
             for (FHIRRegistryResourceProvider provider : providers) {
                 FHIRRegistryResource registryResource = provider.getRegistryResource(resourceType, url, version);
@@ -252,13 +284,15 @@ public final class FHIRRegistry {
             }
             List<FHIRRegistryResource> registryResources = new ArrayList<>(distinct);
             Collections.sort(registryResources);
-            return !registryResources.isEmpty() ? registryResources.get(registryResources.size() - 1) : null;
-        }
-        // find the first registry resource with the specified resourceType, url, and version
-        for (FHIRRegistryResourceProvider provider : providers) {
-            FHIRRegistryResource registryResource = provider.getRegistryResource(resourceType, url, version);
-            if (registryResource != null) {
-                return registryResource;
+            if (!registryResources.isEmpty()) {
+                for (FHIRRegistryResource registryResource : registryResources) {
+                    if (registryResource.isDefaultVersion()) {
+                        // default version
+                        return registryResource;
+                    }
+                }
+                // latest version
+                return registryResources.get(registryResources.size() - 1);
             }
         }
         return null;

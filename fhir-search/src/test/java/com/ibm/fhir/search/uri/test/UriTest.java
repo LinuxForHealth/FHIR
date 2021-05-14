@@ -140,4 +140,21 @@ public class UriTest {
 
         assertEquals(SearchUtil.buildSearchSelfUri(requestUriString, ctx), expectedUri);
     }
+
+    @Test
+    public void testUriWithSystemOnly() throws URISyntaxException {
+        String expectedUri = "https://test?_count=10&param=system%7C&_page=1";
+        String requestUriString = "https://test?param=system|";
+
+        FHIRSearchContext ctx = FHIRSearchContextFactory.createSearchContext();
+        ctx.setPageNumber(1);
+        ctx.setPageSize(10);
+        QueryParameterValue paramVal = new QueryParameterValue();
+        paramVal.setValueSystem("system");
+        QueryParameter queryParameter = new QueryParameter(Type.TOKEN, "param", null, null, Collections.singletonList(paramVal));
+        ctx.setSearchParameters(Collections.singletonList(queryParameter));
+
+        assertEquals(SearchUtil.buildSearchSelfUri(requestUriString, ctx), expectedUri);
+    }
+
 }

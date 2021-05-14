@@ -104,7 +104,7 @@ public class AssertionOperatorType extends Code {
 
     /**
      * Get the value of this AssertionOperatorType as an enum constant.
-     * @deprecated replaced by {@link #getValueConstant()}
+     * @deprecated replaced by {@link #getValueAsEnum()}
      */
     @Deprecated
     public ValueSet getValueAsEnumConstant() {
@@ -114,7 +114,7 @@ public class AssertionOperatorType extends Code {
     /**
      * Get the value of this AssertionOperatorType as an enum constant.
      */
-    public Value getValueConstant() {
+    public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
     }
 
@@ -517,16 +517,41 @@ public class AssertionOperatorType extends Code {
          * 
          * @param value
          *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding AssertionOperatorType.Value or null if a null value was passed
          * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
+         *     If the passed string is not null and cannot be parsed into an allowed code value
          */
         public static Value from(java.lang.String value) {
-            for (Value c : Value.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
+            if (value == null) {
+                return null;
             }
-            throw new IllegalArgumentException(value);
+            switch (value) {
+            case "equals":
+                return EQUALS;
+            case "notEquals":
+                return NOT_EQUALS;
+            case "in":
+                return IN;
+            case "notIn":
+                return NOT_IN;
+            case "greaterThan":
+                return GREATER_THAN;
+            case "lessThan":
+                return LESS_THAN;
+            case "empty":
+                return EMPTY;
+            case "notEmpty":
+                return NOT_EMPTY;
+            case "contains":
+                return CONTAINS;
+            case "notContains":
+                return NOT_CONTAINS;
+            case "eval":
+                return EVAL;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,18 +13,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.type.code.ResourceType;
-import com.ibm.fhir.model.type.code.ResourceType.ValueSet;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
-import com.ibm.fhir.registry.resource.FHIRRegistryResource.Version;
-import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
+import com.ibm.fhir.registry.spi.AbstractRegistryResourceProvider;
 
 /**
  * A static registry resource provider that is loaded from an NPM package as specified at
@@ -32,9 +29,7 @@ import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
  *
  * <p>This implementation caches registry resources by resource type and url
  */
-public abstract class PackageRegistryResourceProvider implements FHIRRegistryResourceProvider {
-    private static final Logger log = Logger.getLogger(PackageRegistryResourceProvider.class.getName());
-
+public abstract class PackageRegistryResourceProvider extends AbstractRegistryResourceProvider {
     private static final String HL7_STRUCTURE_DEFINITION_URL_PREFIX = "http://hl7.org/fhir/StructureDefinition/";
 
     protected final Collection<FHIRRegistryResource> registryResources;
@@ -56,25 +51,8 @@ public abstract class PackageRegistryResourceProvider implements FHIRRegistryRes
     public abstract String getPackageId();
 
     @Override
-    public FHIRRegistryResource getRegistryResource(Class<? extends Resource> resourceType, String url, String version) {
-        Objects.requireNonNull(resourceType);
-        Objects.requireNonNull(url);
-        List<FHIRRegistryResource> registryResources = registryResourceMap.getOrDefault(resourceType, Collections.emptyMap())
-                .getOrDefault(url, Collections.emptyList());
-        if (!registryResources.isEmpty()) {
-            if (version != null) {
-                Version v = Version.from(version);
-                for (FHIRRegistryResource resource : registryResources) {
-                    if (resource.getVersion().equals(v)) {
-                        return resource;
-                    }
-                }
-                log.warning("Unable to find resource: " + url + " with version: " + version);
-            } else {
-                return registryResources.get(registryResources.size() - 1);
-            }
-        }
-        return null;
+    protected List<FHIRRegistryResource> getRegistryResources(Class<? extends Resource> resourceType, String url) {
+        return registryResourceMap.getOrDefault(resourceType, Collections.emptyMap()).getOrDefault(url, Collections.emptyList());
     }
 
     @Override
@@ -93,7 +71,7 @@ public abstract class PackageRegistryResourceProvider implements FHIRRegistryRes
     @Override
     public Collection<FHIRRegistryResource> getProfileResources() {
         List<FHIRRegistryResource> profilesForAll = new ArrayList<>();
-        for (ValueSet type : ResourceType.ValueSet.values()) {
+        for (ResourceType.Value type : ResourceType.Value.values()) {
             profilesForAll.addAll(getProfileResources(type.value()));
         }
         return Collections.unmodifiableList(profilesForAll);

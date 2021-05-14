@@ -64,6 +64,7 @@ import com.ibm.fhir.search.util.ReferenceUtil;
 import com.ibm.fhir.search.util.ReferenceValue;
 import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
 import com.ibm.fhir.search.util.SearchUtil;
+import com.ibm.fhir.term.util.CodeSystemSupport;
 
 /**
  * This class is the JDBC persistence layer implementation for transforming
@@ -176,8 +177,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             TokenParmVal p = new TokenParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
-            p.setValueSystem(ModelSupport.getSystem(code));
-            p.setValueCode(code.getValue());
+            String system = ModelSupport.getSystem(code);
+            setTokenValues(p, system != null ? Uri.of(system) : null, code.getValue());
             result.add(p);
         }
         return false;
@@ -293,7 +294,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             } else if (TOKEN.equals(searchParamType)) {
                 TokenParmVal p = new TokenParmVal();
                 p.setResourceType(resourceType);
-                p.setValueCode(value.getValue());
+                p.setValueCode(SearchUtil.normalizeForSearch(value.getValue()));
                 p.setName(searchParamCode);
                 result.add(p);
             } else {
@@ -421,10 +422,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             TokenParmVal p = new TokenParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
-            p.setValueCode(coding.getCode().getValue());
-            if (coding.getSystem() != null) {
-                p.setValueSystem(coding.getSystem().getValue());
-            }
+            setTokenValues(p, coding.getSystem(), coding.getCode().getValue());
             result.add(p);
             if (coding.getDisplay() != null && coding.getDisplay().hasValue()) {
                 // Extract as token as normalized string since :text modifier is simple string search
@@ -555,6 +553,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             BigDecimal value = quantity.getValue().getValue();
             BigDecimal valueLow = NumberParmBehaviorUtil.generateLowerBound(value);
             BigDecimal valueHigh = NumberParmBehaviorUtil.generateUpperBound(value);
+            boolean addedCodeOrUnit = false;
 
             // see https://gforge.hl7.org/gf/project/fhir/tracker/?action=TrackerItemEdit&tracker_item_id=19597
             if (quantity.getCode() != null && quantity.getCode().hasValue()) {
@@ -569,6 +568,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                     p.setValueSystem(quantity.getSystem().getValue());
                 }
                 result.add(p);
+                addedCodeOrUnit = true;
             }
             if (quantity.getUnit() != null && quantity.getUnit().hasValue()) {
                 String displayUnit = quantity.getUnit().getValue();
@@ -582,7 +582,18 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                     p.setValueNumberHigh(valueHigh);
                     p.setValueCode(displayUnit);
                     result.add(p);
+                    addedCodeOrUnit = true;
                 }
+            }
+            // If neither code nor unit was specified, add a QuantityParmVal just with the value
+            if (!addedCodeOrUnit) {
+                QuantityParmVal p = new QuantityParmVal();
+                p.setResourceType(resourceType);
+                p.setName(searchParamCode);
+                p.setValueNumber(value);
+                p.setValueNumberLow(valueLow);
+                p.setValueNumberHigh(valueHigh);
+                result.add(p);
             }
         }
         return false;
@@ -641,10 +652,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             TokenParmVal p = new TokenParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
-            if (identifier.getSystem() != null) {
-                p.setValueSystem(identifier.getSystem().getValue());
-            }
-            p.setValueCode(identifier.getValue().getValue());
+            setTokenValues(p, identifier.getSystem(), identifier.getValue().getValue());
             result.add(p);
             if (identifier.getType() != null) {
                 for (Coding typeCoding : identifier.getType().getCoding()) {
@@ -658,10 +666,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                         p = new TokenParmVal();
                         p.setResourceType(cp.getResourceType());
                         p.setName(SearchUtil.makeCompositeSubCode(cp.getName(), SearchConstants.OF_TYPE_MODIFIER_COMPONENT_TYPE));
-                        if (typeCoding.getSystem() != null) {
-                            p.setValueSystem(typeCoding.getSystem().getValue());
-                        }
-                        p.setValueCode(typeCoding.getCode().getValue());
+                        setTokenValues(p, typeCoding.getSystem(), typeCoding.getCode().getValue());
                         cp.addComponent(p);
 
                         // value
@@ -703,10 +708,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 TokenParmVal p = new TokenParmVal();
                 p.setResourceType(resourceType);
                 p.setName(searchParamCode + SearchConstants.IDENTIFIER_MODIFIER_SUFFIX);
-                if (identifier.getSystem() != null) {
-                    p.setValueSystem(identifier.getSystem().getValue());
-                }
-                p.setValueCode(identifier.getValue().getValue());
+                setTokenValues(p, identifier.getSystem(), identifier.getValue().getValue());
                 result.add(p);
             }
         } catch (FHIRSearchException x) {
@@ -817,6 +819,30 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             inst = DateTimeHandler.generateUpperBound(dateTime);
             p.setValueDateEnd(DateTimeHandler.generateTimestamp(inst));
         }
+    }
+
+    /*
+     * ====================
+     * System/Code helper *
+     * ====================
+     */
+
+    /**
+     * Configure the system and code values in the parameter. If the system
+     * is non-null, determine if it's case-sensitive. If it's non-null and
+     * not case-sensitive, normalize the value.
+     *
+     * @param p
+     * @param system
+     * @param code
+     */
+    private void setTokenValues(TokenParmVal p, Uri system, String code) {
+        boolean caseSensitive = false;
+        if (system != null && system.hasValue()) {
+            caseSensitive = CodeSystemSupport.isCaseSensitive(system.getValue());
+            p.setValueSystem(system.getValue());
+        }
+        p.setValueCode(caseSensitive ? code : SearchUtil.normalizeForSearch(code));
     }
 
     private IllegalArgumentException invalidComboException(SearchParamType paramType, Element value) {

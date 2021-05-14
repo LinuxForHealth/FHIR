@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -37,6 +38,7 @@ import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.DatabaseNotReadyException;
+import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.ITransaction;
@@ -69,6 +71,7 @@ import com.ibm.fhir.schema.app.util.TenantKeyFileUtil;
 import com.ibm.fhir.schema.control.BackfillResourceChangeLog;
 import com.ibm.fhir.schema.control.BackfillResourceChangeLogDb2;
 import com.ibm.fhir.schema.control.DisableForeignKey;
+import com.ibm.fhir.schema.control.DropForeignKey;
 import com.ibm.fhir.schema.control.EnableForeignKey;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
@@ -76,7 +79,7 @@ import com.ibm.fhir.schema.control.GetResourceChangeLogEmpty;
 import com.ibm.fhir.schema.control.GetResourceTypeList;
 import com.ibm.fhir.schema.control.GetTenantInfo;
 import com.ibm.fhir.schema.control.GetTenantList;
-import com.ibm.fhir.schema.control.GetXXXLogicalResourceNeedsMigration;
+import com.ibm.fhir.schema.control.GetXXLogicalResourceNeedsMigration;
 import com.ibm.fhir.schema.control.InitializeLogicalResourceDenorms;
 import com.ibm.fhir.schema.control.JavaBatchSchemaGenerator;
 import com.ibm.fhir.schema.control.OAuthSchemaGenerator;
@@ -443,6 +446,21 @@ public class Main {
         PhysicalDataModel pdm = new PhysicalDataModel();
         buildCommonModel(pdm, dropFhirSchema, dropOauthSchema, dropJavaBatchSchema);
 
+        // Dropping the schema in PostgreSQL can fail with an out of shared memory error
+        // which is apparently related to max_locks_per_transaction. It may not be possible
+        // to increase this value (e.g. in cloud databases) and so to work around this, before
+        // dropping the schema objects, we knock out all the FOREIGN KEY constraints first.
+        if (dropFhirSchema || dropOauthSchema || dropJavaBatchSchema) {
+            logger.info("Dropping FK constraints in the data schema: " + this.schema.getSchemaName());
+            dropForeignKeyConstraints(pdm, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.FHIRDATA_GROUP);
+        }
+
+        if (dropAdmin) {
+            // Also drop the FK constraints within the administration schema
+            logger.info("Dropping FK constraints in the admin schema: " + this.schema.getAdminSchemaName());
+            dropForeignKeyConstraints(pdm, FhirSchemaGenerator.SCHEMA_GROUP_TAG, FhirSchemaGenerator.ADMIN_GROUP);
+        }
+
         try {
             try (Connection c = createConnection()) {
                 try {
@@ -464,6 +482,31 @@ public class Main {
                 }
                 c.commit();
             }
+        } catch (SQLException x) {
+            throw translator.translate(x);
+        }
+    }
+
+    /**
+     * Add part of the schema drop process, we first kill all
+     * the foreign key constraints. The rest of the drop is
+     * performed in a second transaction.
+     * @param pdm
+     */
+    private void dropForeignKeyConstraints(PhysicalDataModel pdm, String tagGroup, String tag) {
+        try (Connection c = createConnection()) {
+            try {
+                JdbcTarget target = new JdbcTarget(c);
+                IDatabaseAdapter adapter = getDbAdapter(dbType, target);
+
+                Set<Table> referencedTables = new HashSet<>();
+                DropForeignKey dropper = new DropForeignKey(adapter, referencedTables);
+                pdm.visit(dropper, tagGroup, tag);
+            } catch (Exception x) {
+                c.rollback();
+                throw x;
+            }
+            c.commit();
         } catch (SQLException x) {
             throw translator.translate(x);
         }
@@ -860,7 +903,9 @@ public class Main {
                 List<TenantInfo> tenants = adapter.runStatement(rtListGetter);
 
                 System.out.println(TenantInfo.getHeader());
-                tenants.forEach(t -> System.out.println(t.toString()));
+                tenants.forEach(System.out::println);
+            } catch(UndefinedNameException x) {
+                System.out.println("The FHIR_ADMIN schema appears not to be deployed with the TENANTS table");
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
@@ -1492,6 +1537,16 @@ public class Main {
     public void loadPropertyFile(String filename) {
         try (InputStream is = new FileInputStream(filename)) {
             properties.load(is);
+            // Trim leading and trailing whitespace from property values (except password)
+            for (Entry<Object, Object> entry : properties.entrySet()) {
+                if (!"password".equals(entry.getKey())) {
+                    String trimmedValue = entry.getValue().toString().trim();
+                    if (!trimmedValue.equals(entry.getValue().toString())) {
+                        logger.warning("Whitespace trimmed from value of property '" + entry.getKey() + "'");
+                        entry.setValue(trimmedValue);
+                    }
+                }
+            }
         } catch (IOException x) {
             throw new IllegalArgumentException(x);
         }
@@ -1505,7 +1560,16 @@ public class Main {
     public void addProperty(String pair) {
         String[] kv = pair.split("=");
         if (kv.length == 2) {
-            properties.put(kv[0], kv[1]);
+            // Trim leading and trailing whitespace from property value (except password)
+            if (!"password".equals(kv[0])) {
+                String trimmedValue = kv[1].trim();
+                if (!trimmedValue.equals(kv[1])) {
+                    logger.warning("Whitespace trimmed from value of property '" + kv[0] + "'");
+                }
+                properties.put(kv[0], trimmedValue);
+            } else {
+                properties.put(kv[0], kv[1]);
+            }
         } else {
             throw new IllegalArgumentException("Property must be defined as key=value, not: " + pair);
         }
@@ -1544,7 +1608,7 @@ public class Main {
             // over to false, migration is required to drop the tables no longer required.
             final boolean includeAbstractResourceTypes = true;
             result = ModelSupport.getResourceTypes(includeAbstractResourceTypes).stream()
-                    .map(t -> ModelSupport.getTypeName(t))
+                    .map(Class::getSimpleName)
                     .collect(Collectors.toSet());
         } else {
             result = this.resourceTypeSubset;
@@ -1570,7 +1634,7 @@ public class Main {
                     SetTenantIdDb2 setTenantId = new SetTenantIdDb2(schema.getAdminSchemaName(), ti.getTenantId());
                     adapter.runStatement(setTenantId);
 
-                    GetXXXLogicalResourceNeedsMigration needsMigrating = new GetXXXLogicalResourceNeedsMigration(schema.getSchemaName(), resourceTypeName);
+                    GetXXLogicalResourceNeedsMigration needsMigrating = new GetXXLogicalResourceNeedsMigration(schema.getSchemaName(), resourceTypeName);
                     if (adapter.runStatement(needsMigrating)) {
                         logger.info("V0010 Migration: Updating " + resourceTypeName + "_LOGICAL_RESOURCES.IS_DELETED "
                                 + "for tenant '" + ti.getTenantName() + "', schema '" + ti.getTenantSchema() + "'");
@@ -1601,7 +1665,7 @@ public class Main {
                     // which have not yet had their data migrated. The migration can't be
                     // done as part of the schema change because some tables need a REORG which
                     // has to be done after the transaction in which the alter table was performed.
-                    GetXXXLogicalResourceNeedsMigration needsMigrating = new GetXXXLogicalResourceNeedsMigration(schema.getSchemaName(), resourceTypeName);
+                    GetXXLogicalResourceNeedsMigration needsMigrating = new GetXXLogicalResourceNeedsMigration(schema.getSchemaName(), resourceTypeName);
                     if (adapter.runStatement(needsMigrating)) {
                         logger.info("V0010-V0012 Migration: Updating " + resourceTypeName + "_LOGICAL_RESOURCES denormalized columns in schema " + schema.getSchemaName());
                         InitializeLogicalResourceDenorms cmd = new InitializeLogicalResourceDenorms(schema.getSchemaName(), resourceTypeName);

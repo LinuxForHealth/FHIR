@@ -133,7 +133,7 @@ public class ActivityDefinitionKind extends Code {
 
     /**
      * Get the value of this ActivityDefinitionKind as an enum constant.
-     * @deprecated replaced by {@link #getValueConstant()}
+     * @deprecated replaced by {@link #getValueAsEnum()}
      */
     @Deprecated
     public ValueSet getValueAsEnumConstant() {
@@ -143,7 +143,7 @@ public class ActivityDefinitionKind extends Code {
     /**
      * Get the value of this ActivityDefinitionKind as an enum constant.
      */
-    public Value getValueConstant() {
+    public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
     }
 
@@ -620,16 +620,49 @@ public class ActivityDefinitionKind extends Code {
          * 
          * @param value
          *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding ActivityDefinitionKind.Value or null if a null value was passed
          * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
+         *     If the passed string is not null and cannot be parsed into an allowed code value
          */
         public static Value from(java.lang.String value) {
-            for (Value c : Value.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
+            if (value == null) {
+                return null;
             }
-            throw new IllegalArgumentException(value);
+            switch (value) {
+            case "Appointment":
+                return APPOINTMENT;
+            case "AppointmentResponse":
+                return APPOINTMENT_RESPONSE;
+            case "CarePlan":
+                return CARE_PLAN;
+            case "Claim":
+                return CLAIM;
+            case "CommunicationRequest":
+                return COMMUNICATION_REQUEST;
+            case "Contract":
+                return CONTRACT;
+            case "DeviceRequest":
+                return DEVICE_REQUEST;
+            case "EnrollmentRequest":
+                return ENROLLMENT_REQUEST;
+            case "ImmunizationRecommendation":
+                return IMMUNIZATION_RECOMMENDATION;
+            case "MedicationRequest":
+                return MEDICATION_REQUEST;
+            case "NutritionOrder":
+                return NUTRITION_ORDER;
+            case "ServiceRequest":
+                return SERVICE_REQUEST;
+            case "SupplyRequest":
+                return SUPPLY_REQUEST;
+            case "Task":
+                return TASK;
+            case "VisionPrescription":
+                return VISION_PRESCRIPTION;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

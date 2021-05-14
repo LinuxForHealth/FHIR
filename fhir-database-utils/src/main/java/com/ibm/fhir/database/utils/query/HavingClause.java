@@ -21,6 +21,17 @@ public class HavingClause {
 
     @Override
     public String toString() {
-        return "HAVING " + predicate;
+        if (this.predicate.isEmpty()) {
+            return "";
+        } else {
+            return "HAVING " + predicate;
+        }
+    }
+
+    /**
+     * @return
+     */
+    public boolean isEmpty() {
+        return this.predicate.isEmpty();
     }
 }

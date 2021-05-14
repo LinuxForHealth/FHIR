@@ -22,14 +22,13 @@ import com.ibm.fhir.registry.util.FHIRRegistryUtil;
 public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
     private static final Logger log = Logger.getLogger(FHIRRegistryResource.class.getName());
 
-    public static final Version NO_VERSION = Version.from("<no version>");
-
     protected final Class<? extends Resource> resourceType;
     protected final String id;
     protected final String url;
     protected final Version version;
     protected final String kind;
     protected final String type;
+    protected final boolean defaultVersion;
 
     protected volatile Resource resource;
 
@@ -39,13 +38,38 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
             String url,
             Version version,
             String kind,
-            String type) {
+            String type,
+            boolean defaultVersion) {
         this.resourceType = Objects.requireNonNull(resourceType);
         this.id = id;
         this.url = Objects.requireNonNull(url);
         this.version = Objects.requireNonNull(version);
         this.kind = kind;
         this.type = type;
+        this.defaultVersion = defaultVersion;
+    }
+
+    public FHIRRegistryResource(
+            Class<? extends Resource> resourceType,
+            String id,
+            String url,
+            Version version,
+            String kind,
+            String type) {
+        this(resourceType, id, url, version, kind, type, false);
+    }
+
+    public FHIRRegistryResource(
+            Class<? extends Resource> resourceType,
+            String id,
+            String url,
+            Version version,
+            String kind,
+            String type,
+            Resource resource,
+            boolean defaultVersion) {
+        this(resourceType, id, url, version, kind, type, defaultVersion);
+        this.resource = resource;
     }
 
     public FHIRRegistryResource(
@@ -56,8 +80,7 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
             String kind,
             String type,
             Resource resource) {
-        this(resourceType, id, url, version, kind, type);
-        this.resource = resource;
+        this(resourceType, id, url, version, kind, type, false);
     }
 
     public Class<? extends Resource> getResourceType() {
@@ -82,6 +105,10 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
 
     public String getType() {
         return type;
+    }
+
+    public boolean isDefaultVersion() {
+        return defaultVersion;
     }
 
     public Resource getResource() {
@@ -129,6 +156,8 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
      * Represents a version that can either be lexical or follow the Semantic Versioning format
      */
     public static class Version implements Comparable<Version> {
+        public static final Version NO_VERSION = Version.from("<no version>");
+
         public enum CompareMode { SEMVER, LEXICAL };
 
         private final String version;
@@ -230,6 +259,10 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
     }
 
     public static FHIRRegistryResource from(Resource resource) {
+        return from(resource, false);
+    }
+
+    public static FHIRRegistryResource from(Resource resource, boolean defaultVersion) {
         if (resource == null) {
             return null;
         }
@@ -256,6 +289,6 @@ public class FHIRRegistryResource implements Comparable<FHIRRegistryResource> {
             type = searchParameter.getType().getValue();
         }
 
-        return new FHIRRegistryResource(resourceType, id, url, (version != null) ? Version.from(version) : FHIRRegistryResource.NO_VERSION, kind, type, resource);
+        return new FHIRRegistryResource(resourceType, id, url, (version != null) ? Version.from(version) : Version.NO_VERSION, kind, type, resource, defaultVersion);
     }
 }

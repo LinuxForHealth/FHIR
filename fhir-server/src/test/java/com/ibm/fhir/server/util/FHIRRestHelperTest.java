@@ -117,7 +117,7 @@ public class FHIRRestHelperTest {
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
-        Bundle responseBundle = helper.doBundle(requestBundle);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
 
         // Validate results
         assertNotNull(responseBundle);
@@ -161,7 +161,7 @@ public class FHIRRestHelperTest {
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
-        Bundle responseBundle = helper.doBundle(requestBundle);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
 
         // Validate results
         assertNotNull(responseBundle);
@@ -211,7 +211,7 @@ public class FHIRRestHelperTest {
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
-        Bundle responseBundle = helper.doBundle(requestBundle);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
 
         // Validate results
         assertNotNull(responseBundle);
@@ -256,7 +256,7 @@ public class FHIRRestHelperTest {
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
-        Bundle responseBundle = helper.doBundle(requestBundle);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
 
         // Validate results
         assertNotNull(responseBundle);
@@ -315,7 +315,7 @@ public class FHIRRestHelperTest {
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
-        Bundle responseBundle = helper.doBundle(requestBundle);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
 
         // Validate results
         assertNotNull(responseBundle);
@@ -382,7 +382,7 @@ public class FHIRRestHelperTest {
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
-        Bundle responseBundle = helper.doBundle(requestBundle);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
 
         // Validate results
         assertNotNull(responseBundle);
@@ -459,7 +459,7 @@ public class FHIRRestHelperTest {
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
-        Bundle responseBundle = helper.doBundle(requestBundle);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
 
         // Validate results
         assertNotNull(responseBundle);
@@ -529,7 +529,7 @@ public class FHIRRestHelperTest {
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
-        Bundle responseBundle = helper.doBundle(requestBundle);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
 
         // Validate results
         assertNotNull(responseBundle);
@@ -598,7 +598,7 @@ public class FHIRRestHelperTest {
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
-        Bundle responseBundle = helper.doBundle(requestBundle);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
 
         // Validate results
         assertNotNull(responseBundle);
@@ -737,7 +737,7 @@ public class FHIRRestHelperTest {
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
-        Bundle responseBundle = helper.doBundle(requestBundle);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
 
         // Validate results
         assertNotNull(responseBundle);
@@ -824,7 +824,7 @@ public class FHIRRestHelperTest {
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
-        Bundle responseBundle = helper.doBundle(requestBundle);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
 
         // Validate results
         assertNotNull(responseBundle);
@@ -878,7 +878,7 @@ public class FHIRRestHelperTest {
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
-        Bundle responseBundle = helper.doBundle(requestBundle);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
 
         // Validate results
         assertNotNull(responseBundle);
@@ -919,7 +919,7 @@ public class FHIRRestHelperTest {
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
-        Bundle responseBundle = helper.doBundle(requestBundle);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
 
         // Validate results
         assertNotNull(responseBundle);
@@ -966,7 +966,7 @@ public class FHIRRestHelperTest {
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
-        Bundle responseBundle = helper.doBundle(requestBundle);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
 
         // Validate results
         assertNotNull(responseBundle);
@@ -1008,7 +1008,7 @@ public class FHIRRestHelperTest {
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
-        Bundle responseBundle = helper.doBundle(requestBundle);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
 
         // Validate results
         assertNotNull(responseBundle);
@@ -1068,7 +1068,7 @@ public class FHIRRestHelperTest {
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
-        Bundle responseBundle = helper.doBundle(requestBundle);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
 
         // Validate results
         assertNotNull(responseBundle);
@@ -1136,7 +1136,7 @@ public class FHIRRestHelperTest {
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
-        Bundle responseBundle = helper.doBundle(requestBundle);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
 
         // Validate results
         assertNotNull(responseBundle);
@@ -1215,7 +1215,7 @@ public class FHIRRestHelperTest {
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
-        Bundle responseBundle = helper.doBundle(requestBundle);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
 
         // Validate results
         assertNotNull(responseBundle);
@@ -1285,7 +1285,7 @@ public class FHIRRestHelperTest {
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
-        Bundle responseBundle = helper.doBundle(requestBundle);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
 
         // Validate results
         assertNotNull(responseBundle);
@@ -1353,7 +1353,7 @@ public class FHIRRestHelperTest {
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
-        Bundle responseBundle = helper.doBundle(requestBundle);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
 
         // Validate results
         assertNotNull(responseBundle);
@@ -1421,7 +1421,7 @@ public class FHIRRestHelperTest {
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
-        Bundle responseBundle = helper.doBundle(requestBundle);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
 
         // Validate results
         assertNotNull(responseBundle);
@@ -1565,7 +1565,7 @@ public class FHIRRestHelperTest {
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
-        Bundle responseBundle = helper.doBundle(requestBundle);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
 
         // Validate results
         assertNotNull(responseBundle);
@@ -1653,7 +1653,7 @@ public class FHIRRestHelperTest {
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
-        Bundle responseBundle = helper.doBundle(requestBundle);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
 
         // Validate results
         assertNotNull(responseBundle);
@@ -1732,7 +1732,7 @@ public class FHIRRestHelperTest {
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
-        Bundle responseBundle = helper.doBundle(requestBundle);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
 
         // Validate results
         assertNotNull(responseBundle);
@@ -1903,7 +1903,7 @@ public class FHIRRestHelperTest {
         // Process bundle
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.REPRESENTATION);
-        Bundle responseBundle = helper.doBundle(requestBundle);
+        Bundle responseBundle = helper.doBundle(requestBundle, false);
 
         // Validate results
         assertNotNull(responseBundle);

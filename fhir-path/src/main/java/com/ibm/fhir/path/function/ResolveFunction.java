@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,6 +8,7 @@ package com.ibm.fhir.path.function;
 
 import static com.ibm.fhir.model.util.FHIRUtil.REFERENCE_PATTERN;
 import static com.ibm.fhir.model.util.ModelSupport.isResourceType;
+import static com.ibm.fhir.path.util.FHIRPathUtil.getRootResourceNode;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -81,7 +82,7 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                 if (referenceReference != null) {
                     if (referenceReference.startsWith("#")) {
                         // internal fragment reference
-                        resourceType = resolveInternalFragmentReference(evaluationContext.getTree(), referenceReference);
+                        resourceType = resolveInternalFragmentReference(evaluationContext.getTree(), node, referenceReference);
                     } else {
                         Matcher matcher = REFERENCE_PATTERN.matcher(referenceReference);
                         if (matcher.matches()) {
@@ -109,11 +110,11 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
         return result;
     }
 
-    private String resolveInternalFragmentReference(FHIRPathTree tree, String referenceReference) {
+    private String resolveInternalFragmentReference(FHIRPathTree tree, FHIRPathNode node, String referenceReference) {
         if (tree != null) {
-            FHIRPathNode root = tree.getRoot();
-            if (root.isResourceNode()) {
-                Resource resource = root.asResourceNode().resource();
+            FHIRPathResourceNode rootResource = getRootResourceNode(tree, node);
+            if (rootResource != null) {
+                Resource resource = rootResource.resource();
                 if ("#".equals(referenceReference)) {
                     return resource.getClass().getSimpleName();
                 }

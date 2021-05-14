@@ -95,7 +95,7 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
 
         // PostgreSql doesn't support partitioning, so we ignore tenantColumnName
         if (tenantColumnName != null) {
-            warnOnce(MessageKey.MULTITENANCY, "PostgreSql does support not multi-tenancy: " + name);
+            warnOnce(MessageKey.MULTITENANCY, "PostgreSql does not support multi-tenancy: " + name);
         }
 
         // We also ignore tablespace for PostgreSql

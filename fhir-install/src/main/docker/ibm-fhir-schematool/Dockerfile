@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------
-# (C) Copyright IBM Corp. 2020
+# (C) Copyright IBM Corp. 2020, 2021
 #
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
@@ -20,7 +20,7 @@ RUN curl -L -o /opt/schematool/jq https://github.com/stedolan/jq/releases/downlo
 
 FROM registry.access.redhat.com/ubi8/ubi-minimal
 
-ARG FHIR_VERSION=4.5.0
+ARG FHIR_VERSION=4.8.0
 
 # The following labels are required: 
 LABEL name='IBM FHIR Schema Tool'

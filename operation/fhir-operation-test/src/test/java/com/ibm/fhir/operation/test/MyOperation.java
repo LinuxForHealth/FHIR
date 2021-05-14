@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -37,8 +37,8 @@ public class MyOperation extends AbstractOperation {
                 .url(Uri.of("http://ibm.com/fhir/example/my-operation"))
                 .version(string("4.1.0"))
                 .name(String.of("My Operation"))
-                .status(PublicationStatus.of(PublicationStatus.ValueSet.DRAFT))
-                .kind(OperationKind.of(OperationKind.ValueSet.OPERATION))
+                .status(PublicationStatus.DRAFT)
+                .kind(OperationKind.OPERATION)
                 .code(Code.of("hello"))
                 .affectsState(Boolean.of(true))
                 .system(Boolean.of(true))

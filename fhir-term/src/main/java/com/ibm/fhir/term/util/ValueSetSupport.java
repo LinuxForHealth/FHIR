@@ -41,9 +41,10 @@ import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.registry.FHIRRegistry;
-import com.ibm.fhir.registry.resource.FHIRRegistryResource;
+import com.ibm.fhir.registry.resource.FHIRRegistryResource.Version;
 import com.ibm.fhir.term.config.FHIRTermConfig;
 import com.ibm.fhir.term.service.FHIRTermService;
+import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
 
 /**
  * A utility class for expanding FHIR value sets
@@ -211,6 +212,8 @@ public final class ValueSetSupport {
                 }
             }
             return codeSetMap;
+        } catch (FHIRTermServiceException e) {
+            throw e;
         } catch (Exception e) {
             java.lang.String url = (valueSet.getUrl() != null) ? valueSet.getUrl().getValue() : "<no url>";
             java.lang.String version = (valueSet.getVersion() != null) ? valueSet.getVersion().getValue() : "<no version>";
@@ -252,7 +255,7 @@ public final class ValueSetSupport {
         if (includeOrExclude.getSystem() != null) {
             Uri system = includeOrExclude.getSystem();
             String version = (includeOrExclude.getVersion() != null) ?
-                    includeOrExclude.getVersion() : getLatestVersion(system);
+                    includeOrExclude.getVersion() : getDefaultVersion(system);
             if (!includeOrExclude.getConcept().isEmpty()) {
                 for (Include.Concept concept : includeOrExclude.getConcept()) {
                     Code code = (concept.getCode() != null) ? concept.getCode() : null;
@@ -330,9 +333,9 @@ public final class ValueSetSupport {
         return result;
     }
 
-    private static String getLatestVersion(Uri system) {
-        java.lang.String version = FHIRRegistry.getInstance().getLatestVersion(system.getValue(), CodeSystem.class);
-        return (version != null && !FHIRRegistryResource.NO_VERSION.toString().equals(version)) ? string(version) : null;
+    private static String getDefaultVersion(Uri system) {
+        java.lang.String version = FHIRRegistry.getInstance().getDefaultVersion(system.getValue(), CodeSystem.class);
+        return (version != null && !Version.NO_VERSION.toString().equals(version)) ? string(version) : null;
     }
 
     private static Set<java.lang.String> getValueSetReferences(List<Include> includesAndExcludes) {

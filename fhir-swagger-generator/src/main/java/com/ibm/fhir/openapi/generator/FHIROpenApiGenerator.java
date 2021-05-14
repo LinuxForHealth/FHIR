@@ -99,8 +99,6 @@ import com.ibm.fhir.model.type.SubstanceAmount;
 import com.ibm.fhir.model.type.TriggerDefinition;
 import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.Uuid;
-import com.ibm.fhir.model.type.code.ResourceType;
-import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.visitor.AbstractVisitable;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
@@ -199,6 +197,21 @@ public class FHIROpenApiGenerator {
             definitionsToAdd.add(Bundle.Entry.Response.class);
             definitionsToAdd.add(Bundle.Entry.Search.class);
         }
+        // for /metadata
+        definitionsToAdd.add(CapabilityStatement.class);
+        definitionsToAdd.add(CapabilityStatement.Software.class);
+        definitionsToAdd.add(CapabilityStatement.Implementation.class);
+        definitionsToAdd.add(CapabilityStatement.Rest.class);
+        definitionsToAdd.add(CapabilityStatement.Rest.Security.class);
+        definitionsToAdd.add(CapabilityStatement.Rest.Resource.class);
+        definitionsToAdd.add(CapabilityStatement.Rest.Resource.Interaction.class);
+        definitionsToAdd.add(CapabilityStatement.Rest.Resource.SearchParam.class);
+        definitionsToAdd.add(CapabilityStatement.Rest.Resource.Operation.class);
+        definitionsToAdd.add(CapabilityStatement.Rest.Interaction.class);
+        definitionsToAdd.add(CapabilityStatement.Messaging.class);
+        definitionsToAdd.add(CapabilityStatement.Messaging.Endpoint.class);
+        definitionsToAdd.add(CapabilityStatement.Messaging.SupportedMessage.class);
+        definitionsToAdd.add(CapabilityStatement.Document.class);
         // for error response
         definitionsToAdd.add(OperationOutcome.class);
         definitionsToAdd.add(OperationOutcome.Issue.class);
@@ -1342,7 +1355,7 @@ public class FHIROpenApiGenerator {
                 property.add("type", "string");
                 if (Resource.class == modelClass) {
                     // TODO: when a filter was passed, limit this to just the resource types included in the filter
-                    List<String> typeNames = Arrays.stream(ResourceType.ValueSet.values()).map(ResourceType.ValueSet::value).collect(Collectors.toList());
+                    List<String> typeNames = getClassNames();
                     JsonArrayBuilder enumValues = factory.createArrayBuilder(typeNames);
                     property.add("enum", enumValues);
                     properties.add("resourceType", property.build());
@@ -1407,7 +1420,7 @@ public class FHIROpenApiGenerator {
     public static void addExamples(Class<?> modelClass, JsonObjectBuilder definition) throws IOException {
         if (!Modifier.isAbstract(modelClass.getModifiers())) {
             // Change this from "complete-mock" to "minimal" to reduce the size of the generated definition
-            Reader example = ExamplesUtil.resourceReader("json/ibm/complete-mock/" + modelClass.getSimpleName() + "-1.json");
+            Reader example = ExamplesUtil.resourceReader("json/ibm/minimal/" + modelClass.getSimpleName() + "-1.json");
             JsonReader jsonReader = Json.createReader(example);
             definition.add("example", jsonReader.readObject());
         }
@@ -1667,8 +1680,10 @@ public class FHIROpenApiGenerator {
         throw new RuntimeException("Unable to retrieve element definition for " + elementName + " in " + modelClass.getName());
     }
 
-    private static List<String> getClassNames() {
-        return FHIRUtil.getResourceTypeNames();
+    public static List<String> getClassNames() {
+        return ModelSupport.getResourceTypes().stream()
+                .map(r -> ModelSupport.getTypeName(r))
+                .collect(Collectors.toList());
     }
 
     private static List<String> getCompartmentClassNames(String compartment) {
@@ -1817,12 +1832,11 @@ public class FHIROpenApiGenerator {
     public static List<String> getAllResourceInnerClasses() {
         List<String> allResourceInnerClassList = new ArrayList<String>();
 
-        for (String ResourceName : FHIRUtil.getResourceTypeNames()) {
+        for (Class<?> resourceTypeClass : ModelSupport.getResourceTypes()) {
             try {
-                Class<?> resourceTypeClass = Class.forName(RESOURCEPACKAGENAME + "." + ResourceName);
                 addInnerClassNames(resourceTypeClass, allResourceInnerClassList);
             } catch (Exception e) {
-                System.err.println("Failed to get resource: " + ResourceName);
+                System.err.println("Failed to get resource: " + resourceTypeClass.getSimpleName());
             }
         }
         return allResourceInnerClassList;

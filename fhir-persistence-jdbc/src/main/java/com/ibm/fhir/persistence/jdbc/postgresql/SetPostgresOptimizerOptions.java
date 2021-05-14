@@ -28,6 +28,9 @@ public class SetPostgresOptimizerOptions {
     private static final String FROM_COLLAPSE_LIMIT = "from_collapse_limit";
     private static final int DEFAULT_FROM_COLLAPSE_LIMIT = 12;
 
+    private static final String COMPARTMENT_OPT_LEVEL = "compartment_opt_level";
+    private static final int COMPARTMENT_JOIN_COLLAPSE_LIMIT = 1; // join in the written order of the query
+
     private final Integer joinCollapseLimit;
     private final Integer fromCollapseLimit;
 
@@ -35,10 +38,26 @@ public class SetPostgresOptimizerOptions {
      * Public constructor
      * @param pg the FHIR configuration PropertyGroup containing the optimizer options
      */
-    public SetPostgresOptimizerOptions(PropertyGroup pg) {
+    public SetPostgresOptimizerOptions(PropertyGroup pg, boolean isCompartment) {
         if (pg != null) {
-            this.fromCollapseLimit = pg.getIntProperty(FROM_COLLAPSE_LIMIT, DEFAULT_FROM_COLLAPSE_LIMIT);
-            this.joinCollapseLimit = pg.getIntProperty(JOIN_COLLAPSE_LIMIT, DEFAULT_JOIN_COLLAPSE_LIMIT);
+            int fromCollapseLimit = pg.getIntProperty(FROM_COLLAPSE_LIMIT, DEFAULT_FROM_COLLAPSE_LIMIT);
+            int joinCollapseLimit = pg.getIntProperty(JOIN_COLLAPSE_LIMIT, DEFAULT_JOIN_COLLAPSE_LIMIT);
+
+            // If this is a compartment-based search, we may want to override the
+            // optimizer settings to make sure the compartment filter is performed first
+            if (isCompartment) {
+                int compartmentOptLevel = pg.getIntProperty(COMPARTMENT_OPT_LEVEL, 0);
+                if (compartmentOptLevel > 0 && log.isLoggable(Level.FINE)) {
+                    log.fine("Compartment optimization level: " + compartmentOptLevel);
+                }
+                if (compartmentOptLevel > 0) {
+                    // clamp the JOIN_COLLAPSE_LIMIT so the join order is fixed (not changed by the optimizer)
+                    joinCollapseLimit = COMPARTMENT_JOIN_COLLAPSE_LIMIT;
+                }
+            }
+
+            this.fromCollapseLimit = fromCollapseLimit;
+            this.joinCollapseLimit = joinCollapseLimit;
         } else {
             // No options provided, so we go with defaults
             this.joinCollapseLimit = DEFAULT_JOIN_COLLAPSE_LIMIT;

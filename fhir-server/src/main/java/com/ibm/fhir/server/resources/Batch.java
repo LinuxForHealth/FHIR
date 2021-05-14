@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -22,6 +23,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Bundle;
@@ -46,7 +48,7 @@ public class Batch extends FHIRResource {
     }
 
     @POST
-    public Response bundle(Resource resource) {
+    public Response bundle(Resource resource, @HeaderParam(FHIRConstants.UPDATE_IF_MODIFIED_HEADER) boolean updateOnlyIfModified) {
         log.entering(this.getClass().getName(), "bundle(Bundle)");
         Date startTime = new Date();
         Response.Status status = null;
@@ -65,7 +67,7 @@ public class Batch extends FHIRResource {
             }
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            responseBundle = helper.doBundle(inputBundle);
+            responseBundle = helper.doBundle(inputBundle, updateOnlyIfModified);
             status = Status.OK;
             return Response.ok(responseBundle).build();
         } catch (FHIRRestBundledRequestException e) {

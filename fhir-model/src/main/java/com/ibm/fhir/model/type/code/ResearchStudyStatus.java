@@ -108,7 +108,7 @@ public class ResearchStudyStatus extends Code {
 
     /**
      * Get the value of this ResearchStudyStatus as an enum constant.
-     * @deprecated replaced by {@link #getValueConstant()}
+     * @deprecated replaced by {@link #getValueAsEnum()}
      */
     @Deprecated
     public ValueSet getValueAsEnumConstant() {
@@ -118,7 +118,7 @@ public class ResearchStudyStatus extends Code {
     /**
      * Get the value of this ResearchStudyStatus as an enum constant.
      */
-    public Value getValueConstant() {
+    public Value getValueAsEnum() {
         return (value != null) ? Value.from(value) : null;
     }
 
@@ -529,16 +529,41 @@ public class ResearchStudyStatus extends Code {
          * 
          * @param value
          *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding ResearchStudyStatus.Value or null if a null value was passed
          * @throws IllegalArgumentException
-         *     If the passed string cannot be parsed into an allowed code value
+         *     If the passed string is not null and cannot be parsed into an allowed code value
          */
         public static Value from(java.lang.String value) {
-            for (Value c : Value.values()) {
-                if (c.value.equals(value)) {
-                    return c;
-                }
+            if (value == null) {
+                return null;
             }
-            throw new IllegalArgumentException(value);
+            switch (value) {
+            case "active":
+                return ACTIVE;
+            case "administratively-completed":
+                return ADMINISTRATIVELY_COMPLETED;
+            case "approved":
+                return APPROVED;
+            case "closed-to-accrual":
+                return CLOSED_TO_ACCRUAL;
+            case "closed-to-accrual-and-intervention":
+                return CLOSED_TO_ACCRUAL_AND_INTERVENTION;
+            case "completed":
+                return COMPLETED;
+            case "disapproved":
+                return DISAPPROVED;
+            case "in-review":
+                return IN_REVIEW;
+            case "temporarily-closed-to-accrual":
+                return TEMPORARILY_CLOSED_TO_ACCRUAL;
+            case "temporarily-closed-to-accrual-and-intervention":
+                return TEMPORARILY_CLOSED_TO_ACCRUAL_AND_INTERVENTION;
+            case "withdrawn":
+                return WITHDRAWN;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

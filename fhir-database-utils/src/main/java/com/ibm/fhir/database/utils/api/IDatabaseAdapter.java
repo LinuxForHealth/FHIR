@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -77,7 +77,7 @@ public interface IDatabaseAdapter {
      */
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns,
             PrimaryKeyDef primaryKey, IdentityDef identity, String tablespaceName);
-    
+
     /**
      * Add a new column to an existing table
      * @param schemaName
@@ -93,7 +93,7 @@ public interface IDatabaseAdapter {
      * @param tableName
      */
     public void reorgTable(String schemaName, String tableName);
-    
+
     /**
      * Create ROW type used for passing values to stored procedures e.g.:
      *
@@ -282,7 +282,7 @@ public interface IDatabaseAdapter {
      */
     public int allocateTenant(String adminSchemaName, String schemaName, String tenantName, String tenantKey,
             String tenantSalt, String idSequenceName);
-    
+
     /**
      * Delete all the metadata associated with the given tenant identifier, as long as the
      * tenant status is DROPPED.
@@ -370,7 +370,7 @@ public interface IDatabaseAdapter {
      * @param cache
      */
     public void alterSequenceRestartWith(String schemaName, String sequenceName, long restartWith, int cache, int incrementBy);
-    
+
     /**
      * Grant the list of privileges on the named object to the user. This is a
      * general purpose method which can be used to specify privileges for any object
@@ -452,7 +452,7 @@ public interface IDatabaseAdapter {
 
     /**
      * create a unique constraint on a table.
-     * 
+     *
      * @param constraintName
      * @param columns
      * @param schemaName
@@ -468,7 +468,7 @@ public interface IDatabaseAdapter {
     public boolean checkCompatibility(String adminSchema);
 
     /**
-     * 
+     *
      * @return a false, if not used, or true if used with the persistence layer.
      */
     public default boolean useSessionVariable() {
@@ -484,13 +484,13 @@ public interface IDatabaseAdapter {
     public void createOrReplaceFunction(String schemaName, String objectName, Supplier<String> supplier);
 
     /**
-     * drops a given function 
+     * drops a given function
      * @param schemaName
      * @param functionName
      */
     public void dropFunction(String schemaName, String functionName);
 
-    /** 
+    /**
      * grants permissions on a given function
      * @param schemaName
      * @param functionName
@@ -511,7 +511,15 @@ public interface IDatabaseAdapter {
      * @param constraintName
      */
     public void disableForeignKey(String schemaName, String tableName, String constraintName);
-    
+
+    /**
+     * Drop the FK on the table with the given constraint name
+     * @param schemaName
+     * @param tableName
+     * @param constraintName
+     */
+    public void dropForeignKey(String schemaName, String tableName, String constraintName);
+
     /**
      * Enable the FK with the given constraint name
      * @param schemaName
@@ -519,16 +527,16 @@ public interface IDatabaseAdapter {
      * @param constraintName
      */
     public void enableForeignKey(String schemaName, String tableName, String constraintName);
-    
+
     /**
-     * 
+     *
      * @param schemaName
      * @param tableName
      */
     public void setIntegrityOff(String schemaName, String tableName);
 
     /**
-     * 
+     *
      * @param schemaName
      * @param tableName
      */
@@ -549,7 +557,7 @@ public interface IDatabaseAdapter {
      * @param indexName
      */
     public void dropIndex(String schemaName, String indexName);
-    
+
     /**
      * Create the view as defined by the selectClause
      * @param schemaName

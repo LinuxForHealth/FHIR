@@ -574,7 +574,7 @@ public final class CodeSystemSupport {
      *     or null if the type isn't supported
      */
     public static Element toElement(java.lang.String value, PropertyType type) {
-        switch (type.getValueAsEnumConstant()) {
+        switch (type.getValueAsEnum()) {
         case BOOLEAN:
             return Boolean.of(value);
         case CODE:
@@ -604,7 +604,7 @@ public final class CodeSystemSupport {
      *     or null if the type isn't supported
      */
     public static Element toElement(String value, PropertyType type) {
-        switch (type.getValueAsEnumConstant()) {
+        switch (type.getValueAsEnum()) {
         case BOOLEAN:
             return Boolean.of(value.getValue());
         case CODE:
@@ -694,7 +694,7 @@ public final class CodeSystemSupport {
         List<ConceptFilter> conceptFilters = new ArrayList<>(filters.size());
         for (Include.Filter filter : filters) {
             ConceptFilter conceptFilter = null;
-            switch (filter.getOp().getValueAsEnumConstant()) {
+            switch (filter.getOp().getValueAsEnum()) {
             case DESCENDENT_OF:
                 conceptFilter = createDescendentOfFilter(codeSystem, filter);
                 break;

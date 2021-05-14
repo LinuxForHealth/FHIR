@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -45,7 +45,7 @@ public class CapabilitiesTest {
         FHIRRequestContext.get().setOriginalRequestUri("http://example.com/metadata");
         CapabilitiesChild c = new CapabilitiesChild();
 
-        Response capabilities = c.capabilities();
+        Response capabilities = c.capabilities("full");
         CapabilityStatement capabilityStatement = capabilities.readEntity(CapabilityStatement.class);
 
         assertEquals(capabilityStatement.getRest().size(), 1, "Number of REST Elements");
@@ -60,7 +60,7 @@ public class CapabilitiesTest {
         FHIRRequestContext.get().setOriginalRequestUri("http://example.com/metadata");
         CapabilitiesChild c = new CapabilitiesChild();
 
-        Response capabilities = c.capabilities();
+        Response capabilities = c.capabilities("full");
         CapabilityStatement capabilityStatement = capabilities.readEntity(CapabilityStatement.class);
 
         assertEquals(capabilityStatement.getRest().size(), 1, "Number of REST Elements");
@@ -75,7 +75,7 @@ public class CapabilitiesTest {
         FHIRRequestContext.get().setOriginalRequestUri("http://example.com/metadata");
         CapabilitiesChild c = new CapabilitiesChild();
 
-        Response capabilities = c.capabilities();
+        Response capabilities = c.capabilities("full");
         CapabilityStatement capabilityStatement = capabilities.readEntity(CapabilityStatement.class);
 
         assertEquals(capabilityStatement.getRest().size(), 1, "Number of REST Elements");
@@ -88,17 +88,17 @@ public class CapabilitiesTest {
         int patientInteractions, int patientIncludes, int patientRevIncludes,
         int practitionerInteractions, int practitionerIncludes, int practitionerRevIncludes) {
         assertEquals(restDefinition.getResource().size(), numOfResources, "Number of supported resources");
-        assertFalse(restDefinition.getResource().stream().anyMatch(r -> r.getType().getValueAsEnumConstant() == ResourceType.ValueSet.RESOURCE));
-        assertFalse(restDefinition.getResource().stream().anyMatch(r -> r.getType().getValueAsEnumConstant() == ResourceType.ValueSet.DOMAIN_RESOURCE));
+        assertFalse(restDefinition.getResource().stream().anyMatch(r -> r.getType().getValueAsEnum() == ResourceType.Value.RESOURCE));
+        assertFalse(restDefinition.getResource().stream().anyMatch(r -> r.getType().getValueAsEnum() == ResourceType.Value.DOMAIN_RESOURCE));
 
-        assertResourceDefinition(restDefinition, ResourceType.ValueSet.PATIENT, patientInteractions, patientIncludes, patientRevIncludes);
-        assertResourceDefinition(restDefinition, ResourceType.ValueSet.PRACTITIONER, practitionerInteractions, practitionerIncludes, practitionerRevIncludes);
+        assertResourceDefinition(restDefinition, ResourceType.Value.PATIENT, patientInteractions, patientIncludes, patientRevIncludes);
+        assertResourceDefinition(restDefinition, ResourceType.Value.PRACTITIONER, practitionerInteractions, practitionerIncludes, practitionerRevIncludes);
     }
 
-    private void assertResourceDefinition(CapabilityStatement.Rest restDefinition, ResourceType.ValueSet resourceType, int numOfInteractions,
+    private void assertResourceDefinition(CapabilityStatement.Rest restDefinition, ResourceType.Value resourceType, int numOfInteractions,
         int numIncludes, int numRevIncludes) {
         Optional<CapabilityStatement.Rest.Resource> resource = restDefinition.getResource().stream()
-                .filter(r -> r.getType().getValueAsEnumConstant() == resourceType)
+                .filter(r -> r.getType().getValueAsEnum() == resourceType)
                 .findFirst();
         assertTrue(resource.isPresent());
 
@@ -121,9 +121,9 @@ public class CapabilitiesTest {
         }
 
         @Override
-        public Response capabilities() {
+        public Response capabilities(String mode) {
             httpServletRequest = new MockHttpServletRequest();
-            return super.capabilities();
+            return super.capabilities(mode);
         }
     }
 }

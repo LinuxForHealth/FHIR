@@ -7,6 +7,7 @@ on:
   pull_request:
     paths-ignore:
       - 'docs/**'
+      - 'demo/**'
       - '.github/**'
   schedule:
     # Runs on Saturday
@@ -33,7 +34,7 @@ jobs:
         export WORKSPACE=${GITHUB_WORKSPACE}
         bash build/security/setup.sh
     - name: Security
-      env: 
+      env:
         SCANNERS: 'asoc trivy dockle'
         APPSCAN_SECRET: ${{ secrets.APPSCAN_SECRET }}
         APPSCAN_KEY: ${{ secrets.APPSCAN_KEY }}

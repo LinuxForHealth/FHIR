@@ -1,0 +1,366 @@
+{
+  "index-version": 1,
+  "files": [
+    {
+      "filename": "ImplementationGuide-hl7.fhir.us.spl.json",
+      "resourceType": "ImplementationGuide",
+      "id": "hl7.fhir.us.spl",
+      "url": "http://hl7.org/fhir/us/spl/ImplementationGuide/hl7.fhir.us.spl",
+      "version": "0.1.0"
+    },
+    {
+      "filename": "StructureDefinition-DualSubmissionProvenance.json",
+      "resourceType": "StructureDefinition",
+      "id": "DualSubmissionProvenance",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/DualSubmissionProvenance",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Provenance"
+    },
+    {
+      "filename": "StructureDefinition-EstablishmentAffiliation.json",
+      "resourceType": "StructureDefinition",
+      "id": "EstablishmentAffiliation",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/EstablishmentAffiliation",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "OrganizationAffiliation"
+    },
+    {
+      "filename": "StructureDefinition-EstablishmentBusinessOperation.json",
+      "resourceType": "StructureDefinition",
+      "id": "EstablishmentBusinessOperation",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/EstablishmentBusinessOperation",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "HealthcareService"
+    },
+    {
+      "filename": "StructureDefinition-EstablishmentOrganization.json",
+      "resourceType": "StructureDefinition",
+      "id": "EstablishmentOrganization",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/EstablishmentOrganization",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Organization"
+    },
+    {
+      "filename": "StructureDefinition-EstablishmentRegistrantOrganization.json",
+      "resourceType": "StructureDefinition",
+      "id": "EstablishmentRegistrantOrganization",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/EstablishmentRegistrantOrganization",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Organization"
+    },
+    {
+      "filename": "StructureDefinition-EstablishmentRegistrationBundle.json",
+      "resourceType": "StructureDefinition",
+      "id": "EstablishmentRegistrationBundle",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/EstablishmentRegistrationBundle",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Bundle"
+    },
+    {
+      "filename": "StructureDefinition-GDUFAFacilityAffiliation.json",
+      "resourceType": "StructureDefinition",
+      "id": "GDUFAFacilityAffiliation",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/GDUFAFacilityAffiliation",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "OrganizationAffiliation"
+    },
+    {
+      "filename": "StructureDefinition-GDUFAFacilityBusinessOperation.json",
+      "resourceType": "StructureDefinition",
+      "id": "GDUFAFacilityBusinessOperation",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/GDUFAFacilityBusinessOperation",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "HealthcareService"
+    },
+    {
+      "filename": "StructureDefinition-GDUFAFacilityIdentificationBundle.json",
+      "resourceType": "StructureDefinition",
+      "id": "GDUFAFacilityIdentificationBundle",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/GDUFAFacilityIdentificationBundle",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Bundle"
+    },
+    {
+      "filename": "StructureDefinition-GDUFAFacilityOrganization.json",
+      "resourceType": "StructureDefinition",
+      "id": "GDUFAFacilityOrganization",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/GDUFAFacilityOrganization",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Organization"
+    },
+    {
+      "filename": "StructureDefinition-GDUFARegistrantOrganization.json",
+      "resourceType": "StructureDefinition",
+      "id": "GDUFARegistrantOrganization",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/GDUFARegistrantOrganization",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Organization"
+    },
+    {
+      "filename": "StructureDefinition-ImporterAffiliation.json",
+      "resourceType": "StructureDefinition",
+      "id": "ImporterAffiliation",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/ImporterAffiliation",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "OrganizationAffiliation"
+    },
+    {
+      "filename": "StructureDefinition-ImporterOrganization.json",
+      "resourceType": "StructureDefinition",
+      "id": "ImporterOrganization",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/ImporterOrganization",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Organization"
+    },
+    {
+      "filename": "StructureDefinition-LabelerBusinessOperation.json",
+      "resourceType": "StructureDefinition",
+      "id": "LabelerBusinessOperation",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/LabelerBusinessOperation",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "HealthcareService"
+    },
+    {
+      "filename": "StructureDefinition-LabelerCodeRequestBundle.json",
+      "resourceType": "StructureDefinition",
+      "id": "LabelerCodeRequestBundle",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/LabelerCodeRequestBundle",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Bundle"
+    },
+    {
+      "filename": "StructureDefinition-LabelerOrganization.json",
+      "resourceType": "StructureDefinition",
+      "id": "LabelerOrganization",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/LabelerOrganization",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Organization"
+    },
+    {
+      "filename": "StructureDefinition-OrganizationMessage.json",
+      "resourceType": "StructureDefinition",
+      "id": "OrganizationMessage",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/OrganizationMessage",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "MessageHeader"
+    },
+    {
+      "filename": "StructureDefinition-ProductSubmissionDocument.json",
+      "resourceType": "StructureDefinition",
+      "id": "ProductSubmissionDocument",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/ProductSubmissionDocument",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Composition"
+    },
+    {
+      "filename": "StructureDefinition-RegistrantOrganization.json",
+      "resourceType": "StructureDefinition",
+      "id": "RegistrantOrganization",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/RegistrantOrganization",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Organization"
+    },
+    {
+      "filename": "StructureDefinition-SPLDocumentReference.json",
+      "resourceType": "StructureDefinition",
+      "id": "SPLDocumentReference",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/SPLDocumentReference",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "DocumentReference"
+    },
+    {
+      "filename": "StructureDefinition-USAgentAffiliation.json",
+      "resourceType": "StructureDefinition",
+      "id": "USAgentAffiliation",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/USAgentAffiliation",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "OrganizationAffiliation"
+    },
+    {
+      "filename": "StructureDefinition-USAgentOrganization.json",
+      "resourceType": "StructureDefinition",
+      "id": "USAgentOrganization",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/USAgentOrganization",
+      "version": "0.1.0",
+      "kind": "resource",
+      "type": "Organization"
+    },
+    {
+      "filename": "StructureDefinition-splDocumentDate.json",
+      "resourceType": "StructureDefinition",
+      "id": "splDocumentDate",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/splDocumentDate",
+      "version": "0.1.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "StructureDefinition-sectionEffectiveTime.json",
+      "resourceType": "StructureDefinition",
+      "id": "sectionEffectiveTime",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/sectionEffectiveTime",
+      "version": "0.1.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "StructureDefinition-sectionIdentifier.json",
+      "resourceType": "StructureDefinition",
+      "id": "sectionIdentifier",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/sectionIdentifier",
+      "version": "0.1.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "StructureDefinition-versionNumber.json",
+      "resourceType": "StructureDefinition",
+      "id": "versionNumber",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/versionNumber",
+      "version": "0.1.0",
+      "kind": "complex-type",
+      "type": "Extension"
+    },
+    {
+      "filename": "ValueSet-valueset-businessOperationQualifiers.json",
+      "resourceType": "ValueSet",
+      "id": "valueset-businessOperationQualifiers",
+      "url": "http://hl7.org/fhir/us/spl/ValueSet/valueset-businessOperationQualifiers",
+      "version": "0.1.0"
+    },
+    {
+      "filename": "ValueSet-valueset-establishmentBusinessOperations.json",
+      "resourceType": "ValueSet",
+      "id": "valueset-establishmentBusinessOperations",
+      "url": "http://hl7.org/fhir/us/spl/ValueSet/valueset-establishmentBusinessOperations",
+      "version": "0.1.0"
+    },
+    {
+      "filename": "ValueSet-valueset-gdufaFacilityBusinessOperationQualifiers.json",
+      "resourceType": "ValueSet",
+      "id": "valueset-gdufaFacilityBusinessOperationQualifiers",
+      "url": "http://hl7.org/fhir/us/spl/ValueSet/valueset-gdufaFacilityBusinessOperationQualifiers",
+      "version": "0.1.0"
+    },
+    {
+      "filename": "ValueSet-valueset-gdufaFacilityBusinessOperations.json",
+      "resourceType": "ValueSet",
+      "id": "valueset-gdufaFacilityBusinessOperations",
+      "url": "http://hl7.org/fhir/us/spl/ValueSet/valueset-gdufaFacilityBusinessOperations",
+      "version": "0.1.0"
+    },
+    {
+      "filename": "ValueSet-valueset-labelerBusinessOperations.json",
+      "resourceType": "ValueSet",
+      "id": "valueset-labelerBusinessOperations",
+      "url": "http://hl7.org/fhir/us/spl/ValueSet/valueset-labelerBusinessOperations",
+      "version": "0.1.0"
+    },
+    {
+      "filename": "ValueSet-splDocumentCodes.json",
+      "resourceType": "ValueSet",
+      "id": "splDocumentCodes",
+      "url": "http://hl7.org/fhir/us/spl/ValueSet/splDocumentCodes",
+      "version": "0.1.0"
+    },
+    {
+      "filename": "ValueSet-valueset-splFHIRMessageTypes.json",
+      "resourceType": "ValueSet",
+      "id": "valueset-splFHIRMessageTypes",
+      "url": "http://hl7.org/fhir/us/spl/ValueSet/valueset-splFHIRMessageTypes",
+      "version": "0.1.0"
+    },
+    {
+      "filename": "ValueSet-valueset-splRegistrantOrganizationTypes.json",
+      "resourceType": "ValueSet",
+      "id": "valueset-splRegistrantOrganizationTypes",
+      "url": "http://hl7.org/fhir/us/spl/ValueSet/valueset-splRegistrantOrganizationTypes",
+      "version": "0.1.0"
+    },
+    {
+      "filename": "ValueSet-splSectionCodes.json",
+      "resourceType": "ValueSet",
+      "id": "splSectionCodes",
+      "url": "http://hl7.org/fhir/us/spl/ValueSet/splSectionCodes",
+      "version": "0.1.0"
+    },
+    {
+      "filename": "CodeSystem-codesystem-splFHIRMessageTypes.json",
+      "resourceType": "CodeSystem",
+      "id": "codesystem-splFHIRMessageTypes",
+      "url": "http://hl7.org/fhir/us/spl/CodeSystem/codesystem-splFHIRMessageTypes",
+      "version": "0.1.0"
+    },
+    {
+      "filename": "CodeSystem-codesystem-organizationAffiliationCodes.json",
+      "resourceType": "CodeSystem",
+      "id": "codesystem-organizationAffiliationCodes",
+      "url": "http://hl7.org/fhir/us/spl/CodeSystem/codesystem-organizationAffiliationCodes",
+      "version": "0.1.0"
+    },
+    {
+      "filename": "CodeSystem-codesystem-splOrganizationTypes.json",
+      "resourceType": "CodeSystem",
+      "id": "codesystem-splOrganizationTypes",
+      "url": "http://hl7.org/fhir/us/spl/CodeSystem/codesystem-splOrganizationTypes",
+      "version": "0.1.0"
+    },
+    {
+      "filename": "StructureDefinition-EstablishmentRegistrationLogicalModel.json",
+      "resourceType": "StructureDefinition",
+      "id": "EstablishmentRegistrationLogicalModel",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/EstablishmentRegistrationLogicalModel",
+      "version": "0.1.0",
+      "kind": "logical",
+      "type": "EstablishmentRegistration"
+    },
+    {
+      "filename": "StructureDefinition-GDUFAFacilityIdentificationLogicalModel.json",
+      "resourceType": "StructureDefinition",
+      "id": "GDUFAFacilityIdentificationLogicalModel",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/GDUFAFacilityIdentificationLogicalModel",
+      "version": "0.1.0",
+      "kind": "logical",
+      "type": "GDUFAFacilityIdentification"
+    },
+    {
+      "filename": "StructureDefinition-LabelerCodeRequestLogicalModel.json",
+      "resourceType": "StructureDefinition",
+      "id": "LabelerCodeRequestLogicalModel",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/LabelerCodeRequestLogicalModel",
+      "version": "0.1.0",
+      "kind": "logical",
+      "type": "LabelerCodeRequest"
+    },
+    {
+      "filename": "StructureDefinition-ProductSubmissionDocumentLogicalModel.json",
+      "resourceType": "StructureDefinition",
+      "id": "ProductSubmissionDocumentLogicalModel",
+      "url": "http://hl7.org/fhir/us/spl/StructureDefinition/ProductSubmissionDocumentLogicalModel",
+      "version": "0.1.0",
+      "kind": "logical",
+      "type": "ProductSubmissionDocument"
+    }
+  ]
+}

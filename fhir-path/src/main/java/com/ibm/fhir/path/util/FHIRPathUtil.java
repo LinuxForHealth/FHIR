@@ -32,6 +32,7 @@ import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -49,6 +50,7 @@ import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 
 import com.ibm.fhir.model.patch.exception.FHIRPatchException;
+import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
@@ -905,6 +907,11 @@ public final class FHIRPathUtil {
 
         FHIRPathTree tree = evaluator.getEvaluationContext().getTree();
         FHIRPathNode parentNode = tree.getParent(node);
+
+        if (parentNode == null) {
+            throw new FHIRPatchException("Unable to compute the parent for '" + elementName + "';" +
+                    " a FHIRPathPatch replace FHIRPath must select a node with a parent", fhirPath);
+        }
         Visitable parent = parentNode.isResourceNode() ?
                 parentNode.asResourceNode().resource() : parentNode.asElementNode().element();
 
@@ -1054,5 +1061,160 @@ public final class FHIRPathUtil {
             }
         }
         return parent;
+    }
+
+    /**
+     * Get the resource node to use as a value for the %resource external constant.
+     *
+     * @param tree
+     *     the FHIRPath tree
+     * @param node
+     *     the context node
+     * @return
+     *     the resource node, or null if not exists
+     */
+    public static FHIRPathResourceNode getResourceNode(FHIRPathTree tree, FHIRPathNode node) {
+        // get resource node ancestors for the context node
+        List<FHIRPathResourceNode> resourceNodes = getResourceNodes(tree, node);
+
+        if (!resourceNodes.isEmpty()) {
+            // return nearest resource node ancestor
+            return resourceNodes.get(0);
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the resource node to use as a value for the %rootResource external constant.
+     *
+     * @param tree
+     *     the FHIRPath tree
+     * @param node
+     *     the context node
+     * @return
+     *     the rootResource node, or null if not exists
+     */
+    public static FHIRPathResourceNode getRootResourceNode(FHIRPathTree tree, FHIRPathNode node) {
+        // get resource node ancestors for the context node
+        List<FHIRPathResourceNode> resourceNodes = getResourceNodes(tree, node);
+
+        if (!resourceNodes.isEmpty()) {
+            if (isContained(resourceNodes)) {
+                return resourceNodes.get(1);
+            } else {
+                return resourceNodes.get(0);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Determine whether the list of resource node ancestors indicates containment within a domain resource.
+     *
+     * @param resourceNodes
+     *     the list of resource node ancestors
+     * @return
+     *     true if there is containment, false otherwise
+     */
+    private static boolean isContained(List<FHIRPathResourceNode> resourceNodes) {
+        return resourceNodes.size() > 1 && resourceNodes.get(1).resource().is(DomainResource.class);
+    }
+
+    /**
+     * Get the list of resource nodes in the path of the given context node (including the context node itself).
+     * The ancestors are ordered from node to root (i.e. the node at index 0 is either the current node or
+     * the nearest resource node ancestor).
+     *
+     * @param tree
+     *     the FHIRPath tree
+     * @param node
+     *     the context node
+     * @return
+     *     the list of resource node ancestors, or empty if none exist
+     */
+    private static List<FHIRPathResourceNode> getResourceNodes(FHIRPathTree tree, FHIRPathNode node) {
+        if (tree != null) {
+            List<FHIRPathResourceNode> resourceNodes = new ArrayList<>();
+
+            if (node.isResourceNode()) {
+                resourceNodes.add(node.asResourceNode());
+            }
+
+            String path = node.path();
+            int index = path.lastIndexOf(".");
+            while (index != -1) {
+                path = path.substring(0, index);
+                node = tree.getNode(path);
+                if (node.isResourceNode()) {
+                    resourceNodes.add(node.asResourceNode());
+                }
+                index = path.lastIndexOf(".");
+            }
+
+            return resourceNodes;
+        }
+        return Collections.emptyList();
+    }
+
+    /**
+     * Get the URI-typed sibling of the given element node with name "system".
+     *
+     * @param tree
+     *     the tree
+     * @param elementNode
+     *     the element node
+     * @return
+     *     the URI-typed sibling of the given element node with name "system", or null if no such sibling exists
+     */
+    public static Uri getSystem(FHIRPathTree tree, FHIRPathElementNode elementNode) {
+        if (tree != null) {
+            FHIRPathNode systemNode = tree.getSibling(elementNode, "system");
+            if (systemNode != null && FHIRPathType.FHIR_URI.equals(systemNode.type())) {
+                return systemNode.asElementNode().element().as(Uri.class);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the String-typed sibling of the given element node with name "version".
+     *
+     * @param tree
+     *     the tree
+     * @param elementNode
+     *     the element node
+     * @return
+     *     the String-typed sibling of the given element node with name "version", or null if no such sibling exists
+     */
+    public static com.ibm.fhir.model.type.String getVersion(FHIRPathTree tree, FHIRPathElementNode elementNode) {
+        if (tree != null) {
+            FHIRPathNode versionNode = tree.getSibling(elementNode, "version");
+            if (versionNode != null && FHIRPathType.FHIR_STRING.equals(versionNode.type())) {
+                return versionNode.asElementNode().element().as(FHIR_STRING);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the String-typed sibling of the given element node with name "display".
+     *
+     * @param tree
+     *     the tree
+     * @param elementNode
+     *     the element node
+     * @return
+     *     the String-typed sibling of the given element node with name "display", or null if no such sibling exists
+     */
+    public static com.ibm.fhir.model.type.String getDisplay(FHIRPathTree tree, FHIRPathElementNode elementNode) {
+        if (tree != null) {
+            FHIRPathNode displayNode = tree.getSibling(elementNode, "display");
+            if (displayNode != null && FHIRPathType.FHIR_STRING.equals(displayNode.type())) {
+                return displayNode.asElementNode().element().as(FHIR_STRING);
+            }
+        }
+        return null;
     }
 }

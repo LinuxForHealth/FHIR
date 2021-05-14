@@ -533,13 +533,13 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                 // cpb-15: If kind = capability, implementation must be absent, software must be present
                 if (code instanceof CapabilityStatementKind.Builder) {
                     // use 'instance' to avoid the other special cases
-                    enumConstant = CapabilityStatementKind.ValueSet.INSTANCE;
+                    enumConstant = CapabilityStatementKind.Value.INSTANCE;
                 }
                 // trd-3:   A named event requires a name, a periodic event requires timing, and a data event requires data
                 if (code instanceof TriggerType.Builder) {
-                    if (enumConstant == TriggerType.ValueSet.PERIODIC) {
+                    if (enumConstant == TriggerType.Value.PERIODIC) {
                         // trd-1 has prevented us from including a timing element, but we're good with any other type
-                        enumConstant = TriggerType.ValueSet.DATA_MODIFIED;
+                        enumConstant = TriggerType.Value.DATA_MODIFIED;
                     }
                 }
 

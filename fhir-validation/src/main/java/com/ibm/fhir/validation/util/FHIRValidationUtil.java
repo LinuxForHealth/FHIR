@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,7 +18,7 @@ public final class FHIRValidationUtil {
     public static final Comparator<Issue> ISSUE_COMPARATOR = new Comparator<Issue>() {
         @Override
         public int compare(Issue first, Issue second) {
-            return first.getSeverity().getValueAsEnumConstant().compareTo(second.getSeverity().getValueAsEnumConstant());
+            return first.getSeverity().getValueAsEnum().compareTo(second.getSeverity().getValueAsEnum());
         }
     };
 

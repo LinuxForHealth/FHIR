@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -299,8 +300,8 @@ public class SearchUtil {
                         results.put(code, sp);
                     } else if (log.isLoggable(Level.FINE)) {
                         log.fine("Skipping search parameter with id='" + sp.getId() + "'. "
-                                + "Tenant configuration for resource='" + resourceType + "' code='" + code + "' "
-                                + "does not match url '" + url + "'");
+                                + "Tenant configuration for resource='" + resourceType + "' code='" + code + "' url='" + configuredUrl
+                                + "' does not match url '" + url + "'");
                     }
                 } else if (includeAll) {
                     // If "*" is contained in the included SP urls, then include the search parameter
@@ -308,9 +309,10 @@ public class SearchUtil {
                     if (!results.containsKey(code)) {
                         results.put(code, sp);
                     } else {
+                        String configuredUrl = results.get(code).getUrl().getValue();
                         log.warning("Skipping search parameter with id='" + sp.getId() + "'. "
-                                + "Found multiple search parameters for code '" + code + "' on resource type '" + resourceType + "';"
-                                + " use search parameter filtering to disambiguate.");
+                                + "Found multiple search parameters, '" + configuredUrl + "' and '" + url + "', for code '" + code
+                                + "' on resource type '" + resourceType + "'; use search parameter filtering to disambiguate.");
                     }
                 }
             }
@@ -450,20 +452,27 @@ public class SearchUtil {
             Set<SearchParameter> params = getSearchParametersByCodeFromTenantOrBuiltIn(resourceType, code, tenantSpMap);
 
             if (params != null && !params.isEmpty()) {
-                result = params.iterator().next();
-                if (params.size() > 1) {
-                    log.warning("Found multiple resource-specific search parameters for code '" + code + "' on resource type " + resourceType + ";"
-                            + " use search parameter filtering to disambiguate. Using '" + result.getUrl().getValue() + "'.");
+                Iterator<SearchParameter> iterator = params.iterator();
+                result = iterator.next();
+                String configuredUrl = result.getUrl().getValue();
+                while (iterator.hasNext()) {
+                    SearchParameter conflict = iterator.next();
+                    log.warning("Found multiple resource-specific search parameters, '" + configuredUrl + "' and '" + conflict.getUrl().getValue()
+                        + "', for code '" + code + "' on resource type '" + resourceType + "';"
+                        + " use search parameter filtering to disambiguate. Using '" + configuredUrl + "'.");
                 }
             }
         } else if (parentResourceFilterRules == null || parentResourceFilterRules.containsKey(SearchConstants.WILDCARD)) {
             Set<SearchParameter> params = getSearchParametersByCodeFromTenantOrBuiltIn(SearchConstants.RESOURCE_RESOURCE, code, tenantSpMap);
 
             if (params != null && !params.isEmpty()) {
-                result = params.iterator().next();
-                if (params.size() > 1) {
-                    log.warning("Found multiple cross-resource search parameters for code '" + code + "';"
-                            + " use search parameter filtering to disambiguate. Using '" + result.getUrl().getValue() + "'.");
+                Iterator<SearchParameter> iterator = params.iterator();
+                result = iterator.next();
+                String configuredUrl = result.getUrl().getValue();
+                while (iterator.hasNext()) {
+                    SearchParameter conflict = iterator.next();
+                    log.warning("Found multiple cross-resource search parameters, '" + configuredUrl + "' and '" + conflict.getUrl().getValue()
+                        + "', for code '" + code + "'; use search parameter filtering to disambiguate. Using '" + configuredUrl + "'.");
                 }
             }
         }
@@ -1009,7 +1018,7 @@ public class SearchUtil {
                     boolean foundMatch = false;
                     SearchComparator prefixAsComparator = SearchComparator.of(prefix.value());
                     for (SearchComparator comparator : comparators) {
-                        if (comparator.getValueAsEnumConstant() == prefixAsComparator.getValueAsEnumConstant()) {
+                        if (comparator.getValueAsEnum() == prefixAsComparator.getValueAsEnum()) {
                             foundMatch = true;
                             break;
                         }
@@ -1379,7 +1388,11 @@ public class SearchUtil {
                 } else if (parts.length == 2) {
                     parameterValue.setValueSystem(unescapeSearchParm(parts[0]));
                     parameterValue.setValueCode(unescapeSearchParm(parts[1]));
+                } else if (parts.length == 1 && v.endsWith("|") && v.indexOf("|") == v.length()-1) {
+                    // Only a system was specified (uri followed by a single '|')
+                    parameterValue.setValueSystem(unescapeSearchParm(parts[0]));
                 } else {
+                    // Treat as a single code.
                     // Optimization for search parameters that always reference the same system, added under #1929
                     if (!Modifier.MISSING.equals(modifier)) {
                         try {
@@ -2764,5 +2777,27 @@ public class SearchUtil {
         // Remove invalid inclusion parameters
         context.getIncludeParameters().removeAll(invalidIncludeParameters);
         context.getRevIncludeParameters().removeAll(invalidRevIncludeParameters);
+    }
+
+    /**
+     * Inspect the searchContext to see if the parameters define a compartment-based
+     * search. This is useful to know because it allows an implementation to
+     * enable optimizations specific to compartment-based searches.
+     * @param searchContext
+     * @return
+     */
+    public static boolean isCompartmentSearch(FHIRSearchContext searchContext) {
+        boolean result = false;
+
+        // The compartment query parameter should be the first, but we check
+        // the whole list just to be sure
+        for (QueryParameter qp: searchContext.getSearchParameters()) {
+            if (qp.isInclusionCriteria()) {
+                result = true;
+                break;
+            }
+        }
+
+        return result;
     }
 }

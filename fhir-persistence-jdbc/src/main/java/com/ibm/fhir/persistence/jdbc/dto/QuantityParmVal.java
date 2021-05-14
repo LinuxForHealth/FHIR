@@ -15,7 +15,7 @@ import com.ibm.fhir.persistence.jdbc.JDBCConstants;
  * This class defines the Data Transfer Object representing a row in the X_QUANTITY_VALUES tables.
  */
 public class QuantityParmVal implements ExtractedParameterValue {
-    
+
     private String resourceType;
     private String name;
     private BigDecimal valueNumber;
@@ -23,7 +23,7 @@ public class QuantityParmVal implements ExtractedParameterValue {
     private BigDecimal valueNumberHigh;
     private String valueSystem;
     private String valueCode;
-    
+
     // The SearchParameter base type. If "Resource", then this is a Resource-level attribute
     private String base;
 
@@ -31,10 +31,12 @@ public class QuantityParmVal implements ExtractedParameterValue {
         super();
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
+    @Override
     public String getName() {
         return name;
     }
@@ -59,6 +61,10 @@ public class QuantityParmVal implements ExtractedParameterValue {
     }
 
     public String getValueCode() {
+        // X_QUANTITY_VALUES tables have non-nullable CODE column, so use empty string for no code
+        if (valueCode == null) {
+            return "";
+        }
         return valueCode;
     }
 
@@ -82,10 +88,12 @@ public class QuantityParmVal implements ExtractedParameterValue {
         this.valueNumberHigh = valueNumberHigh;
     }
 
+    @Override
     public String getResourceType() {
         return resourceType;
     }
 
+    @Override
     public void setResourceType(String resourceType) {
         this.resourceType = resourceType;
     }
@@ -93,6 +101,7 @@ public class QuantityParmVal implements ExtractedParameterValue {
     /**
      * We know our type, so we can call the correct method on the visitor
      */
+    @Override
     public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
         visitor.visit(this);
     }
@@ -100,6 +109,7 @@ public class QuantityParmVal implements ExtractedParameterValue {
     /**
      * @return the base
      */
+    @Override
     public String getBase() {
         return base;
     }
@@ -107,6 +117,7 @@ public class QuantityParmVal implements ExtractedParameterValue {
     /**
      * @param base the base to set
      */
+    @Override
     public void setBase(String base) {
         this.base = base;
     }

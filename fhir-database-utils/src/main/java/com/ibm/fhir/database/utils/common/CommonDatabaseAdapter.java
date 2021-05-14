@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -585,6 +585,12 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         logger.info(ddl);
 
         runStatement(ddl);
+    }
+
+    @Override
+    public void dropForeignKey(String schemaName, String tableName, String constraintName) {
+        DropForeignKeyConstraint cmd = new DropForeignKeyConstraint(schemaName, tableName, constraintName);
+        runStatement(cmd);
     }
 
     @Override

@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2021
-lastupdated: "2021-04-13"
+lastupdated: "2021-05-13"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -2032,6 +2032,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/audit/serviceProperties/kafka`|object|A set of name value pairs used as part of the 'config' for publishing to the kafka service. These should only be Kafka properties.|
 |`fhirServer/audit/hostname`|string|A string used to identify the Hostname, useful in containerized environments|
 |`fhirServer/audit/ip`|string|A string used to identify the IP address, useful to identify only one IP|
+|`fhirServer/search/enableOptQueryBuilder`|boolean|True, enable the optimized query builder for supported searches.|
 |`fhirServer/search/useBoundingRadius`|boolean|True, the bounding area is a Radius, else the bounding area is a box.|
 |`fhirServer/search/useStoredCompartmentParam`|boolean|False, Compute and store parameter to accelerate compartment searches. Requires reindex using at least IBM FHIR Server version 4.5.1 before this feature is enabled |
 |`fhirServer/bulkdata/enabled`| string|Enabling the BulkData operations |
@@ -2137,6 +2138,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/persistence/datasources/<datasourceId>/type`|derby|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|16|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|16|
+|`fhirServer/search/enableOptQueryBuilder`|boolean|true|
 |`fhirServer/security/cors`|boolean|true|
 |`fhirServer/security/basic/enabled`|boolean|false|
 |`fhirServer/security/certificates/enabled`|boolean|false|
@@ -2260,6 +2262,7 @@ must restart the server for that change to take effect.
 |`fhirServer/persistence/datasources/<datasourceId>/type`|Y|N|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|Y|Y|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|Y|Y|
+|`fhirServer/search/enableOptQueryBuilder`|Y|Y|
 |`fhirServer/security/cors`|Y|Y|
 |`fhirServer/security/basic/enabled`|Y|Y|
 |`fhirServer/security/certificates/enabled`|Y|Y|
@@ -2334,7 +2337,7 @@ Additionally, the server has a trustDefault.xml config dropin that references th
 
 ### 5.2.2 WebApp security
 By default, the FHIR server REST API is only available via HTTPS on port 9443 and is protected by HTTP basic authentication.
-Alternatively, the server can use OpenID Connect and OAuth 2.0 via a Bearer Token as described in [Section 5.2.4 Oauth 2.0](#524-oauth-20).
+Alternatively, the server can use OpenID Connect and OAuth 2.0 via a Bearer Token as described in [Section 5.3 OpenID Connect and OAuth 2.0](#53-openid-connect-and-oauth-20).
 In addition, the FHIR server web application can be secured via client certificate-based authentication.
 
 Here are some notes related to these authentication schemes:
@@ -2405,152 +2408,59 @@ The precise steps required to configure certificate-based authentication for a c
 *   If the client is using OAuth 2.0 Authentication, then the client keystore must be configured with the REST API client framework. In addition, it must send an appropriate Authorization request header containing the Bearer token in the HTTP request.
 
 ## 5.3 OpenID Connect and OAuth 2.0
-The FHIR specification recommends the use of OpenID Connect and OAuth 2.0.
-The IBM FHIR Server supports these via either:
-* An external Authorization Server and/or Identity Provider like [IBM Cloud App ID](https://www.ibm.com/cloud/app-id) or [Keycloak](https://www.keycloak.org)
-* Liberty's own OpenID Connect and OAuth 2.0 support
+The FHIR specification recommends the use of OAuth 2.0.
+The IBM FHIR Server supports OAuth 2.0 through the use of WebSphere Liberty / OpenLiberty features.
 
-The following sections focus on the latter and are adapted from the [WebSphere Liberty Knowledge Center](https://www.ibm.com/support/knowledgecenter/SSD28V_liberty/com.ibm.websphere.wlp.core.doc/ae/twlp_config_oidc_pc_examp_beginner.html), but the steps apply to OpenLiberty as well.
+While it is possible to configure Liberty as an [OpenID Connect Client](https://openliberty.io/docs/latest/reference/config/openidConnectClient.html), more typically the IBM FHIR Server will be configured as a generic OAuth 2.0 "Protected Resource Server" that works with JWT access tokens that have been issued by a trusted Authorization Server like [Keycloak](https://www.keycloak.org).
 
-### 5.3.1 Configure Liberty as the OpenID Connect Provider
-Liberty can be configured to act as an OpenID Connect Provider via the [openidConnectServer-1.0 feature](https://openliberty.io/docs/ref/feature/#openidConnectServer-1.0.html). To enable this feature without modifying the default `server.xml`, move the `oidcProvider.xml` config snippet on the installed FHIR Server from `<WLP_HOME>/usr/servers/fhir-server/configDropins/disabled/` to `<WLP_HOME>/usr/servers/fhir-server/configDropins/defaults/` and modify as desired.
+### 5.3.1 Configure Liberty to be an OAuth 2.0 Protected Resource Server
+Liberty can be configured to act as an OAuth 2.0 Protected Resource Server via either the [openidConnectClient feature](https://www.ibm.com/docs/en/was-liberty/core?topic=connect-configuring-oauth-20-protected-resources-in-liberty) or the [mpJwt feature](https://openliberty.io/guides/microprofile-jwt.html).
 
-A copy of this snippet is provided here for illustrative purposes:
-```xml
-<featureManager>
-    <feature>openidConnectServer-1.0</feature>
-</featureManager>
-
-<openidConnectProvider id="oidc-provider"
-    oauthProviderRef="oauth2-provider"
-    keyStoreRef="defaultKeyStore"
-    signatureAlgorithm="RS256" />
-
-<oauth-roles>
-    <authenticated>
-        <special-subject type="ALL_AUTHENTICATED_USERS" />
-    </authenticated>
-    <clientManager>
-        <group name="clientAdministrator" />
-    </clientManager>
-</oauth-roles>
-
-<oauthProvider id="oauth2-provider" oauthOnly="false" allowPublicClients="true" jwtAccessToken="true">
-    <grantType>authorization_code</grantType>
-    <databaseStore dataSourceRef="OAuthDataSource" schema="FHIR_OAUTH" />
-</oauthProvider>
-
-<dataSource id="OAuthDataSource" jndiName="jdbc/OAuth2DB">
-    <properties.derby.embedded createDatabase="create" databaseName="derby/oauth2db" />
-    <jdbcDriver libraryRef="sharedLibDerby" />
-</dataSource>
-```
-
-### 5.3.1.1 oidcProvider.xml snippet details
-OpenID Connect is built on OAuth 2.0 and so the `oidcProvider.xml` snippet configures Liberty as an OAuth 2.0 provider as described at [Defining OAuth](https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/twlp_oauth_defining.html).
-
-Liberty supports the registration of clients through either a localStore in the server.xml or a databaseStore in a configured dataSource.
-To support "dynamic client registration", the snippet configures an oauthProvider databaseStore and a clientManager oauth-role for managing the OAuth 2.0 clients.
-
-Additionally, the `fhir-persistence-schema` project (which is also used to deploy the main IBM FHIR Server schema) creates the tables required by this Liberty feature by default (as described at [OAuth Databases](https://www.ibm.com/support/knowledgecenter/SSD28V_liberty/com.ibm.websphere.wlp.core.doc/ae/twlp_oauth_dbs.html)).
-
-Finally, the `openidConnectProvider` element is specified with a default signatureAlgorithm of RS256 and a reference to the defaultKeyStore which must contain a private key that can be used for signing.
-
-### 5.3.1.2 Register a client
-Now that the server is configured as an OAuth 2.0 provider, clients can self-register by invoking the https://[host]:9443/oauth2/endpoint/oauth2-provider/registration endpoint.
-
-For example, for a server running on localhost:
-```sh
-curl -u 'fhiruser:change-password' 'https://localhost:9443/oauth2/endpoint/oauth2-provider/registration' \
---header 'Content-Type: application/json' \
---data-raw '{
-   "token_endpoint_auth_method":"client_secret_basic",
-   "scope":"launch launch/patient offline_access openid profile user/*.* patient/*.*",
-   "grant_types":[
-      "authorization_code",
-      "client_credentials",
-      "implicit",
-      "refresh_token",
-      "urn:ietf:params:oauth:grant-type:jwt-bearer"
-   ],
-   "response_types":[
-      "code",
-      "token",
-      "id_token token"
-   ],
-   "application_type":"web",
-   "subject_type":"public",
-   "post_logout_redirect_uris":[
-      "http://localhost:4567/inferno/oauth2/static/redirect"
-   ],
-   "preauthorized_scope":"launch launch/patient offline_access openid profile user/*.* patient/*.*",
-   "introspect_tokens":true,
-   "trusted_uri_prefixes":[
-      "https://server.example.com:9000/trusted/"
-   ],
-   "redirect_uris":[
-      "http://localhost:4567/inferno/oauth2/static/redirect"
-   ]
-}'
-```
-
-For more information on Liberty's support for client registration, see https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/twlp_client_registration.html.
-
-### 5.3.1.3 Request an access token
-After you've registered a client, invoke the authorization endpoint with the client_id assigned to your client in order to obtain an authorization code that can be exchanged for an access token.
-For a server running on localhost, the auth URL is `https://localhost:9443/oidc/endpoint/oidc-provider/authorize`.
-
-The provider endpoint will present an HTML login form and you must enter a valid username/password from Liberty's configured user registry (e.g. `fhiruser`/`change-password`).
-This will redirect you to the configured redirect uri for your client, passing it a code that can be exchanged for an access token at the token endpoint.
-For a server running on localhost, the token URL is `https://localhost:9443/oidc/endpoint/oidc-provider/token`.
-
-### 5.3.2 Configure Liberty to be an Oauth 2.0 Protected Resource Server
-Liberty can be configured to act as an OAuth 2.0 Protected Resource Server via the [openidConnectClient-1.0 feature](https://openliberty.io/docs/ref/feature/#openidConnectClient-1.0.html). To enable this feature without modifying the default `server.xml`, move the `oauthResourceServer.xml` config snippet on the installed FHIR Server from `<WLP_HOME>/usr/servers/fhir-server/configDropins/disabled/` to `<WLP_HOME>/usr/servers/fhir-server/configDropins/defaults/` and modify as desired.
+One advantage of the mpJwt approach is that users can be mapped into pre-defined JEE security roles.
+To enable this feature without modifying the default `server.xml`, move the `jwtRS.xml` config snippet from `configDropins/disabled/` to `configDropins/defaults/` and modify as desired.
 
 A copy of this snippet is provided here for illustrative purposes:
 ```xml
-<featureManager>
-    <feature>openidConnectClient-1.0</feature>
-</featureManager>
+<server description="fhir-server">
+    <featureManager>
+        <feature>mpJwt-1.1</feature>
+    </featureManager>
 
-<!-- Liberty acts as an OAuth 2.0 protected resource server when inboundPropagation=”required” -->
-<openidConnectClient id="RS" inboundPropagation="required"
-    trustStoreRef="defaultTrustStore"
-    trustAliasName="libertyop"
-    issuerIdentifier="https://localhost:9443/oauth2/endpoint/oauth2-provider,https://host.docker.internal:9443/oauth2/endpoint/oauth2-provider"
-    validationEndpointUrl="https://localhost:9443/oauth2/endpoint/oauth2-provider/introspect"
-    signatureAlgorithm="RS256"
-    authFilterRef="filter"/>
+    <!-- Override the application-bnd binding of the main webapp -->
+    <webApplication contextRoot="fhir-server/api/v4" id="fhir-server-webapp" location="fhir-server.war" name="fhir-server-webapp">
+        <application-bnd id="bind">
+            <security-role id="users" name="FHIRUsers">
+                <group id="usersGroup" access-id="group:https://localhost:8443/auth/realms/test/fhirUser"/>
+            </security-role>
+        </application-bnd>
+    </webApplication>
+    
+    <mpJwt id="jwtConsumer"
+           jwksUri="http://keycloak:8080/auth/realms/test/protocol/openid-connect/certs"
+           issuer="https://localhost:8443/auth/realms/test"
+           audiences="http://fhir-server:9080/fhir-server/api/v4"
+           userNameAttribute="sub"
+           groupNameAttribute="group"
+           authFilterRef="filter"/>
 
-<authFilter id="filter">
-    <requestUrl urlPattern="/fhir-server"/>
-</authFilter>
+    <authFilter id="filter">
+        <requestUrl urlPattern="/fhir-server" />
+        <requestUrl matchType="notContain" urlPattern="/fhir-server/api/v4/metadata" />
+        <requestUrl matchType="notContain" urlPattern="/fhir-server/api/v4/.well-known/smart-configuration" />
+    </authFilter>
+</server>
 ```
 
-### 5.3.2.1 oauthResourceServer.xml snippet details
-By default, the server is configured with a defaultTrustStore that includes a copy of the server's signed certificate with alias `libertyop` ("op" for OpenID Connect Provider).
+In the snippet above, the `mpJwt` element is configured to obtain JWK information from http://keycloak:8080/auth/realms/test/protocol/openid-connect/certs and use this to validate JWT tokens that are passed to the server.
 
-The server is configured to accept tokens with an issuerIdentifier that has a hostname of either localhost or host.docker.internal so that we can test it from the [Inferno test tool's](https://github.com/onc-healthit/inferno) docker-compose environment.
+Additionally, the server will validate the `iss` (issuer) and `aud` (audiences) claims of the JWT and use the `sub` claim as the user principal (for audit logging).
 
-The signatureAlgorithm must match the signature used by the OAuth provider and the authFilter is required when the server is also acting as both an OAuth Resource Server *and* an OAuth/OpenId Connect provider so that the OAuth endpoints themselves can be accessed to grant the access tokens needed for accessing the rest of the server endpoints.
+Finally, the value(s) of the `group` claim are used to map this user into a corresponding JEE security-role as defined in the `application-bnd` section of the `webApplication` element.
 
-### 5.3.2.2 Configuring the trustStore
-If you are using Liberty as both the openIdConnect server and the openIdConnect client and you have modified the defaultKeyStore to use a different key, you can configure the corresponding trustStore based on the following keytool commands:
-
-1. Export the OAuth 2.0 provider's certificate from the configured keystore via one of the following commands:
-* `keytool -exportcert -keystore key.p12 -storepass Password -alias default -file libertyOP.cer`
-* `keytool -exportcert -keystore key.jks -storepass Password -alias default -file libertyOP.cer`
-
-2. Import the certificate into the server's trustStore. Assuming you use the same keystore for both, then use of these:
-* `keytool -importcert -keystore key.p12 -storepass Password -alias libertyop -file libertyOP.cer -noprompt`
-* `keytool -importcert -keystore key.jks -storepass Password -alias libertyop -file libertyOP.cer -noprompt`
-
-### 5.3.3 Advertise the OAuth endpoints via fhir-server-config
-To configure the FHIR Server to advertise the OpenID Connect and OAuth 2.0 endpoints of the providers, provide values for at least the following properties in the default fhir-server-config.json file:
+### 5.3.2 Advertise the OAuth endpoints via fhir-server-config
+To make the FHIR Server advertise the OAuth endpoints of the configured provider, supply values for at least the following properties in the default fhir-server-config.json file:
 * `fhirServer/security/oauth/authUrl`
 * `fhirServer/security/oauth/tokenUrl`
-
-When the Liberty server is the OpenID Connect / OAuth 2.0 provider, use a placeholder of `<host>` in the property values to have the server automatically replace this text with the hostname used by requestors (see `fhirServer/core/originalRequestUriHeaderName`).
 
 These values will be used to populate the corresponding entries in both the server capability statement (`GET [base]/metadata`) and the smart-configuration (`GET [base]/.well-known/smart-configuration`).
 
@@ -2559,32 +2469,46 @@ For example, the following excerpt from a CapabilityStatement shows sample OAuth
 …
 "rest": [
     {
-      "mode": "server",
-      "security": {
+        "mode": "server",
+        "security": {
         "extension": [
-          {
-            "url": "http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris"
-            "extension": [
-              {
-                "url": "register",
-                "valueUri": "https://localhost:9443/oauth2/endpoint/oauth2-provider/registration"
-              },
-              {
-                "url": "authorize",
-                "valueUri": "https://localhost:9443/oauth2/endpoint/oauth2-provider/authorize"
-              },
-              {
-                "url": "token",
-                "valueUri": "https://localhost:9443/oauth2/endpoint/oauth2-provider/token"
-              }
-            ]
-          }
+            {
+                "url": "http://fhir-registry.smarthealthit.org/StructureDefinition/oauth-uris"
+                "extension": [
+                    {
+                        "url": "authorize",
+                        "valueUri": "https://localhost:8443/auth/realms/test/protocol/openid-connect/auth"
+                    },
+                    {
+                        "url": "token",
+                        "valueUri": "https://localhost:8443/auth/realms/test/protocol/openid-connect/token"
+                    },
+                    {
+                        "url": "register",
+                        "valueUri": "https://localhost:8443/auth/realms/test/clients-registrations/openid-connect"
+                    }
+                ]
+            }
         ],
-…
+        …
 ```
 
 SMART on FHIR applications should use the `.well-known/smart-configuration` endpoint to determine the OAuth URLs to use for authorization,
 but the entries in the Capability Statement are needed for backwards compatibility.
+
+### 5.3.3 SMART App Launch
+To support [SMART App Launch](https://www.hl7.org/fhir/smart-app-launch), the IBM FHIR Server can be used with a SMART-enabled authorization server. For an example of a SMART-enabled Authorization Server, see the [Alvearie Keycloak extensions for FHIR](https://github.com/Alvearie/keycloak-extensions-for-fhir).
+
+The OAuth configuration described in the previous sections will restrict API access to clients with a valid access token.
+However, SMART defines additional access controls via OAuth 2.0 scopes and context parameters.
+
+To enforce authorization policy on the server, drop the `fhir-smart` module into the server's userlib directory.
+
+This component uses the IBM FHIR Server's PersistenceInterceptor feature to automatically scope searches to the compartments for which the user has access (as indicated but a special `patient_id` claim in the access token).
+
+Additionally, before returning resources to the client, the `fhir-smart` component performs authorization policy enforcement based on the list of SMART scopes included in the token's `scope` claim and the list of patient compartments in the `patient_id` claim.
+
+For an example of using the IBM FHIR Server together with a SMART-enabled Keycloak authorization server, please see the data-access pattern at https://github.com/Alvearie/health-patterns/tree/main/data-access.
 
 ## 5.4 Custom HTTP Headers
 IBM FHIR Server Supports the following custom HTTP Headers:
