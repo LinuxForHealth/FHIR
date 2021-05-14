@@ -1810,7 +1810,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 txn.commit();
                 txn = null;
             }
-            
+
             return Arrays.asList(responseEntries);
 
         } finally {
@@ -2563,6 +2563,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 Entry.Builder entryBuilder = Entry.builder();
                 if (resource != null) {
                     if (resource.getId() != null) {
+                        entryBuilder.id(resource.getId());
                         entryBuilder.fullUrl(Uri.of(getRequestBaseUri(type) + "/" + resource.getClass().getSimpleName() + "/" + resource.getId()));
                     } else {
                         String msg = "A resource with no id was found.";
