@@ -89,11 +89,13 @@ import com.ibm.fhir.path.patch.FHIRPathPatch;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
+import com.ibm.fhir.persistence.ResourceEraseRecord;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
+import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
@@ -1170,7 +1172,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     public Bundle doBundle(Bundle inputBundle, boolean skippableUpdates) throws Exception {
         log.entering(this.getClass().getName(), "doBundle");
 
-        // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
 
         try {
@@ -1486,8 +1487,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
     }
 
-    private FHIROperationException buildUnsupportedResourceTypeException(String resourceTypeName)
-            throws FHIROperationException {
+    private FHIROperationException buildUnsupportedResourceTypeException(String resourceTypeName) {
         String msg = "'" + resourceTypeName + "' is not a valid resource type.";
         Issue issue = OperationOutcome.Issue.builder()
                 .severity(IssueSeverity.FATAL)
@@ -1899,6 +1899,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         MultivaluedMap<String, String> queryParams = requestURL.getQueryParameters();
         Resource resource = null;
 
+
+
         // Process a GET (read, vread, history, search, etc.).
         // Determine the type of request from the path tokens.
         if (pathTokens.length > 0 && pathTokens[pathTokens.length - 1].startsWith("$")) {
@@ -1911,14 +1913,17 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             switch (pathTokens.length) {
             case 1:
                 operationContext = FHIROperationContext.createSystemOperationContext();
+                updateOperationContext(operationContext, "GET");
                 resource = doInvoke(operationContext, null, null, null, operationName, null, queryParams);
                 break;
             case 2:
                 operationContext = FHIROperationContext.createResourceTypeOperationContext();
+                updateOperationContext(operationContext, "GET");
                 resource = doInvoke(operationContext, pathTokens[0], null, null, operationName, null, queryParams);
                 break;
             case 3:
                 operationContext = FHIROperationContext.createInstanceOperationContext();
+                updateOperationContext(operationContext, "GET");
                 resource = doInvoke(operationContext, pathTokens[0], pathTokens[1], null, operationName, null, queryParams);
                 break;
             default:
@@ -1963,6 +1968,20 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     /**
+     * commond update to the operationContext
+     * @param operationContext
+     * @param method
+     */
+    private void updateOperationContext(FHIROperationContext operationContext, String method) {
+        FHIRRequestContext requestContext = FHIRRequestContext.get();
+        operationContext.setProperty(FHIROperationContext.PROPNAME_URI_INFO, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_URI_INFO));
+        operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_HEADERS, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_HTTP_HEADERS));
+        operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_SECURITY_CONTEXT));
+        operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_HTTP_REQUEST));
+        operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, method);
+    }
+
+    /**
      * Processes a request entry with a request method of POST.
      *
      * @param requestEntry
@@ -1994,6 +2013,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         MultivaluedMap<String, String> queryParams = requestURL.getQueryParameters();
         Resource resource = null;
 
+        FHIRRequestContext requestContext = FHIRRequestContext.get();
+
         // Process a POST (create or search, or custom operation).
         if (pathTokens.length > 0 && pathTokens[pathTokens.length - 1].startsWith("$")) {
             // This is a custom operation request.
@@ -2009,14 +2030,17 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             switch (pathTokens.length) {
             case 1:
                 operationContext = FHIROperationContext.createSystemOperationContext();
+                updateOperationContext(operationContext, "POST");
                 result = doInvoke(operationContext, null, null, null, operationName, resource, queryParams);
                 break;
             case 2:
                 operationContext = FHIROperationContext.createResourceTypeOperationContext();
+                updateOperationContext(operationContext, "POST");
                 result = doInvoke(operationContext, pathTokens[0], null, null, operationName, resource, queryParams);
                 break;
             case 3:
                 operationContext = FHIROperationContext.createInstanceOperationContext();
+                updateOperationContext(operationContext, "POST");
                 result = doInvoke(operationContext, pathTokens[0], pathTokens[1], null, operationName, resource, queryParams);
                 break;
             default:
@@ -3006,7 +3030,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @return A list of validation errors and warnings
      * @throws FHIRValidationException
      */
-    private List<Issue>  validateResource(Resource resource) throws FHIRValidationException {
+    private List<Issue> validateResource(Resource resource) throws FHIRValidationException {
         List<String> profiles = null;
         List<String> profilesWithoutVersion = null;
 
@@ -3344,5 +3368,36 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         bundleBuilder.type(BundleType.HISTORY);
 
         return bundleBuilder.build();
+    }
+
+    @Override
+    public ResourceEraseRecord doErase(FHIROperationContext operationContext, EraseDTO eraseDto) throws FHIROperationException {
+        // @implNote doReindex has a nice pattern to handle some retries in case of deadlock exceptions
+        final int TX_ATTEMPTS = 5;
+        int attempt = 1;
+        ResourceEraseRecord eraseRecord = new ResourceEraseRecord();
+        do {
+            FHIRTransactionHelper txn = null;
+            try {
+                txn = new FHIRTransactionHelper(getTransaction());
+                txn.begin();
+                eraseRecord = persistence.erase(eraseDto);
+                attempt = TX_ATTEMPTS; // end the retry loop
+            } catch (FHIRPersistenceDataAccessException x) {
+                if (x.isTransactionRetryable() && attempt < TX_ATTEMPTS) {
+                    log.info("attempt #" + attempt + " failed, retrying transaction");
+                } else {
+                    throw new FHIROperationException("Error during $erase", x);
+                }
+            } catch (Exception x) {
+                attempt = TX_ATTEMPTS; // end the retry loop
+                throw new FHIROperationException("Error during $erase", x);
+            } finally {
+                if (txn != null) {
+                    txn.end();
+                }
+            }
+        } while (attempt++ < TX_ATTEMPTS);
+        return eraseRecord;
     }
 }

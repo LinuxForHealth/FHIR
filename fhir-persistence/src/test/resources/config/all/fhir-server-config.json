@@ -1,0 +1,20 @@
+{
+    "fhirServer": {
+        "persistence": {
+            "factoryClassname": "com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+            "common": {
+                "__comment": "Configuration properties common to all persistence layer implementations",
+                "updateCreateEnabled": true
+            },
+            "jdbc": {
+                "__comment": "Configuration properties for the JDBC persistence implementation",
+                "enableCodeSystemsCache": true,
+                "enableParameterNamesCache": true,
+                "enableResourceTypesCache": true
+            }
+        },
+        "bulkdata": {
+            "enabled": false
+        }
+    }
+}

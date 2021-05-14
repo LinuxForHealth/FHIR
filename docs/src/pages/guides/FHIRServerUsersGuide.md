@@ -483,7 +483,9 @@ You can modify the default server implementation by taking advantage of the IBM 
 In addition to the standard REST API (create, update, search, and so forth), the IBM FHIR Server supports the FHIR operations framework as described in the [FHIR specification]( https://www.hl7.org/fhir/r4/operations.html).
 
 ### 4.1.1 Packaged operations
-The FHIR team provides implementations for the standard `$validate` and `$document` operations, as well as a custom operation named `$healthcheck`, which queries the configured persistence layer to report its health.
+The FHIR team provides implementations for the standard `$validate`, `$document`, `$everything`, `$expand`, `$lookup`, `$subsumes`, `$closure`, `$export`, `$import`, `$convert`, `$apply` and `$translate` operations, as well as a custom operation named `$healthcheck`, which queries the configured persistence layer to report its health.
+
+The server also bundles `$reindex` to reindex instances of Resources so they are searchable, and `$erase` to hard delete instances of Resources. To learn more about the $erase operation, read the [design document](https://github.com/IBM/FHIR/tree/main/operation/fhir-operation-erase/README.md).
 
 No other extended operations are packaged with the server at this time, but you can extend the server with your own operations.
 
@@ -2074,12 +2076,14 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/storageProviders/<source>/presigned`|boolean|When an hmac auth type is used, presigns the URLs of an export|
 |`fhirServer/bulkdata/storageProviders/<source>/create`|boolean|Enables the creation of buckets|
 |`fhirServer/bulkdata/storageProviders/<source>/auth/type`|string|A type of hmac, iam, or basic|
-|`fhirServer/bulkdata/storageProviders/<source>/accessKeyId`|string|For HMAC, API key for accessing COS |
-|`fhirServer/bulkdata/storageProviders/<source>/secretAccessKey`|string|For HMAC, secret key for accessing COS |
-|`fhirServer/bulkdata/storageProviders/<source>/iamApiKey`|string|For IAM, API key for accessing IBM COS |
-|`fhirServer/bulkdata/storageProviders/<source>/iamResourceInstanceId`|string|For IAM, secret key for accessing IBM COS |
-|`fhirServer/bulkdata/storageProviders/<source>/user`|string|For basic, user COS |
-|`fhirServer/bulkdata/storageProviders/<source>/secretAccessKey`|string|For basic, password for accessing COS |
+|`fhirServer/bulkdata/storageProviders/<source>/accessKeyId`|string|For HMAC, API key for accessing COS|
+|`fhirServer/bulkdata/storageProviders/<source>/secretAccessKey`|string|For HMAC, secret key for accessing COS|
+|`fhirServer/bulkdata/storageProviders/<source>/iamApiKey`|string|For IAM, API key for accessing IBM COS|
+|`fhirServer/bulkdata/storageProviders/<source>/iamResourceInstanceId`|string|For IAM, secret key for accessing IBM COS|
+|`fhirServer/bulkdata/storageProviders/<source>/user`|string|For basic, user COS|
+|`fhirServer/bulkdata/storageProviders/<source>/secretAccessKey`|string|For basic, password for accessing COS|
+|`fhirServer/operations/erase/enabled`|boolean|Enables the $erase operation|
+|`fhirServer/operations/erase/allowedRoles`|list|The list of allowed roles, allowed entries are: `FHIRUsers` every authenticated user, `FHIROperationAdmin` which is authenticated `FHIRAdmin` users|
 
 
 ### 5.1.2 Default property values
@@ -2189,6 +2193,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/storageProviders/<source>/validateResources`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/presigned`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/create`|false|
+|`fhirServer/operations/erase/enabled`|false|
+|`fhirServer/operations/erase/allowedRoles`|empty, all roles|
 
 ### 5.1.3 Property attributes
 Depending on the context of their use, config properties can be:
@@ -2327,6 +2333,8 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/storageProviders/<source>/iamResourceInstanceId`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/user`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/secretAccessKey`|Y|Y|
+|`fhirServer/operations/erase/enabled`|Y|Y|
+|`fhirServer/operations/erase/allowedRoles`|Y|Y|
 
 ## 5.2 Keystores, truststores, and the IBM FHIR server
 
