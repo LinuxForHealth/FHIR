@@ -21,7 +21,6 @@ BEGIN
   DECLARE v_schema_name         VARCHAR(128 OCTETS) DEFAULT '{{SCHEMA_NAME}}';
   DECLARE v_logical_resource_id BIGINT DEFAULT -1;
   DECLARE v_resource_type_id    BIGINT DEFAULT -1;
-  DECLARE v_resource_id         BIGINT DEFAULT -1;
   DECLARE v_total               BIGINT DEFAULT 0;
   DECLARE v_not_found           BIGINT DEFAULT 0;
   DECLARE v_msg                 VARCHAR(128 OCTETS) DEFAULT 'DEFAULT ERROR';
@@ -47,15 +46,7 @@ BEGIN
     -- indicates if the resource does not exist.
     SET v_total = -1;
   ELSE
-    -- Step 1: Get the Details for the Resource/Logical_Resource
-    -- the resource_id and version_id need to be fetched.
-    -- these should never be null since we have a lock, and the resource exists.
-    PREPARE r_stmt FROM
-       'SET (?) = (SELECT CURRENT_RESOURCE_ID FROM {{SCHEMA_NAME}}.' || p_resource_type || '_LOGICAL_RESOURCES'
-    || ' WHERE LOGICAL_RESOURCE_ID = ?)';
-    EXECUTE r_stmt INTO v_resource_id USING v_logical_resource_id;
-
-    -- Step 2: Delete from resource_change_log
+    -- Step 1: Delete from resource_change_log
     PREPARE rcl_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.RESOURCE_CHANGE_LOG'
     || '  WHERE RESOURCE_ID IN ('
     || '    SELECT RESOURCE_ID'
@@ -63,14 +54,14 @@ BEGIN
     || '    WHERE LOGICAL_RESOURCE_ID = ?)';
     EXECUTE rcl_stmt USING v_logical_resource_id;
 
-    -- Step 3: Delete All Versions from Resources Table 
+    -- Step 2: Delete All Versions from Resources Table 
     -- Create the prepared statement to delete Resource Versions in chunks
     -- Implementation note: fetch must be the last part of the sub-select
     PREPARE dr_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_RESOURCES WHERE LOGICAL_RESOURCE_ID = ?';
     EXECUTE dr_stmt USING v_logical_resource_id;
     GET DIAGNOSTICS v_total = ROW_COUNT;
 
-    -- Step 4: Delete from All Parameters Tables
+    -- Step 3: Delete from All Parameters Tables
     PREPARE d_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_str_values          WHERE logical_resource_id = ?';
     EXECUTE d_stmt USING v_logical_resource_id;
 
@@ -98,11 +89,11 @@ BEGIN
     PREPARE d_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || 'resource_token_refs WHERE logical_resource_id = ?';
     EXECUTE d_stmt USING v_logical_resource_id;
 
-    -- Step 5: Delete from Logical Resources table 
+    -- Step 4: Delete from Logical Resources table 
     PREPARE dlr_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_LOGICAL_RESOURCES WHERE LOGICAL_RESOURCE_ID = ?';
     EXECUTE dlr_stmt USING v_logical_resource_id;
 
-    -- Step 6: Delete from Global Logical Resources
+    -- Step 5: Delete from Global Logical Resources
     PREPARE dglr_stmt FROM 
        'DELETE FROM {{SCHEMA_NAME}}.LOGICAL_RESOURCES WHERE LOGICAL_RESOURCE_ID = ? AND RESOURCE_TYPE_ID = ?';
     EXECUTE dglr_stmt USING v_logical_resource_id, v_resource_type_id;

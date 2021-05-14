@@ -22,8 +22,6 @@
   v_schema_name         VARCHAR(128);
   v_logical_resource_id BIGINT := NULL;
   v_resource_type_id    BIGINT := -1;
-  v_resource_id         BIGINT := -1;
-  v_version             INT    := 0;
   v_total               BIGINT := 0;
 
 BEGIN
@@ -44,15 +42,7 @@ BEGIN
   THEN
     v_total := -1;
   ELSE
-    -- Step 1: Get the Details for the Resource/Logical_Resource
-    -- the resource_id and version_id need to be fetched.
-    -- these should never be null since we have a lock, and the resource exists.
-    EXECUTE 'SELECT CURRENT_RESOURCE_ID, VERSION_ID'
-    || ' FROM {{SCHEMA_NAME}}.' || p_resource_type || '_LOGICAL_RESOURCES'
-    || ' WHERE LOGICAL_RESOURCE_ID = $1'
-    INTO v_resource_id, v_version USING v_logical_resource_id;
-
-    -- Step 2: Delete from resource_change_log
+    -- Step 1: Delete from resource_change_log
     -- Delete is done before the RESOURCES table entries disappear
     -- This uses the primary_keys of each table to conditional-delete
     EXECUTE 
@@ -63,12 +53,12 @@ BEGIN
     || '    WHERE LOGICAL_RESOURCE_ID = $1)'
     USING v_logical_resource_id;
 
-    -- Step 3: Delete All Versions from Resources Table 
+    -- Step 2: Delete All Versions from Resources Table 
     EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_RESOURCES WHERE LOGICAL_RESOURCE_ID = $1'
     USING v_logical_resource_id;
     GET DIAGNOSTICS v_total = ROW_COUNT;
 
-    -- Step 4: Delete from All Parameters Tables
+    -- Step 3: Delete from All Parameters Tables
     EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_str_values          WHERE logical_resource_id = $1'
     USING v_logical_resource_id;
     EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_number_values       WHERE logical_resource_id = $1'
@@ -88,11 +78,11 @@ BEGIN
     EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.resource_token_refs  WHERE logical_resource_id = $1'
     USING v_logical_resource_id;
 
-    -- Step 5: Delete from Logical Resources table 
+    -- Step 4: Delete from Logical Resources table 
     EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_LOGICAL_RESOURCES WHERE LOGICAL_RESOURCE_ID = $1'
     USING v_logical_resource_id;
 
-    -- Step 6: Delete from Global Logical Resources
+    -- Step 5: Delete from Global Logical Resources
     EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.LOGICAL_RESOURCES WHERE LOGICAL_RESOURCE_ID = $1 AND RESOURCE_TYPE_ID = $2'
     USING v_logical_resource_id, v_resource_type_id;
   END IF;
