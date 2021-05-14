@@ -2142,7 +2142,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         for (Reference reference : visitor.getResult()) {
             if (reference.getReference() != null && reference.getReference().getValue() != null) {
                 String value = reference.getReference().getValue();
-                if (!value.startsWith("http:") && !value.startsWith("https:") && value.contains("?")) {
+                if (!value.startsWith("#") &&
+                        !value.startsWith("urn:") &&
+                        !value.startsWith("http:") &&
+                        !value.startsWith("https:") &&
+                        value.contains("?")) {
                     conditionalReferences.add(value);
                 }
             }
