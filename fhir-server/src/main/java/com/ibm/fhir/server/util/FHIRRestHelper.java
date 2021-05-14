@@ -2126,9 +2126,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             Bundle bundle = doSearch(type, null, null, queryParameters, null, resource, false);
 
             int total = bundle.getTotal().getValue();
-            if (total != 1) {
-                IssueType issueType = (total == 0) ? IssueType.NOT_FOUND : IssueType.MULTIPLE_MATCHES;
-                throw buildRestException("Error resolving conditional reference: search must return exactly one result", issueType);
+
+            if (total == 0) {
+                throw buildRestException("Error resolving conditional reference: search returned no results", IssueType.NOT_FOUND);
+            }
+
+            if (total > 1) {
+                throw buildRestException("Error resolving conditional reference: search returned multiple results", IssueType.MULTIPLE_MATCHES);
             }
 
             localRefMap.put(conditionalReference, type + "/" + bundle.getEntry().get(0).getResource().getId());

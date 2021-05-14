@@ -100,6 +100,7 @@ public class ConditionalReferenceTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
 
         OperationOutcome outcome = response.readEntity(OperationOutcome.class);
+        assertEquals(outcome.getIssue().get(0).getCode(), IssueType.INVALID);
         assertEquals(outcome.getIssue().get(0).getDetails().getText().getValue(), "Invalid conditional reference: no query parameters found");
     }
 
@@ -127,6 +128,7 @@ public class ConditionalReferenceTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
 
         OperationOutcome outcome = response.readEntity(OperationOutcome.class);
+        assertEquals(outcome.getIssue().get(0).getCode(), IssueType.INVALID);
         assertEquals(outcome.getIssue().get(0).getDetails().getText().getValue(), "Invalid conditional reference: only filtering parameters are allowed");
     }
 
@@ -155,7 +157,7 @@ public class ConditionalReferenceTest extends FHIRServerTestBase {
 
         OperationOutcome outcome = response.readEntity(OperationOutcome.class);
         assertEquals(outcome.getIssue().get(0).getCode(), IssueType.NOT_FOUND);
-        assertEquals(outcome.getIssue().get(0).getDetails().getText().getValue(), "Error resolving conditional reference: search must return exactly one result");
+        assertEquals(outcome.getIssue().get(0).getDetails().getText().getValue(), "Error resolving conditional reference: search returned no results");
     }
 
     @Test(dependsOnMethods = { "testCreatePatients" })
@@ -183,7 +185,7 @@ public class ConditionalReferenceTest extends FHIRServerTestBase {
 
         OperationOutcome outcome = response.readEntity(OperationOutcome.class);
         assertEquals(outcome.getIssue().get(0).getCode(), IssueType.MULTIPLE_MATCHES);
-        assertEquals(outcome.getIssue().get(0).getDetails().getText().getValue(), "Error resolving conditional reference: search must return exactly one result");
+        assertEquals(outcome.getIssue().get(0).getDetails().getText().getValue(), "Error resolving conditional reference: search returned multiple results");
     }
 
     private Patient buildPatient() {
