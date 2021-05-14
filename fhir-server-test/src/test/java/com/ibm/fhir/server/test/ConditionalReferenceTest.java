@@ -67,10 +67,6 @@ public class ConditionalReferenceTest extends FHIRServerTestBase {
 
         Response response = target.request()
                 .post(Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON));
-        if (response.getStatus() != Response.Status.OK.getStatusCode()) {
-            String entity = response.readEntity(String.class);
-            System.err.println("entity: " + entity);
-        }
         assertResponse(response, Response.Status.OK.getStatusCode());
 
         response = target.path("Observation/67890").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
