@@ -77,6 +77,7 @@ import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.SearchEntryMode;
+import com.ibm.fhir.model.util.CollectingVisitor;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ReferenceMappingVisitor;
@@ -1734,11 +1735,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         } else if (request.getMethod().equals(HTTPVerb.POST)) {
                             Entry validationResponseEntry = validationResponseEntries.get(entryIndex);
                             responseEntries[entryIndex] = processEntryForPost(requestEntry, validationResponseEntry, responseIndexAndEntries,
-                                    entryIndex, localRefMap, requestURL, absoluteUri, requestDescription.toString(), initialTime);
+                                    entryIndex, localRefMap, requestURL, absoluteUri, requestDescription.toString(), initialTime, (bundleType == BundleType.Value.TRANSACTION));
                         } else if (request.getMethod().equals(HTTPVerb.PUT)) {
                             Entry validationResponseEntry = validationResponseEntries.get(entryIndex);
                             responseEntries[entryIndex] = processEntryForPut(requestEntry, validationResponseEntry, responseIndexAndEntries,
-                                    entryIndex, localRefMap, requestURL, absoluteUri, requestDescription.toString(), initialTime, skippableUpdates);
+                                    entryIndex, localRefMap, requestURL, absoluteUri, requestDescription.toString(), initialTime, skippableUpdates, (bundleType == BundleType.Value.TRANSACTION));
                         } else if (request.getMethod().equals(HTTPVerb.PATCH)) {
                             responseEntries[entryIndex] = processEntryforPatch(requestEntry, requestURL,entryIndex,
                                     requestDescription.toString(), initialTime, skippableUpdates);
@@ -2006,7 +2007,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @throws Exception
      */
     private Entry processEntryForPost(Entry requestEntry, Entry validationResponseEntry, Map<Integer, Entry> responseIndexAndEntries,
-            Integer entryIndex, Map<String, String> localRefMap, FHIRUrlParser requestURL, String absoluteUri, String requestDescription, long initialTime)
+            Integer entryIndex, Map<String, String> localRefMap, FHIRUrlParser requestURL, String absoluteUri, String requestDescription, long initialTime, boolean transaction)
             throws Exception {
 
         String[] pathTokens = requestURL.getPathTokens();
@@ -2081,6 +2082,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 throw buildRestException(msg, IssueType.NOT_FOUND);
             }
 
+            if (transaction) {
+                resolveConditionalReferences(resource, localRefMap);
+            }
+
             // Convert any local references found within the resource to their corresponding external reference.
             ReferenceMappingVisitor<Resource> visitor = new ReferenceMappingVisitor<Resource>(localRefMap);
             resource.accept(visitor);
@@ -2121,6 +2126,62 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
     }
 
+    private void resolveConditionalReferences(Resource resource, Map<String, String> localRefMap) throws Exception {
+        for (String conditionalReference : getConditionalReferences(resource)) {
+            if (localRefMap.containsKey(conditionalReference)) {
+                continue;
+            }
+
+            FHIRUrlParser parser = new FHIRUrlParser(conditionalReference);
+            String type = parser.getPathTokens()[0];
+
+            MultivaluedMap<String, String> queryParameters = parser.getQueryParameters();
+            if (queryParameters.isEmpty()) {
+                throw buildRestException("Invalid conditional reference: no query parameters found", IssueType.INVALID);
+            }
+
+            if (queryParameters.keySet().stream().anyMatch(key -> SearchConstants.SEARCH_RESULT_PARAMETER_NAMES.contains(key))) {
+                throw buildRestException("Invalid conditional reference: only filtering parameters are allowed", IssueType.INVALID);
+            }
+
+            queryParameters.add("_summary", "true");
+            queryParameters.add("_count", "1");
+
+            Bundle bundle = doSearch(type, null, null, queryParameters, null, resource, false);
+
+            int total = bundle.getTotal().getValue();
+
+            if (total == 0) {
+                throw buildRestException("Error resolving conditional reference: search returned no results", IssueType.NOT_FOUND);
+            }
+
+            if (total > 1) {
+                throw buildRestException("Error resolving conditional reference: search returned multiple results", IssueType.MULTIPLE_MATCHES);
+            }
+
+            localRefMap.put(conditionalReference, type + "/" + bundle.getEntry().get(0).getResource().getId());
+        }
+    }
+
+    private Set<String> getConditionalReferences(Resource resource) {
+        Set<String> conditionalReferences = new HashSet<>();
+        CollectingVisitor<Reference> visitor = new CollectingVisitor<>(Reference.class);
+        resource.accept(visitor);
+        for (Reference reference : visitor.getResult()) {
+            if (reference.getReference() != null && reference.getReference().getValue() != null) {
+                String value = reference.getReference().getValue();
+                if (!value.startsWith("#") &&
+                        !value.startsWith("urn:") &&
+                        !value.startsWith("http:") &&
+                        !value.startsWith("https:") &&
+                        value.contains("?")) {
+                    conditionalReferences.add(value);
+                }
+            }
+        }
+        return conditionalReferences;
+    }
+
     /**
      * Processes a request entry with a request method of PUT.
      *
@@ -2150,7 +2211,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      */
     private Entry processEntryForPut(Entry requestEntry, Entry validationResponseEntry, Map<Integer, Entry> responseIndexAndEntries,
             Integer entryIndex, Map<String, String> localRefMap, FHIRUrlParser requestURL, String absoluteUri, String requestDescription,
-            long initialTime, boolean skippableUpdate) throws Exception {
+            long initialTime, boolean skippableUpdate, boolean transaction) throws Exception {
 
         String[] pathTokens = requestURL.getPathTokens();
         String type = null;
@@ -2176,6 +2237,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         // Retrieve the resource from the request entry.
         Resource resource = requestEntry.getResource();
+
+        if (transaction) {
+            resolveConditionalReferences(resource, localRefMap);
+        }
 
         // Convert any local references found within the resource to their corresponding external reference.
         ReferenceMappingVisitor<Resource> visitor = new ReferenceMappingVisitor<Resource>(localRefMap);
@@ -2341,9 +2406,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @return local reference map
      */
     private Map<String, String> buildLocalRefMap(Bundle requestBundle, Map<Integer, Entry> validationResponseEntries) throws Exception {
-            Map<String, String> localRefMap = new HashMap<>();
+        Map<String, String> localRefMap = new HashMap<>();
 
-        for (int entryIndex=0; entryIndex<requestBundle.getEntry().size(); ++entryIndex) {
+        for (int entryIndex = 0; entryIndex < requestBundle.getEntry().size(); entryIndex++) {
             Entry requestEntry = requestBundle.getEntry().get(entryIndex);
             Entry.Request request = requestEntry.getRequest();
             Entry validationResponseEntry = validationResponseEntries.get(entryIndex);
