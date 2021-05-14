@@ -203,12 +203,47 @@ public class EraseResourceDAO extends ResourceDAOImpl {
                 LOG.log(Level.SEVERE, UPDATE_RESOURCE_PAYLOAD, x);
                 throw translator.translate(x);
             }
+
+            // Step 2: Delete from resource_change_log for the version
+            final String RCL_DELETE =
+                    "DELETE FROM RESOURCE_CHANGE_LOG"
+                   + " WHERE RESOURCE_ID IN ("
+                       + " SELECT RESOURCE_ID"
+                       + " FROM " + "_RESOURCES"
+                       + " WHERE LOGICAL_RESOURCE_ID = ?"
+                           + " AND VERSION_ID = ?)";
+            try (PreparedStatement stmt = getConnection().prepareStatement(RCL_DELETE)) {
+                stmt.setLong(1, logicalResourceId);
+                stmt.setInt(2, eraseDto.getVersion());
+                int count = stmt.executeUpdate();
+                LOG.fine(() -> "Count of resource_change_log deleted is " + count);
+            } catch (SQLException x) {
+                LOG.log(Level.SEVERE, RCL_DELETE, x);
+                throw translator.translate(x);
+            }
+
             eraseRecord.setTotal(total);
             eraseRecord.setStatus(ResourceEraseRecord.Status.VERSION);
             return;
         }
 
-        // Step 2: Delete All Versions from Resources Table
+        // Step 2: Delete from resource_change_log
+        final String RCL_DELETE =
+                "DELETE FROM RESOURCE_CHANGE_LOG"
+               + " WHERE RESOURCE_ID IN ("
+                   + " SELECT RESOURCE_ID"
+                   + " FROM " + "_RESOURCES"
+                   + " WHERE LOGICAL_RESOURCE_ID = ?)";
+        try (PreparedStatement stmt = getConnection().prepareStatement(RCL_DELETE)) {
+            stmt.setLong(1, logicalResourceId);
+            int count = stmt.executeUpdate();
+            LOG.fine(() -> "Count of resource_change_log deleted is " + count);
+        } catch (SQLException x) {
+            LOG.log(Level.SEVERE, RCL_DELETE, x);
+            throw translator.translate(x);
+        }
+
+        // Step 3: Delete All Versions from Resources Table
         // Create the prepared statement to delete Resource Versions in chunks
         // Implementation note: fetch must be the last part of the sub-select
         final String DELETE_ALL_VERSIONS =
@@ -222,10 +257,10 @@ public class EraseResourceDAO extends ResourceDAOImpl {
             throw translator.translate(x);
         }
 
-        // Step 3: Delete from parameters tables
+        // Step 4: Delete from parameters tables
         deleteFromAllParametersTables(resourceType, logicalResourceId);
 
-        // Step 4: Delete from Logical Resources table
+        // Step 5: Delete from Logical Resources table
         final String DELETE_LOGICAL_RESOURCE =
                 "DELETE FROM " + resourceType + "_LOGICAL_RESOURCES WHERE LOGICAL_RESOURCE_ID = ?";
         try (PreparedStatement stmt = getConnection().prepareStatement(DELETE_LOGICAL_RESOURCE)) {
@@ -237,7 +272,7 @@ public class EraseResourceDAO extends ResourceDAOImpl {
             throw translator.translate(x);
         }
 
-        // Step 5: Delete from Global Logical Resources
+        // Step 6: Delete from Global Logical Resources
         final String GLOBAL_DELETE_LOGICAL_RESOURCE =
                 "DELETE FROM LOGICAL_RESOURCES WHERE LOGICAL_RESOURCE_ID = ? AND RESOURCE_TYPE_ID = ?";
         try (PreparedStatement stmt = getConnection().prepareStatement(GLOBAL_DELETE_LOGICAL_RESOURCE)) {
@@ -247,17 +282,6 @@ public class EraseResourceDAO extends ResourceDAOImpl {
             LOG.fine(() -> "Count of LR deleted is " + count);
         } catch (SQLException x) {
             LOG.log(Level.SEVERE, GLOBAL_DELETE_LOGICAL_RESOURCE, x);
-            throw translator.translate(x);
-        }
-
-        // Step 6: Delete from resource_change_log
-        final String RCL_DELETE = "DELETE FROM resource_change_log WHERE RESOURCE_ID = ?";
-        try (PreparedStatement stmt = getConnection().prepareStatement(RCL_DELETE)) {
-            stmt.setLong(1, resourceId);
-            int count = stmt.executeUpdate();
-            LOG.fine(() -> "Count of resource_change_log deleted is " + count);
-        } catch (SQLException x) {
-            LOG.log(Level.SEVERE, RCL_DELETE, x);
             throw translator.translate(x);
         }
 

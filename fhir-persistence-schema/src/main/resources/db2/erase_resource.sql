@@ -55,14 +55,22 @@ BEGIN
     || ' WHERE LOGICAL_RESOURCE_ID = ?)';
     EXECUTE r_stmt INTO v_resource_id USING v_logical_resource_id;
 
-    -- Step 2: Delete All Versions from Resources Table 
+    -- Step 2: Delete from resource_change_log
+    PREPARE rcl_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.RESOURCE_CHANGE_LOG'
+    || '  WHERE RESOURCE_ID IN ('
+    || '    SELECT RESOURCE_ID'
+    || '    FROM {{SCHEMA_NAME}}.' || p_resource_type || '_RESOURCES'
+    || '    WHERE LOGICAL_RESOURCE_ID = $1)';
+    EXECUTE rcl_stmt USING v_logical_resource_id;
+
+    -- Step 3: Delete All Versions from Resources Table 
     -- Create the prepared statement to delete Resource Versions in chunks
     -- Implementation note: fetch must be the last part of the sub-select
     PREPARE dr_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_RESOURCES WHERE LOGICAL_RESOURCE_ID = ?';
     EXECUTE dr_stmt USING v_logical_resource_id;
     GET DIAGNOSTICS v_total = ROW_COUNT;
 
-    -- Step 3: Delete from All Parameters Tables
+    -- Step 4: Delete from All Parameters Tables
     PREPARE d_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_str_values          WHERE logical_resource_id = ?';
     EXECUTE d_stmt USING v_logical_resource_id;
 
@@ -90,18 +98,14 @@ BEGIN
     PREPARE d_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || 'resource_token_refs WHERE logical_resource_id = ?';
     EXECUTE d_stmt USING v_logical_resource_id;
 
-    -- Step 4: Delete from Logical Resources table 
+    -- Step 5: Delete from Logical Resources table 
     PREPARE dlr_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_LOGICAL_RESOURCES WHERE LOGICAL_RESOURCE_ID = ?';
     EXECUTE dlr_stmt USING v_logical_resource_id;
 
-    -- Step 5: Delete from Global Logical Resources
+    -- Step 6: Delete from Global Logical Resources
     PREPARE dglr_stmt FROM 
        'DELETE FROM {{SCHEMA_NAME}}.LOGICAL_RESOURCES WHERE LOGICAL_RESOURCE_ID = ? AND RESOURCE_TYPE_ID = ?';
     EXECUTE dglr_stmt USING v_logical_resource_id, v_resource_type_id;
-
-    -- Step 6: Delete from resource_change_log
-    PREPARE drcl_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.resource_change_log WHERE RESOURCE_ID = ?';
-    EXECUTE drcl_stmt USING v_resource_id;
   END IF;
 
   -- Return the total number of deleted versions

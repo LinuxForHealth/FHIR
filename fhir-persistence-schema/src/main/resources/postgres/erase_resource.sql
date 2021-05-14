@@ -52,12 +52,23 @@ BEGIN
     || ' WHERE LOGICAL_RESOURCE_ID = $1'
     INTO v_resource_id, v_version USING v_logical_resource_id;
 
-    -- Step 2: Delete All Versions from Resources Table 
+    -- Step 2: Delete from resource_change_log
+    -- Delete is done before the RESOURCES table entries disappear
+    -- This uses the primary_keys of each table to conditional-delete
+    EXECUTE 
+    'DELETE FROM {{SCHEMA_NAME}}.RESOURCE_CHANGE_LOG'
+    || '  WHERE RESOURCE_ID IN ('
+    || '    SELECT RESOURCE_ID'
+    || '    FROM {{SCHEMA_NAME}}.' || p_resource_type || '_RESOURCES'
+    || '    WHERE LOGICAL_RESOURCE_ID = $1)';
+    USING v_logical_resource_id;
+
+    -- Step 3: Delete All Versions from Resources Table 
     EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_RESOURCES WHERE LOGICAL_RESOURCE_ID = $1'
     USING v_logical_resource_id;
     GET DIAGNOSTICS v_total = ROW_COUNT;
 
-    -- Step 3: Delete from All Parameters Tables
+    -- Step 4: Delete from All Parameters Tables
     EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_str_values          WHERE logical_resource_id = $1'
     USING v_logical_resource_id;
     EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_number_values       WHERE logical_resource_id = $1'
@@ -77,17 +88,13 @@ BEGIN
     EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.resource_token_refs  WHERE logical_resource_id = $1'
     USING v_logical_resource_id;
 
-    -- Step 4: Delete from Logical Resources table 
+    -- Step 5: Delete from Logical Resources table 
     EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_LOGICAL_RESOURCES WHERE LOGICAL_RESOURCE_ID = $1'
     USING v_logical_resource_id;
 
-    -- Step 5: Delete from Global Logical Resources
+    -- Step 6: Delete from Global Logical Resources
     EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.LOGICAL_RESOURCES WHERE LOGICAL_RESOURCE_ID = $1 AND RESOURCE_TYPE_ID = $2'
     USING v_logical_resource_id, v_resource_type_id;
-
-    -- Step 6: Delete from resource_change_log
-    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.resource_change_log WHERE RESOURCE_ID = $1'
-    USING v_resource_id;
   END IF;
 
   -- Return the total number of deleted versions
