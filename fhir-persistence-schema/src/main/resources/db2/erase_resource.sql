@@ -60,7 +60,7 @@ BEGIN
     || '  WHERE RESOURCE_ID IN ('
     || '    SELECT RESOURCE_ID'
     || '    FROM {{SCHEMA_NAME}}.' || p_resource_type || '_RESOURCES'
-    || '    WHERE LOGICAL_RESOURCE_ID = $1)';
+    || '    WHERE LOGICAL_RESOURCE_ID = ?)';
     EXECUTE rcl_stmt USING v_logical_resource_id;
 
     -- Step 3: Delete All Versions from Resources Table 

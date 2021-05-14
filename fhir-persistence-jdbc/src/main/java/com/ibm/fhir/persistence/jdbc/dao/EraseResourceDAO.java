@@ -111,7 +111,6 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         String resourceType = eraseDto.getResourceType();
         String logicalId = eraseDto.getLogicalId();
 
-        long resourceId = -1;
         long logicalResourceId = -1;
         int version = -1;
         Integer total = 0;
@@ -148,19 +147,18 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         }
 
         // Step 1: Get the Details for the Resource/Logical_Resource
-        // the resource_id and version_id need to be fetched.
+        // the version_id need to be fetched.
         // these should never be null since we have a lock, and the resource exists.
         final String LOGICAL_RESOURCE_DETAILS =
-                "SELECT LR1.CURRENT_RESOURCE_ID, LR1.VERSION_ID" +
-                        "    FROM " + resourceType + "_LOGICAL_RESOURCES LR1" +
-                        "    WHERE LR1.LOGICAL_RESOURCE_ID = ?";
+                "SELECT LR1.VERSION_ID" +
+                        " FROM " + resourceType + "_LOGICAL_RESOURCES LR1" +
+                        " WHERE LR1.LOGICAL_RESOURCE_ID = ?";
         try (PreparedStatement stmt = getConnection().prepareStatement(LOGICAL_RESOURCE_DETAILS)) {
             stmt.setLong(1, logicalResourceId);
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                resourceId = rs.getLong(1);
-                version = rs.getInt(2);
+                version = rs.getInt(1);
             }
         } catch (SQLException x) {
             LOG.log(Level.SEVERE, LOGICAL_RESOURCE_DETAILS, x);
@@ -209,7 +207,7 @@ public class EraseResourceDAO extends ResourceDAOImpl {
                     "DELETE FROM RESOURCE_CHANGE_LOG"
                    + " WHERE RESOURCE_ID IN ("
                        + " SELECT RESOURCE_ID"
-                       + " FROM " + "_RESOURCES"
+                       + " FROM " + eraseDto.getResourceType() + "_RESOURCES"
                        + " WHERE LOGICAL_RESOURCE_ID = ?"
                            + " AND VERSION_ID = ?)";
             try (PreparedStatement stmt = getConnection().prepareStatement(RCL_DELETE)) {
@@ -232,7 +230,7 @@ public class EraseResourceDAO extends ResourceDAOImpl {
                 "DELETE FROM RESOURCE_CHANGE_LOG"
                + " WHERE RESOURCE_ID IN ("
                    + " SELECT RESOURCE_ID"
-                   + " FROM " + "_RESOURCES"
+                   + " FROM " + eraseDto.getResourceType() + "_RESOURCES"
                    + " WHERE LOGICAL_RESOURCE_ID = ?)";
         try (PreparedStatement stmt = getConnection().prepareStatement(RCL_DELETE)) {
             stmt.setLong(1, logicalResourceId);
