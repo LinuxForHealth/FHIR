@@ -30,7 +30,7 @@ import com.ibm.fhir.persistence.helper.PersistenceHelper;
 public class ServerResolveFunction extends ResolveFunction {
     public static final Logger log = Logger.getLogger(ServerResolveFunction.class.getName());
 
-    private static final String RESOURCE_CACHE_NAME = "com.ibm.fhir.server.resolve.ResolveFunction.resourceCache";
+    private static final String RESOURCE_CACHE_NAME = "com.ibm.fhir.server.resolve.ServerResolveFunction.resourceCache";
     private static final Configuration RESOURCE_CACHE_CONFIGURATION = Configuration.of(Duration.of(1, ChronoUnit.MINUTES));
 
     private final PersistenceHelper persistenceHelper;
@@ -41,8 +41,8 @@ public class ServerResolveFunction extends ResolveFunction {
 
     @Override
     public Resource resolve(String resourceType, String logicalId, String versionId) {
-        CacheKey key = key(resourceType, logicalId, versionId);
         Map<CacheKey, Resource> cacheAsMap = CacheManager.getCacheAsMap(RESOURCE_CACHE_NAME, RESOURCE_CACHE_CONFIGURATION);
+        CacheKey key = key(resourceType, logicalId, versionId);
         return cacheAsMap.computeIfAbsent(key, k -> computeResource(resourceType, logicalId, versionId));
     }
 
@@ -63,7 +63,7 @@ public class ServerResolveFunction extends ResolveFunction {
                 return result.getResource();
             }
         } catch (Exception e) {
-            log.log(Level.WARNING, "An error occurred during a read interaction", e);
+            log.log(Level.WARNING, "An error occurred during a read or vread interaction", e);
         } finally {
             if (transactionHelper != null) {
                 try {

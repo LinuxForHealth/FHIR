@@ -8,7 +8,9 @@ package com.ibm.fhir.path.function;
 
 import static com.ibm.fhir.model.util.FHIRUtil.REFERENCE_PATTERN;
 import static com.ibm.fhir.model.util.ModelSupport.isResourceType;
+import static com.ibm.fhir.path.util.FHIRPathUtil.convertsToBoolean;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getRootResourceNode;
+import static com.ibm.fhir.path.util.FHIRPathUtil.isTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,6 +29,9 @@ import com.ibm.fhir.path.FHIRPathType;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 
 public class ResolveFunction extends FHIRPathAbstractFunction {
+    public static final String RESOLVE_RELATIVE_REFERENCES = "resolveRelativeReferences";
+    public static final boolean DEFAULT_RESOLVE_RELATIVE_REFERENCES = true;
+
     private static final int BASE_URL_GROUP = 1;
     private static final int RESOURCE_TYPE_GROUP = 4;
     private static final int LOGICAL_ID_GROUP = 5;
@@ -97,7 +102,7 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                             if (referenceType != null && !resourceType.equals(referenceType)) {
                                 throw new IllegalArgumentException("Resource type found in reference URL does not match reference type");
                             }
-                            if (matcher.group(BASE_URL_GROUP) == null) {
+                            if (matcher.group(BASE_URL_GROUP) == null && resolveRelativeReferences(evaluationContext)) {
                                 // relative reference
                                 resource = resolve(resourceType, matcher.group(LOGICAL_ID_GROUP), matcher.group(VERSION_ID_GROUP));
                             }
@@ -159,5 +164,13 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
             return reference.getType().getValue();
         }
         return null;
+    }
+
+    private boolean resolveRelativeReferences(EvaluationContext evaluationContext) {
+        Collection<FHIRPathNode> resolveRelativeReferences = evaluationContext.getExternalConstant(RESOLVE_RELATIVE_REFERENCES);
+        if (convertsToBoolean(resolveRelativeReferences)) {
+            return isTrue(resolveRelativeReferences);
+        }
+        return DEFAULT_RESOLVE_RELATIVE_REFERENCES;
     }
 }
