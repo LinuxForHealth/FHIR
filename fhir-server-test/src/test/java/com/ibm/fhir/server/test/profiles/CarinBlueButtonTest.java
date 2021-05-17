@@ -44,7 +44,7 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Reference;
 
 /**
- * Tests using http://hl7.org/fhir/us/C4BB/2020Feb/Examples.html And the given profile.
+ * Tests using C4BB STU1 And the given profile.
  */
 public class CarinBlueButtonTest extends ProfilesTestBase {
 
