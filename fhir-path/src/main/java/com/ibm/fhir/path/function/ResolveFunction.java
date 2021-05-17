@@ -77,12 +77,11 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
             if (node.isElementNode() && node.asElementNode().element().is(Reference.class)) {
                 Reference reference = node.asElementNode().element().as(Reference.class);
 
-                Resource resource = null;
-
                 String referenceReference = getReferenceReference(reference);
                 String referenceType = getReferenceType(reference);
 
                 String resourceType = null;
+                Resource resource = null;
 
                 if (referenceReference != null) {
                     if (referenceReference.startsWith("#")) {
@@ -100,9 +99,7 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                             }
                             if (matcher.group(BASE_URL_GROUP) == null) {
                                 // relative reference
-                                String logicalId = matcher.group(LOGICAL_ID_GROUP);
-                                String versionId = matcher.group(VERSION_ID_GROUP);
-                                resource = resolve(resourceType, logicalId, versionId);
+                                resource = resolve(resourceType, matcher.group(LOGICAL_ID_GROUP), matcher.group(VERSION_ID_GROUP));
                             }
                         }
                     }
@@ -140,8 +137,7 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                 if (resource instanceof DomainResource) {
                     DomainResource domainResource = (DomainResource) resource;
                     for (Resource contained : domainResource.getContained()) {
-                        if (contained.getId() != null &&
-                                id.equals(contained.getId())) {
+                        if (contained.getId() != null && contained.getId().equals(id)) {
                             return contained;
                         }
                     }
