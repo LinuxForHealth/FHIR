@@ -22,6 +22,7 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TLS_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TRUSTSTORE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TRUSTSTORE_PW;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SERVER_RESOLVE_FUNCTION_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED;
 
 import java.util.ArrayList;
@@ -50,11 +51,13 @@ import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.notification.websocket.impl.FHIRNotificationServiceEndpointConfig;
 import com.ibm.fhir.notifications.kafka.impl.FHIRNotificationKafkaPublisher;
 import com.ibm.fhir.notifications.nats.impl.FHIRNotificationNATSPublisher;
+import com.ibm.fhir.path.function.registry.FHIRPathFunctionRegistry;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.operation.FHIROperationRegistry;
 import com.ibm.fhir.server.registry.ServerRegistryResourceProvider;
+import com.ibm.fhir.server.resolve.ServerResolveFunction;
 import com.ibm.fhir.server.util.FHIROperationUtil;
 import com.ibm.fhir.term.config.FHIRTermConfig;
 import com.ibm.fhir.term.graph.provider.GraphTermServiceProvider;
@@ -199,6 +202,12 @@ public class FHIRServletContextListener implements ServletContextListener {
             if (serverRegistryResourceProviderEnabled) {
                 log.info("Registering ServerRegistryResourceProvider...");
                 FHIRRegistry.getInstance().addProvider(new ServerRegistryResourceProvider(persistenceHelper));
+            }
+
+            Boolean serverResolveFunctionEnabled = fhirConfig.getBooleanProperty(PROPERTY_SERVER_RESOLVE_FUNCTION_ENABLED, Boolean.FALSE);
+            if (serverResolveFunctionEnabled) {
+                log.info("Registering ServerResolveFunction...");
+                FHIRPathFunctionRegistry.getInstance().register(new ServerResolveFunction(persistenceHelper));
             }
 
             configureTermServiceCapabilities(fhirConfig);
