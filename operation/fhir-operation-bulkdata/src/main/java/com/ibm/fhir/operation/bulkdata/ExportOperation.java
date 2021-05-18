@@ -61,7 +61,7 @@ public class ExportOperation extends AbstractOperation {
             String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
             throws FHIROperationException {
         common.checkEnabled();
-        common.checkAllowed(operationContext, true);
+        common.checkAllowed(operationContext, false);
 
         // Pick off parameters
         MediaType outputFormat = export.checkAndConvertToMediaType(parameters);
