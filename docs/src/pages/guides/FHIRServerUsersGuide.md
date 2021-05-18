@@ -659,7 +659,7 @@ By default, notification messages are published for all _create_ and _update_ pe
 With the `includeResourceTypes`property set as in the preceding example, the FHIR server publishes notification events only for `Patient` and `Observation` resources. If you omit this property or set its value to `[]` (an empty array), then the FHIR server publishes notifications for all resource types.
 
 ## 4.3 Persistence interceptors
-The FHIR server supports a persistence interceptor feature that enables users to add their own logic to the REST API processing flow around persistence events. This can be used to enforce application-specific business rules associated with resources. Interceptor methods are called immediately before or after each persistence operation.
+The IBM FHIR Server supports a persistence interceptor feature that enables users to add their own logic to the REST API processing flow around persistence events. This can be used to enforce application-specific business rules associated with resources. Interceptor methods are called immediately before or after each persistence operation.
 
 ### 4.3.1 FHIRPersistenceInterceptor interface
 A persistence interceptor implementation must implement the `com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor`
@@ -669,7 +669,7 @@ Each interceptor method receives a parameter of type `FHIRPersistenceEvent`, whi
 
 There are many use cases for persistence interceptors:
 
-1.  Enforce certain application-specific governance rules, such as making sure that a patient has signed a consent form prior to allowing his/her data to be stored in the FHIR server's datastore. For example, the `beforeCreate` and `beforeUpdate` methods could verify that the patient has a consent agreement on file and, if not, then throw a `FHIRPersistenceInterceptorException` to prevent the _create_ or _update_ events from completing. The exception thrown by the interceptor method should include one or more OperationOutcome issues and these issues will be added to an `OperationOutcome` in the REST API response. The HTTP status code of the response will be determined by the IssueType of the first issue in the list.
+1.  Enforce certain application-specific governance rules, such as making sure that a patient has signed a consent form prior to allowing his/her data to be persisted. For example, the `beforeCreate` and `beforeUpdate` methods could verify that the patient has a consent agreement on file and, if not, then throw a `FHIRPersistenceInterceptorException` to prevent the _create_ or _update_ events from completing. The exception thrown by the interceptor method should include one or more OperationOutcome issues and these issues will be added to an `OperationOutcome` in the REST API response. The HTTP status code of the response will be determined by the IssueType of the first issue in the list.
 
 2.  Perform additional access control. For example, `beforeSearch` can be used to alter the incoming SearchContext (e.g. by adding additional search parameters). Similarly `afterRead`, `afterVRead`, `afterHistory`, and `afterSearch` can be used to verify that the end user is authorized to access the resources before they are returned.
 
