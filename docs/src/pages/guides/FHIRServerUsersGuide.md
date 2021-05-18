@@ -2187,6 +2187,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/maxInputs`|5|
 |`fhirServer/bulkdata/core/iamEndpoint`|https://iam.cloud.ibm.com/oidc/token|
 |`fhirServer/bulkdata/core/maxChunkReadTime`|90000|
+|`fhirServer/bulkdata/core/defaultExportProvider`|default|
+|`fhirServer/bulkdata/core/defaultImportProvider`|default|
 |`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/exportPublic`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/enableParquet`|false|
@@ -2313,6 +2315,8 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/core/maxInputs`|Y|Y|
 |`fhirServer/bulkdata/core/iamEndpoint`|N|N|
 |`fhirServer/bulkdata/core/fastTxTimeout`|N|N|
+|`fhirServer/bulkdata/core/defaultExportProvider`|Y|Y|
+|`fhirServer/bulkdata/core/defaultImportProvider`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/type`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/bucketName`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/location`|Y|Y|
