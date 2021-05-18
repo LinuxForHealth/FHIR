@@ -659,7 +659,7 @@ By default, notification messages are published for all _create_ and _update_ pe
 With the `includeResourceTypes`property set as in the preceding example, the FHIR server publishes notification events only for `Patient` and `Observation` resources. If you omit this property or set its value to `[]` (an empty array), then the FHIR server publishes notifications for all resource types.
 
 ## 4.3 Persistence interceptors
-The FHIR server supports a persistence interceptor feature that enables users to add their own logic to the REST API processing flow around persistence events. This could be used to enforce application-specific business rules associated with resources. Interceptor methods can be called immediately before or after _create_ and _update_ persistence operations.
+The FHIR server supports a persistence interceptor feature that enables users to add their own logic to the REST API processing flow around persistence events. This can be used to enforce application-specific business rules associated with resources. Interceptor methods are called immediately before or after each persistence operation.
 
 ### 4.3.1 FHIRPersistenceInterceptor interface
 A persistence interceptor implementation must implement the `com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor`
@@ -667,13 +667,13 @@ interface.
 
 Each interceptor method receives a parameter of type `FHIRPersistenceEvent`, which contains context information related to the request being processed at the time that the interceptor method is invoked. It includes the FHIR resource, security information, request URI information, and the collection of HTTP headers associated with the request.
 
-There are two primary use cases for persistence interceptors:
+There are many use cases for persistence interceptors:
 
-1.  Enforce certain application-specific governance rules, such as making sure that a patient has signed a consent form prior to allowing his/her data to be stored in the FHIR server's datastore. In this case, the `beforeCreate` or `beforeUpdate` interceptor methods could verify that the patient has a consent agreement on file, and if not then throw a `FHIRPersistenceInterceptorException` to prevent the _create_ or _update_ persistence events from completing normally. The exception thrown by the interceptor method will be propagated back to the FHIR server request processing flow and would result in an `OperationOutcome` being returned in the REST API response, along with a `Bad Request` HTTP status code.
+1.  Enforce certain application-specific governance rules, such as making sure that a patient has signed a consent form prior to allowing his/her data to be stored in the FHIR server's datastore. For example, the `beforeCreate` and `beforeUpdate` methods could verify that the patient has a consent agreement on file and, if not, then throw a `FHIRPersistenceInterceptorException` to prevent the _create_ or _update_ events from completing. The exception thrown by the interceptor method should include one or more OperationOutcome issues and these issues will be added to an `OperationOutcome` in the REST API response. The HTTP status code of the response will be determined by the IssueType of the first issue in the list.
 
-2.  Perform some additional processing steps associated with a _create_ or _update_ persistence event, such as additional audit logging. In this case, the `afterCreate` and `afterUpdate` interceptor methods could add records to an audit log to indicate the request URI that was invoked, the user associated with the invocation request, and so forth.
+2.  Perform additional access control. For example, `beforeSearch` can be used to alter the incoming SearchContext (e.g. by adding additional search parameters). Similarly `afterRead`, `afterVRead`, `afterHistory`, and `afterSearch` can be used to verify that the end user is authorized to access the resources before they are returned.
 
-In general, the `beforeCreate` and `beforeUpdate` interceptor methods would be useful to perform an enforcement-type action where you would potentially want to prevent the request processing flow from finishing. Conversely, the `afterCreate` and `afterUpdate` interceptor methods would be useful in situations where you need to perform additional steps after the _create_ or _update_ persistence events have been performed.
+It is also possible to modify the incoming resources from the `beforeCreate` and `beforeUpdate` methods. For example, an interceptor could be used to add tags to resources on their way into the server. However, it is important to realize that interceptors are called *after* resource validation. Therefore, interceptor authors must be careful not to alter the resources in a way that breaks conformance with the profiles claimed in Resource.meta.profile or the secondary constraints in the specification. When in doubt, interceptors that modify the incoming resource can use the FHIRValidator to re-validate the resource(s) after they are altered.
 
 ### 4.3.2 Implementing a persistence interceptor
 To implement a persistence interceptor, complete the following steps:
@@ -2442,7 +2442,7 @@ A copy of this snippet is provided here for illustrative purposes:
             </security-role>
         </application-bnd>
     </webApplication>
-    
+
     <mpJwt id="jwtConsumer"
            jwksUri="http://keycloak:8080/auth/realms/test/protocol/openid-connect/certs"
            issuer="https://localhost:8443/auth/realms/test"
