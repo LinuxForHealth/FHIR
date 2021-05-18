@@ -2062,6 +2062,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/maxChunkReadTime`|string| Max time in milliseconds to read during a bulkdata export without type filters. The time should be three quarters of the transactionManager timeout (often the FHIR_TRANSACTION_MANAGER_TIMEOUT value). Note, this value is a string representation of a long value.|
 |`fhirServer/bulkdata/core/defaultExportProvider`|string| The default storage provider used by Bulk Data Export|
 |`fhirServer/bulkdata/core/defaultImportProvider`|string| The default storage provider used by Bulk Data Import|
+|`fhirServer/bulkdata/core/defaultOutcomeProvider`|string| The default storage provider used to output Operation Outcomes (file, s3 only)|
 |`fhirServer/bulkdata/storageProviders/<source>/type`|string|The type of storageProvider aws-s3, ibm-cos, file, https |
 |`fhirServer/bulkdata/storageProviders/<source>/bucketName`|string| Object store bucket name |
 |`fhirServer/bulkdata/storageProviders/<source>/location`|string|Object store location |
@@ -2084,6 +2085,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/storageProviders/<source>/iamResourceInstanceId`|string|For IAM, secret key for accessing IBM COS|
 |`fhirServer/bulkdata/storageProviders/<source>/user`|string|For basic, user COS|
 |`fhirServer/bulkdata/storageProviders/<source>/secretAccessKey`|string|For basic, password for accessing COS|
+|`fhirServer/bulkdata/storageProviders/<source>/operationOutcomeProvider`|string| the default storage provider used to output Operation Outcomes (file, s3 only)|
 |`fhirServer/operations/erase/enabled`|boolean|Enables the $erase operation|
 |`fhirServer/operations/erase/allowedRoles`|list|The list of allowed roles, allowed entries are: `FHIRUsers` every authenticated user, `FHIROperationAdmin` which is authenticated `FHIRAdmin` users|
 
@@ -2189,6 +2191,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/maxChunkReadTime`|90000|
 |`fhirServer/bulkdata/core/defaultExportProvider`|default|
 |`fhirServer/bulkdata/core/defaultImportProvider`|default|
+|`fhirServer/bulkdata/core/defaultOutcomeProvider`|default|
 |`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/exportPublic`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/enableParquet`|false|
@@ -2317,6 +2320,7 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/core/fastTxTimeout`|N|N|
 |`fhirServer/bulkdata/core/defaultExportProvider`|Y|Y|
 |`fhirServer/bulkdata/core/defaultImportProvider`|Y|Y|
+|`fhirServer/bulkdata/core/defaultOutcomeProvider`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/type`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/bucketName`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/location`|Y|Y|
@@ -2339,6 +2343,7 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/storageProviders/<source>/iamResourceInstanceId`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/user`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/secretAccessKey`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/operationOutcomeProvider`|Y|Y|
 |`fhirServer/operations/erase/enabled`|Y|Y|
 |`fhirServer/operations/erase/allowedRoles`|Y|Y|
 

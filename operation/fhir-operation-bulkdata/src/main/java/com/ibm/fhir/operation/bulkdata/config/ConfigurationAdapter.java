@@ -229,10 +229,17 @@ public interface ConfigurationAdapter {
     String getDefaultImportProvider();
 
     /**
-     * get default import provider
+     * get default export provider
      * @return
      */
     String getDefaultExportProvider();
+
+    /**
+     * get the OperationOutcome provider
+     * @param provider the storage provider
+     * @return
+     */
+    String getOperationOutcomeProvider(String provider);
 
     /**
      * @param storageProvider

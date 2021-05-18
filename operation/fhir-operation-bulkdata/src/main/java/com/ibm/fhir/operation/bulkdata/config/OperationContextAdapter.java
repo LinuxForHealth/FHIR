@@ -34,7 +34,9 @@ public class OperationContextAdapter {
      */
     public String getStorageProviderOutcomes() {
         String outcomeSource = operationContext.getHeaderString("X-FHIR-BULKDATA-PROVIDER-OUTCOME");
-        return outcomeSource == null ? getSource() : outcomeSource;
+        return outcomeSource == null ?
+                ConfigurationFactory.getInstance().getOperationOutcomeProvider(getStorageProvider())
+                    : outcomeSource;
     }
 
     /**
