@@ -2066,7 +2066,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/storageProviders/<source>/fileBase`|string| The absolute path of the output directory |
 |`fhirServer/bulkdata/storageProviders/<source>/validBaseUrls`|list|The list of supported urls which are approved for the fhir server to access|
 |`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|boolean|Disables the URL checking feature, allowing all URLs to be imported|
-|`fhirServer/bulkdata/storageProviders/<source>/enableParquet`|boolean|If give public read only access to the exported files|
+|`fhirServer/bulkdata/storageProviders/<source>/enableParquet`|boolean|Whether or not the server is configured to support export to parquet; to properly enable it the administrator must first make spark and stocator available to the fhir-bulkdata-webapp (e.g through the shared lib at `wlp/user/shared/resources/lib`)|
 |`fhirServer/bulkdata/storageProviders/<source>/disableOperationOutcomes`|boolean|Disables the base url validation, allowing all URLs to be imported|
 |`fhirServer/bulkdata/storageProviders/<source>/duplicationCheck`|boolean|Enables duplication check on import|
 |`fhirServer/bulkdata/storageProviders/<source>/validateResources`|boolean|Enables the validation of imported resources|
