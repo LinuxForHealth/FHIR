@@ -36,15 +36,16 @@ public class ExitStatus {
 
     public String generateResultExitStatus() {
         Map<String, Integer> inputUrlSequenceMap = new HashMap<>();
-        int sequnceNum = 0;
+        int sequenceNum = 0;
         for (JsonValue jsonValue : dataSourceArray) {
             JsonObject dataSourceInfo = jsonValue.asJsonObject();
             String dSTypeInfo = dataSourceInfo.getString(OperationFields.IMPORT_INPUT_RESOURCE_TYPE);
             String dSDataLocationInfo = dataSourceInfo.getString(OperationFields.IMPORT_INPUT_RESOURCE_URL);
-            inputUrlSequenceMap.put(dSTypeInfo + ":" + dSDataLocationInfo, sequnceNum++);
+            inputUrlSequenceMap.put(dSTypeInfo + ":" + dSDataLocationInfo, sequenceNum++);
         }
 
-        String resultInExitStatus[] = new String[sequnceNum];
+        String[] resultInExitStatus = new String[sequenceNum];
+        System.out.println(partitionSummaries);
         for (ImportCheckPointData partitionSummary : partitionSummaries) {
             String key = partitionSummary.getImportPartitionResourceType() + ":" + partitionSummary.getImportPartitionWorkitem();
             if (!inputUrlSequenceMap.containsKey(key)) {
@@ -52,7 +53,7 @@ public class ExitStatus {
                 // So... this means that the Key is some how mutated.
                 logger.warning("Partition Key is incorrect '" + key + "'");
             }
-            int index = inputUrlSequenceMap.get(partitionSummary.getImportPartitionResourceType() + ":" + partitionSummary.getImportPartitionWorkitem());
+            int index = inputUrlSequenceMap.get(key);
             resultInExitStatus[index] = partitionSummary.getNumOfImportedResources() + ":" + partitionSummary.getNumOfImportFailures();
         }
         return Arrays.toString(resultInExitStatus);
