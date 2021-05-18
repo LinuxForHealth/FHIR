@@ -32,6 +32,8 @@ public class ServerResolveFunction extends ResolveFunction {
 
     private static final String RESOURCE_CACHE_NAME = "com.ibm.fhir.server.resolve.ServerResolveFunction.resourceCache";
     private static final Configuration RESOURCE_CACHE_CONFIGURATION = Configuration.of(Duration.of(1, ChronoUnit.MINUTES));
+    private static final String VREAD = "vread";
+    private static final String READ = "read";
 
     private final PersistenceHelper persistenceHelper;
 
@@ -47,6 +49,7 @@ public class ServerResolveFunction extends ResolveFunction {
     }
 
     public Resource computeResource(String resourceType, String logicalId, String versionId) {
+        String interaction = (versionId != null) ? VREAD : READ;
         FHIRTransactionHelper transactionHelper = null;
         try {
             FHIRPersistence persistence = persistenceHelper.getFHIRPersistenceImplementation();
@@ -55,17 +58,18 @@ public class ServerResolveFunction extends ResolveFunction {
             transactionHelper.begin();
 
             FHIRPersistenceContext context = FHIRPersistenceContextFactory.createPersistenceContext(null);
-            SingleResourceResult<Resource> result = (versionId != null) ?
+            SingleResourceResult<Resource> result = VREAD.equals(interaction) ?
                     persistence.vread(context, Resource.class, logicalId, versionId) :
                     persistence.read(context, Resource.class, logicalId);
 
             if (result.isSuccess()) {
                 transactionHelper.commit();
                 transactionHelper = null;
+
                 return result.getResource();
             }
         } catch (Exception e) {
-            log.log(Level.WARNING, "An error occurred during a read or vread interaction", e);
+            log.log(Level.WARNING, "An error occurred during a " + interaction + " interaction", e);
         } finally {
             if (transactionHelper != null) {
                 try {
@@ -75,7 +79,6 @@ public class ServerResolveFunction extends ResolveFunction {
                 }
             }
         }
-
         return null;
     }
 }
