@@ -693,9 +693,15 @@ public final class ValidationSupport {
 
         if (referenceReference != null && !referenceReference.startsWith("#") && !referenceReference.startsWith(LOCAL_REF_PREFIX)
                 && !referenceReference.startsWith(HTTP_PREFIX) && !referenceReference.startsWith(HTTPS_PREFIX)) {
-            Matcher matcher = REFERENCE_PATTERN.matcher(referenceReference);
-            if (matcher.matches()) {
-                resourceType = matcher.group(RESOURCE_TYPE_GROUP);
+            int index = referenceReference.indexOf("?");
+            if (index != -1) {
+                // conditional reference
+                resourceType = referenceReference.substring(0, index);
+            } else {
+                Matcher matcher = REFERENCE_PATTERN.matcher(referenceReference);
+                if (matcher.matches()) {
+                    resourceType = matcher.group(RESOURCE_TYPE_GROUP);
+                }
             }
 
             // resourceType is required in the reference value

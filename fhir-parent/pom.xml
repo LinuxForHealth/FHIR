@@ -43,11 +43,12 @@
         <derby.version>10.14.2.0</derby.version>
         <db2.version>11.5.5.0</db2.version>
         <postgresql.version>42.2.18</postgresql.version>
-        <cxf.version>3.4.2</cxf.version>
-        <surefire.plugin.version>3.0.0-M3</surefire.plugin.version>
+        <!-- Updated per [CVE-2021-22696] CXF supports (via JwtRequestCodeFilter) -->
+        <cxf.version>3.4.3</cxf.version>
+        <surefire.plugin.version>3.0.0-M5</surefire.plugin.version>
         <!-- needed for generating jacoco aggregate report in fhir-coverage-reports -->
         <maven.surefire.report.plugin>${surefire.plugin.version}</maven.surefire.report.plugin>
-        <jacoco.plugin.version>0.8.5</jacoco.plugin.version>
+        <jacoco.plugin.version>0.8.7</jacoco.plugin.version>
         <argLine>-Dfile.encoding=UTF-8</argLine>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <my.maven.war.plugin>3.2.3</my.maven.war.plugin>
@@ -103,6 +104,7 @@
         <module>../operation/fhir-operation-reindex</module>
         <module>../operation/fhir-operation-bulkdata</module>
         <module>../operation/fhir-operation-everything</module>
+        <module>../operation/fhir-operation-erase</module>
         <module>../fhir-bulkdata-webapp</module>
         <module>../fhir-search</module>
         <module>../fhir-client</module>
@@ -534,6 +536,24 @@
                 <artifactId>caffeine</artifactId>
                 <!-- upgrade to 3.x after we discontinue Java 8 support -->
                 <version>2.9.0</version>
+            </dependency>
+            <dependency>
+                <!-- [CVE-2021-21290] Netty is an open-source, asynchronous event-driven network application framework, support tinkerpop with latest netty -->
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>4.1.63.Final</version>
+            </dependency>
+            <dependency>
+                <!--  [CVE-2020-8908] A temp directory creation vulnerability exists in all versions of Guava, addressed in latest versions -->
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>30.1.1-jre</version>
+            </dependency>
+            <dependency>
+                <!-- [CVE-2017-18640] The Alias feature in SnakeYAML 1.18 allows entity expansion during a load operation, addressed in latest versions. -->
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>1.28</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

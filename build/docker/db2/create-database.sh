@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ###############################################################################
-# (C) Copyright IBM Corp. 2019, 2020
+# (C) Copyright IBM Corp. 2019, 2021
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -26,6 +26,10 @@ else
   # Was: CATALOGCACHE_SZ 300 1.2M
   # Now: CATALOGCACHE_SZ 3000  12M
   su - db2inst1 -c "db2 update db cfg for fhirdb using CATALOGCACHE_SZ 3000"
+  # Added log size 4K x 50 = 200M and configured logprimary and logsecond which should be sufficient
+  su - db2inst1 -c "db2 update db cfg for fhirdb using logfilsiz 50000"
+  su - db2inst1 -c "db2 update db cfg for fhirdb using logprimary 3"
+  su - db2inst1 -c "db2 update db cfg for fhirdb using logsecond 10"
 fi
 
 # To be properly idempotent, we always want to execute this, just in case it failed the first time

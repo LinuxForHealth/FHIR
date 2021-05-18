@@ -1,0 +1,16 @@
+{
+    "__comment": "FHIR Server - Operation - Erase - Test Configuration",
+    "fhirServer": {
+        "audit": {
+            "serviceClassName" : "com.ibm.fhir.audit.impl.NopService",
+            "serviceProperties" : {
+            }
+        },
+        "operations": {
+            "erase": {
+                "enabled": true,
+                "allowedRoles": ["FHIROpsAdmin"]
+            }
+        }
+    }
+}

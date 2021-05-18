@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,6 +19,7 @@ import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationDefinition;
+import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
@@ -40,6 +41,7 @@ import com.ibm.fhir.model.type.code.FHIRAllTypes;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.OperationParameterUse;
+import com.ibm.fhir.model.util.FHIRUtil;
 
 public final class FHIROperationUtil {
     public static final String ENV_DISABLED_OPERATIONS = "DISABLED_OPERATIONS";
@@ -168,16 +170,23 @@ public final class FHIROperationUtil {
         return parametersBuilder.build();
     }
 
-    public static Parameters getOutputParameters(Resource resource) throws Exception {
-        return Parameters.builder()
-                .parameter(Parameter.builder()
-                    .name(string("return"))
-                    .resource(resource)
-                    .build())
-                .build();
+    /**
+     * Generates an output Parameter resource
+     * @param resource
+     * @return
+     */
+    public static Parameters getOutputParameters(Resource resource) {
+        return getOutputParameters("return", resource);
     }
 
-    public static Parameters getOutputParameters(String name, Resource resource) throws Exception {
+    /**
+     * generates an output parameter with a specific name.
+     *
+     * @param name
+     * @param resource
+     * @return
+     */
+    public static Parameters getOutputParameters(String name, Resource resource) {
         return Parameters.builder()
                 .parameter(Parameter.builder()
                     .name(string(name))
@@ -221,5 +230,27 @@ public final class FHIROperationUtil {
 
         operationException.setIssues(issues);
         return operationException;
+    }
+
+    /**
+     * Helper method to generate a FHIROperationException with a fixed IssueType
+     * @param msg the message to be packed in the exception
+     * @param issueType the type of the issue
+     * @return
+     */
+    public static FHIROperationException buildExceptionWithIssue(final String msg, IssueType issueType) {
+        return buildExceptionWithIssue(msg, issueType, null);
+    }
+
+    /**
+     * Helper method to generate a FHIROperationException with a fixed IssueType
+     * @param msg the message to be packed in the exception
+     * @param issueType the type of the issue
+     * @param cause the throwable that causes this OperationOutcome/Exception
+     * @return
+     */
+    public static FHIROperationException buildExceptionWithIssue(final String msg, IssueType issueType, final Throwable cause) {
+        OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue(msg, issueType);
+        return new FHIROperationException(msg, cause).withIssue(ooi);
     }
 }

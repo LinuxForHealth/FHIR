@@ -50,6 +50,14 @@
                     "currentSchema": "APP"
                 }
             }
+        },
+        "operations": {
+            "erase": {
+                "enabled": true,
+                "allowedRoles": [
+                    "FHIROperationAdmin"
+                ]
+            }
         }
     }
 }

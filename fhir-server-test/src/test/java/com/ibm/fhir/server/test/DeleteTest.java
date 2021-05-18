@@ -7,6 +7,7 @@
 package com.ibm.fhir.server.test;
 
 import static com.ibm.fhir.model.type.String.string;
+import static org.testng.Assert.assertTrue;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 
@@ -419,6 +420,9 @@ public class DeleteTest extends FHIRServerTestBase {
             assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
             assertNotNull(response.getETag());
             assertEquals("W/\"2\"", response.getETag());
+            // Check for resourceId in details message
+            OperationOutcome operationOutcome = response.getResource(OperationOutcome.class);
+            assertTrue(operationOutcome.getIssue().get(0).getDetails().getText().getValue().contains(obsId));
         } else {
             assertResponse(response.getResponse(), Response.Status.METHOD_NOT_ALLOWED.getStatusCode());
         }

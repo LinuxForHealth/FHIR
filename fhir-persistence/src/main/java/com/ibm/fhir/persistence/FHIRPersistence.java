@@ -13,6 +13,7 @@ import java.util.function.Function;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
+import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 
@@ -202,4 +203,14 @@ public interface FHIRPersistence {
      * @return a list containing up to resourceCount elements describing resources which have changed
      */
     List<ResourceChangeLogRecord> changes(int resourceCount, Instant fromLastModified, Long afterResourceId, String resourceTypeName) throws FHIRPersistenceException;
+
+    /**
+     * Erases part or a whole of a resource in the data layer
+     * @param eraseDto the details of the user input
+     * @return a record indicating the success or partial success of the erase
+     * @throws FHIRPersistenceException
+     */
+    default ResourceEraseRecord erase(EraseDTO eraseDto) throws FHIRPersistenceException {
+        throw new FHIRPersistenceException("Erase is not supported");
+    }
 }
