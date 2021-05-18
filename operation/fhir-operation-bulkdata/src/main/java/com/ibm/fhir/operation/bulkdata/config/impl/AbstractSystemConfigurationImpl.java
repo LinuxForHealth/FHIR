@@ -13,11 +13,11 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
-import com.ibm.fhir.search.SearchConstants;
 
 /**
  * Common between the Legacy and V2 Configuration and Implementation
@@ -255,8 +255,8 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
 
     @Override
     public int getCorePageSize() {
-        int pageSize = FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/pageSize", SearchConstants.MAX_PAGE_SIZE);
-        return Math.min(SearchConstants.MAX_PAGE_SIZE, pageSize);
+        int pageSize = FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/pageSize", FHIRConstants.FHIR_PAGE_SIZE_DEFAULT_MAX);
+        return Math.min(FHIRConstants.FHIR_PAGE_SIZE_DEFAULT_MAX, pageSize);
     }
 
     @Override

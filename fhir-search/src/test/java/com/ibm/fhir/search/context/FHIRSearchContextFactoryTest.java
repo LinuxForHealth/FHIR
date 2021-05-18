@@ -17,38 +17,44 @@ import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.exception.FHIRException;
-import com.ibm.fhir.search.SearchConstants;
 
 public class FHIRSearchContextFactoryTest {
     @BeforeClass
     public void setUpBeforeClass() {
         FHIRConfiguration.setConfigHome("target/test-classes");
     }
-    
+
     @BeforeMethod
     @AfterMethod
     public void clearThreadLocal() {
         FHIRRequestContext.remove();
     }
-    
+
     @Test
     public void testCreateWithDefaultPageSize() throws Exception {
-        runCreateTest("default", FHIRConstants.FHIR_PAGE_SIZE_DEFAULT);
-    }
-    
-    @Test
-    public void testCreateWithUserConfiguredPageSize() throws Exception {
-        runCreateTest("tenant1", 500);
-    }
-    
-    @Test
-    public void testCreateWithUserConfiguredPageSizeBeyondMaxium() throws Exception {
-        runCreateTest("tenant2", SearchConstants.MAX_PAGE_SIZE);
+        runCreateTest("default", FHIRConstants.FHIR_PAGE_SIZE_DEFAULT, FHIRConstants.FHIR_PAGE_SIZE_DEFAULT_MAX, FHIRConstants.FHIR_PAGE_INCLUDE_COUNT_DEFAULT_MAX);
     }
 
-    private void runCreateTest(String tenantId, int expectedPageSize) throws FHIRException {
-        FHIRRequestContext.set(new FHIRRequestContext(tenantId));        
+    @Test
+    public void testCreateWithUserConfiguredPageSize() throws Exception {
+        runCreateTest("tenant1", 500, FHIRConstants.FHIR_PAGE_SIZE_DEFAULT_MAX, FHIRConstants.FHIR_PAGE_INCLUDE_COUNT_DEFAULT_MAX);
+    }
+
+    @Test
+    public void testCreateWithUserConfiguredPageSizeBeyondDefaultMaxium() throws Exception {
+        runCreateTest("tenant2", FHIRConstants.FHIR_PAGE_SIZE_DEFAULT_MAX, FHIRConstants.FHIR_PAGE_SIZE_DEFAULT_MAX, FHIRConstants.FHIR_PAGE_INCLUDE_COUNT_DEFAULT_MAX);
+    }
+
+    @Test
+    public void testCreateWithUserConfiguredPageSizeBeyondMaxium() throws Exception {
+        runCreateTest("tenant4", 2000, 2000, 1500);
+    }
+
+    private void runCreateTest(String tenantId, int expectedPageSize, int expectedMaxPageSize, int expectedMaxPageIncludeCount) throws FHIRException {
+        FHIRRequestContext.set(new FHIRRequestContext(tenantId));
         FHIRSearchContext ctx = FHIRSearchContextFactory.createSearchContext();
-        assertEquals (ctx.getPageSize(), expectedPageSize);
+        assertEquals(ctx.getPageSize(), expectedPageSize);
+        assertEquals(ctx.getMaxPageSize(), expectedMaxPageSize);
+        assertEquals(ctx.getMaxPageIncludeCount(), expectedMaxPageIncludeCount);
     }
 }

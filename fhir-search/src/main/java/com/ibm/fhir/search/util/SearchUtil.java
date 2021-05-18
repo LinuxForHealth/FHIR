@@ -1673,8 +1673,8 @@ public class SearchUtil {
                     context.setSummaryParameter(SummaryValueSet.COUNT);
                 } else {
                     // If the user specified a value > max, then use the max.
-                    if (pageSize > SearchConstants.MAX_PAGE_SIZE) {
-                        pageSize = SearchConstants.MAX_PAGE_SIZE;
+                    if (pageSize > context.getMaxPageSize()) {
+                        pageSize = context.getMaxPageSize();
                     }
                     context.setPageSize(pageSize);
                 }
@@ -2800,4 +2800,5 @@ public class SearchUtil {
 
         return result;
     }
+
 }

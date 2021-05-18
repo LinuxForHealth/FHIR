@@ -1954,7 +1954,9 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/capabilityStatementCacheTimeout`|integer|The number of minutes that a tenant's CapabilityStatement is cached for the metadata endpoint. |
 |`fhirServer/core/extendedCodeableConceptValidation`|boolean|A boolean flag which indicates whether extended validation is performed by the server during object construction for code, Coding, CodeableConcept, Quantity, Uri, and String elements which have required bindings to value sets.|
 |`fhirServer/core/disabledOperations`|string|A comma-separated list of operations which are not allowed to run on the IBM FHIR Server, for example, `validate,import`. Note, do not include the dollar sign `$`|
-|`fhirServer/core/defaultPageSize`|integer|Sets the pageSize to use in search and history when no _count parameter is specified in the request. If a user-specified value exceeds the max page size (1000), then a warning is logged and max page size will be used. If not provided, the default page size (10) is used.|
+|`fhirServer/core/defaultPageSize`|integer|Sets the page size for search and history request results when no _count parameter is specified.|
+|`fhirServer/core/maxPageSize`|integer|Sets the max page size for search and history request results. If a user-specified _count parameter value exceeds the max page size, then a warning is logged and max page size will be used.|
+|`fhirServer/core/maxPageIncludeCount`|integer|Sets the max number of 'include' resources allowed per page for search and history request results. If a page of results from a search or history request will exceed the max number of 'include' resources, then an error will be returned in the request results.|
 |`fhirServer/term/disableCaching`|boolean|Indicates whether caching is disabled for the FHIR terminology module, this includes caching in `CodeSystemSupport`, `ValueSetSupport`, `GraphTermServiceProvider`, and `RemoteTermServiceProvider`|
 |`fhirServer/term/graphTermServiceProviders`|array of objects|The `graphTermServiceProviders` element is an array of objects|
 |`fhirServer/term/graphTermServiceProviders/enabled`|boolean|Indicates whether the graph term service provider should be used by the FHIR term service to access code system content|
@@ -2105,6 +2107,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/capabilityStatementCacheTimeout`|60|
 |`fhirServer/core/extendedCodeableConceptValidation`|true|
 |`fhirServer/core/defaultPageSize`|10|
+|`fhirServer/core/maxPageSize`|1000|
+|`fhirServer/core/maxPageIncludeCount`|1000|
 |`fhirServer/term/cachingDisabled`|false|
 |`fhirServer/term/graphTermServiceProviders/enabled`|false|
 |`fhirServer/term/graphTermServiceProviders/timeLimit`|90000|
@@ -2228,6 +2232,8 @@ must restart the server for that change to take effect.
 |`fhirServer/core/extendedCodeableConceptValidation`|N|N|
 |`fhirServer/core/disabledOperations`|N|N|
 |`fhirServer/core/defaultPageSize`|Y|Y|
+|`fhirServer/core/maxPageSize`|Y|Y|
+|`fhirServer/core/maxPageIncludeCount`|Y|Y|
 |`fhirServer/term/cachingDisabled`|N|N|
 |`fhirServer/term/graphTermServiceProviders/enabled`|N|N|
 |`fhirServer/term/graphTermServiceProviders/timeLimit`|N|N|
