@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2021
-lastupdated: "2021-05-13"
+lastupdated: "2021-05-18"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -1321,7 +1321,6 @@ The Bulk Data web application writes the exported FHIR resources to an IBM Cloud
         "default" : {
             "type": "file",
             "fileBase": "${WLP_OUTPUT_DIR}/fhir-server/output",
-            "exportPublic": true,
             "disableOperationOutcomes": true,
             "duplicationCheck": false,
             "validateResources": false
@@ -1339,7 +1338,6 @@ The Bulk Data web application writes the exported FHIR resources to an IBM Cloud
             },
             "enableParquet": false,
             "disableBaseUrlValidation": true,
-            "exportPublic": true,
             "disableOperationOutcomes": true,
             "duplicationCheck": false,
             "validateResources": false,
@@ -1406,9 +1404,9 @@ The presigned URL is valid for 86400 seconds (1 day).
 
 Note, the deletion of an a job is split into two phases, ACCEPTED (202) response and DELETED (204).  202 is returned until the operation is stopped or removed, and then 204.
 
-By default, the exported `ndjson` file is configured with public access automatically and with 2 hours expiration time, the randomly generated secret in the path is used to protect the file. Please note that IBM COS does not support expiration time for each single COS object, so please configure retention policy (e.g, 1 day) for the bucket if IBM COS is used. For both Amazon S3 and IBM COS, please remember that public access should never be configured to the bucket itself.
+Prior to version 4.8.1, the exported `ndjson` file is configured with public access automatically and with 2 hours expiration time using `fhirServer/bulkdata/storageProviders/(source)/exportPublic`. The download of the files is best supported with the `hmac` authentication type with presigned urls.
 
-Note: `fhirServer/bulkdata/storageProviders/(source)/exportPublic` can be set to "false" to disable public access. Also, *minio* doesn't support object level ACL, so access token is always needed to download the exported `ndjson` files.
+In 4.8.1, the randomly generated path is used to uniquely identify the exported files in a single folder.
 
 JavaBatch feature must be enabled in `server.xml` as following on the Liberty server:
 
@@ -2068,7 +2066,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/storageProviders/<source>/fileBase`|string| The absolute path of the output directory |
 |`fhirServer/bulkdata/storageProviders/<source>/validBaseUrls`|list|The list of supported urls which are approved for the fhir server to access|
 |`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|boolean|Disables the URL checking feature, allowing all URLs to be imported|
-|`fhirServer/bulkdata/storageProviders/<source>/exportPublic`|boolean|Whether or not the server is configured to support export to parquet; to properly enable it the administrator must first make spark and stocator available to the fhir-bulkdata-webapp (e.g through the shared lib at `wlp/user/shared/resources/lib`)|
 |`fhirServer/bulkdata/storageProviders/<source>/enableParquet`|boolean|If give public read only access to the exported files|
 |`fhirServer/bulkdata/storageProviders/<source>/disableOperationOutcomes`|boolean|Disables the base url validation, allowing all URLs to be imported|
 |`fhirServer/bulkdata/storageProviders/<source>/duplicationCheck`|boolean|Enables duplication check on import|
@@ -2163,7 +2160,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/audit/serviceProperties/geoCounty`|UnknownCountry|
 |`fhirServer/audit/serviceProperties/mapper`|cadf|
 |`fhirServer/audit/serviceProperties/load`|environment|
-|`fhirServer/bulkdata/isExportPublic`|true|
 |`fhirServer/bulkdata/validBaseUrlsDisabled`|false|
 |`fhirServer/bulkdata/cosFileMaxResources`|200000|
 |`fhirServer/bulkdata/cosFileMaxSize`|209715200|
@@ -2186,7 +2182,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/iamEndpoint`|https://iam.cloud.ibm.com/oidc/token|
 |`fhirServer/bulkdata/core/maxChunkReadTime`|90000|
 |`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|false|
-|`fhirServer/bulkdata/storageProviders/<source>/exportPublic`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/enableParquet`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/disableOperationOutcomes`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/duplicationCheck`|false|
@@ -2319,7 +2314,6 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/storageProviders/<source>/fileBase`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/validBaseUrls`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/exportPublic`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/enableParquet`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/disableOperationOutcomes`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/duplicationCheck`|Y|Y|

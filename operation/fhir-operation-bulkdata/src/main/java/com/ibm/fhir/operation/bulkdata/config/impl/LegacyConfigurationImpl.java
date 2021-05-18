@@ -188,7 +188,7 @@ public class LegacyConfigurationImpl extends AbstractSystemConfigurationImpl {
 
     @Override
     public boolean isStorageProviderExportPublic(String provider) {
-        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/isExportPublic", Boolean.FALSE);
+        return false;
     }
 
     @Override
