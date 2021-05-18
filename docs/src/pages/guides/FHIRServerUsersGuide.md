@@ -2061,7 +2061,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/iamEndpoint`|string| Override the system's IAM endpoint |
 |`fhirServer/bulkdata/core/maxChunkReadTime`|string| Max time in milliseconds to read during a bulkdata export without type filters. The time should be three quarters of the transactionManager timeout (often the FHIR_TRANSACTION_MANAGER_TIMEOUT value). Note, this value is a string representation of a long value.|
 |`fhirServer/bulkdata/core/defaultExportProvider`|string| The default Export storage provider used by the Bulk Data Import and Export|
-|`fhirServer/bulkdata/core/defaultImportProvider`|string| The default Import storage provider used by the Bulk Data Import and Export|
+|`fhirServer/bulkdata/core/defaultImportProvider`|string| The default storage provider used by Bulk Data Import|
 |`fhirServer/bulkdata/storageProviders/<source>/type`|string|The type of storageProvider aws-s3, ibm-cos, file, https |
 |`fhirServer/bulkdata/storageProviders/<source>/bucketName`|string| Object store bucket name |
 |`fhirServer/bulkdata/storageProviders/<source>/location`|string|Object store location |
