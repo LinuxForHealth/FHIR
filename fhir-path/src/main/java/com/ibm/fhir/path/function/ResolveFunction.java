@@ -24,6 +24,7 @@ import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathResourceNode;
+import com.ibm.fhir.path.FHIRPathTree;
 import com.ibm.fhir.path.FHIRPathType;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 
@@ -119,7 +120,7 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                     generateIssue(evaluationContext, IssueSeverity.INFORMATION, IssueType.INFORMATIONAL, "Resource type could not be inferred from reference: " + referenceReference, node.path());
                 }
 
-                result.add((resource != null) ? FHIRPathResourceNode.resourceNode(resource) : FHIRPathResourceNode.resourceNode(type));
+                result.add((resource != null) ? FHIRPathTree.tree(resource).getRoot() : FHIRPathResourceNode.resourceNode(type));
             }
         }
         return result;
