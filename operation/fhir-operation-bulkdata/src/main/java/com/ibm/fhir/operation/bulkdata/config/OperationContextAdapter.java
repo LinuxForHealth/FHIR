@@ -13,8 +13,10 @@ import com.ibm.fhir.server.operation.spi.FHIROperationContext;
  */
 public class OperationContextAdapter {
     private FHIROperationContext operationContext = null;
-    public OperationContextAdapter(FHIROperationContext operationContext) {
+    private boolean isImport = false;
+    public OperationContextAdapter(FHIROperationContext operationContext, boolean isImport) {
         this.operationContext = operationContext;
+        this.isImport = isImport;
     }
 
     /**
@@ -22,8 +24,8 @@ public class OperationContextAdapter {
      * @return
      */
     public String getStorageProvider() {
-        String bulkdataSource = operationContext.getHeaderString("X-FHIR-BULKDATA-PROVIDER");
-        return bulkdataSource == null ? "default" : bulkdataSource;
+        String bulkDataSource = operationContext.getHeaderString("X-FHIR-BULKDATA-PROVIDER");
+        return bulkDataSource == null ? getSource() : bulkDataSource;
     }
 
     /**
@@ -32,7 +34,7 @@ public class OperationContextAdapter {
      */
     public String getStorageProviderOutcomes() {
         String outcomeSource = operationContext.getHeaderString("X-FHIR-BULKDATA-PROVIDER-OUTCOME");
-        return outcomeSource == null ? "default" : outcomeSource;
+        return outcomeSource == null ? getSource() : outcomeSource;
     }
 
     /**
@@ -40,7 +42,18 @@ public class OperationContextAdapter {
      * @return
      */
     public String getBaseUri() {
-        String baseUri = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_REQUEST_BASE_URI);
-        return baseUri;
+        return (String) operationContext.getProperty(FHIROperationContext.PROPNAME_REQUEST_BASE_URI);
+    }
+
+    /**
+     * get the source based on the operation type.
+     * @return
+     */
+    private String getSource() {
+        if (isImport) {
+            return ConfigurationFactory.getInstance().getDefaultImportProvider();
+        } else {
+            return ConfigurationFactory.getInstance().getDefaultExportProvider();
+        }
     }
 }

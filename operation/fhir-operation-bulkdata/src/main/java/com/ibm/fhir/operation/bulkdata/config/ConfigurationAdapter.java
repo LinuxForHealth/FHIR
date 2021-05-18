@@ -223,6 +223,18 @@ public interface ConfigurationAdapter {
     long getCoreFastMaxReadTimeout();
 
     /**
+     * get default import provider
+     * @return
+     */
+    String getDefaultImportProvider();
+
+    /**
+     * get default import provider
+     * @return
+     */
+    String getDefaultExportProvider();
+
+    /**
      * gets the StorageProvider type which aligns with the StorageType
      * @param provider
      * @return

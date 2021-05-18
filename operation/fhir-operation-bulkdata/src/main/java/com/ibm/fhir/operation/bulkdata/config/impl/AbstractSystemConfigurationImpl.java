@@ -323,4 +323,14 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
         int expirySeconds = FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/cos/presignedExpiry", 86400);
         return Math.max(1, expirySeconds);
     }
+
+    @Override
+    public String getDefaultImportProvider() {
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/defaultImportProvider", "default");
+    }
+
+    @Override
+    public String getDefaultExportProvider() {
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/defaultExportProvider", "default");
+    }
 }
