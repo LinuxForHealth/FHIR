@@ -725,6 +725,14 @@ public class ExportOperationTest extends FHIRServerTestBase {
         }
     }
 
+    @Test
+    public void testBaseExportToNotExistsStorageProvider() throws Exception {
+        List<String> types = Arrays.asList("Patient");
+        Response response =
+                doPost(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON, Instant.of("2019-01-01T08:21:26.94-04:00"), types, null, "idontexist", "idontexist2");
+        assertEquals(response.getStatus(), Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+    }
+
     /**
      * Ensure that export to parquet returns a reasonable error when its disabled on the server
      */

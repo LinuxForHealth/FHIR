@@ -235,6 +235,12 @@ public interface ConfigurationAdapter {
     String getDefaultExportProvider();
 
     /**
+     * @param storageProvider
+     * @return True, iff the provider exists in the configuration.
+     */
+    boolean hasStorageProvider(String storageProvider);
+
+    /**
      * gets the StorageProvider type which aligns with the StorageType
      * @param provider
      * @return

@@ -43,6 +43,8 @@ public class S3Preflight extends NopPreflight {
 
     @Override
     public void preflight() throws FHIROperationException {
+        super.preflight();
+
         ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
         boolean outcomes = adapter.shouldStorageProviderCollectOperationOutcomes(getSource());
 
@@ -75,8 +77,6 @@ public class S3Preflight extends NopPreflight {
             throw export.buildOperationException("Timeout hit trying to access s3, check the s3 configuration", IssueType.NO_STORE, e);
         }
         executor.shutdown();
-
-        super.preflight();
     }
 
     /**

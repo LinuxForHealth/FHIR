@@ -333,4 +333,9 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     public String getDefaultExportProvider() {
         return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/defaultExportProvider", "default");
     }
+
+    @Override
+    public boolean hasStorageProvider(String storageProvider) {
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProvider/" + storageProvider + "/type", null) != null;
+    }
 }

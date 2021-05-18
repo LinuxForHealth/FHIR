@@ -176,7 +176,7 @@ public class BulkDataImportUtil {
      */
     public void verifyUrlAllowed(String url) throws FHIROperationException {
         ConfigurationAdapter config = ConfigurationFactory.getInstance();
-        OperationContextAdapter adapter = new OperationContextAdapter(operationContext);
+        OperationContextAdapter adapter = new OperationContextAdapter(operationContext, true);
         String source = adapter.getStorageProvider();
         Boolean disabled = config.shouldStorageProviderValidateBaseUrl(source);
 
