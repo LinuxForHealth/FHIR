@@ -60,6 +60,8 @@ public class ServerResolveFunction extends ResolveFunction {
                     persistence.read(context, Resource.class, logicalId);
 
             if (result.isSuccess()) {
+                transactionHelper.commit();
+                transactionHelper = null;
                 return result.getResource();
             }
         } catch (Exception e) {
