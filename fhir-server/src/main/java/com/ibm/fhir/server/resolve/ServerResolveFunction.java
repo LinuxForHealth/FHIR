@@ -7,6 +7,7 @@
 package com.ibm.fhir.server.resolve;
 
 import static com.ibm.fhir.cache.CacheKey.key;
+import static com.ibm.fhir.model.util.ModelSupport.getResourceType;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
@@ -18,6 +19,10 @@ import com.ibm.fhir.cache.CacheKey;
 import com.ibm.fhir.cache.CacheManager;
 import com.ibm.fhir.cache.CacheManager.Configuration;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.path.FHIRPathNode;
+import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.function.ResolveFunction;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.SingleResourceResult;
@@ -34,6 +39,7 @@ public class ServerResolveFunction extends ResolveFunction {
     private static final Configuration RESOURCE_CACHE_CONFIGURATION = Configuration.of(Duration.of(1, ChronoUnit.MINUTES));
     private static final String VREAD = "vread";
     private static final String READ = "read";
+    private static final Object NULL = new Object();
 
     private final PersistenceHelper persistenceHelper;
 
@@ -42,13 +48,15 @@ public class ServerResolveFunction extends ResolveFunction {
     }
 
     @Override
-    public Resource resolve(String resourceType, String logicalId, String versionId) {
-        Map<CacheKey, Resource> cacheAsMap = CacheManager.getCacheAsMap(RESOURCE_CACHE_NAME, RESOURCE_CACHE_CONFIGURATION);
+    public Resource resolveRelativeReference(EvaluationContext evaluationContext, FHIRPathNode node, String resourceType, String logicalId, String versionId) {
+        Map<CacheKey, Object> cacheAsMap = CacheManager.getCacheAsMap(RESOURCE_CACHE_NAME, RESOURCE_CACHE_CONFIGURATION);
         CacheKey key = key(resourceType, logicalId, versionId);
-        return cacheAsMap.computeIfAbsent(key, k -> computeResource(resourceType, logicalId, versionId));
+        Object result = cacheAsMap.computeIfAbsent(key, k -> computeResource(evaluationContext, node, resourceType, logicalId, versionId));
+        return (result != NULL) ? (Resource) result : null;
     }
 
-    public Resource computeResource(String resourceType, String logicalId, String versionId) {
+    public Object computeResource(EvaluationContext evaluationContext, FHIRPathNode node, String type, String logicalId, String versionId) {
+        Class<? extends Resource> resourceType = getResourceType(type);
         String interaction = (versionId != null) ? VREAD : READ;
         FHIRTransactionHelper transactionHelper = null;
         try {
@@ -58,9 +66,9 @@ public class ServerResolveFunction extends ResolveFunction {
             transactionHelper.begin();
 
             FHIRPersistenceContext context = FHIRPersistenceContextFactory.createPersistenceContext(null);
-            SingleResourceResult<Resource> result = VREAD.equals(interaction) ?
-                    persistence.vread(context, Resource.class, logicalId, versionId) :
-                    persistence.read(context, Resource.class, logicalId);
+            SingleResourceResult<? extends Resource> result = VREAD.equals(interaction) ?
+                    persistence.vread(context, resourceType, logicalId, versionId) :
+                    persistence.read(context, resourceType, logicalId);
 
             if (result.isSuccess()) {
                 transactionHelper.commit();
@@ -70,6 +78,7 @@ public class ServerResolveFunction extends ResolveFunction {
             }
         } catch (Exception e) {
             log.log(Level.WARNING, "An error occurred during a " + interaction + " interaction", e);
+            generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.EXCEPTION, "Error resolving relative reference: " + e.getMessage(), node.path());
         } finally {
             if (transactionHelper != null) {
                 try {
@@ -79,6 +88,6 @@ public class ServerResolveFunction extends ResolveFunction {
                 }
             }
         }
-        return null;
+        return NULL;
     }
 }

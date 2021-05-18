@@ -24,7 +24,6 @@ import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathResourceNode;
-import com.ibm.fhir.path.FHIRPathTree;
 import com.ibm.fhir.path.FHIRPathType;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 
@@ -91,7 +90,7 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                 if (referenceReference != null) {
                     if (referenceReference.startsWith("#")) {
                         // internal fragment reference
-                        resource = resolveInternalFragmentReference(evaluationContext.getTree(), node, referenceReference);
+                        resource = resolveInternalFragmentReference(evaluationContext, node, referenceReference);
                         if (resource != null) {
                             resourceType = resource.getClass().getSimpleName();
                         }
@@ -104,7 +103,7 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                             }
                             if (matcher.group(BASE_URL_GROUP) == null && resolveRelativeReferences(evaluationContext)) {
                                 // relative reference
-                                resource = resolve(resourceType, matcher.group(LOGICAL_ID_GROUP), matcher.group(VERSION_ID_GROUP));
+                                resource = resolveRelativeReference(evaluationContext, node, resourceType, matcher.group(LOGICAL_ID_GROUP), matcher.group(VERSION_ID_GROUP));
                             }
                         }
                     }
@@ -126,13 +125,13 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
         return result;
     }
 
-    protected Resource resolve(String resourceType, String logicalId, String versionId) {
+    protected Resource resolveRelativeReference(EvaluationContext evaluationContext, FHIRPathNode node, String type, String logicalId, String versionId) {
         return null;
     }
 
-    private Resource resolveInternalFragmentReference(FHIRPathTree tree, FHIRPathNode node, String referenceReference) {
-        if (tree != null) {
-            FHIRPathResourceNode rootResource = getRootResourceNode(tree, node);
+    private Resource resolveInternalFragmentReference(EvaluationContext evaluationContext, FHIRPathNode node, String referenceReference) {
+        if (evaluationContext.getTree() != null) {
+            FHIRPathResourceNode rootResource = getRootResourceNode(evaluationContext.getTree(), node);
             if (rootResource != null) {
                 Resource resource = rootResource.resource();
                 if ("#".equals(referenceReference)) {
