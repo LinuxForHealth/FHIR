@@ -1406,9 +1406,9 @@ The presigned URL is valid for 86400 seconds (1 day).
 
 Note, the deletion of an a job is split into two phases, ACCEPTED (202) response and DELETED (204).  202 is returned until the operation is stopped or removed, and then 204.
 
-By default, the exported `ndjson` file is configured with public access automatically and with 2 hours expiration time, the randomly generated secret in the path is used to protect the file. Please note that IBM COS does not support expiration time for each single COS object, so please configure retention policy (e.g, 1 day) for the bucket if IBM COS is used. For both Amazon S3 and IBM COS, please remember that public access should never be configured to the bucket itself.
+Please note that IBM COS does not support retention limits for individual COS objects, so please configure an appropriate retention policy (e.g. 1 day) at the bucket level.
 
-Note: `fhirServer/bulkdata/storageProviders/(source)/exportPublic` can be set to "false" to disable public access. Also, *minio* doesn't support object level ACL, so access token is always needed to download the exported `ndjson` files.
+As of Version 4.8.1, the exportPublic is deprecated and will be removed in future versions. `fhirServer/bulkdata/storageProviders/(source)/exportPublic` can be set to "false" to disable public access. Also, *minio* doesn't support object level ACL, so access token is always needed to download the exported `ndjson` files.
 
 JavaBatch feature must be enabled in `server.xml` as following on the Liberty server:
 
