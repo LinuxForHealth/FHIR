@@ -342,7 +342,7 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
 
         // now we check the system level
         if (outcomeProvider == null) {
-            outcomeProvider = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/defaultOutcomeProvider", "default");
+            outcomeProvider = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/defaultOutcomeProvider", provider);
         }
 
         return outcomeProvider;
