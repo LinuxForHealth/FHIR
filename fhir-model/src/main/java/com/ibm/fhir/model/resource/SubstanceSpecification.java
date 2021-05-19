@@ -95,8 +95,6 @@ public class SubstanceSpecification extends DomainResource {
     @ReferenceTarget({ "SubstanceSourceMaterial" })
     private final Reference sourceMaterial;
 
-    private volatile int hashCode;
-
     private SubstanceSpecification(Builder builder) {
         super(builder);
         identifier = builder.identifier;
@@ -1185,8 +1183,6 @@ public class SubstanceSpecification extends DomainResource {
         @Choice({ Quantity.class, String.class })
         private final Element amount;
 
-        private volatile int hashCode;
-
         private Moiety(Builder builder) {
             super(builder);
             role = builder.role;
@@ -1618,8 +1614,6 @@ public class SubstanceSpecification extends DomainResource {
         @Choice({ Quantity.class, String.class })
         private final Element amount;
 
-        private volatile int hashCode;
-
         private Property(Builder builder) {
             super(builder);
             category = builder.category;
@@ -2005,8 +1999,6 @@ public class SubstanceSpecification extends DomainResource {
         private final List<Reference> source;
         @Summary
         private final List<Representation> representation;
-
-        private volatile int hashCode;
 
         private Structure(Builder builder) {
             super(builder);
@@ -2534,8 +2526,6 @@ public class SubstanceSpecification extends DomainResource {
             @Summary
             private final MolecularWeight molecularWeight;
 
-            private volatile int hashCode;
-
             private Isotope(Builder builder) {
                 super(builder);
                 identifier = builder.identifier;
@@ -2891,8 +2881,6 @@ public class SubstanceSpecification extends DomainResource {
                 @Summary
                 private final Quantity amount;
 
-                private volatile int hashCode;
-
                 private MolecularWeight(Builder builder) {
                     super(builder);
                     method = builder.method;
@@ -3190,8 +3178,6 @@ public class SubstanceSpecification extends DomainResource {
             private final String representation;
             @Summary
             private final Attachment attachment;
-
-            private volatile int hashCode;
 
             private Representation(Builder builder) {
                 super(builder);
@@ -3492,8 +3478,6 @@ public class SubstanceSpecification extends DomainResource {
         @Summary
         @ReferenceTarget({ "DocumentReference" })
         private final List<Reference> source;
-
-        private volatile int hashCode;
 
         private Code(Builder builder) {
             super(builder);
@@ -3899,8 +3883,6 @@ public class SubstanceSpecification extends DomainResource {
         @Summary
         @ReferenceTarget({ "DocumentReference" })
         private final List<Reference> source;
-
-        private volatile int hashCode;
 
         private Name(Builder builder) {
             super(builder);
@@ -4606,8 +4588,6 @@ public class SubstanceSpecification extends DomainResource {
             @Summary
             private final DateTime date;
 
-            private volatile int hashCode;
-
             private Official(Builder builder) {
                 super(builder);
                 authority = builder.authority;
@@ -4914,8 +4894,6 @@ public class SubstanceSpecification extends DomainResource {
         @Summary
         @ReferenceTarget({ "DocumentReference" })
         private final List<Reference> source;
-
-        private volatile int hashCode;
 
         private Relationship(Builder builder) {
             super(builder);

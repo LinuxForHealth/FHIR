@@ -119,8 +119,6 @@ public class GraphDefinition extends DomainResource {
     private final Canonical profile;
     private final List<Link> link;
 
-    private volatile int hashCode;
-
     private GraphDefinition(Builder builder) {
         super(builder);
         url = builder.url;
@@ -1014,8 +1012,6 @@ public class GraphDefinition extends DomainResource {
         private final String description;
         private final List<Target> target;
 
-        private volatile int hashCode;
-
         private Link(Builder builder) {
             super(builder);
             path = builder.path;
@@ -1427,8 +1423,6 @@ public class GraphDefinition extends DomainResource {
             private final Canonical profile;
             private final List<Compartment> compartment;
             private final List<GraphDefinition.Link> link;
-
-            private volatile int hashCode;
 
             private Target(Builder builder) {
                 super(builder);
@@ -1851,8 +1845,6 @@ public class GraphDefinition extends DomainResource {
                 private final GraphCompartmentRule rule;
                 private final String expression;
                 private final String description;
-
-                private volatile int hashCode;
 
                 private Compartment(Builder builder) {
                     super(builder);

@@ -60,8 +60,6 @@ public class MedicinalProductInteraction extends DomainResource {
     @Summary
     private final CodeableConcept management;
 
-    private volatile int hashCode;
-
     private MedicinalProductInteraction(Builder builder) {
         super(builder);
         subject = Collections.unmodifiableList(ValidationSupport.checkList(builder.subject, "subject", Reference.class));
@@ -641,8 +639,6 @@ public class MedicinalProductInteraction extends DomainResource {
         @Choice({ Reference.class, CodeableConcept.class })
         @Required
         private final Element item;
-
-        private volatile int hashCode;
 
         private Interactant(Builder builder) {
             super(builder);

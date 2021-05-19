@@ -120,8 +120,6 @@ public class SupplyRequest extends DomainResource {
     @ReferenceTarget({ "Organization", "Location", "Patient" })
     private final Reference deliverTo;
 
-    private volatile int hashCode;
-
     private SupplyRequest(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1091,8 +1089,6 @@ public class SupplyRequest extends DomainResource {
         private final CodeableConcept code;
         @Choice({ CodeableConcept.class, Quantity.class, Range.class, Boolean.class })
         private final Element value;
-
-        private volatile int hashCode;
 
         private Parameter(Builder builder) {
             super(builder);

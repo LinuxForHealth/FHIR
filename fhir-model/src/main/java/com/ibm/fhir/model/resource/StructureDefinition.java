@@ -348,8 +348,6 @@ public class StructureDefinition extends DomainResource {
     private final Snapshot snapshot;
     private final Differential differential;
 
-    private volatile int hashCode;
-
     private StructureDefinition(Builder builder) {
         super(builder);
         url = ValidationSupport.requireNonNull(builder.url, "url");
@@ -1730,8 +1728,6 @@ public class StructureDefinition extends DomainResource {
         private final String name;
         private final String comment;
 
-        private volatile int hashCode;
-
         private Mapping(Builder builder) {
             super(builder);
             identity = ValidationSupport.requireNonNull(builder.identity, "identity");
@@ -2070,8 +2066,6 @@ public class StructureDefinition extends DomainResource {
         @Required
         private final String expression;
 
-        private volatile int hashCode;
-
         private Context(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -2342,8 +2336,6 @@ public class StructureDefinition extends DomainResource {
         @Required
         private final List<ElementDefinition> element;
 
-        private volatile int hashCode;
-
         private Snapshot(Builder builder) {
             super(builder);
             element = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.element, "element", ElementDefinition.class));
@@ -2600,8 +2592,6 @@ public class StructureDefinition extends DomainResource {
     public static class Differential extends BackboneElement {
         @Required
         private final List<ElementDefinition> element;
-
-        private volatile int hashCode;
 
         private Differential(Builder builder) {
             super(builder);

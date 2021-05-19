@@ -33,8 +33,6 @@ public class Annotation extends Element {
     @Required
     private final Markdown text;
 
-    private volatile int hashCode;
-
     private Annotation(Builder builder) {
         super(builder);
         author = ValidationSupport.choiceElement(builder.author, "author", Reference.class, String.class);

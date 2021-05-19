@@ -123,8 +123,6 @@ public class CoverageEligibilityResponse extends DomainResource {
     private final CodeableConcept form;
     private final List<Error> error;
 
-    private volatile int hashCode;
-
     private CoverageEligibilityResponse(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1047,8 +1045,6 @@ public class CoverageEligibilityResponse extends DomainResource {
         private final Period benefitPeriod;
         private final List<Item> item;
 
-        private volatile int hashCode;
-
         private Insurance(Builder builder) {
             super(builder);
             coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
@@ -1460,8 +1456,6 @@ public class CoverageEligibilityResponse extends DomainResource {
             )
             private final List<CodeableConcept> authorizationSupporting;
             private final Uri authorizationUrl;
-
-            private volatile int hashCode;
 
             private Item(Builder builder) {
                 super(builder);
@@ -2172,8 +2166,6 @@ public class CoverageEligibilityResponse extends DomainResource {
                 @Choice({ UnsignedInt.class, String.class, Money.class })
                 private final Element used;
 
-                private volatile int hashCode;
-
                 private Benefit(Builder builder) {
                     super(builder);
                     type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -2492,8 +2484,6 @@ public class CoverageEligibilityResponse extends DomainResource {
         )
         @Required
         private final CodeableConcept code;
-
-        private volatile int hashCode;
 
         private Error(Builder builder) {
             super(builder);

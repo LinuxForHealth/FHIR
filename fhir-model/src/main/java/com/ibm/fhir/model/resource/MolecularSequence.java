@@ -121,8 +121,6 @@ public class MolecularSequence extends DomainResource {
     @Summary
     private final List<StructureVariant> structureVariant;
 
-    private volatile int hashCode;
-
     private MolecularSequence(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1149,8 +1147,6 @@ public class MolecularSequence extends DomainResource {
         @Summary
         private final Integer windowEnd;
 
-        private volatile int hashCode;
-
         private ReferenceSeq(Builder builder) {
             super(builder);
             chromosome = builder.chromosome;
@@ -1667,8 +1663,6 @@ public class MolecularSequence extends DomainResource {
         @ReferenceTarget({ "Observation" })
         private final Reference variantPointer;
 
-        private volatile int hashCode;
-
         private Variant(Builder builder) {
             super(builder);
             start = builder.start;
@@ -2129,8 +2123,6 @@ public class MolecularSequence extends DomainResource {
         private final Decimal fScore;
         @Summary
         private final Roc roc;
-
-        private volatile int hashCode;
 
         private Quality(Builder builder) {
             super(builder);
@@ -2834,8 +2826,6 @@ public class MolecularSequence extends DomainResource {
             @Summary
             private final List<Decimal> fMeasure;
 
-            private volatile int hashCode;
-
             private Roc(Builder builder) {
                 super(builder);
                 score = Collections.unmodifiableList(ValidationSupport.checkList(builder.score, "score", Integer.class));
@@ -3409,8 +3399,6 @@ public class MolecularSequence extends DomainResource {
         @Summary
         private final String readsetId;
 
-        private volatile int hashCode;
-
         private Repository(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -3819,8 +3807,6 @@ public class MolecularSequence extends DomainResource {
         @Summary
         private final Inner inner;
 
-        private volatile int hashCode;
-
         private StructureVariant(Builder builder) {
             super(builder);
             variantType = builder.variantType;
@@ -4174,8 +4160,6 @@ public class MolecularSequence extends DomainResource {
             @Summary
             private final Integer end;
 
-            private volatile int hashCode;
-
             private Outer(Builder builder) {
                 super(builder);
                 start = builder.start;
@@ -4440,8 +4424,6 @@ public class MolecularSequence extends DomainResource {
             private final Integer start;
             @Summary
             private final Integer end;
-
-            private volatile int hashCode;
 
             private Inner(Builder builder) {
                 super(builder);

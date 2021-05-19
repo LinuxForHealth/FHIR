@@ -153,8 +153,6 @@ public class EventDefinition extends DomainResource {
     @Required
     private final List<TriggerDefinition> trigger;
 
-    private volatile int hashCode;
-
     private EventDefinition(Builder builder) {
         super(builder);
         url = builder.url;

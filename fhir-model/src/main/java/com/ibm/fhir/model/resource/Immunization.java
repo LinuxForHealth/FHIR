@@ -178,8 +178,6 @@ public class Immunization extends DomainResource {
     private final List<Reaction> reaction;
     private final List<ProtocolApplied> protocolApplied;
 
-    private volatile int hashCode;
-
     private Immunization(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1636,8 +1634,6 @@ public class Immunization extends DomainResource {
         @Required
         private final Reference actor;
 
-        private volatile int hashCode;
-
         private Performer(Builder builder) {
             super(builder);
             function = builder.function;
@@ -1913,8 +1909,6 @@ public class Immunization extends DomainResource {
         private final Uri reference;
         private final DateTime publicationDate;
         private final DateTime presentationDate;
-
-        private volatile int hashCode;
 
         private Education(Builder builder) {
             super(builder);
@@ -2239,8 +2233,6 @@ public class Immunization extends DomainResource {
         private final Reference detail;
         private final Boolean reported;
 
-        private volatile int hashCode;
-
         private Reaction(Builder builder) {
             super(builder);
             date = builder.date;
@@ -2549,8 +2541,6 @@ public class Immunization extends DomainResource {
         private final Element doseNumber;
         @Choice({ PositiveInt.class, String.class })
         private final Element seriesDoses;
-
-        private volatile int hashCode;
 
         private ProtocolApplied(Builder builder) {
             super(builder);

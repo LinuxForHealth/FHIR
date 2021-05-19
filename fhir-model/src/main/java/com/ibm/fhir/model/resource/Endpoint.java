@@ -107,8 +107,6 @@ public class Endpoint extends DomainResource {
     private final Url address;
     private final List<String> header;
 
-    private volatile int hashCode;
-
     private Endpoint(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));

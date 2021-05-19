@@ -18,8 +18,6 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Markdown extends String {
-    private volatile int hashCode;
-
     private Markdown(Builder builder) {
         super(builder);
     }

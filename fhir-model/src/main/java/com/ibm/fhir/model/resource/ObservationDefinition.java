@@ -124,8 +124,6 @@ public class ObservationDefinition extends DomainResource {
     @ReferenceTarget({ "ValueSet" })
     private final Reference criticalCodedValueSet;
 
-    private volatile int hashCode;
-
     private ObservationDefinition(Builder builder) {
         super(builder);
         category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
@@ -962,8 +960,6 @@ public class ObservationDefinition extends DomainResource {
         private final Decimal conversionFactor;
         private final Integer decimalPrecision;
 
-        private volatile int hashCode;
-
         private QuantitativeDetails(Builder builder) {
             super(builder);
             customaryUnit = builder.customaryUnit;
@@ -1315,8 +1311,6 @@ public class ObservationDefinition extends DomainResource {
         private final Range age;
         private final Range gestationalAge;
         private final String condition;
-
-        private volatile int hashCode;
 
         private QualifiedInterval(Builder builder) {
             super(builder);

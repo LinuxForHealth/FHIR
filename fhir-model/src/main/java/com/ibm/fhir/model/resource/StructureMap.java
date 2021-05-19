@@ -177,8 +177,6 @@ public class StructureMap extends DomainResource {
     @Required
     private final List<Group> group;
 
-    private volatile int hashCode;
-
     private StructureMap(Builder builder) {
         super(builder);
         url = ValidationSupport.requireNonNull(builder.url, "url");
@@ -1248,8 +1246,6 @@ public class StructureMap extends DomainResource {
         private final String alias;
         private final String documentation;
 
-        private volatile int hashCode;
-
         private Structure(Builder builder) {
             super(builder);
             url = ValidationSupport.requireNonNull(builder.url, "url");
@@ -1600,8 +1596,6 @@ public class StructureMap extends DomainResource {
         @Summary
         @Required
         private final List<Rule> rule;
-
-        private volatile int hashCode;
 
         private Group(Builder builder) {
             super(builder);
@@ -2058,8 +2052,6 @@ public class StructureMap extends DomainResource {
             private final StructureMapInputMode mode;
             private final String documentation;
 
-            private volatile int hashCode;
-
             private Input(Builder builder) {
                 super(builder);
                 name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -2401,8 +2393,6 @@ public class StructureMap extends DomainResource {
             @Summary
             private final List<Dependent> dependent;
             private final String documentation;
-
-            private volatile int hashCode;
 
             private Rule(Builder builder) {
                 super(builder);
@@ -2905,8 +2895,6 @@ public class StructureMap extends DomainResource {
                 private final String check;
                 @Summary
                 private final String logMessage;
-
-                private volatile int hashCode;
 
                 private Source(Builder builder) {
                     super(builder);
@@ -3545,8 +3533,6 @@ public class StructureMap extends DomainResource {
                 @Summary
                 private final List<Parameter> parameter;
 
-                private volatile int hashCode;
-
                 private Target(Builder builder) {
                     super(builder);
                     context = builder.context;
@@ -4033,8 +4019,6 @@ public class StructureMap extends DomainResource {
                     @Required
                     private final Element value;
 
-                    private volatile int hashCode;
-
                     private Parameter(Builder builder) {
                         super(builder);
                         value = ValidationSupport.requireChoiceElement(builder.value, "value", Id.class, String.class, Boolean.class, Integer.class, Decimal.class);
@@ -4283,8 +4267,6 @@ public class StructureMap extends DomainResource {
                 @Summary
                 @Required
                 private final List<String> variable;
-
-                private volatile int hashCode;
 
                 private Dependent(Builder builder) {
                     super(builder);

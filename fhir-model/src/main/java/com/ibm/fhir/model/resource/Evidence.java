@@ -138,8 +138,6 @@ public class Evidence extends DomainResource {
     @ReferenceTarget({ "EvidenceVariable" })
     private final List<Reference> outcome;
 
-    private volatile int hashCode;
-
     private Evidence(Builder builder) {
         super(builder);
         url = builder.url;

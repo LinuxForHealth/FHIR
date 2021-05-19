@@ -96,8 +96,6 @@ public class EpisodeOfCare extends DomainResource {
     @ReferenceTarget({ "Account" })
     private final List<Reference> account;
 
-    private volatile int hashCode;
-
     private EpisodeOfCare(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -992,8 +990,6 @@ public class EpisodeOfCare extends DomainResource {
         @Required
         private final Period period;
 
-        private volatile int hashCode;
-
         private StatusHistory(Builder builder) {
             super(builder);
             status = ValidationSupport.requireNonNull(builder.status, "status");
@@ -1274,8 +1270,6 @@ public class EpisodeOfCare extends DomainResource {
         private final CodeableConcept role;
         @Summary
         private final PositiveInt rank;
-
-        private volatile int hashCode;
 
         private Diagnosis(Builder builder) {
             super(builder);

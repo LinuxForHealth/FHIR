@@ -148,8 +148,6 @@ public class Bundle extends Resource {
     @Summary
     private final Signature signature;
 
-    private volatile int hashCode;
-
     private Bundle(Builder builder) {
         super(builder);
         identifier = builder.identifier;
@@ -581,8 +579,6 @@ public class Bundle extends Resource {
         @Required
         private final Uri url;
 
-        private volatile int hashCode;
-
         private Link(Builder builder) {
             super(builder);
             relation = ValidationSupport.requireNonNull(builder.relation, "relation");
@@ -866,8 +862,6 @@ public class Bundle extends Resource {
         private final Request request;
         @Summary
         private final Response response;
-
-        private volatile int hashCode;
 
         private Entry(Builder builder) {
             super(builder);
@@ -1293,8 +1287,6 @@ public class Bundle extends Resource {
             @Summary
             private final Decimal score;
 
-            private volatile int hashCode;
-
             private Search(Builder builder) {
                 super(builder);
                 mode = builder.mode;
@@ -1574,8 +1566,6 @@ public class Bundle extends Resource {
             private final String ifMatch;
             @Summary
             private final String ifNoneExist;
-
-            private volatile int hashCode;
 
             private Request(Builder builder) {
                 super(builder);
@@ -1991,8 +1981,6 @@ public class Bundle extends Resource {
             private final Instant lastModified;
             @Summary
             private final Resource outcome;
-
-            private volatile int hashCode;
 
             private Response(Builder builder) {
                 super(builder);

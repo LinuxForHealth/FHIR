@@ -98,8 +98,6 @@ public class Parameters extends Resource {
     @Summary
     private final List<Parameter> parameter;
 
-    private volatile int hashCode;
-
     private Parameters(Builder builder) {
         super(builder);
         parameter = Collections.unmodifiableList(ValidationSupport.checkList(builder.parameter, "parameter", Parameter.class));
@@ -314,8 +312,6 @@ public class Parameters extends Resource {
         private final Resource resource;
         @Summary
         private final List<Parameters.Parameter> part;
-
-        private volatile int hashCode;
 
         private Parameter(Builder builder) {
             super(builder);

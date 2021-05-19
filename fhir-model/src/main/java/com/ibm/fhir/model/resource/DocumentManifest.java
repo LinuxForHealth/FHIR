@@ -85,8 +85,6 @@ public class DocumentManifest extends DomainResource {
     private final List<Reference> content;
     private final List<Related> related;
 
-    private volatile int hashCode;
-
     private DocumentManifest(Builder builder) {
         super(builder);
         masterIdentifier = builder.masterIdentifier;
@@ -936,8 +934,6 @@ public class DocumentManifest extends DomainResource {
     public static class Related extends BackboneElement {
         private final Identifier identifier;
         private final Reference ref;
-
-        private volatile int hashCode;
 
         private Related(Builder builder) {
             super(builder);

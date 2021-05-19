@@ -24,8 +24,6 @@ public class Boolean extends Element {
 
     private final java.lang.Boolean value;
 
-    private volatile int hashCode;
-
     private Boolean(Builder builder) {
         super(builder);
         value = builder.value;

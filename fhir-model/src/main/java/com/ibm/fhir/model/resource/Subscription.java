@@ -74,8 +74,6 @@ public class Subscription extends DomainResource {
     @Required
     private final Channel channel;
 
-    private volatile int hashCode;
-
     private Subscription(Builder builder) {
         super(builder);
         status = ValidationSupport.requireNonNull(builder.status, "status");
@@ -655,8 +653,6 @@ public class Subscription extends DomainResource {
         private final Code payload;
         @Summary
         private final List<String> header;
-
-        private volatile int hashCode;
 
         private Channel(Builder builder) {
             super(builder);

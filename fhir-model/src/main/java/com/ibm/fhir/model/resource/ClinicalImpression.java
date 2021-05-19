@@ -117,8 +117,6 @@ public class ClinicalImpression extends DomainResource {
     private final List<Reference> supportingInfo;
     private final List<Annotation> note;
 
-    private volatile int hashCode;
-
     private ClinicalImpression(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1323,8 +1321,6 @@ public class ClinicalImpression extends DomainResource {
         @ReferenceTarget({ "Observation", "QuestionnaireResponse", "FamilyMemberHistory", "DiagnosticReport", "RiskAssessment", "ImagingStudy", "Media" })
         private final List<Reference> item;
 
-        private volatile int hashCode;
-
         private Investigation(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -1645,8 +1641,6 @@ public class ClinicalImpression extends DomainResource {
         @ReferenceTarget({ "Condition", "Observation", "Media" })
         private final Reference itemReference;
         private final String basis;
-
-        private volatile int hashCode;
 
         private Finding(Builder builder) {
             super(builder);

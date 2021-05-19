@@ -28,8 +28,6 @@ public class CodeableConcept extends Element {
     @Summary
     private final String text;
 
-    private volatile int hashCode;
-
     private CodeableConcept(Builder builder) {
         super(builder);
         coding = Collections.unmodifiableList(ValidationSupport.checkList(builder.coding, "coding", Coding.class));

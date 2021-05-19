@@ -117,8 +117,6 @@ public class Timing extends BackboneElement {
     )
     private final CodeableConcept code;
 
-    private volatile int hashCode;
-
     private Timing(Builder builder) {
         super(builder);
         event = Collections.unmodifiableList(ValidationSupport.checkList(builder.event, "event", DateTime.class));
@@ -487,8 +485,6 @@ public class Timing extends BackboneElement {
         private final List<EventTiming> when;
         @Summary
         private final UnsignedInt offset;
-
-        private volatile int hashCode;
 
         private Repeat(Builder builder) {
             super(builder);

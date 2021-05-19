@@ -59,8 +59,6 @@ public class Expression extends Element {
     @Summary
     private final Uri reference;
 
-    private volatile int hashCode;
-
     private Expression(Builder builder) {
         super(builder);
         description = builder.description;

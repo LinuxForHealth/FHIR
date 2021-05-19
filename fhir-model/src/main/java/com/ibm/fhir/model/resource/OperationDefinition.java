@@ -170,8 +170,6 @@ public class OperationDefinition extends DomainResource {
     private final List<Parameter> parameter;
     private final List<Overload> overload;
 
-    private volatile int hashCode;
-
     private OperationDefinition(Builder builder) {
         super(builder);
         url = builder.url;
@@ -1500,8 +1498,6 @@ public class OperationDefinition extends DomainResource {
         private final List<ReferencedFrom> referencedFrom;
         private final List<OperationDefinition.Parameter> part;
 
-        private volatile int hashCode;
-
         private Parameter(Builder builder) {
             super(builder);
             name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -2135,8 +2131,6 @@ public class OperationDefinition extends DomainResource {
             @Required
             private final Canonical valueSet;
 
-            private volatile int hashCode;
-
             private Binding(Builder builder) {
                 super(builder);
                 strength = ValidationSupport.requireNonNull(builder.strength, "strength");
@@ -2409,8 +2403,6 @@ public class OperationDefinition extends DomainResource {
             private final String source;
             private final String sourceId;
 
-            private volatile int hashCode;
-
             private ReferencedFrom(Builder builder) {
                 super(builder);
                 source = ValidationSupport.requireNonNull(builder.source, "source");
@@ -2680,8 +2672,6 @@ public class OperationDefinition extends DomainResource {
     public static class Overload extends BackboneElement {
         private final List<String> parameterName;
         private final String comment;
-
-        private volatile int hashCode;
 
         private Overload(Builder builder) {
             super(builder);

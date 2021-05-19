@@ -21,8 +21,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class PositiveInt extends Integer {
     private static final int MIN_VALUE = 1;
 
-    private volatile int hashCode;
-
     private PositiveInt(Builder builder) {
         super(builder);
         ValidationSupport.checkValue(value, MIN_VALUE);

@@ -57,8 +57,6 @@ public class UsageContext extends Element {
     @Required
     private final Element value;
 
-    private volatile int hashCode;
-
     private UsageContext(Builder builder) {
         super(builder);
         code = ValidationSupport.requireNonNull(builder.code, "code");

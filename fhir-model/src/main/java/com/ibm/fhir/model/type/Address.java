@@ -62,8 +62,6 @@ public class Address extends Element {
     @Summary
     private final Period period;
 
-    private volatile int hashCode;
-
     private Address(Builder builder) {
         super(builder);
         use = builder.use;

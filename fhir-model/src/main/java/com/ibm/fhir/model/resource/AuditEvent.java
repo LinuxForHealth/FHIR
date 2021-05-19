@@ -204,8 +204,6 @@ public class AuditEvent extends DomainResource {
     private final Source source;
     private final List<Entity> entity;
 
-    private volatile int hashCode;
-
     private AuditEvent(Builder builder) {
         super(builder);
         type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -990,8 +988,6 @@ public class AuditEvent extends DomainResource {
         )
         private final List<CodeableConcept> purposeOfUse;
 
-        private volatile int hashCode;
-
         private Agent(Builder builder) {
             super(builder);
             type = builder.type;
@@ -1630,8 +1626,6 @@ public class AuditEvent extends DomainResource {
             )
             private final AuditEventAgentNetworkType type;
 
-            private volatile int hashCode;
-
             private Network(Builder builder) {
                 super(builder);
                 address = builder.address;
@@ -1901,8 +1895,6 @@ public class AuditEvent extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/audit-source-type"
         )
         private final List<Coding> type;
-
-        private volatile int hashCode;
 
         private Source(Builder builder) {
             super(builder);
@@ -2267,8 +2259,6 @@ public class AuditEvent extends DomainResource {
         @Summary
         private final Base64Binary query;
         private final List<Detail> detail;
-
-        private volatile int hashCode;
 
         private Entity(Builder builder) {
             super(builder);
@@ -2787,8 +2777,6 @@ public class AuditEvent extends DomainResource {
             @Choice({ String.class, Base64Binary.class })
             @Required
             private final Element value;
-
-            private volatile int hashCode;
 
             private Detail(Builder builder) {
                 super(builder);

@@ -89,8 +89,6 @@ public class Schedule extends DomainResource {
     private final Period planningHorizon;
     private final String comment;
 
-    private volatile int hashCode;
-
     private Schedule(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));

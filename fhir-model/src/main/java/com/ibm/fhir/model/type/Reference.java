@@ -53,8 +53,6 @@ public class Reference extends Element {
     @Summary
     private final String display;
 
-    private volatile int hashCode;
-
     private Reference(Builder builder) {
         super(builder);
         reference = builder.reference;

@@ -84,8 +84,6 @@ public class Dosage extends BackboneElement {
     @Summary
     private final SimpleQuantity maxDosePerLifetime;
 
-    private volatile int hashCode;
-
     private Dosage(Builder builder) {
         super(builder);
         sequence = builder.sequence;
@@ -750,8 +748,6 @@ public class Dosage extends BackboneElement {
         @Summary
         @Choice({ Ratio.class, Range.class, SimpleQuantity.class })
         private final Element rate;
-
-        private volatile int hashCode;
 
         private DoseAndRate(Builder builder) {
             super(builder);

@@ -21,8 +21,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Uri extends Element {
     protected final java.lang.String value;
 
-    private volatile int hashCode;
-
     protected Uri(Builder builder) {
         super(builder);
         value = builder.value;

@@ -103,8 +103,6 @@ public class ImmunizationEvaluation extends DomainResource {
     @Choice({ PositiveInt.class, String.class })
     private final Element seriesDoses;
 
-    private volatile int hashCode;
-
     private ImmunizationEvaluation(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));

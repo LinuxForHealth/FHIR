@@ -33,8 +33,6 @@ public class Ratio extends Element {
     @Summary
     private final Quantity denominator;
 
-    private volatile int hashCode;
-
     private Ratio(Builder builder) {
         super(builder);
         numerator = builder.numerator;

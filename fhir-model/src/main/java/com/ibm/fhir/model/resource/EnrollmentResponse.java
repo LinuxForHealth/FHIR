@@ -70,8 +70,6 @@ public class EnrollmentResponse extends DomainResource {
     @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
     private final Reference requestProvider;
 
-    private volatile int hashCode;
-
     private EnrollmentResponse(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));

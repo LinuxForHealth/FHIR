@@ -18,8 +18,6 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Url extends Uri {
-    private volatile int hashCode;
-
     private Url(Builder builder) {
         super(builder);
     }

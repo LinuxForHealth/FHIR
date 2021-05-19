@@ -47,8 +47,6 @@ public class HumanName extends Element {
     @Summary
     private final Period period;
 
-    private volatile int hashCode;
-
     private HumanName(Builder builder) {
         super(builder);
         use = builder.use;

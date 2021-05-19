@@ -136,8 +136,6 @@ public class RequestGroup extends DomainResource {
     private final List<Annotation> note;
     private final List<Action> action;
 
-    private volatile int hashCode;
-
     private RequestGroup(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1302,8 +1300,6 @@ public class RequestGroup extends DomainResource {
         private final Reference resource;
         private final List<RequestGroup.Action> action;
 
-        private volatile int hashCode;
-
         private Action(Builder builder) {
             super(builder);
             prefix = builder.prefix;
@@ -2253,8 +2249,6 @@ public class RequestGroup extends DomainResource {
             private final ActionConditionKind kind;
             private final Expression expression;
 
-            private volatile int hashCode;
-
             private Condition(Builder builder) {
                 super(builder);
                 kind = ValidationSupport.requireNonNull(builder.kind, "kind");
@@ -2530,8 +2524,6 @@ public class RequestGroup extends DomainResource {
             private final ActionRelationshipType relationship;
             @Choice({ Duration.class, Range.class })
             private final Element offset;
-
-            private volatile int hashCode;
 
             private RelatedAction(Builder builder) {
                 super(builder);

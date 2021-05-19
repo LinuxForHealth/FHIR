@@ -44,8 +44,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Age extends Quantity {
-    private volatile int hashCode;
-
     private Age(Builder builder) {
         super(builder);
     }

@@ -157,8 +157,6 @@ public class Goal extends DomainResource {
     @ReferenceTarget({ "Observation" })
     private final List<Reference> outcomeReference;
 
-    private volatile int hashCode;
-
     private Goal(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1189,8 +1187,6 @@ public class Goal extends DomainResource {
         @Summary
         @Choice({ Date.class, Duration.class })
         private final Element due;
-
-        private volatile int hashCode;
 
         private Target(Builder builder) {
             super(builder);

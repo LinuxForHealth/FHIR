@@ -62,8 +62,6 @@ public class MedicinalProductContraindication extends DomainResource {
     @Summary
     private final List<Population> population;
 
-    private volatile int hashCode;
-
     private MedicinalProductContraindication(Builder builder) {
         super(builder);
         subject = Collections.unmodifiableList(ValidationSupport.checkList(builder.subject, "subject", Reference.class));
@@ -715,8 +713,6 @@ public class MedicinalProductContraindication extends DomainResource {
         @Choice({ CodeableConcept.class, Reference.class })
         @Required
         private final Element medication;
-
-        private volatile int hashCode;
 
         private OtherTherapy(Builder builder) {
             super(builder);

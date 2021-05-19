@@ -21,8 +21,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Integer extends Element {
     protected final java.lang.Integer value;
 
-    private volatile int hashCode;
-
     protected Integer(Builder builder) {
         super(builder);
         value = builder.value;

@@ -247,8 +247,6 @@ public class Measure extends DomainResource {
     private final List<Group> group;
     private final List<SupplementalData> supplementalData;
 
-    private volatile int hashCode;
-
     private Measure(Builder builder) {
         super(builder);
         url = builder.url;
@@ -2213,8 +2211,6 @@ public class Measure extends DomainResource {
         private final List<Population> population;
         private final List<Stratifier> stratifier;
 
-        private volatile int hashCode;
-
         private Group(Builder builder) {
             super(builder);
             code = builder.code;
@@ -2588,8 +2584,6 @@ public class Measure extends DomainResource {
             @Required
             private final Expression criteria;
 
-            private volatile int hashCode;
-
             private Population(Builder builder) {
                 super(builder);
                 code = builder.code;
@@ -2890,8 +2884,6 @@ public class Measure extends DomainResource {
             private final String description;
             private final Expression criteria;
             private final List<Component> component;
-
-            private volatile int hashCode;
 
             private Stratifier(Builder builder) {
                 super(builder);
@@ -3243,8 +3235,6 @@ public class Measure extends DomainResource {
                 @Required
                 private final Expression criteria;
 
-                private volatile int hashCode;
-
                 private Component(Builder builder) {
                     super(builder);
                     code = builder.code;
@@ -3557,8 +3547,6 @@ public class Measure extends DomainResource {
         private final String description;
         @Required
         private final Expression criteria;
-
-        private volatile int hashCode;
 
         private SupplementalData(Builder builder) {
             super(builder);

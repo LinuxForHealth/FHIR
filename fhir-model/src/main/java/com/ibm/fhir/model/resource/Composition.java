@@ -158,8 +158,6 @@ public class Composition extends DomainResource {
     private final List<Event> event;
     private final List<Section> section;
 
-    private volatile int hashCode;
-
     private Composition(Builder builder) {
         super(builder);
         identifier = builder.identifier;
@@ -1126,8 +1124,6 @@ public class Composition extends DomainResource {
         @ReferenceTarget({ "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Organization" })
         private final Reference party;
 
-        private volatile int hashCode;
-
         private Attester(Builder builder) {
             super(builder);
             mode = ValidationSupport.requireNonNull(builder.mode, "mode");
@@ -1445,8 +1441,6 @@ public class Composition extends DomainResource {
         @Required
         private final Element target;
 
-        private volatile int hashCode;
-
         private RelatesTo(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -1737,8 +1731,6 @@ public class Composition extends DomainResource {
         private final Period period;
         @Summary
         private final List<Reference> detail;
-
-        private volatile int hashCode;
 
         private Event(Builder builder) {
             super(builder);
@@ -2113,8 +2105,6 @@ public class Composition extends DomainResource {
         )
         private final CodeableConcept emptyReason;
         private final List<Composition.Section> section;
-
-        private volatile int hashCode;
 
         private Section(Builder builder) {
             super(builder);

@@ -44,8 +44,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Duration extends Quantity {
-    private volatile int hashCode;
-
     private Duration(Builder builder) {
         super(builder);
     }

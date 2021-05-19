@@ -212,8 +212,6 @@ public class ServiceRequest extends DomainResource {
     @ReferenceTarget({ "Provenance" })
     private final List<Reference> relevantHistory;
 
-    private volatile int hashCode;
-
     private ServiceRequest(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));

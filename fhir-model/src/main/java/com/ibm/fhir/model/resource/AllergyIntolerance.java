@@ -140,8 +140,6 @@ public class AllergyIntolerance extends DomainResource {
     private final List<Annotation> note;
     private final List<Reaction> reaction;
 
-    private volatile int hashCode;
-
     private AllergyIntolerance(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1125,8 +1123,6 @@ public class AllergyIntolerance extends DomainResource {
         )
         private final CodeableConcept exposureRoute;
         private final List<Annotation> note;
-
-        private volatile int hashCode;
 
         private Reaction(Builder builder) {
             super(builder);

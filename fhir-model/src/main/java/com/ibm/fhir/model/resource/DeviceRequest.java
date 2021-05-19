@@ -151,8 +151,6 @@ public class DeviceRequest extends DomainResource {
     @ReferenceTarget({ "Provenance" })
     private final List<Reference> relevantHistory;
 
-    private volatile int hashCode;
-
     private DeviceRequest(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1576,8 +1574,6 @@ public class DeviceRequest extends DomainResource {
         private final CodeableConcept code;
         @Choice({ CodeableConcept.class, Quantity.class, Range.class, Boolean.class })
         private final Element value;
-
-        private volatile int hashCode;
 
         private Parameter(Builder builder) {
             super(builder);

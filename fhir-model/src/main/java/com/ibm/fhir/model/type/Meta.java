@@ -60,8 +60,6 @@ public class Meta extends Element {
     )
     private final List<Coding> tag;
 
-    private volatile int hashCode;
-
     private Meta(Builder builder) {
         super(builder);
         versionId = builder.versionId;

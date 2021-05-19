@@ -92,8 +92,6 @@ public class AppointmentResponse extends DomainResource {
     private final ParticipantStatus participantStatus;
     private final String comment;
 
-    private volatile int hashCode;
-
     private AppointmentResponse(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));

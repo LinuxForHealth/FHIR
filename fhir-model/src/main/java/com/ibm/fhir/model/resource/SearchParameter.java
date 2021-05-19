@@ -180,8 +180,6 @@ public class SearchParameter extends DomainResource {
     private final List<String> chain;
     private final List<Component> component;
 
-    private volatile int hashCode;
-
     private SearchParameter(Builder builder) {
         super(builder);
         url = ValidationSupport.requireNonNull(builder.url, "url");
@@ -1544,8 +1542,6 @@ public class SearchParameter extends DomainResource {
         private final Canonical definition;
         @Required
         private final String expression;
-
-        private volatile int hashCode;
 
         private Component(Builder builder) {
             super(builder);

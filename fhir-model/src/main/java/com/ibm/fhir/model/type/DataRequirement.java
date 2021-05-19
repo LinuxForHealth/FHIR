@@ -86,8 +86,6 @@ public class DataRequirement extends Element {
     @Summary
     private final List<Sort> sort;
 
-    private volatile int hashCode;
-
     private DataRequirement(Builder builder) {
         super(builder);
         type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -633,8 +631,6 @@ public class DataRequirement extends Element {
         @Summary
         private final List<Coding> code;
 
-        private volatile int hashCode;
-
         private CodeFilter(Builder builder) {
             super(builder);
             path = builder.path;
@@ -1000,8 +996,6 @@ public class DataRequirement extends Element {
         @Choice({ DateTime.class, Period.class, Duration.class })
         private final Element value;
 
-        private volatile int hashCode;
-
         private DateFilter(Builder builder) {
             super(builder);
             path = builder.path;
@@ -1322,8 +1316,6 @@ public class DataRequirement extends Element {
         )
         @Required
         private final SortDirection direction;
-
-        private volatile int hashCode;
 
         private Sort(Builder builder) {
             super(builder);

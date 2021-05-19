@@ -34,8 +34,6 @@ public class SubstanceAmount extends BackboneElement {
     @Summary
     private final ReferenceRange referenceRange;
 
-    private volatile int hashCode;
-
     private SubstanceAmount(Builder builder) {
         super(builder);
         amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, Range.class, String.class);
@@ -379,8 +377,6 @@ public class SubstanceAmount extends BackboneElement {
         private final Quantity lowLimit;
         @Summary
         private final Quantity highLimit;
-
-        private volatile int hashCode;
 
         private ReferenceRange(Builder builder) {
             super(builder);

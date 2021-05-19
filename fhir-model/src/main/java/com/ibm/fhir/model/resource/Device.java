@@ -116,8 +116,6 @@ public class Device extends DomainResource {
     @ReferenceTarget({ "Device" })
     private final Reference parent;
 
-    private volatile int hashCode;
-
     private Device(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1493,8 +1491,6 @@ public class Device extends DomainResource {
         )
         private final UDIEntryType entryType;
 
-        private volatile int hashCode;
-
         private UdiCarrier(Builder builder) {
             super(builder);
             deviceIdentifier = builder.deviceIdentifier;
@@ -1916,8 +1912,6 @@ public class Device extends DomainResource {
         @Required
         private final DeviceNameType type;
 
-        private volatile int hashCode;
-
         private DeviceName(Builder builder) {
             super(builder);
             name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -2191,8 +2185,6 @@ public class Device extends DomainResource {
         private final CodeableConcept systemType;
         private final String version;
 
-        private volatile int hashCode;
-
         private Specialization(Builder builder) {
             super(builder);
             systemType = ValidationSupport.requireNonNull(builder.systemType, "systemType");
@@ -2460,8 +2452,6 @@ public class Device extends DomainResource {
         private final Identifier component;
         @Required
         private final String value;
-
-        private volatile int hashCode;
 
         private Version(Builder builder) {
             super(builder);
@@ -2761,8 +2751,6 @@ public class Device extends DomainResource {
         private final CodeableConcept type;
         private final List<Quantity> valueQuantity;
         private final List<CodeableConcept> valueCode;
-
-        private volatile int hashCode;
 
         private Property(Builder builder) {
             super(builder);

@@ -23,8 +23,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Base64Binary extends Element {
     private final byte[] value;
 
-    private volatile int hashCode;
-
     private Base64Binary(Builder builder) {
         super(builder);
         value = builder.value;

@@ -175,8 +175,6 @@ public class ClaimResponse extends DomainResource {
     private final List<Insurance> insurance;
     private final List<Error> error;
 
-    private volatile int hashCode;
-
     private ClaimResponse(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1581,8 +1579,6 @@ public class ClaimResponse extends DomainResource {
         private final List<Adjudication> adjudication;
         private final List<Detail> detail;
 
-        private volatile int hashCode;
-
         private Item(Builder builder) {
             super(builder);
             itemSequence = ValidationSupport.requireNonNull(builder.itemSequence, "itemSequence");
@@ -1994,8 +1990,6 @@ public class ClaimResponse extends DomainResource {
             private final Money amount;
             private final Decimal value;
 
-            private volatile int hashCode;
-
             private Adjudication(Builder builder) {
                 super(builder);
                 category = ValidationSupport.requireNonNull(builder.category, "category");
@@ -2331,8 +2325,6 @@ public class ClaimResponse extends DomainResource {
             @Required
             private final List<ClaimResponse.Item.Adjudication> adjudication;
             private final List<SubDetail> subDetail;
-
-            private volatile int hashCode;
 
             private Detail(Builder builder) {
                 super(builder);
@@ -2727,8 +2719,6 @@ public class ClaimResponse extends DomainResource {
                 private final PositiveInt subDetailSequence;
                 private final List<PositiveInt> noteNumber;
                 private final List<ClaimResponse.Item.Adjudication> adjudication;
-
-                private volatile int hashCode;
 
                 private SubDetail(Builder builder) {
                     super(builder);
@@ -3126,8 +3116,6 @@ public class ClaimResponse extends DomainResource {
         @Required
         private final List<ClaimResponse.Item.Adjudication> adjudication;
         private final List<Detail> detail;
-
-        private volatile int hashCode;
 
         private AddItem(Builder builder) {
             super(builder);
@@ -4156,8 +4144,6 @@ public class ClaimResponse extends DomainResource {
             private final List<ClaimResponse.Item.Adjudication> adjudication;
             private final List<SubDetail> subDetail;
 
-            private volatile int hashCode;
-
             private Detail(Builder builder) {
                 super(builder);
                 productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
@@ -4751,8 +4737,6 @@ public class ClaimResponse extends DomainResource {
                 @Required
                 private final List<ClaimResponse.Item.Adjudication> adjudication;
 
-                private volatile int hashCode;
-
                 private SubDetail(Builder builder) {
                     super(builder);
                     productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
@@ -5288,8 +5272,6 @@ public class ClaimResponse extends DomainResource {
         @Required
         private final Money amount;
 
-        private volatile int hashCode;
-
         private Total(Builder builder) {
             super(builder);
             category = ValidationSupport.requireNonNull(builder.category, "category");
@@ -5580,8 +5562,6 @@ public class ClaimResponse extends DomainResource {
         @Required
         private final Money amount;
         private final Identifier identifier;
-
-        private volatile int hashCode;
 
         private Payment(Builder builder) {
             super(builder);
@@ -5994,8 +5974,6 @@ public class ClaimResponse extends DomainResource {
         )
         private final CodeableConcept language;
 
-        private volatile int hashCode;
-
         private ProcessNote(Builder builder) {
             super(builder);
             number = builder.number;
@@ -6332,8 +6310,6 @@ public class ClaimResponse extends DomainResource {
         private final String businessArrangement;
         @ReferenceTarget({ "ClaimResponse" })
         private final Reference claimResponse;
-
-        private volatile int hashCode;
 
         private Insurance(Builder builder) {
             super(builder);
@@ -6724,8 +6700,6 @@ public class ClaimResponse extends DomainResource {
         )
         @Required
         private final CodeableConcept code;
-
-        private volatile int hashCode;
 
         private Error(Builder builder) {
             super(builder);

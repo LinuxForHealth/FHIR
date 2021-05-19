@@ -132,8 +132,6 @@ public class Location extends DomainResource {
     @ReferenceTarget({ "Endpoint" })
     private final List<Reference> endpoint;
 
-    private volatile int hashCode;
-
     private Location(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1127,8 +1125,6 @@ public class Location extends DomainResource {
         private final Decimal latitude;
         private final Decimal altitude;
 
-        private volatile int hashCode;
-
         private Position(Builder builder) {
             super(builder);
             longitude = ValidationSupport.requireNonNull(builder.longitude, "longitude");
@@ -1442,8 +1438,6 @@ public class Location extends DomainResource {
         private final Boolean allDay;
         private final Time openingTime;
         private final Time closingTime;
-
-        private volatile int hashCode;
 
         private HoursOfOperation(Builder builder) {
             super(builder);
