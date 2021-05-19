@@ -521,7 +521,14 @@ public class ConstraintGenerator {
                 sb.append(cardinality(node, sb.toString()));
             }
         } else if (pattern.is(Uri.class)) {
-            sb.append(identifier).append(" = '").append(pattern.as(Uri.class).getValue()).append("'");
+            if (isSlice(elementDefinition) && hasDiscriminatorPath(elementDefinition, "$this")) {
+                sb.append(identifier).append(".where($this = '").append(pattern.as(Uri.class).getValue()).append("')");
+                if (!discriminator) {
+                    sb.append(cardinality(node, sb.toString()));
+                }
+            } else {
+                sb.append(identifier).append(" = '").append(pattern.as(Uri.class).getValue()).append("'");
+            }
         } else if (pattern.is(Code.class)) {
             sb.append(identifier).append(" = '").append(pattern.as(Code.class).getValue()).append("'");
         }
@@ -793,6 +800,18 @@ public class ConstraintGenerator {
             if (hasConstraint(child)) {
                 return true;
             }
+        }
+        return false;
+    }
+
+    private boolean hasDiscriminatorPath(ElementDefinition slice, String path) {
+        ElementDefinition sliceDefinition = getSliceDefinition(slice);
+        if (sliceDefinition != null) {
+            Slicing slicing = sliceDefinition.getSlicing();
+            List<String> paths = slicing.getDiscriminator().stream()
+                    .map(discriminator -> discriminator.getPath().getValue())
+                    .collect(Collectors.toList());
+            return paths.size() == 1 && path.equals(paths.get(0));
         }
         return false;
     }

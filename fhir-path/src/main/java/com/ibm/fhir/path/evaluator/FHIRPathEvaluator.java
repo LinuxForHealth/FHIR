@@ -31,14 +31,10 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.hasQuantityValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.hasStringValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.hasSystemValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.hasTemporalValue;
-import static com.ibm.fhir.path.util.FHIRPathUtil.isCodedElementNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isFalse;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isQuantityNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isSingleton;
-import static com.ibm.fhir.path.util.FHIRPathUtil.isStringElementNode;
-import static com.ibm.fhir.path.util.FHIRPathUtil.isStringValue;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isTypeCompatible;
-import static com.ibm.fhir.path.util.FHIRPathUtil.isUriElementNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.singleton;
 import static com.ibm.fhir.path.util.FHIRPathUtil.unescape;
 
@@ -793,11 +789,7 @@ public class FHIRPathEvaluator {
 
             switch (operator) {
             case "in":
-                if ((isCodedElementNode(left) || isStringElementNode(left) || isUriElementNode(left)) && isStringValue(right)) {
-                    // For backwards compatibility per: https://jira.hl7.org/projects/FHIR/issues/FHIR-26605
-                    FHIRPathFunction memberOfFunction = FHIRPathFunction.registry().getFunction("memberOf");
-                    result = memberOfFunction.apply(evaluationContext, left, Collections.singletonList(right));
-                } else if (left.isEmpty()) {
+                if (left.isEmpty()) {
                     result = empty();
                 } else if (right.containsAll(left)) {
                     result = SINGLETON_TRUE;
