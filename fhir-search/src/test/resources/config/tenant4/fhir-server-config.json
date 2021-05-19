@@ -22,6 +22,11 @@
                     "name": "http://hl7.org/fhir/SearchParameter/Patient-name"
                 }
             }
+        },
+        "core": {
+            "defaultPageSize": 5000,
+            "maxPageSize": 2000,
+            "maxPageIncludeCount": 1500
         }
     }
 }

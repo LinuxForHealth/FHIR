@@ -14,7 +14,6 @@ import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.persistence.context.impl.FHIRHistoryContextImpl;
 import com.ibm.fhir.persistence.context.impl.FHIRPersistenceContextImpl;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
-import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 
 /**
@@ -66,15 +65,19 @@ public class FHIRPersistenceContextFactory {
      * Returns a FHIRHistoryContext instance with default values.
      */
     public static FHIRHistoryContext createHistoryContext() {
+        int maxPageSize = FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_MAX_PAGE_SIZE, FHIRConstants.FHIR_PAGE_SIZE_DEFAULT_MAX);
         int pageSize = FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_DEFAULT_PAGE_SIZE, FHIRConstants.FHIR_PAGE_SIZE_DEFAULT);
-        if (pageSize > SearchConstants.MAX_PAGE_SIZE) {
+        if (pageSize > maxPageSize) {
             log.warning(String.format("Server configuration %s = %d exceeds maximum allowed page size %d; using %d",
-                FHIRConfiguration.PROPERTY_DEFAULT_PAGE_SIZE, pageSize, SearchConstants.MAX_PAGE_SIZE, SearchConstants.MAX_PAGE_SIZE));
-            pageSize = SearchConstants.MAX_PAGE_SIZE;
+                FHIRConfiguration.PROPERTY_DEFAULT_PAGE_SIZE, pageSize, maxPageSize, maxPageSize));
+            pageSize = maxPageSize;
         }
-        
+        int maxPageIncludeCount = FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_MAX_PAGE_INCLUDE_COUNT, FHIRConstants.FHIR_PAGE_INCLUDE_COUNT_DEFAULT_MAX);
+
         FHIRHistoryContext ctx = new FHIRHistoryContextImpl();
         ctx.setPageSize(pageSize);
+        ctx.setMaxPageSize(maxPageSize);
+        ctx.setMaxPageIncludeCount(maxPageIncludeCount);
         return ctx;
     }
 

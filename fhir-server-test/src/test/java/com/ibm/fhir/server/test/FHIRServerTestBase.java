@@ -744,4 +744,20 @@ public abstract class FHIRServerTestBase {
             assertEquals(expectedEntryCount, bundle.getEntry().size());
         }
     }
+
+    /**
+     * Gets the self link of the bundle.
+     * @param bundle the bundle
+     * @return the self link, or null
+     */
+    protected String getSelfLink(Bundle bundle) {
+        for (Bundle.Link link : bundle.getLink()) {
+            String type = link.getRelation().getValue();
+            String uri = link.getUrl().getValue();
+            if ("self".equals(type)) {
+                return uri;
+            }
+        }
+        return null;
+    }
 }

@@ -312,7 +312,9 @@ public class SearchTest extends FHIRServerTestBase {
     public void testSearchPatientWithID() {
         WebTarget target = getWebTarget();
         Response response =
-                target.path("Patient").queryParam("_id", patientId)
+                target.path("Patient")
+                .queryParam("_id", patientId)
+                .queryParam("_count", "1002")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .header("X-FHIR-TENANT-ID", tenantName)
                 .header("X-FHIR-DSID", dataStoreId)
@@ -321,6 +323,9 @@ public class SearchTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
+        // Check that count is set to maxPageSize (1001) for the tenant
+        String selfLink = getSelfLink(bundle);
+        assertTrue(selfLink.contains("_count=1001"));
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })
@@ -336,6 +341,9 @@ public class SearchTest extends FHIRServerTestBase {
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
+        // Check that count is set to defaultPageSize (11) for the tenant
+        String selfLink = getSelfLink(bundle);
+        assertTrue(selfLink.contains("_count=11"));
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePatient" })
@@ -345,7 +353,6 @@ public class SearchTest extends FHIRServerTestBase {
                 target.path("Patient").queryParam("birthdate", "1970-01-01").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
-
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
     }
@@ -1343,7 +1350,6 @@ public class SearchTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertTrue(bundle.getTotal().getValue().equals(1));
         assertTrue(bundle.getEntry().isEmpty());
-
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePractitioner" })
@@ -2392,7 +2398,7 @@ public class SearchTest extends FHIRServerTestBase {
             SearchAllTest.generateOutput(bundle);
         }
         assertTrue(bundle.getEntry().size() >= 1);
-        
+
         response =
                 target.path("Condition")
                 .queryParam("evidence", "http://terminology.hl7.org/CodeSystem/v3-ObservationValue|")
@@ -2408,5 +2414,4 @@ public class SearchTest extends FHIRServerTestBase {
         }
         assertTrue(bundle.getEntry().size() >= 1);
     }
-
 }

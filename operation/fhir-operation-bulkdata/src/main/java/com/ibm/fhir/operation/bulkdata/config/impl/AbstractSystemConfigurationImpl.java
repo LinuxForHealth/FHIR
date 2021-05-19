@@ -17,7 +17,6 @@ import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
-import com.ibm.fhir.search.SearchConstants;
 
 /**
  * Common between the Legacy and V2 Configuration and Implementation
@@ -56,6 +55,9 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     // The number of resources at which to finish writing a given file (NDJSON and Parquet).
     // 200,000 at 1 KB/file would lead to roughly 200 MB files; similar to the DEFAULT_COS_OBJ_MAX_SIZE_MB.
     protected static final int DEFAULT_FILE_MAX_RESOURCE_COUNT = 200000;
+
+    // The default number of resources per page
+    protected static final int DEFAULT_PAGE_SIZE = 100;
 
     private static final String FHIR_BULKDATA_ALLOWED_TYPES = "FHIR_BULKDATA_ALLOWED_TYPES";
     private static final Set<String> ALLOWED_STORAGE_TYPES = determineAllowedStorageType();
@@ -255,8 +257,8 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
 
     @Override
     public int getCorePageSize() {
-        int pageSize = FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/pageSize", SearchConstants.MAX_PAGE_SIZE);
-        return Math.min(SearchConstants.MAX_PAGE_SIZE, pageSize);
+        int pageSize = FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/pageSize", DEFAULT_PAGE_SIZE);
+        return Math.min(DEFAULT_PAGE_SIZE, pageSize);
     }
 
     @Override
