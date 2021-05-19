@@ -35,7 +35,6 @@ public class C4BBPatientConstraintGeneratorTest {
             if (constraint.expression().equals(expr)) {
                 return true;
             }
-
         }
         return false;
     }
