@@ -26,6 +26,7 @@ import java.util.function.Function;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.cache.CacheManager;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Builder;
@@ -63,8 +64,14 @@ public class ServerResolveFunctionTest {
     @BeforeClass
     public void beforeClass() {
         persistenceHelper = new PersistenceHelperImpl();
-        FHIRPathFunctionRegistry.getInstance().register(new ServerResolveFunction(persistenceHelper));
+        FHIRPathFunctionRegistry.getInstance().register(new ServerResolveFunction(persistenceHelper) {
+            @Override
+            protected boolean matchesServiceBaseUrl(String baseUrl) {
+                return "https://localhost:9443/fhir-server/api/v4/".equals(baseUrl);
+            }
+        });
     }
+
     @Test
     public void testCreatePatient() throws Exception {
         Patient patient = Patient.builder()
@@ -185,6 +192,62 @@ public class ServerResolveFunctionTest {
 
         nodes = evaluator.evaluate(evaluationContext, "subject.resolve().managingOrganization.resolve().name = 'Good Samaritan'");
         assertEquals(nodes, SINGLETON_TRUE);
+
+        // relative reference with version
+        CacheManager.invalidateAll(ServerResolveFunction.RESOURCE_CACHE_NAME);
+        observation = observation.toBuilder()
+                .subject(Reference.builder()
+                    .reference(string("Patient/12345/_history/1"))
+                    .build())
+                .build();
+        evaluationContext = new EvaluationContext(observation);
+        nodes = evaluator.evaluate(evaluationContext, "subject.resolve() is Patient");
+        assertEquals(nodes, SINGLETON_TRUE);
+
+        nodes = evaluator.evaluate(evaluationContext, "subject.resolve().id = '12345'");
+        assertEquals(nodes, SINGLETON_TRUE);
+
+        // relative reference with version (negative case)
+        CacheManager.invalidateAll(ServerResolveFunction.RESOURCE_CACHE_NAME);
+        observation = observation.toBuilder()
+                .subject(Reference.builder()
+                    .reference(string("Patient/12345/_history/2"))
+                    .build())
+                .build();
+        evaluationContext = new EvaluationContext(observation);
+        nodes = evaluator.evaluate(evaluationContext, "subject.resolve() is Patient");
+        assertEquals(nodes, SINGLETON_TRUE);
+
+        nodes = evaluator.evaluate(evaluationContext, "subject.resolve().id = '12345'");
+        assertEquals(nodes, empty());
+
+        // absolute reference
+        CacheManager.invalidateAll(ServerResolveFunction.RESOURCE_CACHE_NAME);
+        observation = observation.toBuilder()
+                .subject(Reference.builder()
+                    .reference(string("https://localhost:9443/fhir-server/api/v4/Patient/12345"))
+                    .build())
+                .build();
+        evaluationContext = new EvaluationContext(observation);
+        nodes = evaluator.evaluate(evaluationContext, "subject.resolve() is Patient");
+        assertEquals(nodes, SINGLETON_TRUE);
+
+        nodes = evaluator.evaluate(evaluationContext, "subject.resolve().id = '12345'");
+        assertEquals(nodes, SINGLETON_TRUE);
+
+        // absolute reference (negative case)
+        CacheManager.invalidateAll(ServerResolveFunction.RESOURCE_CACHE_NAME);
+        observation = observation.toBuilder()
+                .subject(Reference.builder()
+                    .reference(string("http://ibm.com/fhir-server/api/v4/Patient/12345"))
+                    .build())
+                .build();
+        evaluationContext = new EvaluationContext(observation);
+        nodes = evaluator.evaluate(evaluationContext, "subject.resolve() is Patient");
+        assertEquals(nodes, SINGLETON_TRUE);
+
+        nodes = evaluator.evaluate(evaluationContext, "subject.resolve().id = '12345'");
+        assertEquals(nodes, empty());
     }
 
     public static class PersistenceHelperImpl implements PersistenceHelper {
