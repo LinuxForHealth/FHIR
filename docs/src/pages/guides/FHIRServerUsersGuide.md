@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2021
-lastupdated: "2021-05-13"
+lastupdated: "2021-05-19"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -1950,13 +1950,13 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/allowClientHandlingPref`|boolean|Indicates whether the client is allowed to override the server default handling preference using the `Prefer:handling` header value part.|
 |`fhirServer/core/checkReferenceTypes`|boolean|Indicates whether reference type checking is performed by the server during parsing / deserialization.|
 |`fhirServer/core/serverRegistryResourceProviderEnabled`|boolean|Indicates whether the server registry resource provider should be used by the FHIR registry component to access definitional resources through the persistence layer.|
-|`fhirServer/core/conditionalDeleteMaxNumber`|integer|The max number of matches supported in conditional delete. |
+|`fhirServer/core/conditionalDeleteMaxNumber`|integer|The maximum number of matches supported in conditional delete. |
 |`fhirServer/core/capabilityStatementCacheTimeout`|integer|The number of minutes that a tenant's CapabilityStatement is cached for the metadata endpoint. |
 |`fhirServer/core/extendedCodeableConceptValidation`|boolean|A boolean flag which indicates whether extended validation is performed by the server during object construction for code, Coding, CodeableConcept, Quantity, Uri, and String elements which have required bindings to value sets.|
 |`fhirServer/core/disabledOperations`|string|A comma-separated list of operations which are not allowed to run on the IBM FHIR Server, for example, `validate,import`. Note, do not include the dollar sign `$`|
-|`fhirServer/core/defaultPageSize`|integer|Sets the page size for search and history request results when no _count parameter is specified.|
-|`fhirServer/core/maxPageSize`|integer|Sets the max page size for search and history request results. If a user-specified _count parameter value exceeds the max page size, then a warning is logged and max page size will be used.|
-|`fhirServer/core/maxPageIncludeCount`|integer|Sets the max number of 'include' resources allowed per page for search and history request results. If a page of results from a search or history request will exceed the max number of 'include' resources, then an error will be returned in the request results.|
+|`fhirServer/core/defaultPageSize`|integer|Sets the page size for search and history request results when no `_count` parameter is specified.|
+|`fhirServer/core/maxPageSize`|integer|Sets the maximum page size for search and history request results. If a user-specified `_count` parameter value exceeds the maximum page size, then a warning is logged and the maximum page size will be used.|
+|`fhirServer/core/maxPageIncludeCount`|integer|Sets the maximum number of 'include' resources allowed per page for search and history request results. If the number of 'include' resources returned for a page of results from a search or history request will exceed the maximum number of 'include' resources allowed per page, then an error will be returned in the request results.|
 |`fhirServer/term/disableCaching`|boolean|Indicates whether caching is disabled for the FHIR terminology module, this includes caching in `CodeSystemSupport`, `ValueSetSupport`, `GraphTermServiceProvider`, and `RemoteTermServiceProvider`|
 |`fhirServer/term/graphTermServiceProviders`|array of objects|The `graphTermServiceProviders` element is an array of objects|
 |`fhirServer/term/graphTermServiceProviders/enabled`|boolean|Indicates whether the graph term service provider should be used by the FHIR term service to access code system content|
@@ -2061,7 +2061,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/maxPartitions`|number| The maximum number of simultaneous partitions that are processed per Export and Import |
 |`fhirServer/bulkdata/core/maxInputs`|number| The number of inputs allowed for $import |
 |`fhirServer/bulkdata/core/iamEndpoint`|string| Override the system's IAM endpoint |
-|`fhirServer/bulkdata/core/maxChunkReadTime`|string| Max time in milliseconds to read during a bulkdata export without type filters. The time should be three quarters of the transactionManager timeout (often the FHIR_TRANSACTION_MANAGER_TIMEOUT value). Note, this value is a string representation of a long value.|
+|`fhirServer/bulkdata/core/maxChunkReadTime`|string| Maximum time in milliseconds to read during a bulkdata export without type filters. The time should be three quarters of the transactionManager timeout (often the FHIR_TRANSACTION_MANAGER_TIMEOUT value). Note, this value is a string representation of a long value.|
 |`fhirServer/bulkdata/core/defaultExportProvider`|string| The default storage provider used by Bulk Data Export|
 |`fhirServer/bulkdata/core/defaultImportProvider`|string| The default storage provider used by Bulk Data Import|
 |`fhirServer/bulkdata/core/defaultOutcomeProvider`|string| The default storage provider used to output Operation Outcomes (file, s3 only)|
