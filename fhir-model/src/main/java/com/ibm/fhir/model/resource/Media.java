@@ -152,8 +152,6 @@ public class Media extends DomainResource {
     private final Attachment content;
     private final List<Annotation> note;
 
-    private volatile int hashCode;
-
     private Media(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));

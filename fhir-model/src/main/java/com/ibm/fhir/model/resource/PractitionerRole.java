@@ -101,8 +101,6 @@ public class PractitionerRole extends DomainResource {
     @ReferenceTarget({ "Endpoint" })
     private final List<Reference> endpoint;
 
-    private volatile int hashCode;
-
     private PractitionerRole(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1077,8 +1075,6 @@ public class PractitionerRole extends DomainResource {
         private final Time availableStartTime;
         private final Time availableEndTime;
 
-        private volatile int hashCode;
-
         private AvailableTime(Builder builder) {
             super(builder);
             daysOfWeek = Collections.unmodifiableList(ValidationSupport.checkList(builder.daysOfWeek, "daysOfWeek", DaysOfWeek.class));
@@ -1420,8 +1416,6 @@ public class PractitionerRole extends DomainResource {
         @Required
         private final String description;
         private final Period during;
-
-        private volatile int hashCode;
 
         private NotAvailable(Builder builder) {
             super(builder);

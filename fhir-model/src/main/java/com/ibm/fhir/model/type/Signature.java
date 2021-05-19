@@ -73,8 +73,6 @@ public class Signature extends Element {
     private final Code sigFormat;
     private final Base64Binary data;
 
-    private volatile int hashCode;
-
     private Signature(Builder builder) {
         super(builder);
         type = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.type, "type", Coding.class));

@@ -190,8 +190,6 @@ public class Appointment extends DomainResource {
     private final List<Participant> participant;
     private final List<Period> requestedPeriod;
 
-    private volatile int hashCode;
-
     private Appointment(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1520,8 +1518,6 @@ public class Appointment extends DomainResource {
         @Required
         private final ParticipationStatus status;
         private final Period period;
-
-        private volatile int hashCode;
 
         private Participant(Builder builder) {
             super(builder);

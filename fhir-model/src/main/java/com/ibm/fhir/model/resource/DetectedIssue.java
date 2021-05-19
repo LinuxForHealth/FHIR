@@ -112,8 +112,6 @@ public class DetectedIssue extends DomainResource {
     private final Uri reference;
     private final List<Mitigation> mitigation;
 
-    private volatile int hashCode;
-
     private DetectedIssue(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -916,8 +914,6 @@ public class DetectedIssue extends DomainResource {
         private final List<CodeableConcept> code;
         private final List<Reference> detail;
 
-        private volatile int hashCode;
-
         private Evidence(Builder builder) {
             super(builder);
             code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", CodeableConcept.class));
@@ -1227,8 +1223,6 @@ public class DetectedIssue extends DomainResource {
         private final DateTime date;
         @ReferenceTarget({ "Practitioner", "PractitionerRole" })
         private final Reference author;
-
-        private volatile int hashCode;
 
         private Mitigation(Builder builder) {
             super(builder);

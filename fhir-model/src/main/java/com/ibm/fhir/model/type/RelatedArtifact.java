@@ -46,8 +46,6 @@ public class RelatedArtifact extends Element {
     @Summary
     private final Canonical resource;
 
-    private volatile int hashCode;
-
     private RelatedArtifact(Builder builder) {
         super(builder);
         type = ValidationSupport.requireNonNull(builder.type, "type");

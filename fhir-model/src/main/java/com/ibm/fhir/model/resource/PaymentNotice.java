@@ -87,8 +87,6 @@ public class PaymentNotice extends DomainResource {
     )
     private final CodeableConcept paymentStatus;
 
-    private volatile int hashCode;
-
     private PaymentNotice(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));

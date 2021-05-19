@@ -62,8 +62,6 @@ public class EnrollmentRequest extends DomainResource {
     @ReferenceTarget({ "Coverage" })
     private final Reference coverage;
 
-    private volatile int hashCode;
-
     private EnrollmentRequest(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));

@@ -35,8 +35,6 @@ public class ProductShelfLife extends BackboneElement {
     @Summary
     private final List<CodeableConcept> specialPrecautionsForStorage;
 
-    private volatile int hashCode;
-
     private ProductShelfLife(Builder builder) {
         super(builder);
         identifier = builder.identifier;

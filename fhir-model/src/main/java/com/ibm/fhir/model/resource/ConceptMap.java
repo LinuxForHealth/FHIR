@@ -140,8 +140,6 @@ public class ConceptMap extends DomainResource {
     private final Element target;
     private final List<Group> group;
 
-    private volatile int hashCode;
-
     private ConceptMap(Builder builder) {
         super(builder);
         url = builder.url;
@@ -1143,8 +1141,6 @@ public class ConceptMap extends DomainResource {
         private final List<Element> element;
         private final Unmapped unmapped;
 
-        private volatile int hashCode;
-
         private Group(Builder builder) {
             super(builder);
             source = builder.source;
@@ -1559,8 +1555,6 @@ public class ConceptMap extends DomainResource {
             private final String display;
             private final List<Target> target;
 
-            private volatile int hashCode;
-
             private Element(Builder builder) {
                 super(builder);
                 code = builder.code;
@@ -1880,8 +1874,6 @@ public class ConceptMap extends DomainResource {
                 private final String comment;
                 private final List<DependsOn> dependsOn;
                 private final List<ConceptMap.Group.Element.Target.DependsOn> product;
-
-                private volatile int hashCode;
 
                 private Target(Builder builder) {
                     super(builder);
@@ -2328,8 +2320,6 @@ public class ConceptMap extends DomainResource {
                     private final String value;
                     private final String display;
 
-                    private volatile int hashCode;
-
                     private DependsOn(Builder builder) {
                         super(builder);
                         property = ValidationSupport.requireNonNull(builder.property, "property");
@@ -2676,8 +2666,6 @@ public class ConceptMap extends DomainResource {
             private final Code code;
             private final String display;
             private final Canonical url;
-
-            private volatile int hashCode;
 
             private Unmapped(Builder builder) {
                 super(builder);

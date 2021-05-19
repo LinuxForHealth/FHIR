@@ -75,8 +75,6 @@ public class Person extends DomainResource {
     private final Boolean active;
     private final List<Link> link;
 
-    private volatile int hashCode;
-
     private Person(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -805,8 +803,6 @@ public class Person extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/identity-assuranceLevel|4.0.1"
         )
         private final IdentityAssuranceLevel assurance;
-
-        private volatile int hashCode;
 
         private Link(Builder builder) {
             super(builder);

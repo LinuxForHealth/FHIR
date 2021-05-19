@@ -29,8 +29,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SimpleQuantity extends Quantity {
-    private volatile int hashCode;
-
     private SimpleQuantity(Builder builder) {
         super(builder);
         ValidationSupport.prohibited(comparator, "comparator");

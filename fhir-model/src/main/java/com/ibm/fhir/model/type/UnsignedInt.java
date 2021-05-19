@@ -21,8 +21,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class UnsignedInt extends Integer {
     private static final int MIN_VALUE = 0;
 
-    private volatile int hashCode;
-
     private UnsignedInt(Builder builder) {
         super(builder);
         ValidationSupport.checkValue(value, MIN_VALUE);

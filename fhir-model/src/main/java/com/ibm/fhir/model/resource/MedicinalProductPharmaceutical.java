@@ -65,8 +65,6 @@ public class MedicinalProductPharmaceutical extends DomainResource {
     @Required
     private final List<RouteOfAdministration> routeOfAdministration;
 
-    private volatile int hashCode;
-
     private MedicinalProductPharmaceutical(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -726,8 +724,6 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         @Summary
         private final CodeableConcept status;
 
-        private volatile int hashCode;
-
         private Characteristics(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -1006,8 +1002,6 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         private final Duration maxTreatmentPeriod;
         @Summary
         private final List<TargetSpecies> targetSpecies;
-
-        private volatile int hashCode;
 
         private RouteOfAdministration(Builder builder) {
             super(builder);
@@ -1467,8 +1461,6 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             @Summary
             private final List<WithdrawalPeriod> withdrawalPeriod;
 
-            private volatile int hashCode;
-
             private TargetSpecies(Builder builder) {
                 super(builder);
                 code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -1759,8 +1751,6 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                 private final Quantity value;
                 @Summary
                 private final String supportingInformation;
-
-                private volatile int hashCode;
 
                 private WithdrawalPeriod(Builder builder) {
                     super(builder);

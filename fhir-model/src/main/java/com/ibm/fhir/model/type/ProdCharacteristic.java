@@ -47,8 +47,6 @@ public class ProdCharacteristic extends BackboneElement {
     @Summary
     private final CodeableConcept scoring;
 
-    private volatile int hashCode;
-
     private ProdCharacteristic(Builder builder) {
         super(builder);
         height = builder.height;

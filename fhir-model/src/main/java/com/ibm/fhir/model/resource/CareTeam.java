@@ -101,8 +101,6 @@ public class CareTeam extends DomainResource {
     private final List<ContactPoint> telecom;
     private final List<Annotation> note;
 
-    private volatile int hashCode;
-
     private CareTeam(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1024,8 +1022,6 @@ public class CareTeam extends DomainResource {
         @ReferenceTarget({ "Organization" })
         private final Reference onBehalfOf;
         private final Period period;
-
-        private volatile int hashCode;
 
         private Participant(Builder builder) {
             super(builder);

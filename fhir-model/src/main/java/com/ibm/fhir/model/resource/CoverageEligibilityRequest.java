@@ -107,8 +107,6 @@ public class CoverageEligibilityRequest extends DomainResource {
     private final List<Insurance> insurance;
     private final List<Item> item;
 
-    private volatile int hashCode;
-
     private CoverageEligibilityRequest(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1024,8 +1022,6 @@ public class CoverageEligibilityRequest extends DomainResource {
         private final Reference information;
         private final Boolean appliesToAll;
 
-        private volatile int hashCode;
-
         private SupportingInfo(Builder builder) {
             super(builder);
             sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
@@ -1330,8 +1326,6 @@ public class CoverageEligibilityRequest extends DomainResource {
         @Required
         private final Reference coverage;
         private final String businessArrangement;
-
-        private volatile int hashCode;
 
         private Insurance(Builder builder) {
             super(builder);
@@ -1666,8 +1660,6 @@ public class CoverageEligibilityRequest extends DomainResource {
         private final Reference facility;
         private final List<Diagnosis> diagnosis;
         private final List<Reference> detail;
-
-        private volatile int hashCode;
 
         private Item(Builder builder) {
             super(builder);
@@ -2275,8 +2267,6 @@ public class CoverageEligibilityRequest extends DomainResource {
                 valueSet = "http://hl7.org/fhir/ValueSet/icd-10"
             )
             private final Element diagnosis;
-
-            private volatile int hashCode;
 
             private Diagnosis(Builder builder) {
                 super(builder);

@@ -54,8 +54,6 @@ public class SubstanceNucleicAcid extends DomainResource {
     @Summary
     private final List<Subunit> subunit;
 
-    private volatile int hashCode;
-
     private SubstanceNucleicAcid(Builder builder) {
         super(builder);
         sequenceType = builder.sequenceType;
@@ -568,8 +566,6 @@ public class SubstanceNucleicAcid extends DomainResource {
         @Summary
         private final List<Sugar> sugar;
 
-        private volatile int hashCode;
-
         private Subunit(Builder builder) {
             super(builder);
             subunit = builder.subunit;
@@ -1078,8 +1074,6 @@ public class SubstanceNucleicAcid extends DomainResource {
             @Summary
             private final String residueSite;
 
-            private volatile int hashCode;
-
             private Linkage(Builder builder) {
                 super(builder);
                 connectivity = builder.connectivity;
@@ -1413,8 +1407,6 @@ public class SubstanceNucleicAcid extends DomainResource {
             private final String name;
             @Summary
             private final String residueSite;
-
-            private volatile int hashCode;
 
             private Sugar(Builder builder) {
                 super(builder);

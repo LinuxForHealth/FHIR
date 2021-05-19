@@ -85,8 +85,6 @@ public class Medication extends DomainResource {
     private final List<Ingredient> ingredient;
     private final Batch batch;
 
-    private volatile int hashCode;
-
     private Medication(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -700,8 +698,6 @@ public class Medication extends DomainResource {
         private final Boolean isActive;
         private final Ratio strength;
 
-        private volatile int hashCode;
-
         private Ingredient(Builder builder) {
             super(builder);
             item = ValidationSupport.requireChoiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
@@ -1013,8 +1009,6 @@ public class Medication extends DomainResource {
     public static class Batch extends BackboneElement {
         private final String lotNumber;
         private final DateTime expirationDate;
-
-        private volatile int hashCode;
 
         private Batch(Builder builder) {
             super(builder);

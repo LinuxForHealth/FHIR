@@ -142,8 +142,6 @@ public class MedicationAdministration extends DomainResource {
     @ReferenceTarget({ "Provenance" })
     private final List<Reference> eventHistory;
 
-    private volatile int hashCode;
-
     private MedicationAdministration(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1392,8 +1390,6 @@ public class MedicationAdministration extends DomainResource {
         @Required
         private final Reference actor;
 
-        private volatile int hashCode;
-
         private Performer(Builder builder) {
             super(builder);
             function = builder.function;
@@ -1692,8 +1688,6 @@ public class MedicationAdministration extends DomainResource {
         private final SimpleQuantity dose;
         @Choice({ Ratio.class, SimpleQuantity.class })
         private final Element rate;
-
-        private volatile int hashCode;
 
         private Dosage(Builder builder) {
             super(builder);

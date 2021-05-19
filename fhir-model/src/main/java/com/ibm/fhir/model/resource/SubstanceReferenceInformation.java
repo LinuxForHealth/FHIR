@@ -57,8 +57,6 @@ public class SubstanceReferenceInformation extends DomainResource {
     @Summary
     private final List<Target> target;
 
-    private volatile int hashCode;
-
     private SubstanceReferenceInformation(Builder builder) {
         super(builder);
         comment = builder.comment;
@@ -604,8 +602,6 @@ public class SubstanceReferenceInformation extends DomainResource {
         @ReferenceTarget({ "DocumentReference" })
         private final List<Reference> source;
 
-        private volatile int hashCode;
-
         private Gene(Builder builder) {
             super(builder);
             geneSequenceOrigin = builder.geneSequenceOrigin;
@@ -931,8 +927,6 @@ public class SubstanceReferenceInformation extends DomainResource {
         @Summary
         @ReferenceTarget({ "DocumentReference" })
         private final List<Reference> source;
-
-        private volatile int hashCode;
 
         private GeneElement(Builder builder) {
             super(builder);
@@ -1261,8 +1255,6 @@ public class SubstanceReferenceInformation extends DomainResource {
         @Summary
         @ReferenceTarget({ "DocumentReference" })
         private final List<Reference> source;
-
-        private volatile int hashCode;
 
         private Classification(Builder builder) {
             super(builder);
@@ -1651,8 +1643,6 @@ public class SubstanceReferenceInformation extends DomainResource {
         @Summary
         @ReferenceTarget({ "DocumentReference" })
         private final List<Reference> source;
-
-        private volatile int hashCode;
 
         private Target(Builder builder) {
             super(builder);

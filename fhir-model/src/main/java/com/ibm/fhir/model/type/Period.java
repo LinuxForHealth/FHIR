@@ -33,8 +33,6 @@ public class Period extends Element {
     @Summary
     private final DateTime end;
 
-    private volatile int hashCode;
-
     private Period(Builder builder) {
         super(builder);
         start = builder.start;

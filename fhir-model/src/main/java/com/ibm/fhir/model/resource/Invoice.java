@@ -92,8 +92,6 @@ public class Invoice extends DomainResource {
     private final Markdown paymentTerms;
     private final List<Annotation> note;
 
-    private volatile int hashCode;
-
     private Invoice(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1040,8 +1038,6 @@ public class Invoice extends DomainResource {
         @Required
         private final Reference actor;
 
-        private volatile int hashCode;
-
         private Participant(Builder builder) {
             super(builder);
             role = builder.role;
@@ -1325,8 +1321,6 @@ public class Invoice extends DomainResource {
         @Required
         private final Element chargeItem;
         private final List<PriceComponent> priceComponent;
-
-        private volatile int hashCode;
 
         private LineItem(Builder builder) {
             super(builder);
@@ -1678,8 +1672,6 @@ public class Invoice extends DomainResource {
             private final CodeableConcept code;
             private final Decimal factor;
             private final Money amount;
-
-            private volatile int hashCode;
 
             private PriceComponent(Builder builder) {
                 super(builder);

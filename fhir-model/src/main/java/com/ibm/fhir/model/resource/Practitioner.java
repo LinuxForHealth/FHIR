@@ -92,8 +92,6 @@ public class Practitioner extends DomainResource {
     )
     private final List<CodeableConcept> communication;
 
-    private volatile int hashCode;
-
     private Practitioner(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -872,8 +870,6 @@ public class Practitioner extends DomainResource {
         private final Period period;
         @ReferenceTarget({ "Organization" })
         private final Reference issuer;
-
-        private volatile int hashCode;
 
         private Qualification(Builder builder) {
             super(builder);

@@ -31,8 +31,6 @@ public class Population extends BackboneElement {
     @Summary
     private final CodeableConcept physiologicalCondition;
 
-    private volatile int hashCode;
-
     private Population(Builder builder) {
         super(builder);
         age = ValidationSupport.choiceElement(builder.age, "age", Range.class, CodeableConcept.class);

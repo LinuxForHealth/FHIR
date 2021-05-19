@@ -36,8 +36,6 @@ public class MarketingStatus extends BackboneElement {
     @Summary
     private final DateTime restoreDate;
 
-    private volatile int hashCode;
-
     private MarketingStatus(Builder builder) {
         super(builder);
         country = ValidationSupport.requireNonNull(builder.country, "country");

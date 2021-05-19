@@ -75,8 +75,6 @@ public class CatalogEntry extends DomainResource {
     private final List<CodeableConcept> additionalClassification;
     private final List<RelatedEntry> relatedEntry;
 
-    private volatile int hashCode;
-
     private CatalogEntry(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -943,8 +941,6 @@ public class CatalogEntry extends DomainResource {
         @ReferenceTarget({ "CatalogEntry" })
         @Required
         private final Reference item;
-
-        private volatile int hashCode;
 
         private RelatedEntry(Builder builder) {
             super(builder);

@@ -194,8 +194,6 @@ public class Contract extends DomainResource {
     @Choice({ Attachment.class, Reference.class })
     private final Element legallyBinding;
 
-    private volatile int hashCode;
-
     private Contract(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1973,8 +1971,6 @@ public class Contract extends DomainResource {
         private final ContractPublicationStatus publicationStatus;
         private final Markdown copyright;
 
-        private volatile int hashCode;
-
         private ContentDefinition(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -2414,8 +2410,6 @@ public class Contract extends DomainResource {
         private final List<Asset> asset;
         private final List<Action> action;
         private final List<Contract.Term> group;
-
-        private volatile int hashCode;
 
         private Term(Builder builder) {
             super(builder);
@@ -3110,8 +3104,6 @@ public class Contract extends DomainResource {
             )
             private final List<Coding> control;
 
-            private volatile int hashCode;
-
             private SecurityLabel(Builder builder) {
                 super(builder);
                 number = Collections.unmodifiableList(ValidationSupport.checkList(builder.number, "number", UnsignedInt.class));
@@ -3531,8 +3523,6 @@ public class Contract extends DomainResource {
             private final String text;
             private final List<String> linkId;
             private final List<UnsignedInt> securityLabelNumber;
-
-            private volatile int hashCode;
 
             private Offer(Builder builder) {
                 super(builder);
@@ -4173,8 +4163,6 @@ public class Contract extends DomainResource {
                 @Required
                 private final CodeableConcept role;
 
-                private volatile int hashCode;
-
                 private Party(Builder builder) {
                     super(builder);
                     reference = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.reference, "reference", Reference.class));
@@ -4490,8 +4478,6 @@ public class Contract extends DomainResource {
                 @Required
                 private final Element value;
 
-                private volatile int hashCode;
-
                 private Answer(Builder builder) {
                     super(builder);
                     value = ValidationSupport.requireChoiceElement(builder.value, "value", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class);
@@ -4790,8 +4776,6 @@ public class Contract extends DomainResource {
             private final List<Contract.Term.Offer.Answer> answer;
             private final List<UnsignedInt> securityLabelNumber;
             private final List<ValuedItem> valuedItem;
-
-            private volatile int hashCode;
 
             private Asset(Builder builder) {
                 super(builder);
@@ -5685,8 +5669,6 @@ public class Contract extends DomainResource {
                 private final List<CodeableConcept> code;
                 private final String text;
 
-                private volatile int hashCode;
-
                 private Context(Builder builder) {
                     super(builder);
                     reference = builder.reference;
@@ -6013,8 +5995,6 @@ public class Contract extends DomainResource {
                 private final Reference recipient;
                 private final List<String> linkId;
                 private final List<UnsignedInt> securityLabelNumber;
-
-                private volatile int hashCode;
 
                 private ValuedItem(Builder builder) {
                     super(builder);
@@ -6792,8 +6772,6 @@ public class Contract extends DomainResource {
             private final List<String> reasonLinkId;
             private final List<Annotation> note;
             private final List<UnsignedInt> securityLabelNumber;
-
-            private volatile int hashCode;
 
             private Action(Builder builder) {
                 super(builder);
@@ -8012,8 +7990,6 @@ public class Contract extends DomainResource {
                 )
                 private final CodeableConcept role;
 
-                private volatile int hashCode;
-
                 private Subject(Builder builder) {
                     super(builder);
                     reference = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.reference, "reference", Reference.class));
@@ -8339,8 +8315,6 @@ public class Contract extends DomainResource {
         private final Reference party;
         @Required
         private final List<Signature> signature;
-
-        private volatile int hashCode;
 
         private Signer(Builder builder) {
             super(builder);
@@ -8682,8 +8656,6 @@ public class Contract extends DomainResource {
         @Required
         private final Element content;
 
-        private volatile int hashCode;
-
         private Friendly(Builder builder) {
             super(builder);
             content = ValidationSupport.requireChoiceElement(builder.content, "content", Attachment.class, Reference.class);
@@ -8937,8 +8909,6 @@ public class Contract extends DomainResource {
         @Required
         private final Element content;
 
-        private volatile int hashCode;
-
         private Legal(Builder builder) {
             super(builder);
             content = ValidationSupport.requireChoiceElement(builder.content, "content", Attachment.class, Reference.class);
@@ -9189,8 +9159,6 @@ public class Contract extends DomainResource {
         @Choice({ Attachment.class, Reference.class })
         @Required
         private final Element content;
-
-        private volatile int hashCode;
 
         private Rule(Builder builder) {
             super(builder);

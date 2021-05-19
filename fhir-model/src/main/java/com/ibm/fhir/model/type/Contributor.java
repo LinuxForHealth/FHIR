@@ -42,8 +42,6 @@ public class Contributor extends Element {
     @Summary
     private final List<ContactDetail> contact;
 
-    private volatile int hashCode;
-
     private Contributor(Builder builder) {
         super(builder);
         type = ValidationSupport.requireNonNull(builder.type, "type");

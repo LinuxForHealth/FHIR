@@ -33,8 +33,6 @@ public class Money extends Element {
     )
     private final Code currency;
 
-    private volatile int hashCode;
-
     private Money(Builder builder) {
         super(builder);
         value = builder.value;

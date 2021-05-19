@@ -139,8 +139,6 @@ public class Communication extends DomainResource {
     private final List<Payload> payload;
     private final List<Annotation> note;
 
-    private volatile int hashCode;
-
     private Communication(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1550,8 +1548,6 @@ public class Communication extends DomainResource {
         @Choice({ String.class, Attachment.class, Reference.class })
         @Required
         private final Element content;
-
-        private volatile int hashCode;
 
         private Payload(Builder builder) {
             super(builder);

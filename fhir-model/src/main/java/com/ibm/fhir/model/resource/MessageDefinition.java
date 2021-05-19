@@ -160,8 +160,6 @@ public class MessageDefinition extends DomainResource {
     private final List<AllowedResponse> allowedResponse;
     private final List<Canonical> graph;
 
-    private volatile int hashCode;
-
     private MessageDefinition(Builder builder) {
         super(builder);
         url = builder.url;
@@ -1459,8 +1457,6 @@ public class MessageDefinition extends DomainResource {
         private final UnsignedInt min;
         private final String max;
 
-        private volatile int hashCode;
-
         private Focus(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -1796,8 +1792,6 @@ public class MessageDefinition extends DomainResource {
         @Required
         private final Canonical message;
         private final Markdown situation;
-
-        private volatile int hashCode;
 
         private AllowedResponse(Builder builder) {
             super(builder);

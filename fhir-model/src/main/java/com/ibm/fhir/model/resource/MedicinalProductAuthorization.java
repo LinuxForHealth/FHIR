@@ -82,8 +82,6 @@ public class MedicinalProductAuthorization extends DomainResource {
     @Summary
     private final Procedure procedure;
 
-    private volatile int hashCode;
-
     private MedicinalProductAuthorization(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -995,8 +993,6 @@ public class MedicinalProductAuthorization extends DomainResource {
         @Summary
         private final Period validityPeriod;
 
-        private volatile int hashCode;
-
         private JurisdictionalAuthorization(Builder builder) {
             super(builder);
             identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1396,8 +1392,6 @@ public class MedicinalProductAuthorization extends DomainResource {
         private final Element date;
         @Summary
         private final List<MedicinalProductAuthorization.Procedure> application;
-
-        private volatile int hashCode;
 
         private Procedure(Builder builder) {
             super(builder);

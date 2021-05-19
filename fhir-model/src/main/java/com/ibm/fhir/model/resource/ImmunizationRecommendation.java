@@ -73,8 +73,6 @@ public class ImmunizationRecommendation extends DomainResource {
     @Required
     private final List<Recommendation> recommendation;
 
-    private volatile int hashCode;
-
     private ImmunizationRecommendation(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -651,8 +649,6 @@ public class ImmunizationRecommendation extends DomainResource {
         @ReferenceTarget({ "Immunization", "ImmunizationEvaluation" })
         private final List<Reference> supportingImmunization;
         private final List<Reference> supportingPatientInformation;
-
-        private volatile int hashCode;
 
         private Recommendation(Builder builder) {
             super(builder);
@@ -1384,8 +1380,6 @@ public class ImmunizationRecommendation extends DomainResource {
             private final CodeableConcept code;
             @Required
             private final DateTime value;
-
-            private volatile int hashCode;
 
             private DateCriterion(Builder builder) {
                 super(builder);

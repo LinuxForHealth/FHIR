@@ -64,8 +64,6 @@ public class Basic extends DomainResource {
     @ReferenceTarget({ "Practitioner", "PractitionerRole", "Patient", "RelatedPerson", "Organization" })
     private final Reference author;
 
-    private volatile int hashCode;
-
     private Basic(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));

@@ -152,8 +152,6 @@ public class VerificationResult extends DomainResource {
     private final Attestation attestation;
     private final List<Validator> validator;
 
-    private volatile int hashCode;
-
     private VerificationResult(Builder builder) {
         super(builder);
         target = Collections.unmodifiableList(ValidationSupport.checkList(builder.target, "target", Reference.class));
@@ -1046,8 +1044,6 @@ public class VerificationResult extends DomainResource {
         )
         private final List<CodeableConcept> pushTypeAvailable;
 
-        private volatile int hashCode;
-
         private PrimarySource(Builder builder) {
             super(builder);
             who = builder.who;
@@ -1553,8 +1549,6 @@ public class VerificationResult extends DomainResource {
         private final Signature proxySignature;
         private final Signature sourceSignature;
 
-        private volatile int hashCode;
-
         private Attestation(Builder builder) {
             super(builder);
             who = builder.who;
@@ -2023,8 +2017,6 @@ public class VerificationResult extends DomainResource {
         private final Reference organization;
         private final String identityCertificate;
         private final Signature attestationSignature;
-
-        private volatile int hashCode;
 
         private Validator(Builder builder) {
             super(builder);

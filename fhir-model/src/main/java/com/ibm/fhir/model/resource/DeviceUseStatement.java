@@ -99,8 +99,6 @@ public class DeviceUseStatement extends DomainResource {
     private final CodeableConcept bodySite;
     private final List<Annotation> note;
 
-    private volatile int hashCode;
-
     private DeviceUseStatement(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));

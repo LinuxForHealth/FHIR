@@ -268,8 +268,6 @@ public class ElementDefinition extends BackboneElement {
     @Summary
     private final List<Mapping> mapping;
 
-    private volatile int hashCode;
-
     private ElementDefinition(Builder builder) {
         super(builder);
         path = ValidationSupport.requireNonNull(builder.path, "path");
@@ -1993,8 +1991,6 @@ public class ElementDefinition extends BackboneElement {
         @Required
         private final SlicingRules rules;
 
-        private volatile int hashCode;
-
         private Slicing(Builder builder) {
             super(builder);
             discriminator = Collections.unmodifiableList(ValidationSupport.checkList(builder.discriminator, "discriminator", Discriminator.class));
@@ -2362,8 +2358,6 @@ public class ElementDefinition extends BackboneElement {
             @Required
             private final String path;
 
-            private volatile int hashCode;
-
             private Discriminator(Builder builder) {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -2644,8 +2638,6 @@ public class ElementDefinition extends BackboneElement {
         @Summary
         @Required
         private final String max;
-
-        private volatile int hashCode;
 
         private Base(Builder builder) {
             super(builder);
@@ -2978,8 +2970,6 @@ public class ElementDefinition extends BackboneElement {
             valueSet = "http://hl7.org/fhir/ValueSet/reference-version-rules|4.0.1"
         )
         private final ReferenceVersionRules versioning;
-
-        private volatile int hashCode;
 
         private Type(Builder builder) {
             super(builder);
@@ -3434,8 +3424,6 @@ public class ElementDefinition extends BackboneElement {
         @Required
         private final Element value;
 
-        private volatile int hashCode;
-
         private Example(Builder builder) {
             super(builder);
             label = ValidationSupport.requireNonNull(builder.label, "label");
@@ -3778,8 +3766,6 @@ public class ElementDefinition extends BackboneElement {
         private final String xpath;
         @Summary
         private final Canonical source;
-
-        private volatile int hashCode;
 
         private Constraint(Builder builder) {
             super(builder);
@@ -4220,8 +4206,6 @@ public class ElementDefinition extends BackboneElement {
         @Summary
         private final Canonical valueSet;
 
-        private volatile int hashCode;
-
         private Binding(Builder builder) {
             super(builder);
             strength = ValidationSupport.requireNonNull(builder.strength, "strength");
@@ -4532,8 +4516,6 @@ public class ElementDefinition extends BackboneElement {
         private final String map;
         @Summary
         private final String comment;
-
-        private volatile int hashCode;
 
         private Mapping(Builder builder) {
             super(builder);

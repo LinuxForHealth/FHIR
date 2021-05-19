@@ -28,8 +28,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Count extends Quantity {
-    private volatile int hashCode;
-
     private Count(Builder builder) {
         super(builder);
     }

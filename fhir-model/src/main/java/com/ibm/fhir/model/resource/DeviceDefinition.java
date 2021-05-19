@@ -94,8 +94,6 @@ public class DeviceDefinition extends DomainResource {
     private final Reference parentDevice;
     private final List<Material> material;
 
-    private volatile int hashCode;
-
     private DeviceDefinition(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1390,8 +1388,6 @@ public class DeviceDefinition extends DomainResource {
         @Required
         private final Uri jurisdiction;
 
-        private volatile int hashCode;
-
         private UdiDeviceIdentifier(Builder builder) {
             super(builder);
             deviceIdentifier = ValidationSupport.requireNonNull(builder.deviceIdentifier, "deviceIdentifier");
@@ -1706,8 +1702,6 @@ public class DeviceDefinition extends DomainResource {
         @Required
         private final DeviceNameType type;
 
-        private volatile int hashCode;
-
         private DeviceName(Builder builder) {
             super(builder);
             name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -1981,8 +1975,6 @@ public class DeviceDefinition extends DomainResource {
         private final String systemType;
         private final String version;
 
-        private volatile int hashCode;
-
         private Specialization(Builder builder) {
             super(builder);
             systemType = ValidationSupport.requireNonNull(builder.systemType, "systemType");
@@ -2249,8 +2241,6 @@ public class DeviceDefinition extends DomainResource {
         @Required
         private final CodeableConcept type;
         private final List<CodeableConcept> description;
-
-        private volatile int hashCode;
 
         private Capability(Builder builder) {
             super(builder);
@@ -2539,8 +2529,6 @@ public class DeviceDefinition extends DomainResource {
         private final CodeableConcept type;
         private final List<Quantity> valueQuantity;
         private final List<CodeableConcept> valueCode;
-
-        private volatile int hashCode;
 
         private Property(Builder builder) {
             super(builder);
@@ -2880,8 +2868,6 @@ public class DeviceDefinition extends DomainResource {
         private final CodeableConcept substance;
         private final Boolean alternate;
         private final Boolean allergenicIndicator;
-
-        private volatile int hashCode;
 
         private Material(Builder builder) {
             super(builder);

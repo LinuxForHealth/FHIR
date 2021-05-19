@@ -128,8 +128,6 @@ public class NutritionOrder extends DomainResource {
     private final EnteralFormula enteralFormula;
     private final List<Annotation> note;
 
-    private volatile int hashCode;
-
     private NutritionOrder(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1242,8 +1240,6 @@ public class NutritionOrder extends DomainResource {
         @Summary
         private final String instruction;
 
-        private volatile int hashCode;
-
         private OralDiet(Builder builder) {
             super(builder);
             type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
@@ -1739,8 +1735,6 @@ public class NutritionOrder extends DomainResource {
             private final CodeableConcept modifier;
             private final SimpleQuantity amount;
 
-            private volatile int hashCode;
-
             private Nutrient(Builder builder) {
                 super(builder);
                 modifier = builder.modifier;
@@ -2012,8 +2006,6 @@ public class NutritionOrder extends DomainResource {
             )
             private final CodeableConcept foodType;
 
-            private volatile int hashCode;
-
             private Texture(Builder builder) {
                 super(builder);
                 modifier = builder.modifier;
@@ -2284,8 +2276,6 @@ public class NutritionOrder extends DomainResource {
         private final SimpleQuantity quantity;
         @Summary
         private final String instruction;
-
-        private volatile int hashCode;
 
         private Supplement(Builder builder) {
             super(builder);
@@ -2689,8 +2679,6 @@ public class NutritionOrder extends DomainResource {
         private final SimpleQuantity maxVolumeToDeliver;
         @Summary
         private final String administrationInstruction;
-
-        private volatile int hashCode;
 
         private EnteralFormula(Builder builder) {
             super(builder);
@@ -3206,8 +3194,6 @@ public class NutritionOrder extends DomainResource {
             private final SimpleQuantity quantity;
             @Choice({ SimpleQuantity.class, Ratio.class })
             private final Element rate;
-
-            private volatile int hashCode;
 
             private Administration(Builder builder) {
                 super(builder);

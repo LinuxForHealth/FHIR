@@ -55,6 +55,8 @@ public abstract class Resource extends AbstractVisitable {
     )
     protected final Code language;
 
+    protected volatile int hashCode;
+
     protected Resource(Builder builder) {
         id = builder.id;
         meta = builder.meta;

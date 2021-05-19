@@ -28,8 +28,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MoneyQuantity extends Quantity {
-    private volatile int hashCode;
-
     private MoneyQuantity(Builder builder) {
         super(builder);
     }

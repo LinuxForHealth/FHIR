@@ -83,8 +83,6 @@ public class VisionPrescription extends DomainResource {
     @Required
     private final List<LensSpecification> lensSpecification;
 
-    private volatile int hashCode;
-
     private VisionPrescription(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -754,8 +752,6 @@ public class VisionPrescription extends DomainResource {
         private final String color;
         private final String brand;
         private final List<Annotation> note;
-
-        private volatile int hashCode;
 
         private LensSpecification(Builder builder) {
             super(builder);
@@ -1444,8 +1440,6 @@ public class VisionPrescription extends DomainResource {
             )
             @Required
             private final VisionBase base;
-
-            private volatile int hashCode;
 
             private Prism(Builder builder) {
                 super(builder);

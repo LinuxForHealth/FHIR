@@ -198,8 +198,6 @@ public class Encounter extends DomainResource {
     @ReferenceTarget({ "Encounter" })
     private final Reference partOf;
 
-    private volatile int hashCode;
-
     private Encounter(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1618,8 +1616,6 @@ public class Encounter extends DomainResource {
         @Required
         private final Period period;
 
-        private volatile int hashCode;
-
         private StatusHistory(Builder builder) {
             super(builder);
             status = ValidationSupport.requireNonNull(builder.status, "status");
@@ -1901,8 +1897,6 @@ public class Encounter extends DomainResource {
         @Required
         private final Period period;
 
-        private volatile int hashCode;
-
         private ClassHistory(Builder builder) {
             super(builder);
             clazz = ValidationSupport.requireNonNull(builder.clazz, "class");
@@ -2181,8 +2175,6 @@ public class Encounter extends DomainResource {
         @Summary
         @ReferenceTarget({ "Practitioner", "PractitionerRole", "RelatedPerson" })
         private final Reference individual;
-
-        private volatile int hashCode;
 
         private Participant(Builder builder) {
             super(builder);
@@ -2513,8 +2505,6 @@ public class Encounter extends DomainResource {
         )
         private final CodeableConcept use;
         private final PositiveInt rank;
-
-        private volatile int hashCode;
 
         private Diagnosis(Builder builder) {
             super(builder);
@@ -2868,8 +2858,6 @@ public class Encounter extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/encounter-discharge-disposition"
         )
         private final CodeableConcept dischargeDisposition;
-
-        private volatile int hashCode;
 
         private Hospitalization(Builder builder) {
             super(builder);
@@ -3440,8 +3428,6 @@ public class Encounter extends DomainResource {
         )
         private final CodeableConcept physicalType;
         private final Period period;
-
-        private volatile int hashCode;
 
         private Location(Builder builder) {
             super(builder);

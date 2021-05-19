@@ -111,8 +111,6 @@ public class Provenance extends DomainResource {
     private final List<Entity> entity;
     private final List<Signature> signature;
 
-    private volatile int hashCode;
-
     private Provenance(Builder builder) {
         super(builder);
         target = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.target, "target", Reference.class));
@@ -911,8 +909,6 @@ public class Provenance extends DomainResource {
         @ReferenceTarget({ "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization" })
         private final Reference onBehalfOf;
 
-        private volatile int hashCode;
-
         private Agent(Builder builder) {
             super(builder);
             type = builder.type;
@@ -1296,8 +1292,6 @@ public class Provenance extends DomainResource {
         @Required
         private final Reference what;
         private final List<Provenance.Agent> agent;
-
-        private volatile int hashCode;
 
         private Entity(Builder builder) {
             super(builder);

@@ -103,8 +103,6 @@ public class TestReport extends DomainResource {
     private final List<Test> test;
     private final Teardown teardown;
 
-    private volatile int hashCode;
-
     private TestReport(Builder builder) {
         super(builder);
         identifier = builder.identifier;
@@ -854,8 +852,6 @@ public class TestReport extends DomainResource {
         private final Uri uri;
         private final String display;
 
-        private volatile int hashCode;
-
         private Participant(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -1156,8 +1152,6 @@ public class TestReport extends DomainResource {
         @Required
         private final List<Action> action;
 
-        private volatile int hashCode;
-
         private Setup(Builder builder) {
             super(builder);
             action = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.action, "action", Action.class));
@@ -1413,8 +1407,6 @@ public class TestReport extends DomainResource {
         public static class Action extends BackboneElement {
             private final Operation operation;
             private final Assert _assert;
-
-            private volatile int hashCode;
 
             private Action(Builder builder) {
                 super(builder);
@@ -1681,8 +1673,6 @@ public class TestReport extends DomainResource {
                 private final TestReportActionResult result;
                 private final Markdown message;
                 private final Uri detail;
-
-                private volatile int hashCode;
 
                 private Operation(Builder builder) {
                     super(builder);
@@ -1989,8 +1979,6 @@ public class TestReport extends DomainResource {
                 private final Markdown message;
                 private final String detail;
 
-                private volatile int hashCode;
-
                 private Assert(Builder builder) {
                     super(builder);
                     result = ValidationSupport.requireNonNull(builder.result, "result");
@@ -2291,8 +2279,6 @@ public class TestReport extends DomainResource {
         private final String description;
         @Required
         private final List<Action> action;
-
-        private volatile int hashCode;
 
         private Test(Builder builder) {
             super(builder);
@@ -2612,8 +2598,6 @@ public class TestReport extends DomainResource {
             private final TestReport.Setup.Action.Operation operation;
             private final TestReport.Setup.Action.Assert _assert;
 
-            private volatile int hashCode;
-
             private Action(Builder builder) {
                 super(builder);
                 operation = builder.operation;
@@ -2875,8 +2859,6 @@ public class TestReport extends DomainResource {
         @Required
         private final List<Action> action;
 
-        private volatile int hashCode;
-
         private Teardown(Builder builder) {
             super(builder);
             action = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.action, "action", Action.class));
@@ -3132,8 +3114,6 @@ public class TestReport extends DomainResource {
         public static class Action extends BackboneElement {
             @Required
             private final TestReport.Setup.Action.Operation operation;
-
-            private volatile int hashCode;
 
             private Action(Builder builder) {
                 super(builder);

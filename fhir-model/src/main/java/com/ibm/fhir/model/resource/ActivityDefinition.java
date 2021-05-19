@@ -227,8 +227,6 @@ public class ActivityDefinition extends DomainResource {
     private final Canonical transform;
     private final List<DynamicValue> dynamicValue;
 
-    private volatile int hashCode;
-
     private ActivityDefinition(Builder builder) {
         super(builder);
         url = builder.url;
@@ -2476,8 +2474,6 @@ public class ActivityDefinition extends DomainResource {
         )
         private final CodeableConcept role;
 
-        private volatile int hashCode;
-
         private Participant(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -2747,8 +2743,6 @@ public class ActivityDefinition extends DomainResource {
         private final String path;
         @Required
         private final Expression expression;
-
-        private volatile int hashCode;
 
         private DynamicValue(Builder builder) {
             super(builder);

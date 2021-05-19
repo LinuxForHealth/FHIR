@@ -143,8 +143,6 @@ public class MedicationStatement extends DomainResource {
     private final List<Annotation> note;
     private final List<Dosage> dosage;
 
-    private volatile int hashCode;
-
     private MedicationStatement(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));

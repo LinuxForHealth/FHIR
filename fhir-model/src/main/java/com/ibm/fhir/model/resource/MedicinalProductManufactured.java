@@ -61,8 +61,6 @@ public class MedicinalProductManufactured extends DomainResource {
     @Summary
     private final List<CodeableConcept> otherCharacteristics;
 
-    private volatile int hashCode;
-
     private MedicinalProductManufactured(Builder builder) {
         super(builder);
         manufacturedDoseForm = ValidationSupport.requireNonNull(builder.manufacturedDoseForm, "manufacturedDoseForm");

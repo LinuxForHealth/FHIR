@@ -85,8 +85,6 @@ public class SupplyDelivery extends DomainResource {
     @ReferenceTarget({ "Practitioner", "PractitionerRole" })
     private final List<Reference> receiver;
 
-    private volatile int hashCode;
-
     private SupplyDelivery(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -887,8 +885,6 @@ public class SupplyDelivery extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/supply-item"
         )
         private final Element item;
-
-        private volatile int hashCode;
 
         private SuppliedItem(Builder builder) {
             super(builder);

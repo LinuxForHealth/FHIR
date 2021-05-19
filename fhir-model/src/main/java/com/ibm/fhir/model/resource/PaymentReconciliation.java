@@ -99,8 +99,6 @@ public class PaymentReconciliation extends DomainResource {
     private final CodeableConcept formCode;
     private final List<ProcessNote> processNote;
 
-    private volatile int hashCode;
-
     private PaymentReconciliation(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -985,8 +983,6 @@ public class PaymentReconciliation extends DomainResource {
         private final Reference payee;
         private final Money amount;
 
-        private volatile int hashCode;
-
         private Detail(Builder builder) {
             super(builder);
             identifier = builder.identifier;
@@ -1528,8 +1524,6 @@ public class PaymentReconciliation extends DomainResource {
         )
         private final NoteType type;
         private final String text;
-
-        private volatile int hashCode;
 
         private ProcessNote(Builder builder) {
             super(builder);

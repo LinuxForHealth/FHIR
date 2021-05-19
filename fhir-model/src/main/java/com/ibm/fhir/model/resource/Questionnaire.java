@@ -236,8 +236,6 @@ public class Questionnaire extends DomainResource {
     private final List<Coding> code;
     private final List<Item> item;
 
-    private volatile int hashCode;
-
     private Questionnaire(Builder builder) {
         super(builder);
         url = builder.url;
@@ -1461,8 +1459,6 @@ public class Questionnaire extends DomainResource {
         private final List<Initial> initial;
         private final List<Questionnaire.Item> item;
 
-        private volatile int hashCode;
-
         private Item(Builder builder) {
             super(builder);
             linkId = ValidationSupport.requireNonNull(builder.linkId, "linkId");
@@ -2328,8 +2324,6 @@ public class Questionnaire extends DomainResource {
             @Required
             private final Element answer;
 
-            private volatile int hashCode;
-
             private EnableWhen(Builder builder) {
                 super(builder);
                 question = ValidationSupport.requireNonNull(builder.question, "question");
@@ -2655,8 +2649,6 @@ public class Questionnaire extends DomainResource {
             private final Element value;
             private final Boolean initialSelected;
 
-            private volatile int hashCode;
-
             private AnswerOption(Builder builder) {
                 super(builder);
                 value = ValidationSupport.requireChoiceElement(builder.value, "value", Integer.class, Date.class, Time.class, String.class, Coding.class, Reference.class);
@@ -2940,8 +2932,6 @@ public class Questionnaire extends DomainResource {
             )
             @Required
             private final Element value;
-
-            private volatile int hashCode;
 
             private Initial(Builder builder) {
                 super(builder);

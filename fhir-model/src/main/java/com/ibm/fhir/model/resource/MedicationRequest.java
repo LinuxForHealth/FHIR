@@ -181,8 +181,6 @@ public class MedicationRequest extends DomainResource {
     @ReferenceTarget({ "Provenance" })
     private final List<Reference> eventHistory;
 
-    private volatile int hashCode;
-
     private MedicationRequest(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1957,8 +1955,6 @@ public class MedicationRequest extends DomainResource {
         @ReferenceTarget({ "Organization" })
         private final Reference performer;
 
-        private volatile int hashCode;
-
         private DispenseRequest(Builder builder) {
             super(builder);
             initialFill = builder.initialFill;
@@ -2388,8 +2384,6 @@ public class MedicationRequest extends DomainResource {
             private final SimpleQuantity quantity;
             private final Duration duration;
 
-            private volatile int hashCode;
-
             private InitialFill(Builder builder) {
                 super(builder);
                 quantity = builder.quantity;
@@ -2665,8 +2659,6 @@ public class MedicationRequest extends DomainResource {
             valueSet = "http://terminology.hl7.org/ValueSet/v3-SubstanceAdminSubstitutionReason"
         )
         private final CodeableConcept reason;
-
-        private volatile int hashCode;
 
         private Substitution(Builder builder) {
             super(builder);

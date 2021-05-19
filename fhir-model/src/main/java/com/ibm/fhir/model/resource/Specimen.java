@@ -110,8 +110,6 @@ public class Specimen extends DomainResource {
     private final List<CodeableConcept> condition;
     private final List<Annotation> note;
 
-    private volatile int hashCode;
-
     private Specimen(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1036,8 +1034,6 @@ public class Specimen extends DomainResource {
         )
         private final Element fastingStatus;
 
-        private volatile int hashCode;
-
         private Collection(Builder builder) {
             super(builder);
             collector = builder.collector;
@@ -1485,8 +1481,6 @@ public class Specimen extends DomainResource {
         @Choice({ DateTime.class, Period.class })
         private final Element time;
 
-        private volatile int hashCode;
-
         private Processing(Builder builder) {
             super(builder);
             description = builder.description;
@@ -1866,8 +1860,6 @@ public class Specimen extends DomainResource {
             valueSet = "http://terminology.hl7.org/ValueSet/v2-0371"
         )
         private final Element additive;
-
-        private volatile int hashCode;
 
         private Container(Builder builder) {
             super(builder);

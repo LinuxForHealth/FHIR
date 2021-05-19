@@ -22,8 +22,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Decimal extends Element {
     private final BigDecimal value;
 
-    private volatile int hashCode;
-
     private Decimal(Builder builder) {
         super(builder);
         value = builder.value;

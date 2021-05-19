@@ -52,8 +52,6 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
     @Summary
     private final List<Population> population;
 
-    private volatile int hashCode;
-
     private MedicinalProductUndesirableEffect(Builder builder) {
         super(builder);
         subject = Collections.unmodifiableList(ValidationSupport.checkList(builder.subject, "subject", Reference.class));

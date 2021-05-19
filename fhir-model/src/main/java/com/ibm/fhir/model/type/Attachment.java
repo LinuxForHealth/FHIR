@@ -67,8 +67,6 @@ public class Attachment extends Element {
     @Summary
     private final DateTime creation;
 
-    private volatile int hashCode;
-
     private Attachment(Builder builder) {
         super(builder);
         contentType = builder.contentType;

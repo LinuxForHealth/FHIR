@@ -109,8 +109,6 @@ public class MedicationKnowledge extends DomainResource {
     private final List<Regulatory> regulatory;
     private final List<Kinetics> kinetics;
 
-    private volatile int hashCode;
-
     private MedicationKnowledge(Builder builder) {
         super(builder);
         code = builder.code;
@@ -1456,8 +1454,6 @@ public class MedicationKnowledge extends DomainResource {
         @Required
         private final List<Reference> reference;
 
-        private volatile int hashCode;
-
         private RelatedMedicationKnowledge(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -1761,8 +1757,6 @@ public class MedicationKnowledge extends DomainResource {
         @ReferenceTarget({ "DocumentReference", "Media" })
         private final Reference source;
 
-        private volatile int hashCode;
-
         private Monograph(Builder builder) {
             super(builder);
             type = builder.type;
@@ -2032,8 +2026,6 @@ public class MedicationKnowledge extends DomainResource {
         private final Element item;
         private final Boolean isActive;
         private final Ratio strength;
-
-        private volatile int hashCode;
 
         private Ingredient(Builder builder) {
             super(builder);
@@ -2349,8 +2341,6 @@ public class MedicationKnowledge extends DomainResource {
         @Required
         private final Money cost;
 
-        private volatile int hashCode;
-
         private Cost(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -2653,8 +2643,6 @@ public class MedicationKnowledge extends DomainResource {
         private final CodeableConcept type;
         private final String name;
 
-        private volatile int hashCode;
-
         private MonitoringProgram(Builder builder) {
             super(builder);
             type = builder.type;
@@ -2916,8 +2904,6 @@ public class MedicationKnowledge extends DomainResource {
         @Choice({ CodeableConcept.class, Reference.class })
         private final Element indication;
         private final List<PatientCharacteristics> patientCharacteristics;
-
-        private volatile int hashCode;
 
         private AdministrationGuidelines(Builder builder) {
             super(builder);
@@ -3265,8 +3251,6 @@ public class MedicationKnowledge extends DomainResource {
             @Required
             private final List<com.ibm.fhir.model.type.Dosage> dosage;
 
-            private volatile int hashCode;
-
             private Dosage(Builder builder) {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -3560,8 +3544,6 @@ public class MedicationKnowledge extends DomainResource {
             @Required
             private final Element characteristic;
             private final List<String> value;
-
-            private volatile int hashCode;
 
             private PatientCharacteristics(Builder builder) {
                 super(builder);
@@ -3857,8 +3839,6 @@ public class MedicationKnowledge extends DomainResource {
         private final CodeableConcept type;
         private final List<CodeableConcept> classification;
 
-        private volatile int hashCode;
-
         private MedicineClassification(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -4151,8 +4131,6 @@ public class MedicationKnowledge extends DomainResource {
         private final CodeableConcept type;
         private final SimpleQuantity quantity;
 
-        private volatile int hashCode;
-
         private Packaging(Builder builder) {
             super(builder);
             type = builder.type;
@@ -4420,8 +4398,6 @@ public class MedicationKnowledge extends DomainResource {
         private final CodeableConcept type;
         @Choice({ CodeableConcept.class, String.class, SimpleQuantity.class, Base64Binary.class })
         private final Element value;
-
-        private volatile int hashCode;
 
         private DrugCharacteristic(Builder builder) {
             super(builder);
@@ -4693,8 +4669,6 @@ public class MedicationKnowledge extends DomainResource {
         private final List<Substitution> substitution;
         private final List<Schedule> schedule;
         private final MaxDispense maxDispense;
-
-        private volatile int hashCode;
 
         private Regulatory(Builder builder) {
             super(builder);
@@ -5071,8 +5045,6 @@ public class MedicationKnowledge extends DomainResource {
             @Required
             private final Boolean allowed;
 
-            private volatile int hashCode;
-
             private Substitution(Builder builder) {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -5342,8 +5314,6 @@ public class MedicationKnowledge extends DomainResource {
             @Required
             private final CodeableConcept schedule;
 
-            private volatile int hashCode;
-
             private Schedule(Builder builder) {
                 super(builder);
                 schedule = ValidationSupport.requireNonNull(builder.schedule, "schedule");
@@ -5579,8 +5549,6 @@ public class MedicationKnowledge extends DomainResource {
             @Required
             private final SimpleQuantity quantity;
             private final Duration period;
-
-            private volatile int hashCode;
 
             private MaxDispense(Builder builder) {
                 super(builder);
@@ -5849,8 +5817,6 @@ public class MedicationKnowledge extends DomainResource {
         private final List<SimpleQuantity> areaUnderCurve;
         private final List<SimpleQuantity> lethalDose50;
         private final Duration halfLifePeriod;
-
-        private volatile int hashCode;
 
         private Kinetics(Builder builder) {
             super(builder);

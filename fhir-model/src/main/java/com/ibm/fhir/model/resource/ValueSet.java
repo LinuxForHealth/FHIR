@@ -178,8 +178,6 @@ public class ValueSet extends DomainResource {
     private final Compose compose;
     private final Expansion expansion;
 
-    private volatile int hashCode;
-
     private ValueSet(Builder builder) {
         super(builder);
         url = builder.url;
@@ -1176,8 +1174,6 @@ public class ValueSet extends DomainResource {
         private final List<Include> include;
         private final List<ValueSet.Compose.Include> exclude;
 
-        private volatile int hashCode;
-
         private Compose(Builder builder) {
             super(builder);
             lockedDate = builder.lockedDate;
@@ -1561,8 +1557,6 @@ public class ValueSet extends DomainResource {
             private final List<Filter> filter;
             @Summary
             private final List<Canonical> valueSet;
-
-            private volatile int hashCode;
 
             private Include(Builder builder) {
                 super(builder);
@@ -1986,8 +1980,6 @@ public class ValueSet extends DomainResource {
                 private final String display;
                 private final List<Designation> designation;
 
-                private volatile int hashCode;
-
                 private Concept(Builder builder) {
                     super(builder);
                     code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -2325,8 +2317,6 @@ public class ValueSet extends DomainResource {
                     @Required
                     private final String value;
 
-                    private volatile int hashCode;
-
                     private Designation(Builder builder) {
                         super(builder);
                         language = builder.language;
@@ -2639,8 +2629,6 @@ public class ValueSet extends DomainResource {
                 @Summary
                 @Required
                 private final String value;
-
-                private volatile int hashCode;
 
                 private Filter(Builder builder) {
                     super(builder);
@@ -2958,8 +2946,6 @@ public class ValueSet extends DomainResource {
         private final Integer offset;
         private final List<Parameter> parameter;
         private final List<Contains> contains;
-
-        private volatile int hashCode;
 
         private Expansion(Builder builder) {
             super(builder);
@@ -3406,8 +3392,6 @@ public class ValueSet extends DomainResource {
             @Choice({ String.class, Boolean.class, Integer.class, Decimal.class, Uri.class, Code.class, DateTime.class })
             private final Element value;
 
-            private volatile int hashCode;
-
             private Parameter(Builder builder) {
                 super(builder);
                 name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -3692,8 +3676,6 @@ public class ValueSet extends DomainResource {
             private final String display;
             private final List<ValueSet.Compose.Include.Concept.Designation> designation;
             private final List<ValueSet.Expansion.Contains> contains;
-
-            private volatile int hashCode;
 
             private Contains(Builder builder) {
                 super(builder);

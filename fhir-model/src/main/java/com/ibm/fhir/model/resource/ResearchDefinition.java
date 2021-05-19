@@ -166,8 +166,6 @@ public class ResearchDefinition extends DomainResource {
     @ReferenceTarget({ "ResearchElementDefinition" })
     private final Reference outcome;
 
-    private volatile int hashCode;
-
     private ResearchDefinition(Builder builder) {
         super(builder);
         url = builder.url;

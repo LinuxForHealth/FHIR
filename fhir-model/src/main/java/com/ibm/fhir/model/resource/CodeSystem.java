@@ -175,8 +175,6 @@ public class CodeSystem extends DomainResource {
     private final List<Property> property;
     private final List<Concept> concept;
 
-    private volatile int hashCode;
-
     private CodeSystem(Builder builder) {
         super(builder);
         url = builder.url;
@@ -1497,8 +1495,6 @@ public class CodeSystem extends DomainResource {
         @Required
         private final String value;
 
-        private volatile int hashCode;
-
         private Filter(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -1869,8 +1865,6 @@ public class CodeSystem extends DomainResource {
         @Required
         private final PropertyType type;
 
-        private volatile int hashCode;
-
         private Property(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -2213,8 +2207,6 @@ public class CodeSystem extends DomainResource {
         private final List<Designation> designation;
         private final List<Property> property;
         private final List<CodeSystem.Concept> concept;
-
-        private volatile int hashCode;
 
         private Concept(Builder builder) {
             super(builder);
@@ -2691,8 +2683,6 @@ public class CodeSystem extends DomainResource {
             @Required
             private final String value;
 
-            private volatile int hashCode;
-
             private Designation(Builder builder) {
                 super(builder);
                 language = builder.language;
@@ -2993,8 +2983,6 @@ public class CodeSystem extends DomainResource {
             @Choice({ Code.class, Coding.class, String.class, Integer.class, Boolean.class, DateTime.class, Decimal.class })
             @Required
             private final Element value;
-
-            private volatile int hashCode;
 
             private Property(Builder builder) {
                 super(builder);

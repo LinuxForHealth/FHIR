@@ -218,8 +218,6 @@ public class ExplanationOfBenefit extends DomainResource {
     private final Period benefitPeriod;
     private final List<BenefitBalance> benefitBalance;
 
-    private volatile int hashCode;
-
     private ExplanationOfBenefit(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -2290,8 +2288,6 @@ public class ExplanationOfBenefit extends DomainResource {
         private final CodeableConcept relationship;
         private final Identifier reference;
 
-        private volatile int hashCode;
-
         private Related(Builder builder) {
             super(builder);
             claim = builder.claim;
@@ -2595,8 +2591,6 @@ public class ExplanationOfBenefit extends DomainResource {
         @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson" })
         private final Reference party;
 
-        private volatile int hashCode;
-
         private Payee(Builder builder) {
             super(builder);
             type = builder.type;
@@ -2883,8 +2877,6 @@ public class ExplanationOfBenefit extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/provider-qualification"
         )
         private final CodeableConcept qualification;
-
-        private volatile int hashCode;
 
         private CareTeam(Builder builder) {
             super(builder);
@@ -3282,8 +3274,6 @@ public class ExplanationOfBenefit extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/missing-tooth-reason"
         )
         private final Coding reason;
-
-        private volatile int hashCode;
 
         private SupportingInfo(Builder builder) {
             super(builder);
@@ -3728,8 +3718,6 @@ public class ExplanationOfBenefit extends DomainResource {
         )
         private final CodeableConcept packageCode;
 
-        private volatile int hashCode;
-
         private Diagnosis(Builder builder) {
             super(builder);
             sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
@@ -4145,8 +4133,6 @@ public class ExplanationOfBenefit extends DomainResource {
         private final Element procedure;
         @ReferenceTarget({ "Device" })
         private final List<Reference> udi;
-
-        private volatile int hashCode;
 
         private Procedure(Builder builder) {
             super(builder);
@@ -4579,8 +4565,6 @@ public class ExplanationOfBenefit extends DomainResource {
         private final Reference coverage;
         private final List<String> preAuthRef;
 
-        private volatile int hashCode;
-
         private Insurance(Builder builder) {
             super(builder);
             focal = ValidationSupport.requireNonNull(builder.focal, "focal");
@@ -4920,8 +4904,6 @@ public class ExplanationOfBenefit extends DomainResource {
         @ReferenceTarget({ "Location" })
         @Choice({ Address.class, Reference.class })
         private final Element location;
-
-        private volatile int hashCode;
 
         private Accident(Builder builder) {
             super(builder);
@@ -5303,8 +5285,6 @@ public class ExplanationOfBenefit extends DomainResource {
         private final List<PositiveInt> noteNumber;
         private final List<Adjudication> adjudication;
         private final List<Detail> detail;
-
-        private volatile int hashCode;
 
         private Item(Builder builder) {
             super(builder);
@@ -6531,8 +6511,6 @@ public class ExplanationOfBenefit extends DomainResource {
             private final Money amount;
             private final Decimal value;
 
-            private volatile int hashCode;
-
             private Adjudication(Builder builder) {
                 super(builder);
                 category = ValidationSupport.requireNonNull(builder.category, "category");
@@ -6909,8 +6887,6 @@ public class ExplanationOfBenefit extends DomainResource {
             private final List<PositiveInt> noteNumber;
             private final List<ExplanationOfBenefit.Item.Adjudication> adjudication;
             private final List<SubDetail> subDetail;
-
-            private volatile int hashCode;
 
             private Detail(Builder builder) {
                 super(builder);
@@ -7733,8 +7709,6 @@ public class ExplanationOfBenefit extends DomainResource {
                 private final List<PositiveInt> noteNumber;
                 private final List<ExplanationOfBenefit.Item.Adjudication> adjudication;
 
-                private volatile int hashCode;
-
                 private SubDetail(Builder builder) {
                     super(builder);
                     sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
@@ -8520,8 +8494,6 @@ public class ExplanationOfBenefit extends DomainResource {
         private final List<PositiveInt> noteNumber;
         private final List<ExplanationOfBenefit.Item.Adjudication> adjudication;
         private final List<Detail> detail;
-
-        private volatile int hashCode;
 
         private AddItem(Builder builder) {
             super(builder);
@@ -9547,8 +9519,6 @@ public class ExplanationOfBenefit extends DomainResource {
             private final List<ExplanationOfBenefit.Item.Adjudication> adjudication;
             private final List<SubDetail> subDetail;
 
-            private volatile int hashCode;
-
             private Detail(Builder builder) {
                 super(builder);
                 productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
@@ -10136,8 +10106,6 @@ public class ExplanationOfBenefit extends DomainResource {
                 private final List<PositiveInt> noteNumber;
                 private final List<ExplanationOfBenefit.Item.Adjudication> adjudication;
 
-                private volatile int hashCode;
-
                 private SubDetail(Builder builder) {
                     super(builder);
                     productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
@@ -10668,8 +10636,6 @@ public class ExplanationOfBenefit extends DomainResource {
         @Required
         private final Money amount;
 
-        private volatile int hashCode;
-
         private Total(Builder builder) {
             super(builder);
             category = ValidationSupport.requireNonNull(builder.category, "category");
@@ -10958,8 +10924,6 @@ public class ExplanationOfBenefit extends DomainResource {
         private final Date date;
         private final Money amount;
         private final Identifier identifier;
-
-        private volatile int hashCode;
 
         private Payment(Builder builder) {
             super(builder);
@@ -11361,8 +11325,6 @@ public class ExplanationOfBenefit extends DomainResource {
         )
         private final CodeableConcept language;
 
-        private volatile int hashCode;
-
         private ProcessNote(Builder builder) {
             super(builder);
             number = builder.number;
@@ -11715,8 +11677,6 @@ public class ExplanationOfBenefit extends DomainResource {
         )
         private final CodeableConcept term;
         private final List<Financial> financial;
-
-        private volatile int hashCode;
 
         private BenefitBalance(Builder builder) {
             super(builder);
@@ -12200,8 +12160,6 @@ public class ExplanationOfBenefit extends DomainResource {
             private final Element allowed;
             @Choice({ UnsignedInt.class, Money.class })
             private final Element used;
-
-            private volatile int hashCode;
 
             private Financial(Builder builder) {
                 super(builder);

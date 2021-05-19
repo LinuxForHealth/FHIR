@@ -174,8 +174,6 @@ public class Library extends DomainResource {
     @Summary
     private final List<Attachment> content;
 
-    private volatile int hashCode;
-
     private Library(Builder builder) {
         super(builder);
         url = builder.url;

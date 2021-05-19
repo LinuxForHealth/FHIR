@@ -96,8 +96,6 @@ public class MessageHeader extends DomainResource {
     @Summary
     private final Canonical definition;
 
-    private volatile int hashCode;
-
     private MessageHeader(Builder builder) {
         super(builder);
         event = ValidationSupport.requireChoiceElement(builder.event, "event", Coding.class, Uri.class);
@@ -851,8 +849,6 @@ public class MessageHeader extends DomainResource {
         @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
         private final Reference receiver;
 
-        private volatile int hashCode;
-
         private Destination(Builder builder) {
             super(builder);
             name = builder.name;
@@ -1205,8 +1201,6 @@ public class MessageHeader extends DomainResource {
         @Summary
         @Required
         private final Url endpoint;
-
-        private volatile int hashCode;
 
         private Source(Builder builder) {
             super(builder);
@@ -1579,8 +1573,6 @@ public class MessageHeader extends DomainResource {
         @Summary
         @ReferenceTarget({ "OperationOutcome" })
         private final Reference details;
-
-        private volatile int hashCode;
 
         private Response(Builder builder) {
             super(builder);

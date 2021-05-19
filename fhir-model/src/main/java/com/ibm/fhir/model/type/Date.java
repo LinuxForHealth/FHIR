@@ -29,8 +29,6 @@ public class Date extends Element {
 
     private final TemporalAccessor value;
 
-    private volatile int hashCode;
-
     private Date(Builder builder) {
         super(builder);
         value = builder.value;

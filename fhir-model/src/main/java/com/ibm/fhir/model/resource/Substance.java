@@ -94,8 +94,6 @@ public class Substance extends DomainResource {
     @Summary
     private final List<Ingredient> ingredient;
 
-    private volatile int hashCode;
-
     private Substance(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -709,8 +707,6 @@ public class Substance extends DomainResource {
         @Summary
         private final SimpleQuantity quantity;
 
-        private volatile int hashCode;
-
         private Instance(Builder builder) {
             super(builder);
             identifier = builder.identifier;
@@ -1011,8 +1007,6 @@ public class Substance extends DomainResource {
         )
         @Required
         private final Element substance;
-
-        private volatile int hashCode;
 
         private Ingredient(Builder builder) {
             super(builder);

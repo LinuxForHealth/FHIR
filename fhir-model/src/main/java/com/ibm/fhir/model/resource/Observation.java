@@ -226,8 +226,6 @@ public class Observation extends DomainResource {
     @Summary
     private final List<Component> component;
 
-    private volatile int hashCode;
-
     private Observation(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1744,8 +1742,6 @@ public class Observation extends DomainResource {
         private final Range age;
         private final String text;
 
-        private volatile int hashCode;
-
         private ReferenceRange(Builder builder) {
             super(builder);
             low = builder.low;
@@ -2198,8 +2194,6 @@ public class Observation extends DomainResource {
         )
         private final List<CodeableConcept> interpretation;
         private final List<Observation.ReferenceRange> referenceRange;
-
-        private volatile int hashCode;
 
         private Component(Builder builder) {
             super(builder);

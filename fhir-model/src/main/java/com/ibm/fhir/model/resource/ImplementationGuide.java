@@ -158,8 +158,6 @@ public class ImplementationGuide extends DomainResource {
     private final Definition definition;
     private final Manifest manifest;
 
-    private volatile int hashCode;
-
     private ImplementationGuide(Builder builder) {
         super(builder);
         url = ValidationSupport.requireNonNull(builder.url, "url");
@@ -1275,8 +1273,6 @@ public class ImplementationGuide extends DomainResource {
         @Summary
         private final String version;
 
-        private volatile int hashCode;
-
         private DependsOn(Builder builder) {
             super(builder);
             uri = ValidationSupport.requireNonNull(builder.uri, "uri");
@@ -1584,8 +1580,6 @@ public class ImplementationGuide extends DomainResource {
         @Required
         private final Canonical profile;
 
-        private volatile int hashCode;
-
         private Global(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -1858,8 +1852,6 @@ public class ImplementationGuide extends DomainResource {
         private final Page page;
         private final List<Parameter> parameter;
         private final List<Template> template;
-
-        private volatile int hashCode;
 
         private Definition(Builder builder) {
             super(builder);
@@ -2308,8 +2300,6 @@ public class ImplementationGuide extends DomainResource {
             private final String name;
             private final String description;
 
-            private volatile int hashCode;
-
             private Grouping(Builder builder) {
                 super(builder);
                 name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -2589,8 +2579,6 @@ public class ImplementationGuide extends DomainResource {
             @Choice({ Boolean.class, Canonical.class })
             private final Element example;
             private final Id groupingId;
-
-            private volatile int hashCode;
 
             private Resource(Builder builder) {
                 super(builder);
@@ -3028,8 +3016,6 @@ public class ImplementationGuide extends DomainResource {
             private final GuidePageGeneration generation;
             private final List<ImplementationGuide.Definition.Page> page;
 
-            private volatile int hashCode;
-
             private Page(Builder builder) {
                 super(builder);
                 name = ValidationSupport.requireChoiceElement(builder.name, "name", Url.class, Reference.class);
@@ -3404,8 +3390,6 @@ public class ImplementationGuide extends DomainResource {
             @Required
             private final String value;
 
-            private volatile int hashCode;
-
             private Parameter(Builder builder) {
                 super(builder);
                 code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -3680,8 +3664,6 @@ public class ImplementationGuide extends DomainResource {
             @Required
             private final String source;
             private final String scope;
-
-            private volatile int hashCode;
 
             private Template(Builder builder) {
                 super(builder);
@@ -3989,8 +3971,6 @@ public class ImplementationGuide extends DomainResource {
         private final List<Page> page;
         private final List<String> image;
         private final List<String> other;
-
-        private volatile int hashCode;
 
         private Manifest(Builder builder) {
             super(builder);
@@ -4447,8 +4427,6 @@ public class ImplementationGuide extends DomainResource {
             private final Element example;
             private final Url relativePath;
 
-            private volatile int hashCode;
-
             private Resource(Builder builder) {
                 super(builder);
                 reference = ValidationSupport.requireNonNull(builder.reference, "reference");
@@ -4755,8 +4733,6 @@ public class ImplementationGuide extends DomainResource {
             private final String name;
             private final String title;
             private final List<String> anchor;
-
-            private volatile int hashCode;
 
             private Page(Builder builder) {
                 super(builder);

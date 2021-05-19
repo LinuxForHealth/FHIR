@@ -49,8 +49,6 @@ public class Quantity extends Element {
     @Summary
     protected final Code code;
 
-    private volatile int hashCode;
-
     protected Quantity(Builder builder) {
         super(builder);
         value = builder.value;

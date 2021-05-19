@@ -255,8 +255,6 @@ public class CapabilityStatement extends DomainResource {
     @Summary
     private final List<Document> document;
 
-    private volatile int hashCode;
-
     private CapabilityStatement(Builder builder) {
         super(builder);
         url = builder.url;
@@ -1669,8 +1667,6 @@ public class CapabilityStatement extends DomainResource {
         @Summary
         private final DateTime releaseDate;
 
-        private volatile int hashCode;
-
         private Software(Builder builder) {
             super(builder);
             name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -1974,8 +1970,6 @@ public class CapabilityStatement extends DomainResource {
         @Summary
         @ReferenceTarget({ "Organization" })
         private final Reference custodian;
-
-        private volatile int hashCode;
 
         private Implementation(Builder builder) {
             super(builder);
@@ -2300,8 +2294,6 @@ public class CapabilityStatement extends DomainResource {
         @Summary
         private final List<CapabilityStatement.Rest.Resource.Operation> operation;
         private final List<Canonical> compartment;
-
-        private volatile int hashCode;
 
         private Rest(Builder builder) {
             super(builder);
@@ -2869,8 +2861,6 @@ public class CapabilityStatement extends DomainResource {
             private final List<CodeableConcept> service;
             private final Markdown description;
 
-            private volatile int hashCode;
-
             private Security(Builder builder) {
                 super(builder);
                 cors = builder.cors;
@@ -3230,8 +3220,6 @@ public class CapabilityStatement extends DomainResource {
             private final List<SearchParam> searchParam;
             @Summary
             private final List<Operation> operation;
-
-            private volatile int hashCode;
 
             private Resource(Builder builder) {
                 super(builder);
@@ -4142,8 +4130,6 @@ public class CapabilityStatement extends DomainResource {
                 private final TypeRestfulInteraction code;
                 private final Markdown documentation;
 
-                private volatile int hashCode;
-
                 private Interaction(Builder builder) {
                     super(builder);
                     code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -4422,8 +4408,6 @@ public class CapabilityStatement extends DomainResource {
                 @Required
                 private final SearchParamType type;
                 private final Markdown documentation;
-
-                private volatile int hashCode;
 
                 private SearchParam(Builder builder) {
                     super(builder);
@@ -4770,8 +4754,6 @@ public class CapabilityStatement extends DomainResource {
                 private final Canonical definition;
                 private final Markdown documentation;
 
-                private volatile int hashCode;
-
                 private Operation(Builder builder) {
                     super(builder);
                     name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -5092,8 +5074,6 @@ public class CapabilityStatement extends DomainResource {
             private final SystemRestfulInteraction code;
             private final Markdown documentation;
 
-            private volatile int hashCode;
-
             private Interaction(Builder builder) {
                 super(builder);
                 code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -5365,8 +5345,6 @@ public class CapabilityStatement extends DomainResource {
         private final Markdown documentation;
         @Summary
         private final List<SupportedMessage> supportedMessage;
-
-        private volatile int hashCode;
 
         private Messaging(Builder builder) {
             super(builder);
@@ -5740,8 +5718,6 @@ public class CapabilityStatement extends DomainResource {
             @Required
             private final Url address;
 
-            private volatile int hashCode;
-
             private Endpoint(Builder builder) {
                 super(builder);
                 protocol = ValidationSupport.requireNonNull(builder.protocol, "protocol");
@@ -6023,8 +5999,6 @@ public class CapabilityStatement extends DomainResource {
             @Required
             private final Canonical definition;
 
-            private volatile int hashCode;
-
             private SupportedMessage(Builder builder) {
                 super(builder);
                 mode = ValidationSupport.requireNonNull(builder.mode, "mode");
@@ -6305,8 +6279,6 @@ public class CapabilityStatement extends DomainResource {
         @Summary
         @Required
         private final Canonical profile;
-
-        private volatile int hashCode;
 
         private Document(Builder builder) {
             super(builder);

@@ -33,8 +33,6 @@ public class Instant extends Element {
 
     private final ZonedDateTime value;
 
-    private volatile int hashCode;
-
     private Instant(Builder builder) {
         super(builder);
         value = ModelSupport.truncateTime(builder.value, ChronoUnit.MICROS);

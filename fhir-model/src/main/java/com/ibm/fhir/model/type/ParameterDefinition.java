@@ -55,8 +55,6 @@ public class ParameterDefinition extends Element {
     @Summary
     private final Canonical profile;
 
-    private volatile int hashCode;
-
     private ParameterDefinition(Builder builder) {
         super(builder);
         name = builder.name;

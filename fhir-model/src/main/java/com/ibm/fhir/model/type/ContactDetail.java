@@ -28,8 +28,6 @@ public class ContactDetail extends Element {
     @Summary
     private final List<ContactPoint> telecom;
 
-    private volatile int hashCode;
-
     private ContactDetail(Builder builder) {
         super(builder);
         name = builder.name;

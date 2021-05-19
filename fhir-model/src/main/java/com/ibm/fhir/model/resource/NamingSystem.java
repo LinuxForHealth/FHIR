@@ -142,8 +142,6 @@ public class NamingSystem extends DomainResource {
     @Required
     private final List<UniqueId> uniqueId;
 
-    private volatile int hashCode;
-
     private NamingSystem(Builder builder) {
         super(builder);
         name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -983,8 +981,6 @@ public class NamingSystem extends DomainResource {
         private final Boolean preferred;
         private final String comment;
         private final Period period;
-
-        private volatile int hashCode;
 
         private UniqueId(Builder builder) {
             super(builder);

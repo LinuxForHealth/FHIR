@@ -172,8 +172,6 @@ public class TerminologyCapabilities extends DomainResource {
     private final Translation translation;
     private final Closure closure;
 
-    private volatile int hashCode;
-
     private TerminologyCapabilities(Builder builder) {
         super(builder);
         url = builder.url;
@@ -1363,8 +1361,6 @@ public class TerminologyCapabilities extends DomainResource {
         @Summary
         private final String version;
 
-        private volatile int hashCode;
-
         private Software(Builder builder) {
             super(builder);
             name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -1635,8 +1631,6 @@ public class TerminologyCapabilities extends DomainResource {
         @Summary
         private final Url url;
 
-        private volatile int hashCode;
-
         private Implementation(Builder builder) {
             super(builder);
             description = ValidationSupport.requireNonNull(builder.description, "description");
@@ -1904,8 +1898,6 @@ public class TerminologyCapabilities extends DomainResource {
         private final Canonical uri;
         private final List<Version> version;
         private final Boolean subsumption;
-
-        private volatile int hashCode;
 
         private CodeSystem(Builder builder) {
             super(builder);
@@ -2221,8 +2213,6 @@ public class TerminologyCapabilities extends DomainResource {
             private final List<Code> language;
             private final List<Filter> filter;
             private final List<Code> property;
-
-            private volatile int hashCode;
 
             private Version(Builder builder) {
                 super(builder);
@@ -2668,8 +2658,6 @@ public class TerminologyCapabilities extends DomainResource {
                 @Required
                 private final List<Code> op;
 
-                private volatile int hashCode;
-
                 private Filter(Builder builder) {
                     super(builder);
                     code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -2965,8 +2953,6 @@ public class TerminologyCapabilities extends DomainResource {
         private final Boolean incomplete;
         private final List<Parameter> parameter;
         private final Markdown textFilter;
-
-        private volatile int hashCode;
 
         private Expansion(Builder builder) {
             super(builder);
@@ -3340,8 +3326,6 @@ public class TerminologyCapabilities extends DomainResource {
             private final Code name;
             private final String documentation;
 
-            private volatile int hashCode;
-
             private Parameter(Builder builder) {
                 super(builder);
                 name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -3609,8 +3593,6 @@ public class TerminologyCapabilities extends DomainResource {
         @Required
         private final Boolean translations;
 
-        private volatile int hashCode;
-
         private ValidateCode(Builder builder) {
             super(builder);
             translations = ValidationSupport.requireNonNull(builder.translations, "translations");
@@ -3846,8 +3828,6 @@ public class TerminologyCapabilities extends DomainResource {
         @Required
         private final Boolean needsMap;
 
-        private volatile int hashCode;
-
         private Translation(Builder builder) {
             super(builder);
             needsMap = ValidationSupport.requireNonNull(builder.needsMap, "needsMap");
@@ -4081,8 +4061,6 @@ public class TerminologyCapabilities extends DomainResource {
      */
     public static class Closure extends BackboneElement {
         private final Boolean translation;
-
-        private volatile int hashCode;
 
         private Closure(Builder builder) {
             super(builder);

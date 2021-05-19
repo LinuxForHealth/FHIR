@@ -143,8 +143,6 @@ public class List extends DomainResource {
     )
     private final CodeableConcept emptyReason;
 
-    private volatile int hashCode;
-
     private List(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -961,8 +959,6 @@ public class List extends DomainResource {
         private final DateTime date;
         @Required
         private final Reference item;
-
-        private volatile int hashCode;
 
         private Entry(Builder builder) {
             super(builder);

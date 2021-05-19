@@ -213,8 +213,6 @@ public class PlanDefinition extends DomainResource {
     private final List<Goal> goal;
     private final List<Action> action;
 
-    private volatile int hashCode;
-
     private PlanDefinition(Builder builder) {
         super(builder);
         url = builder.url;
@@ -1846,8 +1844,6 @@ public class PlanDefinition extends DomainResource {
         private final List<RelatedArtifact> documentation;
         private final List<Target> target;
 
-        private volatile int hashCode;
-
         private Goal(Builder builder) {
             super(builder);
             category = builder.category;
@@ -2341,8 +2337,6 @@ public class PlanDefinition extends DomainResource {
             private final Element detail;
             private final Duration due;
 
-            private volatile int hashCode;
-
             private Target(Builder builder) {
                 super(builder);
                 measure = builder.measure;
@@ -2723,8 +2717,6 @@ public class PlanDefinition extends DomainResource {
         private final Canonical transform;
         private final List<DynamicValue> dynamicValue;
         private final List<PlanDefinition.Action> action;
-
-        private volatile int hashCode;
 
         private Action(Builder builder) {
             super(builder);
@@ -4061,8 +4053,6 @@ public class PlanDefinition extends DomainResource {
             private final ActionConditionKind kind;
             private final Expression expression;
 
-            private volatile int hashCode;
-
             private Condition(Builder builder) {
                 super(builder);
                 kind = ValidationSupport.requireNonNull(builder.kind, "kind");
@@ -4338,8 +4328,6 @@ public class PlanDefinition extends DomainResource {
             private final ActionRelationshipType relationship;
             @Choice({ Duration.class, Range.class })
             private final Element offset;
-
-            private volatile int hashCode;
 
             private RelatedAction(Builder builder) {
                 super(builder);
@@ -4661,8 +4649,6 @@ public class PlanDefinition extends DomainResource {
             )
             private final CodeableConcept role;
 
-            private volatile int hashCode;
-
             private Participant(Builder builder) {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -4930,8 +4916,6 @@ public class PlanDefinition extends DomainResource {
         public static class DynamicValue extends BackboneElement {
             private final String path;
             private final Expression expression;
-
-            private volatile int hashCode;
 
             private DynamicValue(Builder builder) {
                 super(builder);
