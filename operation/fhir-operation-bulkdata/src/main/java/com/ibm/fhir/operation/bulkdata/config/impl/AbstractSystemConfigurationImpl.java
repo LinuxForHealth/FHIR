@@ -336,7 +336,7 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
 
     @Override
     public String getOperationOutcomeProvider(String provider) {
-        String outcomeProvider = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/" + provider + "/operationOutcomeProvider", null);
+        String outcomeProvider = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/operationOutcomeProvider", null);
 
         // now we check the system level
         if (outcomeProvider == null) {
@@ -348,6 +348,6 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
 
     @Override
     public boolean hasStorageProvider(String storageProvider) {
-        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProvider/" + storageProvider + "/type", null) != null;
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + storageProvider + "/type", null) != null;
     }
 }

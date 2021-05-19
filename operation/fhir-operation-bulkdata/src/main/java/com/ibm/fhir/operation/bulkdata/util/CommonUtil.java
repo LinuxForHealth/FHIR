@@ -50,7 +50,7 @@ public class CommonUtil {
             boolean s = ConfigurationFactory.getInstance().hasStorageProvider(source);
             boolean o = ConfigurationFactory.getInstance().hasStorageProvider(outcome);
             if (!s || !o) {
-                throw FHIROperationUtil.buildExceptionWithIssue("The storage provider for outcome or source passed is not configured properly", IssueType.EXCEPTION);
+                throw FHIROperationUtil.buildExceptionWithIssue("The storage provider for outcome [" + s + "] or source [" + o + "] passed is not configured properly" , IssueType.EXCEPTION);
             }
 
             StorageType type = ConfigurationFactory.getInstance().getStorageProviderStorageType(source);
