@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -118,7 +118,7 @@ public class MemberOfFunctionTest {
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
 
-    @Test
+    @Test(enabled = false)
     public void testMemberOfFunction7() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
 
@@ -254,14 +254,14 @@ public class MemberOfFunctionTest {
 
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
-    
+
     @Test
     public void testMemberOfFunction18() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         Collection<FHIRPathNode> result = evaluator.evaluate(Code.of(ENGLISH_US), "$this.memberOf('" + MemberOfFunction.ALL_LANG_VALUE_SET_URL + "')");
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
-    
+
     @Test
     public void testMemberOfFunction19() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
@@ -279,7 +279,7 @@ public class MemberOfFunctionTest {
         Collection<FHIRPathNode> result = evaluator.evaluate(coding, "$this.memberOf('" + MemberOfFunction.ALL_LANG_VALUE_SET_URL + "')");
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
-    
+
     @Test
     public void testMemberOfFunction21() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
@@ -290,7 +290,7 @@ public class MemberOfFunctionTest {
         Collection<FHIRPathNode> result = evaluator.evaluate(coding, "$this.memberOf('" + MemberOfFunction.ALL_LANG_VALUE_SET_URL + "')");
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
-    
+
     @Test
     public void testMemberOfFunction22() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
@@ -314,7 +314,7 @@ public class MemberOfFunctionTest {
         Collection<FHIRPathNode> result = evaluator.evaluate(codeableConcept, "$this.memberOf('" + MemberOfFunction.ALL_LANG_VALUE_SET_URL + "')");
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
-    
+
     @Test
     public void testMemberOfFunction24() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
@@ -327,7 +327,7 @@ public class MemberOfFunctionTest {
         Collection<FHIRPathNode> result = evaluator.evaluate(codeableConcept, "$this.memberOf('" + MemberOfFunction.ALL_LANG_VALUE_SET_URL + "')");
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
-    
+
     @Test
     public void testMemberOfFunction25() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
@@ -351,7 +351,7 @@ public class MemberOfFunctionTest {
         Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "$this.memberOf('" + MemberOfFunction.ALL_LANG_VALUE_SET_URL + "')");
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
-    
+
     @Test
     public void testMemberOfFunction27() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
@@ -362,7 +362,7 @@ public class MemberOfFunctionTest {
         Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "$this.memberOf('" + MemberOfFunction.ALL_LANG_VALUE_SET_URL + "')");
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
-    
+
     @Test
     public void testMemberOfFunction28() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
@@ -373,28 +373,28 @@ public class MemberOfFunctionTest {
         Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "$this.memberOf('" + MemberOfFunction.ALL_LANG_VALUE_SET_URL + "')");
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
-    
+
     @Test
     public void testMemberOfFunction29() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         Collection<FHIRPathNode> result = evaluator.evaluate(com.ibm.fhir.model.type.String.of(ENGLISH_US), "$this.memberOf('" + MemberOfFunction.ALL_LANG_VALUE_SET_URL + "')");
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
-    
+
     @Test
     public void testMemberOfFunction30() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         Collection<FHIRPathNode> result = evaluator.evaluate(com.ibm.fhir.model.type.String.of("invalidLanguageCode"), "$this.memberOf('" + MemberOfFunction.ALL_LANG_VALUE_SET_URL + "')");
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
-    
+
     @Test
     public void testMemberOfFunction31() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         Collection<FHIRPathNode> result = evaluator.evaluate(Code.of(UNITS_PER_LITER), "$this.memberOf('" + MemberOfFunction.UCUM_UNITS_VALUE_SET_URL + "')");
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
-    
+
     @Test
     public void testMemberOfFunction32() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
@@ -412,7 +412,7 @@ public class MemberOfFunctionTest {
         Collection<FHIRPathNode> result = evaluator.evaluate(coding, "$this.memberOf('" + MemberOfFunction.UCUM_UNITS_VALUE_SET_URL + "')");
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
-    
+
     @Test
     public void testMemberOfFunction34() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
@@ -423,7 +423,7 @@ public class MemberOfFunctionTest {
         Collection<FHIRPathNode> result = evaluator.evaluate(coding, "$this.memberOf('" + MemberOfFunction.UCUM_UNITS_VALUE_SET_URL + "')");
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
-    
+
     @Test
     public void testMemberOfFunction35() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
@@ -447,7 +447,7 @@ public class MemberOfFunctionTest {
         Collection<FHIRPathNode> result = evaluator.evaluate(codeableConcept, "$this.memberOf('" + MemberOfFunction.UCUM_UNITS_VALUE_SET_URL + "')");
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
-    
+
     @Test
     public void testMemberOfFunction37() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
@@ -460,7 +460,7 @@ public class MemberOfFunctionTest {
         Collection<FHIRPathNode> result = evaluator.evaluate(codeableConcept, "$this.memberOf('" + MemberOfFunction.UCUM_UNITS_VALUE_SET_URL + "')");
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
-    
+
     @Test
     public void testMemberOfFunction38() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
@@ -484,7 +484,7 @@ public class MemberOfFunctionTest {
         Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "$this.memberOf('" + MemberOfFunction.UCUM_UNITS_VALUE_SET_URL + "')");
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
-    
+
     @Test
     public void testMemberOfFunction40() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
@@ -495,7 +495,7 @@ public class MemberOfFunctionTest {
         Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "$this.memberOf('" + MemberOfFunction.UCUM_UNITS_VALUE_SET_URL + "')");
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
-    
+
     @Test
     public void testMemberOfFunction41() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
@@ -506,21 +506,21 @@ public class MemberOfFunctionTest {
         Collection<FHIRPathNode> result = evaluator.evaluate(quantity, "$this.memberOf('" + MemberOfFunction.UCUM_UNITS_VALUE_SET_URL + "')");
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
-    
+
     @Test
     public void testMemberOfFunction42() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         Collection<FHIRPathNode> result = evaluator.evaluate(com.ibm.fhir.model.type.String.of(UNITS_PER_LITER), "$this.memberOf('" + MemberOfFunction.UCUM_UNITS_VALUE_SET_URL + "')");
         Assert.assertEquals(result, SINGLETON_TRUE);
     }
-    
+
     @Test
     public void testMemberOfFunction43() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         Collection<FHIRPathNode> result = evaluator.evaluate(com.ibm.fhir.model.type.String.of("invalid ucum code"), "$this.memberOf('" + MemberOfFunction.UCUM_UNITS_VALUE_SET_URL + "')");
         Assert.assertEquals(result, SINGLETON_FALSE);
     }
-    
+
     @Test
     public void testMemberOfFunction44() throws Exception {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
