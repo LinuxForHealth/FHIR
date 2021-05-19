@@ -31,6 +31,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.persistence.helper.PersistenceHelper;
+import com.ibm.fhir.search.util.ReferenceUtil;
 
 public class ServerResolveFunction extends ResolveFunction {
     public static final Logger log = Logger.getLogger(ServerResolveFunction.class.getName());
@@ -53,6 +54,16 @@ public class ServerResolveFunction extends ResolveFunction {
         CacheKey key = key(resourceType, logicalId, versionId);
         Object result = cacheAsMap.computeIfAbsent(key, k -> computeResource(evaluationContext, node, resourceType, logicalId, versionId));
         return (result != NULL) ? (Resource) result : null;
+    }
+
+    @Override
+    protected boolean matchesServiceBaseUrl(String baseUrl) {
+        try {
+            return baseUrl.equals(ReferenceUtil.getServiceBaseUrl());
+        } catch (Exception e) {
+            log.log(Level.WARNING, "An error occurred getting the service base url", e);
+        }
+        return false;
     }
 
     private Object computeResource(EvaluationContext evaluationContext, FHIRPathNode node, String type, String logicalId, String versionId) {

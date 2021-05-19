@@ -102,7 +102,8 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                             if (referenceType != null && !resourceType.equals(referenceType)) {
                                 throw new IllegalArgumentException("Resource type found in reference URL does not match reference type");
                             }
-                            if (matcher.group(BASE_URL_GROUP) == null && resolveRelativeReferences(evaluationContext)) {
+                            String baseUrl = matcher.group(BASE_URL_GROUP);
+                            if ((baseUrl == null ||  matchesServiceBaseUrl(baseUrl)) && resolveRelativeReferences(evaluationContext)) {
                                 // relative reference
                                 resource = resolveRelativeReference(evaluationContext, node, resourceType, matcher.group(LOGICAL_ID_GROUP), matcher.group(VERSION_ID_GROUP));
                             }
@@ -128,6 +129,10 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
 
     protected Resource resolveRelativeReference(EvaluationContext evaluationContext, FHIRPathNode node, String type, String logicalId, String versionId) {
         return null;
+    }
+
+    protected boolean matchesServiceBaseUrl(String baseUrl) {
+        return false;
     }
 
     private Resource resolveInternalFragmentReference(EvaluationContext evaluationContext, FHIRPathNode node, String referenceReference) {
