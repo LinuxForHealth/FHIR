@@ -140,7 +140,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     private static final com.ibm.fhir.model.type.String SC_NOT_FOUND_STRING = string(Integer.toString(SC_NOT_FOUND));
     private static final com.ibm.fhir.model.type.String SC_ACCEPTED_STRING = string(Integer.toString(SC_ACCEPTED));
     private static final com.ibm.fhir.model.type.String SC_OK_STRING = string(Integer.toString(SC_OK));
-    private static final String TOO_MANY_INCLUDE_RESOURCES = "Number of returned 'include' resources exceeds allowable limit of " + SearchConstants.MAX_PAGE_SIZE;
     private static final ZoneId UTC = ZoneId.of("UTC");
 
     // default number of entries in system history if no _count is given
@@ -264,6 +263,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             FHIRPersistenceEvent event =
                     new FHIRPersistenceEvent(resource, buildPersistenceEventProperties(type, null, null, null));
             getInterceptorMgr().fireBeforeCreateEvent(event);
+
+            // write the resource back in case the interceptors modified it in some way
+            resource = event.getFhirResource();
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event);
@@ -513,6 +515,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     getInterceptorMgr().fireBeforeUpdateEvent(event);
                 }
             }
+
+            // write the resource back in case the interceptors modified it in some way
+            newResource = event.getFhirResource();
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event);
@@ -2014,8 +2019,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         MultivaluedMap<String, String> queryParams = requestURL.getQueryParameters();
         Resource resource = null;
 
-        FHIRRequestContext requestContext = FHIRRequestContext.get();
-
         // Process a POST (create or search, or custom operation).
         if (pathTokens.length > 0 && pathTokens[pathTokens.length - 1].startsWith("$")) {
             // This is a custom operation request.
@@ -2615,8 +2618,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             List<Resource> matchResources = resources.subList(0,  matchResourceCount);
 
             // Check if too many included resources
-            if (resources.size() > matchResourceCount + SearchConstants.MAX_PAGE_SIZE) {
-                throw buildRestException(TOO_MANY_INCLUDE_RESOURCES, IssueType.BUSINESS_RULE, IssueSeverity.ERROR);
+            if (resources.size() > matchResourceCount + searchContext.getMaxPageIncludeCount()) {
+                throw buildRestException("Number of returned 'include' resources exceeds allowable limit of " + searchContext.getMaxPageIncludeCount(),
+                    IssueType.BUSINESS_RULE, IssueSeverity.ERROR);
             }
 
             // Find chained search parameters and find reference search parameters containing only a logical ID

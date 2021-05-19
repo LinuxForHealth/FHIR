@@ -161,7 +161,9 @@
                 "maxPartitions": 3, 
                 "maxInputs": 5,
                 "maxChunkReadTime": "90000",
-                "systemExportImpl": "fast"
+                "systemExportImpl": "fast",
+                "defaultExportProvider": "default",
+                "defaultImportProvider": "default"
             },
             "storageProviders": {
                 "default" : {

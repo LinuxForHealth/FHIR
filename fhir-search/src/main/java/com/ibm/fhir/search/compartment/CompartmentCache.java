@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,8 +16,6 @@ import java.util.stream.Collectors;
 /**
  * Compartment Cache is a localized class to cache the compartment information and provide helper methods to add to the
  * cache.
- * 
- * @author pbastide
  */
 public class CompartmentCache {
 
@@ -32,21 +30,22 @@ public class CompartmentCache {
 
     /**
      * add the code and parameters to the given compartment cache.
-     * 
-     * @param inclusionCode
-     * @param params
+     *
+     * @param inclusionResourceCode the name of the resource type that can be within the target compartment type
+     * @param params the inclusion criteria used to determine whether a resource of type {@code inclusionResourceCode}
+     *      is in a target compartment
      */
-    public void add(java.lang.String inclusionCode, List<com.ibm.fhir.model.type.String> params) {
+    public void add(java.lang.String inclusionResourceCode, List<com.ibm.fhir.model.type.String> params) {
         if (params != null) {
             // Fast Conversion to java.lang.String
             List<String> paramsAsStrings = params.stream().map(param -> param.getValue()).collect(Collectors.toList());
-            codeAndParams.put(inclusionCode, paramsAsStrings);
+            codeAndParams.put(inclusionResourceCode, paramsAsStrings);
         }
     }
 
     /**
      * gets the resource types (codes) in the compartment
-     * 
+     *
      * @return
      */
     public List<String> getResourceTypesInCompartment() {
@@ -55,7 +54,7 @@ public class CompartmentCache {
 
     /**
      * get parameters by resource type in the compartment cache.
-     * 
+     *
      * @param resourceType
      * @return
      */

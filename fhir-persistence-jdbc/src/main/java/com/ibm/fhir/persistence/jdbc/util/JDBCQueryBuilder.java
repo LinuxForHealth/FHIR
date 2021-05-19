@@ -599,11 +599,11 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     // Build this piece: pX.token_value = search-attribute-value
                     whereClauseSegment.append(tableAlias + DOT).append(TOKEN_VALUE).append(EQ).append(BIND_VAR);
 
-                    // Normalize code if code system is not case-sensitive. Otherwise leave code as is. 
+                    // Normalize code if code system is not case-sensitive. Otherwise leave code as is.
                     codeSystemIsCaseSensitive = CodeSystemSupport.isCaseSensitive(value.getValueSystem());
                     bindVariables.add(SqlParameterEncoder.encode(codeSystemIsCaseSensitive ?
                             value.getValueCode() : SearchUtil.normalizeForSearch(value.getValueCode())));
-                    
+
                     // Get commonTokenValueId or codeSystemId
                     commonTokenValueId = getCommonTokenValueId(value.getValueSystem(),
                         codeSystemIsCaseSensitive ? value.getValueCode() : SearchUtil.normalizeForSearch(value.getValueCode()));
@@ -1273,7 +1273,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                             if (value.getValueSystem() != null && !value.getValueSystem().isEmpty()) {
                                 whereClauseSegment.append(tableAlias + DOT).append(TOKEN_VALUE).append(operator).append(BIND_VAR);
 
-                                // Normalize code if code system is not case-sensitive. Otherwise leave code as is. 
+                                // Normalize code if code system is not case-sensitive. Otherwise leave code as is.
                                 codeSystemIsCaseSensitive = CodeSystemSupport.isCaseSensitive(value.getValueSystem());
                                 bindVariables.add(SqlParameterEncoder.encode(codeSystemIsCaseSensitive ?
                                         value.getValueCode() : SearchUtil.normalizeForSearch(value.getValueCode())));
@@ -1994,7 +1994,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         SqlQueryData query = null;
         InclusionQuerySegmentAggregator helper =
                 (InclusionQuerySegmentAggregator) QuerySegmentAggregatorFactory.buildQuerySegmentAggregator(resourceType, 0,
-                    SearchConstants.MAX_PAGE_SIZE + 1, this.parameterDao, this.resourceDao, searchContext, true, this.queryHints, this.identityCache);
+                    searchContext.getMaxPageIncludeCount() + 1, this.parameterDao, this.resourceDao, searchContext, true, this.queryHints, this.identityCache);
 
         if (helper != null) {
             query = helper.buildIncludeQuery(inclusionParm, ids, inclusionType);

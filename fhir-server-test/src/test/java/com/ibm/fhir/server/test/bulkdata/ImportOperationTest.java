@@ -252,6 +252,34 @@ public class ImportOperationTest extends FHIRServerTestBase {
         }
     }
 
+    @Test(groups = { TEST_GROUP_NAME })
+    public void testImportFromFileDefaultEmpty() throws Exception {
+        if (ON) {
+            String path = BASE_VALID_URL;
+            String inputFormat = FORMAT;
+            String inputSource = "https://localhost:9443/source-fhir-server";
+            String resourceType = "Patient";
+            String url = "test-import-neg.ndjson";
+
+            Response response = doPost(path, inputFormat, inputSource, resourceType, url);
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+
+            // Check eventual value
+            response = polling(contentLocation);
+            assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+            checkValidResponse(response);
+        } else {
+            System.out.println("Import Test Disabled, Skipping");
+        }
+    }
+
     /**
      * {
             "transactionTime": "2021-03-22T14:20:09.594Z",
@@ -318,6 +346,35 @@ public class ImportOperationTest extends FHIRServerTestBase {
             String resourceType = "Patient";
             // https://s3.us-east.cloud-object-storage.appdomain.cloud/fhir-integration-test/test-import.ndjson
             String url = "test-import.ndjson";
+
+            Response response = doPost(path, inputFormat, inputSource, resourceType, url, "minio");
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+
+            // Check eventual value
+            response = polling(contentLocation);
+            assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+            checkValidResponse(response);
+        } else {
+            System.out.println("Import Test Disabled, Skipping");
+        }
+    }
+
+    @Test(groups = { TEST_GROUP_NAME })
+    public void testImportFromS3Negative() throws Exception {
+        if (ON) {
+            String path = BASE_VALID_URL;
+            String inputFormat = FORMAT;
+            String inputSource = "https://localhost:9443/source-fhir-server";
+            String resourceType = "Patient";
+            String url = "test-import-neg.ndjson";
 
             Response response = doPost(path, inputFormat, inputSource, resourceType, url, "minio");
             assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());

@@ -947,7 +947,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 allIncludeResources.addAll(includeResources);
 
                 // Check if max size exceeded. If so, return results and let rest helper throw exception.
-                if (allIncludeResources.size() > SearchConstants.MAX_PAGE_SIZE) {
+                if (allIncludeResources.size() > searchContext.getMaxPageIncludeCount()) {
                     return allIncludeResources;
                 }
             }
@@ -969,7 +969,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 allIncludeResources.addAll(revincludeResources);
 
                 // Check if max size exceeded. If so, return results and let rest helper throw exception.
-                if (allIncludeResources.size() > SearchConstants.MAX_PAGE_SIZE) {
+                if (allIncludeResources.size() > searchContext.getMaxPageIncludeCount()) {
                     return allIncludeResources;
                 }
             }
@@ -1013,7 +1013,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                             allIncludeResources.addAll(includeResources);
 
                             // Check if max size exceeded. If so, return results and let rest helper throw exception.
-                            if (allIncludeResources.size() > SearchConstants.MAX_PAGE_SIZE) {
+                            if (allIncludeResources.size() > searchContext.getMaxPageIncludeCount()) {
                                 return allIncludeResources;
                             }
                         }
@@ -1038,7 +1038,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                             allIncludeResources.addAll(revincludeResources);
 
                             // Check if max size exceeded. If so, return results and let rest helper throw exception.
-                            if (allIncludeResources.size() > SearchConstants.MAX_PAGE_SIZE) {
+                            if (allIncludeResources.size() > searchContext.getMaxPageIncludeCount()) {
                                 return allIncludeResources;
                             }
                         }
@@ -1098,7 +1098,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 allIncludeResources.addAll(includeResources);
 
                 // Check if max size exceeded. If so, return results and let rest helper throw exception.
-                if (allIncludeResources.size() > SearchConstants.MAX_PAGE_SIZE) {
+                if (allIncludeResources.size() > searchContext.getMaxPageIncludeCount()) {
                     return allIncludeResources;
                 }
             }
@@ -1120,7 +1120,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 allIncludeResources.addAll(revincludeResources);
 
                 // Check if max size exceeded. If so, return results and let rest helper throw exception.
-                if (allIncludeResources.size() > SearchConstants.MAX_PAGE_SIZE) {
+                if (allIncludeResources.size() > searchContext.getMaxPageIncludeCount()) {
                     return allIncludeResources;
                 }
             }
@@ -1164,7 +1164,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                             allIncludeResources.addAll(includeResources);
 
                             // Check if max size exceeded. If so, return results and let rest helper throw exception.
-                            if (allIncludeResources.size() > SearchConstants.MAX_PAGE_SIZE) {
+                            if (allIncludeResources.size() > searchContext.getMaxPageIncludeCount()) {
                                 return allIncludeResources;
                             }
                         }
@@ -1189,7 +1189,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                             allIncludeResources.addAll(revincludeResources);
 
                             // Check if max size exceeded. If so, return results and let rest helper throw exception.
-                            if (allIncludeResources.size() > SearchConstants.MAX_PAGE_SIZE) {
+                            if (allIncludeResources.size() > searchContext.getMaxPageIncludeCount()) {
                                 return allIncludeResources;
                             }
                         }
