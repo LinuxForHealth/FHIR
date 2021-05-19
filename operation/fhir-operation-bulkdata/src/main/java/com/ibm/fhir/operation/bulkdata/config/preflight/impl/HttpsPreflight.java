@@ -41,6 +41,7 @@ public class HttpsPreflight extends NopPreflight {
 
     @Override
     public void preflight() throws FHIROperationException {
+        super.preflight();
         // If inputs are null, then we know we want to stop this right away.
         // We just don't export to HTTPS. Only S3 Compatible and File
         if (getInputs() == null) {
@@ -73,8 +74,6 @@ public class HttpsPreflight extends NopPreflight {
             throw export.buildOperationException("Timeout hit trying to access URL, check the urls", IssueType.INVALID);
         }
         executor.shutdown();
-
-        super.preflight();
     }
 
     /*

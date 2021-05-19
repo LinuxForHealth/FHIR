@@ -323,4 +323,31 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
         int expirySeconds = FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/core/cos/presignedExpiry", 86400);
         return Math.max(1, expirySeconds);
     }
+
+    @Override
+    public String getDefaultImportProvider() {
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/defaultImportProvider", "default");
+    }
+
+    @Override
+    public String getDefaultExportProvider() {
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/defaultExportProvider", "default");
+    }
+
+    @Override
+    public String getOperationOutcomeProvider(String provider) {
+        String outcomeProvider = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/operationOutcomeProvider", null);
+
+        // now we check the system level
+        if (outcomeProvider == null) {
+            outcomeProvider = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/defaultOutcomeProvider", "default");
+        }
+
+        return outcomeProvider;
+    }
+
+    @Override
+    public boolean hasStorageProvider(String storageProvider) {
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + storageProvider + "/type", null) != null;
+    }
 }
