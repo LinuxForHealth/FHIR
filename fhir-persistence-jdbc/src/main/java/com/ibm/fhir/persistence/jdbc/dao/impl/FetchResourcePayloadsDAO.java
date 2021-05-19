@@ -181,13 +181,11 @@ public class FetchResourcePayloadsDAO {
         final String select = query.toString();
 
         if (logger.isLoggable(Level.FINE)) {
-            Timestamp from = Timestamp.from(fromLastUpdated);
             logger.fine("Resource count query: " + select + "; [" + fromLastUpdated + "]");
         }
 
         try (PreparedStatement ps = c.prepareStatement(select)) {
             int a = 1;
-
 
             // Set the variables marking the start point of the scan
             ps.setTimestamp(a++, Timestamp.from(fromLastUpdated), UTC_CALENDAR);
