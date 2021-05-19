@@ -7,7 +7,6 @@
 package com.ibm.fhir.server.registry;
 
 import static com.ibm.fhir.cache.CacheKey.key;
-import static com.ibm.fhir.cache.util.CacheSupport.createCacheAsMap;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
@@ -24,6 +23,8 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.cache.CacheKey;
+import com.ibm.fhir.cache.CacheManager;
+import com.ibm.fhir.cache.CacheManager.Configuration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
@@ -44,9 +45,10 @@ import com.ibm.fhir.search.util.SearchUtil;
 public class ServerRegistryResourceProvider extends AbstractRegistryResourceProvider {
     public static final Logger log = Logger.getLogger(ServerRegistryResourceProvider.class.getName());
 
-    private final PersistenceHelper persistenceHelper;
+    public static final String REGISTRY_RESOURCE_CACHE_NAME = "com.ibm.fhir.server.registry.ServerRegistryResourceProvider.registryResourceCache";
+    public static final Configuration REGISTRY_RESOURCE_CACHE_CONFIGURATION = Configuration.of(1024, Duration.of(1, ChronoUnit.MINUTES));
 
-    private final Map<CacheKey, List<FHIRRegistryResource>> registryResourceCache = createCacheAsMap(1024, Duration.of(1, ChronoUnit.MINUTES));
+    private final PersistenceHelper persistenceHelper;
 
     public ServerRegistryResourceProvider(PersistenceHelper persistenceHelper) {
         try {
@@ -58,10 +60,10 @@ public class ServerRegistryResourceProvider extends AbstractRegistryResourceProv
 
     @Override
     protected List<FHIRRegistryResource> getRegistryResources(Class<? extends Resource> resourceType, String url) {
-        String tenantId = FHIRRequestContext.get().getTenantId();
         String dataStoreId = FHIRRequestContext.get().getDataStoreId();
-        CacheKey key = key(tenantId, dataStoreId, url);
-        return registryResourceCache.computeIfAbsent(key, k -> computeRegistryResources(resourceType, url));
+        CacheKey key = key(dataStoreId, url);
+        Map<CacheKey, List<FHIRRegistryResource>> cacheAsMap = CacheManager.getCacheAsMap(REGISTRY_RESOURCE_CACHE_NAME, REGISTRY_RESOURCE_CACHE_CONFIGURATION);
+        return cacheAsMap.computeIfAbsent(key, k -> computeRegistryResources(resourceType, url));
     }
 
     @Override

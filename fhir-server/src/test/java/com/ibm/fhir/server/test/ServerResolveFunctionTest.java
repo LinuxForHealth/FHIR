@@ -161,6 +161,7 @@ public class ServerResolveFunctionTest {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         EvaluationContext evaluationContext = new EvaluationContext(observation);
 
+        evaluationContext.setExternalConstant(ResolveFunction.RESOLVE_RELATIVE_REFERENCES, FHIRPathBooleanValue.TRUE);
         Collection<FHIRPathNode> nodes = evaluator.evaluate(evaluationContext, "subject.resolve() is Patient");
         assertEquals(nodes, SINGLETON_TRUE);
 
@@ -201,6 +202,7 @@ public class ServerResolveFunctionTest {
                     .build())
                 .build();
         evaluationContext = new EvaluationContext(observation);
+        evaluationContext.setExternalConstant(ResolveFunction.RESOLVE_RELATIVE_REFERENCES, FHIRPathBooleanValue.TRUE);
         nodes = evaluator.evaluate(evaluationContext, "subject.resolve() is Patient");
         assertEquals(nodes, SINGLETON_TRUE);
 
@@ -215,6 +217,7 @@ public class ServerResolveFunctionTest {
                     .build())
                 .build();
         evaluationContext = new EvaluationContext(observation);
+        evaluationContext.setExternalConstant(ResolveFunction.RESOLVE_RELATIVE_REFERENCES, FHIRPathBooleanValue.TRUE);
         nodes = evaluator.evaluate(evaluationContext, "subject.resolve() is Patient");
         assertEquals(nodes, SINGLETON_TRUE);
 
@@ -229,6 +232,7 @@ public class ServerResolveFunctionTest {
                     .build())
                 .build();
         evaluationContext = new EvaluationContext(observation);
+        evaluationContext.setExternalConstant(ResolveFunction.RESOLVE_RELATIVE_REFERENCES, FHIRPathBooleanValue.TRUE);
         nodes = evaluator.evaluate(evaluationContext, "subject.resolve() is Patient");
         assertEquals(nodes, SINGLETON_TRUE);
 
@@ -243,6 +247,7 @@ public class ServerResolveFunctionTest {
                     .build())
                 .build();
         evaluationContext = new EvaluationContext(observation);
+        evaluationContext.setExternalConstant(ResolveFunction.RESOLVE_RELATIVE_REFERENCES, FHIRPathBooleanValue.TRUE);
         nodes = evaluator.evaluate(evaluationContext, "subject.resolve() is Patient");
         assertEquals(nodes, SINGLETON_TRUE);
 

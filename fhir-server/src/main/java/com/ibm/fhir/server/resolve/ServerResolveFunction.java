@@ -34,7 +34,7 @@ import com.ibm.fhir.persistence.helper.PersistenceHelper;
 import com.ibm.fhir.search.util.ReferenceUtil;
 
 public class ServerResolveFunction extends ResolveFunction {
-    public static final Logger log = Logger.getLogger(ServerResolveFunction.class.getName());
+    private static final Logger log = Logger.getLogger(ServerResolveFunction.class.getName());
 
     public static final String RESOURCE_CACHE_NAME = "com.ibm.fhir.server.resolve.ServerResolveFunction.resourceCache";
 

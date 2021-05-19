@@ -30,7 +30,7 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 
 public class ResolveFunction extends FHIRPathAbstractFunction {
     public static final String RESOLVE_RELATIVE_REFERENCES = "resolveRelativeReferences";
-    public static final boolean DEFAULT_RESOLVE_RELATIVE_REFERENCES = true;
+    public static final boolean DEFAULT_RESOLVE_RELATIVE_REFERENCES = false;
 
     private static final int BASE_URL_GROUP = 1;
     private static final int RESOURCE_TYPE_GROUP = 4;
