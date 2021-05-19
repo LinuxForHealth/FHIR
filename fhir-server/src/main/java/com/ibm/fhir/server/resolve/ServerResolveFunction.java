@@ -37,8 +37,8 @@ public class ServerResolveFunction extends ResolveFunction {
     private static final Logger log = Logger.getLogger(ServerResolveFunction.class.getName());
 
     public static final String RESOURCE_CACHE_NAME = "com.ibm.fhir.server.resolve.ServerResolveFunction.resourceCache";
+    public static final Configuration RESOURCE_CACHE_CONFIGURATION = Configuration.of(Duration.of(1, ChronoUnit.MINUTES));
 
-    private static final Configuration RESOURCE_CACHE_CONFIGURATION = Configuration.of(Duration.of(1, ChronoUnit.MINUTES));
     private static final String VREAD = "vread";
     private static final String READ = "read";
     private static final Object NULL = new Object();
