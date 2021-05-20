@@ -57,7 +57,7 @@ services:
     command: bash -c "
       java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
         --db-type postgresql --prop db.host=postgres --prop db.port=5432 --prop db.database=fhirdb --prop user=fhiradmin --prop password=change-password
-        --prop resourceTypes=AllergyIntolerance,CarePlan,CareTeam,CodeSystem,Condition,Coverage,Device,DiagnosticReport,DocumentReference,Encounter,ExplanationOfBenefit,Goal,Group,Immunization,List,Location,Medication,MedicationAdministration,MedicationDispense,MedicationRequest,Observation,Organization,Patient,Practitioner,PractitionerRole,Procedure,Provenance,StructureDefinition,ValueSet
+        --prop resourceTypes=AllergyIntolerance,CarePlan,CareTeam,CodeSystem,Condition,Consent,Coverage,Device,DiagnosticReport,DocumentReference,Encounter,ExplanationOfBenefit,Goal,Group,Immunization,List,Location,Medication,MedicationAdministration,MedicationDispense,MedicationRequest,MedicationStatement,Observation,Organization,Patient,Practitioner,PractitionerRole,Procedure,Provenance,StructureDefinition,ValueSet
         --update-schema --grant-to fhirserver &&
       /opt/ol/wlp/bin/server run"
     healthcheck:
