@@ -66,4 +66,6 @@ To speed up the schema deployment and keep the schema size down, this demo envir
 * StructureDefinition
 * ValueSet
 
-To adjust the list of supported resource types, change the `resourceTypes` property in start command of the fhir-server in docker-compose.yml.
+To adjust the list of supported resource types, change the `resourceTypes` property in start command of the fhir-server in docker-compose.yml. To support all resource types, you can omit the resourceTypes property entirely.
+
+In addition, the set of supported resource endpoints must be adjusted in the server config at `fhir/config/default/fhir-server-config.json`. Add entries for each resource type you wish to support, or set `fhirServer/resources/open` to `true` to support all resource types. See the [User's Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#412-fhir-rest-api) for more information.
