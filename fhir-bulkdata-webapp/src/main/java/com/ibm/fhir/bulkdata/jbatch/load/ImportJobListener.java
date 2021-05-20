@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javax.batch.api.listener.JobListener;
 import javax.batch.operations.JobOperator;
 import javax.batch.runtime.BatchRuntime;
+import javax.batch.runtime.BatchStatus;
 import javax.batch.runtime.JobExecution;
 import javax.batch.runtime.context.JobContext;
 import javax.enterprise.context.Dependent;
@@ -48,6 +49,11 @@ public class ImportJobListener implements JobListener {
 
     @Override
     public void afterJob() {
+        if (BatchStatus.FAILED.equals(jobCtx.getBatchStatus())) {
+
+            return;
+        }
+
         long executionId = -1;
         try {
             executionId = jobCtx.getExecutionId();
