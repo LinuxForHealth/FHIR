@@ -8,13 +8,22 @@
 -- Procedure to add a resource version and its associated parameters. These
 -- parameters only ever point to the latest version of a resource, never to
 -- previous versions, which are kept to support history queries.
--- p_logical_id:  the logical id given to the resource by the FHIR server
--- p_payload:     the BLOB (of JSON) which is the resource content
--- p_last_updated the last_updated time given by the FHIR server
--- p_is_deleted:  the soft delete flag
--- p_version:     the intended version id for this resource
--- o_logical_resource_id: output field returning the newly assigned logical_resource_id value
--- o_resource_id: output field returning the newly assigned resource_id value
+-- implNote - Conventions:
+--           p_... prefix used to represent input parameters
+--           v_... prefix used to represent declared variables
+--           c_... prefix used to represent conditions
+--           o_... predix used to represent output parameters
+-- Parameters:
+--   p_logical_id:  the logical id given to the resource by the FHIR server
+--   p_payload:     the BLOB (of JSON) which is the resource content
+--   p_last_updated the last_updated time given by the FHIR server
+--   p_is_deleted:  the soft delete flag
+--   p_version:     the intended version id for this resource
+--   o_logical_resource_id: output field returning the newly assigned logical_resource_id value
+--   o_resource_id: output field returning the newly assigned resource_id value
+-- Exceptions:
+--   SQLSTATE 99001: on version conflict (concurrency)
+--   SQLSTATE 99002: missing expected row (data integrity)
 -- ----------------------------------------------------------------------------
     ( IN p_resource_type                VARCHAR( 36 OCTETS),
       IN p_logical_id                   VARCHAR(255 OCTETS), 
