@@ -1,0 +1,13 @@
+{
+    "__comment": "FHIR Server configuration",
+    "fhirServer": {
+        "resources": {
+            "open": true,
+            "FamilyMemberHistory": {
+                "searchParameters": {
+                    "code": "http://hl7.org/fhir/SearchParameter/clinical-code"
+                }
+            }
+        }
+    }
+}
