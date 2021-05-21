@@ -12,7 +12,7 @@
 -- p_payload:    the BLOB (of JSON) which is the resource content
 -- p_last_updated the last_updated time given by the FHIR server
 -- p_is_deleted: the soft delete flag
--- p_version_id: the version id if this is a replicated message
+-- p_version_id: the intended new version id of the resource (matching the JSON payload)
 -- o_resource_id: output field returning the newly assigned resource_id value
 -- ----------------------------------------------------------------------------
     ( IN p_resource_type                 VARCHAR( 36),
@@ -35,8 +35,7 @@
   v_resource_type_id        INT := NULL;
   v_new_resource            INT := 0;
   v_duplicate               INT := 0;
-  v_version                 INT := 0;
-  v_insert_version          INT := 0;
+  v_current_version         INT := 0;
   v_change_type            CHAR(1) := NULL;
   
   -- Because we don't really update any existing key, so use NO KEY UPDATE to achieve better concurrence performance. 
@@ -73,7 +72,7 @@ BEGIN
       -- we created the logical resource and therefore we already own the lock. So now we can
       -- safely create the corresponding record in the resource-type-specific logical_resources table
       EXECUTE 'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_logical_resources (logical_resource_id, logical_id, is_deleted, last_updated, version_id) '
-      || '     VALUES ($1, $2, $3, $4, 1)' USING v_logical_resource_id, p_logical_id, p_is_deleted, p_last_updated;
+      || '     VALUES ($1, $2, $3, $4, $5)' USING v_logical_resource_id, p_logical_id, p_is_deleted, p_last_updated, p_version;
       v_new_resource := 1;
     ELSE
       v_logical_resource_id := t_logical_resource_id;
@@ -85,77 +84,44 @@ BEGIN
     -- as this is an existing resource, we need to know the current resource id.
     -- This is only available at the resource-specific logical_resources level
     EXECUTE
-         'SELECT current_resource_id FROM ' || v_schema_name || '.' || p_resource_type || '_logical_resources '
+         'SELECT current_resource_id, version_id FROM ' || v_schema_name || '.' || p_resource_type || '_logical_resources '
       || ' WHERE logical_resource_id = $1 '
-    INTO v_current_resource_id USING v_logical_resource_id;
+    INTO v_current_resource_id, v_current_version USING v_logical_resource_id;
     
-    IF v_current_resource_id IS NULL
+    IF v_current_resource_id IS NULL OR v_current_version IS NULL
     THEN
         -- our concurrency protection means that this shouldn't happen
         RAISE 'Schema data corruption - missing logical resource' USING ERRCODE = '99002';
     END IF;
-  
-    -- resource exists, so if we are storing a specific version, do a quick check to make
-    -- sure that this version doesn't currently exist. This is only done when processing
-    -- custom operations which explicitly provide a version
-    IF p_version IS NOT NULL
+
+    -- Concurrency check:
+    --   the version parameter we've been given (which is also embedded in the JSON payload) must be 
+    --   one greater than the current version, otherwise we've hit a concurrent update race condition
+    IF p_version != v_current_version + 1
     THEN
-      EXECUTE
-         'SELECT resource_id FROM ' || v_schema_name || '.' || p_resource_type || '_resources dr '
-      || ' WHERE dr.logical_resource_id = $1 '
-      || '   AND dr.version_id = $2 '
-      INTO v_resource_id USING v_logical_resource_id, p_version;
-
-      IF v_resource_id IS NOT NULL
-      THEN
-        -- this version of this resource already exists, so we bail out right away (we
-        -- don't allow any updating of an existing resource version)
-        o_logical_resource_id := v_logical_resource_id;
-        RETURN;
-      END IF;
+      RAISE 'Concurrent update - mismatch of version in JSON' USING ERRCODE = '99001';
     END IF;
-
-    -- Grab the version_id for the current version
-    EXECUTE
-      'SELECT version_id FROM ' || v_schema_name || '.' || p_resource_type || '_resources '
-    || ' WHERE resource_id = $1 '
-      INTO v_version USING v_current_resource_id;
-
-    -- If we have been passed a version number, this means that this is a custom ops
-    -- resource, and so we only need to delete parameters if the given version is later 
-    -- than the current version. This allows versions (from custom ops)
-    -- to arrive out of order, and we're just filling in the gaps
-    IF p_version IS NULL OR p_version > v_version
-    THEN
-      -- existing resource, so need to delete all its parameters. 
-      -- TODO patch parameter sets instead of all delete/all insert.
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_str_values          WHERE logical_resource_id = $1'
-        USING v_logical_resource_id;
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_number_values       WHERE logical_resource_id = $1'
-        USING v_logical_resource_id;
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_date_values         WHERE logical_resource_id = $1'
-        USING v_logical_resource_id;
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_latlng_values       WHERE logical_resource_id = $1'
-        USING v_logical_resource_id;
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_resource_token_refs WHERE logical_resource_id = $1'
-        USING v_logical_resource_id;
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_quantity_values     WHERE logical_resource_id = $1'
-        USING v_logical_resource_id;
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'str_values           WHERE logical_resource_id = $1'
-        USING v_logical_resource_id;
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'date_values          WHERE logical_resource_id = $1'
-        USING v_logical_resource_id;
-      EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'resource_token_refs  WHERE logical_resource_id = $1'
-        USING v_logical_resource_id;
-    END IF;
-  END IF;
-
-  -- Persist the data using the given version number if required
-  IF p_version IS NOT NULL
-  THEN
-    v_insert_version := p_version;
-  ELSE
-    v_insert_version := v_version + 1;
+    
+    -- existing resource, so need to delete all its parameters. 
+    -- TODO patch parameter sets instead of all delete/all insert.
+    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_str_values          WHERE logical_resource_id = $1'
+      USING v_logical_resource_id;
+    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_number_values       WHERE logical_resource_id = $1'
+      USING v_logical_resource_id;
+    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_date_values         WHERE logical_resource_id = $1'
+      USING v_logical_resource_id;
+    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_latlng_values       WHERE logical_resource_id = $1'
+      USING v_logical_resource_id;
+    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_resource_token_refs WHERE logical_resource_id = $1'
+      USING v_logical_resource_id;
+    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_quantity_values     WHERE logical_resource_id = $1'
+      USING v_logical_resource_id;
+    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'str_values           WHERE logical_resource_id = $1'
+      USING v_logical_resource_id;
+    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'date_values          WHERE logical_resource_id = $1'
+      USING v_logical_resource_id;
+    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'resource_token_refs  WHERE logical_resource_id = $1'
+      USING v_logical_resource_id;
   END IF;
 
   -- Create the new resource version.
@@ -165,17 +131,12 @@ BEGIN
   EXECUTE
          'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_resources (resource_id, logical_resource_id, version_id, data, last_updated, is_deleted) '
       || ' VALUES ($1, $2, $3, $4, $5, $6)'
-    USING v_resource_id, v_logical_resource_id, v_insert_version, p_payload, p_last_updated, p_is_deleted;
+    USING v_resource_id, v_logical_resource_id, p_version, p_payload, p_last_updated, p_is_deleted;
 
-  IF p_version IS NULL OR p_version > v_version
-  THEN
-    -- only update the logical resource if the resource we are adding supercedes the
-    -- the current resource. mt_id isn't needed here...implied via permission
-    EXECUTE 'UPDATE ' || v_schema_name || '.' || p_resource_type || '_logical_resources SET current_resource_id = $1, is_deleted = $2, last_updated = $3, version_id = $4 WHERE logical_resource_id = $5'
-      USING v_resource_id, p_is_deleted, p_last_updated, v_insert_version, v_logical_resource_id;
-  END IF;
+  -- align the values in xx_logical_resources to the latest resource version
+  EXECUTE 'UPDATE ' || v_schema_name || '.' || p_resource_type || '_logical_resources SET current_resource_id = $1, is_deleted = $2, last_updated = $3, version_id = $4 WHERE logical_resource_id = $5'
+    USING v_resource_id, p_is_deleted, p_last_updated, p_version, v_logical_resource_id;
 
-  
   -- Finally, write a record to RESOURCE_CHANGE_LOG which records each event
   -- related to resources changes (issue-1955)
   IF p_is_deleted = 'Y'
@@ -191,7 +152,7 @@ BEGIN
   END IF;
 
   INSERT INTO {{SCHEMA_NAME}}.resource_change_log(resource_id, change_tstamp, resource_type_id, logical_resource_id, version_id, change_type)
-       VALUES (v_resource_id, p_last_updated, v_resource_type_id, v_logical_resource_id, v_insert_version, v_change_type);
+       VALUES (v_resource_id, p_last_updated, v_resource_type_id, v_logical_resource_id, p_version, v_change_type);
   
   -- Hand back the id of the logical resource we created earlier. In the new R4 schema
   -- only the logical_resource_id is the target of any FK, so there's no need to return
