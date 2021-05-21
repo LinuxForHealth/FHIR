@@ -9,13 +9,20 @@ package com.ibm.fhir.search.location;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 
+import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
@@ -28,8 +35,38 @@ import com.ibm.fhir.search.util.SearchUtil;
  * Test the BoundingBox
  * Verified using https://www.geodatasource.com/distance-calculator
  */
+@Test
 public class NearLocationHandlerBoundingBoxTest {
+    @BeforeClass
+    public void setup() {
+        FHIRConfiguration.setConfigHome("src/test/resources");
+    }
 
+    @BeforeMethod
+    public void startMethod(Method method) throws FHIRException {
+        // Configure the request context for our search tests
+        FHIRRequestContext context = FHIRRequestContext.get();
+        if (context == null) {
+            context = new FHIRRequestContext();
+        }
+        FHIRRequestContext.set(context);
+
+        //Facilitate the switching of tenant configurations based on method name
+        String tenant = "default";
+        String methodName = method.getName();
+        if (methodName.contains("_tenant_")) {
+            int idx = methodName.indexOf("_tenant_") + "_tenant_".length();
+            tenant = methodName.substring(idx);
+        }
+        context.setTenantId(tenant);
+
+        context.setOriginalRequestUri("https://localhost:9443/fhir-server/api/v4");
+    }
+
+    @AfterMethod
+    public void clearThreadLocal() {
+        FHIRRequestContext.remove();
+    }
     @Test
     public void testLocationBoundaryExample() throws FHIRSearchException {
         double latitude = 40;
@@ -47,7 +84,7 @@ public class NearLocationHandlerBoundingBoxTest {
 
         // The resulting diagnoal is ~2807.48 km
         // The side of the square is 1986 km.
-        // The error is roughly .7% 
+        // The error is roughly .7%
     }
 
     @Test
@@ -91,7 +128,7 @@ public class NearLocationHandlerBoundingBoxTest {
         NearLocationHandler handler = new NearLocationHandler();
         BoundingBox boundingBox = handler.createBoundingBox(latitude, longitude, distance, unit);
         assertNotNull(boundingBox);
-        // At the high latitudes it's going to cover most of the area. 
+        // At the high latitudes it's going to cover most of the area.
         assertEquals(boundingBox.getMinLatitude(), Double.valueOf("89.99098662700558"));
         assertEquals(boundingBox.getMinLongitude(), Double.valueOf("-180.0"));
         assertEquals(boundingBox.getMaxLatitude(), Double.valueOf("90.0"));
@@ -108,7 +145,7 @@ public class NearLocationHandlerBoundingBoxTest {
         NearLocationHandler handler = new NearLocationHandler();
         BoundingBox boundingBox = handler.createBoundingBox(latitude, longitude, distance, unit);
         assertNotNull(boundingBox);
-        // At the low latitudes it's going to cover most of the area. 
+        // At the low latitudes it's going to cover most of the area.
         assertEquals(boundingBox.getMinLatitude(), Double.valueOf("-90.0"));
         assertEquals(boundingBox.getMinLongitude(), Double.valueOf("-180.0"));
         assertEquals(boundingBox.getMaxLatitude(), Double.valueOf("-89.99098662700558"));
@@ -127,7 +164,7 @@ public class NearLocationHandlerBoundingBoxTest {
     }
 
     @Test
-    public void testLocationBoundaryPositionsFromParameters() throws Exception {
+    public void testLocationBoundaryPositionsFromParameters_tenant_near() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>(1);
         queryParms.put("near", Collections.singletonList("-90.0|0.0|1.0|km"));
         FHIRSearchContext ctx = SearchUtil.parseQueryParameters(Location.class, queryParms, true);
@@ -136,7 +173,7 @@ public class NearLocationHandlerBoundingBoxTest {
         assertNotNull(bounding);
 
         BoundingBox boundingBox = (BoundingBox) bounding.get(0);
-        // At the low latitudes it's going to cover most of the area. 
+        // At the low latitudes it's going to cover most of the area.
         assertEquals(boundingBox.getMinLatitude(), Double.valueOf("-90.0"));
         assertEquals(boundingBox.getMinLongitude(), Double.valueOf("-180.0"));
         assertEquals(boundingBox.getMaxLatitude(), Double.valueOf("-89.99098662700558"));
