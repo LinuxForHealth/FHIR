@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -290,15 +291,15 @@ public class Capabilities extends FHIRResource {
         }
 
         // Build the lists of operations that are supported
-        List<OperationDefinition> systemOps = new ArrayList<>();
-        Map<ResourceType.Value, List<OperationDefinition>> typeOps = new HashMap<>();
+        Set<OperationDefinition> systemOps = new LinkedHashSet<>();
+        Map<ResourceType.Value, Set<OperationDefinition>> typeOps = new HashMap<>();
 
         FHIROperationRegistry opRegistry = FHIROperationRegistry.getInstance();
         List<String> operationNames = opRegistry.getOperationNames();
         for (String opName : operationNames) {
             FHIROperation operation = opRegistry.getOperation(opName);
             OperationDefinition opDef = operation.getDefinition();
-            if (opDef.getSystem().getValue()) {
+            if (opDef.getSystem().getValue().booleanValue()) {
                 systemOps.add(opDef);
             }
             for (ResourceType resourceType : opDef.getResource()) {
@@ -306,7 +307,7 @@ public class Capabilities extends FHIRResource {
                 if (typeOps.containsKey(typeValue)) {
                     typeOps.get(typeValue).add(opDef);
                 } else {
-                    List<OperationDefinition> typeOpList = new ArrayList<>();
+                    Set<OperationDefinition> typeOpList = new LinkedHashSet<>();
                     typeOpList.add(opDef);
                     typeOps.put(typeValue, typeOpList);
                 }
@@ -657,8 +658,11 @@ public class Capabilities extends FHIRResource {
         }
     }
 
-    private List<Rest.Resource.Operation> mapOperationDefinitionsToRestOperations(List<OperationDefinition> opDefs) {
-        if (opDefs == null) {
+    private List<Rest.Resource.Operation> mapOperationDefinitionsToRestOperations(Set<OperationDefinition> inOpDefs) {
+        List<OperationDefinition> opDefs = new ArrayList<>();
+        if (inOpDefs != null) {
+            opDefs = new ArrayList<>(inOpDefs);
+        } else {
             return new ArrayList<>();
         }
 
