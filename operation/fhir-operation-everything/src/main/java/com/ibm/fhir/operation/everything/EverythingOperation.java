@@ -160,8 +160,7 @@ public class EverythingOperation extends AbstractOperation {
          * @see Issue #2402 for more details.
          */
         if (logicalId == null) {
-            FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Search for Patients the Patient is related to is not supported", IssueType.NOT_SUPPORTED);
-            throw exceptionWithIssue;
+            throw buildExceptionWithIssue("Search for Patients the Patient is related to is not supported", IssueType.NOT_SUPPORTED);
         }
 
         Patient patient = null;
