@@ -108,8 +108,6 @@ public class InsurancePlan extends DomainResource {
     private final List<Coverage> coverage;
     private final List<Plan> plan;
 
-    private volatile int hashCode;
-
     private InsurancePlan(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1089,8 +1087,6 @@ public class InsurancePlan extends DomainResource {
         private final List<ContactPoint> telecom;
         private final Address address;
 
-        private volatile int hashCode;
-
         private Contact(Builder builder) {
             super(builder);
             purpose = builder.purpose;
@@ -1435,8 +1431,6 @@ public class InsurancePlan extends DomainResource {
         private final List<Reference> network;
         @Required
         private final List<Benefit> benefit;
-
-        private volatile int hashCode;
 
         private Coverage(Builder builder) {
             super(builder);
@@ -1794,8 +1788,6 @@ public class InsurancePlan extends DomainResource {
             private final String requirement;
             private final List<Limit> limit;
 
-            private volatile int hashCode;
-
             private Benefit(Builder builder) {
                 super(builder);
                 type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -2112,8 +2104,6 @@ public class InsurancePlan extends DomainResource {
                 private final Quantity value;
                 private final CodeableConcept code;
 
-                private volatile int hashCode;
-
                 private Limit(Builder builder) {
                     super(builder);
                     value = builder.value;
@@ -2384,8 +2374,6 @@ public class InsurancePlan extends DomainResource {
         private final List<Reference> network;
         private final List<GeneralCost> generalCost;
         private final List<SpecificCost> specificCost;
-
-        private volatile int hashCode;
 
         private Plan(Builder builder) {
             super(builder);
@@ -2896,8 +2884,6 @@ public class InsurancePlan extends DomainResource {
             private final Money cost;
             private final String comment;
 
-            private volatile int hashCode;
-
             private GeneralCost(Builder builder) {
                 super(builder);
                 type = builder.type;
@@ -3220,8 +3206,6 @@ public class InsurancePlan extends DomainResource {
             private final CodeableConcept category;
             private final List<Benefit> benefit;
 
-            private volatile int hashCode;
-
             private SpecificCost(Builder builder) {
                 super(builder);
                 category = ValidationSupport.requireNonNull(builder.category, "category");
@@ -3507,8 +3491,6 @@ public class InsurancePlan extends DomainResource {
                 @Required
                 private final CodeableConcept type;
                 private final List<Cost> cost;
-
-                private volatile int hashCode;
 
                 private Benefit(Builder builder) {
                     super(builder);
@@ -3805,8 +3787,6 @@ public class InsurancePlan extends DomainResource {
                     private final CodeableConcept applicability;
                     private final List<CodeableConcept> qualifiers;
                     private final Quantity value;
-
-                    private volatile int hashCode;
 
                     private Cost(Builder builder) {
                         super(builder);

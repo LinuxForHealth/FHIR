@@ -56,8 +56,6 @@ public class ContactPoint extends Element {
     @Summary
     private final Period period;
 
-    private volatile int hashCode;
-
     private ContactPoint(Builder builder) {
         super(builder);
         system = builder.system;

@@ -28,8 +28,6 @@ public class Xhtml extends Element {
     @Required
     private final java.lang.String value;
 
-    private volatile int hashCode;
-
     private Xhtml(Builder builder) {
         super(builder);
         value = ValidationSupport.requireNonNull(builder.value, "value");

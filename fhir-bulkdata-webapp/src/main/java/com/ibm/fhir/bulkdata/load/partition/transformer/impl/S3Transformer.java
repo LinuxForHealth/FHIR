@@ -55,7 +55,8 @@ public class S3Transformer implements PartitionSourceTransformer {
                 if (isToBeProccessed) {
                     logger.info("ObjectStorge Object -'" + objectSummary.getKey()
                             + "' - '" + objectSummary.getSize() + "' bytes.");
-                    if (objectSummary.getSize() > 0) {
+                    if (objectSummary.getSize() >= 0) {
+                        // We  want these to line up when we align with the output of the Job Listener
                         sources.add(new BulkDataSource(type, objectSummary.getKey()));
                     }
                 }

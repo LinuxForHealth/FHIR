@@ -35,6 +35,11 @@
                 }
             }
         },
+        "core": {
+          "defaultPageSize": 11,
+          "maxPageSize": 1001,
+          "maxPageIncludeCount": 1000
+        },
         "persistence": {
             "datasources": {
                 "profile": {
@@ -49,6 +54,14 @@
                     "type": "derby",
                     "currentSchema": "APP"
                 }
+            }
+        },
+        "operations": {
+            "erase": {
+                "enabled": true,
+                "allowedRoles": [
+                    "FHIROperationAdmin"
+                ]
             }
         }
     }

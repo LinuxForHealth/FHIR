@@ -59,11 +59,6 @@ public class SearchConstants {
     public static final String COMPONENT_PATH_REGEX = "\\.";
     public static final char START_WHERE = '(';
 
-    // This constant represents the maximum _count parameter value.
-    // If the user specifies a value greater than this, we'll just use this value instead.
-    // In the future, we might want to make this value configurable.
-    public static final int MAX_PAGE_SIZE = 1000;
-
     // This constant represents the maximum number of iterations to perform
     // for iterative _include and _revinclude parameters.
     // In the future, we might want to make this value configurable.

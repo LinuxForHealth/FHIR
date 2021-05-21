@@ -59,8 +59,6 @@ public class Identifier extends Element {
     @ReferenceTarget({ "Organization" })
     private final Reference assigner;
 
-    private volatile int hashCode;
-
     private Identifier(Builder builder) {
         super(builder);
         use = builder.use;

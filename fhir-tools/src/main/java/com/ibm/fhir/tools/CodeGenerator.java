@@ -1101,8 +1101,8 @@ public class CodeGenerator {
                 cb.newLine();
             }
 
-            if (!isAbstract(structureDefinition)) {
-                cb.field(mods("private", "volatile"), "int", "hashCode").newLine();
+            if (isAbstract(structureDefinition) && ("Resource".equals(className) || "Element".equals(className))) {
+                cb.field(mods("protected", "volatile"), "int", "hashCode").newLine();
             }
 
             cb.constructor(mods(visibility), className, args("Builder builder"));

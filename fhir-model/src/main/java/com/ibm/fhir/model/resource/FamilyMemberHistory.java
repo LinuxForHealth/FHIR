@@ -151,8 +151,6 @@ public class FamilyMemberHistory extends DomainResource {
     private final List<Annotation> note;
     private final List<Condition> condition;
 
-    private volatile int hashCode;
-
     private FamilyMemberHistory(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1260,8 +1258,6 @@ public class FamilyMemberHistory extends DomainResource {
         @Choice({ Age.class, Range.class, Period.class, String.class })
         private final Element onset;
         private final List<Annotation> note;
-
-        private volatile int hashCode;
 
         private Condition(Builder builder) {
             super(builder);

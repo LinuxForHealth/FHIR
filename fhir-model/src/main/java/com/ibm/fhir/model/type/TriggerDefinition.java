@@ -72,8 +72,6 @@ public class TriggerDefinition extends Element {
     @Summary
     private final Expression condition;
 
-    private volatile int hashCode;
-
     private TriggerDefinition(Builder builder) {
         super(builder);
         type = ValidationSupport.requireNonNull(builder.type, "type");

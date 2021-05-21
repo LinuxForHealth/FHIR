@@ -31,8 +31,6 @@ public class Coding extends Element {
     @Summary
     private final Boolean userSelected;
 
-    private volatile int hashCode;
-
     private Coding(Builder builder) {
         super(builder);
         system = builder.system;

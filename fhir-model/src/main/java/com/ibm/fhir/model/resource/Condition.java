@@ -177,8 +177,6 @@ public class Condition extends DomainResource {
     private final List<Evidence> evidence;
     private final List<Annotation> note;
 
-    private volatile int hashCode;
-
     private Condition(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1218,8 +1216,6 @@ public class Condition extends DomainResource {
         )
         private final CodeableConcept type;
 
-        private volatile int hashCode;
-
         private Stage(Builder builder) {
             super(builder);
             summary = builder.summary;
@@ -1553,8 +1549,6 @@ public class Condition extends DomainResource {
         private final List<CodeableConcept> code;
         @Summary
         private final List<Reference> detail;
-
-        private volatile int hashCode;
 
         private Evidence(Builder builder) {
             super(builder);

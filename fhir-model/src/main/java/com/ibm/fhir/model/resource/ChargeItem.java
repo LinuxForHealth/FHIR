@@ -142,8 +142,6 @@ public class ChargeItem extends DomainResource {
     private final List<Annotation> note;
     private final List<Reference> supportingInformation;
 
-    private volatile int hashCode;
-
     private ChargeItem(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1608,8 +1606,6 @@ public class ChargeItem extends DomainResource {
         @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "Device", "RelatedPerson" })
         @Required
         private final Reference actor;
-
-        private volatile int hashCode;
 
         private Performer(Builder builder) {
             super(builder);

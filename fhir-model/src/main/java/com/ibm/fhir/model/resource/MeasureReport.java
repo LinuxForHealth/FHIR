@@ -128,8 +128,6 @@ public class MeasureReport extends DomainResource {
     private final List<Group> group;
     private final List<Reference> evaluatedResource;
 
-    private volatile int hashCode;
-
     private MeasureReport(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -889,8 +887,6 @@ public class MeasureReport extends DomainResource {
         private final Quantity measureScore;
         private final List<Stratifier> stratifier;
 
-        private volatile int hashCode;
-
         private Group(Builder builder) {
             super(builder);
             code = builder.code;
@@ -1265,8 +1261,6 @@ public class MeasureReport extends DomainResource {
             @ReferenceTarget({ "List" })
             private final Reference subjectResults;
 
-            private volatile int hashCode;
-
             private Population(Builder builder) {
                 super(builder);
                 code = builder.code;
@@ -1564,8 +1558,6 @@ public class MeasureReport extends DomainResource {
         public static class Stratifier extends BackboneElement {
             private final List<CodeableConcept> code;
             private final List<Stratum> stratum;
-
-            private volatile int hashCode;
 
             private Stratifier(Builder builder) {
                 super(builder);
@@ -1870,8 +1862,6 @@ public class MeasureReport extends DomainResource {
                 private final List<Component> component;
                 private final List<Population> population;
                 private final Quantity measureScore;
-
-                private volatile int hashCode;
 
                 private Stratum(Builder builder) {
                     super(builder);
@@ -2239,8 +2229,6 @@ public class MeasureReport extends DomainResource {
                     @Required
                     private final CodeableConcept value;
 
-                    private volatile int hashCode;
-
                     private Component(Builder builder) {
                         super(builder);
                         code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -2517,8 +2505,6 @@ public class MeasureReport extends DomainResource {
                     private final Integer count;
                     @ReferenceTarget({ "List" })
                     private final Reference subjectResults;
-
-                    private volatile int hashCode;
 
                     private Population(Builder builder) {
                         super(builder);

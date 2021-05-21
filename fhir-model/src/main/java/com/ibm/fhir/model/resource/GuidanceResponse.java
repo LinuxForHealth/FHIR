@@ -87,8 +87,6 @@ public class GuidanceResponse extends DomainResource {
     private final Reference result;
     private final List<DataRequirement> dataRequirement;
 
-    private volatile int hashCode;
-
     private GuidanceResponse(Builder builder) {
         super(builder);
         requestIdentifier = builder.requestIdentifier;

@@ -82,8 +82,6 @@ public class SpecimenDefinition extends DomainResource {
     private final List<CodeableConcept> collection;
     private final List<TypeTested> typeTested;
 
-    private volatile int hashCode;
-
     private SpecimenDefinition(Builder builder) {
         super(builder);
         identifier = builder.identifier;
@@ -660,8 +658,6 @@ public class SpecimenDefinition extends DomainResource {
         private final List<CodeableConcept> rejectionCriterion;
         private final List<Handling> handling;
 
-        private volatile int hashCode;
-
         private TypeTested(Builder builder) {
             super(builder);
             isDerived = builder.isDerived;
@@ -1183,8 +1179,6 @@ public class SpecimenDefinition extends DomainResource {
             private final List<Additive> additive;
             private final String preparation;
 
-            private volatile int hashCode;
-
             private Container(Builder builder) {
                 super(builder);
                 material = builder.material;
@@ -1667,8 +1661,6 @@ public class SpecimenDefinition extends DomainResource {
                 @Required
                 private final Element additive;
 
-                private volatile int hashCode;
-
                 private Additive(Builder builder) {
                     super(builder);
                     additive = ValidationSupport.requireChoiceElement(builder.additive, "additive", CodeableConcept.class, Reference.class);
@@ -1927,8 +1919,6 @@ public class SpecimenDefinition extends DomainResource {
             private final Range temperatureRange;
             private final Duration maxDuration;
             private final String instruction;
-
-            private volatile int hashCode;
 
             private Handling(Builder builder) {
                 super(builder);

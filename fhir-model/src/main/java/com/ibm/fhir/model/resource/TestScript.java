@@ -243,8 +243,6 @@ public class TestScript extends DomainResource {
     private final List<Test> test;
     private final Teardown teardown;
 
-    private volatile int hashCode;
-
     private TestScript(Builder builder) {
         super(builder);
         url = ValidationSupport.requireNonNull(builder.url, "url");
@@ -1525,8 +1523,6 @@ public class TestScript extends DomainResource {
         @Required
         private final Coding profile;
 
-        private volatile int hashCode;
-
         private Origin(Builder builder) {
             super(builder);
             index = ValidationSupport.requireNonNull(builder.index, "index");
@@ -1804,8 +1800,6 @@ public class TestScript extends DomainResource {
         @Required
         private final Coding profile;
 
-        private volatile int hashCode;
-
         private Destination(Builder builder) {
             super(builder);
             index = ValidationSupport.requireNonNull(builder.index, "index");
@@ -2075,8 +2069,6 @@ public class TestScript extends DomainResource {
         private final List<Link> link;
         @Required
         private final List<Capability> capability;
-
-        private volatile int hashCode;
 
         private Metadata(Builder builder) {
             super(builder);
@@ -2386,8 +2378,6 @@ public class TestScript extends DomainResource {
             private final Uri url;
             private final String description;
 
-            private volatile int hashCode;
-
             private Link(Builder builder) {
                 super(builder);
                 url = ValidationSupport.requireNonNull(builder.url, "url");
@@ -2661,8 +2651,6 @@ public class TestScript extends DomainResource {
             private final List<Uri> link;
             @Required
             private final Canonical capabilities;
-
-            private volatile int hashCode;
 
             private Capability(Builder builder) {
                 super(builder);
@@ -3141,8 +3129,6 @@ public class TestScript extends DomainResource {
         private final Boolean autodelete;
         private final Reference resource;
 
-        private volatile int hashCode;
-
         private Fixture(Builder builder) {
             super(builder);
             autocreate = ValidationSupport.requireNonNull(builder.autocreate, "autocreate");
@@ -3457,8 +3443,6 @@ public class TestScript extends DomainResource {
         private final String hint;
         private final String path;
         private final Id sourceId;
-
-        private volatile int hashCode;
 
         private Variable(Builder builder) {
             super(builder);
@@ -3916,8 +3900,6 @@ public class TestScript extends DomainResource {
         @Required
         private final List<Action> action;
 
-        private volatile int hashCode;
-
         private Setup(Builder builder) {
             super(builder);
             action = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.action, "action", Action.class));
@@ -4173,8 +4155,6 @@ public class TestScript extends DomainResource {
         public static class Action extends BackboneElement {
             private final Operation operation;
             private final Assert _assert;
-
-            private volatile int hashCode;
 
             private Action(Builder builder) {
                 super(builder);
@@ -4479,8 +4459,6 @@ public class TestScript extends DomainResource {
                 private final Id sourceId;
                 private final Id targetId;
                 private final String url;
-
-                private volatile int hashCode;
 
                 private Operation(Builder builder) {
                     super(builder);
@@ -5240,8 +5218,6 @@ public class TestScript extends DomainResource {
                     @Required
                     private final String value;
 
-                    private volatile int hashCode;
-
                     private RequestHeader(Builder builder) {
                         super(builder);
                         field = ValidationSupport.requireNonNull(builder.field, "field");
@@ -5568,8 +5544,6 @@ public class TestScript extends DomainResource {
                 private final String value;
                 @Required
                 private final Boolean warningOnly;
-
-                private volatile int hashCode;
 
                 private Assert(Builder builder) {
                     super(builder);
@@ -6470,8 +6444,6 @@ public class TestScript extends DomainResource {
         @Required
         private final List<Action> action;
 
-        private volatile int hashCode;
-
         private Test(Builder builder) {
             super(builder);
             name = builder.name;
@@ -6790,8 +6762,6 @@ public class TestScript extends DomainResource {
             private final TestScript.Setup.Action.Operation operation;
             private final TestScript.Setup.Action.Assert _assert;
 
-            private volatile int hashCode;
-
             private Action(Builder builder) {
                 super(builder);
                 operation = builder.operation;
@@ -7052,8 +7022,6 @@ public class TestScript extends DomainResource {
         @Required
         private final List<Action> action;
 
-        private volatile int hashCode;
-
         private Teardown(Builder builder) {
             super(builder);
             action = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.action, "action", Action.class));
@@ -7309,8 +7277,6 @@ public class TestScript extends DomainResource {
         public static class Action extends BackboneElement {
             @Required
             private final TestScript.Setup.Action.Operation operation;
-
-            private volatile int hashCode;
 
             private Action(Builder builder) {
                 super(builder);

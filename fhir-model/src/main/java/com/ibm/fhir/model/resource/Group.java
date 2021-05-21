@@ -96,8 +96,6 @@ public class Group extends DomainResource {
     private final List<Characteristic> characteristic;
     private final List<Member> member;
 
-    private volatile int hashCode;
-
     private Group(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -810,8 +808,6 @@ public class Group extends DomainResource {
         private final Boolean exclude;
         private final Period period;
 
-        private volatile int hashCode;
-
         private Characteristic(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -1157,8 +1153,6 @@ public class Group extends DomainResource {
         private final Reference entity;
         private final Period period;
         private final Boolean inactive;
-
-        private volatile int hashCode;
 
         private Member(Builder builder) {
             super(builder);

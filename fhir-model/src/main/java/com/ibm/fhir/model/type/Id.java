@@ -20,8 +20,6 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Id extends String {
-    private volatile int hashCode;
-
     private Id(Builder builder) {
         super(builder);
         ValidationSupport.checkId(value);

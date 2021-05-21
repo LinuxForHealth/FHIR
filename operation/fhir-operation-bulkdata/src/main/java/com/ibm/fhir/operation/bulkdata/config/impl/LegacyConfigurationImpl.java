@@ -10,7 +10,6 @@ import java.util.Collections;
 import java.util.List;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
-import com.ibm.fhir.search.SearchConstants;
 
 /**
  * Configuration Prior to 4.6, and it will be phased out.
@@ -74,8 +73,8 @@ public class LegacyConfigurationImpl extends AbstractSystemConfigurationImpl {
 
     @Override
     public int getCorePageSize() {
-        int pageSize = FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/patientExportPageSize", SearchConstants.MAX_PAGE_SIZE);
-        return Math.min(SearchConstants.MAX_PAGE_SIZE, pageSize);
+        int pageSize = FHIRConfigHelper.getIntProperty("fhirServer/bulkdata/patientExportPageSize", DEFAULT_PAGE_SIZE);
+        return Math.min(DEFAULT_PAGE_SIZE, pageSize);
     }
 
     @Override

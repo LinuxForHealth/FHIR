@@ -181,8 +181,6 @@ public class ResearchElementDefinition extends DomainResource {
     @Required
     private final List<Characteristic> characteristic;
 
-    private volatile int hashCode;
-
     private ResearchElementDefinition(Builder builder) {
         super(builder);
         url = builder.url;
@@ -1884,8 +1882,6 @@ public class ResearchElementDefinition extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/group-measure|4.0.1"
         )
         private final GroupMeasure participantEffectiveGroupMeasure;
-
-        private volatile int hashCode;
 
         private Characteristic(Builder builder) {
             super(builder);

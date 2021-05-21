@@ -22,8 +22,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Uuid extends Uri {
     private static final Pattern PATTERN = Pattern.compile("urn:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}");
 
-    private volatile int hashCode;
-
     private Uuid(Builder builder) {
         super(builder);
         ValidationSupport.checkValue(value, PATTERN);

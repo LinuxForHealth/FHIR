@@ -139,8 +139,6 @@ public class CarePlan extends DomainResource {
     private final List<Activity> activity;
     private final List<Annotation> note;
 
-    private volatile int hashCode;
-
     private CarePlan(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1597,8 +1595,6 @@ public class CarePlan extends DomainResource {
         private final Reference reference;
         private final Detail detail;
 
-        private volatile int hashCode;
-
         private Activity(Builder builder) {
             super(builder);
             outcomeCodeableConcept = Collections.unmodifiableList(ValidationSupport.checkList(builder.outcomeCodeableConcept, "outcomeCodeableConcept", CodeableConcept.class));
@@ -2088,8 +2084,6 @@ public class CarePlan extends DomainResource {
             private final SimpleQuantity dailyAmount;
             private final SimpleQuantity quantity;
             private final String description;
-
-            private volatile int hashCode;
 
             private Detail(Builder builder) {
                 super(builder);

@@ -54,10 +54,12 @@ import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.JsonSupport;
 import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.path.FHIRPathBooleanValue;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.exception.FHIRPathException;
+import com.ibm.fhir.path.function.ResolveFunction;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Prefix;
@@ -696,6 +698,7 @@ public class SearchUtil {
         // Create one time.
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         EvaluationContext evaluationContext = new EvaluationContext(resource);
+        evaluationContext.setExternalConstant(ResolveFunction.RESOLVE_RELATIVE_REFERENCES, FHIRPathBooleanValue.FALSE);
 
         List<SearchParameter> parameters = getApplicableSearchParameters(resourceType.getSimpleName());
 
@@ -1673,8 +1676,8 @@ public class SearchUtil {
                     context.setSummaryParameter(SummaryValueSet.COUNT);
                 } else {
                     // If the user specified a value > max, then use the max.
-                    if (pageSize > SearchConstants.MAX_PAGE_SIZE) {
-                        pageSize = SearchConstants.MAX_PAGE_SIZE;
+                    if (pageSize > context.getMaxPageSize()) {
+                        pageSize = context.getMaxPageSize();
                     }
                     context.setPageSize(pageSize);
                 }
@@ -2561,6 +2564,7 @@ public class SearchUtil {
 
         try {
             EvaluationContext resourceContext = new FHIRPathEvaluator.EvaluationContext(fhirResource);
+            resourceContext.setExternalConstant(ResolveFunction.RESOLVE_RELATIVE_REFERENCES, FHIRPathBooleanValue.FALSE);
 
             // Extract any references we find matching parameters representing compartment membership.
             // For example CareTeam.participant can be used to refer to a Patient or RelatedPerson resource:
@@ -2800,4 +2804,5 @@ public class SearchUtil {
 
         return result;
     }
+
 }

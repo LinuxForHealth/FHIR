@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,10 +10,7 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,9 +23,6 @@ import com.ibm.fhir.search.test.BaseSearchTest;
 
 /**
  * CompartmentUtil is tested in this class.
- *
- * @author pbastide
- *
  */
 public class CompartmentUtilTest extends BaseSearchTest {
 
@@ -62,7 +56,6 @@ public class CompartmentUtilTest extends BaseSearchTest {
     public void testGetCompartmentResourceTypeDoesNotExist() throws FHIRSearchException {
         // The Compartment Does not Exist Exists
         CompartmentUtil.getCompartmentResourceTypes("FredF");
-
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })
@@ -102,19 +95,6 @@ public class CompartmentUtilTest extends BaseSearchTest {
         List<String> results = CompartmentUtil.getCompartmentResourceTypeInclusionCriteria("Patient", "CommunicationRequest");
         assertNotNull(results);
         assertFalse(results.isEmpty());
-    }
-
-    @Test()
-    public void testBuildCompositeBundle() {
-        try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream(); PrintStream out = new PrintStream(outputStream);) {
-            CompartmentUtil.buildCompositeBundle(out);
-            String o = outputStream.toString("UTF8");
-            assertNotNull(o);
-            assertFalse(o.isEmpty());
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail();
-        }
     }
 
     @Test()

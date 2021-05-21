@@ -100,8 +100,6 @@ public class QuestionnaireResponse extends DomainResource {
     private final Reference source;
     private final List<Item> item;
 
-    private volatile int hashCode;
-
     private QuestionnaireResponse(Builder builder) {
         super(builder);
         identifier = builder.identifier;
@@ -881,8 +879,6 @@ public class QuestionnaireResponse extends DomainResource {
         private final List<Answer> answer;
         private final List<QuestionnaireResponse.Item> item;
 
-        private volatile int hashCode;
-
         private Item(Builder builder) {
             super(builder);
             linkId = ValidationSupport.requireNonNull(builder.linkId, "linkId");
@@ -1287,8 +1283,6 @@ public class QuestionnaireResponse extends DomainResource {
             )
             private final Element value;
             private final List<QuestionnaireResponse.Item> item;
-
-            private volatile int hashCode;
 
             private Answer(Builder builder) {
                 super(builder);

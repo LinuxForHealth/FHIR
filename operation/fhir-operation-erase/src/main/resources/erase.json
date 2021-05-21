@@ -1,0 +1,57 @@
+{
+  "resourceType": "OperationDefinition",
+  "id": "erase",
+  "text": {
+    "status": "generated",
+    "div": "<div xmlns='http://www.w3.org/1999/xhtml'><h2>erase</h2><p>OPERATION: erase</p><p>The erase operation remove a specific resource instance.</p></div>"
+  },
+  "url": "http://ibm.com/fhir/OperationDefinition/erase",
+  "name": "Erase",
+  "status": "draft",
+  "kind": "operation",
+  "publisher": "IBM FHIR Server",
+  "date": "2021-03-17",
+  "description": "The erase operation remove an instance of a resource, or a version of an instance of a resource.",
+  "code": "erase",
+  "system": false,
+  "type": true,
+  "affectsState": true,
+  "instance": true,
+  "resource": [
+    "Resource"
+  ],
+  "parameter": [
+    {
+      "name": "patient",
+      "use": "in",
+      "min": 0,
+      "max": "*",
+      "documentation": "The patient identifier used in audit log. Maximum size is 1024 characters.",
+      "type": "string"
+    },
+    {
+      "name": "reason",
+      "use": "in",
+      "min": 0,
+      "max": "*",
+      "documentation": "The reason for the erasure of the Resource instance and all of its versions. Maximum size is 1024 characters.",
+      "type": "string"
+    },
+    {
+      "name": "id",
+      "use": "in",
+      "min": 0,
+      "max": "*",
+      "documentation": "The specific logicalId that is to be deleted, ignored if $erase is performed on an Resource instance.",
+      "type": "string"
+    },
+    {
+      "name": "version",
+      "use": "in",
+      "min": 0,
+      "max": "*",
+      "documentation": "The specific version that is to be deleted.",
+      "type": "integer"
+    }
+  ]
+}

@@ -60,8 +60,6 @@ public class MedicinalProductIngredient extends DomainResource {
     @Summary
     private final Substance substance;
 
-    private volatile int hashCode;
-
     private MedicinalProductIngredient(Builder builder) {
         super(builder);
         identifier = builder.identifier;
@@ -621,8 +619,6 @@ public class MedicinalProductIngredient extends DomainResource {
         @Summary
         private final List<Strength> strength;
 
-        private volatile int hashCode;
-
         private SpecifiedSubstance(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -985,8 +981,6 @@ public class MedicinalProductIngredient extends DomainResource {
             private final List<CodeableConcept> country;
             @Summary
             private final List<ReferenceStrength> referenceStrength;
-
-            private volatile int hashCode;
 
             private Strength(Builder builder) {
                 super(builder);
@@ -1466,8 +1460,6 @@ public class MedicinalProductIngredient extends DomainResource {
                 @Summary
                 private final List<CodeableConcept> country;
 
-                private volatile int hashCode;
-
                 private ReferenceStrength(Builder builder) {
                     super(builder);
                     substance = builder.substance;
@@ -1851,8 +1843,6 @@ public class MedicinalProductIngredient extends DomainResource {
         private final CodeableConcept code;
         @Summary
         private final List<MedicinalProductIngredient.SpecifiedSubstance.Strength> strength;
-
-        private volatile int hashCode;
 
         private Substance(Builder builder) {
             super(builder);

@@ -214,8 +214,6 @@ public class RiskEvidenceSynthesis extends DomainResource {
     private final RiskEstimate riskEstimate;
     private final List<Certainty> certainty;
 
-    private volatile int hashCode;
-
     private RiskEvidenceSynthesis(Builder builder) {
         super(builder);
         url = builder.url;
@@ -1792,8 +1790,6 @@ public class RiskEvidenceSynthesis extends DomainResource {
         private final Integer numberOfStudies;
         private final Integer numberOfParticipants;
 
-        private volatile int hashCode;
-
         private SampleSize(Builder builder) {
             super(builder);
             description = builder.description;
@@ -2100,8 +2096,6 @@ public class RiskEvidenceSynthesis extends DomainResource {
         private final Integer denominatorCount;
         private final Integer numeratorCount;
         private final List<PrecisionEstimate> precisionEstimate;
-
-        private volatile int hashCode;
 
         private RiskEstimate(Builder builder) {
             super(builder);
@@ -2545,8 +2539,6 @@ public class RiskEvidenceSynthesis extends DomainResource {
             private final Decimal from;
             private final Decimal to;
 
-            private volatile int hashCode;
-
             private PrecisionEstimate(Builder builder) {
                 super(builder);
                 type = builder.type;
@@ -2875,8 +2867,6 @@ public class RiskEvidenceSynthesis extends DomainResource {
         private final List<CodeableConcept> rating;
         private final List<Annotation> note;
         private final List<CertaintySubcomponent> certaintySubcomponent;
-
-        private volatile int hashCode;
 
         private Certainty(Builder builder) {
             super(builder);
@@ -3239,8 +3229,6 @@ public class RiskEvidenceSynthesis extends DomainResource {
             )
             private final List<CodeableConcept> rating;
             private final List<Annotation> note;
-
-            private volatile int hashCode;
 
             private CertaintySubcomponent(Builder builder) {
                 super(builder);

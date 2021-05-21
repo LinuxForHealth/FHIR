@@ -146,8 +146,6 @@ public class DocumentReference extends DomainResource {
     @Summary
     private final Context context;
 
-    private volatile int hashCode;
-
     private DocumentReference(Builder builder) {
         super(builder);
         masterIdentifier = builder.masterIdentifier;
@@ -1153,8 +1151,6 @@ public class DocumentReference extends DomainResource {
         @Required
         private final Reference target;
 
-        private volatile int hashCode;
-
         private RelatesTo(Builder builder) {
             super(builder);
             code = ValidationSupport.requireNonNull(builder.code, "code");
@@ -1438,8 +1434,6 @@ public class DocumentReference extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/formatcodes"
         )
         private final Coding format;
-
-        private volatile int hashCode;
 
         private Content(Builder builder) {
             super(builder);
@@ -1734,8 +1728,6 @@ public class DocumentReference extends DomainResource {
         @ReferenceTarget({ "Patient" })
         private final Reference sourcePatientInfo;
         private final List<Reference> related;
-
-        private volatile int hashCode;
 
         private Context(Builder builder) {
             super(builder);

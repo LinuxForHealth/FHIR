@@ -29,6 +29,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.SecurityContext;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -44,7 +45,7 @@ import com.ibm.fhir.server.util.RestAuditLogger;
         FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
 @Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON,
         FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
-@RolesAllowed("FHIRUsers")
+@RolesAllowed({"FHIRUsers", "FHIROperationAdmin"})
 @RequestScoped
 public class Operation extends FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(Operation.class.getName());
@@ -55,6 +56,9 @@ public class Operation extends FHIRResource {
 
     @Context
     protected HttpHeaders httpHeaders;
+
+    @Context
+    protected SecurityContext securityContext;
 
     @GET
     @Path("${operationName}")
@@ -71,6 +75,8 @@ public class Operation extends FHIRResource {
                     FHIROperationContext.createSystemOperationContext();
             operationContext.setProperty(FHIROperationContext.PROPNAME_URI_INFO, uriInfo);
             operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_HEADERS, httpHeaders);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, securityContext);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, httpServletRequest);
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.GET);
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
@@ -112,7 +118,9 @@ public class Operation extends FHIRResource {
                     FHIROperationContext.createSystemOperationContext();
             operationContext.setProperty(FHIROperationContext.PROPNAME_URI_INFO, uriInfo);
             operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_HEADERS, httpHeaders);
-            operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.POST);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, "POST");
+            operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, securityContext);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, httpServletRequest);
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             Resource result = helper.doInvoke(operationContext, null, null, null, operationName,
@@ -154,7 +162,9 @@ public class Operation extends FHIRResource {
             FHIROperationContext operationContext = FHIROperationContext.createSystemOperationContext();
             operationContext.setProperty(FHIROperationContext.PROPNAME_URI_INFO, uriInfo);
             operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_HEADERS, httpHeaders);
-            operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.DELETE);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, "DELETE");
+            operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, securityContext);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, httpServletRequest);
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             Resource result =
@@ -196,6 +206,8 @@ public class Operation extends FHIRResource {
                     FHIROperationContext.createResourceTypeOperationContext();
             operationContext.setProperty(FHIROperationContext.PROPNAME_URI_INFO, uriInfo);
             operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_HEADERS, httpHeaders);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, securityContext);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, httpServletRequest);
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.GET);
             operationContext.setProperty(FHIROperationContext.PROPNAME_PATH_PARAMETER, resourceTypeName);
 
@@ -239,6 +251,8 @@ public class Operation extends FHIRResource {
                     FHIROperationContext.createResourceTypeOperationContext();
             operationContext.setProperty(FHIROperationContext.PROPNAME_URI_INFO, uriInfo);
             operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_HEADERS, httpHeaders);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, securityContext);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, httpServletRequest);
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.POST);
             operationContext.setProperty(FHIROperationContext.PROPNAME_PATH_PARAMETER, resourceTypeName);
 
@@ -296,6 +310,8 @@ public class Operation extends FHIRResource {
                     FHIROperationContext.createInstanceOperationContext();
             operationContext.setProperty(FHIROperationContext.PROPNAME_URI_INFO, uriInfo);
             operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_HEADERS, httpHeaders);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, securityContext);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, httpServletRequest);
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.GET);
             operationContext.setProperty(FHIROperationContext.PROPNAME_PATH_PARAMETER, resourceTypeName);
 
@@ -340,6 +356,8 @@ public class Operation extends FHIRResource {
                     FHIROperationContext.createInstanceOperationContext();
             operationContext.setProperty(FHIROperationContext.PROPNAME_URI_INFO, uriInfo);
             operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_HEADERS, httpHeaders);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, securityContext);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, httpServletRequest);
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.POST);
             operationContext.setProperty(FHIROperationContext.PROPNAME_PATH_PARAMETER, resourceTypeName);
 
@@ -385,6 +403,8 @@ public class Operation extends FHIRResource {
                     FHIROperationContext.createInstanceOperationContext();
             operationContext.setProperty(FHIROperationContext.PROPNAME_URI_INFO, uriInfo);
             operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_HEADERS, httpHeaders);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, securityContext);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, httpServletRequest);
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.GET);
             operationContext.setProperty(FHIROperationContext.PROPNAME_PATH_PARAMETER, resourceTypeName);
 
@@ -430,6 +450,8 @@ public class Operation extends FHIRResource {
                     FHIROperationContext.createInstanceOperationContext();
             operationContext.setProperty(FHIROperationContext.PROPNAME_URI_INFO, uriInfo);
             operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_HEADERS, httpHeaders);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, securityContext);
+            operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_REQUEST, httpServletRequest);
             operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, HttpMethod.POST);
             operationContext.setProperty(FHIROperationContext.PROPNAME_PATH_PARAMETER, resourceTypeName);
 

@@ -428,12 +428,15 @@ public class SearchAllTest extends FHIRServerTestBase {
         int firstRunNumber;
         FHIRParameters parameters = new FHIRParameters();
         parameters.searchParam("_tag", "http://ibm.com/fhir/tag|tag2,tag");
-        parameters.searchParam("_count", "1000");
+        parameters.searchParam("_count", "1001");
         parameters.searchParam("_page", "1");
         FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
+        // Check that count is set to the maxPageSize (1000) for the tenant
+        String selfLink = getSelfLink(bundle);
+        assertTrue(selfLink.contains("_count=1000"));
 
         firstRunNumber = bundle.getEntry().size();
         assertTrue(firstRunNumber >= 1);
@@ -650,7 +653,10 @@ public class SearchAllTest extends FHIRServerTestBase {
         assert (bundle.getEntry().size() == 2);
         // verify self link in the response bundle
         assertTrue(bundle.getLink().size() == 1);
-        assertTrue(bundle.getLink().get(0).getUrl().getValue().contains("subject:Patient._tag"));
+        String selfLink = getSelfLink(bundle);
+        assertTrue(selfLink.contains("subject:Patient._tag"));
+        // Check that count is set to defaultPageSize (10) for the tenant
+        assertTrue(selfLink.contains("_count=10"));
     }
 
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })

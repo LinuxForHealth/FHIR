@@ -187,8 +187,6 @@ public class Procedure extends DomainResource {
     )
     private final List<CodeableConcept> usedCode;
 
-    private volatile int hashCode;
-
     private Procedure(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1891,8 +1889,6 @@ public class Procedure extends DomainResource {
         @ReferenceTarget({ "Organization" })
         private final Reference onBehalfOf;
 
-        private volatile int hashCode;
-
         private Performer(Builder builder) {
             super(builder);
             function = builder.function;
@@ -2217,8 +2213,6 @@ public class Procedure extends DomainResource {
         @ReferenceTarget({ "Device" })
         @Required
         private final Reference manipulated;
-
-        private volatile int hashCode;
 
         private FocalDevice(Builder builder) {
             super(builder);

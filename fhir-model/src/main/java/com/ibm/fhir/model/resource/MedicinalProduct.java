@@ -96,8 +96,6 @@ public class MedicinalProduct extends DomainResource {
     @Summary
     private final List<SpecialDesignation> specialDesignation;
 
-    private volatile int hashCode;
-
     private MedicinalProduct(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1385,8 +1383,6 @@ public class MedicinalProduct extends DomainResource {
         @Summary
         private final List<CountryLanguage> countryLanguage;
 
-        private volatile int hashCode;
-
         private Name(Builder builder) {
             super(builder);
             productName = ValidationSupport.requireNonNull(builder.productName, "productName");
@@ -1727,8 +1723,6 @@ public class MedicinalProduct extends DomainResource {
             @Required
             private final Coding type;
 
-            private volatile int hashCode;
-
             private NamePart(Builder builder) {
                 super(builder);
                 part = ValidationSupport.requireNonNull(builder.part, "part");
@@ -2003,8 +1997,6 @@ public class MedicinalProduct extends DomainResource {
             @Summary
             @Required
             private final CodeableConcept language;
-
-            private volatile int hashCode;
 
             private CountryLanguage(Builder builder) {
                 super(builder);
@@ -2318,8 +2310,6 @@ public class MedicinalProduct extends DomainResource {
         @Summary
         @ReferenceTarget({ "Organization" })
         private final Reference regulator;
-
-        private volatile int hashCode;
 
         private ManufacturingBusinessOperation(Builder builder) {
             super(builder);
@@ -2754,8 +2744,6 @@ public class MedicinalProduct extends DomainResource {
         private final DateTime date;
         @Summary
         private final CodeableConcept species;
-
-        private volatile int hashCode;
 
         private SpecialDesignation(Builder builder) {
             super(builder);

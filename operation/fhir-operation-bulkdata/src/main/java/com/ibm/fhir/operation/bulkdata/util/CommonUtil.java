@@ -14,6 +14,7 @@ import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.config.OperationContextAdapter;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
+import com.ibm.fhir.server.util.FHIROperationUtil;
 
 /**
  * Common Util captures common methods
@@ -38,11 +39,20 @@ public class CommonUtil {
 
     /**
      * @param operationContext
+     * @param isImport
      */
-    public void checkAllowed(FHIROperationContext operationContext) throws FHIROperationException {
+    public void checkAllowed(FHIROperationContext operationContext, boolean isImport) throws FHIROperationException {
         try {
-            OperationContextAdapter adapter = new OperationContextAdapter(operationContext);
+            OperationContextAdapter adapter = new OperationContextAdapter(operationContext, isImport);
             String source = adapter.getStorageProvider();
+            String outcome = adapter.getStorageProviderOutcomes();
+
+            boolean s = ConfigurationFactory.getInstance().hasStorageProvider(source);
+            boolean o = ConfigurationFactory.getInstance().hasStorageProvider(outcome);
+            if (!s || !o) {
+                throw FHIROperationUtil.buildExceptionWithIssue("The storage provider for outcome [" + s + "] or source [" + o + "] passed is not configured properly" , IssueType.EXCEPTION);
+            }
+
             StorageType type = ConfigurationFactory.getInstance().getStorageProviderStorageType(source);
             verifyAllowedType(type.value());
         } catch (FHIROperationException foe) {

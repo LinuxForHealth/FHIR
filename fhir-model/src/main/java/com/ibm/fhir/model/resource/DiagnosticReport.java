@@ -129,8 +129,6 @@ public class DiagnosticReport extends DomainResource {
     private final List<CodeableConcept> conclusionCode;
     private final List<Attachment> presentedForm;
 
-    private volatile int hashCode;
-
     private DiagnosticReport(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1357,8 +1355,6 @@ public class DiagnosticReport extends DomainResource {
         @ReferenceTarget({ "Media" })
         @Required
         private final Reference link;
-
-        private volatile int hashCode;
 
         private Media(Builder builder) {
             super(builder);

@@ -33,8 +33,6 @@ public class Range extends Element {
     @Summary
     private final SimpleQuantity high;
 
-    private volatile int hashCode;
-
     private Range(Builder builder) {
         super(builder);
         low = builder.low;

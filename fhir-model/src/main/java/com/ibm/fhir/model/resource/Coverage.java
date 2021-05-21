@@ -143,8 +143,6 @@ public class Coverage extends DomainResource {
     @ReferenceTarget({ "Contract" })
     private final List<Reference> contract;
 
-    private volatile int hashCode;
-
     private Coverage(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1171,8 +1169,6 @@ public class Coverage extends DomainResource {
         @Summary
         private final String name;
 
-        private volatile int hashCode;
-
         private Class(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -1486,8 +1482,6 @@ public class Coverage extends DomainResource {
         @Required
         private final Element value;
         private final List<Exception> exception;
-
-        private volatile int hashCode;
 
         private CostToBeneficiary(Builder builder) {
             super(builder);
@@ -1819,8 +1813,6 @@ public class Coverage extends DomainResource {
             private final CodeableConcept type;
             @Summary
             private final Period period;
-
-            private volatile int hashCode;
 
             private Exception(Builder builder) {
                 super(builder);

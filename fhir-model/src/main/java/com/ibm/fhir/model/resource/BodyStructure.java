@@ -82,8 +82,6 @@ public class BodyStructure extends DomainResource {
     @Required
     private final Reference patient;
 
-    private volatile int hashCode;
-
     private BodyStructure(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));

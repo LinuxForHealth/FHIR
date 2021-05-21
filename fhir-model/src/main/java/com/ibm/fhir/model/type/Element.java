@@ -34,6 +34,8 @@ public abstract class Element extends AbstractVisitable {
     protected final java.lang.String id;
     protected final List<Extension> extension;
 
+    protected volatile int hashCode;
+
     protected Element(Builder builder) {
         id = builder.id;
         extension = Collections.unmodifiableList(ValidationSupport.checkList(builder.extension, "extension", Extension.class));

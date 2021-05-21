@@ -114,6 +114,10 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.owasp.encoder</groupId>
+            <artifactId>encoder</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.glassfish.tyrus.bundles</groupId>
             <artifactId>tyrus-standalone-client-jdk</artifactId>
             <scope>test</scope>
@@ -139,8 +143,9 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.owasp.encoder</groupId>
-            <artifactId>encoder</artifactId>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

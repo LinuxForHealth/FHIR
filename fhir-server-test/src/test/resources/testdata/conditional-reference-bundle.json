@@ -1,0 +1,25 @@
+{
+    "resourceType": "Bundle",
+    "id": "20160113160203",
+    "type": "transaction",
+    "entry": [
+        {
+            "fullUrl": "urn:uuid:c72aa430-2ddc-456e-7a09-dea8264671d8",
+            "resource": {
+                "resourceType": "Observation",
+                "id": "67890",
+                "status": "final",
+                "code": {
+                    "text": "test"
+                },
+                "subject": {
+                    "reference": "Patient?identifier=http://ibm.com/fhir/patient-id|12345"
+                }
+            },
+            "request": {
+                "method": "PUT",
+                "url": "Observation/67890"
+            }
+        }
+    ]
+}

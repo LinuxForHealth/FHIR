@@ -87,8 +87,6 @@ public class Account extends DomainResource {
     @ReferenceTarget({ "Account" })
     private final Reference partOf;
 
-    private volatile int hashCode;
-
     private Account(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -873,8 +871,6 @@ public class Account extends DomainResource {
         @Summary
         private final PositiveInt priority;
 
-        private volatile int hashCode;
-
         private Coverage(Builder builder) {
             super(builder);
             coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
@@ -1155,8 +1151,6 @@ public class Account extends DomainResource {
         private final Reference party;
         private final Boolean onHold;
         private final Period period;
-
-        private volatile int hashCode;
 
         private Guarantor(Builder builder) {
             super(builder);

@@ -101,8 +101,6 @@ public class CompartmentDefinition extends DomainResource {
     @Summary
     private final List<Resource> resource;
 
-    private volatile int hashCode;
-
     private CompartmentDefinition(Builder builder) {
         super(builder);
         url = ValidationSupport.requireNonNull(builder.url, "url");
@@ -958,8 +956,6 @@ public class CompartmentDefinition extends DomainResource {
         @Summary
         private final List<String> param;
         private final String documentation;
-
-        private volatile int hashCode;
 
         private Resource(Builder builder) {
             super(builder);

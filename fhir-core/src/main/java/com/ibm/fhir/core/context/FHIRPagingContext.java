@@ -21,12 +21,28 @@ public interface FHIRPagingContext {
     int getPageNumber();
 
     /**
-     * @return the number of resources in a single page
+     * @return the number of matching resources in a single page
      * @see <a href="https://www.hl7.org/fhir/r4/search.html#count">https://www.hl7.org/fhir/r4/search.html#count</a>
-     * @implSpec this number only applies to resources with {@code entry.search.mode = search}
+     * @implSpec this number only applies to resources with {@code entry.search.mode = match}
      *           and does not include included resources or operation outcomes
      */
     int getPageSize();
+
+    /**
+     * @return the maximum number of matching resources allowed in a single page
+     * @see <a href="https://www.hl7.org/fhir/r4/search.html#count">https://www.hl7.org/fhir/r4/search.html#count</a>
+     * @implSpec this number only applies to resources with {@code entry.search.mode = match}
+     *           and does not include included resources or operation outcomes
+     */
+    int getMaxPageSize();
+
+    /**
+     * @return the maximum number of included resources allowed in a single page
+     * @see <a href="https://www.hl7.org/fhir/r4/search.html#count">https://www.hl7.org/fhir/r4/search.html#count</a>
+     * @implSpec this number only applies to resources with {@code entry.search.mode = include}
+     *           and does not include matching resources or operation outcomes
+     */
+    int getMaxPageIncludeCount();
 
     /**
      * @return the total number of matching resources for the corresponding query, or null if total count is not available
@@ -55,13 +71,27 @@ public interface FHIRPagingContext {
     void setPageNumber(int pageNumber);
 
     /**
-     * @param pageSize the number of resources to include in a single page
+     * @param pageSize the number of matching resources to include in a single page
      * @see <a href="https://www.hl7.org/fhir/r4/search.html#count">https://www.hl7.org/fhir/r4/search.html#count</a>
-     * @implSpec this number only applies to resources with {@code entry.search.mode = search}
+     * @implSpec this number only applies to resources with {@code entry.search.mode = match}
      *           and does not include included resources or operation outcomes
-     *
      */
     void setPageSize(int pageSize);
+
+    /**
+     * @param maxPageSize the maximum number of matching resources allowed in a single page
+     * @see <a href="https://www.hl7.org/fhir/r4/search.html#count">https://www.hl7.org/fhir/r4/search.html#count</a>
+     * @implSpec this number only applies to resources with {@code entry.search.mode = match}
+     *           and does not include included resources or operation outcomes
+     */
+    void setMaxPageSize(int maxPageSize);
+
+    /**
+     * @param maxPageIncludeCount the maximum number of included resources allowed in a single page
+     * @implSpec this number only applies to resources with {@code entry.search.mode = include}
+     *           and does not include matching resources or operation outcomes
+     */
+    void setMaxPageIncludeCount(int maxPageIncludeCount);
 
     /**
      * @param totalCount the total number of matching resources for the corresponding query

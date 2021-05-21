@@ -110,8 +110,6 @@ public class ExampleScenario extends DomainResource {
     private final List<Process> process;
     private final List<Canonical> workflow;
 
-    private volatile int hashCode;
-
     private ExampleScenario(Builder builder) {
         super(builder);
         url = builder.url;
@@ -1154,8 +1152,6 @@ public class ExampleScenario extends DomainResource {
         private final String name;
         private final Markdown description;
 
-        private volatile int hashCode;
-
         private Actor(Builder builder) {
             super(builder);
             actorId = ValidationSupport.requireNonNull(builder.actorId, "actorId");
@@ -1498,8 +1494,6 @@ public class ExampleScenario extends DomainResource {
         private final Markdown description;
         private final List<Version> version;
         private final List<ContainedInstance> containedInstance;
-
-        private volatile int hashCode;
 
         private Instance(Builder builder) {
             super(builder);
@@ -1935,8 +1929,6 @@ public class ExampleScenario extends DomainResource {
             @Required
             private final Markdown description;
 
-            private volatile int hashCode;
-
             private Version(Builder builder) {
                 super(builder);
                 versionId = ValidationSupport.requireNonNull(builder.versionId, "versionId");
@@ -2206,8 +2198,6 @@ public class ExampleScenario extends DomainResource {
             @Required
             private final String resourceId;
             private final String versionId;
-
-            private volatile int hashCode;
 
             private ContainedInstance(Builder builder) {
                 super(builder);
@@ -2480,8 +2470,6 @@ public class ExampleScenario extends DomainResource {
         private final Markdown preConditions;
         private final Markdown postConditions;
         private final List<Step> step;
-
-        private volatile int hashCode;
 
         private Process(Builder builder) {
             super(builder);
@@ -2863,8 +2851,6 @@ public class ExampleScenario extends DomainResource {
             private final Operation operation;
             private final List<Alternative> alternative;
 
-            private volatile int hashCode;
-
             private Step(Builder builder) {
                 super(builder);
                 process = Collections.unmodifiableList(ValidationSupport.checkList(builder.process, "process", ExampleScenario.Process.class));
@@ -3236,8 +3222,6 @@ public class ExampleScenario extends DomainResource {
                 private final Boolean receiverActive;
                 private final ExampleScenario.Instance.ContainedInstance request;
                 private final ExampleScenario.Instance.ContainedInstance response;
-
-                private volatile int hashCode;
 
                 private Operation(Builder builder) {
                     super(builder);
@@ -3755,8 +3739,6 @@ public class ExampleScenario extends DomainResource {
                 private final String title;
                 private final Markdown description;
                 private final List<ExampleScenario.Process.Step> step;
-
-                private volatile int hashCode;
 
                 private Alternative(Builder builder) {
                     super(builder);

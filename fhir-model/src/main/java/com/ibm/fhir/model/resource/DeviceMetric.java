@@ -123,8 +123,6 @@ public class DeviceMetric extends DomainResource {
     @Summary
     private final List<Calibration> calibration;
 
-    private volatile int hashCode;
-
     private DeviceMetric(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -842,8 +840,6 @@ public class DeviceMetric extends DomainResource {
         private final DeviceMetricCalibrationState state;
         @Summary
         private final Instant time;
-
-        private volatile int hashCode;
 
         private Calibration(Builder builder) {
             super(builder);

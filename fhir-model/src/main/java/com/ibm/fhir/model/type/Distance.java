@@ -44,8 +44,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Distance extends Quantity {
-    private volatile int hashCode;
-
     private Distance(Builder builder) {
         super(builder);
     }

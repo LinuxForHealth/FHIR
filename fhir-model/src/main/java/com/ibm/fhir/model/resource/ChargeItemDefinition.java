@@ -137,8 +137,6 @@ public class ChargeItemDefinition extends DomainResource {
     private final List<Applicability> applicability;
     private final List<PropertyGroup> propertyGroup;
 
-    private volatile int hashCode;
-
     private ChargeItemDefinition(Builder builder) {
         super(builder);
         url = ValidationSupport.requireNonNull(builder.url, "url");
@@ -1433,8 +1431,6 @@ public class ChargeItemDefinition extends DomainResource {
         private final String language;
         private final String expression;
 
-        private volatile int hashCode;
-
         private Applicability(Builder builder) {
             super(builder);
             description = builder.description;
@@ -1731,8 +1727,6 @@ public class ChargeItemDefinition extends DomainResource {
     public static class PropertyGroup extends BackboneElement {
         private final List<ChargeItemDefinition.Applicability> applicability;
         private final List<PriceComponent> priceComponent;
-
-        private volatile int hashCode;
 
         private PropertyGroup(Builder builder) {
             super(builder);
@@ -2052,8 +2046,6 @@ public class ChargeItemDefinition extends DomainResource {
             private final CodeableConcept code;
             private final Decimal factor;
             private final Money amount;
-
-            private volatile int hashCode;
 
             private PriceComponent(Builder builder) {
                 super(builder);

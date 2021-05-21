@@ -39,8 +39,6 @@ public class SampledData extends Element {
     private final PositiveInt dimensions;
     private final String data;
 
-    private volatile int hashCode;
-
     private SampledData(Builder builder) {
         super(builder);
         origin = ValidationSupport.requireNonNull(builder.origin, "origin");

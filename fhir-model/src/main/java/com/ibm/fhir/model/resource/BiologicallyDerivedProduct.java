@@ -85,8 +85,6 @@ public class BiologicallyDerivedProduct extends DomainResource {
     private final Manipulation manipulation;
     private final List<Storage> storage;
 
-    private volatile int hashCode;
-
     private BiologicallyDerivedProduct(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -870,8 +868,6 @@ public class BiologicallyDerivedProduct extends DomainResource {
         @Choice({ DateTime.class, Period.class })
         private final Element collected;
 
-        private volatile int hashCode;
-
         private Collection(Builder builder) {
             super(builder);
             collector = builder.collector;
@@ -1194,8 +1190,6 @@ public class BiologicallyDerivedProduct extends DomainResource {
         private final Reference additive;
         @Choice({ DateTime.class, Period.class })
         private final Element time;
-
-        private volatile int hashCode;
 
         private Processing(Builder builder) {
             super(builder);
@@ -1532,8 +1526,6 @@ public class BiologicallyDerivedProduct extends DomainResource {
         @Choice({ DateTime.class, Period.class })
         private final Element time;
 
-        private volatile int hashCode;
-
         private Manipulation(Builder builder) {
             super(builder);
             description = builder.description;
@@ -1806,8 +1798,6 @@ public class BiologicallyDerivedProduct extends DomainResource {
         )
         private final BiologicallyDerivedProductStorageScale scale;
         private final Period duration;
-
-        private volatile int hashCode;
 
         private Storage(Builder builder) {
             super(builder);

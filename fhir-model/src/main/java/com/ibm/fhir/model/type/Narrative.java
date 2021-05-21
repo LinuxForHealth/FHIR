@@ -51,8 +51,6 @@ public class Narrative extends Element {
     @Required
     private final Xhtml div;
 
-    private volatile int hashCode;
-
     private Narrative(Builder builder) {
         super(builder);
         status = ValidationSupport.requireNonNull(builder.status, "status");

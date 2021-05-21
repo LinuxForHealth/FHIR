@@ -56,8 +56,6 @@ public class SubstancePolymer extends DomainResource {
     @Summary
     private final List<Repeat> repeat;
 
-    private volatile int hashCode;
-
     private SubstancePolymer(Builder builder) {
         super(builder);
         clazz = builder.clazz;
@@ -631,8 +629,6 @@ public class SubstancePolymer extends DomainResource {
         @Summary
         private final List<StartingMaterial> startingMaterial;
 
-        private volatile int hashCode;
-
         private MonomerSet(Builder builder) {
             super(builder);
             ratioType = builder.ratioType;
@@ -916,8 +912,6 @@ public class SubstancePolymer extends DomainResource {
             private final Boolean isDefining;
             @Summary
             private final SubstanceAmount amount;
-
-            private volatile int hashCode;
 
             private StartingMaterial(Builder builder) {
                 super(builder);
@@ -1246,8 +1240,6 @@ public class SubstancePolymer extends DomainResource {
         private final CodeableConcept repeatUnitAmountType;
         @Summary
         private final List<RepeatUnit> repeatUnit;
-
-        private volatile int hashCode;
 
         private Repeat(Builder builder) {
             super(builder);
@@ -1596,8 +1588,6 @@ public class SubstancePolymer extends DomainResource {
             private final List<DegreeOfPolymerisation> degreeOfPolymerisation;
             @Summary
             private final List<StructuralRepresentation> structuralRepresentation;
-
-            private volatile int hashCode;
 
             private RepeatUnit(Builder builder) {
                 super(builder);
@@ -1992,8 +1982,6 @@ public class SubstancePolymer extends DomainResource {
                 @Summary
                 private final SubstanceAmount amount;
 
-                private volatile int hashCode;
-
                 private DegreeOfPolymerisation(Builder builder) {
                     super(builder);
                     degree = builder.degree;
@@ -2256,8 +2244,6 @@ public class SubstancePolymer extends DomainResource {
                 private final String representation;
                 @Summary
                 private final Attachment attachment;
-
-                private volatile int hashCode;
 
                 private StructuralRepresentation(Builder builder) {
                     super(builder);

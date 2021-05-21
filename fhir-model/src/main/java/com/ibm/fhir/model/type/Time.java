@@ -32,8 +32,6 @@ public class Time extends Element {
 
     private final LocalTime value;
 
-    private volatile int hashCode;
-
     private Time(Builder builder) {
         super(builder);
         value = ModelSupport.truncateTime(builder.value, ChronoUnit.MICROS);

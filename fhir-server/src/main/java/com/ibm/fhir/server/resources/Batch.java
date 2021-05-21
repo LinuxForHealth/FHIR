@@ -19,17 +19,23 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.SecurityContext;
 
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.FHIRConstants;
+
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.server.exception.FHIRRestBundledRequestException;
+import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.util.FHIRRestHelper;
 import com.ibm.fhir.server.util.RestAuditLogger;
 
@@ -38,10 +44,16 @@ import com.ibm.fhir.server.util.RestAuditLogger;
         FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
 @Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON,
         FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
-@RolesAllowed("FHIRUsers")
+@RolesAllowed({"FHIRUsers", "FHIROperationAdmin"})
 @RequestScoped
 public class Batch extends FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(Batch.class.getName());
+
+    @Context
+    protected HttpHeaders httpHeaders;
+
+    @Context
+    protected SecurityContext securityContext;
 
     public Batch() throws Exception {
         super();
@@ -53,6 +65,14 @@ public class Batch extends FHIRResource {
         Date startTime = new Date();
         Response.Status status = null;
         Bundle responseBundle = null;
+
+        // Sets up the requestContext with extended properties.
+        FHIRRequestContext requestContext = FHIRRequestContext.get();
+        requestContext.setExtendedOperationProperties(FHIROperationContext.PROPNAME_URI_INFO, uriInfo);
+        requestContext.setExtendedOperationProperties(FHIROperationContext.PROPNAME_HTTP_HEADERS, httpHeaders);
+        requestContext.setExtendedOperationProperties(FHIROperationContext.PROPNAME_METHOD_TYPE, "POST" );
+        requestContext.setExtendedOperationProperties(FHIROperationContext.PROPNAME_SECURITY_CONTEXT, securityContext);
+        requestContext.setExtendedOperationProperties(FHIROperationContext.PROPNAME_HTTP_REQUEST, httpServletRequest);
 
         try {
             checkInitComplete();

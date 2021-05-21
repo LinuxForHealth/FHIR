@@ -40,8 +40,6 @@ public class DateTime extends Element {
 
     private final TemporalAccessor value;
 
-    private volatile int hashCode;
-
     private DateTime(Builder builder) {
         super(builder);
         value = ModelSupport.truncateTime(builder.value, ChronoUnit.MICROS);

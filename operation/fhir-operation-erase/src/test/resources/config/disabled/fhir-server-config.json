@@ -1,0 +1,11 @@
+{
+    "__comment": "FHIR Server - Operation - Erase - Test Configuration",
+    "fhirServer": {
+        "operations": {
+            "erase": {
+                "enabled": false,
+                "allowedRoles": []
+            }
+        }
+    }
+}

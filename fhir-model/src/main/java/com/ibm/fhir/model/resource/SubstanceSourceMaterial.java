@@ -75,8 +75,6 @@ public class SubstanceSourceMaterial extends DomainResource {
     @Summary
     private final List<PartDescription> partDescription;
 
-    private volatile int hashCode;
-
     private SubstanceSourceMaterial(Builder builder) {
         super(builder);
         sourceMaterialClass = builder.sourceMaterialClass;
@@ -964,8 +962,6 @@ public class SubstanceSourceMaterial extends DomainResource {
         @Summary
         private final CodeableConcept materialType;
 
-        private volatile int hashCode;
-
         private FractionDescription(Builder builder) {
             super(builder);
             fraction = builder.fraction;
@@ -1243,8 +1239,6 @@ public class SubstanceSourceMaterial extends DomainResource {
         private final Hybrid hybrid;
         @Summary
         private final OrganismGeneral organismGeneral;
-
-        private volatile int hashCode;
 
         private Organism(Builder builder) {
             super(builder);
@@ -1721,8 +1715,6 @@ public class SubstanceSourceMaterial extends DomainResource {
             @Summary
             private final String authorDescription;
 
-            private volatile int hashCode;
-
             private Author(Builder builder) {
                 super(builder);
                 authorType = builder.authorType;
@@ -2000,8 +1992,6 @@ public class SubstanceSourceMaterial extends DomainResource {
             private final String paternalOrganismName;
             @Summary
             private final CodeableConcept hybridType;
-
-            private volatile int hashCode;
 
             private Hybrid(Builder builder) {
                 super(builder);
@@ -2373,8 +2363,6 @@ public class SubstanceSourceMaterial extends DomainResource {
             @Summary
             private final CodeableConcept order;
 
-            private volatile int hashCode;
-
             private OrganismGeneral(Builder builder) {
                 super(builder);
                 kingdom = builder.kingdom;
@@ -2698,8 +2686,6 @@ public class SubstanceSourceMaterial extends DomainResource {
         private final CodeableConcept part;
         @Summary
         private final CodeableConcept partLocation;
-
-        private volatile int hashCode;
 
         private PartDescription(Builder builder) {
             super(builder);

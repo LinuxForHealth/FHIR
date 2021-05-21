@@ -10,11 +10,14 @@ import java.time.Instant;
 
 import javax.ws.rs.core.MultivaluedMap;
 
+import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.patch.FHIRPatch;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
+import com.ibm.fhir.persistence.ResourceEraseRecord;
+import com.ibm.fhir.persistence.erase.EraseDTO;
 
 /**
  * This interface describes the set of helper methods from the FHIR REST layer that are used by custom operation
@@ -315,4 +318,18 @@ public interface FHIRResourceHelpers {
      * @throws Exception
      */
     int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, String resourceLogicalId) throws Exception;
+
+    /**
+     * Invoke the FHIR Persistence erase operation for a specific instance of the erase.
+     * @param operationContext
+     * @param eraseDto
+     * @return
+     * @throws Exception
+     */
+    default ResourceEraseRecord doErase(FHIROperationContext operationContext, EraseDTO eraseDto) throws FHIROperationException {
+        /*
+         * @implNote, to keep from breaking other implementations, we are marking it as Unsupported and throwing an exception.
+         */
+        throw new FHIROperationException("Unsupported for the given platform");
+    }
 }

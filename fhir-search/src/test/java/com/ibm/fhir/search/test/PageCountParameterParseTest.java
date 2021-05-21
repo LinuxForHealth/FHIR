@@ -17,8 +17,8 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.model.resource.Patient;
-import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.util.SearchUtil;
 
@@ -48,11 +48,11 @@ public class PageCountParameterParseTest extends BaseSearchTest {
         Map<String, List<String>> queryParameters = new HashMap<>();
 
         queryParameters.put("_page", Arrays.asList("2"));
-        queryParameters.put("_count", Arrays.asList(String.valueOf(SearchConstants.MAX_PAGE_SIZE + 1)));
+        queryParameters.put("_count", Arrays.asList(String.valueOf(FHIRConstants.FHIR_PAGE_SIZE_DEFAULT_MAX + 1)));
         FHIRSearchContext context = SearchUtil.parseQueryParameters(Patient.class, queryParameters);
         assertNotNull(context);
         assertEquals(context.getPageNumber(), 2);
-        assertEquals(context.getPageSize(), SearchConstants.MAX_PAGE_SIZE);
+        assertEquals(context.getPageSize(), FHIRConstants.FHIR_PAGE_SIZE_DEFAULT_MAX);
     }
 
     @Test

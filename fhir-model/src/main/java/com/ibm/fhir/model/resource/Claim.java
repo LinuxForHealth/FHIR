@@ -168,8 +168,6 @@ public class Claim extends DomainResource {
     private final List<Item> item;
     private final Money total;
 
-    private volatile int hashCode;
-
     private Claim(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1585,8 +1583,6 @@ public class Claim extends DomainResource {
         private final CodeableConcept relationship;
         private final Identifier reference;
 
-        private volatile int hashCode;
-
         private Related(Builder builder) {
             super(builder);
             claim = builder.claim;
@@ -1891,8 +1887,6 @@ public class Claim extends DomainResource {
         @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson" })
         private final Reference party;
 
-        private volatile int hashCode;
-
         private Payee(Builder builder) {
             super(builder);
             type = ValidationSupport.requireNonNull(builder.type, "type");
@@ -2186,8 +2180,6 @@ public class Claim extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/provider-qualification"
         )
         private final CodeableConcept qualification;
-
-        private volatile int hashCode;
 
         private CareTeam(Builder builder) {
             super(builder);
@@ -2585,8 +2577,6 @@ public class Claim extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/missing-tooth-reason"
         )
         private final CodeableConcept reason;
-
-        private volatile int hashCode;
 
         private SupportingInfo(Builder builder) {
             super(builder);
@@ -3031,8 +3021,6 @@ public class Claim extends DomainResource {
         )
         private final CodeableConcept packageCode;
 
-        private volatile int hashCode;
-
         private Diagnosis(Builder builder) {
             super(builder);
             sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
@@ -3448,8 +3436,6 @@ public class Claim extends DomainResource {
         private final Element procedure;
         @ReferenceTarget({ "Device" })
         private final List<Reference> udi;
-
-        private volatile int hashCode;
 
         private Procedure(Builder builder) {
             super(builder);
@@ -3888,8 +3874,6 @@ public class Claim extends DomainResource {
         private final List<String> preAuthRef;
         @ReferenceTarget({ "ClaimResponse" })
         private final Reference claimResponse;
-
-        private volatile int hashCode;
 
         private Insurance(Builder builder) {
             super(builder);
@@ -4367,8 +4351,6 @@ public class Claim extends DomainResource {
         @Choice({ Address.class, Reference.class })
         private final Element location;
 
-        private volatile int hashCode;
-
         private Accident(Builder builder) {
             super(builder);
             date = ValidationSupport.requireNonNull(builder.date, "date");
@@ -4754,8 +4736,6 @@ public class Claim extends DomainResource {
         @ReferenceTarget({ "Encounter" })
         private final List<Reference> encounter;
         private final List<Detail> detail;
-
-        private volatile int hashCode;
 
         private Item(Builder builder) {
             super(builder);
@@ -5904,8 +5884,6 @@ public class Claim extends DomainResource {
             private final List<Reference> udi;
             private final List<SubDetail> subDetail;
 
-            private volatile int hashCode;
-
             private Detail(Builder builder) {
                 super(builder);
                 sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
@@ -6622,8 +6600,6 @@ public class Claim extends DomainResource {
                 private final Money net;
                 @ReferenceTarget({ "Device" })
                 private final List<Reference> udi;
-
-                private volatile int hashCode;
 
                 private SubDetail(Builder builder) {
                     super(builder);

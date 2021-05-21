@@ -74,6 +74,11 @@ public class FHIROperationContext {
      */
     public static final String PROPNAME_PATH_PARAMETER = "PATH_PARAMETER";
 
+    /**
+     * The property is of the Http Request object
+     */
+    public static final String PROPNAME_HTTP_REQUEST = "HTTP_REQUEST";
+
     private Type type = null;
     private Map<String, Object> properties = null;
 

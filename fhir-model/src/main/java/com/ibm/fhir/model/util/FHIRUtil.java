@@ -134,7 +134,7 @@ public class FHIRUtil {
         sb.append(ModelSupport.getResourceTypes(false).stream()
                 .map(Class::getSimpleName)
                 .collect(Collectors.joining("|")));
-        sb.append(")\\/[A-Za-z0-9\\-\\.]{1,64}(\\/_history\\/[A-Za-z0-9\\-\\.]{1,64})?");
+        sb.append(")\\/([A-Za-z0-9\\-\\.]{1,64})(\\/_history\\/([A-Za-z0-9\\-\\.]{1,64}))?");
         return Pattern.compile(sb.toString());
     }
 

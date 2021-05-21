@@ -171,8 +171,6 @@ public class ImagingStudy extends DomainResource {
     @Summary
     private final List<Series> series;
 
-    private volatile int hashCode;
-
     private ImagingStudy(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1471,8 +1469,6 @@ public class ImagingStudy extends DomainResource {
         private final List<Performer> performer;
         private final List<Instance> instance;
 
-        private volatile int hashCode;
-
         private Series(Builder builder) {
             super(builder);
             uid = ValidationSupport.requireNonNull(builder.uid, "uid");
@@ -2181,8 +2177,6 @@ public class ImagingStudy extends DomainResource {
             @Required
             private final Reference actor;
 
-            private volatile int hashCode;
-
             private Performer(Builder builder) {
                 super(builder);
                 function = builder.function;
@@ -2470,8 +2464,6 @@ public class ImagingStudy extends DomainResource {
             private final Coding sopClass;
             private final UnsignedInt number;
             private final String title;
-
-            private volatile int hashCode;
 
             private Instance(Builder builder) {
                 super(builder);

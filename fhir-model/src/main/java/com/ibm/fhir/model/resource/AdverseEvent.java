@@ -146,8 +146,6 @@ public class AdverseEvent extends DomainResource {
     @ReferenceTarget({ "ResearchStudy" })
     private final List<Reference> study;
 
-    private volatile int hashCode;
-
     private AdverseEvent(Builder builder) {
         super(builder);
         identifier = builder.identifier;
@@ -1354,8 +1352,6 @@ public class AdverseEvent extends DomainResource {
         @Summary
         private final List<Causality> causality;
 
-        private volatile int hashCode;
-
         private SuspectEntity(Builder builder) {
             super(builder);
             instance = ValidationSupport.requireNonNull(builder.instance, "instance");
@@ -1673,8 +1669,6 @@ public class AdverseEvent extends DomainResource {
                 valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-causality-method"
             )
             private final CodeableConcept method;
-
-            private volatile int hashCode;
 
             private Causality(Builder builder) {
                 super(builder);

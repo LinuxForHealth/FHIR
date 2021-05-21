@@ -104,8 +104,6 @@ public class Organization extends DomainResource {
     @ReferenceTarget({ "Endpoint" })
     private final List<Reference> endpoint;
 
-    private volatile int hashCode;
-
     private Organization(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -885,8 +883,6 @@ public class Organization extends DomainResource {
         private final HumanName name;
         private final List<ContactPoint> telecom;
         private final Address address;
-
-        private volatile int hashCode;
 
         private Contact(Builder builder) {
             super(builder);

@@ -114,8 +114,6 @@ public class RiskAssessment extends DomainResource {
     private final String mitigation;
     private final List<Annotation> note;
 
-    private volatile int hashCode;
-
     private RiskAssessment(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1147,8 +1145,6 @@ public class RiskAssessment extends DomainResource {
         @Choice({ Period.class, Range.class })
         private final Element when;
         private final String rationale;
-
-        private volatile int hashCode;
 
         private Prediction(Builder builder) {
             super(builder);

@@ -23,6 +23,10 @@ public class FHIRConstants {
 
     public static final int FHIR_PAGE_SIZE_DEFAULT = 10;
 
+    public static final int FHIR_PAGE_SIZE_DEFAULT_MAX = 1000;
+
+    public static final int FHIR_PAGE_INCLUDE_COUNT_DEFAULT_MAX = 1000;
+
     public static final String FORMAT = "_format";
 
     public static final String PRETTY = "_pretty";

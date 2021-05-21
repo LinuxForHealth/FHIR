@@ -205,8 +205,6 @@ public class Consent extends DomainResource {
     @Summary
     private final Provision provision;
 
-    private volatile int hashCode;
-
     private Consent(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1121,8 +1119,6 @@ public class Consent extends DomainResource {
         private final Uri authority;
         private final Uri uri;
 
-        private volatile int hashCode;
-
         private Policy(Builder builder) {
             super(builder);
             authority = builder.authority;
@@ -1390,8 +1386,6 @@ public class Consent extends DomainResource {
         @ReferenceTarget({ "Patient", "RelatedPerson" })
         private final Reference verifiedWith;
         private final DateTime verificationDate;
-
-        private volatile int hashCode;
 
         private Verification(Builder builder) {
             super(builder);
@@ -1750,8 +1744,6 @@ public class Consent extends DomainResource {
         @Summary
         private final List<Data> data;
         private final List<Consent.Provision> provision;
-
-        private volatile int hashCode;
 
         private Provision(Builder builder) {
             super(builder);
@@ -2471,8 +2463,6 @@ public class Consent extends DomainResource {
             @Required
             private final Reference reference;
 
-            private volatile int hashCode;
-
             private Actor(Builder builder) {
                 super(builder);
                 role = ValidationSupport.requireNonNull(builder.role, "role");
@@ -2766,8 +2756,6 @@ public class Consent extends DomainResource {
             @Summary
             @Required
             private final Reference reference;
-
-            private volatile int hashCode;
 
             private Data(Builder builder) {
                 super(builder);

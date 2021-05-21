@@ -386,7 +386,7 @@ public class BulkDataClient {
         // e.g. if it comes back with 404 it may fail on the JobInstanceResponse.Parser.parse!
 
         if (httpStatus == 401) {
-            throw export.buildOperationException("Unauthorized to access the framework", IssueType.FORBIDDEN);
+            throw export.buildOperationException("Unauthorized to access the Batch framework", IssueType.FORBIDDEN);
         }
 
         if (httpStatus == 400) {

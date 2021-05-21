@@ -21,6 +21,12 @@ jobs:
       uses: joschi/setup-jdk@v2.3.0
       with:
         java-version: ${{ matrix.java }}
+    - name: configure Pagefile
+      uses: al-cheb/configure-pagefile-action@v1.2
+      with:
+        minimum-size: 8GB
+        maximum-size: 8GB
+        disk-root: "C:"
     - name: Build samples
       shell: powershell
       run: mvn -B install --file fhir-examples/pom.xml --no-transfer-progress

@@ -7,6 +7,8 @@
 package com.ibm.fhir.server.util;
 
 import static com.ibm.fhir.model.type.String.string;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.fail;
@@ -15,6 +17,8 @@ import java.util.Arrays;
 
 import javax.ws.rs.core.Response;
 
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.config.FHIRRequestContext;
@@ -29,10 +33,14 @@ import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.resource.Practitioner.Qualification;
 import com.ibm.fhir.model.resource.Procedure;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.HumanName;
+import com.ibm.fhir.model.type.Id;
+import com.ibm.fhir.model.type.Instant;
+import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
@@ -45,9 +53,15 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.type.code.ProcedureStatus;
 import com.ibm.fhir.persistence.FHIRPersistence;
+import com.ibm.fhir.persistence.SingleResourceResult;
+import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
+import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor;
+import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptorException;
+import com.ibm.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.context.FHIRSearchContextFactory;
 import com.ibm.fhir.server.test.MockPersistenceImpl;
+import com.ibm.fhir.server.test.MockTransactionAdapter;
 
 public class FHIRRestHelperTest {
 
@@ -1977,5 +1991,75 @@ public class FHIRRestHelperTest {
         assertEquals(2, operationOutcome.getIssue().size());
         assertEquals("A resource with no data was found.", operationOutcome.getIssue().get(0).getDetails().getText().getValue());
         assertEquals("A resource with no id was found.", operationOutcome.getIssue().get(1).getDetails().getText().getValue());
+    }
+
+    /**
+     * Test an interceptor that modifies the resource
+     */
+    @Test
+    public void testResourceModifyingInterceptor() throws Exception {
+        Coding TAG = Coding.builder().code(Code.of("test")).build();
+
+        FHIRPersistenceInterceptor interceptor = new FHIRPersistenceInterceptor() {
+            @Override
+            public void beforeCreate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+                event.setFhirResource(addTag(event.getFhirResource()));
+            }
+
+            @Override
+            public void beforeUpdate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+                event.setFhirResource(addTag(event.getFhirResource()));
+            }
+
+            @Override
+            public void beforePatch(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+                event.setFhirResource(addTag(event.getFhirResource()));
+            }
+
+            private Resource addTag(Resource r) throws FHIRPersistenceInterceptorException {
+                try {
+                    Meta.Builder metaBuilder = r.getMeta() != null ? r.getMeta().toBuilder()
+                            : Meta.builder().source(Uri.of("interceptor"));
+                    return r.toBuilder().meta(metaBuilder.tag(TAG).build()).build();
+                } catch (Exception e) {
+                    throw new FHIRPersistenceInterceptorException("Unexpected error while adding a tag", e);
+                }
+            }
+        };
+        FHIRPersistenceInterceptorMgr.getInstance().addInterceptor(interceptor);
+
+        Patient patientNoId = Patient.builder()
+                .name(HumanName.builder()
+                    .given(string("John"))
+                    .family(string("Doe"))
+                    .build())
+                .build();
+        Patient patientWithId = patientNoId.toBuilder()
+                .id("123")
+                .meta(Meta.builder()
+                    .lastUpdated(Instant.now())
+                    .versionId(Id.of("1"))
+                    .build())
+                .build();
+
+        FHIRPersistence persistence = Mockito.mock(FHIRPersistence.class);
+        @SuppressWarnings("unchecked")
+        SingleResourceResult<Resource> mockResult = Mockito.mock(SingleResourceResult.class);
+        when(mockResult.getResource()).thenReturn(patientWithId);
+
+        when(persistence.getTransaction()).thenReturn(new MockTransactionAdapter());
+        when(persistence.read(any(), any(), any())).thenReturn(mockResult);
+        when(persistence.create(any(), any())).thenReturn(mockResult);
+        when(persistence.update(any(), any(), any())).thenReturn(mockResult);
+        FHIRRestHelper helper = new FHIRRestHelper(persistence);
+
+        ArgumentCaptor<Patient> patientCaptor = ArgumentCaptor.forClass(Patient.class);
+        helper.doCreate("Patient", patientNoId, null);
+        Mockito.verify(persistence).create(any(), patientCaptor.capture());
+        assertEquals(patientCaptor.getValue().getMeta().getTag().get(0), TAG);
+
+        helper.doUpdate("Patient", "123", patientWithId, null, null, false);
+        Mockito.verify(persistence).update(any(), any(), patientCaptor.capture());
+        assertEquals(patientCaptor.getValue().getMeta().getTag().get(0), TAG);
     }
 }

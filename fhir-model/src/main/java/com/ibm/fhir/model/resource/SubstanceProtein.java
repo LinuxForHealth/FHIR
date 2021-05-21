@@ -55,8 +55,6 @@ public class SubstanceProtein extends DomainResource {
     @Summary
     private final List<Subunit> subunit;
 
-    private volatile int hashCode;
-
     private SubstanceProtein(Builder builder) {
         super(builder);
         sequenceType = builder.sequenceType;
@@ -584,8 +582,6 @@ public class SubstanceProtein extends DomainResource {
         private final Identifier cTerminalModificationId;
         @Summary
         private final String cTerminalModification;
-
-        private volatile int hashCode;
 
         private Subunit(Builder builder) {
             super(builder);

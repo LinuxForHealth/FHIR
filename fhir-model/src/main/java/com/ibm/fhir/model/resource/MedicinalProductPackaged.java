@@ -70,8 +70,6 @@ public class MedicinalProductPackaged extends DomainResource {
     @Required
     private final List<PackageItem> packageItem;
 
-    private volatile int hashCode;
-
     private MedicinalProductPackaged(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -816,8 +814,6 @@ public class MedicinalProductPackaged extends DomainResource {
         @Summary
         private final Identifier immediatePackaging;
 
-        private volatile int hashCode;
-
         private BatchIdentifier(Builder builder) {
             super(builder);
             outerPackaging = ValidationSupport.requireNonNull(builder.outerPackaging, "outerPackaging");
@@ -1110,8 +1106,6 @@ public class MedicinalProductPackaged extends DomainResource {
         @Summary
         @ReferenceTarget({ "Organization" })
         private final List<Reference> manufacturer;
-
-        private volatile int hashCode;
 
         private PackageItem(Builder builder) {
             super(builder);

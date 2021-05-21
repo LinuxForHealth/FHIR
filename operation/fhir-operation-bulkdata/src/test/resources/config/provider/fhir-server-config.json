@@ -1,0 +1,54 @@
+{
+	"__comment": "FHIR Server - Bulk Data - Test Configuration",
+	"fhirServer": {
+		"bulkdata": {
+			"enabled": true,
+			"core": {
+				"api": {
+					"url": "https://localhost:9443/ibm/api/batch",
+					"user": "fhiradmin",
+					"password": "change-password",
+					"truststore": "resources/security/fhirTrustStore.p12",
+					"truststorePassword": "change-password",
+					"trustAll": true
+				},
+				"cos": {
+					"partUploadTriggerSizeMB": 10,
+					"objectSizeThresholdMB": 200,
+					"objectResourceCountThreshold": 200000,
+					"useServerTruststore": true,
+					"presignedExpiry": 86400
+				},
+				"file": {
+					"writeTriggerSizeMB": 1,
+					"sizeThresholdMB": 200,
+					"resourceCountThreshold": 200000
+				},
+				"pageSize": 100,
+				"batchIdEncryptionKey": "change-password",
+				"maxPartitions": 3,
+				"maxInputs": 5,
+				"maxChunkReadTime": "90000",
+				"systemExportImpl": "fast",
+				"defaultImportProvider": "in",
+				"defaultExportProvider": "out"
+			},
+			"storageProviders": {
+				"in": {
+					"type": "file",
+					"fileBase": "/tmp/fhir-server/in",
+					"duplicationCheck": false,
+					"validateResources": false,
+					"create": false
+				},
+				"out": {
+					"type": "file",
+					"fileBase": "/tmp/fhir-server/out",
+					"enableParquet": false,
+					"create": false,
+					"presigned": true
+				}
+			}
+		}
+	}
+}

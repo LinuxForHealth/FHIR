@@ -23,19 +23,12 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-server</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>fhir-client</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-validation</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-search</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
@@ -148,7 +141,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <argLine>-Xms1G -Xmx4G</argLine>
+                    <printSummary>true</printSummary>
+                    <forkCount>1C</forkCount>
+                    <argLine>-Xms2G -Xmx4G</argLine>
                     <systemPropertyVariables>
                         <com.ibm.fhir.server.test.R4ExampleServerTest.index>${fhir-server-test.index}</com.ibm.fhir.server.test.R4ExampleServerTest.index>
                     </systemPropertyVariables>

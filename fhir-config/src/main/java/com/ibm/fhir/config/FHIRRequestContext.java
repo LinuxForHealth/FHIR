@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.config;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -49,6 +50,8 @@ public class FHIRRequestContext {
 
     // Default to the "minimal" representation which means create/update responses won't return the resource body
     private HTTPReturnPreference returnPreference = HTTPReturnPreference.MINIMAL;
+
+    private Map<String, Object> operationProperties = new HashMap<>();
 
     private Pattern validChars = Pattern.compile("[a-zA-Z0-9_\\-]+");
     private String errorMsg = "Only [a-z], [A-Z], [0-9], '_', and '-' characters are allowed.";
@@ -135,6 +138,24 @@ public class FHIRRequestContext {
         } else {
             throw new FHIRException("Invalid dataStoreId. " + errorMsg);
         }
+    }
+
+    /**
+     * set an Operation Context property
+     * @param name
+     * @param value
+     */
+    public void setExtendedOperationProperties(String name, Object value) {
+        operationProperties.put(name, value);
+    }
+
+    /**
+     * get an extended Operation Context property
+     * @param name
+     * @return
+     */
+    public Object getExtendedOperationProperties(String name) {
+        return operationProperties.get(name);
     }
 
     /**

@@ -133,8 +133,6 @@ public class Patient extends DomainResource {
     @Summary
     private final List<Link> link;
 
-    private volatile int hashCode;
-
     private Patient(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1181,8 +1179,6 @@ public class Patient extends DomainResource {
         private final Reference organization;
         private final Period period;
 
-        private volatile int hashCode;
-
         private Contact(Builder builder) {
             super(builder);
             relationship = Collections.unmodifiableList(ValidationSupport.checkList(builder.relationship, "relationship", CodeableConcept.class));
@@ -1653,8 +1649,6 @@ public class Patient extends DomainResource {
         private final CodeableConcept language;
         private final Boolean preferred;
 
-        private volatile int hashCode;
-
         private Communication(Builder builder) {
             super(builder);
             language = ValidationSupport.requireNonNull(builder.language, "language");
@@ -1936,8 +1930,6 @@ public class Patient extends DomainResource {
         )
         @Required
         private final LinkType type;
-
-        private volatile int hashCode;
 
         private Link(Builder builder) {
             super(builder);

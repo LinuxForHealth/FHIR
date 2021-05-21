@@ -156,8 +156,6 @@ public class HealthcareService extends DomainResource {
     @ReferenceTarget({ "Endpoint" })
     private final List<Reference> endpoint;
 
-    private volatile int hashCode;
-
     private HealthcareService(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1591,8 +1589,6 @@ public class HealthcareService extends DomainResource {
         private final CodeableConcept code;
         private final Markdown comment;
 
-        private volatile int hashCode;
-
         private Eligibility(Builder builder) {
             super(builder);
             code = builder.code;
@@ -1859,8 +1855,6 @@ public class HealthcareService extends DomainResource {
         private final Boolean allDay;
         private final Time availableStartTime;
         private final Time availableEndTime;
-
-        private volatile int hashCode;
 
         private AvailableTime(Builder builder) {
             super(builder);
@@ -2203,8 +2197,6 @@ public class HealthcareService extends DomainResource {
         @Required
         private final String description;
         private final Period during;
-
-        private volatile int hashCode;
 
         private NotAvailable(Builder builder) {
             super(builder);

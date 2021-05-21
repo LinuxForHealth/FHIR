@@ -71,8 +71,6 @@ public class ResearchSubject extends DomainResource {
     @ReferenceTarget({ "Consent" })
     private final Reference consent;
 
-    private volatile int hashCode;
-
     private ResearchSubject(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));

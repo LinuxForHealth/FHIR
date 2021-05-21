@@ -86,8 +86,6 @@ public class Flag extends DomainResource {
     @ReferenceTarget({ "Device", "Organization", "Patient", "Practitioner", "PractitionerRole" })
     private final Reference author;
 
-    private volatile int hashCode;
-
     private Flag(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));

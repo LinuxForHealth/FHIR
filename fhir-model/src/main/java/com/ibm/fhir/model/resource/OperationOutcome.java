@@ -48,8 +48,6 @@ public class OperationOutcome extends DomainResource {
     @Required
     private final List<Issue> issue;
 
-    private volatile int hashCode;
-
     private OperationOutcome(Builder builder) {
         super(builder);
         issue = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.issue, "issue", Issue.class));
@@ -444,8 +442,6 @@ public class OperationOutcome extends DomainResource {
         private final List<String> location;
         @Summary
         private final List<String> expression;
-
-        private volatile int hashCode;
 
         private Issue(Builder builder) {
             super(builder);

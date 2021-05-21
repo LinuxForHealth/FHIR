@@ -36,12 +36,12 @@ jobs:
       uses: joschi/setup-jdk@v2.3.0
       with:
         java-version: ${{ matrix.java }}
-    - name: Build fhir-samples
+    - name: Build fhir-examples
       run: |
             cd fhir
-            mvn -B -ntp clean install --file fhir-examples -Ddeploy.version=${TAG_VERSION} -Dmaven.wagon.http.retryHandler.count=3
-            mvn -ntp -B -N -Pset-version-release clean -f fhir-examples -Ddeploy.version=${TAG_VERSION} -Dmaven.wagon.http.retryHandler.count=3
-            mvn -ntp -B install --file fhir-examples -DskipTests -Ddeploy.version=${TAG_VERSION} -Dmaven.wagon.http.retryHandler.count=3
+            mvn -B -ntp clean install --file fhir-examples -Dversion.release=${TAG_VERSION} -Dmaven.wagon.http.retryHandler.count=3
+            mvn -ntp -B -N -Pset-version-release clean -f fhir-examples -Dversion.release=${TAG_VERSION} -Dmaven.wagon.http.retryHandler.count=3
+            mvn -ntp -B install --file fhir-examples -DskipTests -Dversion.release=${TAG_VERSION} -Dmaven.wagon.http.retryHandler.count=3
     - name: Build fhir-parent without tests
       run: |
             cd fhir

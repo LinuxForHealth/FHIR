@@ -106,8 +106,6 @@ public class RelatedPerson extends DomainResource {
     private final Period period;
     private final List<Communication> communication;
 
-    private volatile int hashCode;
-
     private RelatedPerson(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -949,8 +947,6 @@ public class RelatedPerson extends DomainResource {
         @Required
         private final CodeableConcept language;
         private final Boolean preferred;
-
-        private volatile int hashCode;
 
         private Communication(Builder builder) {
             super(builder);

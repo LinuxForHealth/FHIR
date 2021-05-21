@@ -61,8 +61,6 @@ public class Linkage extends DomainResource {
     @Required
     private final List<Item> item;
 
-    private volatile int hashCode;
-
     private Linkage(Builder builder) {
         super(builder);
         active = builder.active;
@@ -513,8 +511,6 @@ public class Linkage extends DomainResource {
         @Summary
         @Required
         private final Reference resource;
-
-        private volatile int hashCode;
 
         private Item(Builder builder) {
             super(builder);

@@ -181,8 +181,6 @@ public class ResearchStudy extends DomainResource {
     private final List<Arm> arm;
     private final List<Objective> objective;
 
-    private volatile int hashCode;
-
     private ResearchStudy(Builder builder) {
         super(builder);
         identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
@@ -1625,8 +1623,6 @@ public class ResearchStudy extends DomainResource {
         private final CodeableConcept type;
         private final String description;
 
-        private volatile int hashCode;
-
         private Arm(Builder builder) {
             super(builder);
             name = ValidationSupport.requireNonNull(builder.name, "name");
@@ -1930,8 +1926,6 @@ public class ResearchStudy extends DomainResource {
             valueSet = "http://hl7.org/fhir/ValueSet/research-study-objective-type"
         )
         private final CodeableConcept type;
-
-        private volatile int hashCode;
 
         private Objective(Builder builder) {
             super(builder);
