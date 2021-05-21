@@ -8,13 +8,22 @@
 -- Procedure to add a resource version and its associated parameters. These
 -- parameters only ever point to the latest version of a resource, never to
 -- previous versions, which are kept to support history queries.
--- p_logical_id: the logical id given to the resource by the FHIR server
--- p_payload:    the BLOB (of JSON) which is the resource content
--- p_last_updated the last_updated time given by the FHIR server
--- p_is_deleted: the soft delete flag
--- p_version_id: the version id if this is a replicated message
--- o_logical_resource_id: output field returning the newly assigned logical_resource_id value
--- o_resource_id: output field returning the newly assigned resource_id value
+-- implNote - Conventions:
+--           p_... prefix used to represent input parameters
+--           v_... prefix used to represent declared variables
+--           c_... prefix used to represent conditions
+--           o_... predix used to represent output parameters
+-- Parameters:
+--   p_logical_id:  the logical id given to the resource by the FHIR server
+--   p_payload:     the BLOB (of JSON) which is the resource content
+--   p_last_updated the last_updated time given by the FHIR server
+--   p_is_deleted:  the soft delete flag
+--   p_version:     the intended version id for this resource
+--   o_logical_resource_id: output field returning the newly assigned logical_resource_id value
+--   o_resource_id: output field returning the newly assigned resource_id value
+-- Exceptions:
+--   SQLSTATE 99001: on version conflict (concurrency)
+--   SQLSTATE 99002: missing expected row (data integrity)
 -- ----------------------------------------------------------------------------
     ( IN p_resource_type                VARCHAR( 36 OCTETS),
       IN p_logical_id                   VARCHAR(255 OCTETS), 
@@ -35,15 +44,13 @@ BEGIN
   DECLARE v_resource_id          BIGINT     DEFAULT NULL;
   DECLARE v_resource_type_id        INT     DEFAULT NULL;
   DECLARE v_new_resource            INT     DEFAULT 0;
-    --  DECLARE v_not_found               INT     DEFAULT 0;
+  DECLARE v_not_found               INT     DEFAULT 0;
   DECLARE v_duplicate               INT     DEFAULT 0;
-  DECLARE v_version                 INT     DEFAULT 0;
-  DECLARE v_insert_version          INT     DEFAULT 0;
+  DECLARE v_current_version         INT     DEFAULT 0;
   DECLARE v_change_type            CHAR(1)  DEFAULT NULL;
   DECLARE c_duplicate CONDITION FOR SQLSTATE '23505';
-  DECLARE stmt,lock_stmt STATEMENT;
-  DECLARE lock_cur CURSOR FOR lock_stmt;
---  DECLARE CONTINUE HANDLER FOR NOT FOUND          SET v_not_found = 1;
+  DECLARE stmt STATEMENT;
+  DECLARE CONTINUE HANDLER FOR NOT FOUND          SET v_not_found = 1;
   DECLARE CONTINUE HANDLER FOR c_duplicate        SET v_duplicate = 1;
 
   -- use a variable for the schema in our prepared statements to make them easier 
@@ -52,19 +59,14 @@ BEGIN
 
   SELECT resource_type_id INTO v_resource_type_id 
     FROM {{SCHEMA_NAME}}.resource_types WHERE resource_type = p_resource_type;
-
-  -- Get a lock at the system-wide logical resource level
-  PREPARE lock_stmt FROM
-     ' SELECT logical_resource_id '
-  || '   FROM ' || v_schema_name || '.logical_resources '
-  || '  WHERE resource_type_id = ? AND logical_id = ? '
-  || ' FOR UPDATE WITH RS';
-
-  -- we need to use a cursor in this context because we need the FOR UPDATE WITH RS support
-  -- and this does not work with the SET (?,?) = (select ...) construct
-  OPEN lock_cur USING v_resource_type_id, p_logical_id;
-  FETCH lock_cur INTO v_logical_resource_id;
-  CLOSE lock_cur;
+  
+  -- FOR UPDATE WITH RS does not appear to work using a prepared statement and
+  -- cursor, so we have to run this directly against the logical_resources table.
+  SELECT logical_resource_id INTO v_logical_resource_id
+    FROM {{SCHEMA_NAME}}.logical_resources
+   WHERE resource_type_id = v_resource_type_id AND logical_id = p_logical_id
+     FOR UPDATE WITH RS
+   ;
   
   -- Create the resource if we don't have it already
   IF v_logical_resource_id IS NULL
@@ -82,16 +84,18 @@ BEGIN
     THEN
       -- row exists, so we just need to obtain a lock on it. Because logical resource records are
       -- never deleted, we don't need to worry about it disappearing again before we grab the row lock
-      OPEN lock_cur USING v_resource_type_id, p_logical_id;
-      FETCH lock_cur INTO v_logical_resource_id;
-      CLOSE lock_cur;
+      SELECT logical_resource_id INTO v_logical_resource_id
+        FROM {{SCHEMA_NAME}}.logical_resources
+       WHERE resource_type_id = v_resource_type_id AND logical_id = p_logical_id
+         FOR UPDATE WITH RS
+       ;
     ELSE
       -- we created the logical resource and therefore we already own the lock. So now we can
       -- safely create the corresponding record in the resource-type-specific logical_resources table
       PREPARE stmt FROM
          'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_logical_resources (mt_id, logical_resource_id, logical_id, is_deleted, last_updated, version_id) '
       || '     VALUES (?, ?, ?, ?, ?, ?)';
-      EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_logical_resource_id, p_logical_id, p_is_deleted, p_last_updated, 1;
+      EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_logical_resource_id, p_logical_id, p_is_deleted, p_last_updated, p_version;
       SET v_new_resource = 1;
     END IF;
   END IF;
@@ -101,81 +105,46 @@ BEGIN
     -- as this is an existing resource, we need to know the current resource id.
     -- This is only available at the resource-specific logical_resources level
     PREPARE stmt FROM
-         'SET (?) = ('
-      || 'SELECT current_resource_id FROM ' || v_schema_name || '.' || p_resource_type || '_logical_resources '
+         'SET (?,?) = ('
+      || 'SELECT current_resource_id, version_id FROM ' || v_schema_name || '.' || p_resource_type || '_logical_resources '
       || ' WHERE logical_resource_id = ? )';
-    EXECUTE stmt INTO v_current_resource_id USING v_logical_resource_id;
+    EXECUTE stmt INTO v_current_resource_id, v_current_version USING v_logical_resource_id;
     
-    IF v_current_resource_id IS NULL
+    IF v_current_resource_id IS NULL OR v_current_version IS NULL
     THEN
         -- our concurrency protection means that this shouldn't happen
         SIGNAL SQLSTATE '99002' SET MESSAGE_TEXT = 'Schema data corruption - missing logical resource';
     END IF;
-  
-    -- resource exists, so if we are storing a specific version, do a quick check to make
-    -- sure that this version doesn't currently exist. This is only done when processing
-    -- custom operations which explicitly provide a version
-    IF p_version IS NOT NULL
-    THEN
-      PREPARE stmt FROM
-         'SET (?) = ('
-      || 'SELECT resource_id FROM ' || v_schema_name || '.' || p_resource_type || '_resources dr '
-      || ' WHERE dr.logical_resource_id = ? '
-      || '   AND dr.version_id = ?)';
-      EXECUTE stmt INTO v_resource_id USING v_logical_resource_id, p_version;
 
-      IF v_resource_id IS NOT NULL
-      THEN
-        -- this version of this resource already exists, so we bail out right away (we
-        -- don't allow any updating of an existing resource version)
-        SET o_logical_resource_id = v_logical_resource_id;
-        RETURN;
-      END IF;
+    -- Concurrency check:
+    --   the version parameter we've been given (which is also embedded in the JSON payload) must be 
+    --   one greater than the current version, otherwise we've hit a concurrent update race condition
+    IF p_version != v_current_version + 1
+    THEN
+        SIGNAL SQLSTATE '99001' SET MESSAGE_TEXT = 'Concurrent update - mismatch of version in JSON';
     END IF;
 
-    -- Grab the version_id for the current version
-    PREPARE stmt FROM 
-       'SET (?) = ('
-    || 'SELECT version_id FROM ' || v_schema_name || '.' || p_resource_type || '_resources '
-    || ' WHERE resource_id = ?)';
-    EXECUTE stmt INTO v_version USING v_current_resource_id;
-
-    -- If we have been passed a version number, this means that this is a custom ops
-    -- resource, and so we only need to delete parameters if the given version is later 
-    -- than the current version. This allows versions (from custom ops)
-    -- to arrive out of order, and we're just filling in the gaps
-    IF p_version IS NULL OR p_version > v_version
-    THEN
-      -- existing resource, so need to delete all its parameters. 
-      -- TODO patch parameter sets instead of all delete/all insert.
-      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_str_values          WHERE logical_resource_id = ?';
-      EXECUTE stmt USING v_logical_resource_id;
-      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_number_values       WHERE logical_resource_id = ?';
-      EXECUTE stmt USING v_logical_resource_id;
-      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_date_values         WHERE logical_resource_id = ?';
-      EXECUTE stmt USING v_logical_resource_id;
-      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_latlng_values       WHERE logical_resource_id = ?';
-      EXECUTE stmt USING v_logical_resource_id;
-      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_resource_token_refs WHERE logical_resource_id = ?';
-      EXECUTE stmt USING v_logical_resource_id;
-      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_quantity_values     WHERE logical_resource_id = ?';
-      EXECUTE stmt USING v_logical_resource_id;
-      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'str_values          WHERE logical_resource_id = ?';
-      EXECUTE stmt USING v_logical_resource_id;
-      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'date_values         WHERE logical_resource_id = ?';
-      EXECUTE stmt USING v_logical_resource_id;
-      PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'resource_token_refs WHERE logical_resource_id = ?';
-      EXECUTE stmt USING v_logical_resource_id;
-    END IF;
-  END IF;
-
-  -- Persist the data using the given version number if required
-  IF p_version IS NOT NULL
-  THEN
-    SET v_insert_version = p_version;
-  ELSE
-    SET v_insert_version = v_version + 1;
-  END IF;
+    -- existing resource, so need to delete all its parameters. 
+    -- TODO patch parameter sets instead of all delete/all insert.
+    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_str_values          WHERE logical_resource_id = ?';
+    EXECUTE stmt USING v_logical_resource_id;
+    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_number_values       WHERE logical_resource_id = ?';
+    EXECUTE stmt USING v_logical_resource_id;
+    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_date_values         WHERE logical_resource_id = ?';
+    EXECUTE stmt USING v_logical_resource_id;
+    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_latlng_values       WHERE logical_resource_id = ?';
+    EXECUTE stmt USING v_logical_resource_id;
+    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_resource_token_refs WHERE logical_resource_id = ?';
+    EXECUTE stmt USING v_logical_resource_id;
+    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_quantity_values     WHERE logical_resource_id = ?';
+    EXECUTE stmt USING v_logical_resource_id;
+    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'str_values          WHERE logical_resource_id = ?';
+    EXECUTE stmt USING v_logical_resource_id;
+    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'date_values         WHERE logical_resource_id = ?';
+    EXECUTE stmt USING v_logical_resource_id;
+    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'resource_token_refs WHERE logical_resource_id = ?';
+    EXECUTE stmt USING v_logical_resource_id;
+  END IF; -- end if existing resource
 
   -- Create the new resource version.
   -- Alpha version uses last_updated time from the app-server, so we keep that here
@@ -184,21 +153,18 @@ BEGIN
   PREPARE stmt FROM
          'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_resources (mt_id, resource_id, logical_resource_id, version_id, data, last_updated, is_deleted) '
       || ' VALUES ( ?, ?, ?, ?, ?, ?, ?)';
-  EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_resource_id, v_logical_resource_id, v_insert_version, p_payload, p_last_updated, p_is_deleted;
+  EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_resource_id, v_logical_resource_id, p_version, p_payload, p_last_updated, p_is_deleted;
 
-  IF p_version IS NULL OR p_version > v_version
-  THEN
-    -- only update the logical resource if the resource we are adding supercedes the
-    -- the current resource. mt_id isn't needed here...implied via permission
-    PREPARE stmt FROM 'UPDATE ' || v_schema_name || '.' || p_resource_type || '_logical_resources SET current_resource_id = ?, is_deleted = ?, last_updated = ?, version_id = ? WHERE logical_resource_id = ?';
-    EXECUTE stmt USING v_resource_id, p_is_deleted, p_last_updated, v_insert_version, v_logical_resource_id;
+  -- only update the logical resource if the resource we are adding supercedes the
+  -- the current resource. mt_id isn't needed here...implied via permission
+  PREPARE stmt FROM 'UPDATE ' || v_schema_name || '.' || p_resource_type || '_logical_resources SET current_resource_id = ?, is_deleted = ?, last_updated = ?, version_id = ? WHERE logical_resource_id = ?';
+  EXECUTE stmt USING v_resource_id, p_is_deleted, p_last_updated, p_version, v_logical_resource_id;
 
-    -- DB2 doesn't support user defined array types in dynamic SQL UNNEST/CAST statements,
-    -- so we can no longer insert the parameters here - instead we have to use individual
-    -- JDBC statements.
-  END IF;
+  -- DB2 doesn't support user defined array types in dynamic SQL UNNEST/CAST statements,
+  -- so we can no longer insert the parameters here - instead we have to use individual
+  -- JDBC statements.
   
-    -- Finally, write a record to RESOURCE_CHANGE_LOG which records each event
+  -- Finally, write a record to RESOURCE_CHANGE_LOG which records each event
   -- related to resources changes (issue-1955)
   IF p_is_deleted = 'Y'
   THEN
@@ -213,7 +179,7 @@ BEGIN
   END IF;
 
   INSERT INTO {{SCHEMA_NAME}}.resource_change_log(mt_id, resource_id, change_tstamp, resource_type_id, logical_resource_id, version_id, change_type)
-       VALUES ({{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_resource_id, p_last_updated, v_resource_type_id, v_logical_resource_id, v_insert_version, v_change_type);
+       VALUES ({{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_resource_id, p_last_updated, v_resource_type_id, v_logical_resource_id, p_version, v_change_type);
 
   -- Hand back the id of the logical resource we created earlier
   SET o_logical_resource_id = v_logical_resource_id;
