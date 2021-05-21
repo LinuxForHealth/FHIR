@@ -29,7 +29,7 @@ public class DerbyTranslator implements IDatabaseTranslator {
 
     @Override
     public String addForUpdate(String sql) {
-        return sql + " FOR UPDATE";
+        return sql + " FOR UPDATE WITH RS";
     }
 
     @Override
