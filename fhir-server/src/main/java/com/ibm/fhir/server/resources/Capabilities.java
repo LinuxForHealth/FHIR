@@ -299,7 +299,7 @@ public class Capabilities extends FHIRResource {
         for (String opName : operationNames) {
             FHIROperation operation = opRegistry.getOperation(opName);
             OperationDefinition opDef = operation.getDefinition();
-            if (opDef.getSystem().getValue().booleanValue()) {
+            if (Boolean.TRUE.equals(opDef.getSystem().getValue())) {
                 systemOps.add(opDef);
             }
             for (ResourceType resourceType : opDef.getResource()) {
