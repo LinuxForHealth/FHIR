@@ -81,6 +81,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchQuantity_Quantity_withPrefix_NE() throws Exception {
+        // Implicit range of indexed 'Quantity' value is 24.5 to 25.5
         assertSearchReturnsSavedResource("Quantity", "ne24|http://unitsofmeasure.org|s");
         assertSearchReturnsSavedResource("Quantity", "ne24.4999||s");
         assertSearchReturnsSavedResource("Quantity", "ne24.5||s");
@@ -92,6 +93,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchQuantity_Quantity_withPrefix_AP() throws Exception {
+        // Implicit range of indexed 'Quantity' value is 24.5 to 25.5
         assertSearchReturnsSavedResource("Quantity", "ap24|http://unitsofmeasure.org|s");
         assertSearchReturnsSavedResource("Quantity", "ap24.4999||s");
         assertSearchReturnsSavedResource("Quantity", "ap24.5||s");
@@ -104,6 +106,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchQuantity_Quantity_withPrefix_LT() throws Exception {
+        // Implicit range of indexed 'Quantity' value is 24.5 to 25.5
         assertSearchDoesntReturnSavedResource("Quantity", "lt24|http://unitsofmeasure.org|s");
         assertSearchDoesntReturnSavedResource("Quantity", "lt24.4999||s");
         assertSearchDoesntReturnSavedResource("Quantity", "lt24.5||s");
@@ -116,6 +119,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchQuantity_Quantity_withPrefix_GT() throws Exception {
+        // Implicit range of indexed 'Quantity' value is 24.5 to 25.5
         assertSearchReturnsSavedResource("Quantity", "gt24|http://unitsofmeasure.org|s");
         assertSearchReturnsSavedResource("Quantity", "gt24.4999||s");
         assertSearchReturnsSavedResource("Quantity", "gt24.5||s");
@@ -128,6 +132,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchQuantity_Quantity_withPrefix_LE() throws Exception {
+        // Implicit range of indexed 'Quantity' value is 24.5 to 25.5
         assertSearchDoesntReturnSavedResource("Quantity", "le24|http://unitsofmeasure.org|s");
         assertSearchDoesntReturnSavedResource("Quantity", "le24.4999||s");
         assertSearchDoesntReturnSavedResource("Quantity", "le24.5||s");
@@ -139,6 +144,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchQuantity_Quantity_withPrefix_GE() throws Exception {
+        // Implicit range of indexed 'Quantity' value is 24.5 to 25.5
         assertSearchReturnsSavedResource("Quantity", "ge24|http://unitsofmeasure.org|s");
         assertSearchReturnsSavedResource("Quantity", "ge24.4999||s");
         assertSearchReturnsSavedResource("Quantity", "ge24.5||s");
