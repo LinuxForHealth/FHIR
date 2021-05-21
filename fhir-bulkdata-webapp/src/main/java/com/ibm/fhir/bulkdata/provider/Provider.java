@@ -77,7 +77,7 @@ public interface Provider {
      * Pushes the Operation Outcomes
      */
     default void pushOperationOutcomes() throws FHIRException {
-        // No Operation;
+        // No Operation
     }
 
     void close() throws Exception;
