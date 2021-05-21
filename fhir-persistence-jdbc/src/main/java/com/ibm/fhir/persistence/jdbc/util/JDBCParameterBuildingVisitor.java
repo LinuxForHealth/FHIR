@@ -43,6 +43,7 @@ import com.ibm.fhir.model.type.Range;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.QuantityComparator;
 import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.visitor.DefaultVisitor;
@@ -506,6 +507,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
             p.setValueNumber(money.getValue().getValue());
+            p.setValueNumberLow(NumberParmBehaviorUtil.generateLowerBound(money.getValue().getValue()));
+            p.setValueNumberHigh(NumberParmBehaviorUtil.generateUpperBound(money.getValue().getValue()));
             if (money.getCurrency() != null) {
                 p.setValueCode(money.getCurrency().getValue());
             }
@@ -551,8 +554,29 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         }
         if (quantity.getValue() != null && quantity.getValue().hasValue()) {
             BigDecimal value = quantity.getValue().getValue();
-            BigDecimal valueLow = NumberParmBehaviorUtil.generateLowerBound(value);
-            BigDecimal valueHigh = NumberParmBehaviorUtil.generateUpperBound(value);
+            BigDecimal valueLow = null;
+            BigDecimal valueHigh = null;
+            if (quantity.getComparator() != null) {
+                // Calculate range based on comparator
+                if (QuantityComparator.GREATER_OR_EQUALS.equals(quantity.getComparator())) {
+                    // Range low value is quantity value
+                    valueLow = value;
+                } else if (QuantityComparator.GREATER_THAN.equals(quantity.getComparator())) {
+                    // Range low value is quantity value plus 1e-<scale+9>
+                    int scale = value.scale() < 0 ? 9 : value.scale()+9;
+                    valueLow = value.add(new BigDecimal("1e-" + scale));
+                } else if (QuantityComparator.LESS_OR_EQUALS.equals(quantity.getComparator())) {
+                    // Range high value is quantity value
+                    valueHigh = value;
+                } else if (QuantityComparator.LESS_THAN.equals(quantity.getComparator())) {
+                    // Range high value is quantity value minus 1e-<scale+9>
+                    int scale = value.scale() < 0 ? 9 : value.scale()+9;
+                    valueHigh = value.subtract(new BigDecimal("1e-" + scale));
+                }
+            } else {
+                valueLow = NumberParmBehaviorUtil.generateLowerBound(value);
+                valueHigh = NumberParmBehaviorUtil.generateUpperBound(value);
+            }
             boolean addedCodeOrUnit = false;
 
             // see https://gforge.hl7.org/gf/project/fhir/tracker/?action=TrackerItemEdit&tracker_item_id=19597
