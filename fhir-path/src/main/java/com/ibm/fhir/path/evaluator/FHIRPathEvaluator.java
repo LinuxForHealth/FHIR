@@ -1336,22 +1336,23 @@ public class FHIRPathEvaluator {
      * A context object used to pass information to/from the FHIRPath evaluation engine
      */
     public static class EvaluationContext {
+        public static final boolean DEFAULT_RESOLVE_RELATIVE_REFERENCES = false;
+
         private static final String UCUM_SYSTEM = "http://unitsofmeasure.org";
-        private static final Collection<FHIRPathNode> UCUM_SYSTEM_SINGLETON = singleton(stringValue(UCUM_SYSTEM));
-
         private static final String LOINC_SYSTEM = "http://loinc.org";
-        private static final Collection<FHIRPathNode> LOINC_SYSTEM_SINGLETON = singleton(stringValue(LOINC_SYSTEM));
-
         private static final String SCT_SYSTEM = "http://snomed.info/sct";
-        private static final Collection<FHIRPathNode> SCT_SYSTEM_SINGLETON = singleton(stringValue(SCT_SYSTEM));
 
+        private static final Collection<FHIRPathNode> UCUM_SYSTEM_SINGLETON = singleton(stringValue(UCUM_SYSTEM));
+        private static final Collection<FHIRPathNode> LOINC_SYSTEM_SINGLETON = singleton(stringValue(LOINC_SYSTEM));
+        private static final Collection<FHIRPathNode> SCT_SYSTEM_SINGLETON = singleton(stringValue(SCT_SYSTEM));
         private static final Collection<FHIRPathNode> TERM_SERVICE_SINGLETON = singleton(FHIRPathTermServiceNode.termServiceNode());
 
         private final FHIRPathTree tree;
         private final Map<String, Collection<FHIRPathNode>> externalConstantMap = new HashMap<>();
+        private final List<Issue> issues = new ArrayList<>();
 
         private Constraint constraint;
-        private final List<Issue> issues = new ArrayList<>();
+        private boolean resolveRelativeReferences = DEFAULT_RESOLVE_RELATIVE_REFERENCES;
 
         /**
          * Create an empty evaluation context, evaluating stand-alone expressions
@@ -1473,6 +1474,35 @@ public class FHIRPathEvaluator {
         }
 
         /**
+         * Get the list of supplemental issues that were generated during evaluation
+         *
+         * <p>Supplemental issues are used to convey additional information about the evaluation to the client
+         *
+         * @return
+         *     the list of supplemental issues that were generated during evaluation
+         */
+        public List<Issue> getIssues() {
+            return issues;
+        }
+
+        /**
+         * Clear the list of supplemental issues that were generated during evaluation
+         */
+        public void clearIssues() {
+            issues.clear();
+        }
+
+        /**
+         * Indicates whether this evaluation context has supplemental issues that were generated during evaluation
+         *
+         * @return
+         *     true if this evaluation context has supplemental issues that were generated during evaluation, otherwise false
+         */
+        public boolean hasIssues() {
+            return !issues.isEmpty();
+        }
+
+        /**
          * Set the constraint currently under evaluation
          *
          * <p>If a {@link Constraint} is the source of the expression under evaluation, then this method allows the
@@ -1514,32 +1544,23 @@ public class FHIRPathEvaluator {
         }
 
         /**
-         * Get the list of supplemental issues that were generated during evaluation
+         * Set the resolve relative references indicator
          *
-         * <p>Supplemental issues are used to convey additional information about the evaluation to the client
-         *
-         * @return
-         *     the list of supplemental issues that were generated during evaluation
+         * @param resolveRelativeReferences
+         *     the resolve relative references indicator
          */
-        public List<Issue> getIssues() {
-            return issues;
+        public void setResolveRelativeReferences(boolean resolveRelativeReferences) {
+            this.resolveRelativeReferences = resolveRelativeReferences;
         }
 
         /**
-         * Clear the list of supplemental issues that were generated during evaluation
-         */
-        public void clearIssues() {
-            issues.clear();
-        }
-
-        /**
-         * Indicates whether this evaluation context has supplemental issues that were generated during evaluation
+         * Indicates whether the evaluator using this evaluation context should resolve relative references (if possible)
          *
          * @return
-         *     true if this evaluation context has supplemental issues that were generated during evaluation, otherwise false
+         *     true if the evaluator using this evaluation context should resolve relative references (if possible), otherwise false
          */
-        public boolean hasIssues() {
-            return !issues.isEmpty();
+        public boolean resolveRelativeReferences() {
+            return resolveRelativeReferences;
         }
     }
 }
