@@ -29,12 +29,12 @@ import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.test.TestUtil;
 
 /**
- * Tests specifically the concurrent creation and updating of a single patient, with the updateCreate feature enabled.
- * The idea is to ensure that no patients with duplicate logical ids are created.
- *
- * NOTE: This test is NOT included in the fhir-server testng suite because of an internal problem with Derby that
- * surfaces after the first execution of this test against a clean Derby DB. Subsequent test runs of this class will
- * fail with an XAException that has an unknown error code. It should only be run against a DB2 database.
+ * Tests the concurrent creation and updating of a single patient, with the updateCreate feature enabled.
+ * The idea is to ensure that:
+ * 1. No updates are "lost".
+ * 2. No deadlocks occur.
+ * 3. No duplicate logical ids are created.
+ * 4. The resource is searchable in the end.
  */
 public class ConcurrentUpdateTest extends FHIRServerTestBase {
 
