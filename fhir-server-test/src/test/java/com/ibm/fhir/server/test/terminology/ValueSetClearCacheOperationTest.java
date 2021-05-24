@@ -193,11 +193,11 @@ public class ValueSetClearCacheOperationTest extends TerminologyOperationTestBas
         String codeSystemId = "test";
         String valueSetId = "test-intensional";
         
-        clearCodeSystemCache(codeSystemId);
-        clearValueSetCache(valueSetId);
-        
         doPut("/CodeSystem", "test", "testdata/CodeSystem-test.json");
         doPut(BASE_VALUE_SET_URL, valueSetId, "testdata/ValueSet-intensional.json");
+        
+        clearCodeSystemCache(codeSystemId);
+        clearValueSetCache(valueSetId);
 
         // Base Content expansion
         response = doGet(BASE_VALUE_SET_URL + "/" + valueSetId + "/$expand");
