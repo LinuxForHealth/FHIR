@@ -52,7 +52,8 @@ RUN features.sh
 
 COPY --chown=1001:0 --from=base /opt/ol/wlp/usr /opt/ol/wlp/usr
 
-RUN configure.sh
+RUN configure.sh && \
+    mkdir -p /output/bulkdata
 
 COPY --chown=1001:0 --from=base /opt/ibm-fhir-server /opt/ibm-fhir-server
 

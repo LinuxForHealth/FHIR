@@ -1320,7 +1320,7 @@ The Bulk Data web application writes the exported FHIR resources to an IBM Cloud
     "storageProviders": {
         "default" : {
             "type": "file",
-            "fileBase": "${WLP_OUTPUT_DIR}/fhir-server/output",
+            "fileBase": "/output/bulkdata",
             "exportPublic": true,
             "disableOperationOutcomes": true,
             "duplicationCheck": false,
@@ -2071,7 +2071,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/storageProviders/<source>/location`|string|Object store location |
 |`fhirServer/bulkdata/storageProviders/<source>/endpointInternal`|string|Object store end point url used to read/write from COS |
 |`fhirServer/bulkdata/storageProviders/<source>/endpointExternal`|string|Object store end point url used in the constructed download URLs|
-|`fhirServer/bulkdata/storageProviders/<source>/fileBase`|string| The absolute path of the output directory |
+|`fhirServer/bulkdata/storageProviders/<source>/fileBase`|string| The absolute path of the output directory. It may be desirable to set this to a path within a mount point of separate file system if large amounts of data are involved|
 |`fhirServer/bulkdata/storageProviders/<source>/validBaseUrls`|list|The list of supported urls which are approved for the fhir server to access|
 |`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|boolean|Disables the URL checking feature, allowing all URLs to be imported|
 |`fhirServer/bulkdata/storageProviders/<source>/exportPublic`|boolean|Whether or not the server is configured to support export to parquet; to properly enable it the administrator must first make spark and stocator available to the fhir-bulkdata-webapp (e.g through the shared lib at `wlp/user/shared/resources/lib`)|
