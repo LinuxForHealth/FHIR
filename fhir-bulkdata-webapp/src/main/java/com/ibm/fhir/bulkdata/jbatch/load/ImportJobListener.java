@@ -50,7 +50,6 @@ public class ImportJobListener implements JobListener {
     @Override
     public void afterJob() {
         if (BatchStatus.FAILED.equals(jobCtx.getBatchStatus())) {
-
             return;
         }
 
