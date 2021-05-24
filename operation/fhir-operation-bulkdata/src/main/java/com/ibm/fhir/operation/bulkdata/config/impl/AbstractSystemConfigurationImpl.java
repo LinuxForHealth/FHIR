@@ -352,4 +352,9 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     public boolean hasStorageProvider(String storageProvider) {
         return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + storageProvider + "/type", null) != null;
     }
+
+    @Override
+    public String getStorageProviderAuthTypeConnectionString(String provider) {
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/auth/connection", null);
+    }
 }

@@ -497,4 +497,11 @@ public interface ConfigurationAdapter {
      * @return
      */
     int getPresignedUrlExpiry();
+
+    /**
+     * get the connection string for the azure type account with a connection string.
+     * @param provider
+     * @return
+     */
+    String getStorageProviderAuthTypeConnectionString(String provider);
 }

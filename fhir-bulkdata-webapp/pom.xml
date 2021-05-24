@@ -111,10 +111,16 @@
             <!-- azure needs to come before spark/stocator -->
             <groupId>com.azure</groupId>
             <artifactId>azure-storage-blob</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.azure</groupId>
+                    <artifactId>azure-core-http-netty</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-core-http-okhttp</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>

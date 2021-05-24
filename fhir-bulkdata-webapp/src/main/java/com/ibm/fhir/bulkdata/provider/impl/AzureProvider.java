@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -136,12 +137,12 @@ public class AzureProvider implements Provider {
      */
     public void listBlobsForContainer() throws FHIRException {
         try {
-            BlobContainerClient client = new BlobContainerClientBuilder()
+            BlobContainerClient containerClient = new BlobContainerClientBuilder()
                     .connectionString(connectionString)
                     .containerName(container)
                     .buildClient();
             LOG.info("Listing the blobs");
-            client.listBlobs().forEach(blob -> LOG.info("BLOB: " + blob.getName()));
+            containerClient.listBlobs().forEach(blob -> LOG.info("BLOB: " + blob.getName()));
             LOG.info("Finished listing the blobs");
         } catch (Exception e) {
             throw new FHIRException("Error listing the blobs for '" + container + "'", e);
@@ -174,8 +175,9 @@ public class AzureProvider implements Provider {
 
         boolean complete = false;
         int window = 0;
+
         // 200 means 2000M! has been retrieved, our maximum single resource size.
-        String previous =  "";
+        StringBuilder previous = new StringBuilder();
         while (!complete && window < 200) {
             BlobRequestConditions options = new BlobRequestConditions();
             BlobRange range = new BlobRange(currentBytes, 10000L);
@@ -192,9 +194,13 @@ public class AzureProvider implements Provider {
 
                     try (ByteArrayInputStream bais = new ByteArrayInputStream(compLine.getBytes())) {
                         resources.add(FHIRParser.parser(Format.JSON).parse(bais));
-                        LOG.fine("[R] " + previous + line);
+                        if (LOG.isLoggable(Level.FINE)) {
+                            LOG.fine("Azure Resource [R] " + compLine);
+                        }
+                        // There is no reason to reset compLine as we're now stopping this proccessing block.
+                        // previous, baos are all goign to go out of scope.
                         if (window > 0) {
-                            // Doesn't need too be closeable
+                            // Doesn't need to be closed per JavaDocs
                             ByteArrayOutputStream baos = new ByteArrayOutputStream();
                             baos.write(line.getBytes());
                             currentBytes += baos.size();
@@ -204,7 +210,7 @@ public class AzureProvider implements Provider {
                     } catch(FHIRParserException fpe) {
                         // We're on the last line, so there might be more
                         if (idx -1 == lines.size()) {
-                            previous += line;
+                            previous.append(line);
                         }
                     }
                 }

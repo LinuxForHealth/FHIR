@@ -560,6 +560,11 @@
                 <artifactId>azure-storage-blob</artifactId>
                 <version>12.6.0</version>
             </dependency>
+            <dependency>
+                <groupId>com.azure</groupId>
+                <artifactId>azure-core-http-okhttp</artifactId>
+                <version>1.6.2</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
