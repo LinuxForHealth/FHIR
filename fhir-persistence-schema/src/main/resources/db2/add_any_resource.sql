@@ -12,7 +12,7 @@
 --           p_... prefix used to represent input parameters
 --           v_... prefix used to represent declared variables
 --           c_... prefix used to represent conditions
---           o_... predix used to represent output parameters
+--           o_... prefix used to represent output parameters
 -- Parameters:
 --   p_logical_id:  the logical id given to the resource by the FHIR server
 --   p_payload:     the BLOB (of JSON) which is the resource content
@@ -57,6 +57,9 @@ BEGIN
   -- to write
   SET v_schema_name = '{{SCHEMA_NAME}}';
 
+    -- Grab the new resource_id so that we can use it right away (and skip an update to xx_logical_resources later)
+  VALUES NEXT VALUE FOR {{SCHEMA_NAME}}.fhir_sequence INTO v_resource_id;
+
   SELECT resource_type_id INTO v_resource_type_id 
     FROM {{SCHEMA_NAME}}.resource_types WHERE resource_type = p_resource_type;
   
@@ -93,9 +96,9 @@ BEGIN
       -- we created the logical resource and therefore we already own the lock. So now we can
       -- safely create the corresponding record in the resource-type-specific logical_resources table
       PREPARE stmt FROM
-         'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_logical_resources (mt_id, logical_resource_id, logical_id, is_deleted, last_updated, version_id) '
-      || '     VALUES (?, ?, ?, ?, ?, ?)';
-      EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_logical_resource_id, p_logical_id, p_is_deleted, p_last_updated, p_version;
+         'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_logical_resources (mt_id, logical_resource_id, logical_id, is_deleted, last_updated, version_id, current_resource_id) '
+      || '     VALUES (?, ?, ?, ?, ?, ?, ?)';
+      EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_logical_resource_id, p_logical_id, p_is_deleted, p_last_updated, p_version, v_resource_id;
       SET v_new_resource = 1;
     END IF;
   END IF;
@@ -146,20 +149,19 @@ BEGIN
     EXECUTE stmt USING v_logical_resource_id;
   END IF; -- end if existing resource
 
-  -- Create the new resource version.
-  -- Alpha version uses last_updated time from the app-server, so we keep that here
-  VALUES NEXT VALUE FOR {{SCHEMA_NAME}}.fhir_sequence INTO v_resource_id;
-
   PREPARE stmt FROM
          'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_resources (mt_id, resource_id, logical_resource_id, version_id, data, last_updated, is_deleted) '
       || ' VALUES ( ?, ?, ?, ?, ?, ?, ?)';
   EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_resource_id, v_logical_resource_id, p_version, p_payload, p_last_updated, p_is_deleted;
 
-  -- only update the logical resource if the resource we are adding supercedes the
-  -- the current resource. mt_id isn't needed here...implied via permission
-  PREPARE stmt FROM 'UPDATE ' || v_schema_name || '.' || p_resource_type || '_logical_resources SET current_resource_id = ?, is_deleted = ?, last_updated = ?, version_id = ? WHERE logical_resource_id = ?';
-  EXECUTE stmt USING v_resource_id, p_is_deleted, p_last_updated, p_version, v_logical_resource_id;
-
+  IF v_new_resource = 0 THEN
+    -- As this is an existing logical resource, we need to update the xx_logical_resource values to match
+    -- the values of the current resource. For new resources, these are added by the insert so we don't
+    -- need to update them here.
+    PREPARE stmt FROM 'UPDATE ' || v_schema_name || '.' || p_resource_type || '_logical_resources SET current_resource_id = ?, is_deleted = ?, last_updated = ?, version_id = ? WHERE logical_resource_id = ?';
+    EXECUTE stmt USING v_resource_id, p_is_deleted, p_last_updated, p_version, v_logical_resource_id;
+  END IF;
+  
   -- DB2 doesn't support user defined array types in dynamic SQL UNNEST/CAST statements,
   -- so we can no longer insert the parameters here - instead we have to use individual
   -- JDBC statements.

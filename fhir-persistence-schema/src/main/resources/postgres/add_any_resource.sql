@@ -12,7 +12,7 @@
 --           p_... prefix used to represent input parameters
 --           v_... prefix used to represent declared variables
 --           t_... prefix used to represent temp variables
---           o_... predix used to represent output parameters
+--           o_... prefix used to represent output parameters
 -- Parameters:
 --   p_logical_id: the logical id given to the resource by the FHIR server
 --   p_payload:    the BLOB (of JSON) which is the resource content
@@ -55,6 +55,9 @@ BEGIN
   SELECT resource_type_id INTO v_resource_type_id 
     FROM {{SCHEMA_NAME}}.resource_types WHERE resource_type = p_resource_type;
 
+  -- Grab the new resource_id so that we can use it right away (and skip an update to xx_logical_resources later)
+  SELECT NEXTVAL('{{SCHEMA_NAME}}.fhir_sequence') INTO v_resource_id;
+
   -- Get a lock at the system-wide logical resource level
   OPEN lock_cur(t_resource_type_id := v_resource_type_id, t_logical_id := p_logical_id);
   FETCH lock_cur INTO v_logical_resource_id;
@@ -80,8 +83,8 @@ BEGIN
     THEN
       -- we created the logical resource and therefore we already own the lock. So now we can
       -- safely create the corresponding record in the resource-type-specific logical_resources table
-      EXECUTE 'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_logical_resources (logical_resource_id, logical_id, is_deleted, last_updated, version_id) '
-      || '     VALUES ($1, $2, $3, $4, $5)' USING v_logical_resource_id, p_logical_id, p_is_deleted, p_last_updated, p_version;
+      EXECUTE 'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_logical_resources (logical_resource_id, logical_id, is_deleted, last_updated, version_id, current_resource_id) '
+      || '     VALUES ($1, $2, $3, $4, $5, $6)' USING v_logical_resource_id, p_logical_id, p_is_deleted, p_last_updated, p_version, v_resource_id;
       v_new_resource := 1;
     ELSE
       v_logical_resource_id := t_logical_resource_id;
@@ -133,18 +136,20 @@ BEGIN
       USING v_logical_resource_id;
   END IF;
 
-  -- Create the new resource version.
-  -- Alpha version uses last_updated time from the app-server, so we keep that here
-  SELECT NEXTVAL('{{SCHEMA_NAME}}.fhir_sequence') INTO v_resource_id;
 
   EXECUTE
          'INSERT INTO ' || v_schema_name || '.' || p_resource_type || '_resources (resource_id, logical_resource_id, version_id, data, last_updated, is_deleted) '
       || ' VALUES ($1, $2, $3, $4, $5, $6)'
     USING v_resource_id, v_logical_resource_id, p_version, p_payload, p_last_updated, p_is_deleted;
 
-  -- align the values in xx_logical_resources to the latest resource version
-  EXECUTE 'UPDATE ' || v_schema_name || '.' || p_resource_type || '_logical_resources SET current_resource_id = $1, is_deleted = $2, last_updated = $3, version_id = $4 WHERE logical_resource_id = $5'
-    USING v_resource_id, p_is_deleted, p_last_updated, p_version, v_logical_resource_id;
+  
+  IF v_new_resource = 0 THEN
+    -- As this is an existing logical resource, we need to update the xx_logical_resource values to match
+    -- the values of the current resource. For new resources, these are added by the insert so we don't
+    -- need to update them here.
+    EXECUTE 'UPDATE ' || v_schema_name || '.' || p_resource_type || '_logical_resources SET current_resource_id = $1, is_deleted = $2, last_updated = $3, version_id = $4 WHERE logical_resource_id = $5'
+      USING v_resource_id, p_is_deleted, p_last_updated, p_version, v_logical_resource_id;
+  END IF;
 
   -- Finally, write a record to RESOURCE_CHANGE_LOG which records each event
   -- related to resources changes (issue-1955)
