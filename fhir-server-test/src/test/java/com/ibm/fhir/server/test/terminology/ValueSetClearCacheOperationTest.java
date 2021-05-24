@@ -25,7 +25,8 @@ public class ValueSetClearCacheOperationTest extends TerminologyOperationTestBas
     public static final boolean DEBUG = false;
 
     // URLs to call against the instance
-    public static final String BASE_VALID_URL = "/ValueSet";
+    public static final String BASE_VALUE_SET_URL = "/ValueSet";
+    public static final String BASE_CODE_SYSTEM_URL = "/CodeSystem";
 
 
     /**
@@ -53,22 +54,22 @@ public class ValueSetClearCacheOperationTest extends TerminologyOperationTestBas
         String version = "20200331";
         
         // Initialize the resource
-        doPut(BASE_VALID_URL, id, "testdata/ValueSet-extensional.json");
+        doPut(BASE_VALUE_SET_URL, id, "testdata/ValueSet-extensional.json");
         
         // URL only
-        response = doGet(BASE_VALID_URL + "/$clear-cache", "url", url);
+        response = doGet(BASE_VALUE_SET_URL + "/$clear-cache", "url", url);
         assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
         
         // Canonical URL with version
-        response = doGet(BASE_VALID_URL + "/$clear-cache", "url", url + "|" + version);
+        response = doGet(BASE_VALUE_SET_URL + "/$clear-cache", "url", url + "|" + version);
         assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
         
         // Version as a separate param
-        response = doGet(BASE_VALID_URL + "/$clear-cache", "url", url, "valueSetVersion", version);
+        response = doGet(BASE_VALUE_SET_URL + "/$clear-cache", "url", url, "valueSetVersion", version);
         assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
         
         // Directly on the target resource
-        response = doGet(BASE_VALID_URL + "/" + id + "/$clear-cache");
+        response = doGet(BASE_VALUE_SET_URL + "/" + id + "/$clear-cache");
         assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
     }
     
@@ -99,32 +100,29 @@ public class ValueSetClearCacheOperationTest extends TerminologyOperationTestBas
         String id = "179814145dd-affc9873-c326-43c3-bf0f-7d7d695644b5";
         
         // Create the resource initial state
-        doPut(BASE_VALID_URL, id, "testdata/ValueSet-extensional.json");
+        doPut(BASE_VALUE_SET_URL, id, "testdata/ValueSet-extensional.json");
 
         // Base Content expansion
-        response = doGet(BASE_VALID_URL + "/" + id + "/$validate-code", "code", "9999", "system", "http://snomed.info/sct");
+        response = doGet(BASE_VALUE_SET_URL + "/" + id + "/$validate-code", "code", "9999", "system", "http://snomed.info/sct");
         responseBody = response.readEntity(String.class);
         assertEquals(response.getStatus(), Response.Status.OK.getStatusCode(), responseBody);
         resource = parseResource(responseBody);
         assertEquals( (boolean) getBooleanParameterValue(resource, "result"), false, responseBody );
 
         // Update the resource
-        doPut(BASE_VALID_URL, id, "testdata/ValueSet-extensional-updated.json");
+        doPut(BASE_VALUE_SET_URL, id, "testdata/ValueSet-extensional-updated.json");
         
         // Updated Content expansion
-        response = doGet(BASE_VALID_URL + "/" + id + "/$validate-code", "code", "9999", "system", "http://snomed.info/sct");
+        response = doGet(BASE_VALUE_SET_URL + "/" + id + "/$validate-code", "code", "9999", "system", "http://snomed.info/sct");
         responseBody = response.readEntity(String.class);        
         assertEquals(response.getStatus(), Response.Status.OK.getStatusCode(), responseBody);
         resource = parseResource(responseBody);
         assertEquals( (boolean) getBooleanParameterValue(resource, "result"), false, responseBody );
         
-        // Clear the ValueSet cache
-        response = doGet(BASE_VALID_URL + "/" + id + "/$clear-cache");
-        responseBody = response.readEntity(String.class);        
-        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode(), responseBody);
+        clearValueSetCache(id);
         
         // Should have the correct result now
-        response = doGet(BASE_VALID_URL + "/" + id + "/$validate-code", "code", "9999", "system", "http://snomed.info/sct");
+        response = doGet(BASE_VALUE_SET_URL + "/" + id + "/$validate-code", "code", "9999", "system", "http://snomed.info/sct");
         responseBody = response.readEntity(String.class);        
         assertEquals(response.getStatus(), Response.Status.OK.getStatusCode(), responseBody);
         resource = parseResource(responseBody);
@@ -132,7 +130,8 @@ public class ValueSetClearCacheOperationTest extends TerminologyOperationTestBas
     }
     
     /**
-     * Check that the expansion of an intensional value set is updated after the value set resource changes.
+     * Check that the expansion of an intensional value set is updated after the value set resource changes. No caching
+     * is currently interrupting this operation from getting updated data.
      * 
      * <pre>
 	 * curl -k -v -X PUT -u "fhiruser:change-password" -H 'Content-Type: application/fhir+json' -d {@literal @}src/test/resources/testdata/ValueSet-intensional.json 'https://localhost:9443/fhir-server/api/v4/ValueSet/test-intensional'
@@ -146,23 +145,24 @@ public class ValueSetClearCacheOperationTest extends TerminologyOperationTestBas
     public void testIntensionalExpansionChangedAfterValueSetUpdate() throws Exception {
         Response response;
         String responseBody;
-        
-        doPut("/CodeSystem", "test", "testdata/CodeSystem-test.json");
 
-        String id = "test-intensional";
-        doPut(BASE_VALID_URL, id, "testdata/ValueSet-intensional.json");
+        String codeSystemId = "test";
+        String valueSetId = "test-intensional";
+        
+        doPut(BASE_CODE_SYSTEM_URL, codeSystemId, "testdata/CodeSystem-test.json");
+        doPut(BASE_VALUE_SET_URL, valueSetId, "testdata/ValueSet-intensional.json");
 
         // Base Content expansion
-        response = doGet(BASE_VALID_URL + "/" + id + "/$expand");
+        response = doGet(BASE_VALUE_SET_URL + "/" + valueSetId + "/$expand");
         responseBody = response.readEntity(String.class);
         assertEquals(response.getStatus(), Response.Status.OK.getStatusCode(), responseBody);
         assertFalse( responseBody.contains("Concept A"), responseBody );
 
         // Update the resource
-        doPut(BASE_VALID_URL, id, "testdata/ValueSet-intensional-updated.json");
+        doPut(BASE_VALUE_SET_URL, valueSetId, "testdata/ValueSet-intensional-updated.json");
         
         // Updated Content expansion
-        response = doGet(BASE_VALID_URL + "/" + id + "/$expand");
+        response = doGet(BASE_VALUE_SET_URL + "/" + valueSetId + "/$expand");
         responseBody = response.readEntity(String.class);
         assertEquals(response.getStatus(), Response.Status.OK.getStatusCode(), responseBody);
         assertTrue( responseBody.contains("Concept A"), responseBody );
@@ -190,13 +190,17 @@ public class ValueSetClearCacheOperationTest extends TerminologyOperationTestBas
         Response response;
         String responseBody;
         
+        String codeSystemId = "test";
+        String valueSetId = "test-intensional";
+        
+        clearCodeSystemCache(codeSystemId);
+        clearValueSetCache(valueSetId);
+        
         doPut("/CodeSystem", "test", "testdata/CodeSystem-test.json");
-
-        String id = "test-intensional";
-        doPut(BASE_VALID_URL, id, "testdata/ValueSet-intensional.json");
+        doPut(BASE_VALUE_SET_URL, valueSetId, "testdata/ValueSet-intensional.json");
 
         // Base Content expansion
-        response = doGet(BASE_VALID_URL + "/" + id + "/$expand");
+        response = doGet(BASE_VALUE_SET_URL + "/" + valueSetId + "/$expand");
         responseBody = response.readEntity(String.class);
         assertEquals(response.getStatus(), Response.Status.OK.getStatusCode(), responseBody);
         assertTrue( responseBody.contains("Concept K"), responseBody );
@@ -205,23 +209,36 @@ public class ValueSetClearCacheOperationTest extends TerminologyOperationTestBas
         doPut("/CodeSystem", "test", "testdata/CodeSystem-test-updated.json");
         
         // Check the expansion is the same after the codesystem change
-        response = doGet(BASE_VALID_URL + "/" + id + "/$expand");
+        response = doGet(BASE_VALUE_SET_URL + "/" + valueSetId + "/$expand");
         responseBody = response.readEntity(String.class);
         assertEquals(response.getStatus(), Response.Status.OK.getStatusCode(), responseBody);
         assertTrue( responseBody.contains("Concept K"), responseBody );
         
         // Clear the ValueSet cache
-        response = doGet("/CodeSystem/test/$clear-cache");
-        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode(), responseBody);
-
-        response = doGet(BASE_VALID_URL + "/" + id + "/$clear-cache");
-        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode(), responseBody);
+        clearCodeSystemCache(codeSystemId);
+        clearValueSetCache(valueSetId);
         
         // Check the expansion after the cache is cleared
-        response = doGet(BASE_VALID_URL + "/" + id + "/$expand");
+        response = doGet(BASE_VALUE_SET_URL + "/" + valueSetId + "/$expand");
         responseBody = response.readEntity(String.class);
         assertEquals(response.getStatus(), Response.Status.OK.getStatusCode(), responseBody);
         assertFalse(responseBody.contains("Concept K"), responseBody);
         assertTrue(responseBody.contains("Concept ZZ"), responseBody);
     }
+
+	private void clearValueSetCache(String id) {
+		clearCache(BASE_VALUE_SET_URL, id);
+	}
+
+	private void clearCodeSystemCache(String id) {
+		clearCache(BASE_CODE_SYSTEM_URL, id);
+	}
+
+	private void clearCache(String baseUrl, String id) {
+		Response response;
+		String responseBody;
+		response = doGet(baseUrl + "/" + id + "/$clear-cache");
+        responseBody = response.readEntity(String.class);
+        assertEquals(response.getStatus(), Response.Status.OK.getStatusCode(), responseBody);
+	}
 }
