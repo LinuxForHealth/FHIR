@@ -21,7 +21,7 @@ set -eu -o pipefail
 # Reconcile the versions.
 FHIR_PARENT_VERSION=$(cat fhir-parent/pom.xml | xpath -q -e project/properties/fhir-examples.version/text\(\))
 FHIR_EXAMPLES_VERSION=$(cat fhir-examples/pom.xml | xpath -q -e project/version/text\(\))
-if [ "${FHIR_PARENT_VERSION}" == "${FHIR_EXAMPLES_VERSION}" ]
+if [[ "${FHIR_PARENT_VERSION}" == "${FHIR_EXAMPLES_VERSION}" ]]
 then
     export BUILD_PROFILES=" $(jq -r '.build[] | select(.type == "fhir-examples").profiles | map(.) | join(",")' build/release/config/release.json)"
     export BUILD_PROFILES="${BUILD_PROFILES},deploy-to-sonatype"
