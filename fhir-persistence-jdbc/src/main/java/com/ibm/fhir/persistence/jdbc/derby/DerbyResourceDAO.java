@@ -184,7 +184,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
      * with concurrency issues caused when deletes are mingled with inserts/updates
      *
      * Note the execution flow aligns very closely with the DB2 stored procedure
-     * implementation (fhir-persistence-schema/src/main/resources/add_any_resource.sql)
+     * implementation (fhir-persistence-schema/src/main/resources/db2/add_any_resource.sql)
      *
      * @param tablePrefix
      * @param parameters
@@ -567,19 +567,5 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         }
 
         return result;
-    }
-
-    /**
-     * Safely close the ResultSet
-     * @param rs
-     */
-    private void safeClose(ResultSet rs) {
-        try {
-            if (rs != null) {
-                rs.close();
-            }
-        } catch (SQLException x) {
-            // NOP
-        }
     }
 }
