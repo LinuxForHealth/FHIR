@@ -160,7 +160,7 @@ public interface FHIRResourceHelpers {
      *            the resource
      * @param queryParameters
      *            for supporting _elements and _summary for resource read
-     * @return the Resource
+     * @return a SingleResourceResult wrapping the resource and including its deletion status
      * @throws Exception
      */
     default SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
@@ -183,7 +183,7 @@ public interface FHIRResourceHelpers {
      *            the resource
      * @param queryParameters
      *            for supporting _elements and _summary for resource read
-     * @return the Resource
+     * @return a SingleResourceResult wrapping the resource and including its deletion status
      * @throws Exception
      */
     SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
