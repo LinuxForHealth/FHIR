@@ -17,6 +17,7 @@ import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.ResourceEraseRecord;
+import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 
 /**
@@ -162,7 +163,7 @@ public interface FHIRResourceHelpers {
      * @return the Resource
      * @throws Exception
      */
-    default Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
+    default SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
             Resource contextResource) throws Exception {
         return doRead(type, id, throwExcOnNull, includeDeleted, contextResource, null);
     }
@@ -185,7 +186,7 @@ public interface FHIRResourceHelpers {
      * @return the Resource
      * @throws Exception
      */
-    Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
+    SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
             Resource contextResource, MultivaluedMap<String, String> queryParameters) throws Exception;
 
     /**

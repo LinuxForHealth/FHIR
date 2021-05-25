@@ -153,7 +153,7 @@ public class EverythingOperation extends AbstractOperation {
 
         Patient patient = null;
         try {
-            patient = (Patient) resourceHelper.doRead(PATIENT, logicalId, false, false, null);
+            patient = (Patient) resourceHelper.doRead(PATIENT, logicalId, false, false, null).getResource();
         } catch (FHIRPersistenceResourceDeletedException fde) {
             FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Patient with ID '" + logicalId + "' does not exist.", IssueType.NOT_FOUND);
             throw exceptionWithIssue;
