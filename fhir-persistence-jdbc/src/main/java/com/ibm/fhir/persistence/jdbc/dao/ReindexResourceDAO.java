@@ -285,6 +285,16 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
         deleteFromParameterTable(connection, tablePrefix + "_latlng_values", logicalResourceId);
         deleteFromParameterTable(connection, tablePrefix + "_resource_token_refs", logicalResourceId);
         deleteFromParameterTable(connection, tablePrefix + "_quantity_values", logicalResourceId);
+        deleteFromParameterTable(connection, tablePrefix + "_profiles", logicalResourceId);
+        deleteFromParameterTable(connection, tablePrefix + "_tags", logicalResourceId);
+
+        // whole-system search params
+        deleteFromParameterTable(connection, "logical_resource_profiles", logicalResourceId);
+        deleteFromParameterTable(connection, "logical_resource_tags", logicalResourceId);
+        deleteFromParameterTable(connection, "resource_token_refs", logicalResourceId);
+        deleteFromParameterTable(connection, "str_values", logicalResourceId);
+        deleteFromParameterTable(connection, "date_values", logicalResourceId);
+
 
         if (parameters != null && !parameters.isEmpty()) {
             JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao, getResourceReferenceDAO());

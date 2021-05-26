@@ -35,9 +35,9 @@ import com.ibm.fhir.persistence.jdbc.postgres.PostgresResourceReferenceDAO;
  */
 public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
     private static final Logger logger = Logger.getLogger(PostgresResourceReferenceDAO.class.getName());
-    
+
     private static final int BATCH_SIZE = 100;
-    
+
     /**
      * Public constructor
      * @param t
@@ -48,10 +48,10 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
     public DerbyResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache) {
         super(t, c, schemaName, cache);
     }
-    
+
     @Override
     public void doCodeSystemsUpsert(String paramList, Collection<String> systemNames) {
-        
+
         // We'll assume that the rows will be processed in the order they are
         // inserted, although there's not really a guarantee this is the case
         final List<String> sortedNames = new ArrayList<>(systemNames);
@@ -65,13 +65,13 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
             for (String systemName: systemNames) {
                 ps.setString(1, systemName);
                 ps.addBatch();
-                
+
                 if (++batchCount == BATCH_SIZE) {
                     ps.executeBatch();
                     batchCount = 0;
                 }
             }
-            
+
             if (batchCount > 0) {
                 ps.executeBatch();
             }
@@ -79,7 +79,7 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
             logger.log(Level.SEVERE, insert.toString(), x);
             throw getTranslator().translate(x);
         }
-        
+
 
         // Upsert values. Can't use an order by in this situation because
         // Derby doesn't like this when pulling values from the sequence,
@@ -93,7 +93,59 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
         upsert.append(" LEFT OUTER JOIN code_systems cs ");
         upsert.append("              ON cs.code_system_name = src.code_system_name ");
         upsert.append("           WHERE cs.code_system_name IS NULL ");
-        
+
+        try (Statement s = getConnection().createStatement()) {
+            s.executeUpdate(upsert.toString());
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, upsert.toString(), x);
+            throw getTranslator().translate(x);
+        }
+    }
+
+    @Override
+    public void doCanonicalValuesUpsert(String paramList, Collection<String> urls) {
+
+        // We'll assume that the rows will be processed in the order they are
+        // inserted, although there's not really a guarantee this is the case
+        final List<String> sortedNames = new ArrayList<>(urls);
+        sortedNames.sort((String left, String right) -> left.compareTo(right));
+
+        // Derby doesn't like really huge VALUES lists, so we instead need
+        // to go with a declared temporary table.
+        final String insert = "INSERT INTO SESSION.canonical_values_tmp (url) VALUES (?)";
+        int batchCount = 0;
+        try (PreparedStatement ps = getConnection().prepareStatement(insert)) {
+            for (String url: urls) {
+                ps.setString(1, url);
+                ps.addBatch();
+
+                if (++batchCount == BATCH_SIZE) {
+                    ps.executeBatch();
+                    batchCount = 0;
+                }
+            }
+
+            if (batchCount > 0) {
+                ps.executeBatch();
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, insert.toString(), x);
+            throw getTranslator().translate(x);
+        }
+
+        // Upsert values. Can't use an order by in this situation because
+        // Derby doesn't like this when pulling values from the sequence,
+        // which seems like a defect, because the values should only be
+        // evaluated after the join and where clauses.
+        final String nextVal = getTranslator().nextValue(getSchemaName(), "fhir_ref_sequence");
+        StringBuilder upsert = new StringBuilder();
+        upsert.append("INSERT INTO common_canonical_values (canonical_id, url) ");
+        upsert.append("          SELECT ").append(nextVal).append(", src.url ");
+        upsert.append("            FROM SESSION.canonical_values_tmp src ");
+        upsert.append(" LEFT OUTER JOIN common_canonical_values cs ");
+        upsert.append("              ON cs.url = src.url ");
+        upsert.append("           WHERE cs.url IS NULL ");
+
         try (Statement s = getConnection().createStatement()) {
             s.executeUpdate(upsert.toString());
         } catch (SQLException x) {
@@ -104,7 +156,7 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
 
     @Override
     protected void doCommonTokenValuesUpsert(String paramList, Collection<CommonTokenValue> tokenValues) {
-        
+
         final String insert = "INSERT INTO SESSION.common_token_values_tmp(token_value, code_system_id) VALUES (?, ?)";
         int batchCount = 0;
         try (PreparedStatement ps = getConnection().prepareStatement(insert)) {
@@ -112,13 +164,13 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
                 ps.setString(1, ctv.getTokenValue());
                 ps.setInt(2, ctv.getCodeSystemId());
                 ps.addBatch();
-                
+
                 if (++batchCount == BATCH_SIZE) {
                     ps.executeBatch();
                     batchCount = 0;
                 }
             }
-            
+
             if (batchCount > 0) {
                 ps.executeBatch();
             }
@@ -138,7 +190,7 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
         upsert.append("             AND ctv.code_system_id = src.code_system_id ");
         upsert.append("      WHERE ctv.token_value IS NULL ");
         upsert.append("   ORDER BY src.token_value, src.code_system_id");
-        
+
         try (Statement s = getConnection().createStatement()) {
             s.executeUpdate(upsert.toString());
         } catch (SQLException x) {
@@ -146,17 +198,17 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
             throw getTranslator().translate(x);
         }
     }
-    
+
     @Override
     public void upsertCommonTokenValues(List<ResourceTokenValueRec> values) {
         // Special case for Derby so we don't try and create monster SQL statements
         // resulting in a stack overflow when Derby attempts to parse it.
-        
+
         // Unique list so we don't try and create the same name more than once.
         // Ignore any null token-values, because we don't want to (can't) store
         // them in our common token values table.
         Set<CommonTokenValue> tokenValues = values.stream().filter(x -> x.getTokenValue() != null).map(xr -> new CommonTokenValue(xr.getCodeSystemValueId(), xr.getTokenValue())).collect(Collectors.toSet());
-        
+
         if (tokenValues.isEmpty()) {
             // nothing to do
             return;
@@ -173,7 +225,7 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
         select.append("            SESSION.common_token_values_tmp tmp ");
         select.append("      WHERE ctv.token_value = tmp.token_value ");
         select.append("        AND ctv.code_system_id = tmp.code_system_id ");
-        
+
         Map<CommonTokenValue, Long> idMap = new HashMap<>();
         try (PreparedStatement ps = getConnection().prepareStatement(select.toString())) {
             ResultSet rs = ps.executeQuery();
@@ -185,7 +237,7 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
         } catch (SQLException x) {
             throw getTranslator().translate(x);
         }
-        
+
         // Now update the ids for all the matching systems in our list
         for (ResourceTokenValueRec xr: values) {
             // ignore entries with null tokenValue elements - we don't store them in common_token_values
@@ -194,7 +246,7 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
                 Long id = idMap.get(key);
                 if (id != null) {
                     xr.setCommonTokenValueId(id);
-    
+
                     // update the thread-local cache with this id. The values aren't committed to the shared cache
                     // until the transaction commits
                     getCache().addTokenValue(key, id);

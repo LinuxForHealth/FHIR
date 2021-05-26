@@ -309,7 +309,7 @@ public class Main {
             break;
         }
     }
-    
+
     /**
      * Configure the property group to inject the tenantKey, which is the only attribute
      * required for this scenario
@@ -321,12 +321,12 @@ public class Main {
         final String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/default";
 
         // The bare necessities we need to provide to the persistence layer in this case
-        final String jsonString = " {" + 
-                "    \"tenantKey\": \"" + this.tenantKey + "\"," + 
-                "    \"type\": \"db2\"," + 
-                "    \"multitenant\": true" + 
+        final String jsonString = " {" +
+                "    \"tenantKey\": \"" + this.tenantKey + "\"," +
+                "    \"type\": \"db2\"," +
+                "    \"multitenant\": true" +
                 "}";
-        
+
         try (JsonReader reader = JSON_READER_FACTORY.createReader(new ByteArrayInputStream(jsonString.getBytes(StandardCharsets.UTF_8)))) {
             JsonObject jsonObj = reader.readObject();
             PropertyGroup pg = new PropertyGroup(jsonObj);
@@ -350,9 +350,9 @@ public class Main {
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
         TestFHIRConfigProvider configProvider = new TestFHIRConfigProvider(new DefaultFHIRConfigProvider());
         configure(configProvider);
-        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
+        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
         FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
-        
+
         // Provide the credentials we need for accessing a multi-tenant schema (if enabled)
         // Must set this BEFORE we create our persistence object
         if (this.tenantName == null || tenantKey == null) {
@@ -432,7 +432,7 @@ public class Main {
         // IConnectionProvider implementation used by the persistence
         // layer to obtain connections.
         try (DerbyFhirDatabase database = new DerbyFhirDatabase()) {
-            ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
+            ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
             FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
             persistence = new FHIRPersistenceJDBCImpl(this.configProps, database, cache);
 
@@ -484,7 +484,7 @@ public class Main {
         PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, this.threads);
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
         FHIRConfigProvider configProvider = new DefaultFHIRConfigProvider();
-        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
+        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
         FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
 
         // create a custom list of operations to apply in order to each resource
@@ -539,7 +539,7 @@ public class Main {
         PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, this.threads);
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
         FHIRConfigProvider configProvider = new DefaultFHIRConfigProvider();
-        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
+        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
         FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
 
 

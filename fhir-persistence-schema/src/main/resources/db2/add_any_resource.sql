@@ -76,9 +76,9 @@ BEGIN
   THEN
     VALUES NEXT VALUE FOR {{SCHEMA_NAME}}.fhir_sequence INTO v_logical_resource_id;
     PREPARE stmt FROM
-       'INSERT INTO ' || v_schema_name || '.logical_resources (mt_id, logical_resource_id, resource_type_id, logical_id, reindex_tstamp) '
-    || '     VALUES (?, ?, ?, ?, ?)';
-    EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_logical_resource_id, v_resource_type_id, p_logical_id, '1970-01-01-00.00.00.0';
+       'INSERT INTO ' || v_schema_name || '.logical_resources (mt_id, logical_resource_id, resource_type_id, logical_id, reindex_tstamp, is_deleted, last_updated) '
+    || '     VALUES (?, ?, ?, ?, ?, ?, ?)';
+    EXECUTE stmt USING {{ADMIN_SCHEMA_NAME}}.sv_tenant_id, v_logical_resource_id, v_resource_type_id, p_logical_id, '1970-01-01-00.00.00.0', p_is_deleted, p_last_updated;
 
     -- remember that we have a concurrent system...so there is a possibility
     -- that another thread snuck in before us and created the logical resource. This
@@ -141,11 +141,19 @@ BEGIN
     EXECUTE stmt USING v_logical_resource_id;
     PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_quantity_values     WHERE logical_resource_id = ?';
     EXECUTE stmt USING v_logical_resource_id;
+    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_profiles            WHERE logical_resource_id = ?';
+    EXECUTE stmt USING v_logical_resource_id;
+    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_tags                WHERE logical_resource_id = ?';
+    EXECUTE stmt USING v_logical_resource_id;
     PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'str_values          WHERE logical_resource_id = ?';
     EXECUTE stmt USING v_logical_resource_id;
     PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'date_values         WHERE logical_resource_id = ?';
     EXECUTE stmt USING v_logical_resource_id;
     PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'resource_token_refs WHERE logical_resource_id = ?';
+    EXECUTE stmt USING v_logical_resource_id;
+    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'logical_resource_profiles WHERE logical_resource_id = ?';
+    EXECUTE stmt USING v_logical_resource_id;
+    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'logical_resource_tags WHERE logical_resource_id = ?';
     EXECUTE stmt USING v_logical_resource_id;
   END IF; -- end if existing resource
 
@@ -160,6 +168,10 @@ BEGIN
     -- need to update them here.
     PREPARE stmt FROM 'UPDATE ' || v_schema_name || '.' || p_resource_type || '_logical_resources SET current_resource_id = ?, is_deleted = ?, last_updated = ?, version_id = ? WHERE logical_resource_id = ?';
     EXECUTE stmt USING v_resource_id, p_is_deleted, p_last_updated, p_version, v_logical_resource_id;
+
+    -- For V0014 we also store is_deleted and last_updated at the logical_resource level
+    PREPARE stmt FROM 'UPDATE ' || v_schema_name || '.logical_resources SET is_deleted = ?, last_updated = ? WHERE logical_resource_id = ?';
+    EXECUTE stmt USING p_is_deleted, p_last_updated, v_logical_resource_id;
   END IF;
   
   -- DB2 doesn't support user defined array types in dynamic SQL UNNEST/CAST statements,

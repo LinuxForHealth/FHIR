@@ -26,7 +26,7 @@ public class ResourceReferenceCacheImplTest {
         // A cache with a limited size of 3 code systems and 2 token values
         // For this test to work, we have to make sure we can always resolve
         // all the code systems, so don't make the cache size smaller than 3
-        CommonTokenValuesCacheImpl impl = new CommonTokenValuesCacheImpl(3, 2);
+        CommonTokenValuesCacheImpl impl = new CommonTokenValuesCacheImpl(3, 2, 1);
         impl.addCodeSystem("sys1", 1);
         impl.addCodeSystem("sys2", 2);
         impl.addCodeSystem("sys3", 3);

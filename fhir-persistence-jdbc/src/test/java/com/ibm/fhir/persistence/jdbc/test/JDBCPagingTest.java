@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2019, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,7 +9,6 @@ package com.ibm.fhir.persistence.jdbc.test;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
-import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.derby.DerbyMaster;
@@ -27,13 +26,13 @@ import com.ibm.fhir.persistence.test.common.AbstractPagingTest;
 
 
 public class JDBCPagingTest extends AbstractPagingTest {
-    
+
     private Properties testProps;
-    
+
     private PoolConnectionProvider connectionPool;
-    
+
     private FHIRPersistenceJDBCCache cache;
-    
+
     public JDBCPagingTest() throws Exception {
         this.testProps = TestUtil.readTestProperties("test.jdbc.properties");
     }
@@ -46,11 +45,11 @@ public class JDBCPagingTest extends AbstractPagingTest {
             derbyInit = new DerbyInitializer(this.testProps);
             IConnectionProvider cp = derbyInit.getConnectionProvider(false);
             this.connectionPool = new PoolConnectionProvider(cp, 1);
-            ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
+            ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
             cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
         }
     }
-    
+
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
         if (this.connectionPool == null) {
@@ -67,7 +66,7 @@ public class JDBCPagingTest extends AbstractPagingTest {
             this.connectionPool.close();
         }
     }
-    
+
     @Override
     protected void debugLocks() {
         // Exception running a query. Let's dump the lock table

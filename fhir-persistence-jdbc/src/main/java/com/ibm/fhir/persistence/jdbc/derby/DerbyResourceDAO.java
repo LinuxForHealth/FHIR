@@ -287,13 +287,15 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 if (logger.isLoggable(Level.FINEST)) {
                     logger.finest("Creating new logical_resources row for: " + v_resource_type + "/" + p_logical_id);
                 }
-                final String sql4 = "INSERT INTO logical_resources (logical_resource_id, resource_type_id, logical_id, reindex_tstamp) VALUES (?, ?, ?, ?)";
+                final String sql4 = "INSERT INTO logical_resources (logical_resource_id, resource_type_id, logical_id, reindex_tstamp, is_deleted, last_updated) VALUES (?, ?, ?, ?, ?, ?)";
                 try (PreparedStatement stmt = conn.prepareStatement(sql4)) {
                     // bind parameters
                     stmt.setLong(1, v_logical_resource_id);
                     stmt.setInt(2, v_resource_type_id);
                     stmt.setString(3, p_logical_id);
                     stmt.setTimestamp(4, Timestamp.valueOf(DEFAULT_VALUE_REINDEX_TSTAMP), UTC);
+                    stmt.setString(5, p_is_deleted ? "Y" : "N"); // from V0014
+                    stmt.setTimestamp(6, p_last_updated, UTC);   // from V0014
                     stmt.executeUpdate();
 
                     if (logger.isLoggable(Level.FINEST)) {
@@ -407,11 +409,15 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             deleteFromParameterTable(conn, tablePrefix + "_latlng_values", v_logical_resource_id);
             deleteFromParameterTable(conn, tablePrefix + "_resource_token_refs", v_logical_resource_id);
             deleteFromParameterTable(conn, tablePrefix + "_quantity_values", v_logical_resource_id);
+            deleteFromParameterTable(conn, tablePrefix + "_profiles", v_logical_resource_id);
+            deleteFromParameterTable(conn, tablePrefix + "_tags", v_logical_resource_id);
 
             // delete any system level parameters we have for this resource
             deleteFromParameterTable(conn, "str_values", v_logical_resource_id);
             deleteFromParameterTable(conn, "date_values", v_logical_resource_id);
             deleteFromParameterTable(conn, "resource_token_refs", v_logical_resource_id);
+            deleteFromParameterTable(conn, "logical_resource_profiles", v_logical_resource_id);
+            deleteFromParameterTable(conn, "logical_resource_tags", v_logical_resource_id);
         }
 
         // Finally we get to the big resource data insert
@@ -438,7 +444,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             if (logger.isLoggable(Level.FINEST)) {
                 logger.finest("Updating " + tablePrefix + "_logical_resources: " + v_resource_type + "/" + p_logical_id);
             }
-            String sql4 = "UPDATE " + tablePrefix + "_logical_resources SET current_resource_id = ?, is_deleted = ?, last_updated = ?, version_id = ? WHERE logical_resource_id = ?";
+            final String sql4 = "UPDATE " + tablePrefix + "_logical_resources SET current_resource_id = ?, is_deleted = ?, last_updated = ?, version_id = ? WHERE logical_resource_id = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql4)) {
                 // bind parameters
                 stmt.setLong(1, v_resource_id);
@@ -449,6 +455,20 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 stmt.executeUpdate();
                 if (logger.isLoggable(Level.FINEST)) {
                     logger.finest("Updated " + tablePrefix + "_logical_resources: " + v_resource_type + "/" + p_logical_id);
+                }
+            }
+
+            // For schema V0014, now we also need to update the is_deleted and last_updated values
+            // in LOGICAL_RESOURCES to support whole-system search
+            final String sql4b = "UPDATE logical_resources SET is_deleted = ?, last_updated = ? WHERE logical_resource_id = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(sql4b)) {
+                // bind parameters
+                stmt.setString(1, p_is_deleted ? "Y" : "N");
+                stmt.setTimestamp(2, p_last_updated, UTC);
+                stmt.setLong(3, v_logical_resource_id);
+                stmt.executeUpdate();
+                if (logger.isLoggable(Level.FINEST)) {
+                    logger.finest("Updated logical_resources: " + v_resource_type + "/" + p_logical_id);
                 }
             }
         }

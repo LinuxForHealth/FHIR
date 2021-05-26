@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2019, 2020
+ * (C) Copyright IBM Corp. 2018, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,14 +23,14 @@ import com.ibm.fhir.persistence.test.common.AbstractMultiResourceTest;
 
 
 public class JDBCMultiResourceTest extends AbstractMultiResourceTest {
-    
+
     private Properties testProps;
-    
+
     // The connection pool wrapping the Derby test database
     private PoolConnectionProvider connectionPool;
-    
+
     private FHIRPersistenceJDBCCache cache;
-    
+
     public JDBCMultiResourceTest() throws Exception {
         this.testProps = TestUtil.readTestProperties("test.jdbc.properties");
     }
@@ -43,11 +43,11 @@ public class JDBCMultiResourceTest extends AbstractMultiResourceTest {
             derbyInit = new DerbyInitializer(this.testProps);
             IConnectionProvider cp = derbyInit.getConnectionProvider(false);
             this.connectionPool = new PoolConnectionProvider(cp, 1);
-            ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
+            ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
             cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
         }
     }
-    
+
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
         if (this.connectionPool == null) {
@@ -55,7 +55,7 @@ public class JDBCMultiResourceTest extends AbstractMultiResourceTest {
         }
         return new FHIRPersistenceJDBCImpl(this.testProps, this.connectionPool, cache);
     }
-    
+
     @Override
     protected void shutdownPools() throws Exception {
         // Mark the pool as no longer in use. This allows the pool to check for

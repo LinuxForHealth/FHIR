@@ -18,8 +18,10 @@ import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
+import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.connection.QueryHints;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
+import com.ibm.fhir.persistence.jdbc.domain.CanonicalSearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.ChainedSearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.CompositeSearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.DateSearchParam;
@@ -41,6 +43,7 @@ import com.ibm.fhir.persistence.jdbc.domain.SearchQuery;
 import com.ibm.fhir.persistence.jdbc.domain.SearchQueryRenderer;
 import com.ibm.fhir.persistence.jdbc.domain.SearchSortQuery;
 import com.ibm.fhir.persistence.jdbc.domain.StringSearchParam;
+import com.ibm.fhir.persistence.jdbc.domain.TagSearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.TokenSearchParam;
 import com.ibm.fhir.persistence.jdbc.util.type.LastUpdatedParmBehaviorUtil;
 import com.ibm.fhir.search.SearchConstants;
@@ -345,7 +348,11 @@ public class NewQueryBuilder {
                 final Type type = queryParm.getType();
                 switch (type) {
                 case STRING:
-                    domainModel.add(new StringSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
+                    if (JDBCConstants.PARAM_NAME_PROFILE.equals(queryParm.getCode())) {
+                        domainModel.add(new CanonicalSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
+                    } else {
+                        domainModel.add(new StringSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
+                    }
                     break;
                 case REFERENCE:
                     if (queryParm.isReverseChained()) {
@@ -362,7 +369,11 @@ public class NewQueryBuilder {
                     domainModel.add(new DateSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
                     break;
                 case TOKEN:
-                    domainModel.add(new TokenSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
+                    if (JDBCConstants.PARAM_NAME_TAG.equals(queryParm.getCode())) {
+                        domainModel.add(new TagSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
+                    } else {
+                        domainModel.add(new TokenSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
+                    }
                     break;
                 case NUMBER:
                     domainModel.add(new NumberSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));

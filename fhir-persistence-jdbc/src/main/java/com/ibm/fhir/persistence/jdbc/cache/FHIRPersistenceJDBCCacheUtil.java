@@ -23,10 +23,10 @@ public class FHIRPersistenceJDBCCacheUtil {
      * Factory function to create a new cache instance
      * @return
      */
-    public static FHIRPersistenceJDBCCache create(int codeSystemCacheSize, int tokenValueCacheSize) {
-        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(codeSystemCacheSize, tokenValueCacheSize);
+    public static FHIRPersistenceJDBCCache create(int codeSystemCacheSize, int tokenValueCacheSize, int canonicalCacheSize) {
+        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(codeSystemCacheSize, tokenValueCacheSize, canonicalCacheSize);
         return new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
-        
+
     }
     /**
      * Prefill the cache with constants already committed in the database
@@ -39,7 +39,7 @@ public class FHIRPersistenceJDBCCacheUtil {
 
         Map<String,Integer> parameterNames = parameterDAO.readAllSearchParameterNames();
         cache.getParameterNameCache().prefill(parameterNames);
-        
+
         Map<String,Integer> codeSystems = parameterDAO.readAllCodeSystems();
         cache.getResourceReferenceCache().prefillCodeSystems(codeSystems);
     }

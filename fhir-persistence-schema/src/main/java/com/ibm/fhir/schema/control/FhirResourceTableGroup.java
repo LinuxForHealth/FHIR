@@ -6,8 +6,10 @@
 
 package com.ibm.fhir.schema.control;
 
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CANONICAL_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMMON_CANONICAL_VALUES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMMON_TOKEN_VALUES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMMON_TOKEN_VALUE_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMPOSITE_ID;
@@ -21,6 +23,8 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_END;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_START;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_VALUE_DROPPED_COLUMN;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.FK;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.FRAGMENT;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.FRAGMENT_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.IDX;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.IS_DELETED;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.ITEM_LOGICAL_ID;
@@ -43,6 +47,7 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAME_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PATIENT_CURRENT_REFS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PATIENT_LOGICAL_RESOURCES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PK;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.PROFILES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE_HIGH;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.QUANTITY_VALUE_LOW;
@@ -53,12 +58,16 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE_LCASE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.TAGS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUES_V;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION_ID;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -113,6 +122,25 @@ public class FhirResourceTableGroup {
 
     private static final String ROW_ID = "ROW_ID";
 
+    // A set of resource type names for resources which can be addressed using a
+    // canonical reference (and therefore should have a url attribute and optional version
+    // TODO do we need to do this?
+    private static final Set<String> CANONICAL_RESOURCE_NAMES = new HashSet<>(Arrays.asList(
+        "CapabilityStatement",
+        "CodeSystem",
+        "CompartmentDefinition",
+        "ConceptMap",
+        "GraphDefinition",
+        "ImplementationGuide",
+        "MessageDefinition",
+        "OperationDefinition",
+        "SearchParameter",
+        "StructureDefinition",
+        "StructureMap",
+        "TerminologyCapabilities",
+        "ValueSet"
+     ));
+
     /**
      * Public constructor
      */
@@ -159,6 +187,8 @@ public class FhirResourceTableGroup {
         // composites table removed by issue-1683
         addResourceTokenRefs(group, tablePrefix);
         addTokenValuesView(group, tablePrefix);
+        addProfiles(group, tablePrefix);
+        addTags(group, tablePrefix);
 
         // group all the tables under one object so that we can perform everything within one
         // transaction. This helps to eliminate deadlocks when adding the FK constraints due to
@@ -178,7 +208,7 @@ public class FhirResourceTableGroup {
         // shares a common primary key (logical_resource_id) with the system-wide table
         // We also have a FK constraint pointing back to that table to try and keep
         // things sensible.
-        Table tbl = Table.builder(schemaName, tableName)
+        Table.Builder builder = Table.builder(schemaName, tableName)
                 .setTenantColumnName(MT_ID)
                 .setVersion(FhirSchemaVersion.V0012.vid()) // V0011: is_deleted and last_updated, V0012: version_id
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
@@ -216,9 +246,9 @@ public class FhirResourceTableGroup {
                     }
 
                     return statements;
-                })
-                .build(model);
+                });
 
+        Table tbl = builder.build(model);
         group.add(tbl);
         model.addTable(tbl);
 
@@ -239,6 +269,8 @@ public class FhirResourceTableGroup {
      * V0010: IS_DELETED is added to each xxx_LOGICAL_RESOURCES.
      * V0011: LAST_UPDATED is added to each xxx_LOGICAL_RESOURCES.
      * V0012: VERSION_ID is added to each xxx_LOGICAL_RESOURCES.
+     * V0014: CANONICAL_ID is added to each xxx_LOGICAL_RESOURCES.
+     *        VERSION is added to each xxx_LOGICAL_RESOURCES.
      *
      * Note that we don't attempt to perform the data migration here because
      * migration for Db2 multi-tenant schemas requires iterating over each
@@ -509,6 +541,73 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
     }
 
     /**
+     * Add the resource-specific profiles table which maps to the normalized URI
+     * values stored in COMMON_CANONICAL_VALUES
+     * @param group
+     * @param prefix
+     * @return
+     */
+    public Table addProfiles(List<IDatabaseObject> group, String prefix) {
+
+        final String tableName = prefix + "_" + PROFILES;
+
+        // logical_resources (1) ---- (*) patient_resource_token_refs (*) ---- (0|1) common_token_values
+        Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0014.vid())
+                .setTenantColumnName(MT_ID)
+                .addBigIntColumn(          CANONICAL_ID,    false)
+                .addBigIntColumn(   LOGICAL_RESOURCE_ID,    false)
+                .addVarcharColumn(             VERSION,  VERSION_BYTES, true)
+                .addVarcharColumn(            FRAGMENT, FRAGMENT_BYTES, true)
+                .addIndex(IDX + tableName + "_TPLR", CANONICAL_ID, LOGICAL_RESOURCE_ID)
+                .addIndex(IDX + tableName + "_LRPT", LOGICAL_RESOURCE_ID, CANONICAL_ID)
+                .addForeignKeyConstraint(FK + tableName + "_TV", schemaName, COMMON_CANONICAL_VALUES, CANONICAL_ID)
+                .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .build(model);
+
+        group.add(tbl);
+        model.addTable(tbl);
+
+        return tbl;
+    }
+
+    /**
+     * Resource-specific tags. Tags are treated as tokens, but are separated out
+     * into their own table to avoid issues with cardinality estimation (because
+     * they are not very selective).
+     * @param group
+     * @param prefix
+     * @return
+     */
+    public Table addTags(List<IDatabaseObject> group, String prefix) {
+
+        final String tableName = prefix + "_" + TAGS;
+
+        // logical_resources (1) ---- (*) patient_tags (*) ---- (0|1) common_token_values
+        Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0014.vid())
+                .setTenantColumnName(MT_ID)
+                .addBigIntColumn(COMMON_TOKEN_VALUE_ID,   false)
+                .addBigIntColumn(  LOGICAL_RESOURCE_ID,   false)
+                .addIndex(IDX + tableName + "_TPLR", COMMON_TOKEN_VALUE_ID, LOGICAL_RESOURCE_ID)
+                .addIndex(IDX + tableName + "_LRPT", LOGICAL_RESOURCE_ID, COMMON_TOKEN_VALUE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_TV", schemaName, COMMON_TOKEN_VALUES, COMMON_TOKEN_VALUE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .build(model);
+
+        group.add(tbl);
+        model.addTable(tbl);
+
+        return tbl;
+    }
+
+    /**
      * View created over common_token_values and resource_token_refs to hide the
      * schema change (V0006 issue 1366) as much as possible from the search query
      * generation. Search queries simply need to join against this view instead
@@ -555,7 +654,6 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
 
         group.add(view);
     }
-
 
     /**
      * <pre>

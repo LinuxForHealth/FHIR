@@ -47,6 +47,10 @@ public class JDBCConstants {
     public static final String IS_DELETED_NO = "IS_DELETED = 'N'";
     public static final String IS_DELETED = "IS_DELETED";
 
+    // Special parameter names
+    public static final String PARAM_NAME_PROFILE = "_profile";
+    public static final String PARAM_NAME_TAG = "_tag";
+
     // Generic SQL query string constants
     public static final String DOT = ".";
     public static final char DOT_CHAR = '.';

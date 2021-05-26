@@ -70,8 +70,8 @@ BEGIN
     -- remember that we have a concurrent system...so there is a possibility
     -- that another thread snuck in before us and created the logical resource. This
     -- is easy to handle, just turn around and read it
-    INSERT INTO {{SCHEMA_NAME}}.logical_resources (logical_resource_id, resource_type_id, logical_id, reindex_tstamp)
-         VALUES (v_logical_resource_id, v_resource_type_id, p_logical_id, '1970-01-01') ON CONFLICT DO NOTHING;
+    INSERT INTO {{SCHEMA_NAME}}.logical_resources (logical_resource_id, resource_type_id, logical_id, reindex_tstamp, is_deleted, last_updated)
+         VALUES (v_logical_resource_id, v_resource_type_id, p_logical_id, '1970-01-01', p_is_deleted, p_last_updated) ON CONFLICT DO NOTHING;
        
       -- row exists, so we just need to obtain a lock on it. Because logical resource records are
       -- never deleted, we don't need to worry about it disappearing again before we grab the row lock
@@ -128,11 +128,19 @@ BEGIN
       USING v_logical_resource_id;
     EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_quantity_values     WHERE logical_resource_id = $1'
       USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'str_values           WHERE logical_resource_id = $1'
+    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_profiles            WHERE logical_resource_id = $1'
       USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'date_values          WHERE logical_resource_id = $1'
+    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_tags                WHERE logical_resource_id = $1'
       USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'resource_token_refs  WHERE logical_resource_id = $1'
+    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'str_values                 WHERE logical_resource_id = $1'
+      USING v_logical_resource_id;
+    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'date_values                WHERE logical_resource_id = $1'
+      USING v_logical_resource_id;
+    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'resource_token_refs        WHERE logical_resource_id = $1'
+      USING v_logical_resource_id;
+    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'logical_resource_profiles  WHERE logical_resource_id = $1'
+      USING v_logical_resource_id;
+    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'logical_resource_tags      WHERE logical_resource_id = $1'
       USING v_logical_resource_id;
   END IF;
 
@@ -149,6 +157,10 @@ BEGIN
     -- need to update them here.
     EXECUTE 'UPDATE ' || v_schema_name || '.' || p_resource_type || '_logical_resources SET current_resource_id = $1, is_deleted = $2, last_updated = $3, version_id = $4 WHERE logical_resource_id = $5'
       USING v_resource_id, p_is_deleted, p_last_updated, p_version, v_logical_resource_id;
+
+    -- For V0014 we now also store is_deleted and last_updated values at the whole-system logical_resources level
+    EXECUTE 'UPDATE ' || v_schema_name || '.logical_resources SET is_deleted = $1, last_updated = $2 WHERE logical_resource_id = $3'
+      USING p_is_deleted, p_last_updated, v_logical_resource_id;
   END IF;
 
   -- Finally, write a record to RESOURCE_CHANGE_LOG which records each event

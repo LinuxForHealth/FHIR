@@ -42,7 +42,7 @@ public class JDBCSearchStringTest extends AbstractSearchStringTest {
             derbyInit = new DerbyInitializer(this.testProps);
             IConnectionProvider cp = derbyInit.getConnectionProvider(false);
             this.connectionPool = new PoolConnectionProvider(cp, 1);
-            ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
+            ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
             cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
         }
     }
