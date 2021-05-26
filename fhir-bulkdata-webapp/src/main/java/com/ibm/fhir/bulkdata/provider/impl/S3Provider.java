@@ -177,7 +177,7 @@ public class S3Provider implements Provider {
         // In certain circumstances, a direct url to the bucket can be used. https://mybucketdemo123.s3.us.east-2.amazonaws.com
         // versus an API enabled url e.g. https://s3.us.east-2.amazonaws.com
         // These end up with TWO different responses, the former is false, and the latter is true.
-        if (!client.doesBucketExistV2(bucketName)) {
+        if (ex || !client.doesBucketExistV2(bucketName)) {
             logger.warning("Bucket '" + bucketName + "' not found! Client [" + (client != null) + "]");
         }
 
