@@ -56,7 +56,11 @@ public class RemoteTermServiceProviderTest extends FHIRServerTestBase {
         int status = response.getStatus();
         assertTrue(status == Response.Status.CREATED.getStatusCode() || status == Response.Status.OK.getStatusCode());
 
-        response = target.path("CodeSystem").path("test").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        response = target.path("CodeSystem").path("test")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .get();
         assertResponse(response, Response.Status.OK.getStatusCode());
 
         CodeSystem responseCodeSystem = response.readEntity(CodeSystem.class);
