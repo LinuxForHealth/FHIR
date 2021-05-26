@@ -23,6 +23,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 
@@ -32,6 +33,7 @@ import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
+import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.exception.FHIRException;
@@ -115,6 +117,8 @@ public class FHIRRestServletFilter extends HttpFilter {
         String encodedRequestDescription = Encode.forHtml(requestDescription.toString());
         log.info("Received request: " + encodedRequestDescription);
 
+        int statusOnException = HttpServletResponse.SC_BAD_REQUEST;
+
         try {
             // Checks for Valid Tenant Configuration
             checkValidTenantConfiguration(tenantId);
@@ -138,6 +142,20 @@ public class FHIRRestServletFilter extends HttpFilter {
             Map<String, List<String>> requestHeaders = extractRequestHeaders(request);
             context.setHttpHeaders(requestHeaders);
 
+            // Check the FHIR version parameter
+            // 415 Unsupported Media Type is the appropriate response when the client posts a format that is not supported to the server.
+            // 406 Not Acceptable is the appropriate response when the Accept header requests a format that the server does not support.
+            String errorMsg = checkFhirVersionParameter(HttpHeaders.CONTENT_TYPE, requestHeaders);
+            if (errorMsg != null) {
+                statusOnException = HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE;
+                throw new FHIRException(errorMsg);
+            }
+            errorMsg = checkFhirVersionParameter(HttpHeaders.ACCEPT, requestHeaders);
+            if (errorMsg != null) {
+                statusOnException = HttpServletResponse.SC_NOT_ACCEPTABLE;
+                throw new FHIRException(errorMsg);
+            }
+
             // Pass the request through to the next filter in the chain.
             chain.doFilter(request, response);
         } catch (Exception e) {
@@ -145,9 +163,9 @@ public class FHIRRestServletFilter extends HttpFilter {
 
             OperationOutcome outcome = FHIRUtil.buildOperationOutcome(e, IssueType.INVALID, IssueSeverity.FATAL, false);
 
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.setStatus(statusOnException);
 
-            Format format = chooseResponseFormat(request.getHeader("Accept"));
+            Format format = chooseResponseFormat(request.getHeader(HttpHeaders.ACCEPT));
             switch (format) {
             case XML:
                 response.setContentType(com.ibm.fhir.core.FHIRMediaType.APPLICATION_FHIR_XML);
@@ -259,6 +277,30 @@ public class FHIRRestServletFilter extends HttpFilter {
             }
         }
         return returnPref;
+    }
+
+    /**
+     * Checks if the FHIR version parameter in the specified HTTP header is valid.
+     * @param headerName the name of the header
+     * @param requestHeaders the headers
+     * @return the error message if FHIR version parameter in not valid, otherwise null
+     */
+    private String checkFhirVersionParameter(String headerName, Map<String, List<String>> requestHeaders) throws FHIRException {
+        for (String headerValue : requestHeaders.getOrDefault(headerName, Collections.emptyList())) {
+            Map<String, String> parameters = MediaType.valueOf(headerValue).getParameters();
+            if (parameters != null) {
+                for (Map.Entry<String, String> parameter : parameters.entrySet()) {
+                    if (FHIRMediaType.FHIR_VERSION_PARAMETER.equalsIgnoreCase(parameter.getKey())) {
+                        String fhirVersion = parameter.getValue();
+                        if (fhirVersion != null && !FHIRMediaType.SUPPORTED_FHIR_VERSIONS.contains(fhirVersion)) {
+                            return "Invalid '" + FHIRMediaType.FHIR_VERSION_PARAMETER + "' parameter value in '" + headerName
+                                    + "' header; the following FHIR versions are supported: " + FHIRMediaType.SUPPORTED_FHIR_VERSIONS;
+                        }
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     private Format chooseResponseFormat(String acceptableContentTypes) {

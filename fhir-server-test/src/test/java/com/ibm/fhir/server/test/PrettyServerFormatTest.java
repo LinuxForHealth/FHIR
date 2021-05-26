@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -45,18 +45,18 @@ public class PrettyServerFormatTest extends FHIRServerTestBase {
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
         response =
-                target.queryParam("_pretty", "true").path("Patient/" + patientId)
-                        .request(FHIRMediaType.APPLICATION_FHIR_JSON).header("_format", "application/fhir+json").get();
+                target.queryParam("_pretty", "true").queryParam("_format", "application/fhir+json").path("Patient/" + patientId)
+                        .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
 
         String prettyOutput = response.readEntity(String.class);
 
         response =
-                target.queryParam("_pretty", "false").path("Patient/" + patientId)
-                        .request(FHIRMediaType.APPLICATION_FHIR_JSON).header("_format", "application/fhir+json").get();
+                target.queryParam("_pretty", "false").queryParam("_format", "application/fhir+json").path("Patient/" + patientId)
+                        .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
 
         String notPrettyOutput = response.readEntity(String.class);
-        
+
         assertNotEquals(prettyOutput, notPrettyOutput);
         assertFalse(notPrettyOutput.contains("\n"));
         assertTrue(prettyOutput.contains("\n"));
