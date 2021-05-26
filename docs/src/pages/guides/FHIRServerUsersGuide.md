@@ -1972,6 +1972,9 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/term/remoteTermServiceProviders/hostnameVerificationEnabled`|boolean|Indicates whether hostname verification should be performed when using SSL transport|
 |`fhirServer/term/remoteTermServiceProviders/basicAuth/username`|string|The basic authentication username for this remote term service provider|
 |`fhirServer/term/remoteTermServiceProviders/basicAuth/password`|string|The basic authentication password for this remote term service provider|
+|`fhirServer/term/remoteTermServiceProviders/headers`|array of objects|The `headers` element is an array of objects|
+|`fhirServer/term/remoteTermServiceProviders/headers/name`|string|The HTTP header name that will be added to requests by this remote term service provider|
+|`fhirServer/term/remoteTermServiceProviders/headers/value`|string|The HTTP header value that will be added to requests by this remote term service provider|
 |`fhirServer/term/remoteTermServiceProviders/httpTimeout`|integer|The HTTP read timeout for this remote term service provider (in milliseconds)|
 |`fhirServer/term/remoteTermServiceProviders/supports`|array of objects|The `supports` element is an array of objects|
 |`fhirServer/term/remoteTermServiceProviders/supports/system`|string|The system URI supported by this remote term service provider|
@@ -2246,6 +2249,7 @@ must restart the server for that change to take effect.
 |`fhirServer/term/remoteTermServiceProviders/trustStore`|N|N|
 |`fhirServer/term/remoteTermServiceProviders/hostnameVerificationEnabled`|N|N|
 |`fhirServer/term/remoteTermServiceProviders/basicAuth`|N|N|
+|`fhirServer/term/remoteTermServiceProviders/headers`|N|N|
 |`fhirServer/term/remoteTermServiceProviders/httpTimeout`|N|N|
 |`fhirServer/term/remoteTermServiceProviders/supports`|N|N|
 |`fhirServer/resources/open`|Y|Y|
