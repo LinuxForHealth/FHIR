@@ -65,7 +65,7 @@ public class RemoteTermServiceProviderTest extends FHIRServerTestBase {
         this.codeSystem = responseCodeSystem;
     }
 
-    @Test
+    @Test(dependsOnMethods = { "testCreateCodeSystem" })
     public void testCreateRemoteTermServiceProvider() {
         Configuration configuration = Configuration.builder()
             .base(getRestBaseURL())
