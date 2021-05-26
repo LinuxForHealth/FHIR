@@ -98,13 +98,13 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
 
     private final Configuration configuration;
     private final String base;
-    private final MultivaluedMap<String, Object> headerMap;
+    private final MultivaluedMap<String, Object> headersMap;
     private Client client;
 
     public RemoteTermServiceProvider(Configuration configuration) {
         this.configuration = Objects.requireNonNull(configuration, "configuration");
         this.base = configuration.getBase();
-        headerMap = builderHeaderMap(configuration.getHeaders());
+        headersMap = buildHeadersMap(configuration.getHeaders());
         try {
             log.info("Creating client...");
 
@@ -189,13 +189,13 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                     .queryParam("version", codeSystem.getVersion().getValue())
                     .queryParam("code", code.getValue())
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                    .headers(headerMap)
+                    .headers(headersMap)
                     .get() :
                 target.path(CODE_SYSTEM_LOOKUP)
                     .queryParam("system", codeSystem.getUrl().getValue())
                     .queryParam("code", code.getValue())
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                    .headers(headerMap)
+                    .headers(headersMap)
                     .get();
 
             log(GET, uri(CODE_SYSTEM_LOOKUP), response.getStatus(), elapsed(start));
@@ -246,7 +246,7 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
 
             response = target.path(VALUE_SET_EXPAND)
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .headers(headerMap)
+                .headers(headersMap)
                 .post(Entity.entity(parameters, FHIRMediaType.APPLICATION_FHIR_JSON));
 
             log(POST, uri(VALUE_SET_EXPAND), response.getStatus(), elapsed(start));
@@ -301,13 +301,13 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                     .queryParam("version", codeSystem.getVersion().getValue())
                     .queryParam("code", code.getValue())
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                    .headers(headerMap)
+                    .headers(headersMap)
                     .get() :
                 target.path(CODE_SYSTEM_VALIDATE_CODE)
                     .queryParam("url", codeSystem.getUrl().getValue())
                     .queryParam("code", code.getValue())
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                    .headers(headerMap)
+                    .headers(headersMap)
                     .get();
 
             log(GET, uri(CODE_SYSTEM_VALIDATE_CODE), response.getStatus(), elapsed(start));
@@ -368,14 +368,14 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                     .queryParam("codeA", codeA.getValue())
                     .queryParam("codeB", codeB.getValue())
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                    .headers(headerMap)
+                    .headers(headersMap)
                     .get() :
                 target.path(CODE_SYSTEM_SUBSUMES)
                     .queryParam("system", codeSystem.getUrl().getValue())
                     .queryParam("codeA", codeA.getValue())
                     .queryParam("codeB", codeB.getValue())
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                    .headers(headerMap)
+                    .headers(headersMap)
                     .get();
 
             log(GET, uri(CODE_SYSTEM_SUBSUMES), response.getStatus(), elapsed(start));
@@ -397,12 +397,12 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
         }
     }
 
-    private MultivaluedMap<String, Object> builderHeaderMap(List<Configuration.Header> headers) {
-        MultivaluedMap<String, Object> headerMap = new MultivaluedHashMap<>();
+    private MultivaluedMap<String, Object> buildHeadersMap(List<Configuration.Header> headers) {
+        MultivaluedMap<String, Object> headersMap = new MultivaluedHashMap<>();
         for (Configuration.Header header : headers) {
-            headerMap.putSingle(header.getName(), header.getValue());
+            headersMap.putSingle(header.getName(), header.getValue());
         }
-        return headerMap;
+        return headersMap;
     }
 
     private double elapsed(long start) {
