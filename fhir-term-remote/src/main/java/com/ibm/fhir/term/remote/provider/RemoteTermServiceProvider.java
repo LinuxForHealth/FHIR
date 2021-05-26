@@ -48,6 +48,8 @@ import javax.ws.rs.client.ClientRequestContext;
 import javax.ws.rs.client.ClientRequestFilter;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -96,11 +98,13 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
 
     private final Configuration configuration;
     private final String base;
+    private final MultivaluedMap<String, Object> headerMap;
     private Client client;
 
     public RemoteTermServiceProvider(Configuration configuration) {
         this.configuration = Objects.requireNonNull(configuration, "configuration");
         this.base = configuration.getBase();
+        headerMap = builderHeaderMap(configuration.getHeaders());
         try {
             log.info("Creating client...");
 
@@ -185,11 +189,13 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                     .queryParam("version", codeSystem.getVersion().getValue())
                     .queryParam("code", code.getValue())
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .headers(headerMap)
                     .get() :
                 target.path(CODE_SYSTEM_LOOKUP)
                     .queryParam("system", codeSystem.getUrl().getValue())
                     .queryParam("code", code.getValue())
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .headers(headerMap)
                     .get();
 
             log(GET, uri(CODE_SYSTEM_LOOKUP), response.getStatus(), elapsed(start));
@@ -240,6 +246,7 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
 
             response = target.path(VALUE_SET_EXPAND)
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .headers(headerMap)
                 .post(Entity.entity(parameters, FHIRMediaType.APPLICATION_FHIR_JSON));
 
             log(POST, uri(VALUE_SET_EXPAND), response.getStatus(), elapsed(start));
@@ -294,11 +301,13 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                     .queryParam("version", codeSystem.getVersion().getValue())
                     .queryParam("code", code.getValue())
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .headers(headerMap)
                     .get() :
                 target.path(CODE_SYSTEM_VALIDATE_CODE)
                     .queryParam("url", codeSystem.getUrl().getValue())
                     .queryParam("code", code.getValue())
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .headers(headerMap)
                     .get();
 
             log(GET, uri(CODE_SYSTEM_VALIDATE_CODE), response.getStatus(), elapsed(start));
@@ -359,12 +368,14 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                     .queryParam("codeA", codeA.getValue())
                     .queryParam("codeB", codeB.getValue())
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .headers(headerMap)
                     .get() :
                 target.path(CODE_SYSTEM_SUBSUMES)
                     .queryParam("system", codeSystem.getUrl().getValue())
                     .queryParam("codeA", codeA.getValue())
                     .queryParam("codeB", codeB.getValue())
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .headers(headerMap)
                     .get();
 
             log(GET, uri(CODE_SYSTEM_SUBSUMES), response.getStatus(), elapsed(start));
@@ -384,6 +395,14 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 response.close();
             }
         }
+    }
+
+    private MultivaluedMap<String, Object> builderHeaderMap(List<Configuration.Header> headers) {
+        MultivaluedMap<String, Object> headerMap = new MultivaluedHashMap<>();
+        for (Configuration.Header header : headers) {
+            headerMap.putSingle(header.getName(), header.getValue());
+        }
+        return headerMap;
     }
 
     private double elapsed(long start) {
@@ -594,6 +613,7 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
         private final TrustStore trustStore;
         private final boolean hostnameVerificationEnabled;
         private final BasicAuth basicAuth;
+        private final List<Header> headers;
         private final int httpTimeout;
         private final List<Supports> supports;
 
@@ -602,6 +622,7 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
             trustStore = builder.trustStore;
             hostnameVerificationEnabled = builder.hostnameVerificationEnabled;
             basicAuth = builder.basicAuth;
+            headers = Collections.unmodifiableList(builder.headers);
             httpTimeout = builder.httpTimeout;
             supports = Collections.unmodifiableList(builder.supports);
         }
@@ -620,6 +641,10 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
 
         public BasicAuth getBasicAuth() {
             return basicAuth;
+        }
+
+        public List<Header> getHeaders() {
+            return headers;
         }
 
         public int getHttpTimeout() {
@@ -646,13 +671,14 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                     Objects.equals(trustStore, other.trustStore) &&
                     Objects.equals(hostnameVerificationEnabled, other.hostnameVerificationEnabled) &&
                     Objects.equals(basicAuth, other.basicAuth) &&
+                    Objects.equals(headers, other.headers) &&
                     Objects.equals(httpTimeout, other.httpTimeout) &&
                     Objects.equals(supports, other.supports);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(base, trustStore, hostnameVerificationEnabled, basicAuth, httpTimeout, supports);
+            return Objects.hash(base, trustStore, hostnameVerificationEnabled, basicAuth, headers, httpTimeout, supports);
         }
 
         public Builder toBuilder() {
@@ -668,6 +694,7 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
             private TrustStore trustStore;
             private boolean hostnameVerificationEnabled = DEFAULT_HOSTNAME_VERIFICATION_ENABLED;
             private BasicAuth basicAuth;
+            private List<Header> headers = new ArrayList<>();
             private int httpTimeout = DEFAULT_HTTP_TIMEOUT;
             private List<Supports> supports = new ArrayList<>();
 
@@ -690,6 +717,18 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
 
             public Builder basicAuth(BasicAuth basicAuth) {
                 this.basicAuth = basicAuth;
+                return this;
+            }
+
+            public Builder headers(Header... headers) {
+                for (Header value : headers) {
+                    this.headers.add(value);
+                }
+                return this;
+            }
+
+            public Builder headers(Collection<Header> headers) {
+                this.headers = new ArrayList<>(headers);
                 return this;
             }
 
@@ -719,6 +758,7 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 trustStore = configuration.trustStore;
                 hostnameVerificationEnabled = configuration.hostnameVerificationEnabled;
                 basicAuth = configuration.basicAuth;
+                headers = configuration.headers;
                 httpTimeout = configuration.httpTimeout;
                 supports.addAll(configuration.supports);
                 return this;
@@ -890,6 +930,83 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 protected Builder from(BasicAuth basicAuth) {
                     username = basicAuth.username;
                     password = basicAuth.password;
+                    return this;
+                }
+            }
+        }
+
+        /**
+         * A class that represents the HTTP header(s) supported by a remote term service provider
+         */
+        public static class Header {
+            private final String name;
+            private final Object value;
+
+            public Header(Builder builder) {
+                name = Objects.requireNonNull(builder.name, "name");
+                value = Objects.requireNonNull(builder.value, "value");
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            public Object getValue() {
+                return value;
+            }
+
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null) {
+                    return false;
+                }
+                if (getClass() != obj.getClass()) {
+                    return false;
+                }
+                Header other = (Header) obj;
+                return Objects.equals(name, other.name) &&
+                        Objects.equals(value, other.value);
+            }
+
+            @Override
+            public int hashCode() {
+                return Objects.hash(name, value);
+            }
+
+            public Builder toBuilder() {
+                return new Builder().from(this);
+            }
+
+            public static Builder builder() {
+                return new Builder();
+            }
+
+            public static class Builder {
+                private String name;
+                private Object value;
+
+                private Builder() { }
+
+                public Builder name(String name) {
+                    this.name = name;
+                    return this;
+                }
+
+                public Builder value(Object value) {
+                    this.value = value;
+                    return this;
+                }
+
+                public Header build() {
+                    return new Header(this);
+                }
+
+                protected Builder from(Header header) {
+                    name = header.name;
+                    value = header.value;
                     return this;
                 }
             }

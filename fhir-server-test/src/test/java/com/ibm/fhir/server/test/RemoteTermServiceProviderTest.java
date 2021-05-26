@@ -32,6 +32,7 @@ import com.ibm.fhir.model.type.code.FilterOperator;
 import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider;
 import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration;
 import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.BasicAuth;
+import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.Header;
 import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.Supports;
 import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.TrustStore;
 import com.ibm.fhir.term.util.CodeSystemSupport;
@@ -47,7 +48,11 @@ public class RemoteTermServiceProviderTest extends FHIRServerTestBase {
         CodeSystem codeSystem = TestUtil.readLocalResource("CodeSystem-test.json");
         Entity<CodeSystem> entity = Entity.entity(codeSystem, FHIRMediaType.APPLICATION_FHIR_JSON);
 
-        Response response = target.path("CodeSystem").path("test").request().put(entity);
+        Response response = target.path("CodeSystem").path("test")
+                .request()
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .put(entity);
         int status = response.getStatus();
         assertTrue(status == Response.Status.CREATED.getStatusCode() || status == Response.Status.OK.getStatusCode());
 
@@ -72,6 +77,14 @@ public class RemoteTermServiceProviderTest extends FHIRServerTestBase {
                 .username(getFhirUser())
                 .password(getFhirPassword())
                 .build())
+            .headers(Header.builder()
+                    .name("X-FHIR-TENANT-ID")
+                    .value("tenant1")
+                    .build(),
+                Header.builder()
+                    .name("X-FHIR-DSID")
+                    .value("profile")
+                    .build())
             .supports(Supports.builder()
                 .system(codeSystem.getUrl().getValue())
                 .version(codeSystem.getVersion().getValue())
