@@ -168,7 +168,7 @@
             "storageProviders": {
                 "default" : {
                     "type": "file",
-                    "_type": "ibm-cos|aws-s3|file|https",
+                    "_type": "ibm-cos|aws-s3|file|https|azure-blob",
                     "validBaseUrls": [],
                     "fileBase": "/output/bulkdata",
                     "bucketName": "fhir-performance",

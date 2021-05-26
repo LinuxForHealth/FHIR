@@ -135,6 +135,7 @@ public class ChunkReader extends AbstractItemReader {
 
         ImportTransientUserData chunkData = (ImportTransientUserData) stepCtx.getTransientUserData();
         numOfLinesToSkip = chunkData.getNumOfProcessedResources();
+        logger.fine(() -> "Number of lines to skip are: '" + numOfLinesToSkip + "'");
 
         Provider wrapper = ProviderFactory.getSourceWrapper(ctx.getSource(), ctx.getDataSourceStorageType());
         wrapper.registerTransient(chunkData);

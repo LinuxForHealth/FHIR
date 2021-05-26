@@ -30,12 +30,14 @@ import com.azure.storage.blob.specialized.AppendBlobClient;
 import com.ibm.fhir.bulkdata.dto.ReadResultDTO;
 import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
 import com.ibm.fhir.bulkdata.jbatch.load.data.ImportTransientUserData;
+import com.ibm.fhir.bulkdata.jbatch.load.exception.FHIRLoadException;
 import com.ibm.fhir.bulkdata.provider.Provider;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 
 /**
  * AzureProvider integrates the BulkData feature with Azure Blob Storage.
@@ -60,17 +62,18 @@ public class AzureProvider implements Provider {
     private long parseFailures = 0;
     private long currentBytes = 0;
 
-    private String source;
     private String connectionString;
     private String container;
 
     private BlobClient client;
 
+    /**
+     * Configures the Azure based on the storageProvider source
+     * @param source
+     */
     public AzureProvider(String source) {
-        this.source = source;
-
-        this.connectionString = null;
-        this.container = null;
+        this.connectionString = ConfigurationFactory.getInstance().getStorageProviderAuthTypeConnectionString(source);
+        this.container = ConfigurationFactory.getInstance().getStorageProviderBucketName(source);
     }
 
     /**
@@ -125,9 +128,13 @@ public class AzureProvider implements Provider {
     public long getSize(String workItem) throws FHIRException {
         try {
             initializeBlobClient(workItem);
-            return client.getProperties().getBlobSize();
+            long size = client.getProperties().getBlobSize();
+            LOG.fine(() -> workItem + " [" + size + "]");
+            return size;
         } catch (Exception e) {
-            throw new FHIRException("Error Getting File Size '" + container + "/" + workItem + "'", e);
+            LOG.throwing("AzureProvider", "getSize", e);
+            LOG.fine("Error Getting File Size '" + container + "/" + workItem + "'");
+            throw new FHIRLoadException("Error Getting File Size '" + container + "/" + workItem + "'");
         }
     }
 
@@ -149,6 +156,23 @@ public class AzureProvider implements Provider {
         }
     }
 
+    /**
+     * writes directly to Azure using AppendBlock client
+     * @param workItem the file
+     * @param in
+     * @param size
+     * @throws Exception
+     */
+    public void writeDirectly(String workItem, InputStream in, int size) throws Exception{
+        initializeBlobClient(workItem);
+
+        AppendBlobClient aClient = client.getAppendBlobClient();
+        if (!client.exists().booleanValue()) {
+            aClient.create();
+        }
+        aClient.appendBlock(in, size);
+    }
+
     @Override
     public void writeResources(String mediaType, List<ReadResultDTO> dtos) throws Exception {
         String workItem = cosBucketPathPrefix + "/" + fhirResourceType + "_" + chunkData.getUploadCount() + ".ndjson";
@@ -164,6 +188,31 @@ public class AzureProvider implements Provider {
                 chunkData.getBufferStream().size());
 
         chunkData.getBufferStream().reset();
+
+        if (chunkData.isFinishCurrentUpload()) {
+            // Partition status for the exported resources, e.g, Patient[1000,1000,200]
+            if (chunkData.getResourceTypeSummary() == null) {
+                chunkData.setResourceTypeSummary(fhirResourceType + "[" + chunkData.getCurrentUploadResourceNum());
+                if (chunkData.getPageNum() >= chunkData.getLastPageNum()) {
+                    chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
+                }
+            } else {
+                chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "," + chunkData.getCurrentUploadResourceNum());
+                if (chunkData.getPageNum() >= chunkData.getLastPageNum()) {
+                    chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
+                }
+            }
+
+            if (chunkData.getPageNum() < chunkData.getLastPageNum()) {
+                chunkData.setPartNum(1);
+                chunkData.setUploadId(null);
+                chunkData.setCurrentUploadResourceNum(0);
+                chunkData.setCurrentUploadSize(0);
+                chunkData.setFinishCurrentUpload(false);
+                chunkData.getCosDataPacks().clear();
+                chunkData.setUploadCount(chunkData.getUploadCount() + 1);
+            }
+        }
     }
 
     /*
@@ -198,7 +247,7 @@ public class AzureProvider implements Provider {
                             LOG.fine("Azure Resource [R] " + compLine);
                         }
                         // There is no reason to reset compLine as we're now stopping this proccessing block.
-                        // previous, baos are all goign to go out of scope.
+                        // previous, baos are all going to go out of scope.
                         if (window > 0) {
                             // Doesn't need to be closed per JavaDocs
                             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -211,6 +260,8 @@ public class AzureProvider implements Provider {
                         // We're on the last line, so there might be more
                         if (idx -1 == lines.size()) {
                             previous.append(line);
+                        } else {
+                            parseFailures++;
                         }
                     }
                 }
@@ -218,6 +269,10 @@ public class AzureProvider implements Provider {
                     currentBytes += counter.getLength();
                     window++;
                 }
+
+                // Set so we can move the window forward.
+                this.transientUserData.setCurrentBytes(currentBytes);
+                LOG.fine(() -> "Number of bytes read are: '" + currentBytes + "'");
             } catch (IOException e) {
                 LOG.throwing("AzureProvider", "readResources", e);
                 LOG.severe("Problem accessing backend on Azure" + e.getMessage());
@@ -298,6 +353,7 @@ public class AzureProvider implements Provider {
     @Override
     public void registerTransient(ImportTransientUserData transientUserData) {
         this.transientUserData = transientUserData;
+        this.currentBytes = transientUserData.getCurrentBytes();
     }
 
     @Override

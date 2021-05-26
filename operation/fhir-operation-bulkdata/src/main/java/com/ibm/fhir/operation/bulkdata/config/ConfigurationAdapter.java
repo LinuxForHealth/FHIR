@@ -504,4 +504,11 @@ public interface ConfigurationAdapter {
      * @return
      */
     String getStorageProviderAuthTypeConnectionString(String provider);
+
+    /**
+     * checks the provider to see if this is an azure connection string.
+     * @param provider
+     * @return true, if connectionString
+     */
+    boolean isStorageProviderAuthTypeConnectionString(String provider);
 }
