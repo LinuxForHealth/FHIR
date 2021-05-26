@@ -19,6 +19,7 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.ResourceEraseRecord;
 import com.ibm.fhir.persistence.ResourceEraseRecord.Status;
+import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
@@ -115,7 +116,7 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     }
 
     @Override
-    public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted, Resource contextResource,
+    public SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted, Resource contextResource,
         MultivaluedMap<String, String> queryParameters) throws Exception {
 
         return null;

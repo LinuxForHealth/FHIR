@@ -228,6 +228,34 @@ public final class ProfileSupport {
         return Collections.emptyList();
     }
 
+    public static boolean hasResourceAssertedProfile(Resource resource, StructureDefinition profile) {
+        Meta meta = resource.getMeta();
+        if (meta != null) {
+            for (Canonical canonical : meta.getProfile()) {
+                String value = canonical.getValue();
+
+                if (value == null) {
+                    continue;
+                }
+
+                String uri = value;
+                String version = null;
+
+                int index = value.indexOf("|");
+                if (index != -1) {
+                    uri = value.substring(0, index);
+                    version = value.substring(index + 1);
+                }
+
+                if (uri.equals(profile.getUrl().getValue()) &&
+                        (version == null || profile.getVersion() == null || version.equals(profile.getVersion().getValue()))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public static List<Constraint> getConstraints(String url, Class<?> type) {
         return getConstraints(Collections.singletonList(url), type);
     }
