@@ -173,8 +173,8 @@ public class S3Provider implements Provider {
     public boolean exists() {
         boolean ex = client != null;
 
-        // We only want to log a warning here, and assume it's true if the client exists
-        // in certain circumstances, a direct url to the bucket can be used. https://mybucketdemo123.s3.us.east-2.amazonaws.com
+        // We only want to log a warning here, and assume it's true if the client exists.
+        // In certain circumstances, a direct url to the bucket can be used. https://mybucketdemo123.s3.us.east-2.amazonaws.com
         // versus an API enabled url e.g. https://s3.us.east-2.amazonaws.com
         // These end up with TWO different responses, the former is false, and the latter is true.
         if (!client.doesBucketExistV2(bucketName)) {
