@@ -2082,12 +2082,12 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/storageProviders/<source>/presigned`|boolean|When an hmac auth type is used, presigns the URLs of an export|
 |`fhirServer/bulkdata/storageProviders/<source>/create`|boolean|Enables the creation of buckets|
 |`fhirServer/bulkdata/storageProviders/<source>/auth/type`|string|A type of hmac, iam, or basic|
-|`fhirServer/bulkdata/storageProviders/<source>/accessKeyId`|string|For HMAC, API key for accessing COS|
-|`fhirServer/bulkdata/storageProviders/<source>/secretAccessKey`|string|For HMAC, secret key for accessing COS|
-|`fhirServer/bulkdata/storageProviders/<source>/iamApiKey`|string|For IAM, API key for accessing IBM COS|
-|`fhirServer/bulkdata/storageProviders/<source>/iamResourceInstanceId`|string|For IAM, secret key for accessing IBM COS|
-|`fhirServer/bulkdata/storageProviders/<source>/user`|string|For basic, user COS|
-|`fhirServer/bulkdata/storageProviders/<source>/secretAccessKey`|string|For basic, password for accessing COS|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/accessKeyId`|string|For HMAC, API key for accessing COS|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/secretAccessKey`|string|For HMAC, secret key for accessing COS|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/iamApiKey`|string|For IAM, API key for accessing IBM COS|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/iamResourceInstanceId`|string|For IAM, secret key for accessing IBM COS|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/username`|string|For basic, user COS|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/password`|string|For basic, password for accessing COS|
 |`fhirServer/bulkdata/storageProviders/<source>/operationOutcomeProvider`|string| the default storage provider used to output Operation Outcomes (file, s3 only)|
 |`fhirServer/operations/erase/enabled`|boolean|Enables the $erase operation|
 |`fhirServer/operations/erase/allowedRoles`|list|The list of allowed roles, allowed entries are: `FHIRUsers` every authenticated user, `FHIROperationAdmin` which is authenticated `FHIRAdmin` users|
@@ -2346,12 +2346,12 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/storageProviders/<source>/presigned`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/create`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/auth/type`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/accessKeyId`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/secretAccessKey`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/iamApiKey`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/iamResourceInstanceId`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/user`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/secretAccessKey`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/accessKeyId`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/secretAccessKey`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/iamApiKey`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/iamResourceInstanceId`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/username`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/password`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/operationOutcomeProvider`|Y|Y|
 |`fhirServer/operations/erase/enabled`|Y|Y|
 |`fhirServer/operations/erase/allowedRoles`|Y|Y|
