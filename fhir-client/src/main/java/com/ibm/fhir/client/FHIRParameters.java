@@ -29,6 +29,7 @@ public class FHIRParameters {
 
     /**
      * The valid set of modifiers that can be used when constructing the parameters for a search operation.
+     * @implNote please keep in sync with @see SearchConstants.Modifier
      */
     public enum Modifier {
         MISSING("missing"),
@@ -42,7 +43,8 @@ public class FHIRParameters {
         NOT_IN("not-in"),
         // For TYPE, the ResourceType class is used instead
         IDENTIFIER("identifier"),
-        OF_TYPE("of-type");
+        OF_TYPE("of-type"),
+        ITERATE("iterate");
 
         private String text;
 
@@ -57,6 +59,7 @@ public class FHIRParameters {
 
     /**
      * The valid set of value prefixes that can be used when constructing the parameters for a search operation.
+     * @implNote please keep in sync with @see SearchConstants.Prefix
      */
     public static enum ValuePrefix {
         EQ("eq"),
