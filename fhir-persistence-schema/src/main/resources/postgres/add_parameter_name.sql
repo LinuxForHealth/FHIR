@@ -1,8 +1,10 @@
 -------------------------------------------------------------------------------
--- (C) Copyright IBM Corp. 2020
+-- (C) Copyright IBM Corp. 2020, 2021
 --
 -- SPDX-License-Identifier: Apache-2.0
 -------------------------------------------------------------------------------
+
+-- LOADED ON: {{DATE}}
 
 -- ----------------------------------------------------------------------------
 -- The stored procedure adds search parameters name (code) to logical id mappings
