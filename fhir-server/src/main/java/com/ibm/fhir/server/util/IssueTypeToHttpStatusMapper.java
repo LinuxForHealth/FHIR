@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.server.util;
 
+import static com.ibm.fhir.core.FHIRConstants.EXT_BASE;
+
 import java.util.List;
 
 import javax.ws.rs.core.Response;
@@ -20,18 +22,18 @@ public class IssueTypeToHttpStatusMapper {
     /**
      * Custom extension used by the IBM FHIR Server for marking which precondition has failed (if any)
      */
-    private static final String EXTENSION_URL_HTTP_FAILED_PRECONDITION = "http://ibm.com/fhir/extension/http-failed-precondition";
+    private static final String EXTENSION_URL_HTTP_FAILED_PRECONDITION = EXT_BASE + "http-failed-precondition";
 
     /**
      * Custom extension used by the IBM FHIR Server for marking what it was that wasn't supported:
      * resource | interaction
      */
-    private static final String EXTENSION_URL_NOT_SUPPORTED_DETAIL = "http://ibm.com/fhir/extension/not-supported-detail";
+    private static final String EXTENSION_URL_NOT_SUPPORTED_DETAIL = EXT_BASE + "not-supported-detail";
 
     /**
      * Custom extension used by the IBM FHIR Server for marking which code was not found
      */
-    private static final String EXTENSION_URL_NOT_FOUND_DETAIL = "http://ibm.com/fhir/extension/not-found-detail";
+    private static final String EXTENSION_URL_NOT_FOUND_DETAIL = EXT_BASE + "not-found-detail";
 
     /**
      * @return an HTTP response status based on the first issue contained within the OperationOutcome with a code;

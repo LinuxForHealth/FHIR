@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.resource.Bundle;
@@ -34,7 +35,7 @@ import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Uri;
 
 public class SearchExtensionsTest extends FHIRServerTestBase {
-    private static final String EXTENSION_BASE_URL = "http://ibm.com/fhir/extension/Patient/";
+    private static final String EXTENSION_BASE_URL = FHIRConstants.EXT_BASE + "Patient/";
 
     private static final boolean DEBUG_SEARCH = false;
 

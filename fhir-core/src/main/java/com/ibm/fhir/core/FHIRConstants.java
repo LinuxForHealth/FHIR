@@ -37,6 +37,8 @@ public class FHIRConstants {
 
     public static final String UPDATE_IF_MODIFIED_HEADER = "X-FHIR-UPDATE-IF-MODIFIED";
 
+    public static final String EXT_BASE = "http://ibm.com/fhir/extension/";
+
     /**
      * General parameter names that can be used with any FHIR interaction.
      *
