@@ -345,7 +345,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            Resource resource = helper.doRead("Patient", "1", false, false, null, null);
+            Resource resource = helper.doRead("Patient", "1", false, false, null, null).getResource();
             assertNotNull(resource);
         } catch (FHIROperationException e) {
             fail();
@@ -363,7 +363,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            Resource resource = helper.doRead("Encounter", "1", false, false, null, null);
+            Resource resource = helper.doRead("Encounter", "1", false, false, null, null).getResource();
             assertNotNull(resource);
         } catch (FHIROperationException e) {
             fail();
@@ -381,7 +381,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            Resource resource = helper.doRead("Encounter", "1", false, false, null, null);
+            Resource resource = helper.doRead("Encounter", "1", false, false, null, null).getResource();
             assertNotNull(resource);
         } catch (FHIROperationException e) {
             fail();

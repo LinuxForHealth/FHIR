@@ -222,9 +222,7 @@
 		<test name="testLiteralTimeMinute" inputfile="patient-example.xml"><expression>@T14:34.is(Time)</expression><output type="boolean">true</output></test>
 		<test name="testLiteralTimeSecond" inputfile="patient-example.xml"><expression>@T14:34:28.is(Time)</expression><output type="boolean">true</output></test>
 		<test name="testLiteralTimeMillisecond" inputfile="patient-example.xml"><expression>@T14:34:28.123.is(Time)</expression><output type="boolean">true</output></test>
-        <!--
 		<test name="testLiteralTimeUTC" inputfile="patient-example.xml"><expression invalid="true">@T14:34:28Z.is(Time)</expression></test>
-		-->
 		<test name="testLiteralTimeTimezoneOffset" inputfile="patient-example.xml"><expression invalid="true">@T14:34:28+10:00.is(Time)</expression></test>
 
 		<test name="testLiteralQuantityDecimal" inputfile="patient-example.xml"><expression>10.1 'mg'.convertsToQuantity()</expression><output type="boolean">true</output></test>

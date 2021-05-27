@@ -105,6 +105,7 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |fhir-operation-term-cache|Add-on module that provides operations for clearing the terminology subsystem caches for non-production scenarios|false|
 |fhir-operation-validate|An implementation of the FHIR resource [$validate operation](https://www.hl7.org/fhir/R4/operation-resource-validate.html)|false|
 |fhir-operation-everything|An implementation of the FHIR patient [`$everything`](https://www.hl7.org/fhir/operation-patient-everything.html) operation|false|
+|fhir-operation-erase|A hard delete operation for resource instances referred to as the `$erase` operation. See the [README.md](operation/fhir-operation-erase/README.md)|false|
 
 #### Client
 |Module|Description|Java API-stable|

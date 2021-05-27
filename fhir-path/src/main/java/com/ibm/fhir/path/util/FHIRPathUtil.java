@@ -129,6 +129,26 @@ public final class FHIRPathUtil {
     private FHIRPathUtil() { }
 
     public static ExpressionContext compile(String expr) {
+        int startIndex = -1;
+        for (int i = 0; i < expr.length(); i++) {
+            if (!Character.isWhitespace(expr.charAt(i))) {
+                startIndex = i;
+                break;
+            }
+        }
+
+        int stopIndex = -1;
+        for (int i = expr.length() - 1; i >= 0; i--) {
+            if (!Character.isWhitespace(expr.charAt(i))) {
+                stopIndex = i;
+                break;
+            }
+        }
+
+        if (startIndex == -1 || stopIndex == -1) {
+            throw new IllegalArgumentException("Invalid FHIRPath expression: '" + expr + "'");
+        }
+
         FHIRPathLexer lexer = new FHIRPathLexer(CharStreams.fromString(expr));
         lexer.removeErrorListeners();
         lexer.addErrorListener(SYNTAX_ERROR_LISTENER);
@@ -139,7 +159,17 @@ public final class FHIRPathUtil {
         parser.removeErrorListeners();
         parser.addErrorListener(SYNTAX_ERROR_LISTENER);
 
-        return parser.expression();
+        ExpressionContext expressionContext = parser.expression();
+
+        if (expressionContext.getStart() == null || expressionContext.getStop() == null) {
+            throw new IllegalArgumentException("FHIRPath expression was parsed but start and/or stop token was null");
+        }
+
+        if (expressionContext.getStart().getStartIndex() != startIndex || expressionContext.getStop().getStopIndex() != stopIndex) {
+            throw new IllegalArgumentException("FHIRPath expression parsing error at: '" + expr.charAt(expressionContext.getStop().getStopIndex() + 1) + "'");
+        }
+
+        return expressionContext;
     }
 
     public static boolean isTypeCompatible(FHIRPathSystemValue leftValue, FHIRPathSystemValue rightValue) {
