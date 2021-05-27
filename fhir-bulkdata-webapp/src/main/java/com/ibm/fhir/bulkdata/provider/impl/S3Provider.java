@@ -169,6 +169,7 @@ public class S3Provider implements Provider {
      * checks to see if the bucket exists.
      *
      * @return
+     * @implNote to maintain the exists method behavior, we're only checking the client exists or does not  (true  or false), and warning if the bucket is not found as the S3 client does not do an exists properly when using a doesBucketExistV2 when using a vanity url to access the service on AWS.
      */
     public boolean exists() {
         boolean ex = client != null;
