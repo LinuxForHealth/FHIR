@@ -34,9 +34,13 @@ import com.ibm.fhir.bulkdata.jbatch.load.exception.FHIRLoadException;
 import com.ibm.fhir.bulkdata.provider.Provider;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
+import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 
 /**
@@ -65,6 +69,10 @@ public class AzureProvider implements Provider {
     private String connectionString;
     private String container;
 
+    private String workItem;
+
+    private boolean collect = false;
+
     private BlobClient client;
 
     /**
@@ -74,6 +82,7 @@ public class AzureProvider implements Provider {
     public AzureProvider(String source) {
         this.connectionString = ConfigurationFactory.getInstance().getStorageProviderAuthTypeConnectionString(source);
         this.container = ConfigurationFactory.getInstance().getStorageProviderBucketName(source);
+        this.collect = ConfigurationFactory.getInstance().shouldStorageProviderCollectOperationOutcomes(source);
     }
 
     /**
@@ -221,6 +230,7 @@ public class AzureProvider implements Provider {
     @Override
     public void readResources(long numOfLinesToSkip, String workItem) throws FHIRException {
         initializeBlobClient(workItem);
+        this.workItem = workItem;
 
         boolean complete = false;
         int window = 0;
@@ -262,6 +272,10 @@ public class AzureProvider implements Provider {
                             previous.append(line);
                         } else {
                             parseFailures++;
+                            OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue("Failed to Process " + this.transientUserData.getNumOfProcessedResources() + idx, IssueType.EXCEPTION);
+                            OperationOutcome oo = OperationOutcome.builder().issue(ooi).build();
+                            FHIRGenerator.generator(Format.JSON).generate(oo, this.transientUserData.getBufferStreamForImportError());
+                            this.transientUserData.getBufferStreamForImportError().write("\r\n".getBytes());
                         }
                     }
                 }
@@ -310,25 +324,26 @@ public class AzureProvider implements Provider {
 
     @Override
     public void pushOperationOutcomes() throws FHIRException {
-        // Needs to work on $import/$export.
+        if (collect && this.transientUserData.getBufferStreamForImportError().size() != 0) {
+            // Push the error
+            String workItemError = this.workItem + "_oo_errors.ndjson";
+            LOG.fine(() -> "Outputting the error to " +  workItemError);
+            initializeBlobClient(workItemError);
 
-        // Push the error
+            AppendBlobClient aClient = client.getAppendBlobClient();
+            if (!client.exists().booleanValue()) {
+                aClient.create();
+            }
+            aClient.appendBlock(
+                new ByteArrayInputStream(this.transientUserData.getBufferStreamForImportError().toByteArray()),
+                    this.transientUserData.getBufferStreamForImportError().size());
 
-        //  Push the success
-//        String workItem = cosBucketPathPrefix + "/" + fhirResourceType + "_" + chunkData.getUploadCount() + ".ndjson";
-//
-//        AppendBlobClient blobClient = new BlobClientBuilder()
-//                .endpoint(endpoint)
-//                .sasToken(sasToken)
-//                .containerName(container)
-//                .blobName(workItem)
-//                .buildClient()
-//                .getAppendBlobClient();
-//        blobClient
-//            .appendBlock(new ByteArrayInputStream(this.transientUserData.getBufferStreamForImport().toByteArray()),
-//                chunkData.getBufferStream().size());
-//        chunkData.getBufferStream().reset();
+            this.transientUserData.getBufferStreamForImportError().reset();
+            // Push the success
+            // @implNote Sadly we don't do this right now.
+        }
     }
+
 
     @Override
     public void close() throws Exception {
