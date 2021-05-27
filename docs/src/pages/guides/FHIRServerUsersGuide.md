@@ -1958,6 +1958,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/defaultPageSize`|integer|Sets the page size for search and history request results when no `_count` parameter is specified.|
 |`fhirServer/core/maxPageSize`|integer|Sets the maximum page size for search and history request results. If a user-specified `_count` parameter value exceeds the maximum page size, then a warning is logged and the maximum page size will be used.|
 |`fhirServer/core/maxPageIncludeCount`|integer|Sets the maximum number of 'include' resources allowed per page for search and history request results. If the number of 'include' resources returned for a page of results from a search or history request will exceed the maximum number of 'include' resources allowed per page, then an error will be returned in the request results.|
+|`fhirServer/core/capabilitiesUrl`|string|The URL that is embedded in the default Capabilities statement|
+|`fhirServer/term/capabilitiesUrl`|string|The URL that is embedded in the Terminology Capabilities statement using `mode=terminology`|
 |`fhirServer/term/disableCaching`|boolean|Indicates whether caching is disabled for the FHIR terminology module, this includes caching in `CodeSystemSupport`, `ValueSetSupport`, `GraphTermServiceProvider`, and `RemoteTermServiceProvider`|
 |`fhirServer/term/graphTermServiceProviders`|array of objects|The `graphTermServiceProviders` element is an array of objects|
 |`fhirServer/term/graphTermServiceProviders/enabled`|boolean|Indicates whether the graph term service provider should be used by the FHIR term service to access code system content|
@@ -2114,6 +2116,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/defaultPageSize`|10|
 |`fhirServer/core/maxPageSize`|1000|
 |`fhirServer/core/maxPageIncludeCount`|1000|
+|`fhirServer/core/capabilitiesUrl`|string|null|
+|`fhirServer/term/capabilitiesUrl`|string|null|
 |`fhirServer/term/cachingDisabled`|false|
 |`fhirServer/term/graphTermServiceProviders/enabled`|false|
 |`fhirServer/term/graphTermServiceProviders/timeLimit`|90000|
@@ -2240,6 +2244,7 @@ must restart the server for that change to take effect.
 |`fhirServer/core/defaultPageSize`|Y|Y|
 |`fhirServer/core/maxPageSize`|Y|Y|
 |`fhirServer/core/maxPageIncludeCount`|Y|Y|
+|`fhirServer/core/capabilitiesUrl`|Y|Y|
 |`fhirServer/term/cachingDisabled`|N|N|
 |`fhirServer/term/graphTermServiceProviders/enabled`|N|N|
 |`fhirServer/term/graphTermServiceProviders/timeLimit`|N|N|
@@ -2252,6 +2257,7 @@ must restart the server for that change to take effect.
 |`fhirServer/term/remoteTermServiceProviders/headers`|N|N|
 |`fhirServer/term/remoteTermServiceProviders/httpTimeout`|N|N|
 |`fhirServer/term/remoteTermServiceProviders/supports`|N|N|
+|`fhirServer/term/capabilitiesUrl`|Y|Y|
 |`fhirServer/resources/open`|Y|Y|
 |`fhirServer/resources/Resource/interactions`|Y|Y|
 |`fhirServer/resources/Resource/searchParameters`|Y|Y|

@@ -40,8 +40,10 @@ public class FHIRConfiguration {
     public static final String PROPERTY_DEFAULT_PAGE_SIZE = "fhirServer/core/defaultPageSize";
     public static final String PROPERTY_MAX_PAGE_SIZE = "fhirServer/core/maxPageSize";
     public static final String PROPERTY_MAX_PAGE_INCLUDE_COUNT = "fhirServer/core/maxPageIncludeCount";
+    public static final String PROPERTY_CAPABILITIES_URL = "fhirServer/core/capabilitiesUrl";
 
     // Terminology service properties
+    public static final String PROPERTY_TERM_SERVICE_CAPABILITIES_URL = "fhirServer/term/capabilitiesUrl";
     public static final String PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_ENABLED = "fhirServer/term/graphTermServiceProvider/enabled";
     public static final String PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_TIME_LIMIT = "fhirServer/term/graphTermServiceProvider/timeLimit";
     public static final String PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_CONFIGURATION = "fhirServer/term/graphTermServiceProvider/configuration";

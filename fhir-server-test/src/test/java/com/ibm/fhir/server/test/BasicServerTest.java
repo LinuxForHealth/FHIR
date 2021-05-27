@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,8 @@ import static org.testng.AssertJUnit.fail;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.json.JsonObject;
@@ -33,6 +35,7 @@ import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.resource.TerminologyCapabilities;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.ContactPoint;
 import com.ibm.fhir.model.type.Narrative;
@@ -40,6 +43,11 @@ import com.ibm.fhir.model.type.Xhtml;
 import com.ibm.fhir.model.type.code.ContactPointSystem;
 import com.ibm.fhir.model.type.code.ContactPointUse;
 import com.ibm.fhir.model.type.code.NarrativeStatus;
+import com.ibm.fhir.path.FHIRPathBooleanValue;
+import com.ibm.fhir.path.FHIRPathNode;
+import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
+import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
+import com.ibm.fhir.path.exception.FHIRPathException;
 
 /**
  * Basic sniff test of the FHIR Server.
@@ -52,7 +60,7 @@ public class BasicServerTest extends FHIRServerTestBase {
      * Verify the 'metadata' API.
      */
     @Test(groups = { "server-basic" })
-    public void testMetadataAPI() {
+    public void testMetadataAPI() throws FHIRPathException {
         WebTarget target = getWebTarget();
         Response response = target.path("metadata").request().get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -63,6 +71,40 @@ public class BasicServerTest extends FHIRServerTestBase {
         assertEquals(6, conf.getFormat().size());
         assertNotNull(conf.getVersion());
         assertNotNull(conf.getName());
+
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        EvaluationContext evaluationContext = new EvaluationContext(conf);
+        Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "(kind != 'instance') or implementation.exists()");
+        Iterator<FHIRPathNode> iter = result.iterator();
+        boolean instance = false;
+        while (iter.hasNext()) {
+            FHIRPathBooleanValue node = iter.next().as(FHIRPathBooleanValue.class);
+            instance = node._boolean();
+        }
+        assertTrue(instance);
+    }
+
+    @Test(groups = { "server-basic" })
+    public void testMetadataAPITerminology() throws FHIRPathException {
+        WebTarget target = getWebTarget();
+        Response response = target.path("metadata").queryParam("mode", "terminology").request().get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+
+        TerminologyCapabilities conf = response.readEntity(TerminologyCapabilities.class);
+        assertNotNull(conf);
+        assertNotNull(conf.getVersion());
+        assertNotNull(conf.getName());
+
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        EvaluationContext evaluationContext = new EvaluationContext(conf);
+        Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, "(kind != 'instance') or implementation.exists()");
+        Iterator<FHIRPathNode> iter = result.iterator();
+        boolean instance = false;
+        while (iter.hasNext()) {
+            FHIRPathBooleanValue node = iter.next().as(FHIRPathBooleanValue.class);
+            instance = node._boolean();
+        }
+        assertTrue(instance);
     }
 
     /**
