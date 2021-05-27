@@ -758,7 +758,7 @@ public class RemoteTermServiceProvider extends AbstractTermServiceProvider {
                 trustStore = configuration.trustStore;
                 hostnameVerificationEnabled = configuration.hostnameVerificationEnabled;
                 basicAuth = configuration.basicAuth;
-                headers = configuration.headers;
+                headers.addAll(configuration.headers);
                 httpTimeout = configuration.httpTimeout;
                 supports.addAll(configuration.supports);
                 return this;
