@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.resource.SearchParameter;
@@ -35,7 +36,7 @@ import com.ibm.fhir.registry.FHIRRegistry;
  * to search parameters which always reference code values with a particular system
  */
 public class SearchParameterAugmenter {
-    private static final String IMPLICIT_SYSTEM_EXT_URL = "http://ibm.com/fhir/extension/implicit-system";
+    private static final String IMPLICIT_SYSTEM_EXT_URL = FHIRConstants.EXT_BASE + "implicit-system";
     private static final FHIRGenerator generator = FHIRGenerator.generator(Format.JSON, false);
 
     public static void main(String[] args) throws Exception {

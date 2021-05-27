@@ -1334,7 +1334,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 .severity(IssueSeverity.FATAL)
                 .code(IssueType.NOT_SUPPORTED.toBuilder()
                         .extension(Extension.builder()
-                            .url("http://ibm.com/fhir/extension/not-supported-detail")
+                            .url(FHIRConstants.EXT_BASE + "not-supported-detail")
                             .value(Code.of("interaction"))
                             .build())
                         .build())

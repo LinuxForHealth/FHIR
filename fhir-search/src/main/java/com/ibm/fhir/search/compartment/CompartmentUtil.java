@@ -14,8 +14,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.model.resource.CompartmentDefinition;
 import com.ibm.fhir.model.resource.CompartmentDefinition.Resource;
+import com.ibm.fhir.model.type.code.CompartmentType;
+import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.exception.SearchExceptionUtil;
@@ -36,6 +39,9 @@ import com.ibm.fhir.search.exception.SearchExceptionUtil;
  * Call {@link #init()} to initialize static members and avoid a slight performance hit on first use.
  */
 public class CompartmentUtil {
+    // The URL of the compartment subtype extension...useful for defining new compartments
+    public static final String CUSTOM_COMPARTMENT_TYPE_EXT = FHIRConstants.EXT_BASE + "custom-compartment-type";
+
     // Map of Compartment name to CompartmentCache
     private static final Map<String, CompartmentCache> compartmentMap = new HashMap<>();
 
@@ -76,7 +82,10 @@ public class CompartmentUtil {
 
         Collection<CompartmentDefinition> definitions = FHIRRegistry.getInstance().getResources(CompartmentDefinition.class);
         for (CompartmentDefinition compartmentDefinition : definitions) {
-            String compartmentName = compartmentDefinition.getCode().getValue();
+            CompartmentType type = compartmentDefinition.getCode();
+
+            String compartmentName = type.hasValue() ? type.getValue()
+                    : FHIRUtil.getExtensionStringValue(type, CUSTOM_COMPARTMENT_TYPE_EXT);
 
             // The cached object (a smaller/lighter lookup resource) used for point lookups
             CompartmentCache compartmentDefinitionCache = new CompartmentCache();
@@ -131,7 +140,7 @@ public class CompartmentUtil {
     }
 
     /**
-     * checks that the compartment is valid, and throws and exception if, not
+     * checks that the compartment is valid and throws an exception if not
      *
      * @param compartment
      * @throws FHIRSearchException
@@ -144,7 +153,7 @@ public class CompartmentUtil {
     }
 
     /**
-     * checks that the compartment and resource are valid, and throws and exception if, not
+     * checks that the compartment and resource are valid and throws an exception if not
      *
      * @param compartment
      * @throws FHIRSearchException
