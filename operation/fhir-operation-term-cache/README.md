@@ -4,4 +4,4 @@ If you are in development mode and always want to reload data, the simplest mech
 
 This module introduces a $clear-cache operation on the ValueSet and CodeSystem resources. Depending on the type of resource being changed, one or the other or both may need to be called in order to completely clear the cache. For instance, an intensional ValueSet that depends on a server CodeSystem resource, will require a call to both ValueSet/$clear-cache and CodeSystem/$clear-cache.
 
-FHIR terminology caching is done on a per-JVM basis, so the clear-cache operations must be called on every member of a FHIR server cluster after data changes are made.
+FHIR terminology caching is done on a per-JVM, per-tenant basis, so the clear-cache operations must be called on every relevant tenant of every member of a FHIR server cluster after data changes are made.
