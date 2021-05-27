@@ -4,6 +4,8 @@
 -- SPDX-License-Identifier: Apache-2.0
 -------------------------------------------------------------------------------
 
+-- LOADED ON: {{DATE}}
+
 -- ----------------------------------------------------------------------------
 -- Procedure to remove a resource, history and parameters values
 -- 
