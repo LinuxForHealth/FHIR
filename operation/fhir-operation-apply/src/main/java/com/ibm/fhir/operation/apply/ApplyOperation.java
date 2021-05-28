@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.ws.rs.core.MultivaluedMap;
 
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.ActivityDefinition;
 import com.ibm.fhir.model.resource.CarePlan;
@@ -68,8 +69,7 @@ public class ApplyOperation extends AbstractOperation {
     private static final String PARAM_SETTING = "setting";
     private static final String PARAM_SETTING_CONTEXT = "settingContext";
 
-    private static final String EXTENSION_BASE_URL =
-            "http://ibm.com/fhir/extension/apply/";
+    private static final String EXTENSION_BASE_URL = FHIRConstants.EXT_BASE + "apply/";
 
     @Override
     protected OperationDefinition buildOperationDefinition() {
@@ -290,20 +290,17 @@ public class ApplyOperation extends AbstractOperation {
 
         // Setting
         if (setting != null) {
-            builder.extension(Extension.builder().value(setting).url(EXTENSION_BASE_URL
-                    + "/setting").build());
+            builder.extension(Extension.builder().value(setting).url(EXTENSION_BASE_URL + "setting").build());
         }
 
         // SettingContext
         if (settingContext != null) {
-            builder.extension(Extension.builder().value(settingContext).url(EXTENSION_BASE_URL
-                    + "/settingContext").build());
+            builder.extension(Extension.builder().value(settingContext).url(EXTENSION_BASE_URL + "settingContext").build());
         }
 
         // User Type
         if (userType != null) {
-            builder.extension(Extension.builder().value(userType).url(EXTENSION_BASE_URL
-                    + "/userType").build());
+            builder.extension(Extension.builder().value(userType).url(EXTENSION_BASE_URL + "userType").build());
         }
 
         // User Language

@@ -13,6 +13,7 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_MANA
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_REG_URL;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_REVOKE_URL;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_TOKEN_URL;
+import static com.ibm.fhir.core.FHIRConstants.EXT_BASE;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper.issueListToStatus;
 
@@ -110,7 +111,6 @@ public class Capabilities extends FHIRResource {
     private static final String FHIR_SERVER_NAME = "IBM FHIR Server";
     private static final String FHIR_COPYRIGHT = "(C) Copyright IBM Corporation 2016, 2021";
     private static final String FHIR_PUBLISHER = "IBM Corporation";
-    private static final String EXTENSION_URL = "http://ibm.com/fhir/extension";
     private static final String BASE_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base";
     private static final String BASE_2_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base2";
     private static final List<String> ALL_INTERACTIONS = Arrays.asList("create", "read", "vread", "update", "patch", "delete", "history", "search");
@@ -688,25 +688,25 @@ public class Capabilities extends FHIRResource {
         throws Exception {
         List<Extension> extentions = new ArrayList<>();
         Extension extension = Extension.builder()
-                .url(EXTENSION_URL + "/defaultTenantId")
+                .url(EXT_BASE + "defaultTenantId")
                 .value(string(fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_DEFAULT_TENANT_ID, FHIRConfiguration.DEFAULT_TENANT_ID)))
                 .build();
         extentions.add(extension);
 
         extension = Extension.builder()
-                .url(EXTENSION_URL + "/websocketNotificationsEnabled")
+                .url(EXT_BASE + "websocketNotificationsEnabled")
                 .value(com.ibm.fhir.model.type.Boolean.of(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED, Boolean.FALSE)))
                 .build();
         extentions.add(extension);
 
         extension = Extension.builder()
-                .url(EXTENSION_URL + "/kafkaNotificationsEnabled")
+                .url(EXT_BASE + "kafkaNotificationsEnabled")
                 .value(com.ibm.fhir.model.type.Boolean.of(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_KAFKA_ENABLED, Boolean.FALSE)))
                 .build();
         extentions.add(extension);
 
         extension = Extension.builder()
-                .url(EXTENSION_URL + "/natsNotificationsEnabled")
+                .url(EXT_BASE + "natsNotificationsEnabled")
                 .value(com.ibm.fhir.model.type.Boolean.of(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_NATS_ENABLED, Boolean.FALSE)))
                 .build();
         extentions.add(extension);
@@ -717,7 +717,7 @@ public class Capabilities extends FHIRResource {
         }
 
         extension = Extension.builder()
-                .url(EXTENSION_URL + "/notificationResourceTypes")
+                .url(EXT_BASE + "notificationResourceTypes")
                 .value(string(notificationResourceTypes))
                 .build();
         extentions.add(extension);
@@ -733,13 +733,13 @@ public class Capabilities extends FHIRResource {
         }
 
         extension = Extension.builder()
-                .url(EXTENSION_URL + "/auditLogServiceName")
+                .url(EXT_BASE + "auditLogServiceName")
                 .value(string(auditLogServiceName))
                 .build();
         extentions.add(extension);
 
         extension = Extension.builder()
-                .url(EXTENSION_URL + "/persistenceType")
+                .url(EXT_BASE + "persistenceType")
                 .value(string(getPersistenceImpl().getClass().getSimpleName()))
                 .build();
         extentions.add(extension);
