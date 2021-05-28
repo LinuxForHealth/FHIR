@@ -140,7 +140,7 @@ public class Batch {
                 generator.write("resources_updated", obj.getResourcesUpdated());
             }
 
-            if (obj.getResourcesUpdated() != null) {
+            if (obj.getResourcesDeleted() != null) {
                 generator.write("resources_deleted", obj.getResourcesDeleted());
             }
 
