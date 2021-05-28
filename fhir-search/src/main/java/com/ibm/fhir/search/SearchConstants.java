@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Uri;
@@ -94,8 +95,7 @@ public class SearchConstants {
     // _has
     public static final String HAS = "_has";
 
-    public static final String BASE_SYSTEM_EXT_URL = "http://ibm.com/fhir/extension/";
-    public static final String IMPLICIT_SYSTEM_EXT_URL = BASE_SYSTEM_EXT_URL + "implicit-system";
+    public static final String IMPLICIT_SYSTEM_EXT_URL = FHIRConstants.EXT_BASE + "implicit-system";
 
     // Extracted search parameter suffix for :identifier modifier
     public static final String IDENTIFIER_MODIFIER_SUFFIX = ":identifier";
