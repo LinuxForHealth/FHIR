@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -217,7 +218,7 @@ public abstract class AbstractPersistenceTest {
         return executeCompartmentQuery(resourceType, maxPageSize, searchContext);
     }
 
-    protected List<Resource> runCompartmentQueryTest(String compartmentName, List<String> compartmentLogicalIds, Class<? extends Resource> resourceType, Map<String, List<String>> queryParms, Integer maxPageSize) throws Exception {
+    protected List<Resource> runCompartmentQueryTest(String compartmentName, Set<String> compartmentLogicalIds, Class<? extends Resource> resourceType, Map<String, List<String>> queryParms, Integer maxPageSize) throws Exception {
         FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParms);
         QueryParameter inclusionCriteria = SearchUtil.buildInclusionCriteria(compartmentName, compartmentLogicalIds, resourceType.getSimpleName());
         if (inclusionCriteria != null) {

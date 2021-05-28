@@ -8,9 +8,11 @@ package com.ibm.fhir.smart;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -24,6 +26,7 @@ import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Provenance;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
+import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.CompartmentType;
 import com.ibm.fhir.model.type.code.IssueType;
@@ -52,6 +55,9 @@ import com.ibm.fhir.smart.Scope.ContextType;
 import com.ibm.fhir.smart.Scope.Permission;
 
 public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersistenceInterceptor {
+    private static final String DAVINCI_DRUG_FORMULARY_COVERAGE_PLAN =
+            "http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition/usdf-CoveragePlan";
+
     private static final Logger log = Logger.getLogger(AuthzPolicyEnforcementPersistenceInterceptor.class.getName());
 
     private static final String BEARER_TOKEN_PREFIX = "Bearer";
@@ -77,7 +83,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     private void enforceDirectPatientAccess(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         if (PATIENT.equals(event.getFhirResourceType())) {
             DecodedJWT jwt = JWT.decode(getAccessToken());
-            List<String> patientIdFromToken = getPatientIdFromToken(jwt);
+            Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
             if (!patientIdFromToken.contains(event.getFhirResourceId())) {
                 String msg = "Interaction with 'Patient/" + event.getFhirResourceId() +
                         "' is not permitted under patient context '" + patientIdFromToken + "'.";
@@ -97,7 +103,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         FHIRSearchContext searchContext = event.getSearchContextImpl();
         if (searchContext != null) {
             DecodedJWT jwt = JWT.decode(getAccessToken());
-            List<String> patientIdFromToken = getPatientIdFromToken(jwt);
+            Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
 
             // Determine if compartment search
             String compartment = null;
@@ -114,26 +120,37 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
             if (compartment != null) {
                 // Compartment search - validate patient access
-                if (!"Patient".equals(compartment)) {
-                    String msg = "Compartment search with compartment '" + compartment + "' is not permitted.";
-                    throw new FHIRPersistenceInterceptorException(msg).withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
-                }
-                if (!patientIdFromToken.contains(compartmentId)) {
-                    String msg = "Interaction with 'Patient/" + compartmentId + "' is not permitted under patient context '" + patientIdFromToken + "'.";
-                    throw new FHIRPersistenceInterceptorException(msg).withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
-                }
-                try {
-                    if (!CompartmentUtil.getCompartmentResourceTypes(PATIENT).contains(event.getFhirResourceType())) {
-                        String msg = "Resource type '" + event.getFhirResourceType() + "' is not valid for Patient compartment search.";
-                        throw new FHIRPersistenceInterceptorException(msg).withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
+                if ("Patient".equals(compartment)) {
+                    if (!patientIdFromToken.contains(compartmentId)) {
+                        String msg = "Interaction with 'Patient/" + compartmentId + "' is not permitted under patient context '" + patientIdFromToken + "'.";
+                        throw new FHIRPersistenceInterceptorException(msg).withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
                     }
-                } catch (FHIRSearchException e) {
-                    log.log(Level.WARNING, "Unexpected exception while getting compartment resource types", e);
+                    try {
+                        // TODO: confirm this entire try-catch block is safe to remove
+                        // the REST layer should already prevent compartment searches for invalid resource types
+                        if (!CompartmentUtil.getCompartmentResourceTypes(PATIENT).contains(event.getFhirResourceType())) {
+                            String msg = "Resource type '" + event.getFhirResourceType() + "' is not valid for Patient compartment search.";
+                            throw new FHIRPersistenceInterceptorException(msg).withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
+                        }
+                    } catch (FHIRSearchException e) {
+                        log.log(Level.WARNING, "Unexpected exception while getting compartment resource types", e);
+                    }
+                } else {
+                    // Some other compartment type search; rely on the afterSearch method to enforce patient compartment membership
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine("Performing compartment search for compartment '" + compartment + "/" + compartmentId + "'.");
+                    }
                 }
             } else {
                 // Not compartment search - validate and convert to Patient compartment search if resource type is member of Patient compartment
                 try {
                     if (CompartmentUtil.getCompartmentResourceTypes(PATIENT).contains(event.getFhirResourceType())) {
+                        // Special case for the List resource because we want to enable searches for Formulary Coverage Plan lists
+                        if ("List".equals(event.getFhirResourceType())) {
+                            // In this case, we will rely on the afterSearch logic to prevent unauthorized access to patient-scoped Lists
+                            return;
+                        }
+
                         // Build the Patient compartment inclusion criteria search parameter
                         QueryParameter inclusionCriteria = SearchUtil.buildInclusionCriteria(PATIENT, patientIdFromToken, event.getFhirResourceType());
 
@@ -163,7 +180,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     @Override
     public void beforeUpdate(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         DecodedJWT jwt = JWT.decode(getAccessToken());
-        List<String> patientIdFromToken = getPatientIdFromToken(jwt);
+        Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
         List<Scope> scopesFromToken = getScopesFromToken(jwt);
 
         // First, check READ permission on the existing resource to ensure we don't write over something that
@@ -176,7 +193,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     public void afterRead(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         DecodedJWT jwt = JWT.decode(getAccessToken());
         Resource resource = event.getFhirResource();
-        List<String> patientIdFromToken = getPatientIdFromToken(jwt);
+        Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
         List<Scope> scopesFromToken = getScopesFromToken(jwt);
 
         enforceDirectProvenanceAccess(event, resource, patientIdFromToken, scopesFromToken);
@@ -187,7 +204,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     public void afterVread(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         DecodedJWT jwt = JWT.decode(getAccessToken());
         Resource resource = event.getFhirResource();
-        List<String> patientIdFromToken = getPatientIdFromToken(jwt);
+        Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
         List<Scope> scopesFromToken = getScopesFromToken(jwt);
 
         enforceDirectProvenanceAccess(event, resource, patientIdFromToken, scopesFromToken);
@@ -197,7 +214,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     @Override
     public void afterHistory(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         DecodedJWT jwt = JWT.decode(getAccessToken());
-        List<String> patientIdFromToken = getPatientIdFromToken(jwt);
+        Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
         List<Scope> scopesFromToken = getScopesFromToken(jwt);
 
         if (event.getFhirResource() instanceof Bundle) {
@@ -215,7 +232,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         }
     }
 
-    private void enforceDirectProvenanceAccess(FHIRPersistenceEvent event, Resource resource, List<String> patientIdFromToken, List<Scope> scopesFromToken)
+    private void enforceDirectProvenanceAccess(FHIRPersistenceEvent event, Resource resource, Set<String> patientIdFromToken, List<Scope> scopesFromToken)
             throws FHIRPersistenceInterceptorException {
         if (resource instanceof Provenance) {
             if (!isAllowed(((Provenance) resource).getTarget(), event.getPersistenceImpl(), patientIdFromToken, Permission.READ, scopesFromToken)) {
@@ -242,7 +259,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
      * @throws IllegalStateException if the baseUrl cannot be computed from the request context
      * @throws FHIRPersistenceInterceptorException if the interaction is not permitted
      */
-    private boolean isAllowed(List<Reference> references, FHIRPersistence persistence, List<String> contextIds, Permission requiredPermission, List<Scope> approvedScopes) {
+    private boolean isAllowed(List<Reference> references, FHIRPersistence persistence, Set<String> contextIds, Permission requiredPermission, List<Scope> approvedScopes) {
         boolean allow = false;
 
         String baseUrl;
@@ -293,7 +310,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     @Override
     public void afterSearch(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
         DecodedJWT jwt = JWT.decode(getAccessToken());
-        List<String> patientIdFromToken = getPatientIdFromToken(jwt);
+        Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
         List<Scope> scopesFromToken = getScopesFromToken(jwt);
 
         if (event.getFhirResource() instanceof Bundle) {
@@ -317,7 +334,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
      * @param approvedScopes a list of SMART scopes associated with the request
      * @throws FHIRPersistenceInterceptorException if the interaction is not permitted
      */
-    private void enforce(Resource resource, List<String> contextIds, Permission requiredPermission, List<Scope> approvedScopes)
+    private void enforce(Resource resource, Set<String> contextIds, Permission requiredPermission, List<Scope> approvedScopes)
             throws FHIRPersistenceInterceptorException {
         if (!isAllowed(resource, contextIds, requiredPermission, approvedScopes)) {
             if (log.isLoggable(Level.FINE)) {
@@ -339,7 +356,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
      * @param approvedScopes a list of SMART scopes associated with the request
      * @throws FHIRPersistenceInterceptorException if the interaction is not permitted
      */
-    private boolean isAllowed(Resource resource, List<String> contextIds, Permission requiredPermission, List<Scope> approvedScopes)
+    private boolean isAllowed(Resource resource, Set<String> contextIds, Permission requiredPermission, List<Scope> approvedScopes)
             throws FHIRPersistenceInterceptorException {
         Objects.requireNonNull(resource, "resource");
         Objects.requireNonNull(contextIds, "contextIds");
@@ -372,6 +389,21 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                         "' is granted via scope " + approvedScopeMap.get(ContextType.PATIENT));
                 }
                 return true;
+            } else if (resource instanceof com.ibm.fhir.model.resource.List) {
+                // List is another special-case:  a Patient-compartment resource type that
+                // we may want to grant access to when it is not scoped to any particular patient (e.g. for
+                // <a href="http://hl7.org/fhir/us/davinci-drug-formulary/StructureDefinition-usdf-CoveragePlan.html">Drug Formulary</a>).
+
+                // TODO: consider double-checking that the Patient compartment inclusion criteria for List have no
+                // patient references.  The inclusion criteria are "subject" and "source".
+                if (resource.getMeta() != null &&
+                        resource.getMeta().getProfile().contains(Canonical.of(DAVINCI_DRUG_FORMULARY_COVERAGE_PLAN))) {
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine(requiredPermission.value() + " permission for 'List/" + resource.getId() +
+                            "' is granted via scope " + approvedScopeMap.get(ContextType.PATIENT));
+                    }
+                    return true;
+                }
             }
 
             // Else, see if the target resource belongs to the Patient compartment of the in-context patient
@@ -394,7 +426,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
      * @return true if the resource is in one of the compartment defined by the compartmentType and the contextIds
      *          or if the resource type is not applicable for the given compartmentType
      */
-    private boolean checkCompartment(Resource resource, CompartmentType compartmentType, List<String> contextIds) {
+    private boolean checkCompartment(Resource resource, CompartmentType compartmentType, Set<String> contextIds) {
         String resourceType = resource.getClass().getSimpleName();
         String compartment = compartmentType.getValue();
 
@@ -527,7 +559,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 .collect(Collectors.toList());
     }
 
-    private List<String> getPatientIdFromToken(DecodedJWT jwt) throws FHIRPersistenceInterceptorException {
+    private Set<String> getPatientIdFromToken(DecodedJWT jwt) throws FHIRPersistenceInterceptorException {
         Claim claim = jwt.getClaim("patient_id");
         if (claim.isNull()) {
             String msg = "Authorization token is missing 'patient_id' claim";
@@ -537,12 +569,12 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
         String patientId = claim.asString();
         if (patientId == null) {
-            return claim.asList(String.class);
+            return new HashSet<>(claim.asList(String.class));
         }
 
         return Stream.of(patientId.split(" "))
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 }

@@ -15,8 +15,10 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.testng.annotations.Test;
 
@@ -213,25 +215,25 @@ public abstract class AbstractSearchCompartmentTest extends AbstractPLSearchTest
         Map<String, List<String>> queryParms = new HashMap<>(1);
         queryParms.put("string", Collections.singletonList("testString"));
         assertTrue("Expected resource was not returned from the search",
-            multiCompartmentSearchReturnsResource(PATIENT, Arrays.asList(new String[]{PATIENT_ID, OTHER_ID}),
+            multiCompartmentSearchReturnsResource(PATIENT, new HashSet<>(Arrays.asList(new String[]{PATIENT_ID, OTHER_ID})),
                     queryParms, savedResource));
         assertTrue("Expected resource was not returned from the search",
-            multiCompartmentSearchReturnsResource(PATIENT, Arrays.asList(new String[]{OTHER_ID, PATIENT_ID}),
+            multiCompartmentSearchReturnsResource(PATIENT, new HashSet<>(Arrays.asList(new String[]{OTHER_ID, PATIENT_ID})),
                     queryParms, savedResource));
         assertFalse("Unexpected resource was returned from the search",
-            multiCompartmentSearchReturnsResource(PATIENT, Arrays.asList(new String[]{PRACTITIONER_ID, OTHER_ID}),
+            multiCompartmentSearchReturnsResource(PATIENT, new HashSet<>(Arrays.asList(new String[]{PRACTITIONER_ID, OTHER_ID})),
                     queryParms, savedResource));
 
         queryParms.clear();
         queryParms.put("subject:Basic.string", Collections.singletonList("testString"));
         assertTrue("Expected resource was not returned from the search",
-            multiCompartmentSearchReturnsResource(PATIENT, Arrays.asList(new String[]{PATIENT_ID, OTHER_ID}),
+            multiCompartmentSearchReturnsResource(PATIENT, new HashSet<>(Arrays.asList(new String[]{PATIENT_ID, OTHER_ID})),
                     queryParms, composition));
         assertTrue("Expected resource was not returned from the search",
-            multiCompartmentSearchReturnsResource(PATIENT, Arrays.asList(new String[]{OTHER_ID, PATIENT_ID}),
+            multiCompartmentSearchReturnsResource(PATIENT, new HashSet<>(Arrays.asList(new String[]{OTHER_ID, PATIENT_ID})),
                     queryParms, composition));
         assertFalse("Unexpected resource was returned from the search",
-            multiCompartmentSearchReturnsResource(PATIENT, Arrays.asList(new String[]{PRACTITIONER_ID, OTHER_ID}),
+            multiCompartmentSearchReturnsResource(PATIENT, new HashSet<>(Arrays.asList(new String[]{PRACTITIONER_ID, OTHER_ID})),
                     queryParms, composition));
     }
 
@@ -239,7 +241,7 @@ public abstract class AbstractSearchCompartmentTest extends AbstractPLSearchTest
      * Executes the compartment query and returns whether the expected resource was in the result set
      * @throws Exception
      */
-    protected boolean multiCompartmentSearchReturnsResource(String compartmentType, List<String> compartmentIds,
+    protected boolean multiCompartmentSearchReturnsResource(String compartmentType, Set<String> compartmentIds,
             Map<String, List<String>> queryParms, Resource expectedResource) throws Exception {
 
         List<? extends Resource> resources = runCompartmentQueryTest(compartmentType, compartmentIds,
