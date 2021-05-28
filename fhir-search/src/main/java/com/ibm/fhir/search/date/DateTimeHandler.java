@@ -101,8 +101,8 @@ public class DateTimeHandler {
      * Calculates a lower bound absolutely.
      * No matter if the time is AFTER the current time.
      *
-     * @param now
-     * @param cur
+     * @param now the instant representing "now"...the now to compare against for computing the "approximation" range
+     * @param cur the search parameter value instant
      * @return
      */
     public static Instant generateLowerBoundApproximation(Instant now, Instant cur) {
@@ -121,7 +121,7 @@ public class DateTimeHandler {
     public static Instant generateLowerBound(Prefix prefix, TemporalAccessor value, String originalString) {
         Instant response;
 
-        if (prefix != null && Prefix.AP.compareTo(prefix) == 0) {
+        if (prefix == Prefix.AP) {
             Instant cur = generateValue(value, originalString);
             Instant now = java.time.Instant.now();
             response = generateLowerBoundApproximation(now, cur);
