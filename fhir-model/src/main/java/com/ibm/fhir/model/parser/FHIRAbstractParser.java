@@ -18,6 +18,7 @@ import com.ibm.fhir.model.resource.Resource;
 public abstract class FHIRAbstractParser implements FHIRParser {
     protected Map<String, Object> properties = new HashMap<>();
     protected boolean validating = true;
+    protected boolean ignoringUnrecognizedElements = false;
 
     @Override
     public abstract <T extends Resource> T parse(InputStream in) throws FHIRParserException;
@@ -33,6 +34,16 @@ public abstract class FHIRAbstractParser implements FHIRParser {
     @Override
     public boolean isValidating() {
         return validating;
+    }
+
+    @Override
+    public void setIgnoringUnrecognizedElements(boolean ignoringUnrecognizedElements) {
+        this.ignoringUnrecognizedElements = ignoringUnrecognizedElements;
+    }
+
+    @Override
+    public boolean isIgnoringUnrecognizedElements() {
+        return ignoringUnrecognizedElements;
     }
 
     @Override

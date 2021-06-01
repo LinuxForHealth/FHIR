@@ -479,7 +479,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.partOf(parseReference("partOf", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -527,7 +531,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.priority((PositiveInt) parseInteger(PositiveInt.builder(), "priority", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -579,7 +587,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -851,7 +863,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.dynamicValue(parseActivityDefinitionDynamicValue("dynamicValue", reader, dynamicValueElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -899,7 +915,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.expression(parseExpression("expression", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -947,7 +967,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.role(parseCodeableConcept("role", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -1023,7 +1047,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -1163,7 +1191,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.study(parseReference("study", reader, studyElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -1211,7 +1243,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.causality(parseAdverseEventSuspectEntityCausality("causality", reader, causalityElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -1267,7 +1303,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.method(parseCodeableConcept("method", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -1407,7 +1447,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.reaction(parseAllergyIntoleranceReaction("reaction", reader, reactionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -1475,7 +1519,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -1527,7 +1575,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.text((Markdown) parseString(Markdown.builder(), "text", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -1675,7 +1727,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.requestedPeriod(parsePeriod("requestedPeriod", reader, requestedPeriodElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -1735,7 +1791,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -1827,7 +1887,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.comment(parseString("comment", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -1895,7 +1959,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.creation(parseDateTime("creation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -1999,7 +2067,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.entity(parseAuditEventEntity("entity", reader, entityElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2083,7 +2155,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.purposeOfUse(parseCodeableConcept("purposeOfUse", reader, purposeOfUseElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2131,7 +2207,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.type((AuditEventAgentNetworkType) parseString(AuditEventAgentNetworkType.builder(), "type", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2207,7 +2287,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseAuditEventEntityDetail("detail", reader, detailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2259,7 +2343,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseBase64Binary("valueBase64Binary", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2311,7 +2399,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.type(parseCoding("type", reader, typeElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2351,7 +2443,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.extension(parseExtension("extension", reader, extensionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2431,7 +2527,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.author(parseReference("author", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2486,7 +2586,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.data(parseBase64Binary("data", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2590,7 +2694,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.storage(parseBiologicallyDerivedProductStorage("storage", reader, storageElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2646,7 +2754,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.collected(parsePeriod("collectedPeriod", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2698,7 +2810,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.time(parsePeriod("timePeriod", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2758,7 +2874,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.time(parsePeriod("timePeriod", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2814,7 +2934,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.duration(parsePeriod("duration", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2906,7 +3030,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.patient(parseReference("patient", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2946,7 +3074,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.extension(parseExtension("extension", reader, extensionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3018,7 +3150,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.signature(parseSignature("signature", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3082,7 +3218,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.response(parseBundleEntryResponse("response", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3146,7 +3286,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.ifNoneExist(parseString("ifNoneExist", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3206,7 +3350,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.outcome(parseResource("outcome", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3254,7 +3402,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.score(parseDecimal("score", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3302,7 +3454,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.url(parseUri("url", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3466,7 +3622,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.document(parseCapabilityStatementDocument("document", reader, documentElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3518,7 +3678,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.profile((Canonical) parseUri(Canonical.builder(), "profile", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3570,7 +3734,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.custodian(parseReference("custodian", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3626,7 +3794,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.supportedMessage(parseCapabilityStatementMessagingSupportedMessage("supportedMessage", reader, supportedMessageElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3674,7 +3846,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.address((Url) parseUri(Url.builder(), "address", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3722,7 +3898,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.definition((Canonical) parseUri(Canonical.builder(), "definition", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3794,7 +3974,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.compartment((Canonical) parseUri(Canonical.builder(), "compartment", reader, compartmentElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3842,7 +4026,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.documentation((Markdown) parseString(Markdown.builder(), "documentation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3950,7 +4138,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.operation(parseCapabilityStatementRestResourceOperation("operation", reader, operationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3998,7 +4190,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.documentation((Markdown) parseString(Markdown.builder(), "documentation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -4050,7 +4246,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.documentation((Markdown) parseString(Markdown.builder(), "documentation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -4106,7 +4306,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.documentation((Markdown) parseString(Markdown.builder(), "documentation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -4158,7 +4362,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.description((Markdown) parseString(Markdown.builder(), "description", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -4210,7 +4418,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.releaseDate(parseDateTime("releaseDate", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -4362,7 +4574,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -4422,7 +4638,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseCarePlanActivityDetail("detail", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -4542,7 +4762,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.description(parseString("description", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -4654,7 +4878,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -4710,7 +4938,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -4822,7 +5054,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.relatedEntry(parseCatalogEntryRelatedEntry("relatedEntry", reader, relatedEntryElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -4870,7 +5106,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseReference("item", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -5046,7 +5286,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.supportingInformation(parseReference("supportingInformation", reader, supportingInformationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -5094,7 +5338,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.actor(parseReference("actor", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -5246,7 +5494,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.propertyGroup(parseChargeItemDefinitionPropertyGroup("propertyGroup", reader, propertyGroupElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -5298,7 +5550,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.expression(parseString("expression", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -5346,7 +5602,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.priceComponent(parseChargeItemDefinitionPropertyGroupPriceComponent("priceComponent", reader, priceComponentElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -5402,7 +5662,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.amount(parseMoney("amount", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -5570,7 +5834,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.total(parseMoney("total", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -5626,7 +5894,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.location(parseReference("locationReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -5686,7 +5958,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.qualification(parseCodeableConcept("qualification", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -5750,7 +6026,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.packageCode(parseCodeableConcept("packageCode", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -5818,7 +6098,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.claimResponse(parseReference("claimResponse", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -5954,7 +6238,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseClaimItemDetail("detail", reader, detailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6042,7 +6330,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.subDetail(parseClaimItemDetailSubDetail("subDetail", reader, subDetailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6126,7 +6418,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.udi(parseReference("udi", reader, udiElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6174,7 +6470,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.party(parseReference("party", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6238,7 +6538,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.udi(parseReference("udi", reader, udiElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6290,7 +6594,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.reference(parseIdentifier("reference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6374,7 +6682,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.reason(parseCodeableConcept("reason", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6542,7 +6854,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.error(parseClaimResponseError("error", reader, errorElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6666,7 +6982,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseClaimResponseAddItemDetail("detail", reader, detailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6742,7 +7062,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.subDetail(parseClaimResponseAddItemDetailSubDetail("subDetail", reader, subDetailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6814,7 +7138,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.adjudication(parseClaimResponseItemAdjudication("adjudication", reader, adjudicationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6870,7 +7198,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.code(parseCodeableConcept("code", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6930,7 +7262,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.claimResponse(parseReference("claimResponse", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6986,7 +7322,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseClaimResponseItemDetail("detail", reader, detailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7042,7 +7382,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseDecimal("value", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7098,7 +7442,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.subDetail(parseClaimResponseItemDetailSubDetail("subDetail", reader, subDetailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7150,7 +7498,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.adjudication(parseClaimResponseItemAdjudication("adjudication", reader, adjudicationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7214,7 +7566,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.identifier(parseIdentifier("identifier", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7270,7 +7626,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.language(parseCodeableConcept("language", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7318,7 +7678,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.amount(parseMoney("amount", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7462,7 +7826,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7514,7 +7882,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.basis(parseString("basis", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7562,7 +7934,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseReference("item", reader, itemElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7726,7 +8102,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.concept(parseCodeSystemConcept("concept", reader, conceptElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7790,7 +8170,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.concept(parseCodeSystemConcept("concept", reader, conceptElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7842,7 +8226,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseString("value", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7914,7 +8302,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseDecimal("valueDecimal", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7970,7 +8362,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseString("value", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -8026,7 +8422,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.type((PropertyType) parseString(PropertyType.builder(), "type", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -8070,7 +8470,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.text(parseString("text", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -8126,7 +8530,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.userSelected(parseBoolean("userSelected", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -8278,7 +8686,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -8330,7 +8742,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.content(parseReference("contentReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -8482,7 +8898,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -8534,7 +8954,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.content(parseReference("contentReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -8650,7 +9074,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.resource(parseCompartmentDefinitionResource("resource", reader, resourceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -8702,7 +9130,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.documentation(parseString("documentation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -8822,7 +9254,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.section(parseCompositionSection("section", reader, sectionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -8874,7 +9310,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.party(parseReference("party", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -8926,7 +9366,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseReference("detail", reader, detailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -8978,7 +9422,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.target(parseReference("targetReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9058,7 +9506,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.section(parseCompositionSection("section", reader, sectionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9198,7 +9650,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.group(parseConceptMapGroup("group", reader, groupElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9262,7 +9718,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.unmapped(parseConceptMapGroupUnmapped("unmapped", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9314,7 +9774,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.target(parseConceptMapGroupElementTarget("target", reader, targetElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9378,7 +9842,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.product(parseConceptMapGroupElementTargetDependsOn("product", reader, productElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9434,7 +9902,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.display(parseString("display", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9490,7 +9962,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.url((Canonical) parseUri(Canonical.builder(), "url", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9650,7 +10126,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9698,7 +10178,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseReference("detail", reader, detailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9750,7 +10234,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.type(parseCodeableConcept("type", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9866,7 +10354,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.provision(parseConsentProvision("provision", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9914,7 +10406,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.uri(parseUri("uri", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9998,7 +10494,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.provision(parseConsentProvision("provision", reader, provisionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10046,7 +10546,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.reference(parseReference("reference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10094,7 +10598,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.reference(parseReference("reference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10146,7 +10654,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.verificationDate(parseDateTime("verificationDate", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10190,7 +10702,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.telecom(parseContactPoint("telecom", reader, telecomElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10246,7 +10762,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10446,7 +10966,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.legallyBinding(parseReference("legallyBindingReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10510,7 +11034,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.copyright((Markdown) parseString(Markdown.builder(), "copyright", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10558,7 +11086,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.content(parseReference("contentReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10606,7 +11138,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.content(parseReference("contentReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10654,7 +11190,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.content(parseReference("contentReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10706,7 +11246,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.signature(parseSignature("signature", reader, signatureElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10798,7 +11342,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.group(parseContractTerm("group", reader, groupElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10930,7 +11478,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.securityLabelNumber((UnsignedInt) parseInteger(UnsignedInt.builder(), "securityLabelNumber", reader, securityLabelNumberElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10978,7 +11530,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.role(parseCodeableConcept("role", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11078,7 +11634,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.valuedItem(parseContractTermAssetValuedItem("valuedItem", reader, valuedItemElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11130,7 +11690,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.text(parseString("text", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11230,7 +11794,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.securityLabelNumber((UnsignedInt) parseInteger(UnsignedInt.builder(), "securityLabelNumber", reader, securityLabelNumberElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11310,7 +11878,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.securityLabelNumber((UnsignedInt) parseInteger(UnsignedInt.builder(), "securityLabelNumber", reader, securityLabelNumberElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11398,7 +11970,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseReference("valueReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11446,7 +12022,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.role(parseCodeableConcept("role", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11502,7 +12082,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.control(parseCoding("control", reader, controlElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11550,7 +12134,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.contact(parseContactDetail("contact", reader, contactElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11678,7 +12266,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.contract(parseReference("contract", reader, contractElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11730,7 +12322,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.name(parseString("name", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11786,7 +12382,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.exception(parseCoverageCostToBeneficiaryException("exception", reader, exceptionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11834,7 +12434,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11954,7 +12558,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseCoverageEligibilityRequestItem("item", reader, itemElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12006,7 +12614,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.businessArrangement(parseString("businessArrangement", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12086,7 +12698,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseReference("detail", reader, detailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12134,7 +12750,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.diagnosis(parseReference("diagnosisReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12186,7 +12806,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.appliesToAll(parseBoolean("appliesToAll", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12310,7 +12934,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.error(parseCoverageEligibilityResponseError("error", reader, errorElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12354,7 +12982,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.code(parseCodeableConcept("code", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12410,7 +13042,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseCoverageEligibilityResponseInsuranceItem("item", reader, itemElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12506,7 +13142,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.authorizationUrl(parseUri("authorizationUrl", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12574,7 +13214,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.used(parseMoney("usedMoney", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12646,7 +13290,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.sort(parseDataRequirementSort("sort", reader, sortElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12702,7 +13350,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.code(parseCoding("code", reader, codeElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12762,7 +13414,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value((Duration) parseQuantity(Duration.builder(), "valueDuration", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12810,7 +13466,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.direction((SortDirection) parseString(SortDirection.builder(), "direction", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12850,7 +13510,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.extension(parseExtension("extension", reader, extensionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12890,7 +13554,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.extension(parseExtension("extension", reader, extensionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12930,7 +13598,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.extension(parseExtension("extension", reader, extensionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13042,7 +13714,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.mitigation(parseDetectedIssueMitigation("mitigation", reader, mitigationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13090,7 +13766,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseReference("detail", reader, detailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13142,7 +13822,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.author(parseReference("author", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13306,7 +13990,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.parent(parseReference("parent", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13354,7 +14042,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.type((DeviceNameType) parseString(DeviceNameType.builder(), "type", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13406,7 +14098,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.valueCode(parseCodeableConcept("valueCode", reader, valueCodeElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13454,7 +14150,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.version(parseString("version", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13518,7 +14218,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.entryType((UDIEntryType) parseString(UDIEntryType.builder(), "entryType", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13570,7 +14274,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseString("value", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13722,7 +14430,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.material(parseDeviceDefinitionMaterial("material", reader, materialElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13770,7 +14482,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.description(parseCodeableConcept("description", reader, descriptionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13818,7 +14534,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.type((DeviceNameType) parseString(DeviceNameType.builder(), "type", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13870,7 +14590,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.allergenicIndicator(parseBoolean("allergenicIndicator", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13922,7 +14646,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.valueCode(parseCodeableConcept("valueCode", reader, valueCodeElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13970,7 +14698,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.version(parseString("version", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -14022,7 +14754,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.jurisdiction(parseUri("jurisdiction", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -14122,7 +14858,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.calibration(parseDeviceMetricCalibration("calibration", reader, calibrationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -14174,7 +14914,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.time(parseInstant("time", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -14342,7 +15086,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.relevantHistory(parseReference("relevantHistory", reader, relevantHistoryElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -14402,7 +15150,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseBoolean("valueBoolean", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -14522,7 +15274,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -14658,7 +15414,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.presentedForm(parseAttachment("presentedForm", reader, presentedFormElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -14706,7 +15466,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.link(parseReference("link", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -14814,7 +15578,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.related(parseDocumentManifestRelated("related", reader, relatedElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -14862,7 +15630,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.ref(parseReference("ref", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -14986,7 +15758,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.context(parseDocumentReferenceContext("context", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -15034,7 +15810,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.format(parseCoding("format", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -15102,7 +15882,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.related(parseReference("related", reader, relatedElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -15150,7 +15934,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.target(parseReference("target", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -15246,7 +16034,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.maxDosePerLifetime((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "maxDosePerLifetime", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -15310,7 +16102,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.rate((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "rateQuantity", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -15502,7 +16298,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.certainty(parseEffectEvidenceSynthesisCertainty("certainty", reader, certaintyElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -15554,7 +16354,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.certaintySubcomponent(parseEffectEvidenceSynthesisCertaintyCertaintySubcomponent("certaintySubcomponent", reader, certaintySubcomponentElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -15606,7 +16410,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -15670,7 +16478,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.precisionEstimate(parseEffectEvidenceSynthesisEffectEstimatePrecisionEstimate("precisionEstimate", reader, precisionEstimateElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -15726,7 +16538,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.to(parseDecimal("to", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -15782,7 +16598,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.riskEvidenceSynthesis(parseReference("riskEvidenceSynthesis", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -15834,7 +16654,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.numberOfParticipants(parseInteger("numberOfParticipants", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -16662,7 +17486,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.mapping(parseElementDefinitionMapping("mapping", reader, mappingElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -16714,7 +17542,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.max(parseString("max", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -16766,7 +17598,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.valueSet((Canonical) parseUri(Canonical.builder(), "valueSet", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -16834,7 +17670,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.source((Canonical) parseUri(Canonical.builder(), "source", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17078,7 +17918,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseMeta("valueMeta", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17134,7 +17978,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.comment(parseString("comment", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17190,7 +18038,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.rules((SlicingRules) parseString(SlicingRules.builder(), "rules", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17238,7 +18090,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.path(parseString("path", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17298,7 +18154,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.versioning((ReferenceVersionRules) parseString(ReferenceVersionRules.builder(), "versioning", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17450,7 +18310,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.partOf(parseReference("partOf", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17498,7 +18362,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17550,7 +18418,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.rank((PositiveInt) parseInteger(PositiveInt.builder(), "rank", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17626,7 +18498,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.dischargeDisposition(parseCodeableConcept("dischargeDisposition", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17682,7 +18558,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17734,7 +18614,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.individual(parseReference("individual", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17782,7 +18666,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17886,7 +18774,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.header(parseString("header", reader, headerElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17974,7 +18866,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.coverage(parseReference("coverage", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -18066,7 +18962,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.requestProvider(parseReference("requestProvider", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -18174,7 +19074,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.account(parseReference("account", reader, accountElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -18226,7 +19130,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.rank((PositiveInt) parseInteger(PositiveInt.builder(), "rank", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -18274,7 +19182,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -18450,7 +19362,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.trigger(parseTriggerDefinition("trigger", reader, triggerElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -18622,7 +19538,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.outcome(parseReference("outcome", reader, outcomeElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -18790,7 +19710,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.characteristic(parseEvidenceVariableCharacteristic("characteristic", reader, characteristicElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -18890,7 +19814,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.groupMeasure((GroupMeasure) parseString(GroupMeasure.builder(), "groupMeasure", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -19018,7 +19946,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.workflow((Canonical) parseUri(Canonical.builder(), "workflow", reader, workflowElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -19074,7 +20006,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.description((Markdown) parseString(Markdown.builder(), "description", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -19138,7 +20074,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.containedInstance(parseExampleScenarioInstanceContainedInstance("containedInstance", reader, containedInstanceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -19186,7 +20126,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.versionId(parseString("versionId", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -19234,7 +20178,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.description((Markdown) parseString(Markdown.builder(), "description", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -19294,7 +20242,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.step(parseExampleScenarioProcessStep("step", reader, stepElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -19350,7 +20302,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.alternative(parseExampleScenarioProcessStepAlternative("alternative", reader, alternativeElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -19402,7 +20358,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.step(parseExampleScenarioProcessStep("step", reader, stepElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -19482,7 +20442,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.response(parseExampleScenarioInstanceContainedInstance("response", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -19714,7 +20678,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.benefitBalance(parseExplanationOfBenefitBenefitBalance("benefitBalance", reader, benefitBalanceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -19770,7 +20738,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.location(parseReference("locationReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -19894,7 +20866,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseExplanationOfBenefitAddItemDetail("detail", reader, detailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -19970,7 +20946,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.subDetail(parseExplanationOfBenefitAddItemDetailSubDetail("subDetail", reader, subDetailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20042,7 +21022,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.adjudication(parseExplanationOfBenefitItemAdjudication("adjudication", reader, adjudicationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20114,7 +21098,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.financial(parseExplanationOfBenefitBenefitBalanceFinancial("financial", reader, financialElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20178,7 +21166,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.used(parseMoney("usedMoney", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20238,7 +21230,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.qualification(parseCodeableConcept("qualification", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20302,7 +21298,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.packageCode(parseCodeableConcept("packageCode", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20354,7 +21354,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.preAuthRef(parseString("preAuthRef", reader, preAuthRefElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20498,7 +21502,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseExplanationOfBenefitItemDetail("detail", reader, detailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20554,7 +21562,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseDecimal("value", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20650,7 +21662,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.subDetail(parseExplanationOfBenefitItemDetailSubDetail("subDetail", reader, subDetailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20742,7 +21758,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.adjudication(parseExplanationOfBenefitItemAdjudication("adjudication", reader, adjudicationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20790,7 +21810,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.party(parseReference("party", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20854,7 +21878,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.identifier(parseIdentifier("identifier", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20918,7 +21946,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.udi(parseReference("udi", reader, udiElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20974,7 +22006,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.language(parseCodeableConcept("language", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -21026,7 +22062,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.reference(parseIdentifier("reference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -21110,7 +22150,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.reason(parseCoding("reason", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -21158,7 +22202,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.amount(parseMoney("amount", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -21214,7 +22262,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.reference(parseUri("reference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -21454,7 +22506,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseMeta("valueMeta", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -21618,7 +22674,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.condition(parseFamilyMemberHistoryCondition("condition", reader, conditionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -21690,7 +22750,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -21782,7 +22846,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.author(parseReference("author", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -21910,7 +22978,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.outcomeReference(parseReference("outcomeReference", reader, outcomeReferenceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -21990,7 +23062,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.due((Duration) parseQuantity(Duration.builder(), "dueDuration", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -22110,7 +23186,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.link(parseGraphDefinitionLink("link", reader, linkElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -22174,7 +23254,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.target(parseGraphDefinitionLinkTarget("target", reader, targetElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -22234,7 +23318,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.link(parseGraphDefinitionLink("link", reader, linkElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -22294,7 +23382,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.description(parseString("description", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -22394,7 +23486,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.member(parseGroupMember("member", reader, memberElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -22466,7 +23562,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -22518,7 +23618,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.inactive(parseBoolean("inactive", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -22646,7 +23750,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.dataRequirement(parseDataRequirement("dataRequirement", reader, dataRequirementElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -22802,7 +23910,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.endpoint(parseReference("endpoint", reader, endpointElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -22858,7 +23970,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.availableEndTime(parseTime("availableEndTime", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -22906,7 +24022,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.comment((Markdown) parseString(Markdown.builder(), "comment", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -22954,7 +24074,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.during(parsePeriod("during", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -23018,7 +24142,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -23078,7 +24206,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.assigner(parseReference("assigner", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -23218,7 +24350,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.series(parseImagingStudySeries("series", reader, seriesElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -23306,7 +24442,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.instance(parseImagingStudySeriesInstance("instance", reader, instanceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -23362,7 +24502,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.title(parseString("title", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -23410,7 +24554,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.actor(parseReference("actor", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -23586,7 +24734,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.protocolApplied(parseImmunizationProtocolApplied("protocolApplied", reader, protocolAppliedElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -23642,7 +24794,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.presentationDate(parseDateTime("presentationDate", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -23690,7 +24846,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.actor(parseReference("actor", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -23758,7 +24918,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.seriesDoses(parseString("seriesDosesString", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -23810,7 +24974,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.reported(parseBoolean("reported", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -23930,7 +25098,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.seriesDoses(parseString("seriesDosesString", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24010,7 +25182,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.recommendation(parseImmunizationRecommendationRecommendation("recommendation", reader, recommendationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24106,7 +25282,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.supportingPatientInformation(parseReference("supportingPatientInformation", reader, supportingPatientInformationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24154,7 +25334,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseDateTime("value", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24294,7 +25478,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.manifest(parseImplementationGuideManifest("manifest", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24354,7 +25542,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.template(parseImplementationGuideDefinitionTemplate("template", reader, templateElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24402,7 +25594,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.description(parseString("description", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24462,7 +25658,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.page(parseImplementationGuideDefinitionPage("page", reader, pageElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24510,7 +25710,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseString("value", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24578,7 +25782,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.groupingId((Id) parseString(Id.builder(), "groupingId", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24630,7 +25838,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.scope(parseString("scope", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24682,7 +25894,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.version(parseString("version", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24730,7 +25946,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.profile((Canonical) parseUri(Canonical.builder(), "profile", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24790,7 +26010,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.other(parseString("other", reader, otherElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24842,7 +26066,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.anchor(parseString("anchor", reader, anchorElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24898,7 +26126,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.relativePath((Url) parseUri(Url.builder(), "relativePath", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24938,7 +26170,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.extension(parseExtension("extension", reader, extensionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25054,7 +26290,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.plan(parseInsurancePlanPlan("plan", reader, planElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25110,7 +26350,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.address(parseAddress("address", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25162,7 +26406,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.benefit(parseInsurancePlanCoverageBenefit("benefit", reader, benefitElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25214,7 +26462,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.limit(parseInsurancePlanCoverageBenefitLimit("limit", reader, limitElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25262,7 +26514,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.code(parseCodeableConcept("code", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25326,7 +26582,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.specificCost(parseInsurancePlanPlanSpecificCost("specificCost", reader, specificCostElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25382,7 +26642,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.comment(parseString("comment", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25430,7 +26694,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.benefit(parseInsurancePlanPlanSpecificCostBenefit("benefit", reader, benefitElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25478,7 +26746,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.cost(parseInsurancePlanPlanSpecificCostBenefitCost("cost", reader, costElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25534,7 +26806,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseQuantity("value", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25573,7 +26849,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.extension(parseExtension("extension", reader, extensionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25701,7 +26981,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25757,7 +27041,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.priceComponent(parseInvoiceLineItemPriceComponent("priceComponent", reader, priceComponentElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25813,7 +27101,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.amount(parseMoney("amount", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25861,7 +27153,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.actor(parseReference("actor", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -26049,7 +27345,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.content(parseAttachment("content", reader, contentElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -26121,7 +27421,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseLinkageItem("item", reader, itemElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -26169,7 +27473,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.resource(parseReference("resource", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -26281,7 +27589,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.emptyReason(parseCodeableConcept("emptyReason", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -26337,7 +27649,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseReference("item", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -26465,7 +27781,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.endpoint(parseReference("endpoint", reader, endpointElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -26521,7 +27841,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.closingTime(parseTime("closingTime", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -26573,7 +27897,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.altitude(parseDecimal("altitude", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -26633,7 +27961,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.restoreDate(parseDateTime("restoreDate", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -26861,7 +28193,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.supplementalData(parseMeasureSupplementalData("supplementalData", reader, supplementalDataElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -26917,7 +28253,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.stratifier(parseMeasureGroupStratifier("stratifier", reader, stratifierElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -26969,7 +28309,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.criteria(parseExpression("criteria", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27025,7 +28369,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.component(parseMeasureGroupStratifierComponent("component", reader, componentElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27077,7 +28425,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.criteria(parseExpression("criteria", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27133,7 +28485,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.criteria(parseExpression("criteria", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27237,7 +28593,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.evaluatedResource(parseReference("evaluatedResource", reader, evaluatedResourceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27293,7 +28653,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.stratifier(parseMeasureReportGroupStratifier("stratifier", reader, stratifierElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27345,7 +28709,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.subjectResults(parseReference("subjectResults", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27393,7 +28761,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.stratum(parseMeasureReportGroupStratifierStratum("stratum", reader, stratumElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27449,7 +28821,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.measureScore(parseQuantity("measureScore", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27497,7 +28873,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseCodeableConcept("value", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27549,7 +28929,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.subjectResults(parseReference("subjectResults", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27701,7 +29085,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27793,7 +29181,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.batch(parseMedicationBatch("batch", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27841,7 +29233,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.expirationDate(parseDateTime("expirationDate", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27897,7 +29293,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.strength(parseRatio("strength", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28041,7 +29441,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.eventHistory(parseReference("eventHistory", reader, eventHistoryElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28109,7 +29513,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.rate((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "rateQuantity", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28157,7 +29565,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.actor(parseReference("actor", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28321,7 +29733,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.eventHistory(parseReference("eventHistory", reader, eventHistoryElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28369,7 +29785,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.actor(parseReference("actor", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28425,7 +29845,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.responsibleParty(parseReference("responsibleParty", reader, responsiblePartyElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28573,7 +29997,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.kinetics(parseMedicationKnowledgeKinetics("kinetics", reader, kineticsElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28629,7 +30057,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.patientCharacteristics(parseMedicationKnowledgeAdministrationGuidelinesPatientCharacteristics("patientCharacteristics", reader, patientCharacteristicsElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28677,7 +30109,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.dosage(parseDosage("dosage", reader, dosageElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28729,7 +30165,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseString("value", reader, valueElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28781,7 +30221,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.cost(parseMoney("cost", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28841,7 +30285,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseBase64Binary("valueBase64Binary", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28897,7 +30345,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.strength(parseRatio("strength", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28949,7 +30401,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.halfLifePeriod((Duration) parseQuantity(Duration.builder(), "halfLifePeriod", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28997,7 +30453,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.classification(parseCodeableConcept("classification", reader, classificationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -29045,7 +30505,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.name(parseString("name", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -29093,7 +30557,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.source(parseReference("source", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -29141,7 +30609,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -29197,7 +30669,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.maxDispense(parseMedicationKnowledgeRegulatoryMaxDispense("maxDispense", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -29245,7 +30721,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period((Duration) parseQuantity(Duration.builder(), "period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -29289,7 +30769,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.schedule(parseCodeableConcept("schedule", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -29337,7 +30821,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.allowed(parseBoolean("allowed", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -29385,7 +30873,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.reference(parseReference("reference", reader, referenceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -29581,7 +31073,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.eventHistory(parseReference("eventHistory", reader, eventHistoryElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -29649,7 +31145,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.performer(parseReference("performer", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -29697,7 +31197,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.duration((Duration) parseQuantity(Duration.builder(), "duration", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -29749,7 +31253,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.reason(parseCodeableConcept("reason", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -29885,7 +31393,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.dosage(parseDosage("dosage", reader, dosageElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30025,7 +31537,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.specialDesignation(parseMedicinalProductSpecialDesignation("specialDesignation", reader, specialDesignationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30089,7 +31605,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.regulator(parseReference("regulator", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30141,7 +31661,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.countryLanguage(parseMedicinalProductNameCountryLanguage("countryLanguage", reader, countryLanguageElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30193,7 +31717,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.language(parseCodeableConcept("language", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30241,7 +31769,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.type(parseCoding("type", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30313,7 +31845,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.species(parseCodeableConcept("species", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30437,7 +31973,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.procedure(parseMedicinalProductAuthorizationProcedure("procedure", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30497,7 +32037,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.validityPeriod(parsePeriod("validityPeriod", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30557,7 +32101,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.application(parseMedicinalProductAuthorizationProcedure("application", reader, applicationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30645,7 +32193,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.population(parsePopulation("population", reader, populationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30697,7 +32249,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.medication(parseReference("medicationReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30793,7 +32349,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.population(parsePopulation("population", reader, populationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30845,7 +32405,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.medication(parseReference("medicationReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30929,7 +32493,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.substance(parseMedicinalProductIngredientSubstance("substance", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30985,7 +32553,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.strength(parseMedicinalProductIngredientSpecifiedSubstanceStrength("strength", reader, strengthElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31053,7 +32625,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.referenceStrength(parseMedicinalProductIngredientSpecifiedSubstanceStrengthReferenceStrength("referenceStrength", reader, referenceStrengthElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31113,7 +32689,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.country(parseCodeableConcept("country", reader, countryElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31161,7 +32741,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.strength(parseMedicinalProductIngredientSpecifiedSubstanceStrength("strength", reader, strengthElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31249,7 +32833,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.management(parseCodeableConcept("management", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31297,7 +32885,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseCodeableConcept("itemCodeableConcept", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31385,7 +32977,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.otherCharacteristics(parseCodeableConcept("otherCharacteristics", reader, otherCharacteristicsElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31481,7 +33077,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.packageItem(parseMedicinalProductPackagedPackageItem("packageItem", reader, packageItemElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31529,7 +33129,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.immediatePackaging(parseIdentifier("immediatePackaging", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31617,7 +33221,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.manufacturer(parseReference("manufacturer", reader, manufacturerElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31705,7 +33313,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.routeOfAdministration(parseMedicinalProductPharmaceuticalRouteOfAdministration("routeOfAdministration", reader, routeOfAdministrationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31753,7 +33365,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.status(parseCodeableConcept("status", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31821,7 +33437,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.targetSpecies(parseMedicinalProductPharmaceuticalRouteOfAdministrationTargetSpecies("targetSpecies", reader, targetSpeciesElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31869,7 +33489,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.withdrawalPeriod(parseMedicinalProductPharmaceuticalRouteOfAdministrationTargetSpeciesWithdrawalPeriod("withdrawalPeriod", reader, withdrawalPeriodElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31921,7 +33545,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.supportingInformation(parseString("supportingInformation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32001,7 +33629,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.population(parsePopulation("population", reader, populationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32161,7 +33793,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.graph((Canonical) parseUri(Canonical.builder(), "graph", reader, graphElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32209,7 +33845,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.situation((Markdown) parseString(Markdown.builder(), "situation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32265,7 +33905,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.max(parseString("max", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32373,7 +34017,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.definition((Canonical) parseUri(Canonical.builder(), "definition", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32429,7 +34077,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.receiver(parseReference("receiver", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32481,7 +34133,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.details(parseReference("details", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32541,7 +34197,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.endpoint((Url) parseUri(Url.builder(), "endpoint", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32601,7 +34261,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.tag(parseCoding("tag", reader, tagElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32725,7 +34389,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.structureVariant(parseMolecularSequenceStructureVariant("structureVariant", reader, structureVariantElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32825,7 +34493,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.roc(parseMolecularSequenceQualityRoc("roc", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32893,7 +34565,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.fMeasure(parseDecimal("fMeasure", reader, fMeasureElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32969,7 +34645,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.windowEnd(parseInteger("windowEnd", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33033,7 +34713,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.readsetId(parseString("readsetId", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33093,7 +34777,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.inner(parseMolecularSequenceStructureVariantInner("inner", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33141,7 +34829,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.end(parseInteger("end", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33189,7 +34881,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.end(parseInteger("end", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33253,7 +34949,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.variantPointer(parseReference("variantPointer", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33297,7 +34997,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.currency((Code) parseString(Code.builder(), "currency", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33409,7 +35113,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.uniqueId(parseNamingSystemUniqueId("uniqueId", reader, uniqueIdElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33469,7 +35177,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33517,7 +35229,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.div(parseXhtml("div", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33645,7 +35361,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33721,7 +35441,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.administrationInstruction(parseString("administrationInstruction", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33777,7 +35501,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.rate(parseRatio("rateRatio", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33841,7 +35569,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.instruction(parseString("instruction", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33889,7 +35621,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.amount((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "amount", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33937,7 +35673,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.foodType(parseCodeableConcept("foodType", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33997,7 +35737,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.instruction(parseString("instruction", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -34205,7 +35949,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.component(parseObservationComponent("component", reader, componentElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -34305,7 +36053,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.referenceRange(parseObservationReferenceRange("referenceRange", reader, referenceRangeElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -34369,7 +36121,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.text(parseString("text", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -34481,7 +36237,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.criticalCodedValueSet(parseReference("criticalCodedValueSet", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -34553,7 +36313,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.condition(parseString("condition", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -34609,7 +36373,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.decimalPrecision(parseInteger("decimalPrecision", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -34773,7 +36541,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.overload(parseOperationDefinitionOverload("overload", reader, overloadElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -34821,7 +36593,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.comment(parseString("comment", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -34905,7 +36681,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.part(parseOperationDefinitionParameter("part", reader, partElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -34953,7 +36733,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.valueSet((Canonical) parseUri(Canonical.builder(), "valueSet", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -35001,7 +36785,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.sourceId(parseString("sourceId", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -35065,7 +36853,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.issue(parseOperationOutcomeIssue("issue", reader, issueElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -35129,7 +36921,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.expression(parseString("expression", reader, expressionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -35229,7 +37025,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.endpoint(parseReference("endpoint", reader, endpointElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -35285,7 +37085,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.address(parseAddress("address", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -35393,7 +37197,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.endpoint(parseReference("endpoint", reader, endpointElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -35457,7 +37265,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.profile((Canonical) parseUri(Canonical.builder(), "profile", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -35505,7 +37317,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.parameter(parseParametersParameter("parameter", reader, parameterElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -35757,7 +37573,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.part(parseParametersParameter("part", reader, partElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -35889,7 +37709,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.link(parsePatientLink("link", reader, linkElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -35937,7 +37761,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.preferred(parseBoolean("preferred", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -36005,7 +37833,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -36053,7 +37885,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.type((LinkType) parseString(LinkType.builder(), "type", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -36161,7 +37997,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.paymentStatus(parseCodeableConcept("paymentStatus", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -36281,7 +38121,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.processNote(parsePaymentReconciliationProcessNote("processNote", reader, processNoteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -36361,7 +38205,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.amount(parseMoney("amount", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -36409,7 +38257,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.text(parseString("text", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -36453,7 +38305,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.end(parseDateTime("end", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -36553,7 +38409,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.link(parsePersonLink("link", reader, linkElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -36601,7 +38461,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.assurance((IdentityAssuranceLevel) parseString(IdentityAssuranceLevel.builder(), "assurance", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -36789,7 +38653,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.action(parsePlanDefinitionAction("action", reader, actionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -36965,7 +38833,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.action(parsePlanDefinitionAction("action", reader, actionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37013,7 +38885,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.expression(parseExpression("expression", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37061,7 +38937,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.expression(parseExpression("expression", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37109,7 +38989,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.role(parseCodeableConcept("role", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37165,7 +39049,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.offset(parseRange("offsetRange", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37233,7 +39121,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.target(parsePlanDefinitionGoalTarget("target", reader, targetElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37293,7 +39185,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.due((Duration) parseQuantity(Duration.builder(), "due", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37353,7 +39249,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.physiologicalCondition(parseCodeableConcept("physiologicalCondition", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37453,7 +39353,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.communication(parseCodeableConcept("communication", reader, communicationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37509,7 +39413,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.issuer(parseReference("issuer", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37625,7 +39533,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.endpoint(parseReference("endpoint", reader, endpointElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37681,7 +39593,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.availableEndTime(parseTime("availableEndTime", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37729,7 +39645,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.during(parsePeriod("during", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37917,7 +39837,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.usedCode(parseCodeableConcept("usedCode", reader, usedCodeElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37965,7 +39889,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.manipulated(parseReference("manipulated", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -38017,7 +39945,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.onBehalfOf(parseReference("onBehalfOf", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -38101,7 +40033,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.scoring(parseCodeableConcept("scoring", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -38157,7 +40093,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.specialPrecautionsForStorage(parseCodeableConcept("specialPrecautionsForStorage", reader, specialPrecautionsForStorageElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -38261,7 +40201,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.signature(parseSignature("signature", reader, signatureElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -38317,7 +40261,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.onBehalfOf(parseReference("onBehalfOf", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -38369,7 +40317,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.agent(parseProvenanceAgent("agent", reader, agentElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -38424,7 +40376,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.code((Code) parseString(Code.builder(), "code", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -38576,7 +40532,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseQuestionnaireItem("item", reader, itemElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -38680,7 +40640,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseQuestionnaireItem("item", reader, itemElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -38748,7 +40712,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.initialSelected(parseBoolean("initialSelected", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -38836,7 +40804,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.answer(parseReference("answerReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -38924,7 +40896,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseReference("valueReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -39028,7 +41004,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseQuestionnaireResponseItem("item", reader, itemElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -39088,7 +41068,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseQuestionnaireResponseItem("item", reader, itemElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -39180,7 +41164,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseQuestionnaireResponseItem("item", reader, itemElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -39224,7 +41212,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.high((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "high", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -39268,7 +41260,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.denominator(parseQuantity("denominator", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -39320,7 +41316,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.display(parseString("display", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -39384,7 +41384,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.resource((Canonical) parseUri(Canonical.builder(), "resource", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -39492,7 +41496,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.communication(parseRelatedPersonCommunication("communication", reader, communicationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -39540,7 +41548,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.preferred(parseBoolean("preferred", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -39672,7 +41684,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.action(parseRequestGroupAction("action", reader, actionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -39808,7 +41824,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.action(parseRequestGroupAction("action", reader, actionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -39856,7 +41876,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.expression(parseExpression("expression", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -39912,7 +41936,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.offset(parseRange("offsetRange", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -40112,7 +42140,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.outcome(parseReference("outcome", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -40308,7 +42340,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.characteristic(parseResearchElementDefinitionCharacteristic("characteristic", reader, characteristicElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -40432,7 +42468,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.participantEffectiveGroupMeasure((GroupMeasure) parseString(GroupMeasure.builder(), "participantEffectiveGroupMeasure", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -40588,7 +42628,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.objective(parseResearchStudyObjective("objective", reader, objectiveElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -40640,7 +42684,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.description(parseString("description", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -40688,7 +42736,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.type(parseCodeableConcept("type", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -40780,7 +42832,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.consent(parseReference("consent", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -40912,7 +42968,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -40984,7 +43044,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.rationale(parseString("rationale", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -41168,7 +43232,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.certainty(parseRiskEvidenceSynthesisCertainty("certainty", reader, certaintyElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -41220,7 +43288,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.certaintySubcomponent(parseRiskEvidenceSynthesisCertaintyCertaintySubcomponent("certaintySubcomponent", reader, certaintySubcomponentElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -41272,7 +43344,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -41340,7 +43416,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.precisionEstimate(parseRiskEvidenceSynthesisRiskEstimatePrecisionEstimate("precisionEstimate", reader, precisionEstimateElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -41396,7 +43476,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.to(parseDecimal("to", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -41448,7 +43532,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.numberOfParticipants(parseInteger("numberOfParticipants", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -41512,7 +43600,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.data(parseString("data", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -41604,7 +43696,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.comment(parseString("comment", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -41768,7 +43864,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.component(parseSearchParameterComponent("component", reader, componentElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -41816,7 +43916,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.expression(parseString("expression", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42028,7 +44132,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.relevantHistory(parseReference("relevantHistory", reader, relevantHistoryElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42092,7 +44200,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.data(parseBase64Binary("data", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42196,7 +44308,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.comment(parseString("comment", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42308,7 +44424,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42384,7 +44504,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.fastingStatus((Duration) parseQuantity(Duration.builder(), "fastingStatusDuration", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42452,7 +44576,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.additive(parseReference("additiveReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42512,7 +44640,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.time(parsePeriod("timePeriod", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42596,7 +44728,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.typeTested(parseSpecimenDefinitionTypeTested("typeTested", reader, typeTestedElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42668,7 +44804,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.handling(parseSpecimenDefinitionTypeTestedHandling("handling", reader, handlingElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42744,7 +44884,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.preparation(parseString("preparation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42792,7 +44936,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.additive(parseReference("additiveReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42848,7 +44996,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.instruction(parseString("instruction", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42887,7 +45039,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.extension(parseExtension("extension", reader, extensionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -43059,7 +45215,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.differential(parseStructureDefinitionDifferential("differential", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -43107,7 +45267,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.expression(parseString("expression", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -43151,7 +45315,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.element(parseElementDefinition("element", reader, elementElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -43207,7 +45375,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.comment(parseString("comment", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -43251,7 +45423,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.element(parseElementDefinition("element", reader, elementElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -43383,7 +45559,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.group(parseStructureMapGroup("group", reader, groupElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -43447,7 +45627,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.rule(parseStructureMapGroupRule("rule", reader, ruleElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -43503,7 +45687,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.documentation(parseString("documentation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -43567,7 +45755,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.documentation(parseString("documentation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -43615,7 +45807,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.variable(parseString("variable", reader, variableElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -43895,7 +46091,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.logMessage(parseString("logMessage", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -43967,7 +46167,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.parameter(parseStructureMapGroupRuleTargetParameter("parameter", reader, parameterElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44027,7 +46231,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseDecimal("valueDecimal", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44083,7 +46291,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.documentation(parseString("documentation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44171,7 +46383,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.channel(parseSubscriptionChannel("channel", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44227,7 +46443,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.header(parseString("header", reader, headerElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44315,7 +46535,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.ingredient(parseSubstanceIngredient("ingredient", reader, ingredientElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44367,7 +46591,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.substance(parseReference("substanceReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44419,7 +46647,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44483,7 +46715,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.referenceRange(parseSubstanceAmountReferenceRange("referenceRange", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44531,7 +46767,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.highLimit(parseQuantity("highLimit", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44611,7 +46851,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.subunit(parseSubstanceNucleicAcidSubunit("subunit", reader, subunitElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44683,7 +46927,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.sugar(parseSubstanceNucleicAcidSubunitSugar("sugar", reader, sugarElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44739,7 +46987,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.residueSite(parseString("residueSite", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44791,7 +47043,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.residueSite(parseString("residueSite", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44875,7 +47131,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.repeat(parseSubstancePolymerRepeat("repeat", reader, repeatElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44923,7 +47183,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.startingMaterial(parseSubstancePolymerMonomerSetStartingMaterial("startingMaterial", reader, startingMaterialElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44979,7 +47243,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.amount(parseSubstanceAmount("amount", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45035,7 +47303,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.repeatUnit(parseSubstancePolymerRepeatRepeatUnit("repeatUnit", reader, repeatUnitElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45095,7 +47367,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.structuralRepresentation(parseSubstancePolymerRepeatRepeatUnitStructuralRepresentation("structuralRepresentation", reader, structuralRepresentationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45143,7 +47419,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.amount(parseSubstanceAmount("amount", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45195,7 +47475,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.attachment(parseAttachment("attachment", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45271,7 +47555,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.subunit(parseSubstanceProteinSubunit("subunit", reader, subunitElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45343,7 +47631,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.cTerminalModification(parseString("cTerminalModification", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45423,7 +47715,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.target(parseSubstanceReferenceInformationTarget("target", reader, targetElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45479,7 +47775,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.source(parseReference("source", reader, sourceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45531,7 +47831,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.source(parseReference("source", reader, sourceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45583,7 +47887,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.source(parseReference("source", reader, sourceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45663,7 +47971,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.source(parseReference("source", reader, sourceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45775,7 +48087,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.partDescription(parseSubstanceSourceMaterialPartDescription("partDescription", reader, partDescriptionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45823,7 +48139,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.materialType(parseCodeableConcept("materialType", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45895,7 +48215,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.organismGeneral(parseSubstanceSourceMaterialOrganismOrganismGeneral("organismGeneral", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45943,7 +48267,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.authorDescription(parseString("authorDescription", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -46003,7 +48331,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.hybridType(parseCodeableConcept("hybridType", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -46059,7 +48391,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.order(parseCodeableConcept("order", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -46107,7 +48443,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.partLocation(parseCodeableConcept("partLocation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -46243,7 +48583,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.sourceMaterial(parseReference("sourceMaterial", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -46303,7 +48647,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.source(parseReference("source", reader, sourceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -46375,7 +48723,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.amount(parseString("amountString", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -46459,7 +48811,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.source(parseReference("source", reader, sourceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -46511,7 +48867,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.date(parseDateTime("date", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -46579,7 +48939,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.amount(parseString("amountString", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -46663,7 +49027,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.source(parseReference("source", reader, sourceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -46735,7 +49103,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.representation(parseSubstanceSpecificationStructureRepresentation("representation", reader, representationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -46795,7 +49167,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.molecularWeight(parseSubstanceSpecificationStructureIsotopeMolecularWeight("molecularWeight", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -46847,7 +49223,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.amount(parseQuantity("amount", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -46899,7 +49279,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.attachment(parseAttachment("attachment", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -47011,7 +49395,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.receiver(parseReference("receiver", reader, receiverElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -47063,7 +49451,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseReference("itemReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -47195,7 +49587,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.deliverTo(parseReference("deliverTo", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -47255,7 +49651,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseBoolean("valueBoolean", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -47439,7 +49839,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.output(parseTaskOutput("output", reader, outputElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -47683,7 +50087,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseMeta("valueMeta", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -47927,7 +50335,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseMeta("valueMeta", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -47979,7 +50391,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.recipient(parseReference("recipient", reader, recipientElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48135,7 +50551,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.closure(parseTerminologyCapabilitiesClosure("closure", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48179,7 +50599,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.translation(parseBoolean("translation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48231,7 +50655,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.subsumption(parseBoolean("subsumption", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48295,7 +50723,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.property((Code) parseString(Code.builder(), "property", reader, propertyElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48343,7 +50775,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.op((Code) parseString(Code.builder(), "op", reader, opElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48403,7 +50839,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.textFilter((Markdown) parseString(Markdown.builder(), "textFilter", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48451,7 +50891,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.documentation(parseString("documentation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48499,7 +50943,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.url((Url) parseUri(Url.builder(), "url", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48547,7 +50995,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.version(parseString("version", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48591,7 +51043,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.needsMap(parseBoolean("needsMap", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48635,7 +51091,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.translations(parseBoolean("translations", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48743,7 +51203,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.teardown(parseTestReportTeardown("teardown", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48795,7 +51259,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.display(parseString("display", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48839,7 +51307,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.action(parseTestReportSetupAction("action", reader, actionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48887,7 +51359,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder._assert(parseTestReportSetupActionAssert("assert", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48939,7 +51415,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseString("detail", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48991,7 +51471,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseUri("detail", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49035,7 +51519,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.action(parseTestReportTeardownAction("action", reader, actionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49079,7 +51567,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.operation(parseTestReportSetupActionOperation("operation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49131,7 +51623,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.action(parseTestReportTestAction("action", reader, actionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49179,7 +51675,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder._assert(parseTestReportSetupActionAssert("assert", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49335,7 +51835,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.teardown(parseTestScriptTeardown("teardown", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49383,7 +51887,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.profile(parseCoding("profile", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49435,7 +51943,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.resource(parseReference("resource", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49483,7 +51995,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.capability(parseTestScriptMetadataCapability("capability", reader, capabilityElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49551,7 +52067,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.capabilities((Canonical) parseUri(Canonical.builder(), "capabilities", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49599,7 +52119,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.description(parseString("description", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49647,7 +52171,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.profile(parseCoding("profile", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49691,7 +52219,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.action(parseTestScriptSetupAction("action", reader, actionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49739,7 +52271,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder._assert(parseTestScriptSetupActionAssert("assert", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49867,7 +52403,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.warningOnly(parseBoolean("warningOnly", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49975,7 +52515,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.url(parseString("url", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50023,7 +52567,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseString("value", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50067,7 +52615,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.action(parseTestScriptTeardownAction("action", reader, actionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50111,7 +52663,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.operation(parseTestScriptSetupActionOperation("operation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50163,7 +52719,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.action(parseTestScriptTestAction("action", reader, actionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50211,7 +52771,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder._assert(parseTestScriptSetupActionAssert("assert", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50283,7 +52847,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.sourceId((Id) parseString(Id.builder(), "sourceId", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50323,7 +52891,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.extension(parseExtension("extension", reader, extensionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50375,7 +52947,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.code(parseCodeableConcept("code", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50483,7 +53059,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.offset((UnsignedInt) parseInteger(UnsignedInt.builder(), "offset", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50551,7 +53131,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.condition(parseExpression("condition", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50590,7 +53174,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.extension(parseExtension("extension", reader, extensionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50650,7 +53238,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseReference("valueReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50782,7 +53374,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.expansion(parseValueSetExpansion("expansion", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50838,7 +53434,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.exclude(parseValueSetComposeInclude("exclude", reader, excludeElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50898,7 +53498,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.valueSet((Canonical) parseUri(Canonical.builder(), "valueSet", reader, valueSetElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50950,7 +53554,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.designation(parseValueSetComposeIncludeConceptDesignation("designation", reader, designationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -51002,7 +53610,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseString("value", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -51054,7 +53666,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseString("value", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -51118,7 +53734,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.contains(parseValueSetExpansionContains("contains", reader, containsElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -51190,7 +53810,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.contains(parseValueSetExpansionContains("contains", reader, containsElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -51262,7 +53886,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseDateTime("valueDateTime", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -51378,7 +54006,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.validator(parseVerificationResultValidator("validator", reader, validatorElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -51450,7 +54082,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.sourceSignature(parseSignature("sourceSignature", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -51518,7 +54154,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.pushTypeAvailable(parseCodeableConcept("pushTypeAvailable", reader, pushTypeAvailableElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -51570,7 +54210,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.attestationSignature(parseSignature("attestationSignature", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -51662,7 +54306,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.lensSpecification(parseVisionPrescriptionLensSpecification("lensSpecification", reader, lensSpecificationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -51758,7 +54406,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -51806,7 +54458,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.base((VisionBase) parseString(VisionBase.builder(), "base", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:

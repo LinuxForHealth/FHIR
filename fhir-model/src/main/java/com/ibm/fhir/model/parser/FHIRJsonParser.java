@@ -109,14 +109,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         stack.clear();
     }
 
-    @Override
-    public boolean isPropertySupported(java.lang.String name) {
-        if (FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS.equals(name)) {
-            return true;
-        }
-        return super.isPropertySupported(name);
-    }
-
     private Resource parseResource(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
@@ -424,7 +416,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Account.class, jsonObject);
         }
         Account.Builder builder = Account.builder();
@@ -470,7 +462,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Account.Coverage.class, jsonObject);
         }
         Account.Coverage.Builder builder = Account.Coverage.builder();
@@ -487,7 +479,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Account.Guarantor.class, jsonObject);
         }
         Account.Guarantor.Builder builder = Account.Guarantor.builder();
@@ -505,7 +497,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ActivityDefinition.class, jsonObject);
         }
         ActivityDefinition.Builder builder = ActivityDefinition.builder();
@@ -657,7 +649,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ActivityDefinition.DynamicValue.class, jsonObject);
         }
         ActivityDefinition.DynamicValue.Builder builder = ActivityDefinition.DynamicValue.builder();
@@ -674,7 +666,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ActivityDefinition.Participant.class, jsonObject);
         }
         ActivityDefinition.Participant.Builder builder = ActivityDefinition.Participant.builder();
@@ -691,7 +683,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Address.class, jsonObject);
         }
         Address.Builder builder = Address.builder();
@@ -722,7 +714,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(AdverseEvent.class, jsonObject);
         }
         AdverseEvent.Builder builder = AdverseEvent.builder();
@@ -792,7 +784,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(AdverseEvent.SuspectEntity.class, jsonObject);
         }
         AdverseEvent.SuspectEntity.Builder builder = AdverseEvent.SuspectEntity.builder();
@@ -814,7 +806,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(AdverseEvent.SuspectEntity.Causality.class, jsonObject);
         }
         AdverseEvent.SuspectEntity.Causality.Builder builder = AdverseEvent.SuspectEntity.Causality.builder();
@@ -833,7 +825,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(AllergyIntolerance.class, jsonObject);
         }
         AllergyIntolerance.Builder builder = AllergyIntolerance.builder();
@@ -885,7 +877,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(AllergyIntolerance.Reaction.class, jsonObject);
         }
         AllergyIntolerance.Reaction.Builder builder = AllergyIntolerance.Reaction.builder();
@@ -917,7 +909,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Annotation.class, jsonObject);
         }
         Annotation.Builder builder = Annotation.builder();
@@ -935,7 +927,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Appointment.class, jsonObject);
         }
         Appointment.Builder builder = Appointment.builder();
@@ -1027,7 +1019,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Appointment.Participant.class, jsonObject);
         }
         Appointment.Participant.Builder builder = Appointment.Participant.builder();
@@ -1052,7 +1044,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(AppointmentResponse.class, jsonObject);
         }
         AppointmentResponse.Builder builder = AppointmentResponse.builder();
@@ -1085,7 +1077,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Attachment.class, jsonObject);
         }
         Attachment.Builder builder = Attachment.builder();
@@ -1108,7 +1100,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(AuditEvent.class, jsonObject);
         }
         AuditEvent.Builder builder = AuditEvent.builder();
@@ -1154,7 +1146,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(AuditEvent.Agent.class, jsonObject);
         }
         AuditEvent.Agent.Builder builder = AuditEvent.Agent.builder();
@@ -1196,7 +1188,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(AuditEvent.Agent.Network.class, jsonObject);
         }
         AuditEvent.Agent.Network.Builder builder = AuditEvent.Agent.Network.builder();
@@ -1213,7 +1205,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(AuditEvent.Entity.class, jsonObject);
         }
         AuditEvent.Entity.Builder builder = AuditEvent.Entity.builder();
@@ -1247,7 +1239,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(AuditEvent.Entity.Detail.class, jsonObject);
         }
         AuditEvent.Entity.Detail.Builder builder = AuditEvent.Entity.Detail.builder();
@@ -1264,7 +1256,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(AuditEvent.Source.class, jsonObject);
         }
         AuditEvent.Source.Builder builder = AuditEvent.Source.builder();
@@ -1302,7 +1294,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.setValidating(validating);
         if (_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT) {
             JsonObject jsonObject = (JsonObject) _jsonValue;
-            if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+            if (!ignoringUnrecognizedElements) {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
@@ -1324,7 +1316,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Basic.class, jsonObject);
         }
         Basic.Builder builder = Basic.builder();
@@ -1349,7 +1341,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Binary.class, jsonObject);
         }
         Binary.Builder builder = Binary.builder();
@@ -1367,7 +1359,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(BiologicallyDerivedProduct.class, jsonObject);
         }
         BiologicallyDerivedProduct.Builder builder = BiologicallyDerivedProduct.builder();
@@ -1418,7 +1410,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(BiologicallyDerivedProduct.Collection.class, jsonObject);
         }
         BiologicallyDerivedProduct.Collection.Builder builder = BiologicallyDerivedProduct.Collection.builder();
@@ -1436,7 +1428,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(BiologicallyDerivedProduct.Manipulation.class, jsonObject);
         }
         BiologicallyDerivedProduct.Manipulation.Builder builder = BiologicallyDerivedProduct.Manipulation.builder();
@@ -1453,7 +1445,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(BiologicallyDerivedProduct.Processing.class, jsonObject);
         }
         BiologicallyDerivedProduct.Processing.Builder builder = BiologicallyDerivedProduct.Processing.builder();
@@ -1472,7 +1464,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(BiologicallyDerivedProduct.Storage.class, jsonObject);
         }
         BiologicallyDerivedProduct.Storage.Builder builder = BiologicallyDerivedProduct.Storage.builder();
@@ -1491,7 +1483,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(BodyStructure.class, jsonObject);
         }
         BodyStructure.Builder builder = BodyStructure.builder();
@@ -1533,7 +1525,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.setValidating(validating);
         if (_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT) {
             JsonObject jsonObject = (JsonObject) _jsonValue;
-            if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+            if (!ignoringUnrecognizedElements) {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
@@ -1554,7 +1546,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Bundle.class, jsonObject);
         }
         Bundle.Builder builder = Bundle.builder();
@@ -1586,7 +1578,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Bundle.Entry.class, jsonObject);
         }
         Bundle.Entry.Builder builder = Bundle.Entry.builder();
@@ -1612,7 +1604,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Bundle.Entry.Request.class, jsonObject);
         }
         Bundle.Entry.Request.Builder builder = Bundle.Entry.Request.builder();
@@ -1633,7 +1625,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Bundle.Entry.Response.class, jsonObject);
         }
         Bundle.Entry.Response.Builder builder = Bundle.Entry.Response.builder();
@@ -1653,7 +1645,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Bundle.Entry.Search.class, jsonObject);
         }
         Bundle.Entry.Search.Builder builder = Bundle.Entry.Search.builder();
@@ -1670,7 +1662,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Bundle.Link.class, jsonObject);
         }
         Bundle.Link.Builder builder = Bundle.Link.builder();
@@ -1687,7 +1679,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.class, jsonObject);
         }
         CapabilityStatement.Builder builder = CapabilityStatement.builder();
@@ -1788,7 +1780,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Document.class, jsonObject);
         }
         CapabilityStatement.Document.Builder builder = CapabilityStatement.Document.builder();
@@ -1806,7 +1798,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Implementation.class, jsonObject);
         }
         CapabilityStatement.Implementation.Builder builder = CapabilityStatement.Implementation.builder();
@@ -1824,7 +1816,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Messaging.class, jsonObject);
         }
         CapabilityStatement.Messaging.Builder builder = CapabilityStatement.Messaging.builder();
@@ -1853,7 +1845,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Messaging.Endpoint.class, jsonObject);
         }
         CapabilityStatement.Messaging.Endpoint.Builder builder = CapabilityStatement.Messaging.Endpoint.builder();
@@ -1870,7 +1862,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Messaging.SupportedMessage.class, jsonObject);
         }
         CapabilityStatement.Messaging.SupportedMessage.Builder builder = CapabilityStatement.Messaging.SupportedMessage.builder();
@@ -1887,7 +1879,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Rest.class, jsonObject);
         }
         CapabilityStatement.Rest.Builder builder = CapabilityStatement.Rest.builder();
@@ -1936,7 +1928,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Rest.Interaction.class, jsonObject);
         }
         CapabilityStatement.Rest.Interaction.Builder builder = CapabilityStatement.Rest.Interaction.builder();
@@ -1953,7 +1945,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Rest.Resource.class, jsonObject);
         }
         CapabilityStatement.Rest.Resource.Builder builder = CapabilityStatement.Rest.Resource.builder();
@@ -2024,7 +2016,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Rest.Resource.Interaction.class, jsonObject);
         }
         CapabilityStatement.Rest.Resource.Interaction.Builder builder = CapabilityStatement.Rest.Resource.Interaction.builder();
@@ -2041,7 +2033,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Rest.Resource.Operation.class, jsonObject);
         }
         CapabilityStatement.Rest.Resource.Operation.Builder builder = CapabilityStatement.Rest.Resource.Operation.builder();
@@ -2059,7 +2051,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Rest.Resource.SearchParam.class, jsonObject);
         }
         CapabilityStatement.Rest.Resource.SearchParam.Builder builder = CapabilityStatement.Rest.Resource.SearchParam.builder();
@@ -2078,7 +2070,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Rest.Security.class, jsonObject);
         }
         CapabilityStatement.Rest.Security.Builder builder = CapabilityStatement.Rest.Security.builder();
@@ -2101,7 +2093,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Software.class, jsonObject);
         }
         CapabilityStatement.Software.Builder builder = CapabilityStatement.Software.builder();
@@ -2119,7 +2111,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CarePlan.class, jsonObject);
         }
         CarePlan.Builder builder = CarePlan.builder();
@@ -2229,7 +2221,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CarePlan.Activity.class, jsonObject);
         }
         CarePlan.Activity.Builder builder = CarePlan.Activity.builder();
@@ -2264,7 +2256,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CarePlan.Activity.Detail.class, jsonObject);
         }
         CarePlan.Activity.Detail.Builder builder = CarePlan.Activity.Detail.builder();
@@ -2328,7 +2320,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CareTeam.class, jsonObject);
         }
         CareTeam.Builder builder = CareTeam.builder();
@@ -2396,7 +2388,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CareTeam.Participant.class, jsonObject);
         }
         CareTeam.Participant.Builder builder = CareTeam.Participant.builder();
@@ -2420,7 +2412,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CatalogEntry.class, jsonObject);
         }
         CatalogEntry.Builder builder = CatalogEntry.builder();
@@ -2478,7 +2470,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CatalogEntry.RelatedEntry.class, jsonObject);
         }
         CatalogEntry.RelatedEntry.Builder builder = CatalogEntry.RelatedEntry.builder();
@@ -2495,7 +2487,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ChargeItem.class, jsonObject);
         }
         ChargeItem.Builder builder = ChargeItem.builder();
@@ -2593,7 +2585,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ChargeItem.Performer.class, jsonObject);
         }
         ChargeItem.Performer.Builder builder = ChargeItem.Performer.builder();
@@ -2610,7 +2602,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ChargeItemDefinition.class, jsonObject);
         }
         ChargeItemDefinition.Builder builder = ChargeItemDefinition.builder();
@@ -2701,7 +2693,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ChargeItemDefinition.Applicability.class, jsonObject);
         }
         ChargeItemDefinition.Applicability.Builder builder = ChargeItemDefinition.Applicability.builder();
@@ -2719,7 +2711,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ChargeItemDefinition.PropertyGroup.class, jsonObject);
         }
         ChargeItemDefinition.PropertyGroup.Builder builder = ChargeItemDefinition.PropertyGroup.builder();
@@ -2746,7 +2738,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ChargeItemDefinition.PropertyGroup.PriceComponent.class, jsonObject);
         }
         ChargeItemDefinition.PropertyGroup.PriceComponent.Builder builder = ChargeItemDefinition.PropertyGroup.PriceComponent.builder();
@@ -2765,7 +2757,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Claim.class, jsonObject);
         }
         Claim.Builder builder = Claim.builder();
@@ -2847,7 +2839,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Claim.Accident.class, jsonObject);
         }
         Claim.Accident.Builder builder = Claim.Accident.builder();
@@ -2865,7 +2857,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Claim.CareTeam.class, jsonObject);
         }
         Claim.CareTeam.Builder builder = Claim.CareTeam.builder();
@@ -2885,7 +2877,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Claim.Diagnosis.class, jsonObject);
         }
         Claim.Diagnosis.Builder builder = Claim.Diagnosis.builder();
@@ -2910,7 +2902,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Claim.Insurance.class, jsonObject);
         }
         Claim.Insurance.Builder builder = Claim.Insurance.builder();
@@ -2938,7 +2930,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Claim.Item.class, jsonObject);
         }
         Claim.Item.Builder builder = Claim.Item.builder();
@@ -3028,7 +3020,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Claim.Item.Detail.class, jsonObject);
         }
         Claim.Item.Detail.Builder builder = Claim.Item.Detail.builder();
@@ -3075,7 +3067,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Claim.Item.Detail.SubDetail.class, jsonObject);
         }
         Claim.Item.Detail.SubDetail.Builder builder = Claim.Item.Detail.SubDetail.builder();
@@ -3116,7 +3108,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Claim.Payee.class, jsonObject);
         }
         Claim.Payee.Builder builder = Claim.Payee.builder();
@@ -3133,7 +3125,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Claim.Procedure.class, jsonObject);
         }
         Claim.Procedure.Builder builder = Claim.Procedure.builder();
@@ -3163,7 +3155,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Claim.Related.class, jsonObject);
         }
         Claim.Related.Builder builder = Claim.Related.builder();
@@ -3181,7 +3173,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Claim.SupportingInfo.class, jsonObject);
         }
         Claim.SupportingInfo.Builder builder = Claim.SupportingInfo.builder();
@@ -3202,7 +3194,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.class, jsonObject);
         }
         ClaimResponse.Builder builder = ClaimResponse.builder();
@@ -3289,7 +3281,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.AddItem.class, jsonObject);
         }
         ClaimResponse.AddItem.Builder builder = ClaimResponse.AddItem.builder();
@@ -3376,7 +3368,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.AddItem.Detail.class, jsonObject);
         }
         ClaimResponse.AddItem.Detail.Builder builder = ClaimResponse.AddItem.Detail.builder();
@@ -3421,7 +3413,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.AddItem.Detail.SubDetail.class, jsonObject);
         }
         ClaimResponse.AddItem.Detail.SubDetail.Builder builder = ClaimResponse.AddItem.Detail.SubDetail.builder();
@@ -3460,7 +3452,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.Error.class, jsonObject);
         }
         ClaimResponse.Error.Builder builder = ClaimResponse.Error.builder();
@@ -3479,7 +3471,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.Insurance.class, jsonObject);
         }
         ClaimResponse.Insurance.Builder builder = ClaimResponse.Insurance.builder();
@@ -3499,7 +3491,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.Item.class, jsonObject);
         }
         ClaimResponse.Item.Builder builder = ClaimResponse.Item.builder();
@@ -3534,7 +3526,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.Item.Adjudication.class, jsonObject);
         }
         ClaimResponse.Item.Adjudication.Builder builder = ClaimResponse.Item.Adjudication.builder();
@@ -3553,7 +3545,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.Item.Detail.class, jsonObject);
         }
         ClaimResponse.Item.Detail.Builder builder = ClaimResponse.Item.Detail.builder();
@@ -3588,7 +3580,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.Item.Detail.SubDetail.class, jsonObject);
         }
         ClaimResponse.Item.Detail.SubDetail.Builder builder = ClaimResponse.Item.Detail.SubDetail.builder();
@@ -3617,7 +3609,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.Payment.class, jsonObject);
         }
         ClaimResponse.Payment.Builder builder = ClaimResponse.Payment.builder();
@@ -3638,7 +3630,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.ProcessNote.class, jsonObject);
         }
         ClaimResponse.ProcessNote.Builder builder = ClaimResponse.ProcessNote.builder();
@@ -3657,7 +3649,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.Total.class, jsonObject);
         }
         ClaimResponse.Total.Builder builder = ClaimResponse.Total.builder();
@@ -3674,7 +3666,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClinicalImpression.class, jsonObject);
         }
         ClinicalImpression.Builder builder = ClinicalImpression.builder();
@@ -3755,7 +3747,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClinicalImpression.Finding.class, jsonObject);
         }
         ClinicalImpression.Finding.Builder builder = ClinicalImpression.Finding.builder();
@@ -3773,7 +3765,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClinicalImpression.Investigation.class, jsonObject);
         }
         ClinicalImpression.Investigation.Builder builder = ClinicalImpression.Investigation.builder();
@@ -3795,7 +3787,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CodeSystem.class, jsonObject);
         }
         CodeSystem.Builder builder = CodeSystem.builder();
@@ -3871,7 +3863,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CodeSystem.Concept.class, jsonObject);
         }
         CodeSystem.Concept.Builder builder = CodeSystem.Concept.builder();
@@ -3907,7 +3899,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CodeSystem.Concept.Designation.class, jsonObject);
         }
         CodeSystem.Concept.Designation.Builder builder = CodeSystem.Concept.Designation.builder();
@@ -3925,7 +3917,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CodeSystem.Concept.Property.class, jsonObject);
         }
         CodeSystem.Concept.Property.Builder builder = CodeSystem.Concept.Property.builder();
@@ -3942,7 +3934,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CodeSystem.Filter.class, jsonObject);
         }
         CodeSystem.Filter.Builder builder = CodeSystem.Filter.builder();
@@ -3967,7 +3959,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CodeSystem.Property.class, jsonObject);
         }
         CodeSystem.Property.Builder builder = CodeSystem.Property.builder();
@@ -3986,7 +3978,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CodeableConcept.class, jsonObject);
         }
         CodeableConcept.Builder builder = CodeableConcept.builder();
@@ -4008,7 +4000,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Coding.class, jsonObject);
         }
         Coding.Builder builder = Coding.builder();
@@ -4028,7 +4020,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Communication.class, jsonObject);
         }
         Communication.Builder builder = Communication.builder();
@@ -4138,7 +4130,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Communication.Payload.class, jsonObject);
         }
         Communication.Payload.Builder builder = Communication.Payload.builder();
@@ -4154,7 +4146,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CommunicationRequest.class, jsonObject);
         }
         CommunicationRequest.Builder builder = CommunicationRequest.builder();
@@ -4246,7 +4238,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CommunicationRequest.Payload.class, jsonObject);
         }
         CommunicationRequest.Payload.Builder builder = CommunicationRequest.Payload.builder();
@@ -4262,7 +4254,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CompartmentDefinition.class, jsonObject);
         }
         CompartmentDefinition.Builder builder = CompartmentDefinition.builder();
@@ -4306,7 +4298,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CompartmentDefinition.Resource.class, jsonObject);
         }
         CompartmentDefinition.Resource.Builder builder = CompartmentDefinition.Resource.builder();
@@ -4330,7 +4322,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Composition.class, jsonObject);
         }
         Composition.Builder builder = Composition.builder();
@@ -4390,7 +4382,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Composition.Attester.class, jsonObject);
         }
         Composition.Attester.Builder builder = Composition.Attester.builder();
@@ -4408,7 +4400,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Composition.Event.class, jsonObject);
         }
         Composition.Event.Builder builder = Composition.Event.builder();
@@ -4436,7 +4428,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Composition.RelatesTo.class, jsonObject);
         }
         Composition.RelatesTo.Builder builder = Composition.RelatesTo.builder();
@@ -4453,7 +4445,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Composition.Section.class, jsonObject);
         }
         Composition.Section.Builder builder = Composition.Section.builder();
@@ -4493,7 +4485,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ConceptMap.class, jsonObject);
         }
         ConceptMap.Builder builder = ConceptMap.builder();
@@ -4546,7 +4538,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ConceptMap.Group.class, jsonObject);
         }
         ConceptMap.Group.Builder builder = ConceptMap.Group.builder();
@@ -4572,7 +4564,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ConceptMap.Group.Element.class, jsonObject);
         }
         ConceptMap.Group.Element.Builder builder = ConceptMap.Group.Element.builder();
@@ -4595,7 +4587,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ConceptMap.Group.Element.Target.class, jsonObject);
         }
         ConceptMap.Group.Element.Target.Builder builder = ConceptMap.Group.Element.Target.builder();
@@ -4626,7 +4618,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ConceptMap.Group.Element.Target.DependsOn.class, jsonObject);
         }
         ConceptMap.Group.Element.Target.DependsOn.Builder builder = ConceptMap.Group.Element.Target.DependsOn.builder();
@@ -4645,7 +4637,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ConceptMap.Group.Unmapped.class, jsonObject);
         }
         ConceptMap.Group.Unmapped.Builder builder = ConceptMap.Group.Unmapped.builder();
@@ -4664,7 +4656,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Condition.class, jsonObject);
         }
         Condition.Builder builder = Condition.builder();
@@ -4726,7 +4718,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Condition.Evidence.class, jsonObject);
         }
         Condition.Evidence.Builder builder = Condition.Evidence.builder();
@@ -4753,7 +4745,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Condition.Stage.class, jsonObject);
         }
         Condition.Stage.Builder builder = Condition.Stage.builder();
@@ -4776,7 +4768,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Consent.class, jsonObject);
         }
         Consent.Builder builder = Consent.builder();
@@ -4834,7 +4826,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Consent.Policy.class, jsonObject);
         }
         Consent.Policy.Builder builder = Consent.Policy.builder();
@@ -4851,7 +4843,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Consent.Provision.class, jsonObject);
         }
         Consent.Provision.Builder builder = Consent.Provision.builder();
@@ -4917,7 +4909,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Consent.Provision.Actor.class, jsonObject);
         }
         Consent.Provision.Actor.Builder builder = Consent.Provision.Actor.builder();
@@ -4934,7 +4926,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Consent.Provision.Data.class, jsonObject);
         }
         Consent.Provision.Data.Builder builder = Consent.Provision.Data.builder();
@@ -4951,7 +4943,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Consent.Verification.class, jsonObject);
         }
         Consent.Verification.Builder builder = Consent.Verification.builder();
@@ -4969,7 +4961,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ContactDetail.class, jsonObject);
         }
         ContactDetail.Builder builder = ContactDetail.builder();
@@ -4991,7 +4983,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ContactPoint.class, jsonObject);
         }
         ContactPoint.Builder builder = ContactPoint.builder();
@@ -5011,7 +5003,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.class, jsonObject);
         }
         Contract.Builder builder = Contract.builder();
@@ -5130,7 +5122,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.ContentDefinition.class, jsonObject);
         }
         Contract.ContentDefinition.Builder builder = Contract.ContentDefinition.builder();
@@ -5151,7 +5143,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Friendly.class, jsonObject);
         }
         Contract.Friendly.Builder builder = Contract.Friendly.builder();
@@ -5167,7 +5159,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Legal.class, jsonObject);
         }
         Contract.Legal.Builder builder = Contract.Legal.builder();
@@ -5183,7 +5175,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Rule.class, jsonObject);
         }
         Contract.Rule.Builder builder = Contract.Rule.builder();
@@ -5199,7 +5191,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Signer.class, jsonObject);
         }
         Contract.Signer.Builder builder = Contract.Signer.builder();
@@ -5222,7 +5214,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Term.class, jsonObject);
         }
         Contract.Term.Builder builder = Contract.Term.builder();
@@ -5269,7 +5261,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Term.Action.class, jsonObject);
         }
         Contract.Term.Action.Builder builder = Contract.Term.Action.builder();
@@ -5377,7 +5369,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Term.Action.Subject.class, jsonObject);
         }
         Contract.Term.Action.Subject.Builder builder = Contract.Term.Action.Subject.builder();
@@ -5399,7 +5391,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Term.Asset.class, jsonObject);
         }
         Contract.Term.Asset.Builder builder = Contract.Term.Asset.builder();
@@ -5486,7 +5478,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Term.Asset.Context.class, jsonObject);
         }
         Contract.Term.Asset.Context.Builder builder = Contract.Term.Asset.Context.builder();
@@ -5509,7 +5501,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Term.Asset.ValuedItem.class, jsonObject);
         }
         Contract.Term.Asset.ValuedItem.Builder builder = Contract.Term.Asset.ValuedItem.builder();
@@ -5550,7 +5542,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Term.Offer.class, jsonObject);
         }
         Contract.Term.Offer.Builder builder = Contract.Term.Offer.builder();
@@ -5607,7 +5599,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Term.Offer.Answer.class, jsonObject);
         }
         Contract.Term.Offer.Answer.Builder builder = Contract.Term.Offer.Answer.builder();
@@ -5623,7 +5615,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Term.Offer.Party.class, jsonObject);
         }
         Contract.Term.Offer.Party.Builder builder = Contract.Term.Offer.Party.builder();
@@ -5645,7 +5637,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Term.SecurityLabel.class, jsonObject);
         }
         Contract.Term.SecurityLabel.Builder builder = Contract.Term.SecurityLabel.builder();
@@ -5680,7 +5672,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contributor.class, jsonObject);
         }
         Contributor.Builder builder = Contributor.builder();
@@ -5703,7 +5695,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Coverage.class, jsonObject);
         }
         Coverage.Builder builder = Coverage.builder();
@@ -5760,7 +5752,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Coverage.Class.class, jsonObject);
         }
         Coverage.Class.Builder builder = Coverage.Class.builder();
@@ -5778,7 +5770,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Coverage.CostToBeneficiary.class, jsonObject);
         }
         Coverage.CostToBeneficiary.Builder builder = Coverage.CostToBeneficiary.builder();
@@ -5801,7 +5793,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Coverage.CostToBeneficiary.Exception.class, jsonObject);
         }
         Coverage.CostToBeneficiary.Exception.Builder builder = Coverage.CostToBeneficiary.Exception.builder();
@@ -5818,7 +5810,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CoverageEligibilityRequest.class, jsonObject);
         }
         CoverageEligibilityRequest.Builder builder = CoverageEligibilityRequest.builder();
@@ -5873,7 +5865,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CoverageEligibilityRequest.Insurance.class, jsonObject);
         }
         CoverageEligibilityRequest.Insurance.Builder builder = CoverageEligibilityRequest.Insurance.builder();
@@ -5891,7 +5883,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CoverageEligibilityRequest.Item.class, jsonObject);
         }
         CoverageEligibilityRequest.Item.Builder builder = CoverageEligibilityRequest.Item.builder();
@@ -5937,7 +5929,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CoverageEligibilityRequest.Item.Diagnosis.class, jsonObject);
         }
         CoverageEligibilityRequest.Item.Diagnosis.Builder builder = CoverageEligibilityRequest.Item.Diagnosis.builder();
@@ -5953,7 +5945,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CoverageEligibilityRequest.SupportingInfo.class, jsonObject);
         }
         CoverageEligibilityRequest.SupportingInfo.Builder builder = CoverageEligibilityRequest.SupportingInfo.builder();
@@ -5971,7 +5963,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CoverageEligibilityResponse.class, jsonObject);
         }
         CoverageEligibilityResponse.Builder builder = CoverageEligibilityResponse.builder();
@@ -6022,7 +6014,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CoverageEligibilityResponse.Error.class, jsonObject);
         }
         CoverageEligibilityResponse.Error.Builder builder = CoverageEligibilityResponse.Error.builder();
@@ -6038,7 +6030,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CoverageEligibilityResponse.Insurance.class, jsonObject);
         }
         CoverageEligibilityResponse.Insurance.Builder builder = CoverageEligibilityResponse.Insurance.builder();
@@ -6062,7 +6054,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CoverageEligibilityResponse.Insurance.Item.class, jsonObject);
         }
         CoverageEligibilityResponse.Insurance.Item.Builder builder = CoverageEligibilityResponse.Insurance.Item.builder();
@@ -6106,7 +6098,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CoverageEligibilityResponse.Insurance.Item.Benefit.class, jsonObject);
         }
         CoverageEligibilityResponse.Insurance.Item.Benefit.Builder builder = CoverageEligibilityResponse.Insurance.Item.Benefit.builder();
@@ -6124,7 +6116,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DataRequirement.class, jsonObject);
         }
         DataRequirement.Builder builder = DataRequirement.builder();
@@ -6174,7 +6166,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DataRequirement.CodeFilter.class, jsonObject);
         }
         DataRequirement.CodeFilter.Builder builder = DataRequirement.CodeFilter.builder();
@@ -6198,7 +6190,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DataRequirement.DateFilter.class, jsonObject);
         }
         DataRequirement.DateFilter.Builder builder = DataRequirement.DateFilter.builder();
@@ -6216,7 +6208,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DataRequirement.Sort.class, jsonObject);
         }
         DataRequirement.Sort.Builder builder = DataRequirement.Sort.builder();
@@ -6237,7 +6229,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.setValidating(validating);
         if (_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT) {
             JsonObject jsonObject = (JsonObject) _jsonValue;
-            if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+            if (!ignoringUnrecognizedElements) {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
@@ -6263,7 +6255,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.setValidating(validating);
         if (_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT) {
             JsonObject jsonObject = (JsonObject) _jsonValue;
-            if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+            if (!ignoringUnrecognizedElements) {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
@@ -6289,7 +6281,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.setValidating(validating);
         if (_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT) {
             JsonObject jsonObject = (JsonObject) _jsonValue;
-            if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+            if (!ignoringUnrecognizedElements) {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
@@ -6311,7 +6303,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DetectedIssue.class, jsonObject);
         }
         DetectedIssue.Builder builder = DetectedIssue.builder();
@@ -6358,7 +6350,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DetectedIssue.Evidence.class, jsonObject);
         }
         DetectedIssue.Evidence.Builder builder = DetectedIssue.Evidence.builder();
@@ -6385,7 +6377,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DetectedIssue.Mitigation.class, jsonObject);
         }
         DetectedIssue.Mitigation.Builder builder = DetectedIssue.Mitigation.builder();
@@ -6403,7 +6395,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Device.class, jsonObject);
         }
         Device.Builder builder = Device.builder();
@@ -6494,7 +6486,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Device.DeviceName.class, jsonObject);
         }
         Device.DeviceName.Builder builder = Device.DeviceName.builder();
@@ -6511,7 +6503,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Device.Property.class, jsonObject);
         }
         Device.Property.Builder builder = Device.Property.builder();
@@ -6539,7 +6531,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Device.Specialization.class, jsonObject);
         }
         Device.Specialization.Builder builder = Device.Specialization.builder();
@@ -6556,7 +6548,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Device.UdiCarrier.class, jsonObject);
         }
         Device.UdiCarrier.Builder builder = Device.UdiCarrier.builder();
@@ -6577,7 +6569,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Device.Version.class, jsonObject);
         }
         Device.Version.Builder builder = Device.Version.builder();
@@ -6595,7 +6587,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DeviceDefinition.class, jsonObject);
         }
         DeviceDefinition.Builder builder = DeviceDefinition.builder();
@@ -6698,7 +6690,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DeviceDefinition.Capability.class, jsonObject);
         }
         DeviceDefinition.Capability.Builder builder = DeviceDefinition.Capability.builder();
@@ -6720,7 +6712,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DeviceDefinition.DeviceName.class, jsonObject);
         }
         DeviceDefinition.DeviceName.Builder builder = DeviceDefinition.DeviceName.builder();
@@ -6737,7 +6729,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DeviceDefinition.Material.class, jsonObject);
         }
         DeviceDefinition.Material.Builder builder = DeviceDefinition.Material.builder();
@@ -6755,7 +6747,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DeviceDefinition.Property.class, jsonObject);
         }
         DeviceDefinition.Property.Builder builder = DeviceDefinition.Property.builder();
@@ -6783,7 +6775,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DeviceDefinition.Specialization.class, jsonObject);
         }
         DeviceDefinition.Specialization.Builder builder = DeviceDefinition.Specialization.builder();
@@ -6800,7 +6792,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DeviceDefinition.UdiDeviceIdentifier.class, jsonObject);
         }
         DeviceDefinition.UdiDeviceIdentifier.Builder builder = DeviceDefinition.UdiDeviceIdentifier.builder();
@@ -6818,7 +6810,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DeviceMetric.class, jsonObject);
         }
         DeviceMetric.Builder builder = DeviceMetric.builder();
@@ -6853,7 +6845,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DeviceMetric.Calibration.class, jsonObject);
         }
         DeviceMetric.Calibration.Builder builder = DeviceMetric.Calibration.builder();
@@ -6871,7 +6863,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DeviceRequest.class, jsonObject);
         }
         DeviceRequest.Builder builder = DeviceRequest.builder();
@@ -6972,7 +6964,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DeviceRequest.Parameter.class, jsonObject);
         }
         DeviceRequest.Parameter.Builder builder = DeviceRequest.Parameter.builder();
@@ -6989,7 +6981,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DeviceUseStatement.class, jsonObject);
         }
         DeviceUseStatement.Builder builder = DeviceUseStatement.builder();
@@ -7047,7 +7039,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DiagnosticReport.class, jsonObject);
         }
         DiagnosticReport.Builder builder = DiagnosticReport.builder();
@@ -7135,7 +7127,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DiagnosticReport.Media.class, jsonObject);
         }
         DiagnosticReport.Media.Builder builder = DiagnosticReport.Media.builder();
@@ -7152,7 +7144,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DocumentManifest.class, jsonObject);
         }
         DocumentManifest.Builder builder = DocumentManifest.builder();
@@ -7204,7 +7196,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DocumentManifest.Related.class, jsonObject);
         }
         DocumentManifest.Related.Builder builder = DocumentManifest.Related.builder();
@@ -7221,7 +7213,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DocumentReference.class, jsonObject);
         }
         DocumentReference.Builder builder = DocumentReference.builder();
@@ -7282,7 +7274,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DocumentReference.Content.class, jsonObject);
         }
         DocumentReference.Content.Builder builder = DocumentReference.Content.builder();
@@ -7299,7 +7291,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DocumentReference.Context.class, jsonObject);
         }
         DocumentReference.Context.Builder builder = DocumentReference.Context.builder();
@@ -7336,7 +7328,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DocumentReference.RelatesTo.class, jsonObject);
         }
         DocumentReference.RelatesTo.Builder builder = DocumentReference.RelatesTo.builder();
@@ -7377,7 +7369,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Dosage.class, jsonObject);
         }
         Dosage.Builder builder = Dosage.builder();
@@ -7415,7 +7407,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Dosage.DoseAndRate.class, jsonObject);
         }
         Dosage.DoseAndRate.Builder builder = Dosage.DoseAndRate.builder();
@@ -7433,7 +7425,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EffectEvidenceSynthesis.class, jsonObject);
         }
         EffectEvidenceSynthesis.Builder builder = EffectEvidenceSynthesis.builder();
@@ -7551,7 +7543,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EffectEvidenceSynthesis.Certainty.class, jsonObject);
         }
         EffectEvidenceSynthesis.Certainty.Builder builder = EffectEvidenceSynthesis.Certainty.builder();
@@ -7584,7 +7576,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EffectEvidenceSynthesis.Certainty.CertaintySubcomponent.class, jsonObject);
         }
         EffectEvidenceSynthesis.Certainty.CertaintySubcomponent.Builder builder = EffectEvidenceSynthesis.Certainty.CertaintySubcomponent.builder();
@@ -7612,7 +7604,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EffectEvidenceSynthesis.EffectEstimate.class, jsonObject);
         }
         EffectEvidenceSynthesis.EffectEstimate.Builder builder = EffectEvidenceSynthesis.EffectEstimate.builder();
@@ -7638,7 +7630,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EffectEvidenceSynthesis.EffectEstimate.PrecisionEstimate.class, jsonObject);
         }
         EffectEvidenceSynthesis.EffectEstimate.PrecisionEstimate.Builder builder = EffectEvidenceSynthesis.EffectEstimate.PrecisionEstimate.builder();
@@ -7657,7 +7649,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EffectEvidenceSynthesis.ResultsByExposure.class, jsonObject);
         }
         EffectEvidenceSynthesis.ResultsByExposure.Builder builder = EffectEvidenceSynthesis.ResultsByExposure.builder();
@@ -7676,7 +7668,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EffectEvidenceSynthesis.SampleSize.class, jsonObject);
         }
         EffectEvidenceSynthesis.SampleSize.Builder builder = EffectEvidenceSynthesis.SampleSize.builder();
@@ -7705,7 +7697,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ElementDefinition.class, jsonObject);
         }
         ElementDefinition.Builder builder = ElementDefinition.builder();
@@ -7797,7 +7789,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ElementDefinition.Base.class, jsonObject);
         }
         ElementDefinition.Base.Builder builder = ElementDefinition.Base.builder();
@@ -7815,7 +7807,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ElementDefinition.Binding.class, jsonObject);
         }
         ElementDefinition.Binding.Builder builder = ElementDefinition.Binding.builder();
@@ -7833,7 +7825,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ElementDefinition.Constraint.class, jsonObject);
         }
         ElementDefinition.Constraint.Builder builder = ElementDefinition.Constraint.builder();
@@ -7855,7 +7847,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ElementDefinition.Example.class, jsonObject);
         }
         ElementDefinition.Example.Builder builder = ElementDefinition.Example.builder();
@@ -7872,7 +7864,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ElementDefinition.Mapping.class, jsonObject);
         }
         ElementDefinition.Mapping.Builder builder = ElementDefinition.Mapping.builder();
@@ -7891,7 +7883,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ElementDefinition.Slicing.class, jsonObject);
         }
         ElementDefinition.Slicing.Builder builder = ElementDefinition.Slicing.builder();
@@ -7915,7 +7907,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ElementDefinition.Slicing.Discriminator.class, jsonObject);
         }
         ElementDefinition.Slicing.Discriminator.Builder builder = ElementDefinition.Slicing.Discriminator.builder();
@@ -7932,7 +7924,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ElementDefinition.Type.class, jsonObject);
         }
         ElementDefinition.Type.Builder builder = ElementDefinition.Type.builder();
@@ -7970,7 +7962,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Encounter.class, jsonObject);
         }
         Encounter.Builder builder = Encounter.builder();
@@ -8073,7 +8065,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Encounter.ClassHistory.class, jsonObject);
         }
         Encounter.ClassHistory.Builder builder = Encounter.ClassHistory.builder();
@@ -8090,7 +8082,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Encounter.Diagnosis.class, jsonObject);
         }
         Encounter.Diagnosis.Builder builder = Encounter.Diagnosis.builder();
@@ -8108,7 +8100,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Encounter.Hospitalization.class, jsonObject);
         }
         Encounter.Hospitalization.Builder builder = Encounter.Hospitalization.builder();
@@ -8147,7 +8139,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Encounter.Location.class, jsonObject);
         }
         Encounter.Location.Builder builder = Encounter.Location.builder();
@@ -8166,7 +8158,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Encounter.Participant.class, jsonObject);
         }
         Encounter.Participant.Builder builder = Encounter.Participant.builder();
@@ -8189,7 +8181,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Encounter.StatusHistory.class, jsonObject);
         }
         Encounter.StatusHistory.Builder builder = Encounter.StatusHistory.builder();
@@ -8206,7 +8198,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Endpoint.class, jsonObject);
         }
         Endpoint.Builder builder = Endpoint.builder();
@@ -8259,7 +8251,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EnrollmentRequest.class, jsonObject);
         }
         EnrollmentRequest.Builder builder = EnrollmentRequest.builder();
@@ -8286,7 +8278,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EnrollmentResponse.class, jsonObject);
         }
         EnrollmentResponse.Builder builder = EnrollmentResponse.builder();
@@ -8314,7 +8306,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EpisodeOfCare.class, jsonObject);
         }
         EpisodeOfCare.Builder builder = EpisodeOfCare.builder();
@@ -8376,7 +8368,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EpisodeOfCare.Diagnosis.class, jsonObject);
         }
         EpisodeOfCare.Diagnosis.Builder builder = EpisodeOfCare.Diagnosis.builder();
@@ -8394,7 +8386,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EpisodeOfCare.StatusHistory.class, jsonObject);
         }
         EpisodeOfCare.StatusHistory.Builder builder = EpisodeOfCare.StatusHistory.builder();
@@ -8411,7 +8403,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EventDefinition.class, jsonObject);
         }
         EventDefinition.Builder builder = EventDefinition.builder();
@@ -8509,7 +8501,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Evidence.class, jsonObject);
         }
         Evidence.Builder builder = Evidence.builder();
@@ -8617,7 +8609,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EvidenceVariable.class, jsonObject);
         }
         EvidenceVariable.Builder builder = EvidenceVariable.builder();
@@ -8719,7 +8711,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EvidenceVariable.Characteristic.class, jsonObject);
         }
         EvidenceVariable.Characteristic.Builder builder = EvidenceVariable.Characteristic.builder();
@@ -8746,7 +8738,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExampleScenario.class, jsonObject);
         }
         ExampleScenario.Builder builder = ExampleScenario.builder();
@@ -8819,7 +8811,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExampleScenario.Actor.class, jsonObject);
         }
         ExampleScenario.Actor.Builder builder = ExampleScenario.Actor.builder();
@@ -8838,7 +8830,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExampleScenario.Instance.class, jsonObject);
         }
         ExampleScenario.Instance.Builder builder = ExampleScenario.Instance.builder();
@@ -8869,7 +8861,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExampleScenario.Instance.ContainedInstance.class, jsonObject);
         }
         ExampleScenario.Instance.ContainedInstance.Builder builder = ExampleScenario.Instance.ContainedInstance.builder();
@@ -8886,7 +8878,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExampleScenario.Instance.Version.class, jsonObject);
         }
         ExampleScenario.Instance.Version.Builder builder = ExampleScenario.Instance.Version.builder();
@@ -8903,7 +8895,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExampleScenario.Process.class, jsonObject);
         }
         ExampleScenario.Process.Builder builder = ExampleScenario.Process.builder();
@@ -8928,7 +8920,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExampleScenario.Process.Step.class, jsonObject);
         }
         ExampleScenario.Process.Step.Builder builder = ExampleScenario.Process.Step.builder();
@@ -8957,7 +8949,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExampleScenario.Process.Step.Alternative.class, jsonObject);
         }
         ExampleScenario.Process.Step.Alternative.Builder builder = ExampleScenario.Process.Step.Alternative.builder();
@@ -8980,7 +8972,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExampleScenario.Process.Step.Operation.class, jsonObject);
         }
         ExampleScenario.Process.Step.Operation.Builder builder = ExampleScenario.Process.Step.Operation.builder();
@@ -9005,7 +8997,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.class, jsonObject);
         }
         ExplanationOfBenefit.Builder builder = ExplanationOfBenefit.builder();
@@ -9139,7 +9131,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.Accident.class, jsonObject);
         }
         ExplanationOfBenefit.Accident.Builder builder = ExplanationOfBenefit.Accident.builder();
@@ -9157,7 +9149,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.AddItem.class, jsonObject);
         }
         ExplanationOfBenefit.AddItem.Builder builder = ExplanationOfBenefit.AddItem.builder();
@@ -9244,7 +9236,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.AddItem.Detail.class, jsonObject);
         }
         ExplanationOfBenefit.AddItem.Detail.Builder builder = ExplanationOfBenefit.AddItem.Detail.builder();
@@ -9289,7 +9281,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.AddItem.Detail.SubDetail.class, jsonObject);
         }
         ExplanationOfBenefit.AddItem.Detail.SubDetail.Builder builder = ExplanationOfBenefit.AddItem.Detail.SubDetail.builder();
@@ -9328,7 +9320,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.BenefitBalance.class, jsonObject);
         }
         ExplanationOfBenefit.BenefitBalance.Builder builder = ExplanationOfBenefit.BenefitBalance.builder();
@@ -9356,7 +9348,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.BenefitBalance.Financial.class, jsonObject);
         }
         ExplanationOfBenefit.BenefitBalance.Financial.Builder builder = ExplanationOfBenefit.BenefitBalance.Financial.builder();
@@ -9374,7 +9366,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.CareTeam.class, jsonObject);
         }
         ExplanationOfBenefit.CareTeam.Builder builder = ExplanationOfBenefit.CareTeam.builder();
@@ -9394,7 +9386,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.Diagnosis.class, jsonObject);
         }
         ExplanationOfBenefit.Diagnosis.Builder builder = ExplanationOfBenefit.Diagnosis.builder();
@@ -9419,7 +9411,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.Insurance.class, jsonObject);
         }
         ExplanationOfBenefit.Insurance.Builder builder = ExplanationOfBenefit.Insurance.builder();
@@ -9443,7 +9435,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.Item.class, jsonObject);
         }
         ExplanationOfBenefit.Item.Builder builder = ExplanationOfBenefit.Item.builder();
@@ -9546,7 +9538,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.Item.Adjudication.class, jsonObject);
         }
         ExplanationOfBenefit.Item.Adjudication.Builder builder = ExplanationOfBenefit.Item.Adjudication.builder();
@@ -9565,7 +9557,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.Item.Detail.class, jsonObject);
         }
         ExplanationOfBenefit.Item.Detail.Builder builder = ExplanationOfBenefit.Item.Detail.builder();
@@ -9625,7 +9617,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.Item.Detail.SubDetail.class, jsonObject);
         }
         ExplanationOfBenefit.Item.Detail.SubDetail.Builder builder = ExplanationOfBenefit.Item.Detail.SubDetail.builder();
@@ -9679,7 +9671,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.Payee.class, jsonObject);
         }
         ExplanationOfBenefit.Payee.Builder builder = ExplanationOfBenefit.Payee.builder();
@@ -9696,7 +9688,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.Payment.class, jsonObject);
         }
         ExplanationOfBenefit.Payment.Builder builder = ExplanationOfBenefit.Payment.builder();
@@ -9717,7 +9709,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.Procedure.class, jsonObject);
         }
         ExplanationOfBenefit.Procedure.Builder builder = ExplanationOfBenefit.Procedure.builder();
@@ -9747,7 +9739,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.ProcessNote.class, jsonObject);
         }
         ExplanationOfBenefit.ProcessNote.Builder builder = ExplanationOfBenefit.ProcessNote.builder();
@@ -9766,7 +9758,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.Related.class, jsonObject);
         }
         ExplanationOfBenefit.Related.Builder builder = ExplanationOfBenefit.Related.builder();
@@ -9784,7 +9776,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.SupportingInfo.class, jsonObject);
         }
         ExplanationOfBenefit.SupportingInfo.Builder builder = ExplanationOfBenefit.SupportingInfo.builder();
@@ -9805,7 +9797,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.Total.class, jsonObject);
         }
         ExplanationOfBenefit.Total.Builder builder = ExplanationOfBenefit.Total.builder();
@@ -9822,7 +9814,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Expression.class, jsonObject);
         }
         Expression.Builder builder = Expression.builder();
@@ -9842,7 +9834,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Extension.class, jsonObject);
         }
         Extension.Builder builder = Extension.builder();
@@ -9859,7 +9851,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(FamilyMemberHistory.class, jsonObject);
         }
         FamilyMemberHistory.Builder builder = FamilyMemberHistory.builder();
@@ -9929,7 +9921,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(FamilyMemberHistory.Condition.class, jsonObject);
         }
         FamilyMemberHistory.Condition.Builder builder = FamilyMemberHistory.Condition.builder();
@@ -9954,7 +9946,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Flag.class, jsonObject);
         }
         Flag.Builder builder = Flag.builder();
@@ -9987,7 +9979,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Goal.class, jsonObject);
         }
         Goal.Builder builder = Goal.builder();
@@ -10053,7 +10045,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Goal.Target.class, jsonObject);
         }
         Goal.Target.Builder builder = Goal.Target.builder();
@@ -10071,7 +10063,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(GraphDefinition.class, jsonObject);
         }
         GraphDefinition.Builder builder = GraphDefinition.builder();
@@ -10121,7 +10113,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(GraphDefinition.Link.class, jsonObject);
         }
         GraphDefinition.Link.Builder builder = GraphDefinition.Link.builder();
@@ -10147,7 +10139,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(GraphDefinition.Link.Target.class, jsonObject);
         }
         GraphDefinition.Link.Target.Builder builder = GraphDefinition.Link.Target.builder();
@@ -10177,7 +10169,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(GraphDefinition.Link.Target.Compartment.class, jsonObject);
         }
         GraphDefinition.Link.Target.Compartment.Builder builder = GraphDefinition.Link.Target.Compartment.builder();
@@ -10197,7 +10189,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Group.class, jsonObject);
         }
         Group.Builder builder = Group.builder();
@@ -10237,7 +10229,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Group.Characteristic.class, jsonObject);
         }
         Group.Characteristic.Builder builder = Group.Characteristic.builder();
@@ -10256,7 +10248,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Group.Member.class, jsonObject);
         }
         Group.Member.Builder builder = Group.Member.builder();
@@ -10274,7 +10266,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(GuidanceResponse.class, jsonObject);
         }
         GuidanceResponse.Builder builder = GuidanceResponse.builder();
@@ -10334,7 +10326,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(HealthcareService.class, jsonObject);
         }
         HealthcareService.Builder builder = HealthcareService.builder();
@@ -10453,7 +10445,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(HealthcareService.AvailableTime.class, jsonObject);
         }
         HealthcareService.AvailableTime.Builder builder = HealthcareService.AvailableTime.builder();
@@ -10478,7 +10470,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(HealthcareService.Eligibility.class, jsonObject);
         }
         HealthcareService.Eligibility.Builder builder = HealthcareService.Eligibility.builder();
@@ -10495,7 +10487,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(HealthcareService.NotAvailable.class, jsonObject);
         }
         HealthcareService.NotAvailable.Builder builder = HealthcareService.NotAvailable.builder();
@@ -10512,7 +10504,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(HumanName.class, jsonObject);
         }
         HumanName.Builder builder = HumanName.builder();
@@ -10552,7 +10544,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Identifier.class, jsonObject);
         }
         Identifier.Builder builder = Identifier.builder();
@@ -10573,7 +10565,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImagingStudy.class, jsonObject);
         }
         ImagingStudy.Builder builder = ImagingStudy.builder();
@@ -10658,7 +10650,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImagingStudy.Series.class, jsonObject);
         }
         ImagingStudy.Series.Builder builder = ImagingStudy.Series.builder();
@@ -10705,7 +10697,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImagingStudy.Series.Instance.class, jsonObject);
         }
         ImagingStudy.Series.Instance.Builder builder = ImagingStudy.Series.Instance.builder();
@@ -10724,7 +10716,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImagingStudy.Series.Performer.class, jsonObject);
         }
         ImagingStudy.Series.Performer.Builder builder = ImagingStudy.Series.Performer.builder();
@@ -10741,7 +10733,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Immunization.class, jsonObject);
         }
         Immunization.Builder builder = Immunization.builder();
@@ -10834,7 +10826,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Immunization.Education.class, jsonObject);
         }
         Immunization.Education.Builder builder = Immunization.Education.builder();
@@ -10853,7 +10845,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Immunization.Performer.class, jsonObject);
         }
         Immunization.Performer.Builder builder = Immunization.Performer.builder();
@@ -10870,7 +10862,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Immunization.ProtocolApplied.class, jsonObject);
         }
         Immunization.ProtocolApplied.Builder builder = Immunization.ProtocolApplied.builder();
@@ -10895,7 +10887,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Immunization.Reaction.class, jsonObject);
         }
         Immunization.Reaction.Builder builder = Immunization.Reaction.builder();
@@ -10913,7 +10905,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImmunizationEvaluation.class, jsonObject);
         }
         ImmunizationEvaluation.Builder builder = ImmunizationEvaluation.builder();
@@ -10951,7 +10943,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImmunizationRecommendation.class, jsonObject);
         }
         ImmunizationRecommendation.Builder builder = ImmunizationRecommendation.builder();
@@ -10981,7 +10973,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImmunizationRecommendation.Recommendation.class, jsonObject);
         }
         ImmunizationRecommendation.Recommendation.Builder builder = ImmunizationRecommendation.Recommendation.builder();
@@ -11038,7 +11030,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImmunizationRecommendation.Recommendation.DateCriterion.class, jsonObject);
         }
         ImmunizationRecommendation.Recommendation.DateCriterion.Builder builder = ImmunizationRecommendation.Recommendation.DateCriterion.builder();
@@ -11055,7 +11047,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImplementationGuide.class, jsonObject);
         }
         ImplementationGuide.Builder builder = ImplementationGuide.builder();
@@ -11121,7 +11113,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImplementationGuide.Definition.class, jsonObject);
         }
         ImplementationGuide.Definition.Builder builder = ImplementationGuide.Definition.builder();
@@ -11161,7 +11153,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImplementationGuide.Definition.Grouping.class, jsonObject);
         }
         ImplementationGuide.Definition.Grouping.Builder builder = ImplementationGuide.Definition.Grouping.builder();
@@ -11178,7 +11170,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImplementationGuide.Definition.Page.class, jsonObject);
         }
         ImplementationGuide.Definition.Page.Builder builder = ImplementationGuide.Definition.Page.builder();
@@ -11202,7 +11194,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImplementationGuide.Definition.Parameter.class, jsonObject);
         }
         ImplementationGuide.Definition.Parameter.Builder builder = ImplementationGuide.Definition.Parameter.builder();
@@ -11219,7 +11211,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImplementationGuide.Definition.Resource.class, jsonObject);
         }
         ImplementationGuide.Definition.Resource.Builder builder = ImplementationGuide.Definition.Resource.builder();
@@ -11246,7 +11238,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImplementationGuide.Definition.Template.class, jsonObject);
         }
         ImplementationGuide.Definition.Template.Builder builder = ImplementationGuide.Definition.Template.builder();
@@ -11264,7 +11256,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImplementationGuide.DependsOn.class, jsonObject);
         }
         ImplementationGuide.DependsOn.Builder builder = ImplementationGuide.DependsOn.builder();
@@ -11282,7 +11274,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImplementationGuide.Global.class, jsonObject);
         }
         ImplementationGuide.Global.Builder builder = ImplementationGuide.Global.builder();
@@ -11299,7 +11291,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImplementationGuide.Manifest.class, jsonObject);
         }
         ImplementationGuide.Manifest.Builder builder = ImplementationGuide.Manifest.builder();
@@ -11341,7 +11333,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImplementationGuide.Manifest.Page.class, jsonObject);
         }
         ImplementationGuide.Manifest.Page.Builder builder = ImplementationGuide.Manifest.Page.builder();
@@ -11365,7 +11357,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImplementationGuide.Manifest.Resource.class, jsonObject);
         }
         ImplementationGuide.Manifest.Resource.Builder builder = ImplementationGuide.Manifest.Resource.builder();
@@ -11387,7 +11379,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.setValidating(validating);
         if (_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT) {
             JsonObject jsonObject = (JsonObject) _jsonValue;
-            if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+            if (!ignoringUnrecognizedElements) {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
@@ -11409,7 +11401,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(InsurancePlan.class, jsonObject);
         }
         InsurancePlan.Builder builder = InsurancePlan.builder();
@@ -11484,7 +11476,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(InsurancePlan.Contact.class, jsonObject);
         }
         InsurancePlan.Contact.Builder builder = InsurancePlan.Contact.builder();
@@ -11508,7 +11500,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(InsurancePlan.Coverage.class, jsonObject);
         }
         InsurancePlan.Coverage.Builder builder = InsurancePlan.Coverage.builder();
@@ -11536,7 +11528,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(InsurancePlan.Coverage.Benefit.class, jsonObject);
         }
         InsurancePlan.Coverage.Benefit.Builder builder = InsurancePlan.Coverage.Benefit.builder();
@@ -11559,7 +11551,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(InsurancePlan.Coverage.Benefit.Limit.class, jsonObject);
         }
         InsurancePlan.Coverage.Benefit.Limit.Builder builder = InsurancePlan.Coverage.Benefit.Limit.builder();
@@ -11576,7 +11568,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(InsurancePlan.Plan.class, jsonObject);
         }
         InsurancePlan.Plan.Builder builder = InsurancePlan.Plan.builder();
@@ -11622,7 +11614,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(InsurancePlan.Plan.GeneralCost.class, jsonObject);
         }
         InsurancePlan.Plan.GeneralCost.Builder builder = InsurancePlan.Plan.GeneralCost.builder();
@@ -11641,7 +11633,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(InsurancePlan.Plan.SpecificCost.class, jsonObject);
         }
         InsurancePlan.Plan.SpecificCost.Builder builder = InsurancePlan.Plan.SpecificCost.builder();
@@ -11663,7 +11655,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(InsurancePlan.Plan.SpecificCost.Benefit.class, jsonObject);
         }
         InsurancePlan.Plan.SpecificCost.Benefit.Builder builder = InsurancePlan.Plan.SpecificCost.Benefit.builder();
@@ -11685,7 +11677,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(InsurancePlan.Plan.SpecificCost.Benefit.Cost.class, jsonObject);
         }
         InsurancePlan.Plan.SpecificCost.Benefit.Cost.Builder builder = InsurancePlan.Plan.SpecificCost.Benefit.Cost.builder();
@@ -11712,7 +11704,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.setValidating(validating);
         if (_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT) {
             JsonObject jsonObject = (JsonObject) _jsonValue;
-            if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+            if (!ignoringUnrecognizedElements) {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
@@ -11738,7 +11730,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Invoice.class, jsonObject);
         }
         Invoice.Builder builder = Invoice.builder();
@@ -11794,7 +11786,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Invoice.LineItem.class, jsonObject);
         }
         Invoice.LineItem.Builder builder = Invoice.LineItem.builder();
@@ -11817,7 +11809,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Invoice.LineItem.PriceComponent.class, jsonObject);
         }
         Invoice.LineItem.PriceComponent.Builder builder = Invoice.LineItem.PriceComponent.builder();
@@ -11836,7 +11828,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Invoice.Participant.class, jsonObject);
         }
         Invoice.Participant.Builder builder = Invoice.Participant.builder();
@@ -11853,7 +11845,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Library.class, jsonObject);
         }
         Library.Builder builder = Library.builder();
@@ -11964,7 +11956,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Linkage.class, jsonObject);
         }
         Linkage.Builder builder = Linkage.builder();
@@ -11987,7 +11979,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Linkage.Item.class, jsonObject);
         }
         Linkage.Item.Builder builder = Linkage.Item.builder();
@@ -12004,7 +11996,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(List.class, jsonObject);
         }
         List.Builder builder = List.builder();
@@ -12047,7 +12039,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(List.Entry.class, jsonObject);
         }
         List.Entry.Builder builder = List.Entry.builder();
@@ -12066,7 +12058,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Location.class, jsonObject);
         }
         Location.Builder builder = Location.builder();
@@ -12129,7 +12121,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Location.HoursOfOperation.class, jsonObject);
         }
         Location.HoursOfOperation.Builder builder = Location.HoursOfOperation.builder();
@@ -12154,7 +12146,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Location.Position.class, jsonObject);
         }
         Location.Position.Builder builder = Location.Position.builder();
@@ -12172,7 +12164,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MarketingStatus.class, jsonObject);
         }
         MarketingStatus.Builder builder = MarketingStatus.builder();
@@ -12192,7 +12184,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Measure.class, jsonObject);
         }
         Measure.Builder builder = Measure.builder();
@@ -12325,7 +12317,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Measure.Group.class, jsonObject);
         }
         Measure.Group.Builder builder = Measure.Group.builder();
@@ -12354,7 +12346,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Measure.Group.Population.class, jsonObject);
         }
         Measure.Group.Population.Builder builder = Measure.Group.Population.builder();
@@ -12372,7 +12364,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Measure.Group.Stratifier.class, jsonObject);
         }
         Measure.Group.Stratifier.Builder builder = Measure.Group.Stratifier.builder();
@@ -12396,7 +12388,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Measure.Group.Stratifier.Component.class, jsonObject);
         }
         Measure.Group.Stratifier.Component.Builder builder = Measure.Group.Stratifier.Component.builder();
@@ -12414,7 +12406,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Measure.SupplementalData.class, jsonObject);
         }
         Measure.SupplementalData.Builder builder = Measure.SupplementalData.builder();
@@ -12438,7 +12430,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MeasureReport.class, jsonObject);
         }
         MeasureReport.Builder builder = MeasureReport.builder();
@@ -12479,7 +12471,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MeasureReport.Group.class, jsonObject);
         }
         MeasureReport.Group.Builder builder = MeasureReport.Group.builder();
@@ -12508,7 +12500,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MeasureReport.Group.Population.class, jsonObject);
         }
         MeasureReport.Group.Population.Builder builder = MeasureReport.Group.Population.builder();
@@ -12526,7 +12518,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MeasureReport.Group.Stratifier.class, jsonObject);
         }
         MeasureReport.Group.Stratifier.Builder builder = MeasureReport.Group.Stratifier.builder();
@@ -12553,7 +12545,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MeasureReport.Group.Stratifier.Stratum.class, jsonObject);
         }
         MeasureReport.Group.Stratifier.Stratum.Builder builder = MeasureReport.Group.Stratifier.Stratum.builder();
@@ -12582,7 +12574,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MeasureReport.Group.Stratifier.Stratum.Component.class, jsonObject);
         }
         MeasureReport.Group.Stratifier.Stratum.Component.Builder builder = MeasureReport.Group.Stratifier.Stratum.Component.builder();
@@ -12599,7 +12591,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MeasureReport.Group.Stratifier.Stratum.Population.class, jsonObject);
         }
         MeasureReport.Group.Stratifier.Stratum.Population.Builder builder = MeasureReport.Group.Stratifier.Stratum.Population.builder();
@@ -12617,7 +12609,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Media.class, jsonObject);
         }
         Media.Builder builder = Media.builder();
@@ -12679,7 +12671,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Medication.class, jsonObject);
         }
         Medication.Builder builder = Medication.builder();
@@ -12712,7 +12704,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Medication.Batch.class, jsonObject);
         }
         Medication.Batch.Builder builder = Medication.Batch.builder();
@@ -12729,7 +12721,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Medication.Ingredient.class, jsonObject);
         }
         Medication.Ingredient.Builder builder = Medication.Ingredient.builder();
@@ -12747,7 +12739,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationAdministration.class, jsonObject);
         }
         MedicationAdministration.Builder builder = MedicationAdministration.builder();
@@ -12837,7 +12829,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationAdministration.Dosage.class, jsonObject);
         }
         MedicationAdministration.Dosage.Builder builder = MedicationAdministration.Dosage.builder();
@@ -12858,7 +12850,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationAdministration.Performer.class, jsonObject);
         }
         MedicationAdministration.Performer.Builder builder = MedicationAdministration.Performer.builder();
@@ -12875,7 +12867,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationDispense.class, jsonObject);
         }
         MedicationDispense.Builder builder = MedicationDispense.builder();
@@ -12964,7 +12956,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationDispense.Performer.class, jsonObject);
         }
         MedicationDispense.Performer.Builder builder = MedicationDispense.Performer.builder();
@@ -12981,7 +12973,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationDispense.Substitution.class, jsonObject);
         }
         MedicationDispense.Substitution.Builder builder = MedicationDispense.Substitution.builder();
@@ -13010,7 +13002,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.class, jsonObject);
         }
         MedicationKnowledge.Builder builder = MedicationKnowledge.builder();
@@ -13123,7 +13115,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.AdministrationGuidelines.class, jsonObject);
         }
         MedicationKnowledge.AdministrationGuidelines.Builder builder = MedicationKnowledge.AdministrationGuidelines.builder();
@@ -13151,7 +13143,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.AdministrationGuidelines.Dosage.class, jsonObject);
         }
         MedicationKnowledge.AdministrationGuidelines.Dosage.Builder builder = MedicationKnowledge.AdministrationGuidelines.Dosage.builder();
@@ -13173,7 +13165,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics.class, jsonObject);
         }
         MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics.Builder builder = MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics.builder();
@@ -13196,7 +13188,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.Cost.class, jsonObject);
         }
         MedicationKnowledge.Cost.Builder builder = MedicationKnowledge.Cost.builder();
@@ -13214,7 +13206,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.DrugCharacteristic.class, jsonObject);
         }
         MedicationKnowledge.DrugCharacteristic.Builder builder = MedicationKnowledge.DrugCharacteristic.builder();
@@ -13231,7 +13223,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.Ingredient.class, jsonObject);
         }
         MedicationKnowledge.Ingredient.Builder builder = MedicationKnowledge.Ingredient.builder();
@@ -13249,7 +13241,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.Kinetics.class, jsonObject);
         }
         MedicationKnowledge.Kinetics.Builder builder = MedicationKnowledge.Kinetics.builder();
@@ -13277,7 +13269,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.MedicineClassification.class, jsonObject);
         }
         MedicationKnowledge.MedicineClassification.Builder builder = MedicationKnowledge.MedicineClassification.builder();
@@ -13299,7 +13291,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.MonitoringProgram.class, jsonObject);
         }
         MedicationKnowledge.MonitoringProgram.Builder builder = MedicationKnowledge.MonitoringProgram.builder();
@@ -13316,7 +13308,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.Monograph.class, jsonObject);
         }
         MedicationKnowledge.Monograph.Builder builder = MedicationKnowledge.Monograph.builder();
@@ -13333,7 +13325,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.Packaging.class, jsonObject);
         }
         MedicationKnowledge.Packaging.Builder builder = MedicationKnowledge.Packaging.builder();
@@ -13350,7 +13342,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.Regulatory.class, jsonObject);
         }
         MedicationKnowledge.Regulatory.Builder builder = MedicationKnowledge.Regulatory.builder();
@@ -13379,7 +13371,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.Regulatory.MaxDispense.class, jsonObject);
         }
         MedicationKnowledge.Regulatory.MaxDispense.Builder builder = MedicationKnowledge.Regulatory.MaxDispense.builder();
@@ -13396,7 +13388,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.Regulatory.Schedule.class, jsonObject);
         }
         MedicationKnowledge.Regulatory.Schedule.Builder builder = MedicationKnowledge.Regulatory.Schedule.builder();
@@ -13412,7 +13404,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.Regulatory.Substitution.class, jsonObject);
         }
         MedicationKnowledge.Regulatory.Substitution.Builder builder = MedicationKnowledge.Regulatory.Substitution.builder();
@@ -13429,7 +13421,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.RelatedMedicationKnowledge.class, jsonObject);
         }
         MedicationKnowledge.RelatedMedicationKnowledge.Builder builder = MedicationKnowledge.RelatedMedicationKnowledge.builder();
@@ -13451,7 +13443,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationRequest.class, jsonObject);
         }
         MedicationRequest.Builder builder = MedicationRequest.builder();
@@ -13565,7 +13557,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationRequest.DispenseRequest.class, jsonObject);
         }
         MedicationRequest.DispenseRequest.Builder builder = MedicationRequest.DispenseRequest.builder();
@@ -13587,7 +13579,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationRequest.DispenseRequest.InitialFill.class, jsonObject);
         }
         MedicationRequest.DispenseRequest.InitialFill.Builder builder = MedicationRequest.DispenseRequest.InitialFill.builder();
@@ -13604,7 +13596,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationRequest.Substitution.class, jsonObject);
         }
         MedicationRequest.Substitution.Builder builder = MedicationRequest.Substitution.builder();
@@ -13621,7 +13613,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationStatement.class, jsonObject);
         }
         MedicationStatement.Builder builder = MedicationStatement.builder();
@@ -13698,7 +13690,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProduct.class, jsonObject);
         }
         MedicinalProduct.Builder builder = MedicinalProduct.builder();
@@ -13804,7 +13796,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProduct.ManufacturingBusinessOperation.class, jsonObject);
         }
         MedicinalProduct.ManufacturingBusinessOperation.Builder builder = MedicinalProduct.ManufacturingBusinessOperation.builder();
@@ -13830,7 +13822,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProduct.Name.class, jsonObject);
         }
         MedicinalProduct.Name.Builder builder = MedicinalProduct.Name.builder();
@@ -13858,7 +13850,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProduct.Name.CountryLanguage.class, jsonObject);
         }
         MedicinalProduct.Name.CountryLanguage.Builder builder = MedicinalProduct.Name.CountryLanguage.builder();
@@ -13876,7 +13868,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProduct.Name.NamePart.class, jsonObject);
         }
         MedicinalProduct.Name.NamePart.Builder builder = MedicinalProduct.Name.NamePart.builder();
@@ -13893,7 +13885,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProduct.SpecialDesignation.class, jsonObject);
         }
         MedicinalProduct.SpecialDesignation.Builder builder = MedicinalProduct.SpecialDesignation.builder();
@@ -13920,7 +13912,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductAuthorization.class, jsonObject);
         }
         MedicinalProductAuthorization.Builder builder = MedicinalProductAuthorization.builder();
@@ -13971,7 +13963,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductAuthorization.JurisdictionalAuthorization.class, jsonObject);
         }
         MedicinalProductAuthorization.JurisdictionalAuthorization.Builder builder = MedicinalProductAuthorization.JurisdictionalAuthorization.builder();
@@ -14001,7 +13993,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductAuthorization.Procedure.class, jsonObject);
         }
         MedicinalProductAuthorization.Procedure.Builder builder = MedicinalProductAuthorization.Procedure.builder();
@@ -14025,7 +14017,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductContraindication.class, jsonObject);
         }
         MedicinalProductContraindication.Builder builder = MedicinalProductContraindication.builder();
@@ -14072,7 +14064,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductContraindication.OtherTherapy.class, jsonObject);
         }
         MedicinalProductContraindication.OtherTherapy.Builder builder = MedicinalProductContraindication.OtherTherapy.builder();
@@ -14089,7 +14081,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductIndication.class, jsonObject);
         }
         MedicinalProductIndication.Builder builder = MedicinalProductIndication.builder();
@@ -14138,7 +14130,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductIndication.OtherTherapy.class, jsonObject);
         }
         MedicinalProductIndication.OtherTherapy.Builder builder = MedicinalProductIndication.OtherTherapy.builder();
@@ -14155,7 +14147,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductIngredient.class, jsonObject);
         }
         MedicinalProductIngredient.Builder builder = MedicinalProductIngredient.builder();
@@ -14186,7 +14178,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductIngredient.SpecifiedSubstance.class, jsonObject);
         }
         MedicinalProductIngredient.SpecifiedSubstance.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.builder();
@@ -14210,7 +14202,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductIngredient.SpecifiedSubstance.Strength.class, jsonObject);
         }
         MedicinalProductIngredient.SpecifiedSubstance.Strength.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.Strength.builder();
@@ -14242,7 +14234,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength.class, jsonObject);
         }
         MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength.builder();
@@ -14267,7 +14259,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductIngredient.Substance.class, jsonObject);
         }
         MedicinalProductIngredient.Substance.Builder builder = MedicinalProductIngredient.Substance.builder();
@@ -14289,7 +14281,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductInteraction.class, jsonObject);
         }
         MedicinalProductInteraction.Builder builder = MedicinalProductInteraction.builder();
@@ -14321,7 +14313,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductInteraction.Interactant.class, jsonObject);
         }
         MedicinalProductInteraction.Interactant.Builder builder = MedicinalProductInteraction.Interactant.builder();
@@ -14337,7 +14329,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductManufactured.class, jsonObject);
         }
         MedicinalProductManufactured.Builder builder = MedicinalProductManufactured.builder();
@@ -14374,7 +14366,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductPackaged.class, jsonObject);
         }
         MedicinalProductPackaged.Builder builder = MedicinalProductPackaged.builder();
@@ -14428,7 +14420,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductPackaged.BatchIdentifier.class, jsonObject);
         }
         MedicinalProductPackaged.BatchIdentifier.Builder builder = MedicinalProductPackaged.BatchIdentifier.builder();
@@ -14445,7 +14437,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductPackaged.PackageItem.class, jsonObject);
         }
         MedicinalProductPackaged.PackageItem.Builder builder = MedicinalProductPackaged.PackageItem.builder();
@@ -14517,7 +14509,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductPharmaceutical.class, jsonObject);
         }
         MedicinalProductPharmaceutical.Builder builder = MedicinalProductPharmaceutical.builder();
@@ -14564,7 +14556,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductPharmaceutical.Characteristics.class, jsonObject);
         }
         MedicinalProductPharmaceutical.Characteristics.Builder builder = MedicinalProductPharmaceutical.Characteristics.builder();
@@ -14581,7 +14573,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductPharmaceutical.RouteOfAdministration.class, jsonObject);
         }
         MedicinalProductPharmaceutical.RouteOfAdministration.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.builder();
@@ -14608,7 +14600,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.class, jsonObject);
         }
         MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.builder();
@@ -14630,7 +14622,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.class, jsonObject);
         }
         MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.builder();
@@ -14648,7 +14640,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductUndesirableEffect.class, jsonObject);
         }
         MedicinalProductUndesirableEffect.Builder builder = MedicinalProductUndesirableEffect.builder();
@@ -14678,7 +14670,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MessageDefinition.class, jsonObject);
         }
         MessageDefinition.Builder builder = MessageDefinition.builder();
@@ -14765,7 +14757,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MessageDefinition.AllowedResponse.class, jsonObject);
         }
         MessageDefinition.AllowedResponse.Builder builder = MessageDefinition.AllowedResponse.builder();
@@ -14782,7 +14774,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MessageDefinition.Focus.class, jsonObject);
         }
         MessageDefinition.Focus.Builder builder = MessageDefinition.Focus.builder();
@@ -14801,7 +14793,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MessageHeader.class, jsonObject);
         }
         MessageHeader.Builder builder = MessageHeader.builder();
@@ -14837,7 +14829,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MessageHeader.Destination.class, jsonObject);
         }
         MessageHeader.Destination.Builder builder = MessageHeader.Destination.builder();
@@ -14856,7 +14848,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MessageHeader.Response.class, jsonObject);
         }
         MessageHeader.Response.Builder builder = MessageHeader.Response.builder();
@@ -14874,7 +14866,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MessageHeader.Source.class, jsonObject);
         }
         MessageHeader.Source.Builder builder = MessageHeader.Source.builder();
@@ -14894,7 +14886,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Meta.class, jsonObject);
         }
         Meta.Builder builder = Meta.builder();
@@ -14931,7 +14923,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MolecularSequence.class, jsonObject);
         }
         MolecularSequence.Builder builder = MolecularSequence.builder();
@@ -14992,7 +14984,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MolecularSequence.Quality.class, jsonObject);
         }
         MolecularSequence.Quality.Builder builder = MolecularSequence.Quality.builder();
@@ -15022,7 +15014,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MolecularSequence.Quality.Roc.class, jsonObject);
         }
         MolecularSequence.Quality.Roc.Builder builder = MolecularSequence.Quality.Roc.builder();
@@ -15086,7 +15078,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MolecularSequence.ReferenceSeq.class, jsonObject);
         }
         MolecularSequence.ReferenceSeq.Builder builder = MolecularSequence.ReferenceSeq.builder();
@@ -15110,7 +15102,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MolecularSequence.Repository.class, jsonObject);
         }
         MolecularSequence.Repository.Builder builder = MolecularSequence.Repository.builder();
@@ -15131,7 +15123,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MolecularSequence.StructureVariant.class, jsonObject);
         }
         MolecularSequence.StructureVariant.Builder builder = MolecularSequence.StructureVariant.builder();
@@ -15151,7 +15143,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MolecularSequence.StructureVariant.Inner.class, jsonObject);
         }
         MolecularSequence.StructureVariant.Inner.Builder builder = MolecularSequence.StructureVariant.Inner.builder();
@@ -15168,7 +15160,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MolecularSequence.StructureVariant.Outer.class, jsonObject);
         }
         MolecularSequence.StructureVariant.Outer.Builder builder = MolecularSequence.StructureVariant.Outer.builder();
@@ -15185,7 +15177,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MolecularSequence.Variant.class, jsonObject);
         }
         MolecularSequence.Variant.Builder builder = MolecularSequence.Variant.builder();
@@ -15206,7 +15198,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Money.class, jsonObject);
         }
         Money.Builder builder = Money.builder();
@@ -15223,7 +15215,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(NamingSystem.class, jsonObject);
         }
         NamingSystem.Builder builder = NamingSystem.builder();
@@ -15271,7 +15263,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(NamingSystem.UniqueId.class, jsonObject);
         }
         NamingSystem.UniqueId.Builder builder = NamingSystem.UniqueId.builder();
@@ -15291,7 +15283,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Narrative.class, jsonObject);
         }
         Narrative.Builder builder = Narrative.builder();
@@ -15308,7 +15300,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(NutritionOrder.class, jsonObject);
         }
         NutritionOrder.Builder builder = NutritionOrder.builder();
@@ -15388,7 +15380,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(NutritionOrder.EnteralFormula.class, jsonObject);
         }
         NutritionOrder.EnteralFormula.Builder builder = NutritionOrder.EnteralFormula.builder();
@@ -15417,7 +15409,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(NutritionOrder.EnteralFormula.Administration.class, jsonObject);
         }
         NutritionOrder.EnteralFormula.Administration.Builder builder = NutritionOrder.EnteralFormula.Administration.builder();
@@ -15435,7 +15427,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(NutritionOrder.OralDiet.class, jsonObject);
         }
         NutritionOrder.OralDiet.Builder builder = NutritionOrder.OralDiet.builder();
@@ -15481,7 +15473,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(NutritionOrder.OralDiet.Nutrient.class, jsonObject);
         }
         NutritionOrder.OralDiet.Nutrient.Builder builder = NutritionOrder.OralDiet.Nutrient.builder();
@@ -15498,7 +15490,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(NutritionOrder.OralDiet.Texture.class, jsonObject);
         }
         NutritionOrder.OralDiet.Texture.Builder builder = NutritionOrder.OralDiet.Texture.builder();
@@ -15515,7 +15507,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(NutritionOrder.Supplement.class, jsonObject);
         }
         NutritionOrder.Supplement.Builder builder = NutritionOrder.Supplement.builder();
@@ -15540,7 +15532,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Observation.class, jsonObject);
         }
         Observation.Builder builder = Observation.builder();
@@ -15639,7 +15631,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Observation.Component.class, jsonObject);
         }
         Observation.Component.Builder builder = Observation.Component.builder();
@@ -15669,7 +15661,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Observation.ReferenceRange.class, jsonObject);
         }
         Observation.ReferenceRange.Builder builder = Observation.ReferenceRange.builder();
@@ -15695,7 +15687,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ObservationDefinition.class, jsonObject);
         }
         ObservationDefinition.Builder builder = ObservationDefinition.builder();
@@ -15744,7 +15736,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ObservationDefinition.QualifiedInterval.class, jsonObject);
         }
         ObservationDefinition.QualifiedInterval.Builder builder = ObservationDefinition.QualifiedInterval.builder();
@@ -15772,7 +15764,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ObservationDefinition.QuantitativeDetails.class, jsonObject);
         }
         ObservationDefinition.QuantitativeDetails.Builder builder = ObservationDefinition.QuantitativeDetails.builder();
@@ -15791,7 +15783,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(OperationDefinition.class, jsonObject);
         }
         OperationDefinition.Builder builder = OperationDefinition.builder();
@@ -15863,7 +15855,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(OperationDefinition.Overload.class, jsonObject);
         }
         OperationDefinition.Overload.Builder builder = OperationDefinition.Overload.builder();
@@ -15886,7 +15878,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(OperationDefinition.Parameter.class, jsonObject);
         }
         OperationDefinition.Parameter.Builder builder = OperationDefinition.Parameter.builder();
@@ -15928,7 +15920,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(OperationDefinition.Parameter.Binding.class, jsonObject);
         }
         OperationDefinition.Parameter.Binding.Builder builder = OperationDefinition.Parameter.Binding.builder();
@@ -15945,7 +15937,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(OperationDefinition.Parameter.ReferencedFrom.class, jsonObject);
         }
         OperationDefinition.Parameter.ReferencedFrom.Builder builder = OperationDefinition.Parameter.ReferencedFrom.builder();
@@ -15962,7 +15954,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(OperationOutcome.class, jsonObject);
         }
         OperationOutcome.Builder builder = OperationOutcome.builder();
@@ -15983,7 +15975,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(OperationOutcome.Issue.class, jsonObject);
         }
         OperationOutcome.Issue.Builder builder = OperationOutcome.Issue.builder();
@@ -16016,7 +16008,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Organization.class, jsonObject);
         }
         Organization.Builder builder = Organization.builder();
@@ -16077,7 +16069,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Organization.Contact.class, jsonObject);
         }
         Organization.Contact.Builder builder = Organization.Contact.builder();
@@ -16101,7 +16093,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(OrganizationAffiliation.class, jsonObject);
         }
         OrganizationAffiliation.Builder builder = OrganizationAffiliation.builder();
@@ -16168,7 +16160,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ParameterDefinition.class, jsonObject);
         }
         ParameterDefinition.Builder builder = ParameterDefinition.builder();
@@ -16190,7 +16182,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Parameters.class, jsonObject);
         }
         Parameters.Builder builder = Parameters.builder();
@@ -16211,7 +16203,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Parameters.Parameter.class, jsonObject);
         }
         Parameters.Parameter.Builder builder = Parameters.Parameter.builder();
@@ -16235,7 +16227,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Patient.class, jsonObject);
         }
         Patient.Builder builder = Patient.builder();
@@ -16311,7 +16303,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Patient.Communication.class, jsonObject);
         }
         Patient.Communication.Builder builder = Patient.Communication.builder();
@@ -16328,7 +16320,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Patient.Contact.class, jsonObject);
         }
         Patient.Contact.Builder builder = Patient.Contact.builder();
@@ -16360,7 +16352,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Patient.Link.class, jsonObject);
         }
         Patient.Link.Builder builder = Patient.Link.builder();
@@ -16377,7 +16369,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PaymentNotice.class, jsonObject);
         }
         PaymentNotice.Builder builder = PaymentNotice.builder();
@@ -16409,7 +16401,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PaymentReconciliation.class, jsonObject);
         }
         PaymentReconciliation.Builder builder = PaymentReconciliation.builder();
@@ -16454,7 +16446,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PaymentReconciliation.Detail.class, jsonObject);
         }
         PaymentReconciliation.Detail.Builder builder = PaymentReconciliation.Detail.builder();
@@ -16479,7 +16471,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PaymentReconciliation.ProcessNote.class, jsonObject);
         }
         PaymentReconciliation.ProcessNote.Builder builder = PaymentReconciliation.ProcessNote.builder();
@@ -16496,7 +16488,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Period.class, jsonObject);
         }
         Period.Builder builder = Period.builder();
@@ -16513,7 +16505,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Person.class, jsonObject);
         }
         Person.Builder builder = Person.builder();
@@ -16563,7 +16555,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Person.Link.class, jsonObject);
         }
         Person.Link.Builder builder = Person.Link.builder();
@@ -16580,7 +16572,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PlanDefinition.class, jsonObject);
         }
         PlanDefinition.Builder builder = PlanDefinition.builder();
@@ -16692,7 +16684,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PlanDefinition.Action.class, jsonObject);
         }
         PlanDefinition.Action.Builder builder = PlanDefinition.Action.builder();
@@ -16795,7 +16787,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PlanDefinition.Action.Condition.class, jsonObject);
         }
         PlanDefinition.Action.Condition.Builder builder = PlanDefinition.Action.Condition.builder();
@@ -16812,7 +16804,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PlanDefinition.Action.DynamicValue.class, jsonObject);
         }
         PlanDefinition.Action.DynamicValue.Builder builder = PlanDefinition.Action.DynamicValue.builder();
@@ -16829,7 +16821,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PlanDefinition.Action.Participant.class, jsonObject);
         }
         PlanDefinition.Action.Participant.Builder builder = PlanDefinition.Action.Participant.builder();
@@ -16846,7 +16838,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PlanDefinition.Action.RelatedAction.class, jsonObject);
         }
         PlanDefinition.Action.RelatedAction.Builder builder = PlanDefinition.Action.RelatedAction.builder();
@@ -16864,7 +16856,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PlanDefinition.Goal.class, jsonObject);
         }
         PlanDefinition.Goal.Builder builder = PlanDefinition.Goal.builder();
@@ -16901,7 +16893,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PlanDefinition.Goal.Target.class, jsonObject);
         }
         PlanDefinition.Goal.Target.Builder builder = PlanDefinition.Goal.Target.builder();
@@ -16919,7 +16911,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Population.class, jsonObject);
         }
         Population.Builder builder = Population.builder();
@@ -16938,7 +16930,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Practitioner.class, jsonObject);
         }
         Practitioner.Builder builder = Practitioner.builder();
@@ -16998,7 +16990,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Practitioner.Qualification.class, jsonObject);
         }
         Practitioner.Qualification.Builder builder = Practitioner.Qualification.builder();
@@ -17022,7 +17014,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PractitionerRole.class, jsonObject);
         }
         PractitionerRole.Builder builder = PractitionerRole.builder();
@@ -17096,7 +17088,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PractitionerRole.AvailableTime.class, jsonObject);
         }
         PractitionerRole.AvailableTime.Builder builder = PractitionerRole.AvailableTime.builder();
@@ -17121,7 +17113,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PractitionerRole.NotAvailable.class, jsonObject);
         }
         PractitionerRole.NotAvailable.Builder builder = PractitionerRole.NotAvailable.builder();
@@ -17138,7 +17130,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Procedure.class, jsonObject);
         }
         Procedure.Builder builder = Procedure.builder();
@@ -17268,7 +17260,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Procedure.FocalDevice.class, jsonObject);
         }
         Procedure.FocalDevice.Builder builder = Procedure.FocalDevice.builder();
@@ -17285,7 +17277,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Procedure.Performer.class, jsonObject);
         }
         Procedure.Performer.Builder builder = Procedure.Performer.builder();
@@ -17303,7 +17295,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ProdCharacteristic.class, jsonObject);
         }
         ProdCharacteristic.Builder builder = ProdCharacteristic.builder();
@@ -17346,7 +17338,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ProductShelfLife.class, jsonObject);
         }
         ProductShelfLife.Builder builder = ProductShelfLife.builder();
@@ -17370,7 +17362,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Provenance.class, jsonObject);
         }
         Provenance.Builder builder = Provenance.builder();
@@ -17426,7 +17418,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Provenance.Agent.class, jsonObject);
         }
         Provenance.Agent.Builder builder = Provenance.Agent.builder();
@@ -17450,7 +17442,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Provenance.Entity.class, jsonObject);
         }
         Provenance.Entity.Builder builder = Provenance.Entity.builder();
@@ -17473,7 +17465,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Quantity.class, jsonObject);
         }
         builder.setValidating(validating);
@@ -17496,7 +17488,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Questionnaire.class, jsonObject);
         }
         Questionnaire.Builder builder = Questionnaire.builder();
@@ -17575,7 +17567,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Questionnaire.Item.class, jsonObject);
         }
         Questionnaire.Item.Builder builder = Questionnaire.Item.builder();
@@ -17631,7 +17623,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Questionnaire.Item.AnswerOption.class, jsonObject);
         }
         Questionnaire.Item.AnswerOption.Builder builder = Questionnaire.Item.AnswerOption.builder();
@@ -17648,7 +17640,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Questionnaire.Item.EnableWhen.class, jsonObject);
         }
         Questionnaire.Item.EnableWhen.Builder builder = Questionnaire.Item.EnableWhen.builder();
@@ -17666,7 +17658,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Questionnaire.Item.Initial.class, jsonObject);
         }
         Questionnaire.Item.Initial.Builder builder = Questionnaire.Item.Initial.builder();
@@ -17682,7 +17674,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(QuestionnaireResponse.class, jsonObject);
         }
         QuestionnaireResponse.Builder builder = QuestionnaireResponse.builder();
@@ -17723,7 +17715,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(QuestionnaireResponse.Item.class, jsonObject);
         }
         QuestionnaireResponse.Item.Builder builder = QuestionnaireResponse.Item.builder();
@@ -17753,7 +17745,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(QuestionnaireResponse.Item.Answer.class, jsonObject);
         }
         QuestionnaireResponse.Item.Answer.Builder builder = QuestionnaireResponse.Item.Answer.builder();
@@ -17775,7 +17767,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Range.class, jsonObject);
         }
         Range.Builder builder = Range.builder();
@@ -17792,7 +17784,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Ratio.class, jsonObject);
         }
         Ratio.Builder builder = Ratio.builder();
@@ -17809,7 +17801,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Reference.class, jsonObject);
         }
         Reference.Builder builder = Reference.builder();
@@ -17828,7 +17820,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RelatedArtifact.class, jsonObject);
         }
         RelatedArtifact.Builder builder = RelatedArtifact.builder();
@@ -17850,7 +17842,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RelatedPerson.class, jsonObject);
         }
         RelatedPerson.Builder builder = RelatedPerson.builder();
@@ -17912,7 +17904,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RelatedPerson.Communication.class, jsonObject);
         }
         RelatedPerson.Communication.Builder builder = RelatedPerson.Communication.builder();
@@ -17929,7 +17921,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RequestGroup.class, jsonObject);
         }
         RequestGroup.Builder builder = RequestGroup.builder();
@@ -18009,7 +18001,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RequestGroup.Action.class, jsonObject);
         }
         RequestGroup.Action.Builder builder = RequestGroup.Action.builder();
@@ -18073,7 +18065,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RequestGroup.Action.Condition.class, jsonObject);
         }
         RequestGroup.Action.Condition.Builder builder = RequestGroup.Action.Condition.builder();
@@ -18090,7 +18082,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RequestGroup.Action.RelatedAction.class, jsonObject);
         }
         RequestGroup.Action.RelatedAction.Builder builder = RequestGroup.Action.RelatedAction.builder();
@@ -18108,7 +18100,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ResearchDefinition.class, jsonObject);
         }
         ResearchDefinition.Builder builder = ResearchDefinition.builder();
@@ -18219,7 +18211,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ResearchElementDefinition.class, jsonObject);
         }
         ResearchElementDefinition.Builder builder = ResearchElementDefinition.builder();
@@ -18334,7 +18326,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ResearchElementDefinition.Characteristic.class, jsonObject);
         }
         ResearchElementDefinition.Characteristic.Builder builder = ResearchElementDefinition.Characteristic.builder();
@@ -18366,7 +18358,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ResearchStudy.class, jsonObject);
         }
         ResearchStudy.Builder builder = ResearchStudy.builder();
@@ -18480,7 +18472,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ResearchStudy.Arm.class, jsonObject);
         }
         ResearchStudy.Arm.Builder builder = ResearchStudy.Arm.builder();
@@ -18498,7 +18490,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ResearchStudy.Objective.class, jsonObject);
         }
         ResearchStudy.Objective.Builder builder = ResearchStudy.Objective.builder();
@@ -18515,7 +18507,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ResearchSubject.class, jsonObject);
         }
         ResearchSubject.Builder builder = ResearchSubject.builder();
@@ -18551,7 +18543,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RiskAssessment.class, jsonObject);
         }
         RiskAssessment.Builder builder = RiskAssessment.builder();
@@ -18613,7 +18605,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RiskAssessment.Prediction.class, jsonObject);
         }
         RiskAssessment.Prediction.Builder builder = RiskAssessment.Prediction.builder();
@@ -18634,7 +18626,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RiskEvidenceSynthesis.class, jsonObject);
         }
         RiskEvidenceSynthesis.Builder builder = RiskEvidenceSynthesis.builder();
@@ -18740,7 +18732,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RiskEvidenceSynthesis.Certainty.class, jsonObject);
         }
         RiskEvidenceSynthesis.Certainty.Builder builder = RiskEvidenceSynthesis.Certainty.builder();
@@ -18773,7 +18765,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RiskEvidenceSynthesis.Certainty.CertaintySubcomponent.class, jsonObject);
         }
         RiskEvidenceSynthesis.Certainty.CertaintySubcomponent.Builder builder = RiskEvidenceSynthesis.Certainty.CertaintySubcomponent.builder();
@@ -18801,7 +18793,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RiskEvidenceSynthesis.RiskEstimate.class, jsonObject);
         }
         RiskEvidenceSynthesis.RiskEstimate.Builder builder = RiskEvidenceSynthesis.RiskEstimate.builder();
@@ -18828,7 +18820,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RiskEvidenceSynthesis.RiskEstimate.PrecisionEstimate.class, jsonObject);
         }
         RiskEvidenceSynthesis.RiskEstimate.PrecisionEstimate.Builder builder = RiskEvidenceSynthesis.RiskEstimate.PrecisionEstimate.builder();
@@ -18847,7 +18839,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RiskEvidenceSynthesis.SampleSize.class, jsonObject);
         }
         RiskEvidenceSynthesis.SampleSize.Builder builder = RiskEvidenceSynthesis.SampleSize.builder();
@@ -18865,7 +18857,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SampledData.class, jsonObject);
         }
         SampledData.Builder builder = SampledData.builder();
@@ -18887,7 +18879,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Schedule.class, jsonObject);
         }
         Schedule.Builder builder = Schedule.builder();
@@ -18935,7 +18927,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SearchParameter.class, jsonObject);
         }
         SearchParameter.Builder builder = SearchParameter.builder();
@@ -19026,7 +19018,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SearchParameter.Component.class, jsonObject);
         }
         SearchParameter.Component.Builder builder = SearchParameter.Component.builder();
@@ -19043,7 +19035,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ServiceRequest.class, jsonObject);
         }
         ServiceRequest.Builder builder = ServiceRequest.builder();
@@ -19183,7 +19175,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Signature.class, jsonObject);
         }
         Signature.Builder builder = Signature.builder();
@@ -19210,7 +19202,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Slot.class, jsonObject);
         }
         Slot.Builder builder = Slot.builder();
@@ -19256,7 +19248,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Specimen.class, jsonObject);
         }
         Specimen.Builder builder = Specimen.builder();
@@ -19319,7 +19311,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Specimen.Collection.class, jsonObject);
         }
         Specimen.Collection.Builder builder = Specimen.Collection.builder();
@@ -19341,7 +19333,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Specimen.Container.class, jsonObject);
         }
         Specimen.Container.Builder builder = Specimen.Container.builder();
@@ -19367,7 +19359,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Specimen.Processing.class, jsonObject);
         }
         Specimen.Processing.Builder builder = Specimen.Processing.builder();
@@ -19391,7 +19383,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SpecimenDefinition.class, jsonObject);
         }
         SpecimenDefinition.Builder builder = SpecimenDefinition.builder();
@@ -19427,7 +19419,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SpecimenDefinition.TypeTested.class, jsonObject);
         }
         SpecimenDefinition.TypeTested.Builder builder = SpecimenDefinition.TypeTested.builder();
@@ -19460,7 +19452,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SpecimenDefinition.TypeTested.Container.class, jsonObject);
         }
         SpecimenDefinition.TypeTested.Container.Builder builder = SpecimenDefinition.TypeTested.Container.builder();
@@ -19488,7 +19480,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SpecimenDefinition.TypeTested.Container.Additive.class, jsonObject);
         }
         SpecimenDefinition.TypeTested.Container.Additive.Builder builder = SpecimenDefinition.TypeTested.Container.Additive.builder();
@@ -19504,7 +19496,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SpecimenDefinition.TypeTested.Handling.class, jsonObject);
         }
         SpecimenDefinition.TypeTested.Handling.Builder builder = SpecimenDefinition.TypeTested.Handling.builder();
@@ -19526,7 +19518,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.setValidating(validating);
         if (_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT) {
             JsonObject jsonObject = (JsonObject) _jsonValue;
-            if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+            if (!ignoringUnrecognizedElements) {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
@@ -19552,7 +19544,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureDefinition.class, jsonObject);
         }
         StructureDefinition.Builder builder = StructureDefinition.builder();
@@ -19635,7 +19627,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureDefinition.Context.class, jsonObject);
         }
         StructureDefinition.Context.Builder builder = StructureDefinition.Context.builder();
@@ -19652,7 +19644,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureDefinition.Differential.class, jsonObject);
         }
         StructureDefinition.Differential.Builder builder = StructureDefinition.Differential.builder();
@@ -19673,7 +19665,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureDefinition.Mapping.class, jsonObject);
         }
         StructureDefinition.Mapping.Builder builder = StructureDefinition.Mapping.builder();
@@ -19692,7 +19684,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureDefinition.Snapshot.class, jsonObject);
         }
         StructureDefinition.Snapshot.Builder builder = StructureDefinition.Snapshot.builder();
@@ -19713,7 +19705,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureMap.class, jsonObject);
         }
         StructureMap.Builder builder = StructureMap.builder();
@@ -19782,7 +19774,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureMap.Group.class, jsonObject);
         }
         StructureMap.Group.Builder builder = StructureMap.Group.builder();
@@ -19813,7 +19805,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureMap.Group.Input.class, jsonObject);
         }
         StructureMap.Group.Input.Builder builder = StructureMap.Group.Input.builder();
@@ -19832,7 +19824,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureMap.Group.Rule.class, jsonObject);
         }
         StructureMap.Group.Rule.Builder builder = StructureMap.Group.Rule.builder();
@@ -19873,7 +19865,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureMap.Group.Rule.Dependent.class, jsonObject);
         }
         StructureMap.Group.Rule.Dependent.Builder builder = StructureMap.Group.Rule.Dependent.builder();
@@ -19896,7 +19888,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureMap.Group.Rule.Source.class, jsonObject);
         }
         StructureMap.Group.Rule.Source.Builder builder = StructureMap.Group.Rule.Source.builder();
@@ -19922,7 +19914,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureMap.Group.Rule.Target.class, jsonObject);
         }
         StructureMap.Group.Rule.Target.Builder builder = StructureMap.Group.Rule.Target.builder();
@@ -19956,7 +19948,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureMap.Group.Rule.Target.Parameter.class, jsonObject);
         }
         StructureMap.Group.Rule.Target.Parameter.Builder builder = StructureMap.Group.Rule.Target.Parameter.builder();
@@ -19972,7 +19964,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureMap.Structure.class, jsonObject);
         }
         StructureMap.Structure.Builder builder = StructureMap.Structure.builder();
@@ -19991,7 +19983,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Subscription.class, jsonObject);
         }
         Subscription.Builder builder = Subscription.builder();
@@ -20018,7 +20010,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Subscription.Channel.class, jsonObject);
         }
         Subscription.Channel.Builder builder = Subscription.Channel.builder();
@@ -20043,7 +20035,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Substance.class, jsonObject);
         }
         Substance.Builder builder = Substance.builder();
@@ -20085,7 +20077,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Substance.Ingredient.class, jsonObject);
         }
         Substance.Ingredient.Builder builder = Substance.Ingredient.builder();
@@ -20102,7 +20094,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Substance.Instance.class, jsonObject);
         }
         Substance.Instance.Builder builder = Substance.Instance.builder();
@@ -20120,7 +20112,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceAmount.class, jsonObject);
         }
         SubstanceAmount.Builder builder = SubstanceAmount.builder();
@@ -20139,7 +20131,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceAmount.ReferenceRange.class, jsonObject);
         }
         SubstanceAmount.ReferenceRange.Builder builder = SubstanceAmount.ReferenceRange.builder();
@@ -20156,7 +20148,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceNucleicAcid.class, jsonObject);
         }
         SubstanceNucleicAcid.Builder builder = SubstanceNucleicAcid.builder();
@@ -20181,7 +20173,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceNucleicAcid.Subunit.class, jsonObject);
         }
         SubstanceNucleicAcid.Subunit.Builder builder = SubstanceNucleicAcid.Subunit.builder();
@@ -20214,7 +20206,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceNucleicAcid.Subunit.Linkage.class, jsonObject);
         }
         SubstanceNucleicAcid.Subunit.Linkage.Builder builder = SubstanceNucleicAcid.Subunit.Linkage.builder();
@@ -20233,7 +20225,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceNucleicAcid.Subunit.Sugar.class, jsonObject);
         }
         SubstanceNucleicAcid.Subunit.Sugar.Builder builder = SubstanceNucleicAcid.Subunit.Sugar.builder();
@@ -20251,7 +20243,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstancePolymer.class, jsonObject);
         }
         SubstancePolymer.Builder builder = SubstancePolymer.builder();
@@ -20293,7 +20285,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstancePolymer.MonomerSet.class, jsonObject);
         }
         SubstancePolymer.MonomerSet.Builder builder = SubstancePolymer.MonomerSet.builder();
@@ -20315,7 +20307,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstancePolymer.MonomerSet.StartingMaterial.class, jsonObject);
         }
         SubstancePolymer.MonomerSet.StartingMaterial.Builder builder = SubstancePolymer.MonomerSet.StartingMaterial.builder();
@@ -20334,7 +20326,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstancePolymer.Repeat.class, jsonObject);
         }
         SubstancePolymer.Repeat.Builder builder = SubstancePolymer.Repeat.builder();
@@ -20358,7 +20350,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstancePolymer.Repeat.RepeatUnit.class, jsonObject);
         }
         SubstancePolymer.Repeat.RepeatUnit.Builder builder = SubstancePolymer.Repeat.RepeatUnit.builder();
@@ -20388,7 +20380,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstancePolymer.Repeat.RepeatUnit.DegreeOfPolymerisation.class, jsonObject);
         }
         SubstancePolymer.Repeat.RepeatUnit.DegreeOfPolymerisation.Builder builder = SubstancePolymer.Repeat.RepeatUnit.DegreeOfPolymerisation.builder();
@@ -20405,7 +20397,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstancePolymer.Repeat.RepeatUnit.StructuralRepresentation.class, jsonObject);
         }
         SubstancePolymer.Repeat.RepeatUnit.StructuralRepresentation.Builder builder = SubstancePolymer.Repeat.RepeatUnit.StructuralRepresentation.builder();
@@ -20423,7 +20415,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceProtein.class, jsonObject);
         }
         SubstanceProtein.Builder builder = SubstanceProtein.builder();
@@ -20453,7 +20445,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceProtein.Subunit.class, jsonObject);
         }
         SubstanceProtein.Subunit.Builder builder = SubstanceProtein.Subunit.builder();
@@ -20476,7 +20468,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceReferenceInformation.class, jsonObject);
         }
         SubstanceReferenceInformation.Builder builder = SubstanceReferenceInformation.builder();
@@ -20516,7 +20508,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceReferenceInformation.Classification.class, jsonObject);
         }
         SubstanceReferenceInformation.Classification.Builder builder = SubstanceReferenceInformation.Classification.builder();
@@ -20545,7 +20537,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceReferenceInformation.Gene.class, jsonObject);
         }
         SubstanceReferenceInformation.Gene.Builder builder = SubstanceReferenceInformation.Gene.builder();
@@ -20568,7 +20560,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceReferenceInformation.GeneElement.class, jsonObject);
         }
         SubstanceReferenceInformation.GeneElement.Builder builder = SubstanceReferenceInformation.GeneElement.builder();
@@ -20591,7 +20583,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceReferenceInformation.Target.class, jsonObject);
         }
         SubstanceReferenceInformation.Target.Builder builder = SubstanceReferenceInformation.Target.builder();
@@ -20619,7 +20611,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSourceMaterial.class, jsonObject);
         }
         SubstanceSourceMaterial.Builder builder = SubstanceSourceMaterial.builder();
@@ -20679,7 +20671,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSourceMaterial.FractionDescription.class, jsonObject);
         }
         SubstanceSourceMaterial.FractionDescription.Builder builder = SubstanceSourceMaterial.FractionDescription.builder();
@@ -20696,7 +20688,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSourceMaterial.Organism.class, jsonObject);
         }
         SubstanceSourceMaterial.Organism.Builder builder = SubstanceSourceMaterial.Organism.builder();
@@ -20724,7 +20716,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSourceMaterial.Organism.Author.class, jsonObject);
         }
         SubstanceSourceMaterial.Organism.Author.Builder builder = SubstanceSourceMaterial.Organism.Author.builder();
@@ -20741,7 +20733,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSourceMaterial.Organism.Hybrid.class, jsonObject);
         }
         SubstanceSourceMaterial.Organism.Hybrid.Builder builder = SubstanceSourceMaterial.Organism.Hybrid.builder();
@@ -20761,7 +20753,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSourceMaterial.Organism.OrganismGeneral.class, jsonObject);
         }
         SubstanceSourceMaterial.Organism.OrganismGeneral.Builder builder = SubstanceSourceMaterial.Organism.OrganismGeneral.builder();
@@ -20780,7 +20772,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSourceMaterial.PartDescription.class, jsonObject);
         }
         SubstanceSourceMaterial.PartDescription.Builder builder = SubstanceSourceMaterial.PartDescription.builder();
@@ -20797,7 +20789,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSpecification.class, jsonObject);
         }
         SubstanceSpecification.Builder builder = SubstanceSpecification.builder();
@@ -20866,7 +20858,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSpecification.Code.class, jsonObject);
         }
         SubstanceSpecification.Code.Builder builder = SubstanceSpecification.Code.builder();
@@ -20891,7 +20883,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSpecification.Moiety.class, jsonObject);
         }
         SubstanceSpecification.Moiety.Builder builder = SubstanceSpecification.Moiety.builder();
@@ -20913,7 +20905,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSpecification.Name.class, jsonObject);
         }
         SubstanceSpecification.Name.Builder builder = SubstanceSpecification.Name.builder();
@@ -20974,7 +20966,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSpecification.Name.Official.class, jsonObject);
         }
         SubstanceSpecification.Name.Official.Builder builder = SubstanceSpecification.Name.Official.builder();
@@ -20992,7 +20984,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSpecification.Property.class, jsonObject);
         }
         SubstanceSpecification.Property.Builder builder = SubstanceSpecification.Property.builder();
@@ -21012,7 +21004,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSpecification.Relationship.class, jsonObject);
         }
         SubstanceSpecification.Relationship.Builder builder = SubstanceSpecification.Relationship.builder();
@@ -21039,7 +21031,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSpecification.Structure.class, jsonObject);
         }
         SubstanceSpecification.Structure.Builder builder = SubstanceSpecification.Structure.builder();
@@ -21077,7 +21069,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSpecification.Structure.Isotope.class, jsonObject);
         }
         SubstanceSpecification.Structure.Isotope.Builder builder = SubstanceSpecification.Structure.Isotope.builder();
@@ -21097,7 +21089,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSpecification.Structure.Isotope.MolecularWeight.class, jsonObject);
         }
         SubstanceSpecification.Structure.Isotope.MolecularWeight.Builder builder = SubstanceSpecification.Structure.Isotope.MolecularWeight.builder();
@@ -21115,7 +21107,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSpecification.Structure.Representation.class, jsonObject);
         }
         SubstanceSpecification.Structure.Representation.Builder builder = SubstanceSpecification.Structure.Representation.builder();
@@ -21133,7 +21125,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SupplyDelivery.class, jsonObject);
         }
         SupplyDelivery.Builder builder = SupplyDelivery.builder();
@@ -21179,7 +21171,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SupplyDelivery.SuppliedItem.class, jsonObject);
         }
         SupplyDelivery.SuppliedItem.Builder builder = SupplyDelivery.SuppliedItem.builder();
@@ -21196,7 +21188,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SupplyRequest.class, jsonObject);
         }
         SupplyRequest.Builder builder = SupplyRequest.builder();
@@ -21251,7 +21243,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SupplyRequest.Parameter.class, jsonObject);
         }
         SupplyRequest.Parameter.Builder builder = SupplyRequest.Parameter.builder();
@@ -21268,7 +21260,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Task.class, jsonObject);
         }
         Task.Builder builder = Task.builder();
@@ -21359,7 +21351,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Task.Input.class, jsonObject);
         }
         Task.Input.Builder builder = Task.Input.builder();
@@ -21376,7 +21368,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Task.Output.class, jsonObject);
         }
         Task.Output.Builder builder = Task.Output.builder();
@@ -21393,7 +21385,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Task.Restriction.class, jsonObject);
         }
         Task.Restriction.Builder builder = Task.Restriction.builder();
@@ -21416,7 +21408,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TerminologyCapabilities.class, jsonObject);
         }
         TerminologyCapabilities.Builder builder = TerminologyCapabilities.builder();
@@ -21475,7 +21467,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TerminologyCapabilities.Closure.class, jsonObject);
         }
         TerminologyCapabilities.Closure.Builder builder = TerminologyCapabilities.Closure.builder();
@@ -21491,7 +21483,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TerminologyCapabilities.CodeSystem.class, jsonObject);
         }
         TerminologyCapabilities.CodeSystem.Builder builder = TerminologyCapabilities.CodeSystem.builder();
@@ -21514,7 +21506,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TerminologyCapabilities.CodeSystem.Version.class, jsonObject);
         }
         TerminologyCapabilities.CodeSystem.Version.Builder builder = TerminologyCapabilities.CodeSystem.Version.builder();
@@ -21552,7 +21544,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TerminologyCapabilities.CodeSystem.Version.Filter.class, jsonObject);
         }
         TerminologyCapabilities.CodeSystem.Version.Filter.Builder builder = TerminologyCapabilities.CodeSystem.Version.Filter.builder();
@@ -21575,7 +21567,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TerminologyCapabilities.Expansion.class, jsonObject);
         }
         TerminologyCapabilities.Expansion.Builder builder = TerminologyCapabilities.Expansion.builder();
@@ -21600,7 +21592,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TerminologyCapabilities.Expansion.Parameter.class, jsonObject);
         }
         TerminologyCapabilities.Expansion.Parameter.Builder builder = TerminologyCapabilities.Expansion.Parameter.builder();
@@ -21617,7 +21609,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TerminologyCapabilities.Implementation.class, jsonObject);
         }
         TerminologyCapabilities.Implementation.Builder builder = TerminologyCapabilities.Implementation.builder();
@@ -21634,7 +21626,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TerminologyCapabilities.Software.class, jsonObject);
         }
         TerminologyCapabilities.Software.Builder builder = TerminologyCapabilities.Software.builder();
@@ -21651,7 +21643,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TerminologyCapabilities.Translation.class, jsonObject);
         }
         TerminologyCapabilities.Translation.Builder builder = TerminologyCapabilities.Translation.builder();
@@ -21667,7 +21659,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TerminologyCapabilities.ValidateCode.class, jsonObject);
         }
         TerminologyCapabilities.ValidateCode.Builder builder = TerminologyCapabilities.ValidateCode.builder();
@@ -21683,7 +21675,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestReport.class, jsonObject);
         }
         TestReport.Builder builder = TestReport.builder();
@@ -21720,7 +21712,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestReport.Participant.class, jsonObject);
         }
         TestReport.Participant.Builder builder = TestReport.Participant.builder();
@@ -21738,7 +21730,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestReport.Setup.class, jsonObject);
         }
         TestReport.Setup.Builder builder = TestReport.Setup.builder();
@@ -21759,7 +21751,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestReport.Setup.Action.class, jsonObject);
         }
         TestReport.Setup.Action.Builder builder = TestReport.Setup.Action.builder();
@@ -21776,7 +21768,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestReport.Setup.Action.Assert.class, jsonObject);
         }
         TestReport.Setup.Action.Assert.Builder builder = TestReport.Setup.Action.Assert.builder();
@@ -21794,7 +21786,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestReport.Setup.Action.Operation.class, jsonObject);
         }
         TestReport.Setup.Action.Operation.Builder builder = TestReport.Setup.Action.Operation.builder();
@@ -21812,7 +21804,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestReport.Teardown.class, jsonObject);
         }
         TestReport.Teardown.Builder builder = TestReport.Teardown.builder();
@@ -21833,7 +21825,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestReport.Teardown.Action.class, jsonObject);
         }
         TestReport.Teardown.Action.Builder builder = TestReport.Teardown.Action.builder();
@@ -21849,7 +21841,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestReport.Test.class, jsonObject);
         }
         TestReport.Test.Builder builder = TestReport.Test.builder();
@@ -21872,7 +21864,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestReport.Test.Action.class, jsonObject);
         }
         TestReport.Test.Action.Builder builder = TestReport.Test.Action.builder();
@@ -21889,7 +21881,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.class, jsonObject);
         }
         TestScript.Builder builder = TestScript.builder();
@@ -21973,7 +21965,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Destination.class, jsonObject);
         }
         TestScript.Destination.Builder builder = TestScript.Destination.builder();
@@ -21990,7 +21982,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Fixture.class, jsonObject);
         }
         TestScript.Fixture.Builder builder = TestScript.Fixture.builder();
@@ -22008,7 +22000,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Metadata.class, jsonObject);
         }
         TestScript.Metadata.Builder builder = TestScript.Metadata.builder();
@@ -22035,7 +22027,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Metadata.Capability.class, jsonObject);
         }
         TestScript.Metadata.Capability.Builder builder = TestScript.Metadata.Capability.builder();
@@ -22069,7 +22061,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Metadata.Link.class, jsonObject);
         }
         TestScript.Metadata.Link.Builder builder = TestScript.Metadata.Link.builder();
@@ -22086,7 +22078,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Origin.class, jsonObject);
         }
         TestScript.Origin.Builder builder = TestScript.Origin.builder();
@@ -22103,7 +22095,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Setup.class, jsonObject);
         }
         TestScript.Setup.Builder builder = TestScript.Setup.builder();
@@ -22124,7 +22116,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Setup.Action.class, jsonObject);
         }
         TestScript.Setup.Action.Builder builder = TestScript.Setup.Action.builder();
@@ -22141,7 +22133,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Setup.Action.Assert.class, jsonObject);
         }
         TestScript.Setup.Action.Assert.Builder builder = TestScript.Setup.Action.Assert.builder();
@@ -22178,7 +22170,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Setup.Action.Operation.class, jsonObject);
         }
         TestScript.Setup.Action.Operation.Builder builder = TestScript.Setup.Action.Operation.builder();
@@ -22215,7 +22207,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Setup.Action.Operation.RequestHeader.class, jsonObject);
         }
         TestScript.Setup.Action.Operation.RequestHeader.Builder builder = TestScript.Setup.Action.Operation.RequestHeader.builder();
@@ -22232,7 +22224,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Teardown.class, jsonObject);
         }
         TestScript.Teardown.Builder builder = TestScript.Teardown.builder();
@@ -22253,7 +22245,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Teardown.Action.class, jsonObject);
         }
         TestScript.Teardown.Action.Builder builder = TestScript.Teardown.Action.builder();
@@ -22269,7 +22261,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Test.class, jsonObject);
         }
         TestScript.Test.Builder builder = TestScript.Test.builder();
@@ -22292,7 +22284,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Test.Action.class, jsonObject);
         }
         TestScript.Test.Action.Builder builder = TestScript.Test.Action.builder();
@@ -22309,7 +22301,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Variable.class, jsonObject);
         }
         TestScript.Variable.Builder builder = TestScript.Variable.builder();
@@ -22336,7 +22328,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.setValidating(validating);
         if (_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT) {
             JsonObject jsonObject = (JsonObject) _jsonValue;
-            if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+            if (!ignoringUnrecognizedElements) {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
@@ -22358,7 +22350,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Timing.class, jsonObject);
         }
         Timing.Builder builder = Timing.builder();
@@ -22382,7 +22374,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Timing.Repeat.class, jsonObject);
         }
         Timing.Repeat.Builder builder = Timing.Repeat.builder();
@@ -22430,7 +22422,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TriggerDefinition.class, jsonObject);
         }
         TriggerDefinition.Builder builder = TriggerDefinition.builder();
@@ -22458,7 +22450,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.setValidating(validating);
         if (_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT) {
             JsonObject jsonObject = (JsonObject) _jsonValue;
-            if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+            if (!ignoringUnrecognizedElements) {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
@@ -22484,7 +22476,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(UsageContext.class, jsonObject);
         }
         UsageContext.Builder builder = UsageContext.builder();
@@ -22501,7 +22493,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ValueSet.class, jsonObject);
         }
         ValueSet.Builder builder = ValueSet.builder();
@@ -22554,7 +22546,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ValueSet.Compose.class, jsonObject);
         }
         ValueSet.Compose.Builder builder = ValueSet.Compose.builder();
@@ -22583,7 +22575,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ValueSet.Compose.Include.class, jsonObject);
         }
         ValueSet.Compose.Include.Builder builder = ValueSet.Compose.Include.builder();
@@ -22619,7 +22611,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ValueSet.Compose.Include.Concept.class, jsonObject);
         }
         ValueSet.Compose.Include.Concept.Builder builder = ValueSet.Compose.Include.Concept.builder();
@@ -22642,7 +22634,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ValueSet.Compose.Include.Concept.Designation.class, jsonObject);
         }
         ValueSet.Compose.Include.Concept.Designation.Builder builder = ValueSet.Compose.Include.Concept.Designation.builder();
@@ -22660,7 +22652,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ValueSet.Compose.Include.Filter.class, jsonObject);
         }
         ValueSet.Compose.Include.Filter.Builder builder = ValueSet.Compose.Include.Filter.builder();
@@ -22678,7 +22670,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ValueSet.Expansion.class, jsonObject);
         }
         ValueSet.Expansion.Builder builder = ValueSet.Expansion.builder();
@@ -22709,7 +22701,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ValueSet.Expansion.Contains.class, jsonObject);
         }
         ValueSet.Expansion.Contains.Builder builder = ValueSet.Expansion.Contains.builder();
@@ -22742,7 +22734,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ValueSet.Expansion.Parameter.class, jsonObject);
         }
         ValueSet.Expansion.Parameter.Builder builder = ValueSet.Expansion.Parameter.builder();
@@ -22759,7 +22751,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(VerificationResult.class, jsonObject);
         }
         VerificationResult.Builder builder = VerificationResult.builder();
@@ -22814,7 +22806,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(VerificationResult.Attestation.class, jsonObject);
         }
         VerificationResult.Attestation.Builder builder = VerificationResult.Attestation.builder();
@@ -22837,7 +22829,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(VerificationResult.PrimarySource.class, jsonObject);
         }
         VerificationResult.PrimarySource.Builder builder = VerificationResult.PrimarySource.builder();
@@ -22874,7 +22866,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(VerificationResult.Validator.class, jsonObject);
         }
         VerificationResult.Validator.Builder builder = VerificationResult.Validator.builder();
@@ -22892,7 +22884,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(VisionPrescription.class, jsonObject);
         }
         VisionPrescription.Builder builder = VisionPrescription.builder();
@@ -22925,7 +22917,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(VisionPrescription.LensSpecification.class, jsonObject);
         }
         VisionPrescription.LensSpecification.Builder builder = VisionPrescription.LensSpecification.builder();
@@ -22964,7 +22956,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(VisionPrescription.LensSpecification.Prism.class, jsonObject);
         }
         VisionPrescription.LensSpecification.Prism.Builder builder = VisionPrescription.LensSpecification.Prism.builder();
@@ -22985,7 +22977,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         builder.setValidating(validating);
         if (_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT) {
             JsonObject jsonObject = (JsonObject) _jsonValue;
-            if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+            if (!ignoringUnrecognizedElements) {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);

@@ -2854,7 +2854,11 @@ public class CodeGenerator {
         }
 
         cb._default()
-            ._throw(_new("IllegalArgumentException", args("\"Unrecognized element: '\" + localName + \"'\"")));
+            ._if("!ignoringUnrecognizedElements")
+                ._throw(_new("IllegalArgumentException", args("\"Unrecognized element: '\" + localName + \"'\"")))
+            ._end()
+            .invoke("reader", "nextTag", args())
+            ._break();
 
         cb._end();
 
@@ -3036,15 +3040,6 @@ public class CodeGenerator {
 
         cb.method(mods("private"), "void", "reset")
             .invoke("stack", "clear", args())
-        .end();
-        cb.newLine();
-
-        cb.override();
-        cb.method(mods("public"), "boolean", "isPropertySupported", params("java.lang.String name"))
-            ._if("FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS.equals(name)")
-                ._return("true")
-            ._end()
-            ._return("super.isPropertySupported(name)")
         .end();
         cb.newLine();
 
@@ -3240,7 +3235,7 @@ public class CodeGenerator {
                 ._return("null")
             ._end();
             cb.invoke("stackPush", args("elementName", "elementIndex"));
-            cb._if("getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false")
+            cb._if("!ignoringUnrecognizedElements")
                 .invoke("checkForUnrecognizedElements", args(generatedClassName + ".class", "jsonObject"))
             ._end();
         }
@@ -3331,7 +3326,7 @@ public class CodeGenerator {
 
         cb._if("_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT")
             .assign("JsonObject jsonObject", "(JsonObject) _jsonValue")
-            ._if("getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false")
+            ._if("!ignoringUnrecognizedElements")
                 .invoke("checkForUnrecognizedElements", args("Element.class", "jsonObject"))
             ._end()
             .invoke("parseElement", args("builder", "jsonObject"))

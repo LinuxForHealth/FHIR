@@ -21,6 +21,7 @@ public interface FHIRParser {
     /**
      * Property name for a property that controls whether the parser will ignore or throw an exception on unrecognized elements
      */
+    @Deprecated
     public static final String PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS = "com.ibm.fhir.model.parser.ignoreUnrecognizedElements";
 
     /**
@@ -68,6 +69,22 @@ public interface FHIRParser {
      *     true if this parser is a validating parser, false otherwise
      */
     boolean isValidating();
+
+    /**
+     * Set the ignoring unrecognized elements indicator for this parser
+     *
+     * @param ignoringUnrecognizedElements
+     *     the ignoring unrecognized elements indicator
+     */
+    void setIgnoringUnrecognizedElements(boolean ignoringUnrecognizedElements);
+
+    /**
+     * Indicates whether this parser is ignoring unrecognized elements
+     *
+     * @return
+     *     true if this parser is ignoring unrecognized elements, false otherwise
+     */
+    boolean isIgnoringUnrecognizedElements();
 
     /**
      * Set the property with the given name to the passed value
