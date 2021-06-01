@@ -291,6 +291,21 @@ public class AuthzPolicyEnforcementTest {
             fail("Patient interaction was not allowed but should have been");
         }
 
+        // Invalid compartment search: not a Patient compartment
+        try {
+            queryParameterValue.setValueString("Device/" + PATIENT_ID);
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Observation");
+            properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
+            interceptor.beforeSearch(event);
+            fail("Patient interaction was allowed but should not be");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+            assertEquals(e.getIssues().size(), 1);
+            assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
+            assertEquals(e.getIssues().get(0).getDetails().getText().getValue(), "Compartment search for compartment type 'Device' is not permitted.");
+        }
+
         // Invalid compartment search: wrong Patient compartment
         try {
             queryParameterValue.setValueString("Patient/bogus");

@@ -41,6 +41,8 @@ import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptorException;
@@ -120,7 +122,8 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
             if (compartment != null) {
                 // Compartment search - validate patient access
-                if ("Patient".equals(compartment)) {
+                switch(compartment) {
+                case "Patient":
                     if (!patientIdFromToken.contains(compartmentId)) {
                         String msg = "Interaction with 'Patient/" + compartmentId + "' is not permitted under patient context '" + patientIdFromToken + "'.";
                         throw new FHIRPersistenceInterceptorException(msg).withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
@@ -135,11 +138,25 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                     } catch (FHIRSearchException e) {
                         log.log(Level.WARNING, "Unexpected exception while getting compartment resource types", e);
                     }
-                } else {
-                    // Some other compartment type search; rely on the afterSearch method to enforce patient compartment membership
-                    if (log.isLoggable(Level.FINE)) {
-                        log.fine("Performing compartment search for compartment '" + compartment + "/" + compartmentId + "'.");
+                    break;
+                case "Encounter":
+                    Resource r = executeRead(event.getPersistenceImpl(), ModelSupport.getResourceType(compartment), compartmentId);
+                    if (!isInCompartment(r, CompartmentType.PATIENT, patientIdFromToken)) {
+                        String msg = "Access to compartment 'Device/" + compartmentId + "' is not forbidden for patient context " + patientIdFromToken;
+                        throw new FHIRPersistenceInterceptorException(msg).withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
                     }
+                    break;
+                case "Device":
+                case "Practitioner":
+                case "RelatedPerson":
+                    String msg = "Compartment search for compartment type '" + compartment + "' is not permitted.";
+                    throw new FHIRPersistenceInterceptorException(msg).withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
+                default:
+                    // If the operator has extended the server with custom compartment definitions, they will need to protect those separately
+                }
+
+                if (log.isLoggable(Level.FINE)) {
+                    log.fine("Performing compartment search for compartment '" + compartment + "/" + compartmentId + "'.");
                 }
             } else {
                 // Not compartment search - validate and convert to Patient compartment search if resource type is member of Patient compartment
@@ -276,7 +293,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 try {
                     SingleResourceResult<? extends Resource> result = executeRead(persistence, referenceValue, resourceType);
 
-                    if (result.isSuccess() && checkCompartment(result.getResource(), CompartmentType.PATIENT, contextIds)) {
+                    if (result.isSuccess() && isInCompartment(result.getResource(), CompartmentType.PATIENT, contextIds)) {
                         allow = true;
                         break;
                     }
@@ -305,6 +322,28 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
         return referenceValue.getVersion() == null ?
                 persistence.read(freshContext, resourceType, referenceValue.getValue()) :
                 persistence.vread(freshContext, resourceType, referenceValue.getValue(), referenceValue.getVersion().toString());
+    }
+
+    private Resource executeRead(FHIRPersistence persistence, Class<? extends Resource> resourceType, String resourceId)
+            throws FHIRPersistenceInterceptorException {
+        try {
+            FHIRPersistenceContext freshContext = FHIRPersistenceContextFactory.createPersistenceContext(null);
+            SingleResourceResult<? extends Resource> result = persistence.read(freshContext, resourceType, resourceId);
+            if (!result.isSuccess()) {
+                String msg = "Unexpected error while reading resource " + resourceType.getClass().getSimpleName() + "/" + resourceId;
+                throw new FHIRPersistenceInterceptorException(msg).withIssue(result.getOutcome().getIssue());
+            }
+            return result.getResource();
+        } catch (FHIRPersistenceInterceptorException e) {
+            throw e;
+        } catch (FHIRPersistenceResourceNotFoundException | FHIRPersistenceResourceDeletedException e) {
+            String msg = "The resource " + resourceType.getClass().getSimpleName() + "/" + resourceId + " does not exist.";
+            throw new FHIRPersistenceInterceptorException(msg).withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
+        } catch (FHIRPersistenceException e) {
+            String msg = "Unexpected error while reading resource " + resourceType.getClass().getSimpleName() + "/" + resourceId;
+            log.log(Level.WARNING, msg, e);
+            throw new FHIRPersistenceInterceptorException(msg);
+        }
     }
 
     @Override
@@ -407,7 +446,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
             }
 
             // Else, see if the target resource belongs to the Patient compartment of the in-context patient
-            return checkCompartment(resource, CompartmentType.PATIENT, contextIds);
+            return isInCompartment(resource, CompartmentType.PATIENT, contextIds);
         }
 
         if (approvedScopeMap.containsKey(ContextType.USER)) {
@@ -426,7 +465,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
      * @return true if the resource is in one of the compartment defined by the compartmentType and the contextIds
      *          or if the resource type is not applicable for the given compartmentType
      */
-    private boolean checkCompartment(Resource resource, CompartmentType compartmentType, Set<String> contextIds) {
+    private boolean isInCompartment(Resource resource, CompartmentType compartmentType, Set<String> contextIds) {
         String resourceType = resource.getClass().getSimpleName();
         String compartment = compartmentType.getValue();
 
