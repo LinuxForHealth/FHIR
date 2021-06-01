@@ -38,12 +38,12 @@ import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.DatabaseNotReadyException;
-import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.TenantStatus;
+import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
@@ -354,6 +354,9 @@ public class Main {
         // Build/update the FHIR-related tables as well as the stored procedures
         PhysicalDataModel pdm = new PhysicalDataModel();
         buildCommonModel(pdm, updateFhirSchema, updateOauthSchema,updateJavaBatchSchema);
+
+        // TODO: Temporary for release 4.9.0, add warning that unused tables will be removed in a future release
+        logWarningMessagesForDeprecatedTables();
 
         // The objects are applied in parallel, which relies on each object
         // expressing its dependencies correctly. Changes are only applied
@@ -1864,6 +1867,20 @@ public class Main {
         default:
             logger.severe("SCHEMA CHANGE: RUNTIME ERROR");
             break;
+        }
+    }
+
+    /**
+     * Log warning messages for deprecated tables.
+     */
+    private void logWarningMessagesForDeprecatedTables() {
+        List<String> deprecatedTables = Arrays.asList(
+            "DOMAINRESOURCE_DATE_VALUES", "DOMAINRESOURCE_LATLNG_VALUES", "DOMAINRESOURCE_LOGICAL_RESOURCES", "DOMAINRESOURCE_NUMBER_VALUES",
+            "DOMAINRESOURCE_QUANTITY_VALUES", "DOMAINRESOURCE_RESOURCE_TOKEN_REFS", "DOMAINRESOURCE_RESOURCES","DOMAINRESOURCE_STR_VALUES",
+            "RESOURCE_DATE_VALUES", "RESOURCE_LATLNG_VALUES", "RESOURCE_LOGICAL_RESOURCES", "RESOURCE_NUMBER_VALUES",
+            "RESOURCE_QUANTITY_VALUES", "RESOURCE_RESOURCE_TOKEN_REFS", "RESOURCE_RESOURCES", "RESOURCE_STR_VALUES");
+        for (String deprecatedTable : deprecatedTables) {
+            logger.warning("Table '" + deprecatedTable + "' will be dropped in a future release. No data should be written to this table. If any data exists in the table, that data should be deleted.");
         }
     }
 
