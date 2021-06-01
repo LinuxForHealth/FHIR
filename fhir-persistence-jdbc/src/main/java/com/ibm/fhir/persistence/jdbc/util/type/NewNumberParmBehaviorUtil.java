@@ -191,6 +191,7 @@ public class NewNumberParmBehaviorUtil {
             op = OperatorUtil.convert(operator);
         }
         boolean gtOp = Operator.GT.equals(op);
+
         whereClauseSegment.leftParen();
         whereClauseSegment.col(tableAlias, gtOp ? columnNameHigh : columnNameLow).operator(op).bind(value);
         whereClauseSegment.or();
@@ -256,10 +257,22 @@ public class NewNumberParmBehaviorUtil {
 
         whereClauseSegment.leftParen();
         
+        // The following clauses test for overlap when both xx_VALUE_HIGH and xx_VALUE_LOW are non-null.
+        // Example:
+        //      P2.QUANTITY_VALUE_HIGH >= 8.5
+        //  AND P2.QUANTITY_VALUE_LOW <= 11.5
         whereClauseSegment.col(tableAlias, columnBase + _HIGH).gte().bind(approximateLowerBound);
         whereClauseSegment.and();
         whereClauseSegment.col(tableAlias, columnBase + _LOW).lte().bind(approximateUpperBound);
         
+        // The following clauses test for overlap when the target is a Range data type and either
+        // xx_VALUE_HIGH or xx_VALUE_LOW is NULL (unknown bound).
+        // Example:
+        //   OR P2.QUANTITY_VALUE IS NULL
+        //  AND (P2.QUANTITY_VALUE_HIGH >= 8.5
+        //  AND P2.QUANTITY_VALUE_HIGH <= 11.5
+        //   OR P2.QUANTITY_VALUE_LOW >= 8.5
+        //  AND P2.QUANTITY_VALUE_LOW <= 11.5)
         whereClauseSegment.or();
         whereClauseSegment.col(tableAlias, columnBase).isNull();
         whereClauseSegment.and();
@@ -273,6 +286,14 @@ public class NewNumberParmBehaviorUtil {
         whereClauseSegment.col(tableAlias, columnBase + _LOW).lte().bind(approximateUpperBound);
         whereClauseSegment.rightParen();
 
+        // The following clauses test for overlap when the target is a Quantity data type and either
+        // xx_VALUE_HIGH or xx_VALUE_LOW is NULL (negative or positive infinity bound).
+        // Example:
+        //   OR P2.QUANTITY_VALUE IS NOT NULL
+        //  AND (P2.QUANTITY_VALUE_HIGH >= 8.5
+        //  AND P2.QUANTITY_VALUE_LOW IS NULL
+        //   OR P2.QUANTITY_VALUE_LOW <= 11.5
+        //  AND P2.QUANTITY_VALUE_HIGH IS NULL)
         whereClauseSegment.or();
         whereClauseSegment.col(tableAlias, columnBase).isNotNull();
         whereClauseSegment.and();

@@ -57,7 +57,7 @@ import com.ibm.fhir.persistence.jdbc.dto.QuantityParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.ReferenceParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
-import com.ibm.fhir.persistence.jdbc.util.type.NumberParmBehaviorUtil;
+import com.ibm.fhir.persistence.jdbc.util.type.NewNumberParmBehaviorUtil;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.date.DateTimeHandler;
 import com.ibm.fhir.search.exception.FHIRSearchException;
@@ -226,8 +226,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p.setName(searchParamCode);
             BigDecimal value = decimal.getValue();
             p.setValueNumber(value);
-            p.setValueNumberLow(NumberParmBehaviorUtil.generateLowerBound(value));
-            p.setValueNumberHigh(NumberParmBehaviorUtil.generateUpperBound(value));
+            p.setValueNumberLow(NewNumberParmBehaviorUtil.generateLowerBound(value));
+            p.setValueNumberHigh(NewNumberParmBehaviorUtil.generateUpperBound(value));
             result.add(p);
         }
         return false;
@@ -507,8 +507,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
             p.setValueNumber(money.getValue().getValue());
-            p.setValueNumberLow(NumberParmBehaviorUtil.generateLowerBound(money.getValue().getValue()));
-            p.setValueNumberHigh(NumberParmBehaviorUtil.generateUpperBound(money.getValue().getValue()));
+            p.setValueNumberLow(NewNumberParmBehaviorUtil.generateLowerBound(money.getValue().getValue()));
+            p.setValueNumberHigh(NewNumberParmBehaviorUtil.generateUpperBound(money.getValue().getValue()));
             if (money.getCurrency() != null) {
                 p.setValueCode(money.getCurrency().getValue());
             }
@@ -568,14 +568,14 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 } else if (QuantityComparator.LESS_OR_EQUALS.equals(quantity.getComparator())) {
                     // Range high value is quantity value
                     valueHigh = value;
-                } else if (QuantityComparator.LESS_THAN.equals(quantity.getComparator())) {
+                } else { // QuantityComparator.LESS_THAN
                     // Range high value is quantity value minus 1e-<scale+9>
                     int scale = value.scale() < 0 ? 9 : value.scale()+9;
                     valueHigh = value.subtract(new BigDecimal("1e-" + scale));
                 }
             } else {
-                valueLow = NumberParmBehaviorUtil.generateLowerBound(value);
-                valueHigh = NumberParmBehaviorUtil.generateUpperBound(value);
+                valueLow = NewNumberParmBehaviorUtil.generateLowerBound(value);
+                valueHigh = NewNumberParmBehaviorUtil.generateUpperBound(value);
             }
             boolean addedCodeOrUnit = false;
 
