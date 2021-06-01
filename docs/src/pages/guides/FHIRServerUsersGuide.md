@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2021
-lastupdated: "2021-05-19"
+lastupdated: "2021-06-01"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -153,7 +153,8 @@ By default, we include:
 In the examples within the following sections, you'll see the default password `change-password`. In order to secure your server, these values should be changed.
 
 Optionally, the values can be encoded via the Liberty `securityUtility` command. For example, to encode a string value with the default `{xor}` encoding, run the following command:
-```
+
+``` sh
 <WLP_HOME>/bin/securityUtility encode stringToEncode
 ```
 
@@ -211,10 +212,11 @@ Before you can configure the server to use the JDBC persistence layer implementa
 
 The IBM FHIR Server is delivered with a default configuration that is already configured to use the JDBC persistence layer implementation with an Embedded Derby database. This provides the easiest out-of-the-box experience since it requires very little setup.
 
-The IBM FHIR Server persistence configuration is split between `fhir-server-config.json` and the Liberty `server.xml + configDropins`.
+The IBM FHIR Server persistence configuration is split between `fhir-server-config.json` and the Liberty `server.xml` and `configDropins`.
 
 Within `fhir-server-config.json`, the value of the `fhirServer/persistence/factoryClassname` is used to instantiate a FHIRPersistence object. By default, the server is configured to use the FHIRPersistenceJDBCFactory:
-```
+
+``` json
     {
         "fhirServer": {
             …
@@ -227,7 +229,8 @@ Within `fhir-server-config.json`, the value of the `fhirServer/persistence/facto
 
 ### 3.3.1 The JDBC persistence layer
 When the FHIRPersistenceJDBCFactory is in use, the `fhirServer/persistence/datasources` property must specify a mapping from datastore-id values to Liberty datasource definitions. For example, here is the configuration for a datastore with id `default` that is configured for the `jdbc/fhir_default_default` datasource of type `postgresql`:
-```
+
+``` json
 {
     "fhirServer":{
         "persistence":{
@@ -298,9 +301,10 @@ The IBM FHIR Server will look up the tenant and datastore id for each request an
 If you are using the `ibmcom/ibm-fhir-server` docker image, you can ask the entrypoint script to create (bootstrap) the database and the schema during startup by setting the `BOOTSTRAP_DB` environment variable to `true`.
 
 This database bootstrap step is only supported for Embedded Derby and will only bootstrap the default datastore of the default tenant (the default for requests with no tenant or datastore headers).
-Reminder:  the Embedded Derby support is designed to support simple getting started scenarios and is not recommended for production use.
 
-```
+*Reminder*: the Embedded Derby support is designed to support simple getting started scenarios and is not recommended for production use.
+
+``` xml
 <server>
     <!-- ============================================================== -->
     <!-- This datasource aligns with the Apache Derby database that is  -->
@@ -1184,7 +1188,7 @@ The global configuration contains non-tenant specific configuration parameters (
 
 `${server.config.dir}/config/default/fhir-server-config.json`
 
-```
+``` json
 {
     "__comment":"FHIR server global (default) configuration",
     "fhirServer":{
@@ -2013,8 +2017,11 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/persistence/common/updateCreateEnabled`|boolean|A boolean flag which indicates whether or not the 'update/create' feature should be enabled in the selected persistence layer.|
 |`fhirServer/persistence/datasources`|map|A map containing datasource definitions. See [Section 3.3.1 The JDBC persistence layer](#331-the-jdbc-persistence-layer) for more information.|
 |`fhirServer/persistence/datasources/<datasourceId>/type`|string|`derby` or `db2` or `postgresql`|
+|`fhirServer/persistence/datasources/<datasourceId>/jndiName`|string|The non-default jndiName for the datasource|
+|`fhirServer/persistence/datasources/<datasourceId>/currentSchema`|string|The current schema for the datasource|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|int| For PostgreSQL, sets the from_collapse_limit query optimizer parameter to improve search performance. If not set, the IBM FHIR Server uses a value of 12. To use the database default (8), explicitly set this value to null. |
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|int| For PostgreSQL, sets the join_collapse_limit query optimizer parameter to improve search performance. If not set, the IBM FHIR Server uses a value of 12. To use the database default (8), explicitly set this value to null. |
+|`fhirServer/persistence/datasources/<datasourceId>/hints/search.reopt`|string|For Db2, reopt pragma that is injected into the Search query, ALWAYS or ONCE are valid values|
 |`fhirServer/security/cors`|boolean|Used to convey to clients whether cors is supported or not; actual cors support is configured separately in the Liberty server.xml configuration|
 |`fhirServer/security/basic/enabled`|boolean|Whether or not the server is enabled for HTTP Basic authentication|
 |`fhirServer/security/certificates/enabled`|boolean|Whether or not the server is enabled for Certificate-based client authentication|
@@ -2153,6 +2160,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/persistence/common/updateCreateEnabled`|true|
 |`fhirServer/persistence/datasources`|embedded Derby database: derby/fhirDB|
 |`fhirServer/persistence/datasources/<datasourceId>/type`|derby|
+|`fhirServer/persistence/datasources/<datasourceId>/jndiName`|null|
+|`fhirServer/persistence/datasources/<datasourceId>/currentSchema`|null|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|16|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|16|
 |`fhirServer/search/enableOptQueryBuilder`|boolean|true|
@@ -2286,6 +2295,8 @@ must restart the server for that change to take effect.
 |`fhirServer/persistence/common/updateCreateEnabled`|N|N|
 |`fhirServer/persistence/datasources`|Y|N|
 |`fhirServer/persistence/datasources/<datasourceId>/type`|Y|N|
+|`fhirServer/persistence/datasources/<datasourceId>/jndiName`|Y|Y|
+|`fhirServer/persistence/datasources/<datasourceId>/currentSchema`|Y|Y|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|Y|Y|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|Y|Y|
 |`fhirServer/search/enableOptQueryBuilder`|Y|Y|

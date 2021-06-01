@@ -2,73 +2,81 @@
 layout: post
 title: Bring your own Persistence Layer
 description: Learn how to build and test a persistence layer for the IBM FHIR Server
-date:   2020-08-31 14:55:00 -0400
+date:   2021-06-01
 permalink: /BringYourOwnPersistence/
 ---
 
 ## Overview
-The IBM FHIR Server ships with a JDBC persistence layer that works with IBM Db2, PostgreSQL and Apache Derby.
-However, based on the modular design, its possible to add support for other relational databases and/or
-plug in any other persistence layer.
+The IBM FHIR Server is a modular Java implementation of the HL7 FHIR specification with a focus on performance and configurability. The IBM FHIR Server ships with a JDBC persistence layer that works with IBM Db2, PostgreSQL and Apache Derby. With this modular design, its possible to add support for other relational databases and/or plug in any other persistence layer.
+
+This document outlines the interfaces that need to be implemented and the behaviors required for the related methods to work with the IBM FHIR Server.
 
 ### Interfaces
-Persistence layer interfaces are defined in the `fhir-persistence` project.
+Persistence layer interfaces are defined in the `fhir-persistence` module.
+
 * [FHIRPersistence](https://github.com/IBM/FHIR/blob/main/fhir-persistence/src/main/java/com/ibm/fhir/persistence/FHIRPersistence.java) defines the contract between the REST layer and the persistence layer.
 * [FHIRPersistenceFactory](https://github.com/IBM/FHIR/blob/main/fhir-persistence/src/main/java/com/ibm/fhir/persistence/FHIRPersistenceFactory.java) is the interface for providing instances of FHIRPersistence to the server.
 
-### Config
-Which persistence layer is used by the server is determined by the `/fhirServer/persistence/factoryClassname` property in `fhir-server-config.json`.
+### Configuration
+Which persistence layer is used by the server is determined by the `/fhirServer/persistence/factoryClassname` property in `fhir-server-config.json`. There is more detail on the configuration in the [IBM FHIR Server's User Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#33-persistence-layer-configuration)
 
-When the default `com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory` is used, the returned FHIRPersistenceJDBCImpl instance will look up a corresponding datasource, by JNDI name, using the combination of the tenant id and datastore id from the request context. Specifically, the connection strategy will use the `fhirServer/persistence/<datastore_id>/jndiName` property in the tenant config, or--if the property is omitted--it will construct the name via the following pattern:
-```
+When the default `com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory` is used, the returned FHIRPersistenceJDBCImpl instance will look up a corresponding datasource, by JNDI name, using the combination of the tenant id and datastore id from the request context. Specifically, the connection strategy will use the `fhirServer/persistence/<datastore_id>/jndiName` property in the tenant config, or -- if the property is omitted --it will construct the name via the following pattern:
+
+``` md
 jdbc/fhir_<tenant_id>_<datastore_id>[_ro]
 ```
 
+Note, the `_ro` postfix means the datasource is 'Read Only'.
+
 ## Adding support for another relational database
 Adding a new relational database type is not for the faint of heart, but the IBM FHIR Server team is here to help!
-To add support for an alternative relational database, there are multiple projects to consider:
+To add support for an alternative relational database, there are multiple modules to consider:
 
 1. `fhir-database-utils`
 2. `fhir-persistence-schema`
 3. `fhir-persistence-jdbc`
 
-The `fhir-database-utils` project provides generic utilities for defining a PhysicalDataModel and applying it to a target database via the IDatabaseAdapter and IVersionHistoryService interfaces. Check out the `com.ibm.fhir.database.utils.db2` and `com.ibm.fhir.database.utils.derby` packages to understand how you might extend the framework with support for a new database type.
+The `fhir-database-utils` module provides generic utilities for defining a PhysicalDataModel and applying it to a target database via the IDatabaseAdapter and IVersionHistoryService interfaces. Check out the `com.ibm.fhir.database.utils.db2`, `com.ibm.fhir.database.utils.postgres` and `com.ibm.fhir.database.utils.derby` packages to understand how you might extend the framework with support for a new database type.
 
-The `fhir-persistence-schema` project is used to programmatically construct DDL statements and execute them against a target database. This project uses the generic utilities in `fhir-persistence-utils` to deploy both an admin schema (used for tenant provisioning and schema versioning) and an application schema for the FHIR data.
-Presently, this project is written for use with a Db2 database, but it should be possible to either:
+The `fhir-persistence-schema` module is used to programmatically construct DDL statements and execute them against a target database. This module uses the generic utilities in `fhir-database-utils` to deploy both an admin schema (used for tenant provisioning and schema versioning) and an application schema for the FHIR data.
 
-A. Print the DDL and manually tweak it for your desired database; or
-B. Add some kind of configuration to control which IDatabaseAdapter and IDatabaseTranslator are used.
+Presently, the `fhir-persistence-schema` and `fhir-persistence-jdbc` modules work with Postgres, Derby and Db2 databases, but it should be possible to either:
 
-Note that the Db2 implementation makes use of stored procedures whereas the derby implementation is pure JDBC.
+1. Print the DDL and manually tweak it for your desired database; or
+2. Add configuration to control which IDatabaseAdapter and IDatabaseTranslator are used.
 
-Finally, the `fhir-persistence-jdbc` project provides the default implementation of the `FHIRPersistence` interface.
-The project makes heavy use of Data Access Objects (DAO) and Data Transfer Objects (DTO) to abstract the details of the database. Most of the code is common across database types, but there is a branch in `ResourceDAOImpl.insert` which corresponds to the differences between the IBM Db2 (stored procedure) and Apache Derby (pure JDBC) implementations.
+Note, the Db2 implementation uses stored procedures, the Postgres implementation uses Functions, and the Derby implementation is JDBC.
+
+Finally, the `fhir-persistence-jdbc` module provides the default implementation of the `FHIRPersistence` interface.
+
+The module makes heavy use of Data Access Objects (DAO) and Data Transfer Objects (DTO) to abstract the details of the database. Most of the code is common across database types, but there is a branch in `ResourceDAOImpl.insert` which corresponds to the differences between the IBM Db2/Postgres flavors and Apache Derby (pure JDBC) flavor of implementation.
 
 ## Building your own persistence layer
 Most FHIR projects are interoperability projects--the data already exists in some datastore.
-Due to performance considerations and the complexities of the FHIR API (especially search), we generally recommend converting that data to FHIR and storing it in the FHIR server's database. However, in some cases, it might be better to configure the FHIR server to work directly with an existing datastore or APIs.
 
-If you are using Maven, add the following dependencies to your persistence layer project (replacing the version variables with your desired version):
-```
-        <dependency>
-            <groupId>com.ibm.fhir</groupId>
-            <artifactId>fhir-persistence</artifactId>
-            <version>${fhir.persistence.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.ibm.fhir</groupId>
-            <artifactId>fhir-persistence</artifactId>
-            <version>${fhir.persistence.version}</version>
-            <type>test-jar</type>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.ibm.fhir</groupId>
-            <artifactId>fhir-examples</artifactId>
-            <version>${fhir.examples.version}</version>
-            <scope>test</scope>
-        </dependency>
+Due to performance considerations and the complexities of the FHIR API (especially search), we generally recommend converting that data to FHIR and storing the binary representation in the IBM FHIR Server's database. However, in some cases, it might be better to configure the IBM FHIR Server to work directly with an existing datastore or APIs.
+
+If you are using Maven, add the following dependencies to your persistence layer module (replacing the version variables with your desired version):
+
+``` xml
+<dependency>
+    <groupId>com.ibm.fhir</groupId>
+    <artifactId>fhir-persistence</artifactId>
+    <version>${fhir.persistence.version}</version>
+</dependency>
+<dependency>
+    <groupId>com.ibm.fhir</groupId>
+    <artifactId>fhir-persistence</artifactId>
+    <version>${fhir.persistence.version}</version>
+    <type>test-jar</type>
+    <scope>test</scope>
+</dependency>
+<dependency>
+    <groupId>com.ibm.fhir</groupId>
+    <artifactId>fhir-examples</artifactId>
+    <version>${fhir.examples.version}</version>
+    <scope>test</scope>
+</dependency>
 ```
 
 You might also want to set up `fhir-persistence-jdbc` to use an example.
@@ -89,6 +97,8 @@ If `SingleResourceResult.success` is set to true, the `SingleResourceResult.reso
 
 If `SingleResourceResult.success` is set to false, the `SingleResourceResult.outcome` should be an OperationOutcome with a list of one or more issues that prevented the success of the operation.
 
+Note, `generateResourceId` is required to be implemented to generate UUIDs, please the implementation `TimestampPrefixedUUID`.
+
 #### Read
 Read requests include a FHIRPersistenceContext, a Class object for the resource type being read, and the logical id of the resource to read.
 Implementations should check the FHIRSearchContext of the FHIRPersistenceContext to determine whether the caller would like the full resource back, the resource text or data, or just a summary (see `FHIRSearchContext.getSummaryParameter()`).
@@ -107,11 +117,11 @@ Note: we plan to deprecate these exceptions and use only `SingleResourceResult` 
 Version read requests work just like read requests except that the caller passes a version identifier and the persistence implementation must return that specific version of the resource.
 
 #### Update
-Update requests include a FHIRPersistenceContext, a resource logical id, and an updated version of the resource to save. FHIRPersistence implementations must set the `Resource.meta.lastUpdate` and `Resource.meta.versionId` elements before storing it. Typically, implementations will set the version of the updated resource based on the previous version of the resource which can be found in the FHIRPersistenceEvent (`FHIRPersistenceEvent.getPrevFhirResource()`) of the FHIRPersistenceContext.
+Update requests include a FHIRPersistenceContext, a resource logical id, and an updated version of the resource to save. FHIRPersistence implementations must set the `Resource.meta.lastUpdate` and `Resource.meta.versionId` elements before storing it. Typically, implementations set the version of the updated resource based on the previous version of the resource which can be found in the FHIRPersistenceEvent (`FHIRPersistenceEvent.getPrevFhirResource()`) of the FHIRPersistenceContext.
 
 Note: at the REST layer, an update request will first invoke read and then invoke update. Similarly, PATCH requests are converted to normal updates before reaching the persistence layer's update implementation.
 
-FHIRPersistence implementations SHOULD use the value of the `fhirServer/persistence/common/updateCreateEnabled` property to determine whether they should allow an update to a resource that doesn't exist yet.
+FHIRPersistence implementations SHOULD use the value of the [`fhirServer/persistence/common/updateCreateEnabled`](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#45-updatecreate-feature) property to determine whether they should allow an update to a resource that doesn't exist yet.
 
 #### Delete
 Delete requests include a FHIRPersistenceContext, a Class object for the resource type being deleted, and the logical id of the resource to delete.
@@ -126,6 +136,8 @@ FHIRHistoryContext extends FHIRPagingContext and provides the requested page siz
 Similarly, FHIRPersistence implementations should check and honor the the `since` attribute (when valued).
 
 In addition to setting the MultiResourceResult success indicator and the resource version instances for the requested page, FHIRPersistence implementations must set the total number of versions for the requested resource (`FHIRPagingContext.setTotalCount(int)`) and a map of deleted resource versions (`FHIRHistoryContext.setDeletedResources()`) for the REST layer to properly construct the response bundle and accurately reflect which versions are deletes (rather than updates).
+
+The FHIRPersistence also supports whole system `_history`. If supported, `isChangesSupported` must return true, and `changes` must be implemented to return a list of ResourceChangeLogRecord DTOs.
 
 #### Search
 The [FHIR Search specification](https://www.hl7.org/fhir/R4/search.html) is sprawling and difficult to implement in its entirety. At the persistence layer, search requests will include a FHIRPersistenceContext with an embedded FHIRSearchContext and a Class object to indicate the resource type(s) to search on.
@@ -143,12 +155,23 @@ On success, set `MultiResourceResult.success` to true and set `MultiResourceResu
 
 On failure, set `MultiResourceResult.success` to false and set `MultiResourceResult.outcome` to an OperationOutcome with one or more issues which indicate the failure.
 
-## Testing your persistence layer
-In addition to defining the interfaces, the `fhir-persistence` project includes a set of tests that you can extend to test your implementation.
+#### Extended Operations
 
-Most of the tests defined in this project relate to search, but they also exercise the create, update, and delete interactions in the process.
-The tests in the `com.ibm.fhir.persistence.search.test` package are organized by search parameter type and they utilize tenant-specific search parameter definitions from the `fhir-persistence/src/test/resources/config` directory and search for fields on the generated example resources at `fhir-examples/src/main/resources/json/ibm/basic`.
+The IBM FHIR Server supports [extended operations](https://www.hl7.org/fhir/operations.html). The IBM FHIR Server has some operations which use custom persistence interactions: 
+
+| Operation Name | Interfaces to implement |
+|----------------|-------------------------|
+| `$healthcheck` | `getHealth()` must be implemented to indicate if the persistence layer is in a healthy state and can access the data store |
+| `$erase`  | `erase` must be implemented so that ResourceEraseRecord is returned for each Erase operation.  If not implemented it throws an exception|
+| `$export` | `fetchResourcePayloads` must be implemented so that the ResourcePayload is returned as a BinaryStream |
+| `$reindex`| `isReindexSupported` must be true, and if true, it `reindex` must be implemented so that a Resource is updated after ingestion|
+
+## Testing your persistence layer
+In addition to defining the interfaces, the `fhir-persistence` module includes a set of tests that you can extend to test your implementation.
+
+Most of the tests defined in this module relate to search, but they also exercise the create, update, and delete interactions in the process.
+The tests in the `com.ibm.fhir.persistence.search.test` package are organized by search parameter type and they utilize tenant-specific search parameter definitions from the `fhir-persistence/src/test/resources/config` directory and search for fields on the generated example resources at `fhir-examples/src/main/resources/json/ibm/basic`. The `fhir-examples` module is available on Maven Central [link](https://repo1.maven.org/maven2/com/ibm/fhir/fhir-examples/).
 
 For an example of how to extend these tests, see the `com.ibm.fhir.persistence.jdbc.search.test` package under `fhir-persistence-jdbc/src/test/java`.
 
-Finally, the IBM FHIR Server contains a number of end-to-end (e2e) integration tests under the `fhir-server-test` project. These tests can be executed against a running server that is configured with your persistence layer to provide further confidence in your implementation.
+Finally, the IBM FHIR Server contains a number of end-to-end (e2e) integration tests under the [`fhir-server-test`](https://github.com/IBM/FHIR/tree/main/fhir-server-test) module. These tests can be executed against a running server that is configured with your persistence layer to provide further confidence in your implementation.
