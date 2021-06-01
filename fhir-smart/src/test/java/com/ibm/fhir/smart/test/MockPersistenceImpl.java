@@ -6,14 +6,20 @@
 
 package com.ibm.fhir.smart.test;
 
+import static com.ibm.fhir.model.type.String.string;
+
 import java.time.Instant;
 import java.util.List;
 import java.util.function.Function;
 
+import com.ibm.fhir.model.resource.Encounter;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.MultiResourceResult;
@@ -23,18 +29,33 @@ import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 
 /**
  * Mock implementation of FHIRPersistence for use during testing.
  *
  */
 public class MockPersistenceImpl implements FHIRPersistence {
+    static final String ENCOUNTER_ID_GOOD = "good";
+    static final String ENCOUNTER_ID_BAD = "bad";
+
     Patient patient = null;
     Observation observation = null;
+    Encounter encounter_in_patient_compartment = null;
+    Encounter encounter_not_in_patient_compartment = null;
 
-    public MockPersistenceImpl(Patient patient, Observation observation) {
+    public MockPersistenceImpl(Patient patient, Observation observation) throws Exception {
         this.patient = patient;
         this.observation = observation;
+
+
+        encounter_not_in_patient_compartment = TestUtil.getMinimalResource(ResourceType.ENCOUNTER);
+        encounter_in_patient_compartment = encounter_not_in_patient_compartment.toBuilder()
+                .id(ENCOUNTER_ID_GOOD)
+                .subject(Reference.builder()
+                    .reference(string("Patient/" + patient.getId()))
+                    .build())
+                .build();
     }
 
     @Override
@@ -58,6 +79,22 @@ public class MockPersistenceImpl implements FHIRPersistence {
                     .success(true)
                     .resource((T)observation)
                     .build();
+        }
+
+        if (resourceType == Encounter.class) {
+            if (ENCOUNTER_ID_GOOD.equals(logicalId)) {
+                return new SingleResourceResult.Builder<T>()
+                        .success(true)
+                        .resource((T)encounter_in_patient_compartment)
+                        .build();
+            } else if (ENCOUNTER_ID_BAD.equals(logicalId)){
+                return new SingleResourceResult.Builder<T>()
+                        .success(true)
+                        .resource((T)encounter_not_in_patient_compartment)
+                        .build();
+            } else {
+                throw new FHIRPersistenceResourceNotFoundException("Not found");
+            }
         }
 
         return null;
