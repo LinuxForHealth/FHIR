@@ -662,23 +662,6 @@ The above query requires a join of around 13 tables which is too many for the da
 /ExplanationOfBenefit?_pretty=true&patient:Patient.birthdate=le1915&claim.priority=normal,stat,deferred&_include=ExplanationOfBenefit:claim&_include=ExplanationOfBenefit:patient
 ```
 
-**Include Code System**
-
-Token-based searches should include a code-system when possible. The same code value might exist in multiple code-systems, Unless the code-system is included in the search query, the database join may need to consider multiple matches in order to find all the associated resources. This multiplies the amount of work the database must do to execute the query. This also impacts cardinality estimation by the optimizer. If both the code-system and code value are provided, this matches a unique index in the schema allowing the optimizer to infer the SQL fragment will produce a single row.
-
-Don't do this:
-```
-Patient/175517d8bea-32d33eec-d98f-4c99-a3cf-06a113ddcf08/CareTeam?status=active
-```
-
-Instead, do this:
-```
-Patient/175517d8bea-32d33eec-d98f-4c99-a3cf-06a113ddcf08/CareTeam?status=http://hl7.org/fhir/care-team-status|active
-```
-
-Explicitly providing the code is always preferred. If no system is provided, in some cases the IBM FHIR Server can determine the correct code-system to use automatically, which helps query performance.
-
-
 ## 6.5. Search Examples
 
 The section contains search examples and performance considerations for various types of search parameters.
@@ -692,7 +675,14 @@ HL7 FHIR supports a few variants of token search:
 * `[parameter]=[system]|[code]`
 * `[parameter]=|[code]`
 
-For optimal performance, users should prefer the `[system]|[code]` variant.
+Token-based searches should include a code-system when possible. The same code value might exist in multiple code-systems, Unless the code-system is included in the search query, the database join may need to consider multiple matches in order to find all the associated resources. This multiplies the amount of work the database must do to execute the query. This also impacts cardinality estimation by the optimizer. If both the code-system and code value are provided, this matches a unique index in the schema allowing the optimizer to infer the SQL fragment will produce a single row.
+
+For optimal performance, users should prefer the `[system]|[code]` variant. Explicitly providing the code is always preferred. If no system is provided, in some cases the IBM FHIR Server can determine the correct code-system to use automatically, which helps query performance.
+
+Don't do this:
+`Patient/175517d8bea-32d33eec-d98f-4c99-a3cf-06a113ddcf08/CareTeam?status=active`
+
+Instead, do this: `Patient/175517d8bea-32d33eec-d98f-4c99-a3cf-06a113ddcf08/CareTeam?status=http://hl7.org/fhir/care-team-status|active`
 
 This is especially important for code values that are common across systems (e.g short strings like "active").
 However, the IBM FHIR Server supports a SearchParameter extension which allows the server to add an implicit `[system]|` prefix for certain token parameter searches that come in with just a `[code]`.
