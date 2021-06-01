@@ -17,14 +17,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import jakarta.json.Json;
-import jakarta.json.stream.JsonGenerator;
-import jakarta.json.stream.JsonGeneratorFactory;
-
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse.Output;
+
+import jakarta.json.Json;
+import jakarta.json.stream.JsonGenerator;
+import jakarta.json.stream.JsonGeneratorFactory;
 
 /**
  * Simple Test for the Rough Response defined in the BulkData Export
@@ -41,7 +41,7 @@ public class PollingLocationResponseTest {
         PollingLocationResponse.Output output = new PollingLocationResponse.Output("test1", "test2", "3", "test4");
         String actual = null;
         String expected =
-                "\n{\n" + "    \"type\": \"test1\",\n" + "    \"url\": \"test2\",\n" + "    \"count\": 3,\n"
+                "{\n" + "    \"type\": \"test1\",\n" + "    \"url\": \"test2\",\n" + "    \"count\": 3,\n"
                         + "    \"inputUrl\": \"test4\"\n" + "}";
         try (StringWriter writerx = new StringWriter();) {
             try (JsonGenerator generator = PRETTY_PRINTING_GENERATOR_FACTORY.createGenerator(writerx);) {
@@ -59,7 +59,7 @@ public class PollingLocationResponseTest {
         output.setType("OperationOutcome");
 
         expected =
-                "\n{\n" + "    \"type\": \"OperationOutcome\",\n" + "    \"url\": \"3\",\n" + "    \"count\": 1,\n"
+                "{\n" + "    \"type\": \"OperationOutcome\",\n" + "    \"url\": \"3\",\n" + "    \"count\": 1,\n"
                         + "    \"inputUrl\": \"2\"\n" + "}";
         try (StringWriter writerx = new StringWriter();) {
             try (JsonGenerator generator = PRETTY_PRINTING_GENERATOR_FACTORY.createGenerator(writerx);) {
@@ -73,7 +73,7 @@ public class PollingLocationResponseTest {
         // Test $export
         output.setInputUrl(null);
         expected =
-                "\n" + "{\n" + "    \"type\": \"OperationOutcome\",\n" + "    \"url\": \"3\",\n"
+                "{\n" + "    \"type\": \"OperationOutcome\",\n" + "    \"url\": \"3\",\n"
                         + "    \"count\": 1\n" + "}";
         try (StringWriter writerx = new StringWriter();) {
             try (JsonGenerator generator = PRETTY_PRINTING_GENERATOR_FACTORY.createGenerator(writerx);) {
@@ -87,7 +87,7 @@ public class PollingLocationResponseTest {
         // Test $export
         output   = new PollingLocationResponse.Output("test1", "test2", "3");
         expected =
-                "\n" + "{\n" + "    \"type\": \"test1\",\n" + "    \"url\": \"test2\",\n" + "    \"count\": 3\n"
+                "{\n" + "    \"type\": \"test1\",\n" + "    \"url\": \"test2\",\n" + "    \"count\": 3\n"
                         + "}";
         try (StringWriter writerx = new StringWriter();) {
             try (JsonGenerator generator = PRETTY_PRINTING_GENERATOR_FACTORY.createGenerator(writerx);) {
@@ -102,7 +102,7 @@ public class PollingLocationResponseTest {
 
         // Empty
         output   = new PollingLocationResponse.Output(null, null, null);
-        expected = "\n{\n}";
+        expected = "{\n}";
         try (StringWriter writerx = new StringWriter();) {
             try (JsonGenerator generator = PRETTY_PRINTING_GENERATOR_FACTORY.createGenerator(writerx);) {
                 PollingLocationResponse.Output.Writer.generate(generator, output);
@@ -116,7 +116,7 @@ public class PollingLocationResponseTest {
     @Test
     public void testResponseMetadataJsonEmpty() throws IOException {
         PollingLocationResponse metadata = new PollingLocationResponse();
-        assertEquals(PollingLocationResponse.Writer.generate(metadata), "\n" + "{\n" + "}");
+        assertEquals(PollingLocationResponse.Writer.generate(metadata), "{\n" + "}");
     }
 
     @Test
@@ -130,7 +130,7 @@ public class PollingLocationResponseTest {
         assertEquals(
                 PollingLocationResponse.Writer.generate(metadata)
                         .replaceFirst(s, ""),
-                "\n" + "{\n" + "    \"transactionTime\": \"\",\n"
+                "{\n" + "    \"transactionTime\": \"\",\n"
                         + "    \"request\": \"request\",\n" + "    \"requiresAccessToken\": false\n" + "}");
     }
 
@@ -162,7 +162,7 @@ public class PollingLocationResponseTest {
         assertEquals(
                 PollingLocationResponse.Writer.generate(metadata)
                         .replaceFirst(s, ""),
-                "\n" + "{\n" + "    \"transactionTime\": \"\",\n"
+                "{\n" + "    \"transactionTime\": \"\",\n"
                         + "    \"request\": \"request\",\n" + "    \"requiresAccessToken\": false,\n"
                         + "    \"output\": [\n" + "        {\n" + "            \"type\": \"type\",\n"
                         + "            \"url\": \"url\",\n" + "            \"count\": 1000\n" + "        },\n"
@@ -204,7 +204,7 @@ public class PollingLocationResponseTest {
         assertEquals(
                 PollingLocationResponse.Writer.generate(metadata)
                         .replaceFirst(s, ""),
-                "\n" + "{\n" + "    \"transactionTime\": \"\",\n"
+                "{\n" + "    \"transactionTime\": \"\",\n"
                         + "    \"request\": \"request\",\n" + "    \"requiresAccessToken\": false,\n"
                         + "    \"output\": [\n" + "        {\n" + "            \"type\": \"type\",\n"
                         + "            \"url\": \"url\",\n" + "            \"count\": 1000\n" + "        },\n"
