@@ -9,10 +9,24 @@ package com.ibm.fhir.model.builder;
 public abstract class AbstractBuilder<T> implements Builder<T> {
     protected boolean validating = true;
 
+    /**
+     * Set the validating builder indicator for this builder
+     *
+     * <p>A validating builder performs validation during object construction
+     *
+     * @param validating
+     *     the validating builder indicator
+     */
     public void setValidating(boolean validating) {
         this.validating = validating;
     }
 
+    /**
+     * Indicates whether this builder is a validating builder
+     *
+     * @return
+     *     true if this builder is a validating builder, false otherwise
+     */
     public boolean isValidating() {
         return validating;
     }

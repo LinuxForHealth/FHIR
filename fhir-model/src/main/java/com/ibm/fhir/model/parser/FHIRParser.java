@@ -12,6 +12,7 @@ import java.io.Reader;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.util.ValidationSupport;
 
 /**
  * Parse FHIR resource representations into fhir-model objects
@@ -47,8 +48,19 @@ public interface FHIRParser {
     /**
      * Set the validating parser indicator for this parser
      *
+     * <p>A validating parser performs basic validation during parsing / deserialization of the input format including:
+     * <ul>
+     * <li>element cardinality checking</li>
+     * <li>element type checking</li>
+     * <li>element value checking</li>
+     * <li>choice element type checking</li>
+     * <li>reference target type checking (syntax only)</li>
+     * <li>element value set membership checking (limited)</li>
+     * </ul>
+     *
      * @param validating
      *     the validating parser indicator
+     * @see ValidationSupport
      */
     void setValidating(boolean validating);
 
