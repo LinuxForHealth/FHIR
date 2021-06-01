@@ -88,16 +88,14 @@ public class DataRequirement extends Element {
 
     private DataRequirement(Builder builder) {
         super(builder);
-        type = ValidationSupport.requireNonNull(builder.type, "type");
-        profile = Collections.unmodifiableList(ValidationSupport.checkList(builder.profile, "profile", Canonical.class));
-        subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
-        mustSupport = Collections.unmodifiableList(ValidationSupport.checkList(builder.mustSupport, "mustSupport", String.class));
-        codeFilter = Collections.unmodifiableList(ValidationSupport.checkList(builder.codeFilter, "codeFilter", CodeFilter.class));
-        dateFilter = Collections.unmodifiableList(ValidationSupport.checkList(builder.dateFilter, "dateFilter", DateFilter.class));
+        type = builder.type;
+        profile = Collections.unmodifiableList(builder.profile);
+        subject = builder.subject;
+        mustSupport = Collections.unmodifiableList(builder.mustSupport);
+        codeFilter = Collections.unmodifiableList(builder.codeFilter);
+        dateFilter = Collections.unmodifiableList(builder.dateFilter);
         limit = builder.limit;
-        sort = Collections.unmodifiableList(ValidationSupport.checkList(builder.sort, "sort", Sort.class));
-        ValidationSupport.checkReferenceType(subject, "subject", "Group");
-        ValidationSupport.requireValueOrChildren(this);
+        sort = Collections.unmodifiableList(builder.sort);
     }
 
     /**
@@ -600,7 +598,24 @@ public class DataRequirement extends Element {
          */
         @Override
         public DataRequirement build() {
-            return new DataRequirement(this);
+            DataRequirement dataRequirement = new DataRequirement(this);
+            if (validating) {
+                validate(dataRequirement);
+            }
+            return dataRequirement;
+        }
+
+        protected void validate(DataRequirement dataRequirement) {
+            super.validate(dataRequirement);
+            ValidationSupport.requireNonNull(dataRequirement.type, "type");
+            ValidationSupport.checkList(dataRequirement.profile, "profile", Canonical.class);
+            ValidationSupport.choiceElement(dataRequirement.subject, "subject", CodeableConcept.class, Reference.class);
+            ValidationSupport.checkList(dataRequirement.mustSupport, "mustSupport", String.class);
+            ValidationSupport.checkList(dataRequirement.codeFilter, "codeFilter", CodeFilter.class);
+            ValidationSupport.checkList(dataRequirement.dateFilter, "dateFilter", DateFilter.class);
+            ValidationSupport.checkList(dataRequirement.sort, "sort", Sort.class);
+            ValidationSupport.checkReferenceType(dataRequirement.subject, "subject", "Group");
+            ValidationSupport.requireValueOrChildren(dataRequirement);
         }
 
         protected Builder from(DataRequirement dataRequirement) {
@@ -636,8 +651,7 @@ public class DataRequirement extends Element {
             path = builder.path;
             searchParam = builder.searchParam;
             valueSet = builder.valueSet;
-            code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", Coding.class));
-            ValidationSupport.requireValueOrChildren(this);
+            code = Collections.unmodifiableList(builder.code);
         }
 
         /**
@@ -969,7 +983,17 @@ public class DataRequirement extends Element {
              */
             @Override
             public CodeFilter build() {
-                return new CodeFilter(this);
+                CodeFilter codeFilter = new CodeFilter(this);
+                if (validating) {
+                    validate(codeFilter);
+                }
+                return codeFilter;
+            }
+
+            protected void validate(CodeFilter codeFilter) {
+                super.validate(codeFilter);
+                ValidationSupport.checkList(codeFilter.code, "code", Coding.class);
+                ValidationSupport.requireValueOrChildren(codeFilter);
             }
 
             protected Builder from(CodeFilter codeFilter) {
@@ -1000,8 +1024,7 @@ public class DataRequirement extends Element {
             super(builder);
             path = builder.path;
             searchParam = builder.searchParam;
-            value = ValidationSupport.choiceElement(builder.value, "value", DateTime.class, Period.class, Duration.class);
-            ValidationSupport.requireValueOrChildren(this);
+            value = builder.value;
         }
 
         /**
@@ -1287,7 +1310,17 @@ public class DataRequirement extends Element {
              */
             @Override
             public DateFilter build() {
-                return new DateFilter(this);
+                DateFilter dateFilter = new DateFilter(this);
+                if (validating) {
+                    validate(dateFilter);
+                }
+                return dateFilter;
+            }
+
+            protected void validate(DateFilter dateFilter) {
+                super.validate(dateFilter);
+                ValidationSupport.choiceElement(dateFilter.value, "value", DateTime.class, Period.class, Duration.class);
+                ValidationSupport.requireValueOrChildren(dateFilter);
             }
 
             protected Builder from(DateFilter dateFilter) {
@@ -1319,9 +1352,8 @@ public class DataRequirement extends Element {
 
         private Sort(Builder builder) {
             super(builder);
-            path = ValidationSupport.requireNonNull(builder.path, "path");
-            direction = ValidationSupport.requireNonNull(builder.direction, "direction");
-            ValidationSupport.requireValueOrChildren(this);
+            path = builder.path;
+            direction = builder.direction;
         }
 
         /**
@@ -1569,7 +1601,18 @@ public class DataRequirement extends Element {
              */
             @Override
             public Sort build() {
-                return new Sort(this);
+                Sort sort = new Sort(this);
+                if (validating) {
+                    validate(sort);
+                }
+                return sort;
+            }
+
+            protected void validate(Sort sort) {
+                super.validate(sort);
+                ValidationSupport.requireNonNull(sort.path, "path");
+                ValidationSupport.requireNonNull(sort.direction, "direction");
+                ValidationSupport.requireValueOrChildren(sort);
             }
 
             protected Builder from(Sort sort) {

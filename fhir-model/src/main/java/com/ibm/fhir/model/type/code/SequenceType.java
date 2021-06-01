@@ -158,11 +158,7 @@ public class SequenceType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -217,7 +213,20 @@ public class SequenceType extends Code {
 
         @Override
         public SequenceType build() {
-            return new SequenceType(this);
+            SequenceType sequenceType = new SequenceType(this);
+            if (validating) {
+                validate(sequenceType);
+            }
+            return sequenceType;
+        }
+
+        protected void validate(SequenceType sequenceType) {
+            super.validate(sequenceType);
+        }
+
+        protected Builder from(SequenceType sequenceType) {
+            super.from(sequenceType);
+            return this;
         }
     }
 

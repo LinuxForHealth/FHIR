@@ -35,7 +35,6 @@ public class Time extends Element {
     private Time(Builder builder) {
         super(builder);
         value = ModelSupport.truncateTime(builder.value, ChronoUnit.MICROS);
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -221,7 +220,16 @@ public class Time extends Element {
          */
         @Override
         public Time build() {
-            return new Time(this);
+            Time time = new Time(this);
+            if (validating) {
+                validate(time);
+            }
+            return time;
+        }
+
+        protected void validate(Time time) {
+            super.validate(time);
+            ValidationSupport.requireValueOrChildren(time);
         }
 
         protected Builder from(Time time) {

@@ -100,7 +100,7 @@ public class Parameters extends Resource {
 
     private Parameters(Builder builder) {
         super(builder);
-        parameter = Collections.unmodifiableList(ValidationSupport.checkList(builder.parameter, "parameter", Parameter.class));
+        parameter = Collections.unmodifiableList(builder.parameter);
     }
 
     /**
@@ -288,7 +288,16 @@ public class Parameters extends Resource {
          */
         @Override
         public Parameters build() {
-            return new Parameters(this);
+            Parameters parameters = new Parameters(this);
+            if (validating) {
+                validate(parameters);
+            }
+            return parameters;
+        }
+
+        protected void validate(Parameters parameters) {
+            super.validate(parameters);
+            ValidationSupport.checkList(parameters.parameter, "parameter", Parameter.class);
         }
 
         protected Builder from(Parameters parameters) {
@@ -315,11 +324,10 @@ public class Parameters extends Resource {
 
         private Parameter(Builder builder) {
             super(builder);
-            name = ValidationSupport.requireNonNull(builder.name, "name");
-            value = ValidationSupport.choiceElement(builder.value, "value", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
+            name = builder.name;
+            value = builder.value;
             resource = builder.resource;
-            part = Collections.unmodifiableList(ValidationSupport.checkList(builder.part, "part", Parameters.Parameter.class));
-            ValidationSupport.requireValueOrChildren(this);
+            part = Collections.unmodifiableList(builder.part);
         }
 
         /**
@@ -694,7 +702,19 @@ public class Parameters extends Resource {
              */
             @Override
             public Parameter build() {
-                return new Parameter(this);
+                Parameter parameter = new Parameter(this);
+                if (validating) {
+                    validate(parameter);
+                }
+                return parameter;
+            }
+
+            protected void validate(Parameter parameter) {
+                super.validate(parameter);
+                ValidationSupport.requireNonNull(parameter.name, "name");
+                ValidationSupport.choiceElement(parameter.value, "value", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
+                ValidationSupport.checkList(parameter.part, "part", Parameters.Parameter.class);
+                ValidationSupport.requireValueOrChildren(parameter);
             }
 
             protected Builder from(Parameter parameter) {

@@ -62,8 +62,6 @@ public abstract class Resource extends AbstractVisitable {
         meta = builder.meta;
         implicitRules = builder.implicitRules;
         language = builder.language;
-        ValidationSupport.checkId(id);
-        ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
     }
 
     /**
@@ -208,6 +206,11 @@ public abstract class Resource extends AbstractVisitable {
 
         @Override
         public abstract Resource build();
+
+        protected void validate(Resource resource) {
+            ValidationSupport.checkId(resource.id);
+            ValidationSupport.checkValueSetBinding(resource.language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+        }
 
         protected Builder from(Resource resource) {
             id = resource.id;

@@ -147,11 +147,7 @@ public class ConsentProvisionType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -206,7 +202,20 @@ public class ConsentProvisionType extends Code {
 
         @Override
         public ConsentProvisionType build() {
-            return new ConsentProvisionType(this);
+            ConsentProvisionType consentProvisionType = new ConsentProvisionType(this);
+            if (validating) {
+                validate(consentProvisionType);
+            }
+            return consentProvisionType;
+        }
+
+        protected void validate(ConsentProvisionType consentProvisionType) {
+            super.validate(consentProvisionType);
+        }
+
+        protected Builder from(ConsentProvisionType consentProvisionType) {
+            super.from(consentProvisionType);
+            return this;
         }
     }
 

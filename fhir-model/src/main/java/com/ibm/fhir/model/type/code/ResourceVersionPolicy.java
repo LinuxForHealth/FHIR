@@ -158,11 +158,7 @@ public class ResourceVersionPolicy extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -217,7 +213,20 @@ public class ResourceVersionPolicy extends Code {
 
         @Override
         public ResourceVersionPolicy build() {
-            return new ResourceVersionPolicy(this);
+            ResourceVersionPolicy resourceVersionPolicy = new ResourceVersionPolicy(this);
+            if (validating) {
+                validate(resourceVersionPolicy);
+            }
+            return resourceVersionPolicy;
+        }
+
+        protected void validate(ResourceVersionPolicy resourceVersionPolicy) {
+            super.validate(resourceVersionPolicy);
+        }
+
+        protected Builder from(ResourceVersionPolicy resourceVersionPolicy) {
+            super.from(resourceVersionPolicy);
+            return this;
         }
     }
 

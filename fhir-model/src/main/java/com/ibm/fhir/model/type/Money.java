@@ -37,7 +37,6 @@ public class Money extends Element {
         super(builder);
         value = builder.value;
         currency = builder.currency;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -222,7 +221,16 @@ public class Money extends Element {
          */
         @Override
         public Money build() {
-            return new Money(this);
+            Money money = new Money(this);
+            if (validating) {
+                validate(money);
+            }
+            return money;
+        }
+
+        protected void validate(Money money) {
+            super.validate(money);
+            ValidationSupport.requireValueOrChildren(money);
         }
 
         protected Builder from(Money money) {

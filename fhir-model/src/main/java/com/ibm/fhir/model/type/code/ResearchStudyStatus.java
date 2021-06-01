@@ -250,11 +250,7 @@ public class ResearchStudyStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -309,7 +305,20 @@ public class ResearchStudyStatus extends Code {
 
         @Override
         public ResearchStudyStatus build() {
-            return new ResearchStudyStatus(this);
+            ResearchStudyStatus researchStudyStatus = new ResearchStudyStatus(this);
+            if (validating) {
+                validate(researchStudyStatus);
+            }
+            return researchStudyStatus;
+        }
+
+        protected void validate(ResearchStudyStatus researchStudyStatus) {
+            super.validate(researchStudyStatus);
+        }
+
+        protected Builder from(ResearchStudyStatus researchStudyStatus) {
+            super.from(researchStudyStatus);
+            return this;
         }
     }
 

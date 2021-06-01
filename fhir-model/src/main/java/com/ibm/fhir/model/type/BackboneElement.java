@@ -26,7 +26,7 @@ public abstract class BackboneElement extends Element {
 
     protected BackboneElement(Builder builder) {
         super(builder);
-        modifierExtension = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifierExtension, "modifierExtension", Extension.class));
+        modifierExtension = Collections.unmodifiableList(builder.modifierExtension);
     }
 
     /**
@@ -168,6 +168,11 @@ public abstract class BackboneElement extends Element {
 
         @Override
         public abstract BackboneElement build();
+
+        protected void validate(BackboneElement backboneElement) {
+            super.validate(backboneElement);
+            ValidationSupport.checkList(backboneElement.modifierExtension, "modifierExtension", Extension.class);
+        }
 
         protected Builder from(BackboneElement backboneElement) {
             super.from(backboneElement);

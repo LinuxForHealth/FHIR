@@ -25,7 +25,6 @@ public class Decimal extends Element {
     private Decimal(Builder builder) {
         super(builder);
         value = builder.value;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -222,7 +221,16 @@ public class Decimal extends Element {
          */
         @Override
         public Decimal build() {
-            return new Decimal(this);
+            Decimal decimal = new Decimal(this);
+            if (validating) {
+                validate(decimal);
+            }
+            return decimal;
+        }
+
+        protected void validate(Decimal decimal) {
+            super.validate(decimal);
+            ValidationSupport.requireValueOrChildren(decimal);
         }
 
         protected Builder from(Decimal decimal) {

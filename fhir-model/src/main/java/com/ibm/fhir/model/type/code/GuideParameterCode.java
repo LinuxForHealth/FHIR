@@ -247,11 +247,7 @@ public class GuideParameterCode extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -306,7 +302,20 @@ public class GuideParameterCode extends Code {
 
         @Override
         public GuideParameterCode build() {
-            return new GuideParameterCode(this);
+            GuideParameterCode guideParameterCode = new GuideParameterCode(this);
+            if (validating) {
+                validate(guideParameterCode);
+            }
+            return guideParameterCode;
+        }
+
+        protected void validate(GuideParameterCode guideParameterCode) {
+            super.validate(guideParameterCode);
+        }
+
+        protected Builder from(GuideParameterCode guideParameterCode) {
+            super.from(guideParameterCode);
+            return this;
         }
     }
 

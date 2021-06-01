@@ -392,6 +392,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Account parseAccount(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Account.Builder builder = Account.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, subjectElementIndex = 0, coverageElementIndex = 0, guarantorElementIndex = 0;
         while (reader.hasNext()) {
@@ -478,7 +479,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.partOf(parseReference("partOf", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -495,6 +500,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Account.Coverage parseAccountCoverage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Account.Coverage.Builder builder = Account.Coverage.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -525,7 +531,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.priority((PositiveInt) parseInteger(PositiveInt.builder(), "priority", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -542,6 +552,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Account.Guarantor parseAccountGuarantor(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Account.Guarantor.Builder builder = Account.Guarantor.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -576,7 +587,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -593,6 +608,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ActivityDefinition parseActivityDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ActivityDefinition.Builder builder = ActivityDefinition.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, topicElementIndex = 0, authorElementIndex = 0, editorElementIndex = 0, reviewerElementIndex = 0, endorserElementIndex = 0, relatedArtifactElementIndex = 0, libraryElementIndex = 0, participantElementIndex = 0, dosageElementIndex = 0, bodySiteElementIndex = 0, specimenRequirementElementIndex = 0, observationRequirementElementIndex = 0, observationResultRequirementElementIndex = 0, dynamicValueElementIndex = 0;
         while (reader.hasNext()) {
@@ -847,7 +863,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.dynamicValue(parseActivityDefinitionDynamicValue("dynamicValue", reader, dynamicValueElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -864,6 +884,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ActivityDefinition.DynamicValue parseActivityDefinitionDynamicValue(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ActivityDefinition.DynamicValue.Builder builder = ActivityDefinition.DynamicValue.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -894,7 +915,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.expression(parseExpression("expression", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -911,6 +936,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ActivityDefinition.Participant parseActivityDefinitionParticipant(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ActivityDefinition.Participant.Builder builder = ActivityDefinition.Participant.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -941,7 +967,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.role(parseCodeableConcept("role", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -958,6 +988,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Address parseAddress(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Address.Builder builder = Address.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -1016,7 +1047,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -1033,6 +1068,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private AdverseEvent parseAdverseEvent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         AdverseEvent.Builder builder = AdverseEvent.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, categoryElementIndex = 0, resultingConditionElementIndex = 0, contributorElementIndex = 0, suspectEntityElementIndex = 0, subjectMedicalHistoryElementIndex = 0, referenceDocumentElementIndex = 0, studyElementIndex = 0;
         while (reader.hasNext()) {
@@ -1155,7 +1191,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.study(parseReference("study", reader, studyElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -1172,6 +1212,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private AdverseEvent.SuspectEntity parseAdverseEventSuspectEntity(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         AdverseEvent.SuspectEntity.Builder builder = AdverseEvent.SuspectEntity.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -1202,7 +1243,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.causality(parseAdverseEventSuspectEntityCausality("causality", reader, causalityElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -1219,6 +1264,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private AdverseEvent.SuspectEntity.Causality parseAdverseEventSuspectEntityCausality(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         AdverseEvent.SuspectEntity.Causality.Builder builder = AdverseEvent.SuspectEntity.Causality.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -1257,7 +1303,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.method(parseCodeableConcept("method", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -1274,6 +1324,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private AllergyIntolerance parseAllergyIntolerance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         AllergyIntolerance.Builder builder = AllergyIntolerance.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, categoryElementIndex = 0, noteElementIndex = 0, reactionElementIndex = 0;
         while (reader.hasNext()) {
@@ -1396,7 +1447,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.reaction(parseAllergyIntoleranceReaction("reaction", reader, reactionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -1413,6 +1468,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private AllergyIntolerance.Reaction parseAllergyIntoleranceReaction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         AllergyIntolerance.Reaction.Builder builder = AllergyIntolerance.Reaction.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -1463,7 +1519,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -1480,6 +1540,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Annotation parseAnnotation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Annotation.Builder builder = Annotation.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -1514,7 +1575,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.text((Markdown) parseString(Markdown.builder(), "text", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -1531,6 +1596,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Appointment parseAppointment(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Appointment.Builder builder = Appointment.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, serviceCategoryElementIndex = 0, serviceTypeElementIndex = 0, specialtyElementIndex = 0, reasonCodeElementIndex = 0, reasonReferenceElementIndex = 0, supportingInformationElementIndex = 0, slotElementIndex = 0, basedOnElementIndex = 0, participantElementIndex = 0, requestedPeriodElementIndex = 0;
         while (reader.hasNext()) {
@@ -1661,7 +1727,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.requestedPeriod(parsePeriod("requestedPeriod", reader, requestedPeriodElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -1678,6 +1748,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Appointment.Participant parseAppointmentParticipant(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Appointment.Participant.Builder builder = Appointment.Participant.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -1720,7 +1791,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -1737,6 +1812,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private AppointmentResponse parseAppointmentResponse(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         AppointmentResponse.Builder builder = AppointmentResponse.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, participantTypeElementIndex = 0;
         while (reader.hasNext()) {
@@ -1811,7 +1887,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.comment(parseString("comment", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -1828,6 +1908,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Attachment parseAttachment(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Attachment.Builder builder = Attachment.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -1878,7 +1959,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.creation(parseDateTime("creation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -1895,6 +1980,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private AuditEvent parseAuditEvent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         AuditEvent.Builder builder = AuditEvent.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, subtypeElementIndex = 0, purposeOfEventElementIndex = 0, agentElementIndex = 0, entityElementIndex = 0;
         while (reader.hasNext()) {
@@ -1981,7 +2067,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.entity(parseAuditEventEntity("entity", reader, entityElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -1998,6 +2088,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private AuditEvent.Agent parseAuditEventAgent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         AuditEvent.Agent.Builder builder = AuditEvent.Agent.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -2064,7 +2155,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.purposeOfUse(parseCodeableConcept("purposeOfUse", reader, purposeOfUseElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2081,6 +2176,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private AuditEvent.Agent.Network parseAuditEventAgentNetwork(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         AuditEvent.Agent.Network.Builder builder = AuditEvent.Agent.Network.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -2111,7 +2207,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.type((AuditEventAgentNetworkType) parseString(AuditEventAgentNetworkType.builder(), "type", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2128,6 +2228,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private AuditEvent.Entity parseAuditEventEntity(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         AuditEvent.Entity.Builder builder = AuditEvent.Entity.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -2186,7 +2287,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseAuditEventEntityDetail("detail", reader, detailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2203,6 +2308,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private AuditEvent.Entity.Detail parseAuditEventEntityDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         AuditEvent.Entity.Detail.Builder builder = AuditEvent.Entity.Detail.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -2237,7 +2343,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseBase64Binary("valueBase64Binary", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2254,6 +2364,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private AuditEvent.Source parseAuditEventSource(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         AuditEvent.Source.Builder builder = AuditEvent.Source.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -2288,7 +2399,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.type(parseCoding("type", reader, typeElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2305,6 +2420,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Base64Binary parseBase64Binary(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Base64Binary.Builder builder = Base64Binary.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -2327,7 +2443,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.extension(parseExtension("extension", reader, extensionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2344,6 +2464,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Basic parseBasic(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Basic.Builder builder = Basic.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0;
         while (reader.hasNext()) {
@@ -2406,7 +2527,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.author(parseReference("author", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2423,6 +2548,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Binary parseBinary(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Binary.Builder builder = Binary.builder();
+        builder.setValidating(validating);
         int position = -1;
         while (reader.hasNext()) {
             int eventType = reader.next();
@@ -2460,7 +2586,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.data(parseBase64Binary("data", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2477,6 +2607,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private BiologicallyDerivedProduct parseBiologicallyDerivedProduct(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         BiologicallyDerivedProduct.Builder builder = BiologicallyDerivedProduct.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, requestElementIndex = 0, parentElementIndex = 0, processingElementIndex = 0, storageElementIndex = 0;
         while (reader.hasNext()) {
@@ -2563,7 +2694,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.storage(parseBiologicallyDerivedProductStorage("storage", reader, storageElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2580,6 +2715,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private BiologicallyDerivedProduct.Collection parseBiologicallyDerivedProductCollection(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         BiologicallyDerivedProduct.Collection.Builder builder = BiologicallyDerivedProduct.Collection.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -2618,7 +2754,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.collected(parsePeriod("collectedPeriod", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2635,6 +2775,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private BiologicallyDerivedProduct.Manipulation parseBiologicallyDerivedProductManipulation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         BiologicallyDerivedProduct.Manipulation.Builder builder = BiologicallyDerivedProduct.Manipulation.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -2669,7 +2810,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.time(parsePeriod("timePeriod", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2686,6 +2831,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private BiologicallyDerivedProduct.Processing parseBiologicallyDerivedProductProcessing(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         BiologicallyDerivedProduct.Processing.Builder builder = BiologicallyDerivedProduct.Processing.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -2728,7 +2874,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.time(parsePeriod("timePeriod", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2745,6 +2895,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private BiologicallyDerivedProduct.Storage parseBiologicallyDerivedProductStorage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         BiologicallyDerivedProduct.Storage.Builder builder = BiologicallyDerivedProduct.Storage.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -2783,7 +2934,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.duration(parsePeriod("duration", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2800,6 +2955,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private BodyStructure parseBodyStructure(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         BodyStructure.Builder builder = BodyStructure.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, locationQualifierElementIndex = 0, imageElementIndex = 0;
         while (reader.hasNext()) {
@@ -2874,7 +3030,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.patient(parseReference("patient", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2891,6 +3051,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Boolean parseBoolean(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Boolean.Builder builder = Boolean.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -2913,7 +3074,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.extension(parseExtension("extension", reader, extensionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -2930,6 +3095,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Bundle parseBundle(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Bundle.Builder builder = Bundle.builder();
+        builder.setValidating(validating);
         int position = -1;
         int linkElementIndex = 0, entryElementIndex = 0;
         while (reader.hasNext()) {
@@ -2984,7 +3150,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.signature(parseSignature("signature", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3001,6 +3171,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Bundle.Entry parseBundleEntry(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Bundle.Entry.Builder builder = Bundle.Entry.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -3047,7 +3218,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.response(parseBundleEntryResponse("response", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3064,6 +3239,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Bundle.Entry.Request parseBundleEntryRequest(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Bundle.Entry.Request.Builder builder = Bundle.Entry.Request.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -3110,7 +3286,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.ifNoneExist(parseString("ifNoneExist", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3127,6 +3307,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Bundle.Entry.Response parseBundleEntryResponse(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Bundle.Entry.Response.Builder builder = Bundle.Entry.Response.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -3169,7 +3350,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.outcome(parseResource("outcome", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3186,6 +3371,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Bundle.Entry.Search parseBundleEntrySearch(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Bundle.Entry.Search.Builder builder = Bundle.Entry.Search.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -3216,7 +3402,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.score(parseDecimal("score", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3233,6 +3423,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Bundle.Link parseBundleLink(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Bundle.Link.Builder builder = Bundle.Link.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -3263,7 +3454,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.url(parseUri("url", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3280,6 +3475,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CapabilityStatement parseCapabilityStatement(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Builder builder = CapabilityStatement.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, instantiatesElementIndex = 0, importsElementIndex = 0, formatElementIndex = 0, patchFormatElementIndex = 0, implementationGuideElementIndex = 0, restElementIndex = 0, messagingElementIndex = 0, documentElementIndex = 0;
         while (reader.hasNext()) {
@@ -3426,7 +3622,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.document(parseCapabilityStatementDocument("document", reader, documentElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3443,6 +3643,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CapabilityStatement.Document parseCapabilityStatementDocument(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Document.Builder builder = CapabilityStatement.Document.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -3477,7 +3678,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.profile((Canonical) parseUri(Canonical.builder(), "profile", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3494,6 +3699,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CapabilityStatement.Implementation parseCapabilityStatementImplementation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Implementation.Builder builder = CapabilityStatement.Implementation.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -3528,7 +3734,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.custodian(parseReference("custodian", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3545,6 +3755,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CapabilityStatement.Messaging parseCapabilityStatementMessaging(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Messaging.Builder builder = CapabilityStatement.Messaging.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -3583,7 +3794,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.supportedMessage(parseCapabilityStatementMessagingSupportedMessage("supportedMessage", reader, supportedMessageElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3600,6 +3815,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CapabilityStatement.Messaging.Endpoint parseCapabilityStatementMessagingEndpoint(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Messaging.Endpoint.Builder builder = CapabilityStatement.Messaging.Endpoint.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -3630,7 +3846,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.address((Url) parseUri(Url.builder(), "address", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3647,6 +3867,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CapabilityStatement.Messaging.SupportedMessage parseCapabilityStatementMessagingSupportedMessage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Messaging.SupportedMessage.Builder builder = CapabilityStatement.Messaging.SupportedMessage.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -3677,7 +3898,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.definition((Canonical) parseUri(Canonical.builder(), "definition", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3694,6 +3919,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CapabilityStatement.Rest parseCapabilityStatementRest(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Rest.Builder builder = CapabilityStatement.Rest.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -3748,7 +3974,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.compartment((Canonical) parseUri(Canonical.builder(), "compartment", reader, compartmentElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3765,6 +3995,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CapabilityStatement.Rest.Interaction parseCapabilityStatementRestInteraction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Rest.Interaction.Builder builder = CapabilityStatement.Rest.Interaction.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -3795,7 +4026,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.documentation((Markdown) parseString(Markdown.builder(), "documentation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3812,6 +4047,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CapabilityStatement.Rest.Resource parseCapabilityStatementRestResource(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Rest.Resource.Builder builder = CapabilityStatement.Rest.Resource.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -3902,7 +4138,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.operation(parseCapabilityStatementRestResourceOperation("operation", reader, operationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3919,6 +4159,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CapabilityStatement.Rest.Resource.Interaction parseCapabilityStatementRestResourceInteraction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Rest.Resource.Interaction.Builder builder = CapabilityStatement.Rest.Resource.Interaction.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -3949,7 +4190,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.documentation((Markdown) parseString(Markdown.builder(), "documentation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -3966,6 +4211,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CapabilityStatement.Rest.Resource.Operation parseCapabilityStatementRestResourceOperation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Rest.Resource.Operation.Builder builder = CapabilityStatement.Rest.Resource.Operation.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -4000,7 +4246,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.documentation((Markdown) parseString(Markdown.builder(), "documentation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -4017,6 +4267,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CapabilityStatement.Rest.Resource.SearchParam parseCapabilityStatementRestResourceSearchParam(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Rest.Resource.SearchParam.Builder builder = CapabilityStatement.Rest.Resource.SearchParam.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -4055,7 +4306,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.documentation((Markdown) parseString(Markdown.builder(), "documentation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -4072,6 +4327,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CapabilityStatement.Rest.Security parseCapabilityStatementRestSecurity(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Rest.Security.Builder builder = CapabilityStatement.Rest.Security.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -4106,7 +4362,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.description((Markdown) parseString(Markdown.builder(), "description", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -4123,6 +4383,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CapabilityStatement.Software parseCapabilityStatementSoftware(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CapabilityStatement.Software.Builder builder = CapabilityStatement.Software.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -4157,7 +4418,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.releaseDate(parseDateTime("releaseDate", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -4174,6 +4439,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CarePlan parseCarePlan(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CarePlan.Builder builder = CarePlan.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, instantiatesCanonicalElementIndex = 0, instantiatesUriElementIndex = 0, basedOnElementIndex = 0, replacesElementIndex = 0, partOfElementIndex = 0, categoryElementIndex = 0, contributorElementIndex = 0, careTeamElementIndex = 0, addressesElementIndex = 0, supportingInfoElementIndex = 0, goalElementIndex = 0, activityElementIndex = 0, noteElementIndex = 0;
         while (reader.hasNext()) {
@@ -4308,7 +4574,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -4325,6 +4595,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CarePlan.Activity parseCarePlanActivity(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CarePlan.Activity.Builder builder = CarePlan.Activity.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -4367,7 +4638,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseCarePlanActivityDetail("detail", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -4384,6 +4659,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CarePlan.Activity.Detail parseCarePlanActivityDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CarePlan.Activity.Detail.Builder builder = CarePlan.Activity.Detail.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -4486,7 +4762,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.description(parseString("description", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -4503,6 +4783,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CareTeam parseCareTeam(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CareTeam.Builder builder = CareTeam.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, categoryElementIndex = 0, participantElementIndex = 0, reasonCodeElementIndex = 0, reasonReferenceElementIndex = 0, managingOrganizationElementIndex = 0, telecomElementIndex = 0, noteElementIndex = 0;
         while (reader.hasNext()) {
@@ -4597,7 +4878,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -4614,6 +4899,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CareTeam.Participant parseCareTeamParticipant(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CareTeam.Participant.Builder builder = CareTeam.Participant.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -4652,7 +4938,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -4669,6 +4959,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CatalogEntry parseCatalogEntry(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CatalogEntry.Builder builder = CatalogEntry.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, additionalIdentifierElementIndex = 0, classificationElementIndex = 0, additionalCharacteristicElementIndex = 0, additionalClassificationElementIndex = 0, relatedEntryElementIndex = 0;
         while (reader.hasNext()) {
@@ -4763,7 +5054,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.relatedEntry(parseCatalogEntryRelatedEntry("relatedEntry", reader, relatedEntryElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -4780,6 +5075,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CatalogEntry.RelatedEntry parseCatalogEntryRelatedEntry(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CatalogEntry.RelatedEntry.Builder builder = CatalogEntry.RelatedEntry.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -4810,7 +5106,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseReference("item", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -4827,6 +5127,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ChargeItem parseChargeItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ChargeItem.Builder builder = ChargeItem.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, definitionUriElementIndex = 0, definitionCanonicalElementIndex = 0, partOfElementIndex = 0, performerElementIndex = 0, bodysiteElementIndex = 0, reasonElementIndex = 0, serviceElementIndex = 0, accountElementIndex = 0, noteElementIndex = 0, supportingInformationElementIndex = 0;
         while (reader.hasNext()) {
@@ -4985,7 +5286,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.supportingInformation(parseReference("supportingInformation", reader, supportingInformationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -5002,6 +5307,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ChargeItem.Performer parseChargeItemPerformer(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ChargeItem.Performer.Builder builder = ChargeItem.Performer.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -5032,7 +5338,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.actor(parseReference("actor", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -5049,6 +5359,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ChargeItemDefinition parseChargeItemDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ChargeItemDefinition.Builder builder = ChargeItemDefinition.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, derivedFromUriElementIndex = 0, partOfElementIndex = 0, replacesElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, instanceElementIndex = 0, applicabilityElementIndex = 0, propertyGroupElementIndex = 0;
         while (reader.hasNext()) {
@@ -5183,7 +5494,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.propertyGroup(parseChargeItemDefinitionPropertyGroup("propertyGroup", reader, propertyGroupElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -5200,6 +5515,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ChargeItemDefinition.Applicability parseChargeItemDefinitionApplicability(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ChargeItemDefinition.Applicability.Builder builder = ChargeItemDefinition.Applicability.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -5234,7 +5550,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.expression(parseString("expression", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -5251,6 +5571,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ChargeItemDefinition.PropertyGroup parseChargeItemDefinitionPropertyGroup(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ChargeItemDefinition.PropertyGroup.Builder builder = ChargeItemDefinition.PropertyGroup.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -5281,7 +5602,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.priceComponent(parseChargeItemDefinitionPropertyGroupPriceComponent("priceComponent", reader, priceComponentElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -5298,6 +5623,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ChargeItemDefinition.PropertyGroup.PriceComponent parseChargeItemDefinitionPropertyGroupPriceComponent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ChargeItemDefinition.PropertyGroup.PriceComponent.Builder builder = ChargeItemDefinition.PropertyGroup.PriceComponent.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -5336,7 +5662,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.amount(parseMoney("amount", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -5353,6 +5683,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Claim parseClaim(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Claim.Builder builder = Claim.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, relatedElementIndex = 0, careTeamElementIndex = 0, supportingInfoElementIndex = 0, diagnosisElementIndex = 0, procedureElementIndex = 0, insuranceElementIndex = 0, itemElementIndex = 0;
         while (reader.hasNext()) {
@@ -5503,7 +5834,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.total(parseMoney("total", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -5520,6 +5855,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Claim.Accident parseClaimAccident(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Claim.Accident.Builder builder = Claim.Accident.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -5558,7 +5894,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.location(parseReference("locationReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -5575,6 +5915,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Claim.CareTeam parseClaimCareTeam(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Claim.CareTeam.Builder builder = Claim.CareTeam.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -5617,7 +5958,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.qualification(parseCodeableConcept("qualification", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -5634,6 +5979,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Claim.Diagnosis parseClaimDiagnosis(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Claim.Diagnosis.Builder builder = Claim.Diagnosis.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -5680,7 +6026,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.packageCode(parseCodeableConcept("packageCode", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -5697,6 +6047,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Claim.Insurance parseClaimInsurance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Claim.Insurance.Builder builder = Claim.Insurance.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -5747,7 +6098,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.claimResponse(parseReference("claimResponse", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -5764,6 +6119,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Claim.Item parseClaimItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Claim.Item.Builder builder = Claim.Item.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -5882,7 +6238,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseClaimItemDetail("detail", reader, detailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -5899,6 +6259,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Claim.Item.Detail parseClaimItemDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Claim.Item.Detail.Builder builder = Claim.Item.Detail.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -5969,7 +6330,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.subDetail(parseClaimItemDetailSubDetail("subDetail", reader, subDetailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -5986,6 +6351,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Claim.Item.Detail.SubDetail parseClaimItemDetailSubDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Claim.Item.Detail.SubDetail.Builder builder = Claim.Item.Detail.SubDetail.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -6052,7 +6418,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.udi(parseReference("udi", reader, udiElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6069,6 +6439,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Claim.Payee parseClaimPayee(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Claim.Payee.Builder builder = Claim.Payee.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -6099,7 +6470,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.party(parseReference("party", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6116,6 +6491,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Claim.Procedure parseClaimProcedure(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Claim.Procedure.Builder builder = Claim.Procedure.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -6162,7 +6538,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.udi(parseReference("udi", reader, udiElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6179,6 +6559,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Claim.Related parseClaimRelated(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Claim.Related.Builder builder = Claim.Related.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -6213,7 +6594,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.reference(parseIdentifier("reference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6230,6 +6615,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Claim.SupportingInfo parseClaimSupportingInfo(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Claim.SupportingInfo.Builder builder = Claim.SupportingInfo.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -6296,7 +6682,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.reason(parseCodeableConcept("reason", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6313,6 +6703,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ClaimResponse parseClaimResponse(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClaimResponse.Builder builder = ClaimResponse.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, itemElementIndex = 0, addItemElementIndex = 0, adjudicationElementIndex = 0, totalElementIndex = 0, processNoteElementIndex = 0, communicationRequestElementIndex = 0, insuranceElementIndex = 0, errorElementIndex = 0;
         while (reader.hasNext()) {
@@ -6463,7 +6854,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.error(parseClaimResponseError("error", reader, errorElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6480,6 +6875,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ClaimResponse.AddItem parseClaimResponseAddItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClaimResponse.AddItem.Builder builder = ClaimResponse.AddItem.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -6586,7 +6982,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseClaimResponseAddItemDetail("detail", reader, detailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6603,6 +7003,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ClaimResponse.AddItem.Detail parseClaimResponseAddItemDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClaimResponse.AddItem.Detail.Builder builder = ClaimResponse.AddItem.Detail.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -6661,7 +7062,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.subDetail(parseClaimResponseAddItemDetailSubDetail("subDetail", reader, subDetailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6678,6 +7083,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ClaimResponse.AddItem.Detail.SubDetail parseClaimResponseAddItemDetailSubDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClaimResponse.AddItem.Detail.SubDetail.Builder builder = ClaimResponse.AddItem.Detail.SubDetail.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -6732,7 +7138,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.adjudication(parseClaimResponseItemAdjudication("adjudication", reader, adjudicationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6749,6 +7159,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ClaimResponse.Error parseClaimResponseError(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClaimResponse.Error.Builder builder = ClaimResponse.Error.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -6787,7 +7198,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.code(parseCodeableConcept("code", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6804,6 +7219,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ClaimResponse.Insurance parseClaimResponseInsurance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClaimResponse.Insurance.Builder builder = ClaimResponse.Insurance.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -6846,7 +7262,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.claimResponse(parseReference("claimResponse", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6863,6 +7283,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ClaimResponse.Item parseClaimResponseItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClaimResponse.Item.Builder builder = ClaimResponse.Item.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -6901,7 +7322,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseClaimResponseItemDetail("detail", reader, detailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6918,6 +7343,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ClaimResponse.Item.Adjudication parseClaimResponseItemAdjudication(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClaimResponse.Item.Adjudication.Builder builder = ClaimResponse.Item.Adjudication.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -6956,7 +7382,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseDecimal("value", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -6973,6 +7403,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ClaimResponse.Item.Detail parseClaimResponseItemDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClaimResponse.Item.Detail.Builder builder = ClaimResponse.Item.Detail.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -7011,7 +7442,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.subDetail(parseClaimResponseItemDetailSubDetail("subDetail", reader, subDetailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7028,6 +7463,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ClaimResponse.Item.Detail.SubDetail parseClaimResponseItemDetailSubDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClaimResponse.Item.Detail.SubDetail.Builder builder = ClaimResponse.Item.Detail.SubDetail.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -7062,7 +7498,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.adjudication(parseClaimResponseItemAdjudication("adjudication", reader, adjudicationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7079,6 +7519,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ClaimResponse.Payment parseClaimResponsePayment(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClaimResponse.Payment.Builder builder = ClaimResponse.Payment.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -7125,7 +7566,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.identifier(parseIdentifier("identifier", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7142,6 +7587,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ClaimResponse.ProcessNote parseClaimResponseProcessNote(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClaimResponse.ProcessNote.Builder builder = ClaimResponse.ProcessNote.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -7180,7 +7626,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.language(parseCodeableConcept("language", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7197,6 +7647,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ClaimResponse.Total parseClaimResponseTotal(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClaimResponse.Total.Builder builder = ClaimResponse.Total.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -7227,7 +7678,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.amount(parseMoney("amount", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7244,6 +7699,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ClinicalImpression parseClinicalImpression(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClinicalImpression.Builder builder = ClinicalImpression.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, problemElementIndex = 0, investigationElementIndex = 0, protocolElementIndex = 0, findingElementIndex = 0, prognosisCodeableConceptElementIndex = 0, prognosisReferenceElementIndex = 0, supportingInfoElementIndex = 0, noteElementIndex = 0;
         while (reader.hasNext()) {
@@ -7370,7 +7826,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7387,6 +7847,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ClinicalImpression.Finding parseClinicalImpressionFinding(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClinicalImpression.Finding.Builder builder = ClinicalImpression.Finding.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -7421,7 +7882,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.basis(parseString("basis", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7438,6 +7903,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ClinicalImpression.Investigation parseClinicalImpressionInvestigation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ClinicalImpression.Investigation.Builder builder = ClinicalImpression.Investigation.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -7468,7 +7934,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseReference("item", reader, itemElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7485,6 +7955,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CodeSystem parseCodeSystem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CodeSystem.Builder builder = CodeSystem.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, filterElementIndex = 0, propertyElementIndex = 0, conceptElementIndex = 0;
         while (reader.hasNext()) {
@@ -7631,7 +8102,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.concept(parseCodeSystemConcept("concept", reader, conceptElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7648,6 +8123,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CodeSystem.Concept parseCodeSystemConcept(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CodeSystem.Concept.Builder builder = CodeSystem.Concept.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -7694,7 +8170,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.concept(parseCodeSystemConcept("concept", reader, conceptElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7711,6 +8191,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CodeSystem.Concept.Designation parseCodeSystemConceptDesignation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CodeSystem.Concept.Designation.Builder builder = CodeSystem.Concept.Designation.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -7745,7 +8226,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseString("value", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7762,6 +8247,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CodeSystem.Concept.Property parseCodeSystemConceptProperty(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CodeSystem.Concept.Property.Builder builder = CodeSystem.Concept.Property.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -7816,7 +8302,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseDecimal("valueDecimal", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7833,6 +8323,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CodeSystem.Filter parseCodeSystemFilter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CodeSystem.Filter.Builder builder = CodeSystem.Filter.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -7871,7 +8362,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseString("value", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7888,6 +8383,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CodeSystem.Property parseCodeSystemProperty(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CodeSystem.Property.Builder builder = CodeSystem.Property.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -7926,7 +8422,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.type((PropertyType) parseString(PropertyType.builder(), "type", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7943,6 +8443,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CodeableConcept parseCodeableConcept(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CodeableConcept.Builder builder = CodeableConcept.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -7969,7 +8470,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.text(parseString("text", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -7986,6 +8491,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Coding parseCoding(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Coding.Builder builder = Coding.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -8024,7 +8530,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.userSelected(parseBoolean("userSelected", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -8041,6 +8551,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Communication parseCommunication(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Communication.Builder builder = Communication.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, instantiatesCanonicalElementIndex = 0, instantiatesUriElementIndex = 0, basedOnElementIndex = 0, partOfElementIndex = 0, inResponseToElementIndex = 0, categoryElementIndex = 0, mediumElementIndex = 0, aboutElementIndex = 0, recipientElementIndex = 0, reasonCodeElementIndex = 0, reasonReferenceElementIndex = 0, payloadElementIndex = 0, noteElementIndex = 0;
         while (reader.hasNext()) {
@@ -8175,7 +8686,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -8192,6 +8707,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Communication.Payload parseCommunicationPayload(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Communication.Payload.Builder builder = Communication.Payload.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -8226,7 +8742,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.content(parseReference("contentReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -8243,6 +8763,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CommunicationRequest parseCommunicationRequest(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CommunicationRequest.Builder builder = CommunicationRequest.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, basedOnElementIndex = 0, replacesElementIndex = 0, categoryElementIndex = 0, mediumElementIndex = 0, aboutElementIndex = 0, payloadElementIndex = 0, recipientElementIndex = 0, reasonCodeElementIndex = 0, reasonReferenceElementIndex = 0, noteElementIndex = 0;
         while (reader.hasNext()) {
@@ -8377,7 +8898,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -8394,6 +8919,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CommunicationRequest.Payload parseCommunicationRequestPayload(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CommunicationRequest.Payload.Builder builder = CommunicationRequest.Payload.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -8428,7 +8954,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.content(parseReference("contentReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -8445,6 +8975,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CompartmentDefinition parseCompartmentDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CompartmentDefinition.Builder builder = CompartmentDefinition.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, resourceElementIndex = 0;
         while (reader.hasNext()) {
@@ -8543,7 +9074,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.resource(parseCompartmentDefinitionResource("resource", reader, resourceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -8560,6 +9095,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CompartmentDefinition.Resource parseCompartmentDefinitionResource(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CompartmentDefinition.Resource.Builder builder = CompartmentDefinition.Resource.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -8594,7 +9130,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.documentation(parseString("documentation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -8611,6 +9151,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Composition parseComposition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Composition.Builder builder = Composition.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, categoryElementIndex = 0, authorElementIndex = 0, attesterElementIndex = 0, relatesToElementIndex = 0, eventElementIndex = 0, sectionElementIndex = 0;
         while (reader.hasNext()) {
@@ -8713,7 +9254,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.section(parseCompositionSection("section", reader, sectionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -8730,6 +9275,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Composition.Attester parseCompositionAttester(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Composition.Attester.Builder builder = Composition.Attester.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -8764,7 +9310,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.party(parseReference("party", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -8781,6 +9331,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Composition.Event parseCompositionEvent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Composition.Event.Builder builder = Composition.Event.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -8815,7 +9366,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseReference("detail", reader, detailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -8832,6 +9387,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Composition.RelatesTo parseCompositionRelatesTo(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Composition.RelatesTo.Builder builder = Composition.RelatesTo.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -8866,7 +9422,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.target(parseReference("targetReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -8883,6 +9443,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Composition.Section parseCompositionSection(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Composition.Section.Builder builder = Composition.Section.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -8945,7 +9506,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.section(parseCompositionSection("section", reader, sectionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -8962,6 +9527,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ConceptMap parseConceptMap(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ConceptMap.Builder builder = ConceptMap.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, groupElementIndex = 0;
         while (reader.hasNext()) {
@@ -9084,7 +9650,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.group(parseConceptMapGroup("group", reader, groupElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9101,6 +9671,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ConceptMap.Group parseConceptMapGroup(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ConceptMap.Group.Builder builder = ConceptMap.Group.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -9147,7 +9718,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.unmapped(parseConceptMapGroupUnmapped("unmapped", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9164,6 +9739,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ConceptMap.Group.Element parseConceptMapGroupElement(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ConceptMap.Group.Element.Builder builder = ConceptMap.Group.Element.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -9198,7 +9774,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.target(parseConceptMapGroupElementTarget("target", reader, targetElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9215,6 +9795,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ConceptMap.Group.Element.Target parseConceptMapGroupElementTarget(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ConceptMap.Group.Element.Target.Builder builder = ConceptMap.Group.Element.Target.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -9261,7 +9842,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.product(parseConceptMapGroupElementTargetDependsOn("product", reader, productElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9278,6 +9863,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ConceptMap.Group.Element.Target.DependsOn parseConceptMapGroupElementTargetDependsOn(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ConceptMap.Group.Element.Target.DependsOn.Builder builder = ConceptMap.Group.Element.Target.DependsOn.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -9316,7 +9902,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.display(parseString("display", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9333,6 +9923,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ConceptMap.Group.Unmapped parseConceptMapGroupUnmapped(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ConceptMap.Group.Unmapped.Builder builder = ConceptMap.Group.Unmapped.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -9371,7 +9962,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.url((Canonical) parseUri(Canonical.builder(), "url", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9388,6 +9983,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Condition parseCondition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Condition.Builder builder = Condition.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, categoryElementIndex = 0, bodySiteElementIndex = 0, stageElementIndex = 0, evidenceElementIndex = 0, noteElementIndex = 0;
         while (reader.hasNext()) {
@@ -9530,7 +10126,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9547,6 +10147,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Condition.Evidence parseConditionEvidence(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Condition.Evidence.Builder builder = Condition.Evidence.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -9577,7 +10178,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseReference("detail", reader, detailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9594,6 +10199,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Condition.Stage parseConditionStage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Condition.Stage.Builder builder = Condition.Stage.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -9628,7 +10234,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.type(parseCodeableConcept("type", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9645,6 +10255,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Consent parseConsent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Consent.Builder builder = Consent.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, categoryElementIndex = 0, performerElementIndex = 0, organizationElementIndex = 0, policyElementIndex = 0, verificationElementIndex = 0;
         while (reader.hasNext()) {
@@ -9743,7 +10354,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.provision(parseConsentProvision("provision", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9760,6 +10375,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Consent.Policy parseConsentPolicy(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Consent.Policy.Builder builder = Consent.Policy.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -9790,7 +10406,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.uri(parseUri("uri", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9807,6 +10427,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Consent.Provision parseConsentProvision(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Consent.Provision.Builder builder = Consent.Provision.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -9873,7 +10494,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.provision(parseConsentProvision("provision", reader, provisionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9890,6 +10515,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Consent.Provision.Actor parseConsentProvisionActor(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Consent.Provision.Actor.Builder builder = Consent.Provision.Actor.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -9920,7 +10546,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.reference(parseReference("reference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9937,6 +10567,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Consent.Provision.Data parseConsentProvisionData(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Consent.Provision.Data.Builder builder = Consent.Provision.Data.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -9967,7 +10598,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.reference(parseReference("reference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -9984,6 +10619,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Consent.Verification parseConsentVerification(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Consent.Verification.Builder builder = Consent.Verification.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -10018,7 +10654,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.verificationDate(parseDateTime("verificationDate", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10035,6 +10675,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ContactDetail parseContactDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ContactDetail.Builder builder = ContactDetail.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -10061,7 +10702,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.telecom(parseContactPoint("telecom", reader, telecomElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10078,6 +10723,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ContactPoint parseContactPoint(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ContactPoint.Builder builder = ContactPoint.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -10116,7 +10762,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10133,6 +10783,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Contract parseContract(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Builder builder = Contract.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, subjectElementIndex = 0, authorityElementIndex = 0, domainElementIndex = 0, siteElementIndex = 0, aliasElementIndex = 0, subTypeElementIndex = 0, termElementIndex = 0, supportingInfoElementIndex = 0, relevantHistoryElementIndex = 0, signerElementIndex = 0, friendlyElementIndex = 0, legalElementIndex = 0, ruleElementIndex = 0;
         while (reader.hasNext()) {
@@ -10315,7 +10966,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.legallyBinding(parseReference("legallyBindingReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10332,6 +10987,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Contract.ContentDefinition parseContractContentDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.ContentDefinition.Builder builder = Contract.ContentDefinition.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -10378,7 +11034,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.copyright((Markdown) parseString(Markdown.builder(), "copyright", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10395,6 +11055,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Contract.Friendly parseContractFriendly(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Friendly.Builder builder = Contract.Friendly.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -10425,7 +11086,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.content(parseReference("contentReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10442,6 +11107,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Contract.Legal parseContractLegal(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Legal.Builder builder = Contract.Legal.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -10472,7 +11138,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.content(parseReference("contentReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10489,6 +11159,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Contract.Rule parseContractRule(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Rule.Builder builder = Contract.Rule.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -10519,7 +11190,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.content(parseReference("contentReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10536,6 +11211,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Contract.Signer parseContractSigner(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Signer.Builder builder = Contract.Signer.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -10570,7 +11246,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.signature(parseSignature("signature", reader, signatureElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10587,6 +11267,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Contract.Term parseContractTerm(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Term.Builder builder = Contract.Term.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -10661,7 +11342,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.group(parseContractTerm("group", reader, groupElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10678,6 +11363,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Contract.Term.Action parseContractTermAction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Term.Action.Builder builder = Contract.Term.Action.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -10792,7 +11478,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.securityLabelNumber((UnsignedInt) parseInteger(UnsignedInt.builder(), "securityLabelNumber", reader, securityLabelNumberElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10809,6 +11499,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Contract.Term.Action.Subject parseContractTermActionSubject(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Term.Action.Subject.Builder builder = Contract.Term.Action.Subject.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -10839,7 +11530,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.role(parseCodeableConcept("role", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10856,6 +11551,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Contract.Term.Asset parseContractTermAsset(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Term.Asset.Builder builder = Contract.Term.Asset.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -10938,7 +11634,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.valuedItem(parseContractTermAssetValuedItem("valuedItem", reader, valuedItemElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -10955,6 +11655,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Contract.Term.Asset.Context parseContractTermAssetContext(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Term.Asset.Context.Builder builder = Contract.Term.Asset.Context.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -10989,7 +11690,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.text(parseString("text", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11006,6 +11711,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Contract.Term.Asset.ValuedItem parseContractTermAssetValuedItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Term.Asset.ValuedItem.Builder builder = Contract.Term.Asset.ValuedItem.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -11088,7 +11794,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.securityLabelNumber((UnsignedInt) parseInteger(UnsignedInt.builder(), "securityLabelNumber", reader, securityLabelNumberElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11105,6 +11815,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Contract.Term.Offer parseContractTermOffer(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Term.Offer.Builder builder = Contract.Term.Offer.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -11167,7 +11878,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.securityLabelNumber((UnsignedInt) parseInteger(UnsignedInt.builder(), "securityLabelNumber", reader, securityLabelNumberElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11184,6 +11899,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Contract.Term.Offer.Answer parseContractTermOfferAnswer(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Term.Offer.Answer.Builder builder = Contract.Term.Offer.Answer.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -11254,7 +11970,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseReference("valueReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11271,6 +11991,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Contract.Term.Offer.Party parseContractTermOfferParty(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Term.Offer.Party.Builder builder = Contract.Term.Offer.Party.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -11301,7 +12022,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.role(parseCodeableConcept("role", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11318,6 +12043,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Contract.Term.SecurityLabel parseContractTermSecurityLabel(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contract.Term.SecurityLabel.Builder builder = Contract.Term.SecurityLabel.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -11356,7 +12082,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.control(parseCoding("control", reader, controlElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11373,6 +12103,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Contributor parseContributor(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Contributor.Builder builder = Contributor.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -11403,7 +12134,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.contact(parseContactDetail("contact", reader, contactElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11420,6 +12155,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Coverage parseCoverage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Coverage.Builder builder = Coverage.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, payorElementIndex = 0, classElementIndex = 0, costToBeneficiaryElementIndex = 0, contractElementIndex = 0;
         while (reader.hasNext()) {
@@ -11530,7 +12266,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.contract(parseReference("contract", reader, contractElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11547,6 +12287,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Coverage.Class parseCoverageClass(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Coverage.Class.Builder builder = Coverage.Class.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -11581,7 +12322,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.name(parseString("name", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11598,6 +12343,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Coverage.CostToBeneficiary parseCoverageCostToBeneficiary(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Coverage.CostToBeneficiary.Builder builder = Coverage.CostToBeneficiary.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -11636,7 +12382,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.exception(parseCoverageCostToBeneficiaryException("exception", reader, exceptionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11653,6 +12403,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Coverage.CostToBeneficiary.Exception parseCoverageCostToBeneficiaryException(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Coverage.CostToBeneficiary.Exception.Builder builder = Coverage.CostToBeneficiary.Exception.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -11683,7 +12434,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11700,6 +12455,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CoverageEligibilityRequest parseCoverageEligibilityRequest(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CoverageEligibilityRequest.Builder builder = CoverageEligibilityRequest.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, purposeElementIndex = 0, supportingInfoElementIndex = 0, insuranceElementIndex = 0, itemElementIndex = 0;
         while (reader.hasNext()) {
@@ -11802,7 +12558,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseCoverageEligibilityRequestItem("item", reader, itemElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11819,6 +12579,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CoverageEligibilityRequest.Insurance parseCoverageEligibilityRequestInsurance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CoverageEligibilityRequest.Insurance.Builder builder = CoverageEligibilityRequest.Insurance.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -11853,7 +12614,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.businessArrangement(parseString("businessArrangement", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11870,6 +12635,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CoverageEligibilityRequest.Item parseCoverageEligibilityRequestItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CoverageEligibilityRequest.Item.Builder builder = CoverageEligibilityRequest.Item.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -11932,7 +12698,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseReference("detail", reader, detailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11949,6 +12719,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CoverageEligibilityRequest.Item.Diagnosis parseCoverageEligibilityRequestItemDiagnosis(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CoverageEligibilityRequest.Item.Diagnosis.Builder builder = CoverageEligibilityRequest.Item.Diagnosis.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -11979,7 +12750,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.diagnosis(parseReference("diagnosisReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -11996,6 +12771,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CoverageEligibilityRequest.SupportingInfo parseCoverageEligibilityRequestSupportingInfo(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CoverageEligibilityRequest.SupportingInfo.Builder builder = CoverageEligibilityRequest.SupportingInfo.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -12030,7 +12806,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.appliesToAll(parseBoolean("appliesToAll", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12047,6 +12827,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CoverageEligibilityResponse parseCoverageEligibilityResponse(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CoverageEligibilityResponse.Builder builder = CoverageEligibilityResponse.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, purposeElementIndex = 0, insuranceElementIndex = 0, errorElementIndex = 0;
         while (reader.hasNext()) {
@@ -12153,7 +12934,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.error(parseCoverageEligibilityResponseError("error", reader, errorElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12170,6 +12955,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CoverageEligibilityResponse.Error parseCoverageEligibilityResponseError(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CoverageEligibilityResponse.Error.Builder builder = CoverageEligibilityResponse.Error.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -12196,7 +12982,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.code(parseCodeableConcept("code", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12213,6 +13003,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CoverageEligibilityResponse.Insurance parseCoverageEligibilityResponseInsurance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CoverageEligibilityResponse.Insurance.Builder builder = CoverageEligibilityResponse.Insurance.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -12251,7 +13042,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseCoverageEligibilityResponseInsuranceItem("item", reader, itemElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12268,6 +13063,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CoverageEligibilityResponse.Insurance.Item parseCoverageEligibilityResponseInsuranceItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CoverageEligibilityResponse.Insurance.Item.Builder builder = CoverageEligibilityResponse.Insurance.Item.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -12346,7 +13142,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.authorizationUrl(parseUri("authorizationUrl", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12363,6 +13163,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private CoverageEligibilityResponse.Insurance.Item.Benefit parseCoverageEligibilityResponseInsuranceItemBenefit(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         CoverageEligibilityResponse.Insurance.Item.Benefit.Builder builder = CoverageEligibilityResponse.Insurance.Item.Benefit.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -12413,7 +13214,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.used(parseMoney("usedMoney", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12430,6 +13235,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DataRequirement parseDataRequirement(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DataRequirement.Builder builder = DataRequirement.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -12484,7 +13290,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.sort(parseDataRequirementSort("sort", reader, sortElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12501,6 +13311,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DataRequirement.CodeFilter parseDataRequirementCodeFilter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DataRequirement.CodeFilter.Builder builder = DataRequirement.CodeFilter.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -12539,7 +13350,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.code(parseCoding("code", reader, codeElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12556,6 +13371,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DataRequirement.DateFilter parseDataRequirementDateFilter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DataRequirement.DateFilter.Builder builder = DataRequirement.DateFilter.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -12598,7 +13414,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value((Duration) parseQuantity(Duration.builder(), "valueDuration", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12615,6 +13435,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DataRequirement.Sort parseDataRequirementSort(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DataRequirement.Sort.Builder builder = DataRequirement.Sort.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -12645,7 +13466,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.direction((SortDirection) parseString(SortDirection.builder(), "direction", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12662,6 +13487,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Date parseDate(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Date.Builder builder = Date.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -12684,7 +13510,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.extension(parseExtension("extension", reader, extensionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12701,6 +13531,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DateTime parseDateTime(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DateTime.Builder builder = DateTime.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -12723,7 +13554,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.extension(parseExtension("extension", reader, extensionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12740,6 +13575,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Decimal parseDecimal(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Decimal.Builder builder = Decimal.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -12762,7 +13598,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.extension(parseExtension("extension", reader, extensionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12779,6 +13619,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DetectedIssue parseDetectedIssue(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DetectedIssue.Builder builder = DetectedIssue.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, implicatedElementIndex = 0, evidenceElementIndex = 0, mitigationElementIndex = 0;
         while (reader.hasNext()) {
@@ -12873,7 +13714,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.mitigation(parseDetectedIssueMitigation("mitigation", reader, mitigationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12890,6 +13735,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DetectedIssue.Evidence parseDetectedIssueEvidence(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DetectedIssue.Evidence.Builder builder = DetectedIssue.Evidence.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -12920,7 +13766,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseReference("detail", reader, detailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12937,6 +13787,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DetectedIssue.Mitigation parseDetectedIssueMitigation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DetectedIssue.Mitigation.Builder builder = DetectedIssue.Mitigation.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -12971,7 +13822,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.author(parseReference("author", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -12988,6 +13843,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Device parseDevice(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Device.Builder builder = Device.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, udiCarrierElementIndex = 0, statusReasonElementIndex = 0, deviceNameElementIndex = 0, specializationElementIndex = 0, versionElementIndex = 0, propertyElementIndex = 0, contactElementIndex = 0, noteElementIndex = 0, safetyElementIndex = 0;
         while (reader.hasNext()) {
@@ -13134,7 +13990,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.parent(parseReference("parent", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13151,6 +14011,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Device.DeviceName parseDeviceDeviceName(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Device.DeviceName.Builder builder = Device.DeviceName.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -13181,7 +14042,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.type((DeviceNameType) parseString(DeviceNameType.builder(), "type", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13198,6 +14063,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Device.Property parseDeviceProperty(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Device.Property.Builder builder = Device.Property.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -13232,7 +14098,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.valueCode(parseCodeableConcept("valueCode", reader, valueCodeElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13249,6 +14119,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Device.Specialization parseDeviceSpecialization(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Device.Specialization.Builder builder = Device.Specialization.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -13279,7 +14150,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.version(parseString("version", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13296,6 +14171,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Device.UdiCarrier parseDeviceUdiCarrier(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Device.UdiCarrier.Builder builder = Device.UdiCarrier.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -13342,7 +14218,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.entryType((UDIEntryType) parseString(UDIEntryType.builder(), "entryType", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13359,6 +14239,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Device.Version parseDeviceVersion(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Device.Version.Builder builder = Device.Version.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -13393,7 +14274,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseString("value", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13410,6 +14295,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DeviceDefinition parseDeviceDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DeviceDefinition.Builder builder = DeviceDefinition.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, udiDeviceIdentifierElementIndex = 0, deviceNameElementIndex = 0, specializationElementIndex = 0, versionElementIndex = 0, safetyElementIndex = 0, shelfLifeStorageElementIndex = 0, languageCodeElementIndex = 0, capabilityElementIndex = 0, propertyElementIndex = 0, contactElementIndex = 0, noteElementIndex = 0, materialElementIndex = 0;
         while (reader.hasNext()) {
@@ -13544,7 +14430,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.material(parseDeviceDefinitionMaterial("material", reader, materialElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13561,6 +14451,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DeviceDefinition.Capability parseDeviceDefinitionCapability(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DeviceDefinition.Capability.Builder builder = DeviceDefinition.Capability.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -13591,7 +14482,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.description(parseCodeableConcept("description", reader, descriptionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13608,6 +14503,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DeviceDefinition.DeviceName parseDeviceDefinitionDeviceName(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DeviceDefinition.DeviceName.Builder builder = DeviceDefinition.DeviceName.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -13638,7 +14534,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.type((DeviceNameType) parseString(DeviceNameType.builder(), "type", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13655,6 +14555,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DeviceDefinition.Material parseDeviceDefinitionMaterial(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DeviceDefinition.Material.Builder builder = DeviceDefinition.Material.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -13689,7 +14590,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.allergenicIndicator(parseBoolean("allergenicIndicator", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13706,6 +14611,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DeviceDefinition.Property parseDeviceDefinitionProperty(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DeviceDefinition.Property.Builder builder = DeviceDefinition.Property.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -13740,7 +14646,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.valueCode(parseCodeableConcept("valueCode", reader, valueCodeElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13757,6 +14667,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DeviceDefinition.Specialization parseDeviceDefinitionSpecialization(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DeviceDefinition.Specialization.Builder builder = DeviceDefinition.Specialization.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -13787,7 +14698,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.version(parseString("version", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13804,6 +14719,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DeviceDefinition.UdiDeviceIdentifier parseDeviceDefinitionUdiDeviceIdentifier(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DeviceDefinition.UdiDeviceIdentifier.Builder builder = DeviceDefinition.UdiDeviceIdentifier.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -13838,7 +14754,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.jurisdiction(parseUri("jurisdiction", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13855,6 +14775,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DeviceMetric parseDeviceMetric(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DeviceMetric.Builder builder = DeviceMetric.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, calibrationElementIndex = 0;
         while (reader.hasNext()) {
@@ -13937,7 +14858,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.calibration(parseDeviceMetricCalibration("calibration", reader, calibrationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -13954,6 +14879,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DeviceMetric.Calibration parseDeviceMetricCalibration(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DeviceMetric.Calibration.Builder builder = DeviceMetric.Calibration.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -13988,7 +14914,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.time(parseInstant("time", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -14005,6 +14935,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DeviceRequest parseDeviceRequest(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DeviceRequest.Builder builder = DeviceRequest.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, instantiatesCanonicalElementIndex = 0, instantiatesUriElementIndex = 0, basedOnElementIndex = 0, priorRequestElementIndex = 0, parameterElementIndex = 0, reasonCodeElementIndex = 0, reasonReferenceElementIndex = 0, insuranceElementIndex = 0, supportingInfoElementIndex = 0, noteElementIndex = 0, relevantHistoryElementIndex = 0;
         while (reader.hasNext()) {
@@ -14155,7 +15086,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.relevantHistory(parseReference("relevantHistory", reader, relevantHistoryElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -14172,6 +15107,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DeviceRequest.Parameter parseDeviceRequestParameter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DeviceRequest.Parameter.Builder builder = DeviceRequest.Parameter.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -14214,7 +15150,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseBoolean("valueBoolean", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -14231,6 +15171,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DeviceUseStatement parseDeviceUseStatement(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DeviceUseStatement.Builder builder = DeviceUseStatement.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, basedOnElementIndex = 0, derivedFromElementIndex = 0, reasonCodeElementIndex = 0, reasonReferenceElementIndex = 0, noteElementIndex = 0;
         while (reader.hasNext()) {
@@ -14333,7 +15274,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -14350,6 +15295,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DiagnosticReport parseDiagnosticReport(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DiagnosticReport.Builder builder = DiagnosticReport.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, basedOnElementIndex = 0, categoryElementIndex = 0, performerElementIndex = 0, resultsInterpreterElementIndex = 0, specimenElementIndex = 0, resultElementIndex = 0, imagingStudyElementIndex = 0, mediaElementIndex = 0, conclusionCodeElementIndex = 0, presentedFormElementIndex = 0;
         while (reader.hasNext()) {
@@ -14468,7 +15414,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.presentedForm(parseAttachment("presentedForm", reader, presentedFormElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -14485,6 +15435,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DiagnosticReport.Media parseDiagnosticReportMedia(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DiagnosticReport.Media.Builder builder = DiagnosticReport.Media.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -14515,7 +15466,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.link(parseReference("link", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -14532,6 +15487,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DocumentManifest parseDocumentManifest(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DocumentManifest.Builder builder = DocumentManifest.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, authorElementIndex = 0, recipientElementIndex = 0, contentElementIndex = 0, relatedElementIndex = 0;
         while (reader.hasNext()) {
@@ -14622,7 +15578,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.related(parseDocumentManifestRelated("related", reader, relatedElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -14639,6 +15599,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DocumentManifest.Related parseDocumentManifestRelated(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DocumentManifest.Related.Builder builder = DocumentManifest.Related.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -14669,7 +15630,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.ref(parseReference("ref", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -14686,6 +15651,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DocumentReference parseDocumentReference(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DocumentReference.Builder builder = DocumentReference.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, categoryElementIndex = 0, authorElementIndex = 0, relatesToElementIndex = 0, securityLabelElementIndex = 0, contentElementIndex = 0;
         while (reader.hasNext()) {
@@ -14792,7 +15758,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.context(parseDocumentReferenceContext("context", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -14809,6 +15779,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DocumentReference.Content parseDocumentReferenceContent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DocumentReference.Content.Builder builder = DocumentReference.Content.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -14839,7 +15810,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.format(parseCoding("format", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -14856,6 +15831,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DocumentReference.Context parseDocumentReferenceContext(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DocumentReference.Context.Builder builder = DocumentReference.Context.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -14906,7 +15882,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.related(parseReference("related", reader, relatedElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -14923,6 +15903,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private DocumentReference.RelatesTo parseDocumentReferenceRelatesTo(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         DocumentReference.RelatesTo.Builder builder = DocumentReference.RelatesTo.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -14953,7 +15934,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.target(parseReference("target", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -14970,6 +15955,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Dosage parseDosage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Dosage.Builder builder = Dosage.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -15048,7 +16034,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.maxDosePerLifetime((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "maxDosePerLifetime", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -15065,6 +16055,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Dosage.DoseAndRate parseDosageDoseAndRate(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Dosage.DoseAndRate.Builder builder = Dosage.DoseAndRate.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -15111,7 +16102,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.rate((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "rateQuantity", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -15128,6 +16123,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private EffectEvidenceSynthesis parseEffectEvidenceSynthesis(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         EffectEvidenceSynthesis.Builder builder = EffectEvidenceSynthesis.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, contactElementIndex = 0, noteElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, topicElementIndex = 0, authorElementIndex = 0, editorElementIndex = 0, reviewerElementIndex = 0, endorserElementIndex = 0, relatedArtifactElementIndex = 0, resultsByExposureElementIndex = 0, effectEstimateElementIndex = 0, certaintyElementIndex = 0;
         while (reader.hasNext()) {
@@ -15302,7 +16298,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.certainty(parseEffectEvidenceSynthesisCertainty("certainty", reader, certaintyElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -15319,6 +16319,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private EffectEvidenceSynthesis.Certainty parseEffectEvidenceSynthesisCertainty(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         EffectEvidenceSynthesis.Certainty.Builder builder = EffectEvidenceSynthesis.Certainty.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -15353,7 +16354,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.certaintySubcomponent(parseEffectEvidenceSynthesisCertaintyCertaintySubcomponent("certaintySubcomponent", reader, certaintySubcomponentElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -15370,6 +16375,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private EffectEvidenceSynthesis.Certainty.CertaintySubcomponent parseEffectEvidenceSynthesisCertaintyCertaintySubcomponent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         EffectEvidenceSynthesis.Certainty.CertaintySubcomponent.Builder builder = EffectEvidenceSynthesis.Certainty.CertaintySubcomponent.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -15404,7 +16410,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -15421,6 +16431,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private EffectEvidenceSynthesis.EffectEstimate parseEffectEvidenceSynthesisEffectEstimate(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         EffectEvidenceSynthesis.EffectEstimate.Builder builder = EffectEvidenceSynthesis.EffectEstimate.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -15467,7 +16478,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.precisionEstimate(parseEffectEvidenceSynthesisEffectEstimatePrecisionEstimate("precisionEstimate", reader, precisionEstimateElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -15484,6 +16499,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private EffectEvidenceSynthesis.EffectEstimate.PrecisionEstimate parseEffectEvidenceSynthesisEffectEstimatePrecisionEstimate(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         EffectEvidenceSynthesis.EffectEstimate.PrecisionEstimate.Builder builder = EffectEvidenceSynthesis.EffectEstimate.PrecisionEstimate.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -15522,7 +16538,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.to(parseDecimal("to", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -15539,6 +16559,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private EffectEvidenceSynthesis.ResultsByExposure parseEffectEvidenceSynthesisResultsByExposure(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         EffectEvidenceSynthesis.ResultsByExposure.Builder builder = EffectEvidenceSynthesis.ResultsByExposure.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -15577,7 +16598,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.riskEvidenceSynthesis(parseReference("riskEvidenceSynthesis", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -15594,6 +16619,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private EffectEvidenceSynthesis.SampleSize parseEffectEvidenceSynthesisSampleSize(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         EffectEvidenceSynthesis.SampleSize.Builder builder = EffectEvidenceSynthesis.SampleSize.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -15628,7 +16654,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.numberOfParticipants(parseInteger("numberOfParticipants", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -15645,6 +16675,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ElementDefinition parseElementDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ElementDefinition.Builder builder = ElementDefinition.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -16455,7 +17486,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.mapping(parseElementDefinitionMapping("mapping", reader, mappingElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -16472,6 +17507,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ElementDefinition.Base parseElementDefinitionBase(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ElementDefinition.Base.Builder builder = ElementDefinition.Base.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -16506,7 +17542,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.max(parseString("max", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -16523,6 +17563,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ElementDefinition.Binding parseElementDefinitionBinding(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ElementDefinition.Binding.Builder builder = ElementDefinition.Binding.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -16557,7 +17598,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.valueSet((Canonical) parseUri(Canonical.builder(), "valueSet", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -16574,6 +17619,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ElementDefinition.Constraint parseElementDefinitionConstraint(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ElementDefinition.Constraint.Builder builder = ElementDefinition.Constraint.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -16624,7 +17670,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.source((Canonical) parseUri(Canonical.builder(), "source", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -16641,6 +17691,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ElementDefinition.Example parseElementDefinitionExample(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ElementDefinition.Example.Builder builder = ElementDefinition.Example.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -16867,7 +17918,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseMeta("valueMeta", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -16884,6 +17939,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ElementDefinition.Mapping parseElementDefinitionMapping(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ElementDefinition.Mapping.Builder builder = ElementDefinition.Mapping.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -16922,7 +17978,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.comment(parseString("comment", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -16939,6 +17999,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ElementDefinition.Slicing parseElementDefinitionSlicing(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ElementDefinition.Slicing.Builder builder = ElementDefinition.Slicing.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -16977,7 +18038,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.rules((SlicingRules) parseString(SlicingRules.builder(), "rules", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -16994,6 +18059,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ElementDefinition.Slicing.Discriminator parseElementDefinitionSlicingDiscriminator(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ElementDefinition.Slicing.Discriminator.Builder builder = ElementDefinition.Slicing.Discriminator.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -17024,7 +18090,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.path(parseString("path", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17041,6 +18111,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ElementDefinition.Type parseElementDefinitionType(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ElementDefinition.Type.Builder builder = ElementDefinition.Type.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -17083,7 +18154,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.versioning((ReferenceVersionRules) parseString(ReferenceVersionRules.builder(), "versioning", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17100,6 +18175,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Encounter parseEncounter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Encounter.Builder builder = Encounter.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, statusHistoryElementIndex = 0, classHistoryElementIndex = 0, typeElementIndex = 0, episodeOfCareElementIndex = 0, basedOnElementIndex = 0, participantElementIndex = 0, appointmentElementIndex = 0, reasonCodeElementIndex = 0, reasonReferenceElementIndex = 0, diagnosisElementIndex = 0, accountElementIndex = 0, locationElementIndex = 0;
         while (reader.hasNext()) {
@@ -17234,7 +18310,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.partOf(parseReference("partOf", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17251,6 +18331,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Encounter.ClassHistory parseEncounterClassHistory(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Encounter.ClassHistory.Builder builder = Encounter.ClassHistory.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -17281,7 +18362,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17298,6 +18383,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Encounter.Diagnosis parseEncounterDiagnosis(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Encounter.Diagnosis.Builder builder = Encounter.Diagnosis.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -17332,7 +18418,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.rank((PositiveInt) parseInteger(PositiveInt.builder(), "rank", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17349,6 +18439,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Encounter.Hospitalization parseEncounterHospitalization(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Encounter.Hospitalization.Builder builder = Encounter.Hospitalization.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -17407,7 +18498,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.dischargeDisposition(parseCodeableConcept("dischargeDisposition", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17424,6 +18519,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Encounter.Location parseEncounterLocation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Encounter.Location.Builder builder = Encounter.Location.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -17462,7 +18558,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17479,6 +18579,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Encounter.Participant parseEncounterParticipant(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Encounter.Participant.Builder builder = Encounter.Participant.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -17513,7 +18614,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.individual(parseReference("individual", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17530,6 +18635,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Encounter.StatusHistory parseEncounterStatusHistory(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Encounter.StatusHistory.Builder builder = Encounter.StatusHistory.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -17560,7 +18666,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17577,6 +18687,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Endpoint parseEndpoint(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Endpoint.Builder builder = Endpoint.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, contactElementIndex = 0, payloadTypeElementIndex = 0, payloadMimeTypeElementIndex = 0, headerElementIndex = 0;
         while (reader.hasNext()) {
@@ -17663,7 +18774,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.header(parseString("header", reader, headerElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17680,6 +18795,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private EnrollmentRequest parseEnrollmentRequest(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         EnrollmentRequest.Builder builder = EnrollmentRequest.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0;
         while (reader.hasNext()) {
@@ -17750,7 +18866,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.coverage(parseReference("coverage", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17767,6 +18887,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private EnrollmentResponse parseEnrollmentResponse(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         EnrollmentResponse.Builder builder = EnrollmentResponse.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0;
         while (reader.hasNext()) {
@@ -17841,7 +18962,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.requestProvider(parseReference("requestProvider", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17858,6 +18983,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private EpisodeOfCare parseEpisodeOfCare(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         EpisodeOfCare.Builder builder = EpisodeOfCare.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, statusHistoryElementIndex = 0, typeElementIndex = 0, diagnosisElementIndex = 0, referralRequestElementIndex = 0, teamElementIndex = 0, accountElementIndex = 0;
         while (reader.hasNext()) {
@@ -17948,7 +19074,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.account(parseReference("account", reader, accountElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -17965,6 +19095,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private EpisodeOfCare.Diagnosis parseEpisodeOfCareDiagnosis(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         EpisodeOfCare.Diagnosis.Builder builder = EpisodeOfCare.Diagnosis.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -17999,7 +19130,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.rank((PositiveInt) parseInteger(PositiveInt.builder(), "rank", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -18016,6 +19151,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private EpisodeOfCare.StatusHistory parseEpisodeOfCareStatusHistory(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         EpisodeOfCare.StatusHistory.Builder builder = EpisodeOfCare.StatusHistory.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -18046,7 +19182,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -18063,6 +19203,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private EventDefinition parseEventDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         EventDefinition.Builder builder = EventDefinition.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, topicElementIndex = 0, authorElementIndex = 0, editorElementIndex = 0, reviewerElementIndex = 0, endorserElementIndex = 0, relatedArtifactElementIndex = 0, triggerElementIndex = 0;
         while (reader.hasNext()) {
@@ -18221,7 +19362,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.trigger(parseTriggerDefinition("trigger", reader, triggerElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -18238,6 +19383,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Evidence parseEvidence(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Evidence.Builder builder = Evidence.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, contactElementIndex = 0, noteElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, topicElementIndex = 0, authorElementIndex = 0, editorElementIndex = 0, reviewerElementIndex = 0, endorserElementIndex = 0, relatedArtifactElementIndex = 0, exposureVariantElementIndex = 0, outcomeElementIndex = 0;
         while (reader.hasNext()) {
@@ -18392,7 +19538,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.outcome(parseReference("outcome", reader, outcomeElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -18409,6 +19559,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private EvidenceVariable parseEvidenceVariable(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         EvidenceVariable.Builder builder = EvidenceVariable.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, contactElementIndex = 0, noteElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, topicElementIndex = 0, authorElementIndex = 0, editorElementIndex = 0, reviewerElementIndex = 0, endorserElementIndex = 0, relatedArtifactElementIndex = 0, characteristicElementIndex = 0;
         while (reader.hasNext()) {
@@ -18559,7 +19710,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.characteristic(parseEvidenceVariableCharacteristic("characteristic", reader, characteristicElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -18576,6 +19731,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private EvidenceVariable.Characteristic parseEvidenceVariableCharacteristic(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         EvidenceVariable.Characteristic.Builder builder = EvidenceVariable.Characteristic.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -18658,7 +19814,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.groupMeasure((GroupMeasure) parseString(GroupMeasure.builder(), "groupMeasure", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -18675,6 +19835,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExampleScenario parseExampleScenario(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExampleScenario.Builder builder = ExampleScenario.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, actorElementIndex = 0, instanceElementIndex = 0, processElementIndex = 0, workflowElementIndex = 0;
         while (reader.hasNext()) {
@@ -18785,7 +19946,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.workflow((Canonical) parseUri(Canonical.builder(), "workflow", reader, workflowElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -18802,6 +19967,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExampleScenario.Actor parseExampleScenarioActor(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExampleScenario.Actor.Builder builder = ExampleScenario.Actor.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -18840,7 +20006,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.description((Markdown) parseString(Markdown.builder(), "description", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -18857,6 +20027,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExampleScenario.Instance parseExampleScenarioInstance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExampleScenario.Instance.Builder builder = ExampleScenario.Instance.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -18903,7 +20074,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.containedInstance(parseExampleScenarioInstanceContainedInstance("containedInstance", reader, containedInstanceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -18920,6 +20095,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExampleScenario.Instance.ContainedInstance parseExampleScenarioInstanceContainedInstance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExampleScenario.Instance.ContainedInstance.Builder builder = ExampleScenario.Instance.ContainedInstance.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -18950,7 +20126,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.versionId(parseString("versionId", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -18967,6 +20147,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExampleScenario.Instance.Version parseExampleScenarioInstanceVersion(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExampleScenario.Instance.Version.Builder builder = ExampleScenario.Instance.Version.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -18997,7 +20178,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.description((Markdown) parseString(Markdown.builder(), "description", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -19014,6 +20199,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExampleScenario.Process parseExampleScenarioProcess(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExampleScenario.Process.Builder builder = ExampleScenario.Process.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -19056,7 +20242,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.step(parseExampleScenarioProcessStep("step", reader, stepElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -19073,6 +20263,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExampleScenario.Process.Step parseExampleScenarioProcessStep(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExampleScenario.Process.Step.Builder builder = ExampleScenario.Process.Step.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -19111,7 +20302,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.alternative(parseExampleScenarioProcessStepAlternative("alternative", reader, alternativeElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -19128,6 +20323,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExampleScenario.Process.Step.Alternative parseExampleScenarioProcessStepAlternative(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExampleScenario.Process.Step.Alternative.Builder builder = ExampleScenario.Process.Step.Alternative.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -19162,7 +20358,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.step(parseExampleScenarioProcessStep("step", reader, stepElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -19179,6 +20379,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExampleScenario.Process.Step.Operation parseExampleScenarioProcessStepOperation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExampleScenario.Process.Step.Operation.Builder builder = ExampleScenario.Process.Step.Operation.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -19241,7 +20442,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.response(parseExampleScenarioInstanceContainedInstance("response", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -19258,6 +20463,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExplanationOfBenefit parseExplanationOfBenefit(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Builder builder = ExplanationOfBenefit.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, relatedElementIndex = 0, preAuthRefElementIndex = 0, preAuthRefPeriodElementIndex = 0, careTeamElementIndex = 0, supportingInfoElementIndex = 0, diagnosisElementIndex = 0, procedureElementIndex = 0, insuranceElementIndex = 0, itemElementIndex = 0, addItemElementIndex = 0, adjudicationElementIndex = 0, totalElementIndex = 0, processNoteElementIndex = 0, benefitBalanceElementIndex = 0;
         while (reader.hasNext()) {
@@ -19472,7 +20678,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.benefitBalance(parseExplanationOfBenefitBenefitBalance("benefitBalance", reader, benefitBalanceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -19489,6 +20699,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExplanationOfBenefit.Accident parseExplanationOfBenefitAccident(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Accident.Builder builder = ExplanationOfBenefit.Accident.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -19527,7 +20738,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.location(parseReference("locationReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -19544,6 +20759,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExplanationOfBenefit.AddItem parseExplanationOfBenefitAddItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.AddItem.Builder builder = ExplanationOfBenefit.AddItem.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -19650,7 +20866,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseExplanationOfBenefitAddItemDetail("detail", reader, detailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -19667,6 +20887,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExplanationOfBenefit.AddItem.Detail parseExplanationOfBenefitAddItemDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.AddItem.Detail.Builder builder = ExplanationOfBenefit.AddItem.Detail.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -19725,7 +20946,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.subDetail(parseExplanationOfBenefitAddItemDetailSubDetail("subDetail", reader, subDetailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -19742,6 +20967,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExplanationOfBenefit.AddItem.Detail.SubDetail parseExplanationOfBenefitAddItemDetailSubDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.AddItem.Detail.SubDetail.Builder builder = ExplanationOfBenefit.AddItem.Detail.SubDetail.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -19796,7 +21022,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.adjudication(parseExplanationOfBenefitItemAdjudication("adjudication", reader, adjudicationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -19813,6 +21043,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExplanationOfBenefit.BenefitBalance parseExplanationOfBenefitBenefitBalance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.BenefitBalance.Builder builder = ExplanationOfBenefit.BenefitBalance.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -19867,7 +21098,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.financial(parseExplanationOfBenefitBenefitBalanceFinancial("financial", reader, financialElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -19884,6 +21119,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExplanationOfBenefit.BenefitBalance.Financial parseExplanationOfBenefitBenefitBalanceFinancial(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.BenefitBalance.Financial.Builder builder = ExplanationOfBenefit.BenefitBalance.Financial.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -19930,7 +21166,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.used(parseMoney("usedMoney", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -19947,6 +21187,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExplanationOfBenefit.CareTeam parseExplanationOfBenefitCareTeam(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.CareTeam.Builder builder = ExplanationOfBenefit.CareTeam.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -19989,7 +21230,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.qualification(parseCodeableConcept("qualification", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20006,6 +21251,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExplanationOfBenefit.Diagnosis parseExplanationOfBenefitDiagnosis(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Diagnosis.Builder builder = ExplanationOfBenefit.Diagnosis.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -20052,7 +21298,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.packageCode(parseCodeableConcept("packageCode", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20069,6 +21319,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExplanationOfBenefit.Insurance parseExplanationOfBenefitInsurance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Insurance.Builder builder = ExplanationOfBenefit.Insurance.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -20103,7 +21354,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.preAuthRef(parseString("preAuthRef", reader, preAuthRefElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20120,6 +21375,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExplanationOfBenefit.Item parseExplanationOfBenefitItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Item.Builder builder = ExplanationOfBenefit.Item.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -20246,7 +21502,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseExplanationOfBenefitItemDetail("detail", reader, detailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20263,6 +21523,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExplanationOfBenefit.Item.Adjudication parseExplanationOfBenefitItemAdjudication(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Item.Adjudication.Builder builder = ExplanationOfBenefit.Item.Adjudication.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -20301,7 +21562,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseDecimal("value", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20318,6 +21583,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExplanationOfBenefit.Item.Detail parseExplanationOfBenefitItemDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Item.Detail.Builder builder = ExplanationOfBenefit.Item.Detail.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -20396,7 +21662,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.subDetail(parseExplanationOfBenefitItemDetailSubDetail("subDetail", reader, subDetailElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20413,6 +21683,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExplanationOfBenefit.Item.Detail.SubDetail parseExplanationOfBenefitItemDetailSubDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Item.Detail.SubDetail.Builder builder = ExplanationOfBenefit.Item.Detail.SubDetail.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -20487,7 +21758,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.adjudication(parseExplanationOfBenefitItemAdjudication("adjudication", reader, adjudicationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20504,6 +21779,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExplanationOfBenefit.Payee parseExplanationOfBenefitPayee(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Payee.Builder builder = ExplanationOfBenefit.Payee.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -20534,7 +21810,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.party(parseReference("party", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20551,6 +21831,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExplanationOfBenefit.Payment parseExplanationOfBenefitPayment(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Payment.Builder builder = ExplanationOfBenefit.Payment.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -20597,7 +21878,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.identifier(parseIdentifier("identifier", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20614,6 +21899,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExplanationOfBenefit.Procedure parseExplanationOfBenefitProcedure(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Procedure.Builder builder = ExplanationOfBenefit.Procedure.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -20660,7 +21946,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.udi(parseReference("udi", reader, udiElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20677,6 +21967,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExplanationOfBenefit.ProcessNote parseExplanationOfBenefitProcessNote(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.ProcessNote.Builder builder = ExplanationOfBenefit.ProcessNote.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -20715,7 +22006,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.language(parseCodeableConcept("language", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20732,6 +22027,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExplanationOfBenefit.Related parseExplanationOfBenefitRelated(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Related.Builder builder = ExplanationOfBenefit.Related.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -20766,7 +22062,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.reference(parseIdentifier("reference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20783,6 +22083,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExplanationOfBenefit.SupportingInfo parseExplanationOfBenefitSupportingInfo(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.SupportingInfo.Builder builder = ExplanationOfBenefit.SupportingInfo.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -20849,7 +22150,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.reason(parseCoding("reason", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20866,6 +22171,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ExplanationOfBenefit.Total parseExplanationOfBenefitTotal(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ExplanationOfBenefit.Total.Builder builder = ExplanationOfBenefit.Total.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -20896,7 +22202,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.amount(parseMoney("amount", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20913,6 +22223,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Expression parseExpression(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Expression.Builder builder = Expression.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -20951,7 +22262,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.reference(parseUri("reference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -20968,6 +22283,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Extension parseExtension(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Extension.Builder builder = Extension.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -21190,7 +22506,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseMeta("valueMeta", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -21207,6 +22527,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private FamilyMemberHistory parseFamilyMemberHistory(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         FamilyMemberHistory.Builder builder = FamilyMemberHistory.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, instantiatesCanonicalElementIndex = 0, instantiatesUriElementIndex = 0, reasonCodeElementIndex = 0, reasonReferenceElementIndex = 0, noteElementIndex = 0, conditionElementIndex = 0;
         while (reader.hasNext()) {
@@ -21353,7 +22674,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.condition(parseFamilyMemberHistoryCondition("condition", reader, conditionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -21370,6 +22695,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private FamilyMemberHistory.Condition parseFamilyMemberHistoryCondition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         FamilyMemberHistory.Condition.Builder builder = FamilyMemberHistory.Condition.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -21424,7 +22750,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -21441,6 +22771,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Flag parseFlag(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Flag.Builder builder = Flag.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, categoryElementIndex = 0;
         while (reader.hasNext()) {
@@ -21515,7 +22846,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.author(parseReference("author", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -21532,6 +22867,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Goal parseGoal(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Goal.Builder builder = Goal.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, categoryElementIndex = 0, targetElementIndex = 0, addressesElementIndex = 0, noteElementIndex = 0, outcomeCodeElementIndex = 0, outcomeReferenceElementIndex = 0;
         while (reader.hasNext()) {
@@ -21642,7 +22978,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.outcomeReference(parseReference("outcomeReference", reader, outcomeReferenceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -21659,6 +22999,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Goal.Target parseGoalTarget(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Goal.Target.Builder builder = Goal.Target.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -21721,7 +23062,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.due((Duration) parseQuantity(Duration.builder(), "dueDuration", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -21738,6 +23083,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private GraphDefinition parseGraphDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         GraphDefinition.Builder builder = GraphDefinition.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, linkElementIndex = 0;
         while (reader.hasNext()) {
@@ -21840,7 +23186,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.link(parseGraphDefinitionLink("link", reader, linkElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -21857,6 +23207,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private GraphDefinition.Link parseGraphDefinitionLink(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         GraphDefinition.Link.Builder builder = GraphDefinition.Link.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -21903,7 +23254,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.target(parseGraphDefinitionLinkTarget("target", reader, targetElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -21920,6 +23275,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private GraphDefinition.Link.Target parseGraphDefinitionLinkTarget(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         GraphDefinition.Link.Target.Builder builder = GraphDefinition.Link.Target.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -21962,7 +23318,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.link(parseGraphDefinitionLink("link", reader, linkElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -21979,6 +23339,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private GraphDefinition.Link.Target.Compartment parseGraphDefinitionLinkTargetCompartment(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         GraphDefinition.Link.Target.Compartment.Builder builder = GraphDefinition.Link.Target.Compartment.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -22021,7 +23382,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.description(parseString("description", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -22038,6 +23403,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Group parseGroup(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Group.Builder builder = Group.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, characteristicElementIndex = 0, memberElementIndex = 0;
         while (reader.hasNext()) {
@@ -22120,7 +23486,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.member(parseGroupMember("member", reader, memberElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -22137,6 +23507,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Group.Characteristic parseGroupCharacteristic(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Group.Characteristic.Builder builder = Group.Characteristic.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -22191,7 +23562,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -22208,6 +23583,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Group.Member parseGroupMember(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Group.Member.Builder builder = Group.Member.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -22242,7 +23618,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.inactive(parseBoolean("inactive", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -22259,6 +23639,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private GuidanceResponse parseGuidanceResponse(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         GuidanceResponse.Builder builder = GuidanceResponse.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, reasonCodeElementIndex = 0, reasonReferenceElementIndex = 0, noteElementIndex = 0, evaluationMessageElementIndex = 0, dataRequirementElementIndex = 0;
         while (reader.hasNext()) {
@@ -22369,7 +23750,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.dataRequirement(parseDataRequirement("dataRequirement", reader, dataRequirementElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -22386,6 +23771,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private HealthcareService parseHealthcareService(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         HealthcareService.Builder builder = HealthcareService.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, categoryElementIndex = 0, typeElementIndex = 0, specialtyElementIndex = 0, locationElementIndex = 0, telecomElementIndex = 0, coverageAreaElementIndex = 0, serviceProvisionCodeElementIndex = 0, eligibilityElementIndex = 0, programElementIndex = 0, characteristicElementIndex = 0, communicationElementIndex = 0, referralMethodElementIndex = 0, availableTimeElementIndex = 0, notAvailableElementIndex = 0, endpointElementIndex = 0;
         while (reader.hasNext()) {
@@ -22524,7 +23910,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.endpoint(parseReference("endpoint", reader, endpointElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -22541,6 +23931,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private HealthcareService.AvailableTime parseHealthcareServiceAvailableTime(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         HealthcareService.AvailableTime.Builder builder = HealthcareService.AvailableTime.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -22579,7 +23970,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.availableEndTime(parseTime("availableEndTime", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -22596,6 +23991,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private HealthcareService.Eligibility parseHealthcareServiceEligibility(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         HealthcareService.Eligibility.Builder builder = HealthcareService.Eligibility.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -22626,7 +24022,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.comment((Markdown) parseString(Markdown.builder(), "comment", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -22643,6 +24043,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private HealthcareService.NotAvailable parseHealthcareServiceNotAvailable(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         HealthcareService.NotAvailable.Builder builder = HealthcareService.NotAvailable.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -22673,7 +24074,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.during(parsePeriod("during", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -22690,6 +24095,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private HumanName parseHumanName(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         HumanName.Builder builder = HumanName.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -22736,7 +24142,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -22753,6 +24163,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Identifier parseIdentifier(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Identifier.Builder builder = Identifier.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -22795,7 +24206,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.assigner(parseReference("assigner", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -22812,6 +24227,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ImagingStudy parseImagingStudy(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImagingStudy.Builder builder = ImagingStudy.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, modalityElementIndex = 0, basedOnElementIndex = 0, interpreterElementIndex = 0, endpointElementIndex = 0, procedureCodeElementIndex = 0, reasonCodeElementIndex = 0, reasonReferenceElementIndex = 0, noteElementIndex = 0, seriesElementIndex = 0;
         while (reader.hasNext()) {
@@ -22934,7 +24350,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.series(parseImagingStudySeries("series", reader, seriesElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -22951,6 +24371,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ImagingStudy.Series parseImagingStudySeries(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImagingStudy.Series.Builder builder = ImagingStudy.Series.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -23021,7 +24442,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.instance(parseImagingStudySeriesInstance("instance", reader, instanceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -23038,6 +24463,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ImagingStudy.Series.Instance parseImagingStudySeriesInstance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImagingStudy.Series.Instance.Builder builder = ImagingStudy.Series.Instance.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -23076,7 +24502,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.title(parseString("title", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -23093,6 +24523,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ImagingStudy.Series.Performer parseImagingStudySeriesPerformer(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImagingStudy.Series.Performer.Builder builder = ImagingStudy.Series.Performer.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -23123,7 +24554,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.actor(parseReference("actor", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -23140,6 +24575,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Immunization parseImmunization(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Immunization.Builder builder = Immunization.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, performerElementIndex = 0, noteElementIndex = 0, reasonCodeElementIndex = 0, reasonReferenceElementIndex = 0, subpotentReasonElementIndex = 0, educationElementIndex = 0, programEligibilityElementIndex = 0, reactionElementIndex = 0, protocolAppliedElementIndex = 0;
         while (reader.hasNext()) {
@@ -23298,7 +24734,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.protocolApplied(parseImmunizationProtocolApplied("protocolApplied", reader, protocolAppliedElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -23315,6 +24755,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Immunization.Education parseImmunizationEducation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Immunization.Education.Builder builder = Immunization.Education.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -23353,7 +24794,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.presentationDate(parseDateTime("presentationDate", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -23370,6 +24815,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Immunization.Performer parseImmunizationPerformer(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Immunization.Performer.Builder builder = Immunization.Performer.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -23400,7 +24846,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.actor(parseReference("actor", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -23417,6 +24867,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Immunization.ProtocolApplied parseImmunizationProtocolApplied(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Immunization.ProtocolApplied.Builder builder = Immunization.ProtocolApplied.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -23467,7 +24918,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.seriesDoses(parseString("seriesDosesString", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -23484,6 +24939,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Immunization.Reaction parseImmunizationReaction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Immunization.Reaction.Builder builder = Immunization.Reaction.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -23518,7 +24974,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.reported(parseBoolean("reported", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -23535,6 +24995,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ImmunizationEvaluation parseImmunizationEvaluation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImmunizationEvaluation.Builder builder = ImmunizationEvaluation.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, doseStatusReasonElementIndex = 0;
         while (reader.hasNext()) {
@@ -23637,7 +25098,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.seriesDoses(parseString("seriesDosesString", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -23654,6 +25119,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ImmunizationRecommendation parseImmunizationRecommendation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImmunizationRecommendation.Builder builder = ImmunizationRecommendation.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, recommendationElementIndex = 0;
         while (reader.hasNext()) {
@@ -23716,7 +25182,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.recommendation(parseImmunizationRecommendationRecommendation("recommendation", reader, recommendationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -23733,6 +25203,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ImmunizationRecommendation.Recommendation parseImmunizationRecommendationRecommendation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImmunizationRecommendation.Recommendation.Builder builder = ImmunizationRecommendation.Recommendation.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -23811,7 +25282,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.supportingPatientInformation(parseReference("supportingPatientInformation", reader, supportingPatientInformationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -23828,6 +25303,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ImmunizationRecommendation.Recommendation.DateCriterion parseImmunizationRecommendationRecommendationDateCriterion(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImmunizationRecommendation.Recommendation.DateCriterion.Builder builder = ImmunizationRecommendation.Recommendation.DateCriterion.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -23858,7 +25334,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseDateTime("value", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -23875,6 +25355,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ImplementationGuide parseImplementationGuide(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Builder builder = ImplementationGuide.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, fhirVersionElementIndex = 0, dependsOnElementIndex = 0, globalElementIndex = 0;
         while (reader.hasNext()) {
@@ -23997,7 +25478,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.manifest(parseImplementationGuideManifest("manifest", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24014,6 +25499,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ImplementationGuide.Definition parseImplementationGuideDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Definition.Builder builder = ImplementationGuide.Definition.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -24056,7 +25542,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.template(parseImplementationGuideDefinitionTemplate("template", reader, templateElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24073,6 +25563,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ImplementationGuide.Definition.Grouping parseImplementationGuideDefinitionGrouping(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Definition.Grouping.Builder builder = ImplementationGuide.Definition.Grouping.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -24103,7 +25594,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.description(parseString("description", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24120,6 +25615,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ImplementationGuide.Definition.Page parseImplementationGuideDefinitionPage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Definition.Page.Builder builder = ImplementationGuide.Definition.Page.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -24162,7 +25658,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.page(parseImplementationGuideDefinitionPage("page", reader, pageElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24179,6 +25679,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ImplementationGuide.Definition.Parameter parseImplementationGuideDefinitionParameter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Definition.Parameter.Builder builder = ImplementationGuide.Definition.Parameter.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -24209,7 +25710,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseString("value", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24226,6 +25731,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ImplementationGuide.Definition.Resource parseImplementationGuideDefinitionResource(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Definition.Resource.Builder builder = ImplementationGuide.Definition.Resource.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -24276,7 +25782,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.groupingId((Id) parseString(Id.builder(), "groupingId", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24293,6 +25803,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ImplementationGuide.Definition.Template parseImplementationGuideDefinitionTemplate(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Definition.Template.Builder builder = ImplementationGuide.Definition.Template.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -24327,7 +25838,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.scope(parseString("scope", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24344,6 +25859,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ImplementationGuide.DependsOn parseImplementationGuideDependsOn(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImplementationGuide.DependsOn.Builder builder = ImplementationGuide.DependsOn.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -24378,7 +25894,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.version(parseString("version", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24395,6 +25915,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ImplementationGuide.Global parseImplementationGuideGlobal(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Global.Builder builder = ImplementationGuide.Global.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -24425,7 +25946,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.profile((Canonical) parseUri(Canonical.builder(), "profile", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24442,6 +25967,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ImplementationGuide.Manifest parseImplementationGuideManifest(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Manifest.Builder builder = ImplementationGuide.Manifest.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -24484,7 +26010,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.other(parseString("other", reader, otherElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24501,6 +26031,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ImplementationGuide.Manifest.Page parseImplementationGuideManifestPage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Manifest.Page.Builder builder = ImplementationGuide.Manifest.Page.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -24535,7 +26066,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.anchor(parseString("anchor", reader, anchorElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24552,6 +26087,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ImplementationGuide.Manifest.Resource parseImplementationGuideManifestResource(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ImplementationGuide.Manifest.Resource.Builder builder = ImplementationGuide.Manifest.Resource.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -24590,7 +26126,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.relativePath((Url) parseUri(Url.builder(), "relativePath", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24607,6 +26147,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Instant parseInstant(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Instant.Builder builder = Instant.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -24629,7 +26170,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.extension(parseExtension("extension", reader, extensionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24646,6 +26191,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private InsurancePlan parseInsurancePlan(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         InsurancePlan.Builder builder = InsurancePlan.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, typeElementIndex = 0, aliasElementIndex = 0, coverageAreaElementIndex = 0, contactElementIndex = 0, endpointElementIndex = 0, networkElementIndex = 0, coverageElementIndex = 0, planElementIndex = 0;
         while (reader.hasNext()) {
@@ -24744,7 +26290,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.plan(parseInsurancePlanPlan("plan", reader, planElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24761,6 +26311,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private InsurancePlan.Contact parseInsurancePlanContact(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         InsurancePlan.Contact.Builder builder = InsurancePlan.Contact.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -24799,7 +26350,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.address(parseAddress("address", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24816,6 +26371,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private InsurancePlan.Coverage parseInsurancePlanCoverage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         InsurancePlan.Coverage.Builder builder = InsurancePlan.Coverage.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -24850,7 +26406,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.benefit(parseInsurancePlanCoverageBenefit("benefit", reader, benefitElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24867,6 +26427,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private InsurancePlan.Coverage.Benefit parseInsurancePlanCoverageBenefit(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         InsurancePlan.Coverage.Benefit.Builder builder = InsurancePlan.Coverage.Benefit.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -24901,7 +26462,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.limit(parseInsurancePlanCoverageBenefitLimit("limit", reader, limitElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24918,6 +26483,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private InsurancePlan.Coverage.Benefit.Limit parseInsurancePlanCoverageBenefitLimit(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         InsurancePlan.Coverage.Benefit.Limit.Builder builder = InsurancePlan.Coverage.Benefit.Limit.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -24948,7 +26514,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.code(parseCodeableConcept("code", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -24965,6 +26535,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private InsurancePlan.Plan parseInsurancePlanPlan(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         InsurancePlan.Plan.Builder builder = InsurancePlan.Plan.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -25011,7 +26582,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.specificCost(parseInsurancePlanPlanSpecificCost("specificCost", reader, specificCostElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25028,6 +26603,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private InsurancePlan.Plan.GeneralCost parseInsurancePlanPlanGeneralCost(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         InsurancePlan.Plan.GeneralCost.Builder builder = InsurancePlan.Plan.GeneralCost.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -25066,7 +26642,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.comment(parseString("comment", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25083,6 +26663,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private InsurancePlan.Plan.SpecificCost parseInsurancePlanPlanSpecificCost(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         InsurancePlan.Plan.SpecificCost.Builder builder = InsurancePlan.Plan.SpecificCost.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -25113,7 +26694,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.benefit(parseInsurancePlanPlanSpecificCostBenefit("benefit", reader, benefitElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25130,6 +26715,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private InsurancePlan.Plan.SpecificCost.Benefit parseInsurancePlanPlanSpecificCostBenefit(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         InsurancePlan.Plan.SpecificCost.Benefit.Builder builder = InsurancePlan.Plan.SpecificCost.Benefit.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -25160,7 +26746,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.cost(parseInsurancePlanPlanSpecificCostBenefitCost("cost", reader, costElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25177,6 +26767,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private InsurancePlan.Plan.SpecificCost.Benefit.Cost parseInsurancePlanPlanSpecificCostBenefitCost(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         InsurancePlan.Plan.SpecificCost.Benefit.Cost.Builder builder = InsurancePlan.Plan.SpecificCost.Benefit.Cost.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -25215,7 +26806,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseQuantity("value", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25231,6 +26826,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
 
     private Integer parseInteger(Integer.Builder builder, java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -25253,7 +26849,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.extension(parseExtension("extension", reader, extensionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25274,6 +26874,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Invoice parseInvoice(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Invoice.Builder builder = Invoice.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, participantElementIndex = 0, lineItemElementIndex = 0, totalPriceComponentElementIndex = 0, noteElementIndex = 0;
         while (reader.hasNext()) {
@@ -25380,7 +26981,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25397,6 +27002,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Invoice.LineItem parseInvoiceLineItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Invoice.LineItem.Builder builder = Invoice.LineItem.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -25435,7 +27041,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.priceComponent(parseInvoiceLineItemPriceComponent("priceComponent", reader, priceComponentElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25452,6 +27062,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Invoice.LineItem.PriceComponent parseInvoiceLineItemPriceComponent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Invoice.LineItem.PriceComponent.Builder builder = Invoice.LineItem.PriceComponent.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -25490,7 +27101,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.amount(parseMoney("amount", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25507,6 +27122,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Invoice.Participant parseInvoiceParticipant(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Invoice.Participant.Builder builder = Invoice.Participant.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -25537,7 +27153,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.actor(parseReference("actor", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25554,6 +27174,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Library parseLibrary(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Library.Builder builder = Library.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, topicElementIndex = 0, authorElementIndex = 0, editorElementIndex = 0, reviewerElementIndex = 0, endorserElementIndex = 0, relatedArtifactElementIndex = 0, parameterElementIndex = 0, dataRequirementElementIndex = 0, contentElementIndex = 0;
         while (reader.hasNext()) {
@@ -25724,7 +27345,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.content(parseAttachment("content", reader, contentElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25741,6 +27366,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Linkage parseLinkage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Linkage.Builder builder = Linkage.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, itemElementIndex = 0;
         while (reader.hasNext()) {
@@ -25795,7 +27421,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseLinkageItem("item", reader, itemElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25812,6 +27442,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Linkage.Item parseLinkageItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Linkage.Item.Builder builder = Linkage.Item.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -25842,7 +27473,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.resource(parseReference("resource", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25859,6 +27494,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private List parseList(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         List.Builder builder = List.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, noteElementIndex = 0, entryElementIndex = 0;
         while (reader.hasNext()) {
@@ -25953,7 +27589,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.emptyReason(parseCodeableConcept("emptyReason", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -25970,6 +27610,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private List.Entry parseListEntry(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         List.Entry.Builder builder = List.Entry.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -26008,7 +27649,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseReference("item", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -26025,6 +27670,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Location parseLocation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Location.Builder builder = Location.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, aliasElementIndex = 0, typeElementIndex = 0, telecomElementIndex = 0, hoursOfOperationElementIndex = 0, endpointElementIndex = 0;
         while (reader.hasNext()) {
@@ -26135,7 +27781,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.endpoint(parseReference("endpoint", reader, endpointElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -26152,6 +27802,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Location.HoursOfOperation parseLocationHoursOfOperation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Location.HoursOfOperation.Builder builder = Location.HoursOfOperation.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -26190,7 +27841,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.closingTime(parseTime("closingTime", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -26207,6 +27862,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Location.Position parseLocationPosition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Location.Position.Builder builder = Location.Position.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -26241,7 +27897,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.altitude(parseDecimal("altitude", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -26258,6 +27918,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MarketingStatus parseMarketingStatus(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MarketingStatus.Builder builder = MarketingStatus.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -26300,7 +27961,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.restoreDate(parseDateTime("restoreDate", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -26317,6 +27982,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Measure parseMeasure(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Measure.Builder builder = Measure.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, topicElementIndex = 0, authorElementIndex = 0, editorElementIndex = 0, reviewerElementIndex = 0, endorserElementIndex = 0, relatedArtifactElementIndex = 0, libraryElementIndex = 0, typeElementIndex = 0, definitionElementIndex = 0, groupElementIndex = 0, supplementalDataElementIndex = 0;
         while (reader.hasNext()) {
@@ -26527,7 +28193,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.supplementalData(parseMeasureSupplementalData("supplementalData", reader, supplementalDataElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -26544,6 +28214,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Measure.Group parseMeasureGroup(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Measure.Group.Builder builder = Measure.Group.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -26582,7 +28253,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.stratifier(parseMeasureGroupStratifier("stratifier", reader, stratifierElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -26599,6 +28274,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Measure.Group.Population parseMeasureGroupPopulation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Measure.Group.Population.Builder builder = Measure.Group.Population.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -26633,7 +28309,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.criteria(parseExpression("criteria", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -26650,6 +28330,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Measure.Group.Stratifier parseMeasureGroupStratifier(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Measure.Group.Stratifier.Builder builder = Measure.Group.Stratifier.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -26688,7 +28369,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.component(parseMeasureGroupStratifierComponent("component", reader, componentElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -26705,6 +28390,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Measure.Group.Stratifier.Component parseMeasureGroupStratifierComponent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Measure.Group.Stratifier.Component.Builder builder = Measure.Group.Stratifier.Component.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -26739,7 +28425,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.criteria(parseExpression("criteria", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -26756,6 +28446,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Measure.SupplementalData parseMeasureSupplementalData(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Measure.SupplementalData.Builder builder = Measure.SupplementalData.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -26794,7 +28485,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.criteria(parseExpression("criteria", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -26811,6 +28506,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MeasureReport parseMeasureReport(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MeasureReport.Builder builder = MeasureReport.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, groupElementIndex = 0, evaluatedResourceElementIndex = 0;
         while (reader.hasNext()) {
@@ -26897,7 +28593,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.evaluatedResource(parseReference("evaluatedResource", reader, evaluatedResourceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -26914,6 +28614,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MeasureReport.Group parseMeasureReportGroup(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MeasureReport.Group.Builder builder = MeasureReport.Group.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -26952,7 +28653,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.stratifier(parseMeasureReportGroupStratifier("stratifier", reader, stratifierElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -26969,6 +28674,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MeasureReport.Group.Population parseMeasureReportGroupPopulation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MeasureReport.Group.Population.Builder builder = MeasureReport.Group.Population.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -27003,7 +28709,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.subjectResults(parseReference("subjectResults", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27020,6 +28730,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MeasureReport.Group.Stratifier parseMeasureReportGroupStratifier(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MeasureReport.Group.Stratifier.Builder builder = MeasureReport.Group.Stratifier.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -27050,7 +28761,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.stratum(parseMeasureReportGroupStratifierStratum("stratum", reader, stratumElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27067,6 +28782,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MeasureReport.Group.Stratifier.Stratum parseMeasureReportGroupStratifierStratum(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MeasureReport.Group.Stratifier.Stratum.Builder builder = MeasureReport.Group.Stratifier.Stratum.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -27105,7 +28821,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.measureScore(parseQuantity("measureScore", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27122,6 +28842,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MeasureReport.Group.Stratifier.Stratum.Component parseMeasureReportGroupStratifierStratumComponent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MeasureReport.Group.Stratifier.Stratum.Component.Builder builder = MeasureReport.Group.Stratifier.Stratum.Component.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -27152,7 +28873,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseCodeableConcept("value", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27169,6 +28894,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MeasureReport.Group.Stratifier.Stratum.Population parseMeasureReportGroupStratifierStratumPopulation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MeasureReport.Group.Stratifier.Stratum.Population.Builder builder = MeasureReport.Group.Stratifier.Stratum.Population.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -27203,7 +28929,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.subjectResults(parseReference("subjectResults", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27220,6 +28950,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Media parseMedia(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Media.Builder builder = Media.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, basedOnElementIndex = 0, partOfElementIndex = 0, reasonCodeElementIndex = 0, noteElementIndex = 0;
         while (reader.hasNext()) {
@@ -27354,7 +29085,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27371,6 +29106,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Medication parseMedication(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Medication.Builder builder = Medication.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, ingredientElementIndex = 0;
         while (reader.hasNext()) {
@@ -27445,7 +29181,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.batch(parseMedicationBatch("batch", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27462,6 +29202,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Medication.Batch parseMedicationBatch(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Medication.Batch.Builder builder = Medication.Batch.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -27492,7 +29233,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.expirationDate(parseDateTime("expirationDate", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27509,6 +29254,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Medication.Ingredient parseMedicationIngredient(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Medication.Ingredient.Builder builder = Medication.Ingredient.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -27547,7 +29293,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.strength(parseRatio("strength", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27564,6 +29314,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationAdministration parseMedicationAdministration(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationAdministration.Builder builder = MedicationAdministration.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, instantiatesElementIndex = 0, partOfElementIndex = 0, statusReasonElementIndex = 0, supportingInformationElementIndex = 0, performerElementIndex = 0, reasonCodeElementIndex = 0, reasonReferenceElementIndex = 0, deviceElementIndex = 0, noteElementIndex = 0, eventHistoryElementIndex = 0;
         while (reader.hasNext()) {
@@ -27690,7 +29441,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.eventHistory(parseReference("eventHistory", reader, eventHistoryElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27707,6 +29462,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationAdministration.Dosage parseMedicationAdministrationDosage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationAdministration.Dosage.Builder builder = MedicationAdministration.Dosage.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -27757,7 +29513,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.rate((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "rateQuantity", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27774,6 +29534,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationAdministration.Performer parseMedicationAdministrationPerformer(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationAdministration.Performer.Builder builder = MedicationAdministration.Performer.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -27804,7 +29565,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.actor(parseReference("actor", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27821,6 +29586,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationDispense parseMedicationDispense(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationDispense.Builder builder = MedicationDispense.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, partOfElementIndex = 0, supportingInformationElementIndex = 0, performerElementIndex = 0, authorizingPrescriptionElementIndex = 0, receiverElementIndex = 0, noteElementIndex = 0, dosageInstructionElementIndex = 0, detectedIssueElementIndex = 0, eventHistoryElementIndex = 0;
         while (reader.hasNext()) {
@@ -27967,7 +29733,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.eventHistory(parseReference("eventHistory", reader, eventHistoryElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -27984,6 +29754,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationDispense.Performer parseMedicationDispensePerformer(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationDispense.Performer.Builder builder = MedicationDispense.Performer.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -28014,7 +29785,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.actor(parseReference("actor", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28031,6 +29806,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationDispense.Substitution parseMedicationDispenseSubstitution(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationDispense.Substitution.Builder builder = MedicationDispense.Substitution.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -28069,7 +29845,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.responsibleParty(parseReference("responsibleParty", reader, responsiblePartyElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28086,6 +29866,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationKnowledge parseMedicationKnowledge(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Builder builder = MedicationKnowledge.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, synonymElementIndex = 0, relatedMedicationKnowledgeElementIndex = 0, associatedMedicationElementIndex = 0, productTypeElementIndex = 0, monographElementIndex = 0, ingredientElementIndex = 0, intendedRouteElementIndex = 0, costElementIndex = 0, monitoringProgramElementIndex = 0, administrationGuidelinesElementIndex = 0, medicineClassificationElementIndex = 0, drugCharacteristicElementIndex = 0, contraindicationElementIndex = 0, regulatoryElementIndex = 0, kineticsElementIndex = 0;
         while (reader.hasNext()) {
@@ -28216,7 +29997,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.kinetics(parseMedicationKnowledgeKinetics("kinetics", reader, kineticsElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28233,6 +30018,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationKnowledge.AdministrationGuidelines parseMedicationKnowledgeAdministrationGuidelines(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.AdministrationGuidelines.Builder builder = MedicationKnowledge.AdministrationGuidelines.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -28271,7 +30057,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.patientCharacteristics(parseMedicationKnowledgeAdministrationGuidelinesPatientCharacteristics("patientCharacteristics", reader, patientCharacteristicsElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28288,6 +30078,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationKnowledge.AdministrationGuidelines.Dosage parseMedicationKnowledgeAdministrationGuidelinesDosage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.AdministrationGuidelines.Dosage.Builder builder = MedicationKnowledge.AdministrationGuidelines.Dosage.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -28318,7 +30109,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.dosage(parseDosage("dosage", reader, dosageElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28335,6 +30130,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics parseMedicationKnowledgeAdministrationGuidelinesPatientCharacteristics(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics.Builder builder = MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -28369,7 +30165,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseString("value", reader, valueElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28386,6 +30186,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationKnowledge.Cost parseMedicationKnowledgeCost(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Cost.Builder builder = MedicationKnowledge.Cost.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -28420,7 +30221,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.cost(parseMoney("cost", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28437,6 +30242,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationKnowledge.DrugCharacteristic parseMedicationKnowledgeDrugCharacteristic(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.DrugCharacteristic.Builder builder = MedicationKnowledge.DrugCharacteristic.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -28479,7 +30285,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseBase64Binary("valueBase64Binary", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28496,6 +30306,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationKnowledge.Ingredient parseMedicationKnowledgeIngredient(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Ingredient.Builder builder = MedicationKnowledge.Ingredient.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -28534,7 +30345,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.strength(parseRatio("strength", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28551,6 +30366,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationKnowledge.Kinetics parseMedicationKnowledgeKinetics(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Kinetics.Builder builder = MedicationKnowledge.Kinetics.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -28585,7 +30401,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.halfLifePeriod((Duration) parseQuantity(Duration.builder(), "halfLifePeriod", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28602,6 +30422,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationKnowledge.MedicineClassification parseMedicationKnowledgeMedicineClassification(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.MedicineClassification.Builder builder = MedicationKnowledge.MedicineClassification.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -28632,7 +30453,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.classification(parseCodeableConcept("classification", reader, classificationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28649,6 +30474,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationKnowledge.MonitoringProgram parseMedicationKnowledgeMonitoringProgram(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.MonitoringProgram.Builder builder = MedicationKnowledge.MonitoringProgram.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -28679,7 +30505,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.name(parseString("name", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28696,6 +30526,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationKnowledge.Monograph parseMedicationKnowledgeMonograph(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Monograph.Builder builder = MedicationKnowledge.Monograph.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -28726,7 +30557,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.source(parseReference("source", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28743,6 +30578,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationKnowledge.Packaging parseMedicationKnowledgePackaging(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Packaging.Builder builder = MedicationKnowledge.Packaging.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -28773,7 +30609,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28790,6 +30630,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationKnowledge.Regulatory parseMedicationKnowledgeRegulatory(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Regulatory.Builder builder = MedicationKnowledge.Regulatory.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -28828,7 +30669,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.maxDispense(parseMedicationKnowledgeRegulatoryMaxDispense("maxDispense", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28845,6 +30690,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationKnowledge.Regulatory.MaxDispense parseMedicationKnowledgeRegulatoryMaxDispense(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Regulatory.MaxDispense.Builder builder = MedicationKnowledge.Regulatory.MaxDispense.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -28875,7 +30721,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period((Duration) parseQuantity(Duration.builder(), "period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28892,6 +30742,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationKnowledge.Regulatory.Schedule parseMedicationKnowledgeRegulatorySchedule(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Regulatory.Schedule.Builder builder = MedicationKnowledge.Regulatory.Schedule.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -28918,7 +30769,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.schedule(parseCodeableConcept("schedule", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28935,6 +30790,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationKnowledge.Regulatory.Substitution parseMedicationKnowledgeRegulatorySubstitution(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.Regulatory.Substitution.Builder builder = MedicationKnowledge.Regulatory.Substitution.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -28965,7 +30821,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.allowed(parseBoolean("allowed", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -28982,6 +30842,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationKnowledge.RelatedMedicationKnowledge parseMedicationKnowledgeRelatedMedicationKnowledge(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationKnowledge.RelatedMedicationKnowledge.Builder builder = MedicationKnowledge.RelatedMedicationKnowledge.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -29012,7 +30873,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.reference(parseReference("reference", reader, referenceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -29029,6 +30894,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationRequest parseMedicationRequest(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationRequest.Builder builder = MedicationRequest.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, categoryElementIndex = 0, supportingInformationElementIndex = 0, reasonCodeElementIndex = 0, reasonReferenceElementIndex = 0, instantiatesCanonicalElementIndex = 0, instantiatesUriElementIndex = 0, basedOnElementIndex = 0, insuranceElementIndex = 0, noteElementIndex = 0, dosageInstructionElementIndex = 0, detectedIssueElementIndex = 0, eventHistoryElementIndex = 0;
         while (reader.hasNext()) {
@@ -29207,7 +31073,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.eventHistory(parseReference("eventHistory", reader, eventHistoryElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -29224,6 +31094,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationRequest.DispenseRequest parseMedicationRequestDispenseRequest(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationRequest.DispenseRequest.Builder builder = MedicationRequest.DispenseRequest.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -29274,7 +31145,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.performer(parseReference("performer", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -29291,6 +31166,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationRequest.DispenseRequest.InitialFill parseMedicationRequestDispenseRequestInitialFill(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationRequest.DispenseRequest.InitialFill.Builder builder = MedicationRequest.DispenseRequest.InitialFill.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -29321,7 +31197,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.duration((Duration) parseQuantity(Duration.builder(), "duration", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -29338,6 +31218,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationRequest.Substitution parseMedicationRequestSubstitution(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationRequest.Substitution.Builder builder = MedicationRequest.Substitution.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -29372,7 +31253,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.reason(parseCodeableConcept("reason", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -29389,6 +31274,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicationStatement parseMedicationStatement(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicationStatement.Builder builder = MedicationStatement.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, basedOnElementIndex = 0, partOfElementIndex = 0, statusReasonElementIndex = 0, derivedFromElementIndex = 0, reasonCodeElementIndex = 0, reasonReferenceElementIndex = 0, noteElementIndex = 0, dosageElementIndex = 0;
         while (reader.hasNext()) {
@@ -29507,7 +31393,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.dosage(parseDosage("dosage", reader, dosageElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -29524,6 +31414,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProduct parseMedicinalProduct(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProduct.Builder builder = MedicinalProduct.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, specialMeasuresElementIndex = 0, productClassificationElementIndex = 0, marketingStatusElementIndex = 0, pharmaceuticalProductElementIndex = 0, packagedMedicinalProductElementIndex = 0, attachedDocumentElementIndex = 0, masterFileElementIndex = 0, contactElementIndex = 0, clinicalTrialElementIndex = 0, nameElementIndex = 0, crossReferenceElementIndex = 0, manufacturingBusinessOperationElementIndex = 0, specialDesignationElementIndex = 0;
         while (reader.hasNext()) {
@@ -29646,7 +31537,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.specialDesignation(parseMedicinalProductSpecialDesignation("specialDesignation", reader, specialDesignationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -29663,6 +31558,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProduct.ManufacturingBusinessOperation parseMedicinalProductManufacturingBusinessOperation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProduct.ManufacturingBusinessOperation.Builder builder = MedicinalProduct.ManufacturingBusinessOperation.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -29709,7 +31605,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.regulator(parseReference("regulator", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -29726,6 +31626,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProduct.Name parseMedicinalProductName(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProduct.Name.Builder builder = MedicinalProduct.Name.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -29760,7 +31661,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.countryLanguage(parseMedicinalProductNameCountryLanguage("countryLanguage", reader, countryLanguageElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -29777,6 +31682,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProduct.Name.CountryLanguage parseMedicinalProductNameCountryLanguage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProduct.Name.CountryLanguage.Builder builder = MedicinalProduct.Name.CountryLanguage.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -29811,7 +31717,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.language(parseCodeableConcept("language", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -29828,6 +31738,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProduct.Name.NamePart parseMedicinalProductNameNamePart(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProduct.Name.NamePart.Builder builder = MedicinalProduct.Name.NamePart.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -29858,7 +31769,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.type(parseCoding("type", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -29875,6 +31790,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProduct.SpecialDesignation parseMedicinalProductSpecialDesignation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProduct.SpecialDesignation.Builder builder = MedicinalProduct.SpecialDesignation.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -29929,7 +31845,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.species(parseCodeableConcept("species", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -29946,6 +31866,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProductAuthorization parseMedicinalProductAuthorization(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductAuthorization.Builder builder = MedicinalProductAuthorization.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, countryElementIndex = 0, jurisdictionElementIndex = 0, jurisdictionalAuthorizationElementIndex = 0;
         while (reader.hasNext()) {
@@ -30052,7 +31973,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.procedure(parseMedicinalProductAuthorizationProcedure("procedure", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30069,6 +31994,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProductAuthorization.JurisdictionalAuthorization parseMedicinalProductAuthorizationJurisdictionalAuthorization(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductAuthorization.JurisdictionalAuthorization.Builder builder = MedicinalProductAuthorization.JurisdictionalAuthorization.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -30111,7 +32037,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.validityPeriod(parsePeriod("validityPeriod", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30128,6 +32058,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProductAuthorization.Procedure parseMedicinalProductAuthorizationProcedure(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductAuthorization.Procedure.Builder builder = MedicinalProductAuthorization.Procedure.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -30170,7 +32101,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.application(parseMedicinalProductAuthorizationProcedure("application", reader, applicationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30187,6 +32122,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProductContraindication parseMedicinalProductContraindication(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductContraindication.Builder builder = MedicinalProductContraindication.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, subjectElementIndex = 0, comorbidityElementIndex = 0, therapeuticIndicationElementIndex = 0, otherTherapyElementIndex = 0, populationElementIndex = 0;
         while (reader.hasNext()) {
@@ -30257,7 +32193,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.population(parsePopulation("population", reader, populationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30274,6 +32214,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProductContraindication.OtherTherapy parseMedicinalProductContraindicationOtherTherapy(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductContraindication.OtherTherapy.Builder builder = MedicinalProductContraindication.OtherTherapy.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -30308,7 +32249,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.medication(parseReference("medicationReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30325,6 +32270,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProductIndication parseMedicinalProductIndication(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductIndication.Builder builder = MedicinalProductIndication.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, subjectElementIndex = 0, comorbidityElementIndex = 0, otherTherapyElementIndex = 0, undesirableEffectElementIndex = 0, populationElementIndex = 0;
         while (reader.hasNext()) {
@@ -30403,7 +32349,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.population(parsePopulation("population", reader, populationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30420,6 +32370,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProductIndication.OtherTherapy parseMedicinalProductIndicationOtherTherapy(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductIndication.OtherTherapy.Builder builder = MedicinalProductIndication.OtherTherapy.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -30454,7 +32405,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.medication(parseReference("medicationReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30471,6 +32426,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProductIngredient parseMedicinalProductIngredient(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductIngredient.Builder builder = MedicinalProductIngredient.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, manufacturerElementIndex = 0, specifiedSubstanceElementIndex = 0;
         while (reader.hasNext()) {
@@ -30537,7 +32493,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.substance(parseMedicinalProductIngredientSubstance("substance", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30554,6 +32514,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProductIngredient.SpecifiedSubstance parseMedicinalProductIngredientSpecifiedSubstance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductIngredient.SpecifiedSubstance.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -30592,7 +32553,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.strength(parseMedicinalProductIngredientSpecifiedSubstanceStrength("strength", reader, strengthElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30609,6 +32574,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProductIngredient.SpecifiedSubstance.Strength parseMedicinalProductIngredientSpecifiedSubstanceStrength(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductIngredient.SpecifiedSubstance.Strength.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.Strength.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -30659,7 +32625,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.referenceStrength(parseMedicinalProductIngredientSpecifiedSubstanceStrengthReferenceStrength("referenceStrength", reader, referenceStrengthElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30676,6 +32646,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength parseMedicinalProductIngredientSpecifiedSubstanceStrengthReferenceStrength(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -30718,7 +32689,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.country(parseCodeableConcept("country", reader, countryElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30735,6 +32710,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProductIngredient.Substance parseMedicinalProductIngredientSubstance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductIngredient.Substance.Builder builder = MedicinalProductIngredient.Substance.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -30765,7 +32741,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.strength(parseMedicinalProductIngredientSpecifiedSubstanceStrength("strength", reader, strengthElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30782,6 +32762,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProductInteraction parseMedicinalProductInteraction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductInteraction.Builder builder = MedicinalProductInteraction.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, subjectElementIndex = 0, interactantElementIndex = 0;
         while (reader.hasNext()) {
@@ -30852,7 +32833,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.management(parseCodeableConcept("management", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30869,6 +32854,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProductInteraction.Interactant parseMedicinalProductInteractionInteractant(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductInteraction.Interactant.Builder builder = MedicinalProductInteraction.Interactant.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -30899,7 +32885,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseCodeableConcept("itemCodeableConcept", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -30916,6 +32906,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProductManufactured parseMedicinalProductManufactured(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductManufactured.Builder builder = MedicinalProductManufactured.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, manufacturerElementIndex = 0, ingredientElementIndex = 0, otherCharacteristicsElementIndex = 0;
         while (reader.hasNext()) {
@@ -30986,7 +32977,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.otherCharacteristics(parseCodeableConcept("otherCharacteristics", reader, otherCharacteristicsElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31003,6 +32998,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProductPackaged parseMedicinalProductPackaged(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductPackaged.Builder builder = MedicinalProductPackaged.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, subjectElementIndex = 0, marketingStatusElementIndex = 0, manufacturerElementIndex = 0, batchIdentifierElementIndex = 0, packageItemElementIndex = 0;
         while (reader.hasNext()) {
@@ -31081,7 +33077,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.packageItem(parseMedicinalProductPackagedPackageItem("packageItem", reader, packageItemElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31098,6 +33098,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProductPackaged.BatchIdentifier parseMedicinalProductPackagedBatchIdentifier(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductPackaged.BatchIdentifier.Builder builder = MedicinalProductPackaged.BatchIdentifier.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -31128,7 +33129,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.immediatePackaging(parseIdentifier("immediatePackaging", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31145,6 +33150,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProductPackaged.PackageItem parseMedicinalProductPackagedPackageItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductPackaged.PackageItem.Builder builder = MedicinalProductPackaged.PackageItem.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -31215,7 +33221,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.manufacturer(parseReference("manufacturer", reader, manufacturerElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31232,6 +33242,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProductPharmaceutical parseMedicinalProductPharmaceutical(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductPharmaceutical.Builder builder = MedicinalProductPharmaceutical.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, ingredientElementIndex = 0, deviceElementIndex = 0, characteristicsElementIndex = 0, routeOfAdministrationElementIndex = 0;
         while (reader.hasNext()) {
@@ -31302,7 +33313,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.routeOfAdministration(parseMedicinalProductPharmaceuticalRouteOfAdministration("routeOfAdministration", reader, routeOfAdministrationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31319,6 +33334,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProductPharmaceutical.Characteristics parseMedicinalProductPharmaceuticalCharacteristics(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductPharmaceutical.Characteristics.Builder builder = MedicinalProductPharmaceutical.Characteristics.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -31349,7 +33365,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.status(parseCodeableConcept("status", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31366,6 +33386,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProductPharmaceutical.RouteOfAdministration parseMedicinalProductPharmaceuticalRouteOfAdministration(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductPharmaceutical.RouteOfAdministration.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -31416,7 +33437,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.targetSpecies(parseMedicinalProductPharmaceuticalRouteOfAdministrationTargetSpecies("targetSpecies", reader, targetSpeciesElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31433,6 +33458,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies parseMedicinalProductPharmaceuticalRouteOfAdministrationTargetSpecies(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -31463,7 +33489,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.withdrawalPeriod(parseMedicinalProductPharmaceuticalRouteOfAdministrationTargetSpeciesWithdrawalPeriod("withdrawalPeriod", reader, withdrawalPeriodElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31480,6 +33510,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod parseMedicinalProductPharmaceuticalRouteOfAdministrationTargetSpeciesWithdrawalPeriod(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -31514,7 +33545,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.supportingInformation(parseString("supportingInformation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31531,6 +33566,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MedicinalProductUndesirableEffect parseMedicinalProductUndesirableEffect(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MedicinalProductUndesirableEffect.Builder builder = MedicinalProductUndesirableEffect.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, subjectElementIndex = 0, populationElementIndex = 0;
         while (reader.hasNext()) {
@@ -31593,7 +33629,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.population(parsePopulation("population", reader, populationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31610,6 +33650,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MessageDefinition parseMessageDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MessageDefinition.Builder builder = MessageDefinition.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, replacesElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, parentElementIndex = 0, focusElementIndex = 0, allowedResponseElementIndex = 0, graphElementIndex = 0;
         while (reader.hasNext()) {
@@ -31752,7 +33793,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.graph((Canonical) parseUri(Canonical.builder(), "graph", reader, graphElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31769,6 +33814,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MessageDefinition.AllowedResponse parseMessageDefinitionAllowedResponse(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MessageDefinition.AllowedResponse.Builder builder = MessageDefinition.AllowedResponse.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -31799,7 +33845,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.situation((Markdown) parseString(Markdown.builder(), "situation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31816,6 +33866,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MessageDefinition.Focus parseMessageDefinitionFocus(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MessageDefinition.Focus.Builder builder = MessageDefinition.Focus.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -31854,7 +33905,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.max(parseString("max", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31871,6 +33926,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MessageHeader parseMessageHeader(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MessageHeader.Builder builder = MessageHeader.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, destinationElementIndex = 0, focusElementIndex = 0;
         while (reader.hasNext()) {
@@ -31961,7 +34017,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.definition((Canonical) parseUri(Canonical.builder(), "definition", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -31978,6 +34038,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MessageHeader.Destination parseMessageHeaderDestination(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MessageHeader.Destination.Builder builder = MessageHeader.Destination.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -32016,7 +34077,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.receiver(parseReference("receiver", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32033,6 +34098,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MessageHeader.Response parseMessageHeaderResponse(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MessageHeader.Response.Builder builder = MessageHeader.Response.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -32067,7 +34133,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.details(parseReference("details", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32084,6 +34154,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MessageHeader.Source parseMessageHeaderSource(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MessageHeader.Source.Builder builder = MessageHeader.Source.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -32126,7 +34197,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.endpoint((Url) parseUri(Url.builder(), "endpoint", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32143,6 +34218,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Meta parseMeta(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Meta.Builder builder = Meta.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -32185,7 +34261,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.tag(parseCoding("tag", reader, tagElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32202,6 +34282,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MolecularSequence parseMolecularSequence(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MolecularSequence.Builder builder = MolecularSequence.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, variantElementIndex = 0, qualityElementIndex = 0, repositoryElementIndex = 0, pointerElementIndex = 0, structureVariantElementIndex = 0;
         while (reader.hasNext()) {
@@ -32308,7 +34389,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.structureVariant(parseMolecularSequenceStructureVariant("structureVariant", reader, structureVariantElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32325,6 +34410,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MolecularSequence.Quality parseMolecularSequenceQuality(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MolecularSequence.Quality.Builder builder = MolecularSequence.Quality.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -32407,7 +34493,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.roc(parseMolecularSequenceQualityRoc("roc", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32424,6 +34514,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MolecularSequence.Quality.Roc parseMolecularSequenceQualityRoc(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MolecularSequence.Quality.Roc.Builder builder = MolecularSequence.Quality.Roc.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -32474,7 +34565,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.fMeasure(parseDecimal("fMeasure", reader, fMeasureElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32491,6 +34586,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MolecularSequence.ReferenceSeq parseMolecularSequenceReferenceSeq(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MolecularSequence.ReferenceSeq.Builder builder = MolecularSequence.ReferenceSeq.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -32549,7 +34645,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.windowEnd(parseInteger("windowEnd", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32566,6 +34666,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MolecularSequence.Repository parseMolecularSequenceRepository(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MolecularSequence.Repository.Builder builder = MolecularSequence.Repository.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -32612,7 +34713,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.readsetId(parseString("readsetId", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32629,6 +34734,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MolecularSequence.StructureVariant parseMolecularSequenceStructureVariant(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MolecularSequence.StructureVariant.Builder builder = MolecularSequence.StructureVariant.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -32671,7 +34777,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.inner(parseMolecularSequenceStructureVariantInner("inner", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32688,6 +34798,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MolecularSequence.StructureVariant.Inner parseMolecularSequenceStructureVariantInner(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MolecularSequence.StructureVariant.Inner.Builder builder = MolecularSequence.StructureVariant.Inner.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -32718,7 +34829,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.end(parseInteger("end", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32735,6 +34850,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MolecularSequence.StructureVariant.Outer parseMolecularSequenceStructureVariantOuter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MolecularSequence.StructureVariant.Outer.Builder builder = MolecularSequence.StructureVariant.Outer.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -32765,7 +34881,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.end(parseInteger("end", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32782,6 +34902,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private MolecularSequence.Variant parseMolecularSequenceVariant(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         MolecularSequence.Variant.Builder builder = MolecularSequence.Variant.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -32828,7 +34949,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.variantPointer(parseReference("variantPointer", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32845,6 +34970,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Money parseMoney(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Money.Builder builder = Money.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -32871,7 +34997,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.currency((Code) parseString(Code.builder(), "currency", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32888,6 +35018,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private NamingSystem parseNamingSystem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         NamingSystem.Builder builder = NamingSystem.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, uniqueIdElementIndex = 0;
         while (reader.hasNext()) {
@@ -32982,7 +35113,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.uniqueId(parseNamingSystemUniqueId("uniqueId", reader, uniqueIdElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -32999,6 +35134,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private NamingSystem.UniqueId parseNamingSystemUniqueId(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         NamingSystem.UniqueId.Builder builder = NamingSystem.UniqueId.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -33041,7 +35177,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33058,6 +35198,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Narrative parseNarrative(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Narrative.Builder builder = Narrative.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -33088,7 +35229,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.div(parseXhtml("div", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33105,6 +35250,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private NutritionOrder parseNutritionOrder(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         NutritionOrder.Builder builder = NutritionOrder.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, instantiatesCanonicalElementIndex = 0, instantiatesUriElementIndex = 0, instantiatesElementIndex = 0, allergyIntoleranceElementIndex = 0, foodPreferenceModifierElementIndex = 0, excludeFoodModifierElementIndex = 0, supplementElementIndex = 0, noteElementIndex = 0;
         while (reader.hasNext()) {
@@ -33215,7 +35361,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33232,6 +35382,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private NutritionOrder.EnteralFormula parseNutritionOrderEnteralFormula(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         NutritionOrder.EnteralFormula.Builder builder = NutritionOrder.EnteralFormula.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -33290,7 +35441,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.administrationInstruction(parseString("administrationInstruction", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33307,6 +35462,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private NutritionOrder.EnteralFormula.Administration parseNutritionOrderEnteralFormulaAdministration(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         NutritionOrder.EnteralFormula.Administration.Builder builder = NutritionOrder.EnteralFormula.Administration.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -33345,7 +35501,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.rate(parseRatio("rateRatio", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33362,6 +35522,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private NutritionOrder.OralDiet parseNutritionOrderOralDiet(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         NutritionOrder.OralDiet.Builder builder = NutritionOrder.OralDiet.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -33408,7 +35569,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.instruction(parseString("instruction", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33425,6 +35590,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private NutritionOrder.OralDiet.Nutrient parseNutritionOrderOralDietNutrient(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         NutritionOrder.OralDiet.Nutrient.Builder builder = NutritionOrder.OralDiet.Nutrient.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -33455,7 +35621,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.amount((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "amount", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33472,6 +35642,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private NutritionOrder.OralDiet.Texture parseNutritionOrderOralDietTexture(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         NutritionOrder.OralDiet.Texture.Builder builder = NutritionOrder.OralDiet.Texture.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -33502,7 +35673,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.foodType(parseCodeableConcept("foodType", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33519,6 +35694,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private NutritionOrder.Supplement parseNutritionOrderSupplement(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         NutritionOrder.Supplement.Builder builder = NutritionOrder.Supplement.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -33561,7 +35737,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.instruction(parseString("instruction", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33578,6 +35758,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Observation parseObservation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Observation.Builder builder = Observation.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, basedOnElementIndex = 0, partOfElementIndex = 0, categoryElementIndex = 0, focusElementIndex = 0, performerElementIndex = 0, interpretationElementIndex = 0, noteElementIndex = 0, referenceRangeElementIndex = 0, hasMemberElementIndex = 0, derivedFromElementIndex = 0, componentElementIndex = 0;
         while (reader.hasNext()) {
@@ -33768,7 +35949,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.component(parseObservationComponent("component", reader, componentElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33785,6 +35970,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Observation.Component parseObservationComponent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Observation.Component.Builder builder = Observation.Component.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -33867,7 +36053,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.referenceRange(parseObservationReferenceRange("referenceRange", reader, referenceRangeElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33884,6 +36074,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Observation.ReferenceRange parseObservationReferenceRange(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Observation.ReferenceRange.Builder builder = Observation.ReferenceRange.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -33930,7 +36121,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.text(parseString("text", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -33947,6 +36142,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ObservationDefinition parseObservationDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ObservationDefinition.Builder builder = ObservationDefinition.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, categoryElementIndex = 0, identifierElementIndex = 0, permittedDataTypeElementIndex = 0, qualifiedIntervalElementIndex = 0;
         while (reader.hasNext()) {
@@ -34041,7 +36237,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.criticalCodedValueSet(parseReference("criticalCodedValueSet", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -34058,6 +36258,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ObservationDefinition.QualifiedInterval parseObservationDefinitionQualifiedInterval(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ObservationDefinition.QualifiedInterval.Builder builder = ObservationDefinition.QualifiedInterval.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -34112,7 +36313,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.condition(parseString("condition", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -34129,6 +36334,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ObservationDefinition.QuantitativeDetails parseObservationDefinitionQuantitativeDetails(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ObservationDefinition.QuantitativeDetails.Builder builder = ObservationDefinition.QuantitativeDetails.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -34167,7 +36373,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.decimalPrecision(parseInteger("decimalPrecision", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -34184,6 +36394,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private OperationDefinition parseOperationDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         OperationDefinition.Builder builder = OperationDefinition.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, resourceElementIndex = 0, parameterElementIndex = 0, overloadElementIndex = 0;
         while (reader.hasNext()) {
@@ -34330,7 +36541,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.overload(parseOperationDefinitionOverload("overload", reader, overloadElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -34347,6 +36562,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private OperationDefinition.Overload parseOperationDefinitionOverload(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         OperationDefinition.Overload.Builder builder = OperationDefinition.Overload.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -34377,7 +36593,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.comment(parseString("comment", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -34394,6 +36614,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private OperationDefinition.Parameter parseOperationDefinitionParameter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         OperationDefinition.Parameter.Builder builder = OperationDefinition.Parameter.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -34460,7 +36681,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.part(parseOperationDefinitionParameter("part", reader, partElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -34477,6 +36702,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private OperationDefinition.Parameter.Binding parseOperationDefinitionParameterBinding(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         OperationDefinition.Parameter.Binding.Builder builder = OperationDefinition.Parameter.Binding.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -34507,7 +36733,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.valueSet((Canonical) parseUri(Canonical.builder(), "valueSet", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -34524,6 +36754,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private OperationDefinition.Parameter.ReferencedFrom parseOperationDefinitionParameterReferencedFrom(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         OperationDefinition.Parameter.ReferencedFrom.Builder builder = OperationDefinition.Parameter.ReferencedFrom.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -34554,7 +36785,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.sourceId(parseString("sourceId", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -34571,6 +36806,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private OperationOutcome parseOperationOutcome(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         OperationOutcome.Builder builder = OperationOutcome.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, issueElementIndex = 0;
         while (reader.hasNext()) {
@@ -34617,7 +36853,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.issue(parseOperationOutcomeIssue("issue", reader, issueElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -34634,6 +36874,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private OperationOutcome.Issue parseOperationOutcomeIssue(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         OperationOutcome.Issue.Builder builder = OperationOutcome.Issue.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -34680,7 +36921,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.expression(parseString("expression", reader, expressionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -34697,6 +36942,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Organization parseOrganization(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Organization.Builder builder = Organization.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, typeElementIndex = 0, aliasElementIndex = 0, telecomElementIndex = 0, addressElementIndex = 0, contactElementIndex = 0, endpointElementIndex = 0;
         while (reader.hasNext()) {
@@ -34779,7 +37025,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.endpoint(parseReference("endpoint", reader, endpointElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -34796,6 +37046,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Organization.Contact parseOrganizationContact(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Organization.Contact.Builder builder = Organization.Contact.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -34834,7 +37085,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.address(parseAddress("address", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -34851,6 +37106,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private OrganizationAffiliation parseOrganizationAffiliation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         OrganizationAffiliation.Builder builder = OrganizationAffiliation.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, networkElementIndex = 0, codeElementIndex = 0, specialtyElementIndex = 0, locationElementIndex = 0, healthcareServiceElementIndex = 0, telecomElementIndex = 0, endpointElementIndex = 0;
         while (reader.hasNext()) {
@@ -34941,7 +37197,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.endpoint(parseReference("endpoint", reader, endpointElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -34958,6 +37218,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ParameterDefinition parseParameterDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ParameterDefinition.Builder builder = ParameterDefinition.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -35004,7 +37265,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.profile((Canonical) parseUri(Canonical.builder(), "profile", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -35021,6 +37286,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Parameters parseParameters(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Parameters.Builder builder = Parameters.builder();
+        builder.setValidating(validating);
         int position = -1;
         int parameterElementIndex = 0;
         while (reader.hasNext()) {
@@ -35051,7 +37317,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.parameter(parseParametersParameter("parameter", reader, parameterElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -35068,6 +37338,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Parameters.Parameter parseParametersParameter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Parameters.Parameter.Builder builder = Parameters.Parameter.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -35302,7 +37573,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.part(parseParametersParameter("part", reader, partElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -35319,6 +37594,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Patient parsePatient(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Patient.Builder builder = Patient.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, nameElementIndex = 0, telecomElementIndex = 0, addressElementIndex = 0, photoElementIndex = 0, contactElementIndex = 0, communicationElementIndex = 0, generalPractitionerElementIndex = 0, linkElementIndex = 0;
         while (reader.hasNext()) {
@@ -35433,7 +37709,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.link(parsePatientLink("link", reader, linkElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -35450,6 +37730,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Patient.Communication parsePatientCommunication(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Patient.Communication.Builder builder = Patient.Communication.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -35480,7 +37761,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.preferred(parseBoolean("preferred", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -35497,6 +37782,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Patient.Contact parsePatientContact(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Patient.Contact.Builder builder = Patient.Contact.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -35547,7 +37833,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.period(parsePeriod("period", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -35564,6 +37854,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Patient.Link parsePatientLink(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Patient.Link.Builder builder = Patient.Link.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -35594,7 +37885,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.type((LinkType) parseString(LinkType.builder(), "type", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -35611,6 +37906,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private PaymentNotice parsePaymentNotice(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PaymentNotice.Builder builder = PaymentNotice.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0;
         while (reader.hasNext()) {
@@ -35701,7 +37997,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.paymentStatus(parseCodeableConcept("paymentStatus", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -35718,6 +38018,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private PaymentReconciliation parsePaymentReconciliation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PaymentReconciliation.Builder builder = PaymentReconciliation.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, detailElementIndex = 0, processNoteElementIndex = 0;
         while (reader.hasNext()) {
@@ -35820,7 +38121,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.processNote(parsePaymentReconciliationProcessNote("processNote", reader, processNoteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -35837,6 +38142,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private PaymentReconciliation.Detail parsePaymentReconciliationDetail(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PaymentReconciliation.Detail.Builder builder = PaymentReconciliation.Detail.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -35899,7 +38205,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.amount(parseMoney("amount", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -35916,6 +38226,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private PaymentReconciliation.ProcessNote parsePaymentReconciliationProcessNote(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PaymentReconciliation.ProcessNote.Builder builder = PaymentReconciliation.ProcessNote.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -35946,7 +38257,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.text(parseString("text", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -35963,6 +38278,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Period parsePeriod(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Period.Builder builder = Period.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -35989,7 +38305,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.end(parseDateTime("end", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -36006,6 +38326,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Person parsePerson(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Person.Builder builder = Person.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, nameElementIndex = 0, telecomElementIndex = 0, addressElementIndex = 0, linkElementIndex = 0;
         while (reader.hasNext()) {
@@ -36088,7 +38409,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.link(parsePersonLink("link", reader, linkElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -36105,6 +38430,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Person.Link parsePersonLink(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Person.Link.Builder builder = Person.Link.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -36135,7 +38461,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.assurance((IdentityAssuranceLevel) parseString(IdentityAssuranceLevel.builder(), "assurance", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -36152,6 +38482,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private PlanDefinition parsePlanDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PlanDefinition.Builder builder = PlanDefinition.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, topicElementIndex = 0, authorElementIndex = 0, editorElementIndex = 0, reviewerElementIndex = 0, endorserElementIndex = 0, relatedArtifactElementIndex = 0, libraryElementIndex = 0, goalElementIndex = 0, actionElementIndex = 0;
         while (reader.hasNext()) {
@@ -36322,7 +38653,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.action(parsePlanDefinitionAction("action", reader, actionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -36339,6 +38674,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private PlanDefinition.Action parsePlanDefinitionAction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PlanDefinition.Action.Builder builder = PlanDefinition.Action.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -36497,7 +38833,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.action(parsePlanDefinitionAction("action", reader, actionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -36514,6 +38854,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private PlanDefinition.Action.Condition parsePlanDefinitionActionCondition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PlanDefinition.Action.Condition.Builder builder = PlanDefinition.Action.Condition.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -36544,7 +38885,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.expression(parseExpression("expression", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -36561,6 +38906,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private PlanDefinition.Action.DynamicValue parsePlanDefinitionActionDynamicValue(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PlanDefinition.Action.DynamicValue.Builder builder = PlanDefinition.Action.DynamicValue.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -36591,7 +38937,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.expression(parseExpression("expression", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -36608,6 +38958,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private PlanDefinition.Action.Participant parsePlanDefinitionActionParticipant(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PlanDefinition.Action.Participant.Builder builder = PlanDefinition.Action.Participant.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -36638,7 +38989,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.role(parseCodeableConcept("role", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -36655,6 +39010,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private PlanDefinition.Action.RelatedAction parsePlanDefinitionActionRelatedAction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PlanDefinition.Action.RelatedAction.Builder builder = PlanDefinition.Action.RelatedAction.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -36693,7 +39049,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.offset(parseRange("offsetRange", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -36710,6 +39070,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private PlanDefinition.Goal parsePlanDefinitionGoal(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PlanDefinition.Goal.Builder builder = PlanDefinition.Goal.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -36760,7 +39121,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.target(parsePlanDefinitionGoalTarget("target", reader, targetElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -36777,6 +39142,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private PlanDefinition.Goal.Target parsePlanDefinitionGoalTarget(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PlanDefinition.Goal.Target.Builder builder = PlanDefinition.Goal.Target.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -36819,7 +39185,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.due((Duration) parseQuantity(Duration.builder(), "due", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -36836,6 +39206,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Population parsePopulation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Population.Builder builder = Population.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -36878,7 +39249,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.physiologicalCondition(parseCodeableConcept("physiologicalCondition", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -36895,6 +39270,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Practitioner parsePractitioner(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Practitioner.Builder builder = Practitioner.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, nameElementIndex = 0, telecomElementIndex = 0, addressElementIndex = 0, photoElementIndex = 0, qualificationElementIndex = 0, communicationElementIndex = 0;
         while (reader.hasNext()) {
@@ -36977,7 +39353,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.communication(parseCodeableConcept("communication", reader, communicationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -36994,6 +39374,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Practitioner.Qualification parsePractitionerQualification(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Practitioner.Qualification.Builder builder = Practitioner.Qualification.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -37032,7 +39413,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.issuer(parseReference("issuer", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37049,6 +39434,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private PractitionerRole parsePractitionerRole(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PractitionerRole.Builder builder = PractitionerRole.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, codeElementIndex = 0, specialtyElementIndex = 0, locationElementIndex = 0, healthcareServiceElementIndex = 0, telecomElementIndex = 0, availableTimeElementIndex = 0, notAvailableElementIndex = 0, endpointElementIndex = 0;
         while (reader.hasNext()) {
@@ -37147,7 +39533,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.endpoint(parseReference("endpoint", reader, endpointElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37164,6 +39554,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private PractitionerRole.AvailableTime parsePractitionerRoleAvailableTime(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PractitionerRole.AvailableTime.Builder builder = PractitionerRole.AvailableTime.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -37202,7 +39593,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.availableEndTime(parseTime("availableEndTime", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37219,6 +39614,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private PractitionerRole.NotAvailable parsePractitionerRoleNotAvailable(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         PractitionerRole.NotAvailable.Builder builder = PractitionerRole.NotAvailable.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -37249,7 +39645,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.during(parsePeriod("during", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37266,6 +39666,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Procedure parseProcedure(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Procedure.Builder builder = Procedure.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, instantiatesCanonicalElementIndex = 0, instantiatesUriElementIndex = 0, basedOnElementIndex = 0, partOfElementIndex = 0, performerElementIndex = 0, reasonCodeElementIndex = 0, reasonReferenceElementIndex = 0, bodySiteElementIndex = 0, reportElementIndex = 0, complicationElementIndex = 0, complicationDetailElementIndex = 0, followUpElementIndex = 0, noteElementIndex = 0, focalDeviceElementIndex = 0, usedReferenceElementIndex = 0, usedCodeElementIndex = 0;
         while (reader.hasNext()) {
@@ -37436,7 +39837,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.usedCode(parseCodeableConcept("usedCode", reader, usedCodeElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37453,6 +39858,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Procedure.FocalDevice parseProcedureFocalDevice(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Procedure.FocalDevice.Builder builder = Procedure.FocalDevice.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -37483,7 +39889,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.manipulated(parseReference("manipulated", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37500,6 +39910,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Procedure.Performer parseProcedurePerformer(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Procedure.Performer.Builder builder = Procedure.Performer.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -37534,7 +39945,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.onBehalfOf(parseReference("onBehalfOf", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37551,6 +39966,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ProdCharacteristic parseProdCharacteristic(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ProdCharacteristic.Builder builder = ProdCharacteristic.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -37617,7 +40033,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.scoring(parseCodeableConcept("scoring", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37634,6 +40054,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ProductShelfLife parseProductShelfLife(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ProductShelfLife.Builder builder = ProductShelfLife.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -37672,7 +40093,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.specialPrecautionsForStorage(parseCodeableConcept("specialPrecautionsForStorage", reader, specialPrecautionsForStorageElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37689,6 +40114,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Provenance parseProvenance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Provenance.Builder builder = Provenance.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, targetElementIndex = 0, policyElementIndex = 0, reasonElementIndex = 0, agentElementIndex = 0, entityElementIndex = 0, signatureElementIndex = 0;
         while (reader.hasNext()) {
@@ -37775,7 +40201,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.signature(parseSignature("signature", reader, signatureElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37792,6 +40222,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Provenance.Agent parseProvenanceAgent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Provenance.Agent.Builder builder = Provenance.Agent.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -37830,7 +40261,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.onBehalfOf(parseReference("onBehalfOf", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37847,6 +40282,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Provenance.Entity parseProvenanceEntity(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Provenance.Entity.Builder builder = Provenance.Entity.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -37881,7 +40317,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.agent(parseProvenanceAgent("agent", reader, agentElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37897,6 +40337,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
 
     private Quantity parseQuantity(Quantity.Builder builder, java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -37935,7 +40376,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.code((Code) parseString(Code.builder(), "code", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -37956,6 +40401,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Questionnaire parseQuestionnaire(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Questionnaire.Builder builder = Questionnaire.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, derivedFromElementIndex = 0, subjectTypeElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, codeElementIndex = 0, itemElementIndex = 0;
         while (reader.hasNext()) {
@@ -38086,7 +40532,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseQuestionnaireItem("item", reader, itemElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -38103,6 +40553,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Questionnaire.Item parseQuestionnaireItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Questionnaire.Item.Builder builder = Questionnaire.Item.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -38189,7 +40640,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseQuestionnaireItem("item", reader, itemElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -38206,6 +40661,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Questionnaire.Item.AnswerOption parseQuestionnaireItemAnswerOption(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Questionnaire.Item.AnswerOption.Builder builder = Questionnaire.Item.AnswerOption.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -38256,7 +40712,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.initialSelected(parseBoolean("initialSelected", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -38273,6 +40733,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Questionnaire.Item.EnableWhen parseQuestionnaireItemEnableWhen(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Questionnaire.Item.EnableWhen.Builder builder = Questionnaire.Item.EnableWhen.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -38343,7 +40804,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.answer(parseReference("answerReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -38360,6 +40825,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Questionnaire.Item.Initial parseQuestionnaireItemInitial(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Questionnaire.Item.Initial.Builder builder = Questionnaire.Item.Initial.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -38430,7 +40896,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseReference("valueReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -38447,6 +40917,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private QuestionnaireResponse parseQuestionnaireResponse(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         QuestionnaireResponse.Builder builder = QuestionnaireResponse.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, basedOnElementIndex = 0, partOfElementIndex = 0, itemElementIndex = 0;
         while (reader.hasNext()) {
@@ -38533,7 +41004,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseQuestionnaireResponseItem("item", reader, itemElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -38550,6 +41025,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private QuestionnaireResponse.Item parseQuestionnaireResponseItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         QuestionnaireResponse.Item.Builder builder = QuestionnaireResponse.Item.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -38592,7 +41068,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseQuestionnaireResponseItem("item", reader, itemElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -38609,6 +41089,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private QuestionnaireResponse.Item.Answer parseQuestionnaireResponseItemAnswer(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         QuestionnaireResponse.Item.Answer.Builder builder = QuestionnaireResponse.Item.Answer.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -38683,7 +41164,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseQuestionnaireResponseItem("item", reader, itemElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -38700,6 +41185,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Range parseRange(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Range.Builder builder = Range.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -38726,7 +41212,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.high((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "high", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -38743,6 +41233,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Ratio parseRatio(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Ratio.Builder builder = Ratio.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -38769,7 +41260,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.denominator(parseQuantity("denominator", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -38786,6 +41281,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Reference parseReference(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Reference.Builder builder = Reference.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -38820,7 +41316,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.display(parseString("display", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -38837,6 +41337,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private RelatedArtifact parseRelatedArtifact(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RelatedArtifact.Builder builder = RelatedArtifact.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -38883,7 +41384,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.resource((Canonical) parseUri(Canonical.builder(), "resource", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -38900,6 +41405,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private RelatedPerson parseRelatedPerson(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RelatedPerson.Builder builder = RelatedPerson.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, relationshipElementIndex = 0, nameElementIndex = 0, telecomElementIndex = 0, addressElementIndex = 0, photoElementIndex = 0, communicationElementIndex = 0;
         while (reader.hasNext()) {
@@ -38990,7 +41496,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.communication(parseRelatedPersonCommunication("communication", reader, communicationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -39007,6 +41517,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private RelatedPerson.Communication parseRelatedPersonCommunication(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RelatedPerson.Communication.Builder builder = RelatedPerson.Communication.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -39037,7 +41548,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.preferred(parseBoolean("preferred", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -39054,6 +41569,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private RequestGroup parseRequestGroup(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RequestGroup.Builder builder = RequestGroup.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, instantiatesCanonicalElementIndex = 0, instantiatesUriElementIndex = 0, basedOnElementIndex = 0, replacesElementIndex = 0, reasonCodeElementIndex = 0, reasonReferenceElementIndex = 0, noteElementIndex = 0, actionElementIndex = 0;
         while (reader.hasNext()) {
@@ -39168,7 +41684,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.action(parseRequestGroupAction("action", reader, actionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -39185,6 +41705,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private RequestGroup.Action parseRequestGroupAction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RequestGroup.Action.Builder builder = RequestGroup.Action.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -39303,7 +41824,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.action(parseRequestGroupAction("action", reader, actionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -39320,6 +41845,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private RequestGroup.Action.Condition parseRequestGroupActionCondition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RequestGroup.Action.Condition.Builder builder = RequestGroup.Action.Condition.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -39350,7 +41876,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.expression(parseExpression("expression", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -39367,6 +41897,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private RequestGroup.Action.RelatedAction parseRequestGroupActionRelatedAction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RequestGroup.Action.RelatedAction.Builder builder = RequestGroup.Action.RelatedAction.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -39405,7 +41936,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.offset(parseRange("offsetRange", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -39422,6 +41957,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ResearchDefinition parseResearchDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ResearchDefinition.Builder builder = ResearchDefinition.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, contactElementIndex = 0, commentElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, topicElementIndex = 0, authorElementIndex = 0, editorElementIndex = 0, reviewerElementIndex = 0, endorserElementIndex = 0, relatedArtifactElementIndex = 0, libraryElementIndex = 0;
         while (reader.hasNext()) {
@@ -39604,7 +42140,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.outcome(parseReference("outcome", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -39621,6 +42161,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ResearchElementDefinition parseResearchElementDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ResearchElementDefinition.Builder builder = ResearchElementDefinition.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, contactElementIndex = 0, commentElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, topicElementIndex = 0, authorElementIndex = 0, editorElementIndex = 0, reviewerElementIndex = 0, endorserElementIndex = 0, relatedArtifactElementIndex = 0, libraryElementIndex = 0, characteristicElementIndex = 0;
         while (reader.hasNext()) {
@@ -39799,7 +42340,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.characteristic(parseResearchElementDefinitionCharacteristic("characteristic", reader, characteristicElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -39816,6 +42361,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ResearchElementDefinition.Characteristic parseResearchElementDefinitionCharacteristic(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ResearchElementDefinition.Characteristic.Builder builder = ResearchElementDefinition.Characteristic.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -39922,7 +42468,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.participantEffectiveGroupMeasure((GroupMeasure) parseString(GroupMeasure.builder(), "participantEffectiveGroupMeasure", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -39939,6 +42489,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ResearchStudy parseResearchStudy(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ResearchStudy.Builder builder = ResearchStudy.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, protocolElementIndex = 0, partOfElementIndex = 0, categoryElementIndex = 0, focusElementIndex = 0, conditionElementIndex = 0, contactElementIndex = 0, relatedArtifactElementIndex = 0, keywordElementIndex = 0, locationElementIndex = 0, enrollmentElementIndex = 0, siteElementIndex = 0, noteElementIndex = 0, armElementIndex = 0, objectiveElementIndex = 0;
         while (reader.hasNext()) {
@@ -40077,7 +42628,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.objective(parseResearchStudyObjective("objective", reader, objectiveElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -40094,6 +42649,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ResearchStudy.Arm parseResearchStudyArm(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ResearchStudy.Arm.Builder builder = ResearchStudy.Arm.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -40128,7 +42684,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.description(parseString("description", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -40145,6 +42705,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ResearchStudy.Objective parseResearchStudyObjective(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ResearchStudy.Objective.Builder builder = ResearchStudy.Objective.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -40175,7 +42736,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.type(parseCodeableConcept("type", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -40192,6 +42757,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ResearchSubject parseResearchSubject(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ResearchSubject.Builder builder = ResearchSubject.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0;
         while (reader.hasNext()) {
@@ -40266,7 +42832,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.consent(parseReference("consent", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -40283,6 +42853,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private RiskAssessment parseRiskAssessment(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RiskAssessment.Builder builder = RiskAssessment.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, reasonCodeElementIndex = 0, reasonReferenceElementIndex = 0, basisElementIndex = 0, predictionElementIndex = 0, noteElementIndex = 0;
         while (reader.hasNext()) {
@@ -40397,7 +42968,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -40414,6 +42989,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private RiskAssessment.Prediction parseRiskAssessmentPrediction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RiskAssessment.Prediction.Builder builder = RiskAssessment.Prediction.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -40468,7 +43044,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.rationale(parseString("rationale", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -40485,6 +43065,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private RiskEvidenceSynthesis parseRiskEvidenceSynthesis(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RiskEvidenceSynthesis.Builder builder = RiskEvidenceSynthesis.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, contactElementIndex = 0, noteElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, topicElementIndex = 0, authorElementIndex = 0, editorElementIndex = 0, reviewerElementIndex = 0, endorserElementIndex = 0, relatedArtifactElementIndex = 0, certaintyElementIndex = 0;
         while (reader.hasNext()) {
@@ -40651,7 +43232,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.certainty(parseRiskEvidenceSynthesisCertainty("certainty", reader, certaintyElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -40668,6 +43253,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private RiskEvidenceSynthesis.Certainty parseRiskEvidenceSynthesisCertainty(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RiskEvidenceSynthesis.Certainty.Builder builder = RiskEvidenceSynthesis.Certainty.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -40702,7 +43288,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.certaintySubcomponent(parseRiskEvidenceSynthesisCertaintyCertaintySubcomponent("certaintySubcomponent", reader, certaintySubcomponentElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -40719,6 +43309,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private RiskEvidenceSynthesis.Certainty.CertaintySubcomponent parseRiskEvidenceSynthesisCertaintyCertaintySubcomponent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RiskEvidenceSynthesis.Certainty.CertaintySubcomponent.Builder builder = RiskEvidenceSynthesis.Certainty.CertaintySubcomponent.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -40753,7 +43344,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -40770,6 +43365,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private RiskEvidenceSynthesis.RiskEstimate parseRiskEvidenceSynthesisRiskEstimate(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RiskEvidenceSynthesis.RiskEstimate.Builder builder = RiskEvidenceSynthesis.RiskEstimate.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -40820,7 +43416,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.precisionEstimate(parseRiskEvidenceSynthesisRiskEstimatePrecisionEstimate("precisionEstimate", reader, precisionEstimateElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -40837,6 +43437,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private RiskEvidenceSynthesis.RiskEstimate.PrecisionEstimate parseRiskEvidenceSynthesisRiskEstimatePrecisionEstimate(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RiskEvidenceSynthesis.RiskEstimate.PrecisionEstimate.Builder builder = RiskEvidenceSynthesis.RiskEstimate.PrecisionEstimate.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -40875,7 +43476,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.to(parseDecimal("to", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -40892,6 +43497,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private RiskEvidenceSynthesis.SampleSize parseRiskEvidenceSynthesisSampleSize(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         RiskEvidenceSynthesis.SampleSize.Builder builder = RiskEvidenceSynthesis.SampleSize.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -40926,7 +43532,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.numberOfParticipants(parseInteger("numberOfParticipants", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -40943,6 +43553,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SampledData parseSampledData(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SampledData.Builder builder = SampledData.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -40989,7 +43600,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.data(parseString("data", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -41006,6 +43621,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Schedule parseSchedule(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Schedule.Builder builder = Schedule.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, serviceCategoryElementIndex = 0, serviceTypeElementIndex = 0, specialtyElementIndex = 0, actorElementIndex = 0;
         while (reader.hasNext()) {
@@ -41080,7 +43696,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.comment(parseString("comment", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -41097,6 +43717,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SearchParameter parseSearchParameter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SearchParameter.Builder builder = SearchParameter.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, baseElementIndex = 0, targetElementIndex = 0, comparatorElementIndex = 0, modifierElementIndex = 0, chainElementIndex = 0, componentElementIndex = 0;
         while (reader.hasNext()) {
@@ -41243,7 +43864,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.component(parseSearchParameterComponent("component", reader, componentElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -41260,6 +43885,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SearchParameter.Component parseSearchParameterComponent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SearchParameter.Component.Builder builder = SearchParameter.Component.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -41290,7 +43916,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.expression(parseString("expression", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -41307,6 +43937,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ServiceRequest parseServiceRequest(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ServiceRequest.Builder builder = ServiceRequest.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, instantiatesCanonicalElementIndex = 0, instantiatesUriElementIndex = 0, basedOnElementIndex = 0, replacesElementIndex = 0, categoryElementIndex = 0, orderDetailElementIndex = 0, performerElementIndex = 0, locationCodeElementIndex = 0, locationReferenceElementIndex = 0, reasonCodeElementIndex = 0, reasonReferenceElementIndex = 0, insuranceElementIndex = 0, supportingInfoElementIndex = 0, specimenElementIndex = 0, bodySiteElementIndex = 0, noteElementIndex = 0, relevantHistoryElementIndex = 0;
         while (reader.hasNext()) {
@@ -41501,7 +44132,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.relevantHistory(parseReference("relevantHistory", reader, relevantHistoryElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -41518,6 +44153,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Signature parseSignature(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Signature.Builder builder = Signature.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -41564,7 +44200,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.data(parseBase64Binary("data", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -41581,6 +44221,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Slot parseSlot(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Slot.Builder builder = Slot.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, serviceCategoryElementIndex = 0, serviceTypeElementIndex = 0, specialtyElementIndex = 0;
         while (reader.hasNext()) {
@@ -41667,7 +44308,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.comment(parseString("comment", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -41684,6 +44329,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Specimen parseSpecimen(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Specimen.Builder builder = Specimen.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, parentElementIndex = 0, requestElementIndex = 0, processingElementIndex = 0, containerElementIndex = 0, conditionElementIndex = 0, noteElementIndex = 0;
         while (reader.hasNext()) {
@@ -41778,7 +44424,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -41795,6 +44445,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Specimen.Collection parseSpecimenCollection(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Specimen.Collection.Builder builder = Specimen.Collection.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -41853,7 +44504,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.fastingStatus((Duration) parseQuantity(Duration.builder(), "fastingStatusDuration", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -41870,6 +44525,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Specimen.Container parseSpecimenContainer(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Specimen.Container.Builder builder = Specimen.Container.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -41920,7 +44576,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.additive(parseReference("additiveReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -41937,6 +44597,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Specimen.Processing parseSpecimenProcessing(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Specimen.Processing.Builder builder = Specimen.Processing.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -41979,7 +44640,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.time(parsePeriod("timePeriod", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -41996,6 +44661,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SpecimenDefinition parseSpecimenDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SpecimenDefinition.Builder builder = SpecimenDefinition.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, patientPreparationElementIndex = 0, collectionElementIndex = 0, typeTestedElementIndex = 0;
         while (reader.hasNext()) {
@@ -42062,7 +44728,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.typeTested(parseSpecimenDefinitionTypeTested("typeTested", reader, typeTestedElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42079,6 +44749,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SpecimenDefinition.TypeTested parseSpecimenDefinitionTypeTested(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SpecimenDefinition.TypeTested.Builder builder = SpecimenDefinition.TypeTested.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -42133,7 +44804,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.handling(parseSpecimenDefinitionTypeTestedHandling("handling", reader, handlingElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42150,6 +44825,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SpecimenDefinition.TypeTested.Container parseSpecimenDefinitionTypeTestedContainer(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SpecimenDefinition.TypeTested.Container.Builder builder = SpecimenDefinition.TypeTested.Container.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -42208,7 +44884,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.preparation(parseString("preparation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42225,6 +44905,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SpecimenDefinition.TypeTested.Container.Additive parseSpecimenDefinitionTypeTestedContainerAdditive(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SpecimenDefinition.TypeTested.Container.Additive.Builder builder = SpecimenDefinition.TypeTested.Container.Additive.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -42255,7 +44936,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.additive(parseReference("additiveReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42272,6 +44957,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SpecimenDefinition.TypeTested.Handling parseSpecimenDefinitionTypeTestedHandling(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SpecimenDefinition.TypeTested.Handling.Builder builder = SpecimenDefinition.TypeTested.Handling.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -42310,7 +44996,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.instruction(parseString("instruction", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42326,6 +45016,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
 
     private String parseString(String.Builder builder, java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -42348,7 +45039,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.extension(parseExtension("extension", reader, extensionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42369,6 +45064,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private StructureDefinition parseStructureDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureDefinition.Builder builder = StructureDefinition.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, keywordElementIndex = 0, mappingElementIndex = 0, contextElementIndex = 0, contextInvariantElementIndex = 0;
         while (reader.hasNext()) {
@@ -42519,7 +45215,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.differential(parseStructureDefinitionDifferential("differential", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42536,6 +45236,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private StructureDefinition.Context parseStructureDefinitionContext(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureDefinition.Context.Builder builder = StructureDefinition.Context.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -42566,7 +45267,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.expression(parseString("expression", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42583,6 +45288,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private StructureDefinition.Differential parseStructureDefinitionDifferential(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureDefinition.Differential.Builder builder = StructureDefinition.Differential.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -42609,7 +45315,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.element(parseElementDefinition("element", reader, elementElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42626,6 +45336,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private StructureDefinition.Mapping parseStructureDefinitionMapping(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureDefinition.Mapping.Builder builder = StructureDefinition.Mapping.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -42664,7 +45375,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.comment(parseString("comment", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42681,6 +45396,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private StructureDefinition.Snapshot parseStructureDefinitionSnapshot(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureDefinition.Snapshot.Builder builder = StructureDefinition.Snapshot.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -42707,7 +45423,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.element(parseElementDefinition("element", reader, elementElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42724,6 +45444,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private StructureMap parseStructureMap(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureMap.Builder builder = StructureMap.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, structureElementIndex = 0, importElementIndex = 0, groupElementIndex = 0;
         while (reader.hasNext()) {
@@ -42838,7 +45559,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.group(parseStructureMapGroup("group", reader, groupElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42855,6 +45580,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private StructureMap.Group parseStructureMapGroup(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureMap.Group.Builder builder = StructureMap.Group.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -42901,7 +45627,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.rule(parseStructureMapGroupRule("rule", reader, ruleElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42918,6 +45648,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private StructureMap.Group.Input parseStructureMapGroupInput(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureMap.Group.Input.Builder builder = StructureMap.Group.Input.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -42956,7 +45687,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.documentation(parseString("documentation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -42973,6 +45708,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private StructureMap.Group.Rule parseStructureMapGroupRule(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureMap.Group.Rule.Builder builder = StructureMap.Group.Rule.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -43019,7 +45755,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.documentation(parseString("documentation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -43036,6 +45776,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private StructureMap.Group.Rule.Dependent parseStructureMapGroupRuleDependent(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureMap.Group.Rule.Dependent.Builder builder = StructureMap.Group.Rule.Dependent.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -43066,7 +45807,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.variable(parseString("variable", reader, variableElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -43083,6 +45828,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private StructureMap.Group.Rule.Source parseStructureMapGroupRuleSource(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureMap.Group.Rule.Source.Builder builder = StructureMap.Group.Rule.Source.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -43345,7 +46091,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.logMessage(parseString("logMessage", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -43362,6 +46112,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private StructureMap.Group.Rule.Target parseStructureMapGroupRuleTarget(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureMap.Group.Rule.Target.Builder builder = StructureMap.Group.Rule.Target.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -43416,7 +46167,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.parameter(parseStructureMapGroupRuleTargetParameter("parameter", reader, parameterElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -43433,6 +46188,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private StructureMap.Group.Rule.Target.Parameter parseStructureMapGroupRuleTargetParameter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureMap.Group.Rule.Target.Parameter.Builder builder = StructureMap.Group.Rule.Target.Parameter.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -43475,7 +46231,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseDecimal("valueDecimal", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -43492,6 +46252,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private StructureMap.Structure parseStructureMapStructure(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         StructureMap.Structure.Builder builder = StructureMap.Structure.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -43530,7 +46291,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.documentation(parseString("documentation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -43547,6 +46312,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Subscription parseSubscription(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Subscription.Builder builder = Subscription.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, contactElementIndex = 0;
         while (reader.hasNext()) {
@@ -43617,7 +46383,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.channel(parseSubscriptionChannel("channel", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -43634,6 +46404,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Subscription.Channel parseSubscriptionChannel(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Subscription.Channel.Builder builder = Subscription.Channel.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -43672,7 +46443,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.header(parseString("header", reader, headerElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -43689,6 +46464,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Substance parseSubstance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Substance.Builder builder = Substance.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, categoryElementIndex = 0, instanceElementIndex = 0, ingredientElementIndex = 0;
         while (reader.hasNext()) {
@@ -43759,7 +46535,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.ingredient(parseSubstanceIngredient("ingredient", reader, ingredientElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -43776,6 +46556,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Substance.Ingredient parseSubstanceIngredient(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Substance.Ingredient.Builder builder = Substance.Ingredient.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -43810,7 +46591,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.substance(parseReference("substanceReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -43827,6 +46612,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Substance.Instance parseSubstanceInstance(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Substance.Instance.Builder builder = Substance.Instance.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -43861,7 +46647,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -43878,6 +46668,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceAmount parseSubstanceAmount(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceAmount.Builder builder = SubstanceAmount.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -43924,7 +46715,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.referenceRange(parseSubstanceAmountReferenceRange("referenceRange", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -43941,6 +46736,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceAmount.ReferenceRange parseSubstanceAmountReferenceRange(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceAmount.ReferenceRange.Builder builder = SubstanceAmount.ReferenceRange.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -43971,7 +46767,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.highLimit(parseQuantity("highLimit", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -43988,6 +46788,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceNucleicAcid parseSubstanceNucleicAcid(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceNucleicAcid.Builder builder = SubstanceNucleicAcid.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, subunitElementIndex = 0;
         while (reader.hasNext()) {
@@ -44050,7 +46851,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.subunit(parseSubstanceNucleicAcidSubunit("subunit", reader, subunitElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44067,6 +46872,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceNucleicAcid.Subunit parseSubstanceNucleicAcidSubunit(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceNucleicAcid.Subunit.Builder builder = SubstanceNucleicAcid.Subunit.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -44121,7 +46927,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.sugar(parseSubstanceNucleicAcidSubunitSugar("sugar", reader, sugarElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44138,6 +46948,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceNucleicAcid.Subunit.Linkage parseSubstanceNucleicAcidSubunitLinkage(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceNucleicAcid.Subunit.Linkage.Builder builder = SubstanceNucleicAcid.Subunit.Linkage.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -44176,7 +46987,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.residueSite(parseString("residueSite", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44193,6 +47008,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceNucleicAcid.Subunit.Sugar parseSubstanceNucleicAcidSubunitSugar(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceNucleicAcid.Subunit.Sugar.Builder builder = SubstanceNucleicAcid.Subunit.Sugar.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -44227,7 +47043,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.residueSite(parseString("residueSite", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44244,6 +47064,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstancePolymer parseSubstancePolymer(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstancePolymer.Builder builder = SubstancePolymer.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, copolymerConnectivityElementIndex = 0, modificationElementIndex = 0, monomerSetElementIndex = 0, repeatElementIndex = 0;
         while (reader.hasNext()) {
@@ -44310,7 +47131,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.repeat(parseSubstancePolymerRepeat("repeat", reader, repeatElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44327,6 +47152,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstancePolymer.MonomerSet parseSubstancePolymerMonomerSet(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstancePolymer.MonomerSet.Builder builder = SubstancePolymer.MonomerSet.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -44357,7 +47183,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.startingMaterial(parseSubstancePolymerMonomerSetStartingMaterial("startingMaterial", reader, startingMaterialElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44374,6 +47204,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstancePolymer.MonomerSet.StartingMaterial parseSubstancePolymerMonomerSetStartingMaterial(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstancePolymer.MonomerSet.StartingMaterial.Builder builder = SubstancePolymer.MonomerSet.StartingMaterial.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -44412,7 +47243,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.amount(parseSubstanceAmount("amount", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44429,6 +47264,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstancePolymer.Repeat parseSubstancePolymerRepeat(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstancePolymer.Repeat.Builder builder = SubstancePolymer.Repeat.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -44467,7 +47303,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.repeatUnit(parseSubstancePolymerRepeatRepeatUnit("repeatUnit", reader, repeatUnitElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44484,6 +47324,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstancePolymer.Repeat.RepeatUnit parseSubstancePolymerRepeatRepeatUnit(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstancePolymer.Repeat.RepeatUnit.Builder builder = SubstancePolymer.Repeat.RepeatUnit.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -44526,7 +47367,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.structuralRepresentation(parseSubstancePolymerRepeatRepeatUnitStructuralRepresentation("structuralRepresentation", reader, structuralRepresentationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44543,6 +47388,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstancePolymer.Repeat.RepeatUnit.DegreeOfPolymerisation parseSubstancePolymerRepeatRepeatUnitDegreeOfPolymerisation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstancePolymer.Repeat.RepeatUnit.DegreeOfPolymerisation.Builder builder = SubstancePolymer.Repeat.RepeatUnit.DegreeOfPolymerisation.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -44573,7 +47419,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.amount(parseSubstanceAmount("amount", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44590,6 +47440,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstancePolymer.Repeat.RepeatUnit.StructuralRepresentation parseSubstancePolymerRepeatRepeatUnitStructuralRepresentation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstancePolymer.Repeat.RepeatUnit.StructuralRepresentation.Builder builder = SubstancePolymer.Repeat.RepeatUnit.StructuralRepresentation.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -44624,7 +47475,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.attachment(parseAttachment("attachment", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44641,6 +47496,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceProtein parseSubstanceProtein(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceProtein.Builder builder = SubstanceProtein.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, disulfideLinkageElementIndex = 0, subunitElementIndex = 0;
         while (reader.hasNext()) {
@@ -44699,7 +47555,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.subunit(parseSubstanceProteinSubunit("subunit", reader, subunitElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44716,6 +47576,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceProtein.Subunit parseSubstanceProteinSubunit(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceProtein.Subunit.Builder builder = SubstanceProtein.Subunit.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -44770,7 +47631,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.cTerminalModification(parseString("cTerminalModification", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44787,6 +47652,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceReferenceInformation parseSubstanceReferenceInformation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceReferenceInformation.Builder builder = SubstanceReferenceInformation.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, geneElementIndex = 0, geneElementElementIndex = 0, classificationElementIndex = 0, targetElementIndex = 0;
         while (reader.hasNext()) {
@@ -44849,7 +47715,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.target(parseSubstanceReferenceInformationTarget("target", reader, targetElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44866,6 +47736,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceReferenceInformation.Classification parseSubstanceReferenceInformationClassification(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceReferenceInformation.Classification.Builder builder = SubstanceReferenceInformation.Classification.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -44904,7 +47775,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.source(parseReference("source", reader, sourceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44921,6 +47796,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceReferenceInformation.Gene parseSubstanceReferenceInformationGene(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceReferenceInformation.Gene.Builder builder = SubstanceReferenceInformation.Gene.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -44955,7 +47831,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.source(parseReference("source", reader, sourceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -44972,6 +47852,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceReferenceInformation.GeneElement parseSubstanceReferenceInformationGeneElement(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceReferenceInformation.GeneElement.Builder builder = SubstanceReferenceInformation.GeneElement.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -45006,7 +47887,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.source(parseReference("source", reader, sourceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45023,6 +47908,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceReferenceInformation.Target parseSubstanceReferenceInformationTarget(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceReferenceInformation.Target.Builder builder = SubstanceReferenceInformation.Target.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -45085,7 +47971,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.source(parseReference("source", reader, sourceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45102,6 +47992,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceSourceMaterial parseSubstanceSourceMaterial(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSourceMaterial.Builder builder = SubstanceSourceMaterial.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, parentSubstanceIdElementIndex = 0, parentSubstanceNameElementIndex = 0, countryOfOriginElementIndex = 0, geographicalLocationElementIndex = 0, fractionDescriptionElementIndex = 0, partDescriptionElementIndex = 0;
         while (reader.hasNext()) {
@@ -45196,7 +48087,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.partDescription(parseSubstanceSourceMaterialPartDescription("partDescription", reader, partDescriptionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45213,6 +48108,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceSourceMaterial.FractionDescription parseSubstanceSourceMaterialFractionDescription(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSourceMaterial.FractionDescription.Builder builder = SubstanceSourceMaterial.FractionDescription.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -45243,7 +48139,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.materialType(parseCodeableConcept("materialType", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45260,6 +48160,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceSourceMaterial.Organism parseSubstanceSourceMaterialOrganism(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSourceMaterial.Organism.Builder builder = SubstanceSourceMaterial.Organism.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -45314,7 +48215,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.organismGeneral(parseSubstanceSourceMaterialOrganismOrganismGeneral("organismGeneral", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45331,6 +48236,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceSourceMaterial.Organism.Author parseSubstanceSourceMaterialOrganismAuthor(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSourceMaterial.Organism.Author.Builder builder = SubstanceSourceMaterial.Organism.Author.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -45361,7 +48267,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.authorDescription(parseString("authorDescription", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45378,6 +48288,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceSourceMaterial.Organism.Hybrid parseSubstanceSourceMaterialOrganismHybrid(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSourceMaterial.Organism.Hybrid.Builder builder = SubstanceSourceMaterial.Organism.Hybrid.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -45420,7 +48331,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.hybridType(parseCodeableConcept("hybridType", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45437,6 +48352,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceSourceMaterial.Organism.OrganismGeneral parseSubstanceSourceMaterialOrganismOrganismGeneral(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSourceMaterial.Organism.OrganismGeneral.Builder builder = SubstanceSourceMaterial.Organism.OrganismGeneral.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -45475,7 +48391,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.order(parseCodeableConcept("order", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45492,6 +48412,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceSourceMaterial.PartDescription parseSubstanceSourceMaterialPartDescription(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSourceMaterial.PartDescription.Builder builder = SubstanceSourceMaterial.PartDescription.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -45522,7 +48443,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.partLocation(parseCodeableConcept("partLocation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45539,6 +48464,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceSpecification parseSubstanceSpecification(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Builder builder = SubstanceSpecification.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, sourceElementIndex = 0, moietyElementIndex = 0, propertyElementIndex = 0, codeElementIndex = 0, nameElementIndex = 0, molecularWeightElementIndex = 0, relationshipElementIndex = 0;
         while (reader.hasNext()) {
@@ -45657,7 +48583,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.sourceMaterial(parseReference("sourceMaterial", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45674,6 +48604,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceSpecification.Code parseSubstanceSpecificationCode(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Code.Builder builder = SubstanceSpecification.Code.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -45716,7 +48647,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.source(parseReference("source", reader, sourceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45733,6 +48668,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceSpecification.Moiety parseSubstanceSpecificationMoiety(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Moiety.Builder builder = SubstanceSpecification.Moiety.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -45787,7 +48723,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.amount(parseString("amountString", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45804,6 +48744,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceSpecification.Name parseSubstanceSpecificationName(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Name.Builder builder = SubstanceSpecification.Name.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -45870,7 +48811,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.source(parseReference("source", reader, sourceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45887,6 +48832,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceSpecification.Name.Official parseSubstanceSpecificationNameOfficial(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Name.Official.Builder builder = SubstanceSpecification.Name.Official.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -45921,7 +48867,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.date(parseDateTime("date", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -45938,6 +48888,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceSpecification.Property parseSubstanceSpecificationProperty(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Property.Builder builder = SubstanceSpecification.Property.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -45988,7 +48939,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.amount(parseString("amountString", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -46005,6 +48960,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceSpecification.Relationship parseSubstanceSpecificationRelationship(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Relationship.Builder builder = SubstanceSpecification.Relationship.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -46071,7 +49027,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.source(parseReference("source", reader, sourceElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -46088,6 +49048,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceSpecification.Structure parseSubstanceSpecificationStructure(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Structure.Builder builder = SubstanceSpecification.Structure.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -46142,7 +49103,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.representation(parseSubstanceSpecificationStructureRepresentation("representation", reader, representationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -46159,6 +49124,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceSpecification.Structure.Isotope parseSubstanceSpecificationStructureIsotope(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Structure.Isotope.Builder builder = SubstanceSpecification.Structure.Isotope.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -46201,7 +49167,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.molecularWeight(parseSubstanceSpecificationStructureIsotopeMolecularWeight("molecularWeight", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -46218,6 +49188,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceSpecification.Structure.Isotope.MolecularWeight parseSubstanceSpecificationStructureIsotopeMolecularWeight(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Structure.Isotope.MolecularWeight.Builder builder = SubstanceSpecification.Structure.Isotope.MolecularWeight.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -46252,7 +49223,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.amount(parseQuantity("amount", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -46269,6 +49244,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SubstanceSpecification.Structure.Representation parseSubstanceSpecificationStructureRepresentation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SubstanceSpecification.Structure.Representation.Builder builder = SubstanceSpecification.Structure.Representation.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -46303,7 +49279,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.attachment(parseAttachment("attachment", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -46320,6 +49300,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SupplyDelivery parseSupplyDelivery(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SupplyDelivery.Builder builder = SupplyDelivery.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, basedOnElementIndex = 0, partOfElementIndex = 0, receiverElementIndex = 0;
         while (reader.hasNext()) {
@@ -46414,7 +49395,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.receiver(parseReference("receiver", reader, receiverElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -46431,6 +49416,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SupplyDelivery.SuppliedItem parseSupplyDeliverySuppliedItem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SupplyDelivery.SuppliedItem.Builder builder = SupplyDelivery.SuppliedItem.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -46465,7 +49451,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.item(parseReference("itemReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -46482,6 +49472,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SupplyRequest parseSupplyRequest(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SupplyRequest.Builder builder = SupplyRequest.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, parameterElementIndex = 0, supplierElementIndex = 0, reasonCodeElementIndex = 0, reasonReferenceElementIndex = 0;
         while (reader.hasNext()) {
@@ -46596,7 +49587,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.deliverTo(parseReference("deliverTo", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -46613,6 +49608,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private SupplyRequest.Parameter parseSupplyRequestParameter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         SupplyRequest.Parameter.Builder builder = SupplyRequest.Parameter.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -46655,7 +49651,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseBoolean("valueBoolean", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -46672,6 +49672,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Task parseTask(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Task.Builder builder = Task.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, basedOnElementIndex = 0, partOfElementIndex = 0, performerTypeElementIndex = 0, insuranceElementIndex = 0, noteElementIndex = 0, relevantHistoryElementIndex = 0, inputElementIndex = 0, outputElementIndex = 0;
         while (reader.hasNext()) {
@@ -46838,7 +49839,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.output(parseTaskOutput("output", reader, outputElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -46855,6 +49860,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Task.Input parseTaskInput(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Task.Input.Builder builder = Task.Input.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -47081,7 +50087,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseMeta("valueMeta", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -47098,6 +50108,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Task.Output parseTaskOutput(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Task.Output.Builder builder = Task.Output.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -47324,7 +50335,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseMeta("valueMeta", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -47341,6 +50356,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Task.Restriction parseTaskRestriction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Task.Restriction.Builder builder = Task.Restriction.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -47375,7 +50391,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.recipient(parseReference("recipient", reader, recipientElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -47392,6 +50412,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TerminologyCapabilities parseTerminologyCapabilities(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.Builder builder = TerminologyCapabilities.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, codeSystemElementIndex = 0;
         while (reader.hasNext()) {
@@ -47530,7 +50551,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.closure(parseTerminologyCapabilitiesClosure("closure", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -47547,6 +50572,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TerminologyCapabilities.Closure parseTerminologyCapabilitiesClosure(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.Closure.Builder builder = TerminologyCapabilities.Closure.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -47573,7 +50599,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.translation(parseBoolean("translation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -47590,6 +50620,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TerminologyCapabilities.CodeSystem parseTerminologyCapabilitiesCodeSystem(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.CodeSystem.Builder builder = TerminologyCapabilities.CodeSystem.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -47624,7 +50655,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.subsumption(parseBoolean("subsumption", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -47641,6 +50676,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TerminologyCapabilities.CodeSystem.Version parseTerminologyCapabilitiesCodeSystemVersion(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.CodeSystem.Version.Builder builder = TerminologyCapabilities.CodeSystem.Version.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -47687,7 +50723,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.property((Code) parseString(Code.builder(), "property", reader, propertyElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -47704,6 +50744,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TerminologyCapabilities.CodeSystem.Version.Filter parseTerminologyCapabilitiesCodeSystemVersionFilter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.CodeSystem.Version.Filter.Builder builder = TerminologyCapabilities.CodeSystem.Version.Filter.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -47734,7 +50775,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.op((Code) parseString(Code.builder(), "op", reader, opElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -47751,6 +50796,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TerminologyCapabilities.Expansion parseTerminologyCapabilitiesExpansion(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.Expansion.Builder builder = TerminologyCapabilities.Expansion.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -47793,7 +50839,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.textFilter((Markdown) parseString(Markdown.builder(), "textFilter", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -47810,6 +50860,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TerminologyCapabilities.Expansion.Parameter parseTerminologyCapabilitiesExpansionParameter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.Expansion.Parameter.Builder builder = TerminologyCapabilities.Expansion.Parameter.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -47840,7 +50891,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.documentation(parseString("documentation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -47857,6 +50912,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TerminologyCapabilities.Implementation parseTerminologyCapabilitiesImplementation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.Implementation.Builder builder = TerminologyCapabilities.Implementation.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -47887,7 +50943,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.url((Url) parseUri(Url.builder(), "url", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -47904,6 +50964,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TerminologyCapabilities.Software parseTerminologyCapabilitiesSoftware(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.Software.Builder builder = TerminologyCapabilities.Software.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -47934,7 +50995,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.version(parseString("version", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -47951,6 +51016,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TerminologyCapabilities.Translation parseTerminologyCapabilitiesTranslation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.Translation.Builder builder = TerminologyCapabilities.Translation.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -47977,7 +51043,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.needsMap(parseBoolean("needsMap", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -47994,6 +51064,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TerminologyCapabilities.ValidateCode parseTerminologyCapabilitiesValidateCode(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TerminologyCapabilities.ValidateCode.Builder builder = TerminologyCapabilities.ValidateCode.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -48020,7 +51091,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.translations(parseBoolean("translations", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48037,6 +51112,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestReport parseTestReport(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestReport.Builder builder = TestReport.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, participantElementIndex = 0, testElementIndex = 0;
         while (reader.hasNext()) {
@@ -48127,7 +51203,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.teardown(parseTestReportTeardown("teardown", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48144,6 +51224,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestReport.Participant parseTestReportParticipant(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestReport.Participant.Builder builder = TestReport.Participant.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -48178,7 +51259,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.display(parseString("display", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48195,6 +51280,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestReport.Setup parseTestReportSetup(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestReport.Setup.Builder builder = TestReport.Setup.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -48221,7 +51307,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.action(parseTestReportSetupAction("action", reader, actionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48238,6 +51328,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestReport.Setup.Action parseTestReportSetupAction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestReport.Setup.Action.Builder builder = TestReport.Setup.Action.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -48268,7 +51359,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder._assert(parseTestReportSetupActionAssert("assert", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48285,6 +51380,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestReport.Setup.Action.Assert parseTestReportSetupActionAssert(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestReport.Setup.Action.Assert.Builder builder = TestReport.Setup.Action.Assert.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -48319,7 +51415,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseString("detail", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48336,6 +51436,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestReport.Setup.Action.Operation parseTestReportSetupActionOperation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestReport.Setup.Action.Operation.Builder builder = TestReport.Setup.Action.Operation.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -48370,7 +51471,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.detail(parseUri("detail", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48387,6 +51492,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestReport.Teardown parseTestReportTeardown(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestReport.Teardown.Builder builder = TestReport.Teardown.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -48413,7 +51519,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.action(parseTestReportTeardownAction("action", reader, actionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48430,6 +51540,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestReport.Teardown.Action parseTestReportTeardownAction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestReport.Teardown.Action.Builder builder = TestReport.Teardown.Action.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -48456,7 +51567,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.operation(parseTestReportSetupActionOperation("operation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48473,6 +51588,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestReport.Test parseTestReportTest(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestReport.Test.Builder builder = TestReport.Test.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -48507,7 +51623,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.action(parseTestReportTestAction("action", reader, actionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48524,6 +51644,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestReport.Test.Action parseTestReportTestAction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestReport.Test.Action.Builder builder = TestReport.Test.Action.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -48554,7 +51675,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder._assert(parseTestReportSetupActionAssert("assert", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48571,6 +51696,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestScript parseTestScript(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Builder builder = TestScript.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0, originElementIndex = 0, destinationElementIndex = 0, fixtureElementIndex = 0, profileElementIndex = 0, variableElementIndex = 0, testElementIndex = 0;
         while (reader.hasNext()) {
@@ -48709,7 +51835,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.teardown(parseTestScriptTeardown("teardown", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48726,6 +51856,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestScript.Destination parseTestScriptDestination(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Destination.Builder builder = TestScript.Destination.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -48756,7 +51887,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.profile(parseCoding("profile", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48773,6 +51908,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestScript.Fixture parseTestScriptFixture(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Fixture.Builder builder = TestScript.Fixture.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -48807,7 +51943,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.resource(parseReference("resource", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48824,6 +51964,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestScript.Metadata parseTestScriptMetadata(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Metadata.Builder builder = TestScript.Metadata.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -48854,7 +51995,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.capability(parseTestScriptMetadataCapability("capability", reader, capabilityElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48871,6 +52016,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestScript.Metadata.Capability parseTestScriptMetadataCapability(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Metadata.Capability.Builder builder = TestScript.Metadata.Capability.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -48921,7 +52067,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.capabilities((Canonical) parseUri(Canonical.builder(), "capabilities", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48938,6 +52088,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestScript.Metadata.Link parseTestScriptMetadataLink(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Metadata.Link.Builder builder = TestScript.Metadata.Link.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -48968,7 +52119,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.description(parseString("description", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -48985,6 +52140,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestScript.Origin parseTestScriptOrigin(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Origin.Builder builder = TestScript.Origin.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -49015,7 +52171,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.profile(parseCoding("profile", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49032,6 +52192,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestScript.Setup parseTestScriptSetup(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Setup.Builder builder = TestScript.Setup.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -49058,7 +52219,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.action(parseTestScriptSetupAction("action", reader, actionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49075,6 +52240,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestScript.Setup.Action parseTestScriptSetupAction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Setup.Action.Builder builder = TestScript.Setup.Action.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -49105,7 +52271,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder._assert(parseTestScriptSetupActionAssert("assert", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49122,6 +52292,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestScript.Setup.Action.Assert parseTestScriptSetupActionAssert(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Setup.Action.Assert.Builder builder = TestScript.Setup.Action.Assert.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -49232,7 +52403,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.warningOnly(parseBoolean("warningOnly", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49249,6 +52424,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestScript.Setup.Action.Operation parseTestScriptSetupActionOperation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Setup.Action.Operation.Builder builder = TestScript.Setup.Action.Operation.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -49339,7 +52515,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.url(parseString("url", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49356,6 +52536,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestScript.Setup.Action.Operation.RequestHeader parseTestScriptSetupActionOperationRequestHeader(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Setup.Action.Operation.RequestHeader.Builder builder = TestScript.Setup.Action.Operation.RequestHeader.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -49386,7 +52567,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseString("value", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49403,6 +52588,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestScript.Teardown parseTestScriptTeardown(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Teardown.Builder builder = TestScript.Teardown.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -49429,7 +52615,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.action(parseTestScriptTeardownAction("action", reader, actionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49446,6 +52636,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestScript.Teardown.Action parseTestScriptTeardownAction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Teardown.Action.Builder builder = TestScript.Teardown.Action.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -49472,7 +52663,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.operation(parseTestScriptSetupActionOperation("operation", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49489,6 +52684,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestScript.Test parseTestScriptTest(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Test.Builder builder = TestScript.Test.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -49523,7 +52719,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.action(parseTestScriptTestAction("action", reader, actionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49540,6 +52740,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestScript.Test.Action parseTestScriptTestAction(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Test.Action.Builder builder = TestScript.Test.Action.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -49570,7 +52771,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder._assert(parseTestScriptSetupActionAssert("assert", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49587,6 +52792,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TestScript.Variable parseTestScriptVariable(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TestScript.Variable.Builder builder = TestScript.Variable.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -49641,7 +52847,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.sourceId((Id) parseString(Id.builder(), "sourceId", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49658,6 +52868,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Time parseTime(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Time.Builder builder = Time.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -49680,7 +52891,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.extension(parseExtension("extension", reader, extensionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49697,6 +52912,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Timing parseTiming(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Timing.Builder builder = Timing.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -49731,7 +52947,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.code(parseCodeableConcept("code", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49748,6 +52968,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Timing.Repeat parseTimingRepeat(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Timing.Repeat.Builder builder = Timing.Repeat.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -49838,7 +53059,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.offset((UnsignedInt) parseInteger(UnsignedInt.builder(), "offset", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49855,6 +53080,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private TriggerDefinition parseTriggerDefinition(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         TriggerDefinition.Builder builder = TriggerDefinition.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -49905,7 +53131,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.condition(parseExpression("condition", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49921,6 +53151,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
 
     private Uri parseUri(Uri.Builder builder, java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -49943,7 +53174,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.extension(parseExtension("extension", reader, extensionElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -49964,6 +53199,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private UsageContext parseUsageContext(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         UsageContext.Builder builder = UsageContext.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -50002,7 +53238,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseReference("valueReference", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50019,6 +53259,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ValueSet parseValueSet(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ValueSet.Builder builder = ValueSet.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, contactElementIndex = 0, useContextElementIndex = 0, jurisdictionElementIndex = 0;
         while (reader.hasNext()) {
@@ -50133,7 +53374,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.expansion(parseValueSetExpansion("expansion", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50150,6 +53395,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ValueSet.Compose parseValueSetCompose(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ValueSet.Compose.Builder builder = ValueSet.Compose.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -50188,7 +53434,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.exclude(parseValueSetComposeInclude("exclude", reader, excludeElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50205,6 +53455,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ValueSet.Compose.Include parseValueSetComposeInclude(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ValueSet.Compose.Include.Builder builder = ValueSet.Compose.Include.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -50247,7 +53498,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.valueSet((Canonical) parseUri(Canonical.builder(), "valueSet", reader, valueSetElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50264,6 +53519,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ValueSet.Compose.Include.Concept parseValueSetComposeIncludeConcept(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ValueSet.Compose.Include.Concept.Builder builder = ValueSet.Compose.Include.Concept.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -50298,7 +53554,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.designation(parseValueSetComposeIncludeConceptDesignation("designation", reader, designationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50315,6 +53575,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ValueSet.Compose.Include.Concept.Designation parseValueSetComposeIncludeConceptDesignation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ValueSet.Compose.Include.Concept.Designation.Builder builder = ValueSet.Compose.Include.Concept.Designation.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -50349,7 +53610,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseString("value", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50366,6 +53631,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ValueSet.Compose.Include.Filter parseValueSetComposeIncludeFilter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ValueSet.Compose.Include.Filter.Builder builder = ValueSet.Compose.Include.Filter.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -50400,7 +53666,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseString("value", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50417,6 +53687,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ValueSet.Expansion parseValueSetExpansion(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ValueSet.Expansion.Builder builder = ValueSet.Expansion.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -50463,7 +53734,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.contains(parseValueSetExpansionContains("contains", reader, containsElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50480,6 +53755,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ValueSet.Expansion.Contains parseValueSetExpansionContains(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ValueSet.Expansion.Contains.Builder builder = ValueSet.Expansion.Contains.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -50534,7 +53810,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.contains(parseValueSetExpansionContains("contains", reader, containsElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50551,6 +53831,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private ValueSet.Expansion.Parameter parseValueSetExpansionParameter(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         ValueSet.Expansion.Parameter.Builder builder = ValueSet.Expansion.Parameter.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -50605,7 +53886,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.value(parseDateTime("valueDateTime", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50622,6 +53907,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private VerificationResult parseVerificationResult(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         VerificationResult.Builder builder = VerificationResult.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, targetElementIndex = 0, targetLocationElementIndex = 0, validationProcessElementIndex = 0, primarySourceElementIndex = 0, validatorElementIndex = 0;
         while (reader.hasNext()) {
@@ -50720,7 +54006,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.validator(parseVerificationResultValidator("validator", reader, validatorElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50737,6 +54027,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private VerificationResult.Attestation parseVerificationResultAttestation(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         VerificationResult.Attestation.Builder builder = VerificationResult.Attestation.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -50791,7 +54082,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.sourceSignature(parseSignature("sourceSignature", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50808,6 +54103,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private VerificationResult.PrimarySource parseVerificationResultPrimarySource(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         VerificationResult.PrimarySource.Builder builder = VerificationResult.PrimarySource.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -50858,7 +54154,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.pushTypeAvailable(parseCodeableConcept("pushTypeAvailable", reader, pushTypeAvailableElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50875,6 +54175,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private VerificationResult.Validator parseVerificationResultValidator(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         VerificationResult.Validator.Builder builder = VerificationResult.Validator.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -50909,7 +54210,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.attestationSignature(parseSignature("attestationSignature", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -50926,6 +54231,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private VisionPrescription parseVisionPrescription(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         VisionPrescription.Builder builder = VisionPrescription.builder();
+        builder.setValidating(validating);
         int position = -1;
         int containedElementIndex = 0, extensionElementIndex = 0, modifierExtensionElementIndex = 0, identifierElementIndex = 0, lensSpecificationElementIndex = 0;
         while (reader.hasNext()) {
@@ -51000,7 +54306,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.lensSpecification(parseVisionPrescriptionLensSpecification("lensSpecification", reader, lensSpecificationElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -51017,6 +54327,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private VisionPrescription.LensSpecification parseVisionPrescriptionLensSpecification(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         VisionPrescription.LensSpecification.Builder builder = VisionPrescription.LensSpecification.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -51095,7 +54406,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.note(parseAnnotation("note", reader, noteElementIndex++));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -51112,6 +54427,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private VisionPrescription.LensSpecification.Prism parseVisionPrescriptionLensSpecificationPrism(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         VisionPrescription.LensSpecification.Prism.Builder builder = VisionPrescription.LensSpecification.Prism.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);
@@ -51142,7 +54458,11 @@ public class FHIRXMLParser extends FHIRAbstractParser {
                     builder.base((VisionBase) parseString(VisionBase.builder(), "base", reader, -1));
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    if (!ignoringUnrecognizedElements) {
+                        throw new IllegalArgumentException("Unrecognized element: '" + localName + "'");
+                    }
+                    reader.nextTag();
+                    break;
                 }
                 break;
             case XMLStreamReader.END_ELEMENT:
@@ -51159,6 +54479,7 @@ public class FHIRXMLParser extends FHIRAbstractParser {
     private Xhtml parseXhtml(java.lang.String elementName, XMLStreamReader reader, int elementIndex) throws XMLStreamException {
         stackPush(elementName, elementIndex);
         Xhtml.Builder builder = Xhtml.builder();
+        builder.setValidating(validating);
         java.lang.String id = reader.getAttributeValue(null, "id");
         if (id != null) {
             builder.id(id);

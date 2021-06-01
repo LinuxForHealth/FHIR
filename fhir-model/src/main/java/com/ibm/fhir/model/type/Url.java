@@ -183,7 +183,15 @@ public class Url extends Uri {
          */
         @Override
         public Url build() {
-            return new Url(this);
+            Url url = new Url(this);
+            if (validating) {
+                validate(url);
+            }
+            return url;
+        }
+
+        protected void validate(Url url) {
+            super.validate(url);
         }
 
         protected Builder from(Url url) {

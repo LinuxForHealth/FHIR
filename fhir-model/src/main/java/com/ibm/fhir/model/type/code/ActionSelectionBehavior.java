@@ -193,11 +193,7 @@ public class ActionSelectionBehavior extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -252,7 +248,20 @@ public class ActionSelectionBehavior extends Code {
 
         @Override
         public ActionSelectionBehavior build() {
-            return new ActionSelectionBehavior(this);
+            ActionSelectionBehavior actionSelectionBehavior = new ActionSelectionBehavior(this);
+            if (validating) {
+                validate(actionSelectionBehavior);
+            }
+            return actionSelectionBehavior;
+        }
+
+        protected void validate(ActionSelectionBehavior actionSelectionBehavior) {
+            super.validate(actionSelectionBehavior);
+        }
+
+        protected Builder from(ActionSelectionBehavior actionSelectionBehavior) {
+            super.from(actionSelectionBehavior);
+            return this;
         }
     }
 

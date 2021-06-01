@@ -191,11 +191,7 @@ public class DeviceNameType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -250,7 +246,20 @@ public class DeviceNameType extends Code {
 
         @Override
         public DeviceNameType build() {
-            return new DeviceNameType(this);
+            DeviceNameType deviceNameType = new DeviceNameType(this);
+            if (validating) {
+                validate(deviceNameType);
+            }
+            return deviceNameType;
+        }
+
+        protected void validate(DeviceNameType deviceNameType) {
+            super.validate(deviceNameType);
+        }
+
+        protected Builder from(DeviceNameType deviceNameType) {
+            super.from(deviceNameType);
+            return this;
         }
     }
 

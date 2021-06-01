@@ -188,11 +188,7 @@ public class UnitsOfTime extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -247,7 +243,20 @@ public class UnitsOfTime extends Code {
 
         @Override
         public UnitsOfTime build() {
-            return new UnitsOfTime(this);
+            UnitsOfTime unitsOfTime = new UnitsOfTime(this);
+            if (validating) {
+                validate(unitsOfTime);
+            }
+            return unitsOfTime;
+        }
+
+        protected void validate(UnitsOfTime unitsOfTime) {
+            super.validate(unitsOfTime);
+        }
+
+        protected Builder from(UnitsOfTime unitsOfTime) {
+            super.from(unitsOfTime);
+            return this;
         }
     }
 

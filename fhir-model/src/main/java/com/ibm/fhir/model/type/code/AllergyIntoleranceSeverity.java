@@ -158,11 +158,7 @@ public class AllergyIntoleranceSeverity extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -217,7 +213,20 @@ public class AllergyIntoleranceSeverity extends Code {
 
         @Override
         public AllergyIntoleranceSeverity build() {
-            return new AllergyIntoleranceSeverity(this);
+            AllergyIntoleranceSeverity allergyIntoleranceSeverity = new AllergyIntoleranceSeverity(this);
+            if (validating) {
+                validate(allergyIntoleranceSeverity);
+            }
+            return allergyIntoleranceSeverity;
+        }
+
+        protected void validate(AllergyIntoleranceSeverity allergyIntoleranceSeverity) {
+            super.validate(allergyIntoleranceSeverity);
+        }
+
+        protected Builder from(AllergyIntoleranceSeverity allergyIntoleranceSeverity) {
+            super.from(allergyIntoleranceSeverity);
+            return this;
         }
     }
 

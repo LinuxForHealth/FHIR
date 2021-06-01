@@ -88,17 +88,14 @@ public class Flag extends DomainResource {
 
     private Flag(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
-        code = ValidationSupport.requireNonNull(builder.code, "code");
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        category = Collections.unmodifiableList(builder.category);
+        code = builder.code;
+        subject = builder.subject;
         period = builder.period;
         encounter = builder.encounter;
         author = builder.author;
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Location", "Group", "Organization", "Practitioner", "PlanDefinition", "Medication", "Procedure");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(author, "author", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole");
     }
 
     /**
@@ -705,7 +702,23 @@ public class Flag extends DomainResource {
          */
         @Override
         public Flag build() {
-            return new Flag(this);
+            Flag flag = new Flag(this);
+            if (validating) {
+                validate(flag);
+            }
+            return flag;
+        }
+
+        protected void validate(Flag flag) {
+            super.validate(flag);
+            ValidationSupport.checkList(flag.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(flag.status, "status");
+            ValidationSupport.checkList(flag.category, "category", CodeableConcept.class);
+            ValidationSupport.requireNonNull(flag.code, "code");
+            ValidationSupport.requireNonNull(flag.subject, "subject");
+            ValidationSupport.checkReferenceType(flag.subject, "subject", "Patient", "Location", "Group", "Organization", "Practitioner", "PlanDefinition", "Medication", "Procedure");
+            ValidationSupport.checkReferenceType(flag.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(flag.author, "author", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole");
         }
 
         protected Builder from(Flag flag) {

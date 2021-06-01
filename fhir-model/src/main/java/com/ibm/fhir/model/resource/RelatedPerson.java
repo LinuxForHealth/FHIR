@@ -108,19 +108,18 @@ public class RelatedPerson extends DomainResource {
 
     private RelatedPerson(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         active = builder.active;
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        relationship = Collections.unmodifiableList(ValidationSupport.checkList(builder.relationship, "relationship", CodeableConcept.class));
-        name = Collections.unmodifiableList(ValidationSupport.checkList(builder.name, "name", HumanName.class));
-        telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
+        patient = builder.patient;
+        relationship = Collections.unmodifiableList(builder.relationship);
+        name = Collections.unmodifiableList(builder.name);
+        telecom = Collections.unmodifiableList(builder.telecom);
         gender = builder.gender;
         birthDate = builder.birthDate;
-        address = Collections.unmodifiableList(ValidationSupport.checkList(builder.address, "address", Address.class));
-        photo = Collections.unmodifiableList(ValidationSupport.checkList(builder.photo, "photo", Attachment.class));
+        address = Collections.unmodifiableList(builder.address);
+        photo = Collections.unmodifiableList(builder.photo);
         period = builder.period;
-        communication = Collections.unmodifiableList(ValidationSupport.checkList(builder.communication, "communication", Communication.class));
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+        communication = Collections.unmodifiableList(builder.communication);
     }
 
     /**
@@ -912,7 +911,24 @@ public class RelatedPerson extends DomainResource {
          */
         @Override
         public RelatedPerson build() {
-            return new RelatedPerson(this);
+            RelatedPerson relatedPerson = new RelatedPerson(this);
+            if (validating) {
+                validate(relatedPerson);
+            }
+            return relatedPerson;
+        }
+
+        protected void validate(RelatedPerson relatedPerson) {
+            super.validate(relatedPerson);
+            ValidationSupport.checkList(relatedPerson.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(relatedPerson.patient, "patient");
+            ValidationSupport.checkList(relatedPerson.relationship, "relationship", CodeableConcept.class);
+            ValidationSupport.checkList(relatedPerson.name, "name", HumanName.class);
+            ValidationSupport.checkList(relatedPerson.telecom, "telecom", ContactPoint.class);
+            ValidationSupport.checkList(relatedPerson.address, "address", Address.class);
+            ValidationSupport.checkList(relatedPerson.photo, "photo", Attachment.class);
+            ValidationSupport.checkList(relatedPerson.communication, "communication", Communication.class);
+            ValidationSupport.checkReferenceType(relatedPerson.patient, "patient", "Patient");
         }
 
         protected Builder from(RelatedPerson relatedPerson) {
@@ -950,10 +966,8 @@ public class RelatedPerson extends DomainResource {
 
         private Communication(Builder builder) {
             super(builder);
-            language = ValidationSupport.requireNonNull(builder.language, "language");
+            language = builder.language;
             preferred = builder.preferred;
-            ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1200,7 +1214,18 @@ public class RelatedPerson extends DomainResource {
              */
             @Override
             public Communication build() {
-                return new Communication(this);
+                Communication communication = new Communication(this);
+                if (validating) {
+                    validate(communication);
+                }
+                return communication;
+            }
+
+            protected void validate(Communication communication) {
+                super.validate(communication);
+                ValidationSupport.requireNonNull(communication.language, "language");
+                ValidationSupport.checkValueSetBinding(communication.language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+                ValidationSupport.requireValueOrChildren(communication);
             }
 
             protected Builder from(Communication communication) {

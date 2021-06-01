@@ -173,11 +173,7 @@ public class BindingStrength extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -232,7 +228,20 @@ public class BindingStrength extends Code {
 
         @Override
         public BindingStrength build() {
-            return new BindingStrength(this);
+            BindingStrength bindingStrength = new BindingStrength(this);
+            if (validating) {
+                validate(bindingStrength);
+            }
+            return bindingStrength;
+        }
+
+        protected void validate(BindingStrength bindingStrength) {
+            super.validate(bindingStrength);
+        }
+
+        protected Builder from(BindingStrength bindingStrength) {
+            super.from(bindingStrength);
+            return this;
         }
     }
 

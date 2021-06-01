@@ -158,11 +158,7 @@ public class StructureMapGroupTypeMode extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -217,7 +213,20 @@ public class StructureMapGroupTypeMode extends Code {
 
         @Override
         public StructureMapGroupTypeMode build() {
-            return new StructureMapGroupTypeMode(this);
+            StructureMapGroupTypeMode structureMapGroupTypeMode = new StructureMapGroupTypeMode(this);
+            if (validating) {
+                validate(structureMapGroupTypeMode);
+            }
+            return structureMapGroupTypeMode;
+        }
+
+        protected void validate(StructureMapGroupTypeMode structureMapGroupTypeMode) {
+            super.validate(structureMapGroupTypeMode);
+        }
+
+        protected Builder from(StructureMapGroupTypeMode structureMapGroupTypeMode) {
+            super.from(structureMapGroupTypeMode);
+            return this;
         }
     }
 

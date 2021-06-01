@@ -206,11 +206,7 @@ public class SupplyRequestStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -265,7 +261,20 @@ public class SupplyRequestStatus extends Code {
 
         @Override
         public SupplyRequestStatus build() {
-            return new SupplyRequestStatus(this);
+            SupplyRequestStatus supplyRequestStatus = new SupplyRequestStatus(this);
+            if (validating) {
+                validate(supplyRequestStatus);
+            }
+            return supplyRequestStatus;
+        }
+
+        protected void validate(SupplyRequestStatus supplyRequestStatus) {
+            super.validate(supplyRequestStatus);
+        }
+
+        protected Builder from(SupplyRequestStatus supplyRequestStatus) {
+            super.from(supplyRequestStatus);
+            return this;
         }
     }
 

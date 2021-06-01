@@ -170,11 +170,7 @@ public class MeasureReportType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -229,7 +225,20 @@ public class MeasureReportType extends Code {
 
         @Override
         public MeasureReportType build() {
-            return new MeasureReportType(this);
+            MeasureReportType measureReportType = new MeasureReportType(this);
+            if (validating) {
+                validate(measureReportType);
+            }
+            return measureReportType;
+        }
+
+        protected void validate(MeasureReportType measureReportType) {
+            super.validate(measureReportType);
+        }
+
+        protected Builder from(MeasureReportType measureReportType) {
+            super.from(measureReportType);
+            return this;
         }
     }
 

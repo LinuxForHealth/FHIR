@@ -171,11 +171,7 @@ public class NarrativeStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -230,7 +226,20 @@ public class NarrativeStatus extends Code {
 
         @Override
         public NarrativeStatus build() {
-            return new NarrativeStatus(this);
+            NarrativeStatus narrativeStatus = new NarrativeStatus(this);
+            if (validating) {
+                validate(narrativeStatus);
+            }
+            return narrativeStatus;
+        }
+
+        protected void validate(NarrativeStatus narrativeStatus) {
+            super.validate(narrativeStatus);
+        }
+
+        protected Builder from(NarrativeStatus narrativeStatus) {
+            super.from(narrativeStatus);
+            return this;
         }
     }
 

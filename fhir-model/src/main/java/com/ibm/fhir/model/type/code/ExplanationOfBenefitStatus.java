@@ -169,11 +169,7 @@ public class ExplanationOfBenefitStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class ExplanationOfBenefitStatus extends Code {
 
         @Override
         public ExplanationOfBenefitStatus build() {
-            return new ExplanationOfBenefitStatus(this);
+            ExplanationOfBenefitStatus explanationOfBenefitStatus = new ExplanationOfBenefitStatus(this);
+            if (validating) {
+                validate(explanationOfBenefitStatus);
+            }
+            return explanationOfBenefitStatus;
+        }
+
+        protected void validate(ExplanationOfBenefitStatus explanationOfBenefitStatus) {
+            super.validate(explanationOfBenefitStatus);
+        }
+
+        protected Builder from(ExplanationOfBenefitStatus explanationOfBenefitStatus) {
+            super.from(explanationOfBenefitStatus);
+            return this;
         }
     }
 

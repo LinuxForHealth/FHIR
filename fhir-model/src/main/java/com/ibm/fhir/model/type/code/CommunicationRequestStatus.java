@@ -207,11 +207,7 @@ public class CommunicationRequestStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -266,7 +262,20 @@ public class CommunicationRequestStatus extends Code {
 
         @Override
         public CommunicationRequestStatus build() {
-            return new CommunicationRequestStatus(this);
+            CommunicationRequestStatus communicationRequestStatus = new CommunicationRequestStatus(this);
+            if (validating) {
+                validate(communicationRequestStatus);
+            }
+            return communicationRequestStatus;
+        }
+
+        protected void validate(CommunicationRequestStatus communicationRequestStatus) {
+            super.validate(communicationRequestStatus);
+        }
+
+        protected Builder from(CommunicationRequestStatus communicationRequestStatus) {
+            super.from(communicationRequestStatus);
+            return this;
         }
     }
 

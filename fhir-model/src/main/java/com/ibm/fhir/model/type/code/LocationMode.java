@@ -148,11 +148,7 @@ public class LocationMode extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -207,7 +203,20 @@ public class LocationMode extends Code {
 
         @Override
         public LocationMode build() {
-            return new LocationMode(this);
+            LocationMode locationMode = new LocationMode(this);
+            if (validating) {
+                validate(locationMode);
+            }
+            return locationMode;
+        }
+
+        protected void validate(LocationMode locationMode) {
+            super.validate(locationMode);
+        }
+
+        protected Builder from(LocationMode locationMode) {
+            super.from(locationMode);
+            return this;
         }
     }
 

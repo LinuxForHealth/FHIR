@@ -173,11 +173,7 @@ public class CarePlanActivityKind extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -232,7 +228,20 @@ public class CarePlanActivityKind extends Code {
 
         @Override
         public CarePlanActivityKind build() {
-            return new CarePlanActivityKind(this);
+            CarePlanActivityKind carePlanActivityKind = new CarePlanActivityKind(this);
+            if (validating) {
+                validate(carePlanActivityKind);
+            }
+            return carePlanActivityKind;
+        }
+
+        protected void validate(CarePlanActivityKind carePlanActivityKind) {
+            super.validate(carePlanActivityKind);
+        }
+
+        protected Builder from(CarePlanActivityKind carePlanActivityKind) {
+            super.from(carePlanActivityKind);
+            return this;
         }
     }
 

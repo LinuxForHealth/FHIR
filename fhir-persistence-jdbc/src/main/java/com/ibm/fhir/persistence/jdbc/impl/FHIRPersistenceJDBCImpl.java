@@ -2329,16 +2329,18 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         InputStream in = null;
         try {
             if (resourceDTO != null && resourceDTO.getDataStream() != null) {
+                FHIRParser parser = FHIRParser.parser(Format.JSON);
+                parser.setValidating(false);
                 in = new GZIPInputStream(resourceDTO.getDataStream().inputStream());
                 if (elements != null) {
                     // parse/filter the resource using elements
-                    resource = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parseAndFilter(in, elements);
+                    resource = parser.as(FHIRJsonParser.class).parseAndFilter(in, elements);
                     if (resourceType.equals(resource.getClass()) && !FHIRUtil.hasTag(resource, SearchConstants.SUBSETTED_TAG)) {
                         // add a SUBSETTED tag to this resource to indicate that its elements have been filtered
                         resource = FHIRUtil.addTag(resource, SearchConstants.SUBSETTED_TAG);
                     }
                 } else {
-                    resource = FHIRParser.parser(Format.JSON).parse(in);
+                    resource = parser.parse(in);
                 }
             }
         } finally {

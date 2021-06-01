@@ -180,11 +180,7 @@ public class PropertyRepresentation extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -239,7 +235,20 @@ public class PropertyRepresentation extends Code {
 
         @Override
         public PropertyRepresentation build() {
-            return new PropertyRepresentation(this);
+            PropertyRepresentation propertyRepresentation = new PropertyRepresentation(this);
+            if (validating) {
+                validate(propertyRepresentation);
+            }
+            return propertyRepresentation;
+        }
+
+        protected void validate(PropertyRepresentation propertyRepresentation) {
+            super.validate(propertyRepresentation);
+        }
+
+        protected Builder from(PropertyRepresentation propertyRepresentation) {
+            super.from(propertyRepresentation);
+            return this;
         }
     }
 

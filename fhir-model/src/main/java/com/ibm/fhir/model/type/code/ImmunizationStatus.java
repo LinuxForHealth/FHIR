@@ -143,11 +143,7 @@ public class ImmunizationStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -202,7 +198,20 @@ public class ImmunizationStatus extends Code {
 
         @Override
         public ImmunizationStatus build() {
-            return new ImmunizationStatus(this);
+            ImmunizationStatus immunizationStatus = new ImmunizationStatus(this);
+            if (validating) {
+                validate(immunizationStatus);
+            }
+            return immunizationStatus;
+        }
+
+        protected void validate(ImmunizationStatus immunizationStatus) {
+            super.validate(immunizationStatus);
+        }
+
+        protected Builder from(ImmunizationStatus immunizationStatus) {
+            super.from(immunizationStatus);
+            return this;
         }
     }
 

@@ -261,28 +261,28 @@ public class CapabilityStatement extends DomainResource {
         version = builder.version;
         name = builder.name;
         title = builder.title;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
-        date = ValidationSupport.requireNonNull(builder.date, "date");
+        date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         copyright = builder.copyright;
-        kind = ValidationSupport.requireNonNull(builder.kind, "kind");
-        instantiates = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiates, "instantiates", Canonical.class));
-        imports = Collections.unmodifiableList(ValidationSupport.checkList(builder.imports, "imports", Canonical.class));
+        kind = builder.kind;
+        instantiates = Collections.unmodifiableList(builder.instantiates);
+        imports = Collections.unmodifiableList(builder.imports);
         software = builder.software;
         implementation = builder.implementation;
-        fhirVersion = ValidationSupport.requireNonNull(builder.fhirVersion, "fhirVersion");
-        format = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.format, "format", Code.class));
-        patchFormat = Collections.unmodifiableList(ValidationSupport.checkList(builder.patchFormat, "patchFormat", Code.class));
-        implementationGuide = Collections.unmodifiableList(ValidationSupport.checkList(builder.implementationGuide, "implementationGuide", Canonical.class));
-        rest = Collections.unmodifiableList(ValidationSupport.checkList(builder.rest, "rest", Rest.class));
-        messaging = Collections.unmodifiableList(ValidationSupport.checkList(builder.messaging, "messaging", Messaging.class));
-        document = Collections.unmodifiableList(ValidationSupport.checkList(builder.document, "document", Document.class));
+        fhirVersion = builder.fhirVersion;
+        format = Collections.unmodifiableList(builder.format);
+        patchFormat = Collections.unmodifiableList(builder.patchFormat);
+        implementationGuide = Collections.unmodifiableList(builder.implementationGuide);
+        rest = Collections.unmodifiableList(builder.rest);
+        messaging = Collections.unmodifiableList(builder.messaging);
+        document = Collections.unmodifiableList(builder.document);
     }
 
     /**
@@ -1619,7 +1619,30 @@ public class CapabilityStatement extends DomainResource {
          */
         @Override
         public CapabilityStatement build() {
-            return new CapabilityStatement(this);
+            CapabilityStatement capabilityStatement = new CapabilityStatement(this);
+            if (validating) {
+                validate(capabilityStatement);
+            }
+            return capabilityStatement;
+        }
+
+        protected void validate(CapabilityStatement capabilityStatement) {
+            super.validate(capabilityStatement);
+            ValidationSupport.requireNonNull(capabilityStatement.status, "status");
+            ValidationSupport.requireNonNull(capabilityStatement.date, "date");
+            ValidationSupport.checkList(capabilityStatement.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(capabilityStatement.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(capabilityStatement.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.requireNonNull(capabilityStatement.kind, "kind");
+            ValidationSupport.checkList(capabilityStatement.instantiates, "instantiates", Canonical.class);
+            ValidationSupport.checkList(capabilityStatement.imports, "imports", Canonical.class);
+            ValidationSupport.requireNonNull(capabilityStatement.fhirVersion, "fhirVersion");
+            ValidationSupport.checkNonEmptyList(capabilityStatement.format, "format", Code.class);
+            ValidationSupport.checkList(capabilityStatement.patchFormat, "patchFormat", Code.class);
+            ValidationSupport.checkList(capabilityStatement.implementationGuide, "implementationGuide", Canonical.class);
+            ValidationSupport.checkList(capabilityStatement.rest, "rest", Rest.class);
+            ValidationSupport.checkList(capabilityStatement.messaging, "messaging", Messaging.class);
+            ValidationSupport.checkList(capabilityStatement.document, "document", Document.class);
         }
 
         protected Builder from(CapabilityStatement capabilityStatement) {
@@ -1669,10 +1692,9 @@ public class CapabilityStatement extends DomainResource {
 
         private Software(Builder builder) {
             super(builder);
-            name = ValidationSupport.requireNonNull(builder.name, "name");
+            name = builder.name;
             version = builder.version;
             releaseDate = builder.releaseDate;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1944,7 +1966,17 @@ public class CapabilityStatement extends DomainResource {
              */
             @Override
             public Software build() {
-                return new Software(this);
+                Software software = new Software(this);
+                if (validating) {
+                    validate(software);
+                }
+                return software;
+            }
+
+            protected void validate(Software software) {
+                super.validate(software);
+                ValidationSupport.requireNonNull(software.name, "name");
+                ValidationSupport.requireValueOrChildren(software);
             }
 
             protected Builder from(Software software) {
@@ -1973,11 +2005,9 @@ public class CapabilityStatement extends DomainResource {
 
         private Implementation(Builder builder) {
             super(builder);
-            description = ValidationSupport.requireNonNull(builder.description, "description");
+            description = builder.description;
             url = builder.url;
             custodian = builder.custodian;
-            ValidationSupport.checkReferenceType(custodian, "custodian", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2258,7 +2288,18 @@ public class CapabilityStatement extends DomainResource {
              */
             @Override
             public Implementation build() {
-                return new Implementation(this);
+                Implementation implementation = new Implementation(this);
+                if (validating) {
+                    validate(implementation);
+                }
+                return implementation;
+            }
+
+            protected void validate(Implementation implementation) {
+                super.validate(implementation);
+                ValidationSupport.requireNonNull(implementation.description, "description");
+                ValidationSupport.checkReferenceType(implementation.custodian, "custodian", "Organization");
+                ValidationSupport.requireValueOrChildren(implementation);
             }
 
             protected Builder from(Implementation implementation) {
@@ -2297,15 +2338,14 @@ public class CapabilityStatement extends DomainResource {
 
         private Rest(Builder builder) {
             super(builder);
-            mode = ValidationSupport.requireNonNull(builder.mode, "mode");
+            mode = builder.mode;
             documentation = builder.documentation;
             security = builder.security;
-            resource = Collections.unmodifiableList(ValidationSupport.checkList(builder.resource, "resource", Resource.class));
-            interaction = Collections.unmodifiableList(ValidationSupport.checkList(builder.interaction, "interaction", Interaction.class));
-            searchParam = Collections.unmodifiableList(ValidationSupport.checkList(builder.searchParam, "searchParam", CapabilityStatement.Rest.Resource.SearchParam.class));
-            operation = Collections.unmodifiableList(ValidationSupport.checkList(builder.operation, "operation", CapabilityStatement.Rest.Resource.Operation.class));
-            compartment = Collections.unmodifiableList(ValidationSupport.checkList(builder.compartment, "compartment", Canonical.class));
-            ValidationSupport.requireValueOrChildren(this);
+            resource = Collections.unmodifiableList(builder.resource);
+            interaction = Collections.unmodifiableList(builder.interaction);
+            searchParam = Collections.unmodifiableList(builder.searchParam);
+            operation = Collections.unmodifiableList(builder.operation);
+            compartment = Collections.unmodifiableList(builder.compartment);
         }
 
         /**
@@ -2828,7 +2868,22 @@ public class CapabilityStatement extends DomainResource {
              */
             @Override
             public Rest build() {
-                return new Rest(this);
+                Rest rest = new Rest(this);
+                if (validating) {
+                    validate(rest);
+                }
+                return rest;
+            }
+
+            protected void validate(Rest rest) {
+                super.validate(rest);
+                ValidationSupport.requireNonNull(rest.mode, "mode");
+                ValidationSupport.checkList(rest.resource, "resource", Resource.class);
+                ValidationSupport.checkList(rest.interaction, "interaction", Interaction.class);
+                ValidationSupport.checkList(rest.searchParam, "searchParam", CapabilityStatement.Rest.Resource.SearchParam.class);
+                ValidationSupport.checkList(rest.operation, "operation", CapabilityStatement.Rest.Resource.Operation.class);
+                ValidationSupport.checkList(rest.compartment, "compartment", Canonical.class);
+                ValidationSupport.requireValueOrChildren(rest);
             }
 
             protected Builder from(Rest rest) {
@@ -2864,9 +2919,8 @@ public class CapabilityStatement extends DomainResource {
             private Security(Builder builder) {
                 super(builder);
                 cors = builder.cors;
-                service = Collections.unmodifiableList(ValidationSupport.checkList(builder.service, "service", CodeableConcept.class));
+                service = Collections.unmodifiableList(builder.service);
                 description = builder.description;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -3151,7 +3205,17 @@ public class CapabilityStatement extends DomainResource {
                  */
                 @Override
                 public Security build() {
-                    return new Security(this);
+                    Security security = new Security(this);
+                    if (validating) {
+                        validate(security);
+                    }
+                    return security;
+                }
+
+                protected void validate(Security security) {
+                    super.validate(security);
+                    ValidationSupport.checkList(security.service, "service", CodeableConcept.class);
+                    ValidationSupport.requireValueOrChildren(security);
                 }
 
                 protected Builder from(Security security) {
@@ -3223,11 +3287,11 @@ public class CapabilityStatement extends DomainResource {
 
             private Resource(Builder builder) {
                 super(builder);
-                type = ValidationSupport.requireNonNull(builder.type, "type");
+                type = builder.type;
                 profile = builder.profile;
-                supportedProfile = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportedProfile, "supportedProfile", Canonical.class));
+                supportedProfile = Collections.unmodifiableList(builder.supportedProfile);
                 documentation = builder.documentation;
-                interaction = Collections.unmodifiableList(ValidationSupport.checkList(builder.interaction, "interaction", Interaction.class));
+                interaction = Collections.unmodifiableList(builder.interaction);
                 versioning = builder.versioning;
                 readHistory = builder.readHistory;
                 updateCreate = builder.updateCreate;
@@ -3235,12 +3299,11 @@ public class CapabilityStatement extends DomainResource {
                 conditionalRead = builder.conditionalRead;
                 conditionalUpdate = builder.conditionalUpdate;
                 conditionalDelete = builder.conditionalDelete;
-                referencePolicy = Collections.unmodifiableList(ValidationSupport.checkList(builder.referencePolicy, "referencePolicy", ReferenceHandlingPolicy.class));
-                searchInclude = Collections.unmodifiableList(ValidationSupport.checkList(builder.searchInclude, "searchInclude", String.class));
-                searchRevInclude = Collections.unmodifiableList(ValidationSupport.checkList(builder.searchRevInclude, "searchRevInclude", String.class));
-                searchParam = Collections.unmodifiableList(ValidationSupport.checkList(builder.searchParam, "searchParam", SearchParam.class));
-                operation = Collections.unmodifiableList(ValidationSupport.checkList(builder.operation, "operation", Operation.class));
-                ValidationSupport.requireValueOrChildren(this);
+                referencePolicy = Collections.unmodifiableList(builder.referencePolicy);
+                searchInclude = Collections.unmodifiableList(builder.searchInclude);
+                searchRevInclude = Collections.unmodifiableList(builder.searchRevInclude);
+                searchParam = Collections.unmodifiableList(builder.searchParam);
+                operation = Collections.unmodifiableList(builder.operation);
             }
 
             /**
@@ -4090,7 +4153,24 @@ public class CapabilityStatement extends DomainResource {
                  */
                 @Override
                 public Resource build() {
-                    return new Resource(this);
+                    Resource resource = new Resource(this);
+                    if (validating) {
+                        validate(resource);
+                    }
+                    return resource;
+                }
+
+                protected void validate(Resource resource) {
+                    super.validate(resource);
+                    ValidationSupport.requireNonNull(resource.type, "type");
+                    ValidationSupport.checkList(resource.supportedProfile, "supportedProfile", Canonical.class);
+                    ValidationSupport.checkList(resource.interaction, "interaction", Interaction.class);
+                    ValidationSupport.checkList(resource.referencePolicy, "referencePolicy", ReferenceHandlingPolicy.class);
+                    ValidationSupport.checkList(resource.searchInclude, "searchInclude", String.class);
+                    ValidationSupport.checkList(resource.searchRevInclude, "searchRevInclude", String.class);
+                    ValidationSupport.checkList(resource.searchParam, "searchParam", SearchParam.class);
+                    ValidationSupport.checkList(resource.operation, "operation", Operation.class);
+                    ValidationSupport.requireValueOrChildren(resource);
                 }
 
                 protected Builder from(Resource resource) {
@@ -4132,9 +4212,8 @@ public class CapabilityStatement extends DomainResource {
 
                 private Interaction(Builder builder) {
                     super(builder);
-                    code = ValidationSupport.requireNonNull(builder.code, "code");
+                    code = builder.code;
                     documentation = builder.documentation;
-                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -4379,7 +4458,17 @@ public class CapabilityStatement extends DomainResource {
                      */
                     @Override
                     public Interaction build() {
-                        return new Interaction(this);
+                        Interaction interaction = new Interaction(this);
+                        if (validating) {
+                            validate(interaction);
+                        }
+                        return interaction;
+                    }
+
+                    protected void validate(Interaction interaction) {
+                        super.validate(interaction);
+                        ValidationSupport.requireNonNull(interaction.code, "code");
+                        ValidationSupport.requireValueOrChildren(interaction);
                     }
 
                     protected Builder from(Interaction interaction) {
@@ -4411,11 +4500,10 @@ public class CapabilityStatement extends DomainResource {
 
                 private SearchParam(Builder builder) {
                     super(builder);
-                    name = ValidationSupport.requireNonNull(builder.name, "name");
+                    name = builder.name;
                     definition = builder.definition;
-                    type = ValidationSupport.requireNonNull(builder.type, "type");
+                    type = builder.type;
                     documentation = builder.documentation;
-                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -4727,7 +4815,18 @@ public class CapabilityStatement extends DomainResource {
                      */
                     @Override
                     public SearchParam build() {
-                        return new SearchParam(this);
+                        SearchParam searchParam = new SearchParam(this);
+                        if (validating) {
+                            validate(searchParam);
+                        }
+                        return searchParam;
+                    }
+
+                    protected void validate(SearchParam searchParam) {
+                        super.validate(searchParam);
+                        ValidationSupport.requireNonNull(searchParam.name, "name");
+                        ValidationSupport.requireNonNull(searchParam.type, "type");
+                        ValidationSupport.requireValueOrChildren(searchParam);
                     }
 
                     protected Builder from(SearchParam searchParam) {
@@ -4756,10 +4855,9 @@ public class CapabilityStatement extends DomainResource {
 
                 private Operation(Builder builder) {
                     super(builder);
-                    name = ValidationSupport.requireNonNull(builder.name, "name");
-                    definition = ValidationSupport.requireNonNull(builder.definition, "definition");
+                    name = builder.name;
+                    definition = builder.definition;
                     documentation = builder.documentation;
-                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -5046,7 +5144,18 @@ public class CapabilityStatement extends DomainResource {
                      */
                     @Override
                     public Operation build() {
-                        return new Operation(this);
+                        Operation operation = new Operation(this);
+                        if (validating) {
+                            validate(operation);
+                        }
+                        return operation;
+                    }
+
+                    protected void validate(Operation operation) {
+                        super.validate(operation);
+                        ValidationSupport.requireNonNull(operation.name, "name");
+                        ValidationSupport.requireNonNull(operation.definition, "definition");
+                        ValidationSupport.requireValueOrChildren(operation);
                     }
 
                     protected Builder from(Operation operation) {
@@ -5076,9 +5185,8 @@ public class CapabilityStatement extends DomainResource {
 
             private Interaction(Builder builder) {
                 super(builder);
-                code = ValidationSupport.requireNonNull(builder.code, "code");
+                code = builder.code;
                 documentation = builder.documentation;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -5323,7 +5431,17 @@ public class CapabilityStatement extends DomainResource {
                  */
                 @Override
                 public Interaction build() {
-                    return new Interaction(this);
+                    Interaction interaction = new Interaction(this);
+                    if (validating) {
+                        validate(interaction);
+                    }
+                    return interaction;
+                }
+
+                protected void validate(Interaction interaction) {
+                    super.validate(interaction);
+                    ValidationSupport.requireNonNull(interaction.code, "code");
+                    ValidationSupport.requireValueOrChildren(interaction);
                 }
 
                 protected Builder from(Interaction interaction) {
@@ -5348,11 +5466,10 @@ public class CapabilityStatement extends DomainResource {
 
         private Messaging(Builder builder) {
             super(builder);
-            endpoint = Collections.unmodifiableList(ValidationSupport.checkList(builder.endpoint, "endpoint", Endpoint.class));
+            endpoint = Collections.unmodifiableList(builder.endpoint);
             reliableCache = builder.reliableCache;
             documentation = builder.documentation;
-            supportedMessage = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportedMessage, "supportedMessage", SupportedMessage.class));
-            ValidationSupport.requireValueOrChildren(this);
+            supportedMessage = Collections.unmodifiableList(builder.supportedMessage);
         }
 
         /**
@@ -5690,7 +5807,18 @@ public class CapabilityStatement extends DomainResource {
              */
             @Override
             public Messaging build() {
-                return new Messaging(this);
+                Messaging messaging = new Messaging(this);
+                if (validating) {
+                    validate(messaging);
+                }
+                return messaging;
+            }
+
+            protected void validate(Messaging messaging) {
+                super.validate(messaging);
+                ValidationSupport.checkList(messaging.endpoint, "endpoint", Endpoint.class);
+                ValidationSupport.checkList(messaging.supportedMessage, "supportedMessage", SupportedMessage.class);
+                ValidationSupport.requireValueOrChildren(messaging);
             }
 
             protected Builder from(Messaging messaging) {
@@ -5720,9 +5848,8 @@ public class CapabilityStatement extends DomainResource {
 
             private Endpoint(Builder builder) {
                 super(builder);
-                protocol = ValidationSupport.requireNonNull(builder.protocol, "protocol");
-                address = ValidationSupport.requireNonNull(builder.address, "address");
-                ValidationSupport.requireValueOrChildren(this);
+                protocol = builder.protocol;
+                address = builder.address;
             }
 
             /**
@@ -5970,7 +6097,18 @@ public class CapabilityStatement extends DomainResource {
                  */
                 @Override
                 public Endpoint build() {
-                    return new Endpoint(this);
+                    Endpoint endpoint = new Endpoint(this);
+                    if (validating) {
+                        validate(endpoint);
+                    }
+                    return endpoint;
+                }
+
+                protected void validate(Endpoint endpoint) {
+                    super.validate(endpoint);
+                    ValidationSupport.requireNonNull(endpoint.protocol, "protocol");
+                    ValidationSupport.requireNonNull(endpoint.address, "address");
+                    ValidationSupport.requireValueOrChildren(endpoint);
                 }
 
                 protected Builder from(Endpoint endpoint) {
@@ -6001,9 +6139,8 @@ public class CapabilityStatement extends DomainResource {
 
             private SupportedMessage(Builder builder) {
                 super(builder);
-                mode = ValidationSupport.requireNonNull(builder.mode, "mode");
-                definition = ValidationSupport.requireNonNull(builder.definition, "definition");
-                ValidationSupport.requireValueOrChildren(this);
+                mode = builder.mode;
+                definition = builder.definition;
             }
 
             /**
@@ -6249,7 +6386,18 @@ public class CapabilityStatement extends DomainResource {
                  */
                 @Override
                 public SupportedMessage build() {
-                    return new SupportedMessage(this);
+                    SupportedMessage supportedMessage = new SupportedMessage(this);
+                    if (validating) {
+                        validate(supportedMessage);
+                    }
+                    return supportedMessage;
+                }
+
+                protected void validate(SupportedMessage supportedMessage) {
+                    super.validate(supportedMessage);
+                    ValidationSupport.requireNonNull(supportedMessage.mode, "mode");
+                    ValidationSupport.requireNonNull(supportedMessage.definition, "definition");
+                    ValidationSupport.requireValueOrChildren(supportedMessage);
                 }
 
                 protected Builder from(SupportedMessage supportedMessage) {
@@ -6282,10 +6430,9 @@ public class CapabilityStatement extends DomainResource {
 
         private Document(Builder builder) {
             super(builder);
-            mode = ValidationSupport.requireNonNull(builder.mode, "mode");
+            mode = builder.mode;
             documentation = builder.documentation;
-            profile = ValidationSupport.requireNonNull(builder.profile, "profile");
-            ValidationSupport.requireValueOrChildren(this);
+            profile = builder.profile;
         }
 
         /**
@@ -6562,7 +6709,18 @@ public class CapabilityStatement extends DomainResource {
              */
             @Override
             public Document build() {
-                return new Document(this);
+                Document document = new Document(this);
+                if (validating) {
+                    validate(document);
+                }
+                return document;
+            }
+
+            protected void validate(Document document) {
+                super.validate(document);
+                ValidationSupport.requireNonNull(document.mode, "mode");
+                ValidationSupport.requireNonNull(document.profile, "profile");
+                ValidationSupport.requireValueOrChildren(document);
             }
 
             protected Builder from(Document document) {

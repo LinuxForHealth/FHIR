@@ -158,11 +158,7 @@ public class AddressType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -217,7 +213,20 @@ public class AddressType extends Code {
 
         @Override
         public AddressType build() {
-            return new AddressType(this);
+            AddressType addressType = new AddressType(this);
+            if (validating) {
+                validate(addressType);
+            }
+            return addressType;
+        }
+
+        protected void validate(AddressType addressType) {
+            super.validate(addressType);
+        }
+
+        protected Builder from(AddressType addressType) {
+            super.from(addressType);
+            return this;
         }
     }
 

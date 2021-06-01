@@ -224,11 +224,7 @@ public class ActionRelationshipType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -283,7 +279,20 @@ public class ActionRelationshipType extends Code {
 
         @Override
         public ActionRelationshipType build() {
-            return new ActionRelationshipType(this);
+            ActionRelationshipType actionRelationshipType = new ActionRelationshipType(this);
+            if (validating) {
+                validate(actionRelationshipType);
+            }
+            return actionRelationshipType;
+        }
+
+        protected void validate(ActionRelationshipType actionRelationshipType) {
+            super.validate(actionRelationshipType);
+        }
+
+        protected Builder from(ActionRelationshipType actionRelationshipType) {
+            super.from(actionRelationshipType);
+            return this;
         }
     }
 

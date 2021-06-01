@@ -191,11 +191,7 @@ public class GroupType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -250,7 +246,20 @@ public class GroupType extends Code {
 
         @Override
         public GroupType build() {
-            return new GroupType(this);
+            GroupType groupType = new GroupType(this);
+            if (validating) {
+                validate(groupType);
+            }
+            return groupType;
+        }
+
+        protected void validate(GroupType groupType) {
+            super.validate(groupType);
+        }
+
+        protected Builder from(GroupType groupType) {
+            super.from(groupType);
+            return this;
         }
     }
 

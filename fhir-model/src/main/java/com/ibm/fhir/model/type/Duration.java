@@ -252,7 +252,15 @@ public class Duration extends Quantity {
          */
         @Override
         public Duration build() {
-            return new Duration(this);
+            Duration duration = new Duration(this);
+            if (validating) {
+                validate(duration);
+            }
+            return duration;
+        }
+
+        protected void validate(Duration duration) {
+            super.validate(duration);
         }
 
         protected Builder from(Duration duration) {

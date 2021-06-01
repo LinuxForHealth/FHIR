@@ -222,11 +222,7 @@ public class RiskAssessmentStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -281,7 +277,20 @@ public class RiskAssessmentStatus extends Code {
 
         @Override
         public RiskAssessmentStatus build() {
-            return new RiskAssessmentStatus(this);
+            RiskAssessmentStatus riskAssessmentStatus = new RiskAssessmentStatus(this);
+            if (validating) {
+                validate(riskAssessmentStatus);
+            }
+            return riskAssessmentStatus;
+        }
+
+        protected void validate(RiskAssessmentStatus riskAssessmentStatus) {
+            super.validate(riskAssessmentStatus);
+        }
+
+        protected Builder from(RiskAssessmentStatus riskAssessmentStatus) {
+            super.from(riskAssessmentStatus);
+            return this;
         }
     }
 

@@ -169,11 +169,7 @@ public class AdministrativeGender extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class AdministrativeGender extends Code {
 
         @Override
         public AdministrativeGender build() {
-            return new AdministrativeGender(this);
+            AdministrativeGender administrativeGender = new AdministrativeGender(this);
+            if (validating) {
+                validate(administrativeGender);
+            }
+            return administrativeGender;
+        }
+
+        protected void validate(AdministrativeGender administrativeGender) {
+            super.validate(administrativeGender);
+        }
+
+        protected Builder from(AdministrativeGender administrativeGender) {
+            super.from(administrativeGender);
+            return this;
         }
     }
 

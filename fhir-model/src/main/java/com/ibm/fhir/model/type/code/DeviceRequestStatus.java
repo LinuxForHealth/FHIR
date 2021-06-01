@@ -207,11 +207,7 @@ public class DeviceRequestStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -266,7 +262,20 @@ public class DeviceRequestStatus extends Code {
 
         @Override
         public DeviceRequestStatus build() {
-            return new DeviceRequestStatus(this);
+            DeviceRequestStatus deviceRequestStatus = new DeviceRequestStatus(this);
+            if (validating) {
+                validate(deviceRequestStatus);
+            }
+            return deviceRequestStatus;
+        }
+
+        protected void validate(DeviceRequestStatus deviceRequestStatus) {
+            super.validate(deviceRequestStatus);
+        }
+
+        protected Builder from(DeviceRequestStatus deviceRequestStatus) {
+            super.from(deviceRequestStatus);
+            return this;
         }
     }
 

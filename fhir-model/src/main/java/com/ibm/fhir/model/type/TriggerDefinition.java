@@ -74,13 +74,11 @@ public class TriggerDefinition extends Element {
 
     private TriggerDefinition(Builder builder) {
         super(builder);
-        type = ValidationSupport.requireNonNull(builder.type, "type");
+        type = builder.type;
         name = builder.name;
-        timing = ValidationSupport.choiceElement(builder.timing, "timing", Timing.class, Reference.class, Date.class, DateTime.class);
-        data = Collections.unmodifiableList(ValidationSupport.checkList(builder.data, "data", DataRequirement.class));
+        timing = builder.timing;
+        data = Collections.unmodifiableList(builder.data);
         condition = builder.condition;
-        ValidationSupport.checkReferenceType(timing, "timing", "Schedule");
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -399,7 +397,20 @@ public class TriggerDefinition extends Element {
          */
         @Override
         public TriggerDefinition build() {
-            return new TriggerDefinition(this);
+            TriggerDefinition triggerDefinition = new TriggerDefinition(this);
+            if (validating) {
+                validate(triggerDefinition);
+            }
+            return triggerDefinition;
+        }
+
+        protected void validate(TriggerDefinition triggerDefinition) {
+            super.validate(triggerDefinition);
+            ValidationSupport.requireNonNull(triggerDefinition.type, "type");
+            ValidationSupport.choiceElement(triggerDefinition.timing, "timing", Timing.class, Reference.class, Date.class, DateTime.class);
+            ValidationSupport.checkList(triggerDefinition.data, "data", DataRequirement.class);
+            ValidationSupport.checkReferenceType(triggerDefinition.timing, "timing", "Schedule");
+            ValidationSupport.requireValueOrChildren(triggerDefinition);
         }
 
         protected Builder from(TriggerDefinition triggerDefinition) {

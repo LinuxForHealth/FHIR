@@ -151,11 +151,11 @@ public class Bundle extends Resource {
     private Bundle(Builder builder) {
         super(builder);
         identifier = builder.identifier;
-        type = ValidationSupport.requireNonNull(builder.type, "type");
+        type = builder.type;
         timestamp = builder.timestamp;
         total = builder.total;
-        link = Collections.unmodifiableList(ValidationSupport.checkList(builder.link, "link", Link.class));
-        entry = Collections.unmodifiableList(ValidationSupport.checkList(builder.entry, "entry", Entry.class));
+        link = Collections.unmodifiableList(builder.link);
+        entry = Collections.unmodifiableList(builder.entry);
         signature = builder.signature;
     }
 
@@ -552,7 +552,18 @@ public class Bundle extends Resource {
          */
         @Override
         public Bundle build() {
-            return new Bundle(this);
+            Bundle bundle = new Bundle(this);
+            if (validating) {
+                validate(bundle);
+            }
+            return bundle;
+        }
+
+        protected void validate(Bundle bundle) {
+            super.validate(bundle);
+            ValidationSupport.requireNonNull(bundle.type, "type");
+            ValidationSupport.checkList(bundle.link, "link", Link.class);
+            ValidationSupport.checkList(bundle.entry, "entry", Entry.class);
         }
 
         protected Builder from(Bundle bundle) {
@@ -581,9 +592,8 @@ public class Bundle extends Resource {
 
         private Link(Builder builder) {
             super(builder);
-            relation = ValidationSupport.requireNonNull(builder.relation, "relation");
-            url = ValidationSupport.requireNonNull(builder.url, "url");
-            ValidationSupport.requireValueOrChildren(this);
+            relation = builder.relation;
+            url = builder.url;
         }
 
         /**
@@ -833,7 +843,18 @@ public class Bundle extends Resource {
              */
             @Override
             public Link build() {
-                return new Link(this);
+                Link link = new Link(this);
+                if (validating) {
+                    validate(link);
+                }
+                return link;
+            }
+
+            protected void validate(Link link) {
+                super.validate(link);
+                ValidationSupport.requireNonNull(link.relation, "relation");
+                ValidationSupport.requireNonNull(link.url, "url");
+                ValidationSupport.requireValueOrChildren(link);
             }
 
             protected Builder from(Link link) {
@@ -865,13 +886,12 @@ public class Bundle extends Resource {
 
         private Entry(Builder builder) {
             super(builder);
-            link = Collections.unmodifiableList(ValidationSupport.checkList(builder.link, "link", Bundle.Link.class));
+            link = Collections.unmodifiableList(builder.link);
             fullUrl = builder.fullUrl;
             resource = builder.resource;
             search = builder.search;
             request = builder.request;
             response = builder.response;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1257,7 +1277,17 @@ public class Bundle extends Resource {
              */
             @Override
             public Entry build() {
-                return new Entry(this);
+                Entry entry = new Entry(this);
+                if (validating) {
+                    validate(entry);
+                }
+                return entry;
+            }
+
+            protected void validate(Entry entry) {
+                super.validate(entry);
+                ValidationSupport.checkList(entry.link, "link", Bundle.Link.class);
+                ValidationSupport.requireValueOrChildren(entry);
             }
 
             protected Builder from(Entry entry) {
@@ -1291,7 +1321,6 @@ public class Bundle extends Resource {
                 super(builder);
                 mode = builder.mode;
                 score = builder.score;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1529,7 +1558,16 @@ public class Bundle extends Resource {
                  */
                 @Override
                 public Search build() {
-                    return new Search(this);
+                    Search search = new Search(this);
+                    if (validating) {
+                        validate(search);
+                    }
+                    return search;
+                }
+
+                protected void validate(Search search) {
+                    super.validate(search);
+                    ValidationSupport.requireValueOrChildren(search);
                 }
 
                 protected Builder from(Search search) {
@@ -1569,13 +1607,12 @@ public class Bundle extends Resource {
 
             private Request(Builder builder) {
                 super(builder);
-                method = ValidationSupport.requireNonNull(builder.method, "method");
-                url = ValidationSupport.requireNonNull(builder.url, "url");
+                method = builder.method;
+                url = builder.url;
                 ifNoneMatch = builder.ifNoneMatch;
                 ifModifiedSince = builder.ifModifiedSince;
                 ifMatch = builder.ifMatch;
                 ifNoneExist = builder.ifNoneExist;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1949,7 +1986,18 @@ public class Bundle extends Resource {
                  */
                 @Override
                 public Request build() {
-                    return new Request(this);
+                    Request request = new Request(this);
+                    if (validating) {
+                        validate(request);
+                    }
+                    return request;
+                }
+
+                protected void validate(Request request) {
+                    super.validate(request);
+                    ValidationSupport.requireNonNull(request.method, "method");
+                    ValidationSupport.requireNonNull(request.url, "url");
+                    ValidationSupport.requireValueOrChildren(request);
                 }
 
                 protected Builder from(Request request) {
@@ -1984,12 +2032,11 @@ public class Bundle extends Resource {
 
             private Response(Builder builder) {
                 super(builder);
-                status = ValidationSupport.requireNonNull(builder.status, "status");
+                status = builder.status;
                 location = builder.location;
                 etag = builder.etag;
                 lastModified = builder.lastModified;
                 outcome = builder.outcome;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2323,7 +2370,17 @@ public class Bundle extends Resource {
                  */
                 @Override
                 public Response build() {
-                    return new Response(this);
+                    Response response = new Response(this);
+                    if (validating) {
+                        validate(response);
+                    }
+                    return response;
+                }
+
+                protected void validate(Response response) {
+                    super.validate(response);
+                    ValidationSupport.requireNonNull(response.status, "status");
+                    ValidationSupport.requireValueOrChildren(response);
                 }
 
                 protected Builder from(Response response) {
