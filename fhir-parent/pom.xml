@@ -5,7 +5,7 @@
 
     <groupId>com.ibm.fhir</groupId>
     <artifactId>fhir-parent</artifactId>
-    <version>4.8.0-SNAPSHOT</version>
+    <version>4.9.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>IBM FHIR Server</name>
 
@@ -64,7 +64,7 @@
         <fhir-server-test.index>MINIMAL_JSON</fhir-server-test.index>
         <java.version>1.8</java.version>
         <fhir-examples.version>4.9.0-SNAPSHOT</fhir-examples.version>
-        <fhir-tools.version>4.8.0-SNAPSHOT</fhir-tools.version>
+        <fhir-tools.version>4.9.0-SNAPSHOT</fhir-tools.version>
         <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
     </properties>
 

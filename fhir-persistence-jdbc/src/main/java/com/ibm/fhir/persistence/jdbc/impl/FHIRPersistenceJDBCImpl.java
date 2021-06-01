@@ -1334,7 +1334,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 .severity(IssueSeverity.FATAL)
                 .code(IssueType.NOT_SUPPORTED.toBuilder()
                         .extension(Extension.builder()
-                            .url("http://ibm.com/fhir/extension/not-supported-detail")
+                            .url(FHIRConstants.EXT_BASE + "not-supported-detail")
                             .value(Code.of("interaction"))
                             .build())
                         .build())
@@ -1496,7 +1496,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             ResourceDAO resourceDao = makeResourceDAO(connection);
 
             resourceDTO = resourceDao.read(logicalId, resourceType.getSimpleName());
-            if (resourceDTO != null && resourceDTO.isDeleted() && !context.includeDeleted()) {
+            boolean resourceIsDeleted = resourceDTO != null && resourceDTO.isDeleted();
+            if (resourceIsDeleted && !context.includeDeleted()) {
                 throw new FHIRPersistenceResourceDeletedException("Resource '" +
                         resourceType.getSimpleName() + "/" + logicalId + "' is deleted.");
             }
@@ -1505,19 +1506,17 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
                     .success(true)
                     .resource(resource)
+                    .deleted(resourceIsDeleted)
                     .build();
 
             return result;
-        }
-        catch(FHIRPersistenceResourceDeletedException e) {
+        } catch(FHIRPersistenceResourceDeletedException e) {
             throw e;
-        }
-        catch(Throwable e) {
+        } catch(Throwable e) {
             FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a read operation.");
             log.log(Level.SEVERE, fx.getMessage(), e);
             throw fx;
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
     }

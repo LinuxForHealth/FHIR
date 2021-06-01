@@ -151,9 +151,21 @@ public class EverythingOperation extends AbstractOperation {
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper) throws FHIROperationException {
         LOG.entering(this.getClass().getName(), "doInvoke");
 
+        /* Per the specification, If there is no nominated patient (GET /Patient/$everything) and the context is not associated with a single patient record,
+         * the actual list of patients is all patients that the user associated with the request has access to. This may be all patients
+         * in the family that the patient has access to, or it may be all patients that a care provider has access to, or all patients
+         * on the entire record system. In such cases, the server may choose to return an error rather than all the records.
+         *
+         * @implNote we do not currently support it. However, if we do, we can use Patient?link=Patient/<SmartLaunch Context Patient ID>
+         * @see Issue #2402 for more details.
+         */
+        if (logicalId == null) {
+            throw buildExceptionWithIssue("Search for Patients the Patient is related to is not supported", IssueType.NOT_SUPPORTED);
+        }
+
         Patient patient = null;
         try {
-            patient = (Patient) resourceHelper.doRead(PATIENT, logicalId, false, false, null);
+            patient = (Patient) resourceHelper.doRead(PATIENT, logicalId, false, false, null).getResource();
         } catch (FHIRPersistenceResourceDeletedException fde) {
             FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Patient with ID '" + logicalId + "' does not exist.", IssueType.NOT_FOUND);
             throw exceptionWithIssue;

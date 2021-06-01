@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.server.util;
 
+import static com.ibm.fhir.core.FHIRConstants.EXT_BASE;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.util.ModelSupport.getResourceType;
 import static javax.servlet.http.HttpServletResponse.SC_ACCEPTED;
@@ -133,7 +134,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     private static final Logger log =
             java.util.logging.Logger.getLogger(FHIRRestHelper.class.getName());
 
-    public static final String EXTENSION_URL = "http://ibm.com/fhir/extension";
     private static final String LOCAL_REF_PREFIX = "urn:";
     private static final com.ibm.fhir.model.type.String SC_BAD_REQUEST_STRING = string(Integer.toString(SC_BAD_REQUEST));
     private static final com.ibm.fhir.model.type.String SC_GONE_STRING = string(Integer.toString(SC_GONE));
@@ -337,6 +337,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
 
+        boolean isDeleted; // stash the deleted status of the resource when we first read it
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
 
         try {
@@ -392,6 +393,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     } else {
                         id = newResource.getId();
                     }
+
+                    // No match, so deletion status doesn't matter
+                    isDeleted = false;
                 } else if (resultCount == 1) {
                     // If we found a single match, then we'll perform a normal update on the matched resource.
                     ior.setPrevResource(responseBundle.getEntry().get(0).getResource());
@@ -406,11 +410,15 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
                     // Make sure the id of the newResource is not null and is the same as the id of the found resource.
                     newResource = newResource.toBuilder().id(id).build();
+
+                    // Got a match, so definitely can't be deleted
+                    isDeleted = false;
                 } else {
                     String msg =
                             "The search criteria specified for a conditional update/patch operation returned multiple matches.";
                     throw buildRestException(msg, IssueType.MULTIPLE_MATCHES);
                 }
+
             } else {
                 // Make sure an id value was passed in.
                 if (id == null) {
@@ -433,8 +441,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     }
                 }
 
-                // Retrieve the resource to be updated using the type and id values.
-                ior.setPrevResource(doRead(type, id, (patch != null), true, newResource, null, false));
+                // Retrieve the resource to be updated using the type and id values. Include
+                // the resource even if it has been deleted
+                SingleResourceResult<? extends Resource> srr = doRead(type, id, (patch != null), true, newResource, null, false);
+                ior.setPrevResource(srr.getResource());
+                isDeleted = srr.isDeleted();
             }
 
             if (patch != null) {
@@ -457,15 +468,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             List<Issue> warnings = doValidation ? new ArrayList<>(validateInput(newResource)) : new ArrayList<>() ;
 
             // Perform the "version-aware" update check, and also find out if the resource was deleted.
-            boolean isDeleted = false;
             if (ior.getPrevResource() != null) {
                 performVersionAwareUpdateCheck(ior.getPrevResource(), ifMatchValue);
-
-                try {
-                    doRead(type, id, (patch != null), false, newResource, null, false);
-                } catch (FHIRPersistenceResourceDeletedException e) {
-                    isDeleted = true;
-                }
 
                 if (skippableUpdate && !isDeleted) {
                     ResourceFingerprintVisitor fingerprinter = new ResourceFingerprintVisitor();
@@ -667,7 +671,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
                 // Read the resource so it will be available to the beforeDelete interceptor methods.
                 try {
-                    resourceToDelete = doRead(type, id, false, false, null, null, false);
+                    resourceToDelete = doRead(type, id, false, false, null, null, false).getResource();
                     if (resourceToDelete != null) {
                         responseBundle = Bundle.builder().type(BundleType.SEARCHSET)
                                 .id(UUID.randomUUID().toString())
@@ -680,7 +684,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     }
                 } catch (FHIRPersistenceResourceDeletedException e) {
                     // Absorb this exception.
-                    ior.setResource(doRead(type, id, false, true, null, null, false));
+                    ior.setResource(doRead(type, id, false, true, null, null, false).getResource());
                     warnings.add(buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.DELETED, "Resource of type '"
                         + type + "' with id '" + id + "' is already deleted."));
                 }
@@ -753,13 +757,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     @Override
-    public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
+    public SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
             Resource contextResource) throws Exception {
         return doRead(type, id, throwExcOnNull, includeDeleted, contextResource, null);
     }
 
     @Override
-    public Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
+    public SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
             Resource contextResource, MultivaluedMap<String, String> queryParameters) throws Exception {
         return doRead(type, id, throwExcOnNull, includeDeleted, contextResource, queryParameters, true);
     }
@@ -783,13 +787,15 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *            for supporting _elements and _summary for resource read
      * @param checkInteractionAllowed
      *            if true, check if this interaction is allowed per the tenant configuration; if false, assume interaction is allowed
-     * @return the Resource
+     * @return a {@link SingleResourceResult} containing the Resource
      * @throws Exception
      */
-    private Resource doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
+    private SingleResourceResult<? extends Resource> doRead(String type, String id, boolean throwExcOnNull, boolean includeDeleted,
             Resource contextResource, MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed)
             throws Exception {
         log.entering(this.getClass().getName(), "doRead");
+
+        SingleResourceResult<? extends Resource> result;
 
         // Validate that interaction is allowed for given resource type
         if (checkInteractionAllowed) {
@@ -799,8 +805,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         // Start a new txn in the persistence layer if one is not already active.
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         txn.begin();
-
-        Resource resource = null;
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -826,7 +830,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(event, includeDeleted, searchContext);
-            resource = persistence.read(persistenceContext, resourceType, id).getResource();
+            result = persistence.read(persistenceContext, resourceType, id);
+            Resource resource = result.getResource();
             if (resource == null && throwExcOnNull) {
                 throw new FHIRPersistenceResourceNotFoundException("Resource '" + type + "/" + id + "' not found.");
             }
@@ -840,7 +845,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             txn.commit();
             txn = null;
 
-            return resource;
+            return result;
         } finally {
             // Restore the original request context.
             FHIRRequestContext.set(requestContext);
@@ -1276,7 +1281,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         + "the configured persistence layer does not support transactions.";
                 IssueType extendedIssueType = IssueType.NOT_SUPPORTED.toBuilder()
                         .extension(Extension.builder()
-                            .url(EXTENSION_URL +  "/not-supported-detail")
+                            .url(EXT_BASE +  "not-supported-detail")
                             .value(Code.of("interaction"))
                             .build())
                         .build();
@@ -1414,7 +1419,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         + method.getValue();
                 IssueType extendedIssueType = IssueType.NOT_SUPPORTED.toBuilder()
                         .extension(Extension.builder()
-                            .url(EXTENSION_URL +  "/not-supported-detail")
+                            .url(EXT_BASE +  "not-supported-detail")
                             .value(Code.of("interaction"))
                             .build())
                         .build();
@@ -1484,7 +1489,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         + "' does not match current latest version of resource: " + currentVersion;
                 IssueType extendedIssueType = IssueType.CONFLICT.toBuilder()
                         .extension(Extension.builder()
-                            .url(EXTENSION_URL + "/http-failed-precondition")
+                            .url(EXT_BASE + "http-failed-precondition")
                             .value(string("If-Match"))
                             .build())
                         .build();
@@ -1499,7 +1504,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 .severity(IssueSeverity.FATAL)
                 .code(IssueType.NOT_SUPPORTED.toBuilder()
                         .extension(Extension.builder()
-                            .url(EXTENSION_URL +  "/not-supported-detail")
+                            .url(EXT_BASE +  "not-supported-detail")
                             .value(Code.of("resource"))
                             .build())
                         .build())
@@ -1945,7 +1950,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
         } else if (pathTokens.length == 2) {
             // This is a 'read' request.
-            resource = doRead(pathTokens[0], pathTokens[1], true, false, null);
+            resource = doRead(pathTokens[0], pathTokens[1], true, false, null).getResource();
         } else if (pathTokens.length == 3) {
             if ("_history".equals(pathTokens[2])) {
                 // This is a 'history' request.

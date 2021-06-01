@@ -13,6 +13,7 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_MANA
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_REG_URL;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_REVOKE_URL;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_TOKEN_URL;
+import static com.ibm.fhir.core.FHIRConstants.EXT_BASE;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper.issueListToStatus;
 
@@ -27,6 +28,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -109,7 +111,6 @@ public class Capabilities extends FHIRResource {
     private static final String FHIR_SERVER_NAME = "IBM FHIR Server";
     private static final String FHIR_COPYRIGHT = "(C) Copyright IBM Corporation 2016, 2021";
     private static final String FHIR_PUBLISHER = "IBM Corporation";
-    private static final String EXTENSION_URL = "http://ibm.com/fhir/extension";
     private static final String BASE_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base";
     private static final String BASE_2_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base2";
     private static final List<String> ALL_INTERACTIONS = Arrays.asList("create", "read", "vread", "update", "patch", "delete", "history", "search");
@@ -290,15 +291,15 @@ public class Capabilities extends FHIRResource {
         }
 
         // Build the lists of operations that are supported
-        List<OperationDefinition> systemOps = new ArrayList<>();
-        Map<ResourceType.Value, List<OperationDefinition>> typeOps = new HashMap<>();
+        Set<OperationDefinition> systemOps = new LinkedHashSet<>();
+        Map<ResourceType.Value, Set<OperationDefinition>> typeOps = new HashMap<>();
 
         FHIROperationRegistry opRegistry = FHIROperationRegistry.getInstance();
         List<String> operationNames = opRegistry.getOperationNames();
         for (String opName : operationNames) {
             FHIROperation operation = opRegistry.getOperation(opName);
             OperationDefinition opDef = operation.getDefinition();
-            if (opDef.getSystem().getValue()) {
+            if (Boolean.TRUE.equals(opDef.getSystem().getValue())) {
                 systemOps.add(opDef);
             }
             for (ResourceType resourceType : opDef.getResource()) {
@@ -306,7 +307,7 @@ public class Capabilities extends FHIRResource {
                 if (typeOps.containsKey(typeValue)) {
                     typeOps.get(typeValue).add(opDef);
                 } else {
-                    List<OperationDefinition> typeOpList = new ArrayList<>();
+                    Set<OperationDefinition> typeOpList = new LinkedHashSet<>();
                     typeOpList.add(opDef);
                     typeOps.put(typeValue, typeOpList);
                 }
@@ -657,8 +658,11 @@ public class Capabilities extends FHIRResource {
         }
     }
 
-    private List<Rest.Resource.Operation> mapOperationDefinitionsToRestOperations(List<OperationDefinition> opDefs) {
-        if (opDefs == null) {
+    private List<Rest.Resource.Operation> mapOperationDefinitionsToRestOperations(Set<OperationDefinition> inOpDefs) {
+        List<OperationDefinition> opDefs = new ArrayList<>();
+        if (inOpDefs != null) {
+            opDefs = new ArrayList<>(inOpDefs);
+        } else {
             return new ArrayList<>();
         }
 
@@ -684,25 +688,25 @@ public class Capabilities extends FHIRResource {
         throws Exception {
         List<Extension> extentions = new ArrayList<>();
         Extension extension = Extension.builder()
-                .url(EXTENSION_URL + "/defaultTenantId")
+                .url(EXT_BASE + "defaultTenantId")
                 .value(string(fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_DEFAULT_TENANT_ID, FHIRConfiguration.DEFAULT_TENANT_ID)))
                 .build();
         extentions.add(extension);
 
         extension = Extension.builder()
-                .url(EXTENSION_URL + "/websocketNotificationsEnabled")
+                .url(EXT_BASE + "websocketNotificationsEnabled")
                 .value(com.ibm.fhir.model.type.Boolean.of(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED, Boolean.FALSE)))
                 .build();
         extentions.add(extension);
 
         extension = Extension.builder()
-                .url(EXTENSION_URL + "/kafkaNotificationsEnabled")
+                .url(EXT_BASE + "kafkaNotificationsEnabled")
                 .value(com.ibm.fhir.model.type.Boolean.of(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_KAFKA_ENABLED, Boolean.FALSE)))
                 .build();
         extentions.add(extension);
 
         extension = Extension.builder()
-                .url(EXTENSION_URL + "/natsNotificationsEnabled")
+                .url(EXT_BASE + "natsNotificationsEnabled")
                 .value(com.ibm.fhir.model.type.Boolean.of(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_NATS_ENABLED, Boolean.FALSE)))
                 .build();
         extentions.add(extension);
@@ -713,7 +717,7 @@ public class Capabilities extends FHIRResource {
         }
 
         extension = Extension.builder()
-                .url(EXTENSION_URL + "/notificationResourceTypes")
+                .url(EXT_BASE + "notificationResourceTypes")
                 .value(string(notificationResourceTypes))
                 .build();
         extentions.add(extension);
@@ -729,13 +733,13 @@ public class Capabilities extends FHIRResource {
         }
 
         extension = Extension.builder()
-                .url(EXTENSION_URL + "/auditLogServiceName")
+                .url(EXT_BASE + "auditLogServiceName")
                 .value(string(auditLogServiceName))
                 .build();
         extentions.add(extension);
 
         extension = Extension.builder()
-                .url(EXTENSION_URL + "/persistenceType")
+                .url(EXT_BASE + "persistenceType")
                 .value(string(getPersistenceImpl().getClass().getSimpleName()))
                 .build();
         extentions.add(extension);
