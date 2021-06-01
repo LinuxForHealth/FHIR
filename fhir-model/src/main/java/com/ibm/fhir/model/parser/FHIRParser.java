@@ -53,9 +53,6 @@ public interface FHIRParser {
      * <li>element cardinality checking</li>
      * <li>element type checking</li>
      * <li>element value checking</li>
-     * <li>choice element type checking</li>
-     * <li>reference target type checking (syntax only)</li>
-     * <li>element value set membership checking (limited)</li>
      * </ul>
      *
      * @param validating
