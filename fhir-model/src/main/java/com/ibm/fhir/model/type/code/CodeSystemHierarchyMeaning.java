@@ -176,11 +176,7 @@ public class CodeSystemHierarchyMeaning extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -235,7 +231,20 @@ public class CodeSystemHierarchyMeaning extends Code {
 
         @Override
         public CodeSystemHierarchyMeaning build() {
-            return new CodeSystemHierarchyMeaning(this);
+            CodeSystemHierarchyMeaning codeSystemHierarchyMeaning = new CodeSystemHierarchyMeaning(this);
+            if (validating) {
+                validate(codeSystemHierarchyMeaning);
+            }
+            return codeSystemHierarchyMeaning;
+        }
+
+        protected void validate(CodeSystemHierarchyMeaning codeSystemHierarchyMeaning) {
+            super.validate(codeSystemHierarchyMeaning);
+        }
+
+        protected Builder from(CodeSystemHierarchyMeaning codeSystemHierarchyMeaning) {
+            super.from(codeSystemHierarchyMeaning);
+            return this;
         }
     }
 

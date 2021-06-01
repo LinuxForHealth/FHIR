@@ -476,11 +476,7 @@ public class IssueType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -535,7 +531,20 @@ public class IssueType extends Code {
 
         @Override
         public IssueType build() {
-            return new IssueType(this);
+            IssueType issueType = new IssueType(this);
+            if (validating) {
+                validate(issueType);
+            }
+            return issueType;
+        }
+
+        protected void validate(IssueType issueType) {
+            super.validate(issueType);
+        }
+
+        protected Builder from(IssueType issueType) {
+            super.from(issueType);
+            return this;
         }
     }
 

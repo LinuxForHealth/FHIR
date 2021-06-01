@@ -158,11 +158,7 @@ public class QualityType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -217,7 +213,20 @@ public class QualityType extends Code {
 
         @Override
         public QualityType build() {
-            return new QualityType(this);
+            QualityType qualityType = new QualityType(this);
+            if (validating) {
+                validate(qualityType);
+            }
+            return qualityType;
+        }
+
+        protected void validate(QualityType qualityType) {
+            super.validate(qualityType);
+        }
+
+        protected Builder from(QualityType qualityType) {
+            super.from(qualityType);
+            return this;
         }
     }
 

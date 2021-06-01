@@ -156,34 +156,33 @@ public class EventDefinition extends DomainResource {
     private EventDefinition(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
         subtitle = builder.subtitle;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
-        subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
+        subject = builder.subject;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         usage = builder.usage;
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(ValidationSupport.checkList(builder.topic, "topic", CodeableConcept.class));
-        author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", ContactDetail.class));
-        editor = Collections.unmodifiableList(ValidationSupport.checkList(builder.editor, "editor", ContactDetail.class));
-        reviewer = Collections.unmodifiableList(ValidationSupport.checkList(builder.reviewer, "reviewer", ContactDetail.class));
-        endorser = Collections.unmodifiableList(ValidationSupport.checkList(builder.endorser, "endorser", ContactDetail.class));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class));
-        trigger = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.trigger, "trigger", TriggerDefinition.class));
-        ValidationSupport.checkReferenceType(subject, "subject", "Group");
+        topic = Collections.unmodifiableList(builder.topic);
+        author = Collections.unmodifiableList(builder.author);
+        editor = Collections.unmodifiableList(builder.editor);
+        reviewer = Collections.unmodifiableList(builder.reviewer);
+        endorser = Collections.unmodifiableList(builder.endorser);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        trigger = Collections.unmodifiableList(builder.trigger);
     }
 
     /**
@@ -1567,7 +1566,29 @@ public class EventDefinition extends DomainResource {
          */
         @Override
         public EventDefinition build() {
-            return new EventDefinition(this);
+            EventDefinition eventDefinition = new EventDefinition(this);
+            if (validating) {
+                validate(eventDefinition);
+            }
+            return eventDefinition;
+        }
+
+        protected void validate(EventDefinition eventDefinition) {
+            super.validate(eventDefinition);
+            ValidationSupport.checkList(eventDefinition.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(eventDefinition.status, "status");
+            ValidationSupport.choiceElement(eventDefinition.subject, "subject", CodeableConcept.class, Reference.class);
+            ValidationSupport.checkList(eventDefinition.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(eventDefinition.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(eventDefinition.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(eventDefinition.topic, "topic", CodeableConcept.class);
+            ValidationSupport.checkList(eventDefinition.author, "author", ContactDetail.class);
+            ValidationSupport.checkList(eventDefinition.editor, "editor", ContactDetail.class);
+            ValidationSupport.checkList(eventDefinition.reviewer, "reviewer", ContactDetail.class);
+            ValidationSupport.checkList(eventDefinition.endorser, "endorser", ContactDetail.class);
+            ValidationSupport.checkList(eventDefinition.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
+            ValidationSupport.checkNonEmptyList(eventDefinition.trigger, "trigger", TriggerDefinition.class);
+            ValidationSupport.checkReferenceType(eventDefinition.subject, "subject", "Group");
         }
 
         protected Builder from(EventDefinition eventDefinition) {

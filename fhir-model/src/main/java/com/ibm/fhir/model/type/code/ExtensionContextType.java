@@ -161,11 +161,7 @@ public class ExtensionContextType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -220,7 +216,20 @@ public class ExtensionContextType extends Code {
 
         @Override
         public ExtensionContextType build() {
-            return new ExtensionContextType(this);
+            ExtensionContextType extensionContextType = new ExtensionContextType(this);
+            if (validating) {
+                validate(extensionContextType);
+            }
+            return extensionContextType;
+        }
+
+        protected void validate(ExtensionContextType extensionContextType) {
+            super.validate(extensionContextType);
+        }
+
+        protected Builder from(ExtensionContextType extensionContextType) {
+            super.from(extensionContextType);
+            return this;
         }
     }
 

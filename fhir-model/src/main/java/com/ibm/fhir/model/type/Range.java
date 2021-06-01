@@ -37,7 +37,6 @@ public class Range extends Element {
         super(builder);
         low = builder.low;
         high = builder.high;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -222,7 +221,16 @@ public class Range extends Element {
          */
         @Override
         public Range build() {
-            return new Range(this);
+            Range range = new Range(this);
+            if (validating) {
+                validate(range);
+            }
+            return range;
+        }
+
+        protected void validate(Range range) {
+            super.validate(range);
+            ValidationSupport.requireValueOrChildren(range);
         }
 
         protected Builder from(Range range) {

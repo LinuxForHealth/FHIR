@@ -290,11 +290,7 @@ public class DataAbsentReason extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -349,7 +345,20 @@ public class DataAbsentReason extends Code {
 
         @Override
         public DataAbsentReason build() {
-            return new DataAbsentReason(this);
+            DataAbsentReason dataAbsentReason = new DataAbsentReason(this);
+            if (validating) {
+                validate(dataAbsentReason);
+            }
+            return dataAbsentReason;
+        }
+
+        protected void validate(DataAbsentReason dataAbsentReason) {
+            super.validate(dataAbsentReason);
+        }
+
+        protected Builder from(DataAbsentReason dataAbsentReason) {
+            super.from(dataAbsentReason);
+            return this;
         }
     }
 

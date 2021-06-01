@@ -87,19 +87,17 @@ public class BiologicallyDerivedProduct extends DomainResource {
 
     private BiologicallyDerivedProduct(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         productCategory = builder.productCategory;
         productCode = builder.productCode;
         status = builder.status;
-        request = Collections.unmodifiableList(ValidationSupport.checkList(builder.request, "request", Reference.class));
+        request = Collections.unmodifiableList(builder.request);
         quantity = builder.quantity;
-        parent = Collections.unmodifiableList(ValidationSupport.checkList(builder.parent, "parent", Reference.class));
+        parent = Collections.unmodifiableList(builder.parent);
         collection = builder.collection;
-        processing = Collections.unmodifiableList(ValidationSupport.checkList(builder.processing, "processing", Processing.class));
+        processing = Collections.unmodifiableList(builder.processing);
         manipulation = builder.manipulation;
-        storage = Collections.unmodifiableList(ValidationSupport.checkList(builder.storage, "storage", Storage.class));
-        ValidationSupport.checkReferenceType(request, "request", "ServiceRequest");
-        ValidationSupport.checkReferenceType(parent, "parent", "BiologicallyDerivedProduct");
+        storage = Collections.unmodifiableList(builder.storage);
     }
 
     /**
@@ -837,7 +835,22 @@ public class BiologicallyDerivedProduct extends DomainResource {
          */
         @Override
         public BiologicallyDerivedProduct build() {
-            return new BiologicallyDerivedProduct(this);
+            BiologicallyDerivedProduct biologicallyDerivedProduct = new BiologicallyDerivedProduct(this);
+            if (validating) {
+                validate(biologicallyDerivedProduct);
+            }
+            return biologicallyDerivedProduct;
+        }
+
+        protected void validate(BiologicallyDerivedProduct biologicallyDerivedProduct) {
+            super.validate(biologicallyDerivedProduct);
+            ValidationSupport.checkList(biologicallyDerivedProduct.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(biologicallyDerivedProduct.request, "request", Reference.class);
+            ValidationSupport.checkList(biologicallyDerivedProduct.parent, "parent", Reference.class);
+            ValidationSupport.checkList(biologicallyDerivedProduct.processing, "processing", Processing.class);
+            ValidationSupport.checkList(biologicallyDerivedProduct.storage, "storage", Storage.class);
+            ValidationSupport.checkReferenceType(biologicallyDerivedProduct.request, "request", "ServiceRequest");
+            ValidationSupport.checkReferenceType(biologicallyDerivedProduct.parent, "parent", "BiologicallyDerivedProduct");
         }
 
         protected Builder from(BiologicallyDerivedProduct biologicallyDerivedProduct) {
@@ -872,10 +885,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
             super(builder);
             collector = builder.collector;
             source = builder.source;
-            collected = ValidationSupport.choiceElement(builder.collected, "collected", DateTime.class, Period.class);
-            ValidationSupport.checkReferenceType(collector, "collector", "Practitioner", "PractitionerRole");
-            ValidationSupport.checkReferenceType(source, "source", "Patient", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
+            collected = builder.collected;
         }
 
         /**
@@ -1160,7 +1170,19 @@ public class BiologicallyDerivedProduct extends DomainResource {
              */
             @Override
             public Collection build() {
-                return new Collection(this);
+                Collection collection = new Collection(this);
+                if (validating) {
+                    validate(collection);
+                }
+                return collection;
+            }
+
+            protected void validate(Collection collection) {
+                super.validate(collection);
+                ValidationSupport.choiceElement(collection.collected, "collected", DateTime.class, Period.class);
+                ValidationSupport.checkReferenceType(collection.collector, "collector", "Practitioner", "PractitionerRole");
+                ValidationSupport.checkReferenceType(collection.source, "source", "Patient", "Organization");
+                ValidationSupport.requireValueOrChildren(collection);
             }
 
             protected Builder from(Collection collection) {
@@ -1196,9 +1218,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
             description = builder.description;
             procedure = builder.procedure;
             additive = builder.additive;
-            time = ValidationSupport.choiceElement(builder.time, "time", DateTime.class, Period.class);
-            ValidationSupport.checkReferenceType(additive, "additive", "Substance");
-            ValidationSupport.requireValueOrChildren(this);
+            time = builder.time;
         }
 
         /**
@@ -1503,7 +1523,18 @@ public class BiologicallyDerivedProduct extends DomainResource {
              */
             @Override
             public Processing build() {
-                return new Processing(this);
+                Processing processing = new Processing(this);
+                if (validating) {
+                    validate(processing);
+                }
+                return processing;
+            }
+
+            protected void validate(Processing processing) {
+                super.validate(processing);
+                ValidationSupport.choiceElement(processing.time, "time", DateTime.class, Period.class);
+                ValidationSupport.checkReferenceType(processing.additive, "additive", "Substance");
+                ValidationSupport.requireValueOrChildren(processing);
             }
 
             protected Builder from(Processing processing) {
@@ -1529,8 +1560,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
         private Manipulation(Builder builder) {
             super(builder);
             description = builder.description;
-            time = ValidationSupport.choiceElement(builder.time, "time", DateTime.class, Period.class);
-            ValidationSupport.requireValueOrChildren(this);
+            time = builder.time;
         }
 
         /**
@@ -1772,7 +1802,17 @@ public class BiologicallyDerivedProduct extends DomainResource {
              */
             @Override
             public Manipulation build() {
-                return new Manipulation(this);
+                Manipulation manipulation = new Manipulation(this);
+                if (validating) {
+                    validate(manipulation);
+                }
+                return manipulation;
+            }
+
+            protected void validate(Manipulation manipulation) {
+                super.validate(manipulation);
+                ValidationSupport.choiceElement(manipulation.time, "time", DateTime.class, Period.class);
+                ValidationSupport.requireValueOrChildren(manipulation);
             }
 
             protected Builder from(Manipulation manipulation) {
@@ -1805,7 +1845,6 @@ public class BiologicallyDerivedProduct extends DomainResource {
             temperature = builder.temperature;
             scale = builder.scale;
             duration = builder.duration;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2099,7 +2138,16 @@ public class BiologicallyDerivedProduct extends DomainResource {
              */
             @Override
             public Storage build() {
-                return new Storage(this);
+                Storage storage = new Storage(this);
+                if (validating) {
+                    validate(storage);
+                }
+                return storage;
+            }
+
+            protected void validate(Storage storage) {
+                super.validate(storage);
+                ValidationSupport.requireValueOrChildren(storage);
             }
 
             protected Builder from(Storage storage) {

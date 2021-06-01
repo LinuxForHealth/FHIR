@@ -169,11 +169,7 @@ public class ClaimStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class ClaimStatus extends Code {
 
         @Override
         public ClaimStatus build() {
-            return new ClaimStatus(this);
+            ClaimStatus claimStatus = new ClaimStatus(this);
+            if (validating) {
+                validate(claimStatus);
+            }
+            return claimStatus;
+        }
+
+        protected void validate(ClaimStatus claimStatus) {
+            super.validate(claimStatus);
+        }
+
+        protected Builder from(ClaimStatus claimStatus) {
+            super.from(claimStatus);
+            return this;
         }
     }
 

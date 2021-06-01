@@ -33,11 +33,10 @@ public class Population extends BackboneElement {
 
     private Population(Builder builder) {
         super(builder);
-        age = ValidationSupport.choiceElement(builder.age, "age", Range.class, CodeableConcept.class);
+        age = builder.age;
         gender = builder.gender;
         race = builder.race;
         physiologicalCondition = builder.physiologicalCondition;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -337,7 +336,17 @@ public class Population extends BackboneElement {
          */
         @Override
         public Population build() {
-            return new Population(this);
+            Population population = new Population(this);
+            if (validating) {
+                validate(population);
+            }
+            return population;
+        }
+
+        protected void validate(Population population) {
+            super.validate(population);
+            ValidationSupport.choiceElement(population.age, "age", Range.class, CodeableConcept.class);
+            ValidationSupport.requireValueOrChildren(population);
         }
 
         protected Builder from(Population population) {

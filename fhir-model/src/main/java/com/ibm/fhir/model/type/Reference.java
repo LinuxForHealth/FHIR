@@ -59,7 +59,6 @@ public class Reference extends Element {
         type = builder.type;
         identifier = builder.identifier;
         display = builder.display;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -330,7 +329,16 @@ public class Reference extends Element {
          */
         @Override
         public Reference build() {
-            return new Reference(this);
+            Reference reference = new Reference(this);
+            if (validating) {
+                validate(reference);
+            }
+            return reference;
+        }
+
+        protected void validate(Reference reference) {
+            super.validate(reference);
+            ValidationSupport.requireValueOrChildren(reference);
         }
 
         protected Builder from(Reference reference) {

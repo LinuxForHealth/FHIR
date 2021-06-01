@@ -169,11 +169,7 @@ public class ClaimResponseStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class ClaimResponseStatus extends Code {
 
         @Override
         public ClaimResponseStatus build() {
-            return new ClaimResponseStatus(this);
+            ClaimResponseStatus claimResponseStatus = new ClaimResponseStatus(this);
+            if (validating) {
+                validate(claimResponseStatus);
+            }
+            return claimResponseStatus;
+        }
+
+        protected void validate(ClaimResponseStatus claimResponseStatus) {
+            super.validate(claimResponseStatus);
+        }
+
+        protected Builder from(ClaimResponseStatus claimResponseStatus) {
+            super.from(claimResponseStatus);
+            return this;
         }
     }
 

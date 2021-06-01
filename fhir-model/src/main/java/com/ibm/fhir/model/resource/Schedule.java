@@ -91,15 +91,14 @@ public class Schedule extends DomainResource {
 
     private Schedule(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         active = builder.active;
-        serviceCategory = Collections.unmodifiableList(ValidationSupport.checkList(builder.serviceCategory, "serviceCategory", CodeableConcept.class));
-        serviceType = Collections.unmodifiableList(ValidationSupport.checkList(builder.serviceType, "serviceType", CodeableConcept.class));
-        specialty = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialty, "specialty", CodeableConcept.class));
-        actor = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.actor, "actor", Reference.class));
+        serviceCategory = Collections.unmodifiableList(builder.serviceCategory);
+        serviceType = Collections.unmodifiableList(builder.serviceType);
+        specialty = Collections.unmodifiableList(builder.specialty);
+        actor = Collections.unmodifiableList(builder.actor);
         planningHorizon = builder.planningHorizon;
         comment = builder.comment;
-        ValidationSupport.checkReferenceType(actor, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
     }
 
     /**
@@ -756,7 +755,21 @@ public class Schedule extends DomainResource {
          */
         @Override
         public Schedule build() {
-            return new Schedule(this);
+            Schedule schedule = new Schedule(this);
+            if (validating) {
+                validate(schedule);
+            }
+            return schedule;
+        }
+
+        protected void validate(Schedule schedule) {
+            super.validate(schedule);
+            ValidationSupport.checkList(schedule.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(schedule.serviceCategory, "serviceCategory", CodeableConcept.class);
+            ValidationSupport.checkList(schedule.serviceType, "serviceType", CodeableConcept.class);
+            ValidationSupport.checkList(schedule.specialty, "specialty", CodeableConcept.class);
+            ValidationSupport.checkNonEmptyList(schedule.actor, "actor", Reference.class);
+            ValidationSupport.checkReferenceType(schedule.actor, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
         }
 
         protected Builder from(Schedule schedule) {

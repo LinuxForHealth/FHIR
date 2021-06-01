@@ -109,14 +109,6 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         stack.clear();
     }
 
-    @Override
-    public boolean isPropertySupported(java.lang.String name) {
-        if (FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS.equals(name)) {
-            return true;
-        }
-        return false;
-    }
-
     private Resource parseResource(java.lang.String elementName, JsonObject jsonObject, int elementIndex) {
         if (jsonObject == null) {
             return null;
@@ -424,10 +416,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Account.class, jsonObject);
         }
         Account.Builder builder = Account.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -469,10 +462,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Account.Coverage.class, jsonObject);
         }
         Account.Coverage.Builder builder = Account.Coverage.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.coverage(parseReference("coverage", getJsonValue(jsonObject, "coverage", JsonObject.class), -1));
         builder.priority((PositiveInt) parseInteger(PositiveInt.builder(), "priority", getJsonValue(jsonObject, "priority", JsonNumber.class), jsonObject.get("_priority"), -1));
@@ -485,10 +479,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Account.Guarantor.class, jsonObject);
         }
         Account.Guarantor.Builder builder = Account.Guarantor.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.party(parseReference("party", getJsonValue(jsonObject, "party", JsonObject.class), -1));
         builder.onHold(parseBoolean("onHold", getJsonValue(jsonObject, "onHold", JsonValue.class), jsonObject.get("_onHold"), -1));
@@ -502,10 +497,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ActivityDefinition.class, jsonObject);
         }
         ActivityDefinition.Builder builder = ActivityDefinition.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
@@ -653,10 +649,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ActivityDefinition.DynamicValue.class, jsonObject);
         }
         ActivityDefinition.DynamicValue.Builder builder = ActivityDefinition.DynamicValue.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.path(parseString("path", getJsonValue(jsonObject, "path", JsonString.class), jsonObject.get("_path"), -1));
         builder.expression(parseExpression("expression", getJsonValue(jsonObject, "expression", JsonObject.class), -1));
@@ -669,10 +666,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ActivityDefinition.Participant.class, jsonObject);
         }
         ActivityDefinition.Participant.Builder builder = ActivityDefinition.Participant.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type((ActivityParticipantType) parseString(ActivityParticipantType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.role(parseCodeableConcept("role", getJsonValue(jsonObject, "role", JsonObject.class), -1));
@@ -685,10 +683,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Address.class, jsonObject);
         }
         Address.Builder builder = Address.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.use((AddressUse) parseString(AddressUse.builder(), "use", getJsonValue(jsonObject, "use", JsonString.class), jsonObject.get("_use"), -1));
         builder.type((AddressType) parseString(AddressType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
@@ -715,10 +714,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(AdverseEvent.class, jsonObject);
         }
         AdverseEvent.Builder builder = AdverseEvent.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.actuality((AdverseEventActuality) parseString(AdverseEventActuality.builder(), "actuality", getJsonValue(jsonObject, "actuality", JsonString.class), jsonObject.get("_actuality"), -1));
@@ -784,10 +784,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(AdverseEvent.SuspectEntity.class, jsonObject);
         }
         AdverseEvent.SuspectEntity.Builder builder = AdverseEvent.SuspectEntity.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.instance(parseReference("instance", getJsonValue(jsonObject, "instance", JsonObject.class), -1));
         JsonArray causalityArray = getJsonArray(jsonObject, "causality");
@@ -805,10 +806,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(AdverseEvent.SuspectEntity.Causality.class, jsonObject);
         }
         AdverseEvent.SuspectEntity.Causality.Builder builder = AdverseEvent.SuspectEntity.Causality.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.assessment(parseCodeableConcept("assessment", getJsonValue(jsonObject, "assessment", JsonObject.class), -1));
         builder.productRelatedness(parseString("productRelatedness", getJsonValue(jsonObject, "productRelatedness", JsonString.class), jsonObject.get("_productRelatedness"), -1));
@@ -823,10 +825,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(AllergyIntolerance.class, jsonObject);
         }
         AllergyIntolerance.Builder builder = AllergyIntolerance.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -874,10 +877,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(AllergyIntolerance.Reaction.class, jsonObject);
         }
         AllergyIntolerance.Reaction.Builder builder = AllergyIntolerance.Reaction.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.substance(parseCodeableConcept("substance", getJsonValue(jsonObject, "substance", JsonObject.class), -1));
         JsonArray manifestationArray = getJsonArray(jsonObject, "manifestation");
@@ -905,10 +909,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Annotation.class, jsonObject);
         }
         Annotation.Builder builder = Annotation.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.author(parseChoiceElement("author", jsonObject, Reference.class, String.class));
         builder.time(parseDateTime("time", getJsonValue(jsonObject, "time", JsonString.class), jsonObject.get("_time"), -1));
@@ -922,10 +927,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Appointment.class, jsonObject);
         }
         Appointment.Builder builder = Appointment.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -1013,10 +1019,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Appointment.Participant.class, jsonObject);
         }
         Appointment.Participant.Builder builder = Appointment.Participant.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray typeArray = getJsonArray(jsonObject, "type");
         if (typeArray != null) {
@@ -1037,10 +1044,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(AppointmentResponse.class, jsonObject);
         }
         AppointmentResponse.Builder builder = AppointmentResponse.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -1069,10 +1077,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Attachment.class, jsonObject);
         }
         Attachment.Builder builder = Attachment.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.contentType((Code) parseString(Code.builder(), "contentType", getJsonValue(jsonObject, "contentType", JsonString.class), jsonObject.get("_contentType"), -1));
         builder.language((Code) parseString(Code.builder(), "language", getJsonValue(jsonObject, "language", JsonString.class), jsonObject.get("_language"), -1));
@@ -1091,10 +1100,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(AuditEvent.class, jsonObject);
         }
         AuditEvent.Builder builder = AuditEvent.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.type(parseCoding("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray subtypeArray = getJsonArray(jsonObject, "subtype");
@@ -1136,10 +1146,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(AuditEvent.Agent.class, jsonObject);
         }
         AuditEvent.Agent.Builder builder = AuditEvent.Agent.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray roleArray = getJsonArray(jsonObject, "role");
@@ -1177,10 +1188,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(AuditEvent.Agent.Network.class, jsonObject);
         }
         AuditEvent.Agent.Network.Builder builder = AuditEvent.Agent.Network.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.address(parseString("address", getJsonValue(jsonObject, "address", JsonString.class), jsonObject.get("_address"), -1));
         builder.type((AuditEventAgentNetworkType) parseString(AuditEventAgentNetworkType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
@@ -1193,10 +1205,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(AuditEvent.Entity.class, jsonObject);
         }
         AuditEvent.Entity.Builder builder = AuditEvent.Entity.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.what(parseReference("what", getJsonValue(jsonObject, "what", JsonObject.class), -1));
         builder.type(parseCoding("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
@@ -1226,10 +1239,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(AuditEvent.Entity.Detail.class, jsonObject);
         }
         AuditEvent.Entity.Detail.Builder builder = AuditEvent.Entity.Detail.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseString("type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.value(parseChoiceElement("value", jsonObject, String.class, Base64Binary.class));
@@ -1242,10 +1256,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(AuditEvent.Source.class, jsonObject);
         }
         AuditEvent.Source.Builder builder = AuditEvent.Source.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.site(parseString("site", getJsonValue(jsonObject, "site", JsonString.class), jsonObject.get("_site"), -1));
         builder.observer(parseReference("observer", getJsonValue(jsonObject, "observer", JsonObject.class), -1));
@@ -1260,6 +1275,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
     }
 
     private void parseBackboneElement(BackboneElement.Builder builder, JsonObject jsonObject) {
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         JsonArray modifierExtensionArray = getJsonArray(jsonObject, "modifierExtension");
         if (modifierExtensionArray != null) {
@@ -1275,9 +1291,10 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         }
         stackPush(elementName, elementIndex);
         Base64Binary.Builder builder = Base64Binary.builder();
+        builder.setValidating(validating);
         if (_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT) {
             JsonObject jsonObject = (JsonObject) _jsonValue;
-            if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+            if (!ignoringUnrecognizedElements) {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
@@ -1299,10 +1316,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Basic.class, jsonObject);
         }
         Basic.Builder builder = Basic.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -1323,10 +1341,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Binary.class, jsonObject);
         }
         Binary.Builder builder = Binary.builder();
+        builder.setValidating(validating);
         parseResource(builder, jsonObject);
         builder.contentType((Code) parseString(Code.builder(), "contentType", getJsonValue(jsonObject, "contentType", JsonString.class), jsonObject.get("_contentType"), -1));
         builder.securityContext(parseReference("securityContext", getJsonValue(jsonObject, "securityContext", JsonObject.class), -1));
@@ -1340,10 +1359,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(BiologicallyDerivedProduct.class, jsonObject);
         }
         BiologicallyDerivedProduct.Builder builder = BiologicallyDerivedProduct.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -1390,10 +1410,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(BiologicallyDerivedProduct.Collection.class, jsonObject);
         }
         BiologicallyDerivedProduct.Collection.Builder builder = BiologicallyDerivedProduct.Collection.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.collector(parseReference("collector", getJsonValue(jsonObject, "collector", JsonObject.class), -1));
         builder.source(parseReference("source", getJsonValue(jsonObject, "source", JsonObject.class), -1));
@@ -1407,10 +1428,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(BiologicallyDerivedProduct.Manipulation.class, jsonObject);
         }
         BiologicallyDerivedProduct.Manipulation.Builder builder = BiologicallyDerivedProduct.Manipulation.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.time(parseChoiceElement("time", jsonObject, DateTime.class, Period.class));
@@ -1423,10 +1445,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(BiologicallyDerivedProduct.Processing.class, jsonObject);
         }
         BiologicallyDerivedProduct.Processing.Builder builder = BiologicallyDerivedProduct.Processing.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.procedure(parseCodeableConcept("procedure", getJsonValue(jsonObject, "procedure", JsonObject.class), -1));
@@ -1441,10 +1464,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(BiologicallyDerivedProduct.Storage.class, jsonObject);
         }
         BiologicallyDerivedProduct.Storage.Builder builder = BiologicallyDerivedProduct.Storage.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.temperature(parseDecimal("temperature", getJsonValue(jsonObject, "temperature", JsonNumber.class), jsonObject.get("_temperature"), -1));
@@ -1459,10 +1483,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(BodyStructure.class, jsonObject);
         }
         BodyStructure.Builder builder = BodyStructure.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -1497,9 +1522,10 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         }
         stackPush(elementName, elementIndex);
         Boolean.Builder builder = Boolean.builder();
+        builder.setValidating(validating);
         if (_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT) {
             JsonObject jsonObject = (JsonObject) _jsonValue;
-            if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+            if (!ignoringUnrecognizedElements) {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
@@ -1520,10 +1546,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Bundle.class, jsonObject);
         }
         Bundle.Builder builder = Bundle.builder();
+        builder.setValidating(validating);
         parseResource(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.type((BundleType) parseString(BundleType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
@@ -1551,10 +1578,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Bundle.Entry.class, jsonObject);
         }
         Bundle.Entry.Builder builder = Bundle.Entry.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray linkArray = getJsonArray(jsonObject, "link");
         if (linkArray != null) {
@@ -1576,10 +1604,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Bundle.Entry.Request.class, jsonObject);
         }
         Bundle.Entry.Request.Builder builder = Bundle.Entry.Request.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.method((HTTPVerb) parseString(HTTPVerb.builder(), "method", getJsonValue(jsonObject, "method", JsonString.class), jsonObject.get("_method"), -1));
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
@@ -1596,10 +1625,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Bundle.Entry.Response.class, jsonObject);
         }
         Bundle.Entry.Response.Builder builder = Bundle.Entry.Response.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.status(parseString("status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.location(parseUri("location", getJsonValue(jsonObject, "location", JsonString.class), jsonObject.get("_location"), -1));
@@ -1615,10 +1645,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Bundle.Entry.Search.class, jsonObject);
         }
         Bundle.Entry.Search.Builder builder = Bundle.Entry.Search.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.mode((SearchEntryMode) parseString(SearchEntryMode.builder(), "mode", getJsonValue(jsonObject, "mode", JsonString.class), jsonObject.get("_mode"), -1));
         builder.score(parseDecimal("score", getJsonValue(jsonObject, "score", JsonNumber.class), jsonObject.get("_score"), -1));
@@ -1631,10 +1662,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Bundle.Link.class, jsonObject);
         }
         Bundle.Link.Builder builder = Bundle.Link.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.relation(parseString("relation", getJsonValue(jsonObject, "relation", JsonString.class), jsonObject.get("_relation"), -1));
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
@@ -1647,10 +1679,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.class, jsonObject);
         }
         CapabilityStatement.Builder builder = CapabilityStatement.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         builder.version(parseString("version", getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
@@ -1747,10 +1780,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Document.class, jsonObject);
         }
         CapabilityStatement.Document.Builder builder = CapabilityStatement.Document.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.mode((DocumentMode) parseString(DocumentMode.builder(), "mode", getJsonValue(jsonObject, "mode", JsonString.class), jsonObject.get("_mode"), -1));
         builder.documentation((Markdown) parseString(Markdown.builder(), "documentation", getJsonValue(jsonObject, "documentation", JsonString.class), jsonObject.get("_documentation"), -1));
@@ -1764,10 +1798,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Implementation.class, jsonObject);
         }
         CapabilityStatement.Implementation.Builder builder = CapabilityStatement.Implementation.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.url((Url) parseUri(Url.builder(), "url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
@@ -1781,10 +1816,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Messaging.class, jsonObject);
         }
         CapabilityStatement.Messaging.Builder builder = CapabilityStatement.Messaging.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray endpointArray = getJsonArray(jsonObject, "endpoint");
         if (endpointArray != null) {
@@ -1809,10 +1845,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Messaging.Endpoint.class, jsonObject);
         }
         CapabilityStatement.Messaging.Endpoint.Builder builder = CapabilityStatement.Messaging.Endpoint.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.protocol(parseCoding("protocol", getJsonValue(jsonObject, "protocol", JsonObject.class), -1));
         builder.address((Url) parseUri(Url.builder(), "address", getJsonValue(jsonObject, "address", JsonString.class), jsonObject.get("_address"), -1));
@@ -1825,10 +1862,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Messaging.SupportedMessage.class, jsonObject);
         }
         CapabilityStatement.Messaging.SupportedMessage.Builder builder = CapabilityStatement.Messaging.SupportedMessage.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.mode((EventCapabilityMode) parseString(EventCapabilityMode.builder(), "mode", getJsonValue(jsonObject, "mode", JsonString.class), jsonObject.get("_mode"), -1));
         builder.definition((Canonical) parseUri(Canonical.builder(), "definition", getJsonValue(jsonObject, "definition", JsonString.class), jsonObject.get("_definition"), -1));
@@ -1841,10 +1879,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Rest.class, jsonObject);
         }
         CapabilityStatement.Rest.Builder builder = CapabilityStatement.Rest.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.mode((RestfulCapabilityMode) parseString(RestfulCapabilityMode.builder(), "mode", getJsonValue(jsonObject, "mode", JsonString.class), jsonObject.get("_mode"), -1));
         builder.documentation((Markdown) parseString(Markdown.builder(), "documentation", getJsonValue(jsonObject, "documentation", JsonString.class), jsonObject.get("_documentation"), -1));
@@ -1889,10 +1928,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Rest.Interaction.class, jsonObject);
         }
         CapabilityStatement.Rest.Interaction.Builder builder = CapabilityStatement.Rest.Interaction.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code((SystemRestfulInteraction) parseString(SystemRestfulInteraction.builder(), "code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.documentation((Markdown) parseString(Markdown.builder(), "documentation", getJsonValue(jsonObject, "documentation", JsonString.class), jsonObject.get("_documentation"), -1));
@@ -1905,10 +1945,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Rest.Resource.class, jsonObject);
         }
         CapabilityStatement.Rest.Resource.Builder builder = CapabilityStatement.Rest.Resource.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type((ResourceType) parseString(ResourceType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.profile((Canonical) parseUri(Canonical.builder(), "profile", getJsonValue(jsonObject, "profile", JsonString.class), jsonObject.get("_profile"), -1));
@@ -1975,10 +2016,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Rest.Resource.Interaction.class, jsonObject);
         }
         CapabilityStatement.Rest.Resource.Interaction.Builder builder = CapabilityStatement.Rest.Resource.Interaction.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code((TypeRestfulInteraction) parseString(TypeRestfulInteraction.builder(), "code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.documentation((Markdown) parseString(Markdown.builder(), "documentation", getJsonValue(jsonObject, "documentation", JsonString.class), jsonObject.get("_documentation"), -1));
@@ -1991,10 +2033,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Rest.Resource.Operation.class, jsonObject);
         }
         CapabilityStatement.Rest.Resource.Operation.Builder builder = CapabilityStatement.Rest.Resource.Operation.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.definition((Canonical) parseUri(Canonical.builder(), "definition", getJsonValue(jsonObject, "definition", JsonString.class), jsonObject.get("_definition"), -1));
@@ -2008,10 +2051,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Rest.Resource.SearchParam.class, jsonObject);
         }
         CapabilityStatement.Rest.Resource.SearchParam.Builder builder = CapabilityStatement.Rest.Resource.SearchParam.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.definition((Canonical) parseUri(Canonical.builder(), "definition", getJsonValue(jsonObject, "definition", JsonString.class), jsonObject.get("_definition"), -1));
@@ -2026,10 +2070,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Rest.Security.class, jsonObject);
         }
         CapabilityStatement.Rest.Security.Builder builder = CapabilityStatement.Rest.Security.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.cors(parseBoolean("cors", getJsonValue(jsonObject, "cors", JsonValue.class), jsonObject.get("_cors"), -1));
         JsonArray serviceArray = getJsonArray(jsonObject, "service");
@@ -2048,10 +2093,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CapabilityStatement.Software.class, jsonObject);
         }
         CapabilityStatement.Software.Builder builder = CapabilityStatement.Software.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.version(parseString("version", getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
@@ -2065,10 +2111,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CarePlan.class, jsonObject);
         }
         CarePlan.Builder builder = CarePlan.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -2174,10 +2221,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CarePlan.Activity.class, jsonObject);
         }
         CarePlan.Activity.Builder builder = CarePlan.Activity.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray outcomeCodeableConceptArray = getJsonArray(jsonObject, "outcomeCodeableConcept");
         if (outcomeCodeableConceptArray != null) {
@@ -2208,10 +2256,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CarePlan.Activity.Detail.class, jsonObject);
         }
         CarePlan.Activity.Detail.Builder builder = CarePlan.Activity.Detail.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.kind((CarePlanActivityKind) parseString(CarePlanActivityKind.builder(), "kind", getJsonValue(jsonObject, "kind", JsonString.class), jsonObject.get("_kind"), -1));
         JsonArray instantiatesCanonicalArray = getJsonArray(jsonObject, "instantiatesCanonical", true);
@@ -2271,10 +2320,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CareTeam.class, jsonObject);
         }
         CareTeam.Builder builder = CareTeam.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -2338,10 +2388,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CareTeam.Participant.class, jsonObject);
         }
         CareTeam.Participant.Builder builder = CareTeam.Participant.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray roleArray = getJsonArray(jsonObject, "role");
         if (roleArray != null) {
@@ -2361,10 +2412,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CatalogEntry.class, jsonObject);
         }
         CatalogEntry.Builder builder = CatalogEntry.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -2418,10 +2470,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CatalogEntry.RelatedEntry.class, jsonObject);
         }
         CatalogEntry.RelatedEntry.Builder builder = CatalogEntry.RelatedEntry.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.relationtype((CatalogEntryRelationType) parseString(CatalogEntryRelationType.builder(), "relationtype", getJsonValue(jsonObject, "relationtype", JsonString.class), jsonObject.get("_relationtype"), -1));
         builder.item(parseReference("item", getJsonValue(jsonObject, "item", JsonObject.class), -1));
@@ -2434,10 +2487,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ChargeItem.class, jsonObject);
         }
         ChargeItem.Builder builder = ChargeItem.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -2531,10 +2585,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ChargeItem.Performer.class, jsonObject);
         }
         ChargeItem.Performer.Builder builder = ChargeItem.Performer.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.function(parseCodeableConcept("function", getJsonValue(jsonObject, "function", JsonObject.class), -1));
         builder.actor(parseReference("actor", getJsonValue(jsonObject, "actor", JsonObject.class), -1));
@@ -2547,10 +2602,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ChargeItemDefinition.class, jsonObject);
         }
         ChargeItemDefinition.Builder builder = ChargeItemDefinition.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
@@ -2637,10 +2693,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ChargeItemDefinition.Applicability.class, jsonObject);
         }
         ChargeItemDefinition.Applicability.Builder builder = ChargeItemDefinition.Applicability.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.language(parseString("language", getJsonValue(jsonObject, "language", JsonString.class), jsonObject.get("_language"), -1));
@@ -2654,10 +2711,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ChargeItemDefinition.PropertyGroup.class, jsonObject);
         }
         ChargeItemDefinition.PropertyGroup.Builder builder = ChargeItemDefinition.PropertyGroup.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray applicabilityArray = getJsonArray(jsonObject, "applicability");
         if (applicabilityArray != null) {
@@ -2680,10 +2738,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ChargeItemDefinition.PropertyGroup.PriceComponent.class, jsonObject);
         }
         ChargeItemDefinition.PropertyGroup.PriceComponent.Builder builder = ChargeItemDefinition.PropertyGroup.PriceComponent.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type((ChargeItemDefinitionPriceComponentType) parseString(ChargeItemDefinitionPriceComponentType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
@@ -2698,10 +2757,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Claim.class, jsonObject);
         }
         Claim.Builder builder = Claim.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -2779,10 +2839,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Claim.Accident.class, jsonObject);
         }
         Claim.Accident.Builder builder = Claim.Accident.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.date(parseDate("date", getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
@@ -2796,10 +2857,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Claim.CareTeam.class, jsonObject);
         }
         Claim.CareTeam.Builder builder = Claim.CareTeam.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         builder.provider(parseReference("provider", getJsonValue(jsonObject, "provider", JsonObject.class), -1));
@@ -2815,10 +2877,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Claim.Diagnosis.class, jsonObject);
         }
         Claim.Diagnosis.Builder builder = Claim.Diagnosis.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         builder.diagnosis(parseChoiceElement("diagnosis", jsonObject, CodeableConcept.class, Reference.class));
@@ -2839,10 +2902,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Claim.Insurance.class, jsonObject);
         }
         Claim.Insurance.Builder builder = Claim.Insurance.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         builder.focal(parseBoolean("focal", getJsonValue(jsonObject, "focal", JsonValue.class), jsonObject.get("_focal"), -1));
@@ -2866,10 +2930,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Claim.Item.class, jsonObject);
         }
         Claim.Item.Builder builder = Claim.Item.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         JsonArray careTeamSequenceArray = getJsonArray(jsonObject, "careTeamSequence", true);
@@ -2955,10 +3020,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Claim.Item.Detail.class, jsonObject);
         }
         Claim.Item.Detail.Builder builder = Claim.Item.Detail.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         builder.revenue(parseCodeableConcept("revenue", getJsonValue(jsonObject, "revenue", JsonObject.class), -1));
@@ -3001,10 +3067,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Claim.Item.Detail.SubDetail.class, jsonObject);
         }
         Claim.Item.Detail.SubDetail.Builder builder = Claim.Item.Detail.SubDetail.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         builder.revenue(parseCodeableConcept("revenue", getJsonValue(jsonObject, "revenue", JsonObject.class), -1));
@@ -3041,10 +3108,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Claim.Payee.class, jsonObject);
         }
         Claim.Payee.Builder builder = Claim.Payee.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.party(parseReference("party", getJsonValue(jsonObject, "party", JsonObject.class), -1));
@@ -3057,10 +3125,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Claim.Procedure.class, jsonObject);
         }
         Claim.Procedure.Builder builder = Claim.Procedure.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         JsonArray typeArray = getJsonArray(jsonObject, "type");
@@ -3086,10 +3155,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Claim.Related.class, jsonObject);
         }
         Claim.Related.Builder builder = Claim.Related.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.claim(parseReference("claim", getJsonValue(jsonObject, "claim", JsonObject.class), -1));
         builder.relationship(parseCodeableConcept("relationship", getJsonValue(jsonObject, "relationship", JsonObject.class), -1));
@@ -3103,10 +3173,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Claim.SupportingInfo.class, jsonObject);
         }
         Claim.SupportingInfo.Builder builder = Claim.SupportingInfo.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         builder.category(parseCodeableConcept("category", getJsonValue(jsonObject, "category", JsonObject.class), -1));
@@ -3123,10 +3194,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.class, jsonObject);
         }
         ClaimResponse.Builder builder = ClaimResponse.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -3209,10 +3281,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.AddItem.class, jsonObject);
         }
         ClaimResponse.AddItem.Builder builder = ClaimResponse.AddItem.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray itemSequenceArray = getJsonArray(jsonObject, "itemSequence", true);
         if (itemSequenceArray != null) {
@@ -3295,10 +3368,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.AddItem.Detail.class, jsonObject);
         }
         ClaimResponse.AddItem.Detail.Builder builder = ClaimResponse.AddItem.Detail.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.productOrService(parseCodeableConcept("productOrService", getJsonValue(jsonObject, "productOrService", JsonObject.class), -1));
         JsonArray modifierArray = getJsonArray(jsonObject, "modifier");
@@ -3339,10 +3413,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.AddItem.Detail.SubDetail.class, jsonObject);
         }
         ClaimResponse.AddItem.Detail.SubDetail.Builder builder = ClaimResponse.AddItem.Detail.SubDetail.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.productOrService(parseCodeableConcept("productOrService", getJsonValue(jsonObject, "productOrService", JsonObject.class), -1));
         JsonArray modifierArray = getJsonArray(jsonObject, "modifier");
@@ -3377,10 +3452,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.Error.class, jsonObject);
         }
         ClaimResponse.Error.Builder builder = ClaimResponse.Error.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.itemSequence((PositiveInt) parseInteger(PositiveInt.builder(), "itemSequence", getJsonValue(jsonObject, "itemSequence", JsonNumber.class), jsonObject.get("_itemSequence"), -1));
         builder.detailSequence((PositiveInt) parseInteger(PositiveInt.builder(), "detailSequence", getJsonValue(jsonObject, "detailSequence", JsonNumber.class), jsonObject.get("_detailSequence"), -1));
@@ -3395,10 +3471,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.Insurance.class, jsonObject);
         }
         ClaimResponse.Insurance.Builder builder = ClaimResponse.Insurance.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         builder.focal(parseBoolean("focal", getJsonValue(jsonObject, "focal", JsonValue.class), jsonObject.get("_focal"), -1));
@@ -3414,10 +3491,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.Item.class, jsonObject);
         }
         ClaimResponse.Item.Builder builder = ClaimResponse.Item.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.itemSequence((PositiveInt) parseInteger(PositiveInt.builder(), "itemSequence", getJsonValue(jsonObject, "itemSequence", JsonNumber.class), jsonObject.get("_itemSequence"), -1));
         JsonArray noteNumberArray = getJsonArray(jsonObject, "noteNumber", true);
@@ -3448,10 +3526,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.Item.Adjudication.class, jsonObject);
         }
         ClaimResponse.Item.Adjudication.Builder builder = ClaimResponse.Item.Adjudication.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.category(parseCodeableConcept("category", getJsonValue(jsonObject, "category", JsonObject.class), -1));
         builder.reason(parseCodeableConcept("reason", getJsonValue(jsonObject, "reason", JsonObject.class), -1));
@@ -3466,10 +3545,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.Item.Detail.class, jsonObject);
         }
         ClaimResponse.Item.Detail.Builder builder = ClaimResponse.Item.Detail.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.detailSequence((PositiveInt) parseInteger(PositiveInt.builder(), "detailSequence", getJsonValue(jsonObject, "detailSequence", JsonNumber.class), jsonObject.get("_detailSequence"), -1));
         JsonArray noteNumberArray = getJsonArray(jsonObject, "noteNumber", true);
@@ -3500,10 +3580,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.Item.Detail.SubDetail.class, jsonObject);
         }
         ClaimResponse.Item.Detail.SubDetail.Builder builder = ClaimResponse.Item.Detail.SubDetail.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.subDetailSequence((PositiveInt) parseInteger(PositiveInt.builder(), "subDetailSequence", getJsonValue(jsonObject, "subDetailSequence", JsonNumber.class), jsonObject.get("_subDetailSequence"), -1));
         JsonArray noteNumberArray = getJsonArray(jsonObject, "noteNumber", true);
@@ -3528,10 +3609,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.Payment.class, jsonObject);
         }
         ClaimResponse.Payment.Builder builder = ClaimResponse.Payment.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.adjustment(parseMoney("adjustment", getJsonValue(jsonObject, "adjustment", JsonObject.class), -1));
@@ -3548,10 +3630,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.ProcessNote.class, jsonObject);
         }
         ClaimResponse.ProcessNote.Builder builder = ClaimResponse.ProcessNote.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.number((PositiveInt) parseInteger(PositiveInt.builder(), "number", getJsonValue(jsonObject, "number", JsonNumber.class), jsonObject.get("_number"), -1));
         builder.type((NoteType) parseString(NoteType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
@@ -3566,10 +3649,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClaimResponse.Total.class, jsonObject);
         }
         ClaimResponse.Total.Builder builder = ClaimResponse.Total.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.category(parseCodeableConcept("category", getJsonValue(jsonObject, "category", JsonObject.class), -1));
         builder.amount(parseMoney("amount", getJsonValue(jsonObject, "amount", JsonObject.class), -1));
@@ -3582,10 +3666,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClinicalImpression.class, jsonObject);
         }
         ClinicalImpression.Builder builder = ClinicalImpression.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -3662,10 +3747,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClinicalImpression.Finding.class, jsonObject);
         }
         ClinicalImpression.Finding.Builder builder = ClinicalImpression.Finding.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.itemCodeableConcept(parseCodeableConcept("itemCodeableConcept", getJsonValue(jsonObject, "itemCodeableConcept", JsonObject.class), -1));
         builder.itemReference(parseReference("itemReference", getJsonValue(jsonObject, "itemReference", JsonObject.class), -1));
@@ -3679,10 +3765,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ClinicalImpression.Investigation.class, jsonObject);
         }
         ClinicalImpression.Investigation.Builder builder = ClinicalImpression.Investigation.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         JsonArray itemArray = getJsonArray(jsonObject, "item");
@@ -3700,10 +3787,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CodeSystem.class, jsonObject);
         }
         CodeSystem.Builder builder = CodeSystem.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
@@ -3775,10 +3863,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CodeSystem.Concept.class, jsonObject);
         }
         CodeSystem.Concept.Builder builder = CodeSystem.Concept.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code((Code) parseString(Code.builder(), "code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.display(parseString("display", getJsonValue(jsonObject, "display", JsonString.class), jsonObject.get("_display"), -1));
@@ -3810,10 +3899,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CodeSystem.Concept.Designation.class, jsonObject);
         }
         CodeSystem.Concept.Designation.Builder builder = CodeSystem.Concept.Designation.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.language((Code) parseString(Code.builder(), "language", getJsonValue(jsonObject, "language", JsonString.class), jsonObject.get("_language"), -1));
         builder.use(parseCoding("use", getJsonValue(jsonObject, "use", JsonObject.class), -1));
@@ -3827,10 +3917,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CodeSystem.Concept.Property.class, jsonObject);
         }
         CodeSystem.Concept.Property.Builder builder = CodeSystem.Concept.Property.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code((Code) parseString(Code.builder(), "code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.value(parseChoiceElement("value", jsonObject, Code.class, Coding.class, String.class, Integer.class, Boolean.class, DateTime.class, Decimal.class));
@@ -3843,10 +3934,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CodeSystem.Filter.class, jsonObject);
         }
         CodeSystem.Filter.Builder builder = CodeSystem.Filter.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code((Code) parseString(Code.builder(), "code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
@@ -3867,10 +3959,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CodeSystem.Property.class, jsonObject);
         }
         CodeSystem.Property.Builder builder = CodeSystem.Property.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code((Code) parseString(Code.builder(), "code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.uri(parseUri("uri", getJsonValue(jsonObject, "uri", JsonString.class), jsonObject.get("_uri"), -1));
@@ -3885,10 +3978,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CodeableConcept.class, jsonObject);
         }
         CodeableConcept.Builder builder = CodeableConcept.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         JsonArray codingArray = getJsonArray(jsonObject, "coding");
         if (codingArray != null) {
@@ -3906,10 +4000,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Coding.class, jsonObject);
         }
         Coding.Builder builder = Coding.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.system(parseUri("system", getJsonValue(jsonObject, "system", JsonString.class), jsonObject.get("_system"), -1));
         builder.version(parseString("version", getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
@@ -3925,10 +4020,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Communication.class, jsonObject);
         }
         Communication.Builder builder = Communication.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -4034,10 +4130,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Communication.Payload.class, jsonObject);
         }
         Communication.Payload.Builder builder = Communication.Payload.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.content(parseChoiceElement("content", jsonObject, String.class, Attachment.class, Reference.class));
         stackPop();
@@ -4049,10 +4146,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CommunicationRequest.class, jsonObject);
         }
         CommunicationRequest.Builder builder = CommunicationRequest.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -4140,10 +4238,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CommunicationRequest.Payload.class, jsonObject);
         }
         CommunicationRequest.Payload.Builder builder = CommunicationRequest.Payload.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.content(parseChoiceElement("content", jsonObject, String.class, Attachment.class, Reference.class));
         stackPop();
@@ -4155,10 +4254,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CompartmentDefinition.class, jsonObject);
         }
         CompartmentDefinition.Builder builder = CompartmentDefinition.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         builder.version(parseString("version", getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
@@ -4198,10 +4298,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CompartmentDefinition.Resource.class, jsonObject);
         }
         CompartmentDefinition.Resource.Builder builder = CompartmentDefinition.Resource.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code((ResourceType) parseString(ResourceType.builder(), "code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         JsonArray paramArray = getJsonArray(jsonObject, "param", true);
@@ -4221,10 +4322,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Composition.class, jsonObject);
         }
         Composition.Builder builder = Composition.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.status((CompositionStatus) parseString(CompositionStatus.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
@@ -4280,10 +4382,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Composition.Attester.class, jsonObject);
         }
         Composition.Attester.Builder builder = Composition.Attester.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.mode((CompositionAttestationMode) parseString(CompositionAttestationMode.builder(), "mode", getJsonValue(jsonObject, "mode", JsonString.class), jsonObject.get("_mode"), -1));
         builder.time(parseDateTime("time", getJsonValue(jsonObject, "time", JsonString.class), jsonObject.get("_time"), -1));
@@ -4297,10 +4400,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Composition.Event.class, jsonObject);
         }
         Composition.Event.Builder builder = Composition.Event.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray codeArray = getJsonArray(jsonObject, "code");
         if (codeArray != null) {
@@ -4324,10 +4428,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Composition.RelatesTo.class, jsonObject);
         }
         Composition.RelatesTo.Builder builder = Composition.RelatesTo.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code((DocumentRelationshipType) parseString(DocumentRelationshipType.builder(), "code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.target(parseChoiceElement("target", jsonObject, Identifier.class, Reference.class));
@@ -4340,10 +4445,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Composition.Section.class, jsonObject);
         }
         Composition.Section.Builder builder = Composition.Section.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.title(parseString("title", getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
@@ -4379,10 +4485,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ConceptMap.class, jsonObject);
         }
         ConceptMap.Builder builder = ConceptMap.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
@@ -4431,10 +4538,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ConceptMap.Group.class, jsonObject);
         }
         ConceptMap.Group.Builder builder = ConceptMap.Group.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.source(parseUri("source", getJsonValue(jsonObject, "source", JsonString.class), jsonObject.get("_source"), -1));
         builder.sourceVersion(parseString("sourceVersion", getJsonValue(jsonObject, "sourceVersion", JsonString.class), jsonObject.get("_sourceVersion"), -1));
@@ -4456,10 +4564,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ConceptMap.Group.Element.class, jsonObject);
         }
         ConceptMap.Group.Element.Builder builder = ConceptMap.Group.Element.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code((Code) parseString(Code.builder(), "code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.display(parseString("display", getJsonValue(jsonObject, "display", JsonString.class), jsonObject.get("_display"), -1));
@@ -4478,10 +4587,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ConceptMap.Group.Element.Target.class, jsonObject);
         }
         ConceptMap.Group.Element.Target.Builder builder = ConceptMap.Group.Element.Target.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code((Code) parseString(Code.builder(), "code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.display(parseString("display", getJsonValue(jsonObject, "display", JsonString.class), jsonObject.get("_display"), -1));
@@ -4508,10 +4618,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ConceptMap.Group.Element.Target.DependsOn.class, jsonObject);
         }
         ConceptMap.Group.Element.Target.DependsOn.Builder builder = ConceptMap.Group.Element.Target.DependsOn.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.property(parseUri("property", getJsonValue(jsonObject, "property", JsonString.class), jsonObject.get("_property"), -1));
         builder.system((Canonical) parseUri(Canonical.builder(), "system", getJsonValue(jsonObject, "system", JsonString.class), jsonObject.get("_system"), -1));
@@ -4526,10 +4637,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ConceptMap.Group.Unmapped.class, jsonObject);
         }
         ConceptMap.Group.Unmapped.Builder builder = ConceptMap.Group.Unmapped.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.mode((ConceptMapGroupUnmappedMode) parseString(ConceptMapGroupUnmappedMode.builder(), "mode", getJsonValue(jsonObject, "mode", JsonString.class), jsonObject.get("_mode"), -1));
         builder.code((Code) parseString(Code.builder(), "code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
@@ -4544,10 +4656,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Condition.class, jsonObject);
         }
         Condition.Builder builder = Condition.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -4605,10 +4718,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Condition.Evidence.class, jsonObject);
         }
         Condition.Evidence.Builder builder = Condition.Evidence.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray codeArray = getJsonArray(jsonObject, "code");
         if (codeArray != null) {
@@ -4631,10 +4745,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Condition.Stage.class, jsonObject);
         }
         Condition.Stage.Builder builder = Condition.Stage.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.summary(parseCodeableConcept("summary", getJsonValue(jsonObject, "summary", JsonObject.class), -1));
         JsonArray assessmentArray = getJsonArray(jsonObject, "assessment");
@@ -4653,10 +4768,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Consent.class, jsonObject);
         }
         Consent.Builder builder = Consent.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -4710,10 +4826,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Consent.Policy.class, jsonObject);
         }
         Consent.Policy.Builder builder = Consent.Policy.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.authority(parseUri("authority", getJsonValue(jsonObject, "authority", JsonString.class), jsonObject.get("_authority"), -1));
         builder.uri(parseUri("uri", getJsonValue(jsonObject, "uri", JsonString.class), jsonObject.get("_uri"), -1));
@@ -4726,10 +4843,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Consent.Provision.class, jsonObject);
         }
         Consent.Provision.Builder builder = Consent.Provision.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type((ConsentProvisionType) parseString(ConsentProvisionType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.period(parsePeriod("period", getJsonValue(jsonObject, "period", JsonObject.class), -1));
@@ -4791,10 +4909,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Consent.Provision.Actor.class, jsonObject);
         }
         Consent.Provision.Actor.Builder builder = Consent.Provision.Actor.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.role(parseCodeableConcept("role", getJsonValue(jsonObject, "role", JsonObject.class), -1));
         builder.reference(parseReference("reference", getJsonValue(jsonObject, "reference", JsonObject.class), -1));
@@ -4807,10 +4926,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Consent.Provision.Data.class, jsonObject);
         }
         Consent.Provision.Data.Builder builder = Consent.Provision.Data.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.meaning((ConsentDataMeaning) parseString(ConsentDataMeaning.builder(), "meaning", getJsonValue(jsonObject, "meaning", JsonString.class), jsonObject.get("_meaning"), -1));
         builder.reference(parseReference("reference", getJsonValue(jsonObject, "reference", JsonObject.class), -1));
@@ -4823,10 +4943,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Consent.Verification.class, jsonObject);
         }
         Consent.Verification.Builder builder = Consent.Verification.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.verified(parseBoolean("verified", getJsonValue(jsonObject, "verified", JsonValue.class), jsonObject.get("_verified"), -1));
         builder.verifiedWith(parseReference("verifiedWith", getJsonValue(jsonObject, "verifiedWith", JsonObject.class), -1));
@@ -4840,10 +4961,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ContactDetail.class, jsonObject);
         }
         ContactDetail.Builder builder = ContactDetail.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         JsonArray telecomArray = getJsonArray(jsonObject, "telecom");
@@ -4861,10 +4983,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ContactPoint.class, jsonObject);
         }
         ContactPoint.Builder builder = ContactPoint.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.system((ContactPointSystem) parseString(ContactPointSystem.builder(), "system", getJsonValue(jsonObject, "system", JsonString.class), jsonObject.get("_system"), -1));
         builder.value(parseString("value", getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1));
@@ -4880,10 +5003,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.class, jsonObject);
         }
         Contract.Builder builder = Contract.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -4998,10 +5122,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.ContentDefinition.class, jsonObject);
         }
         Contract.ContentDefinition.Builder builder = Contract.ContentDefinition.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.subType(parseCodeableConcept("subType", getJsonValue(jsonObject, "subType", JsonObject.class), -1));
@@ -5018,10 +5143,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Friendly.class, jsonObject);
         }
         Contract.Friendly.Builder builder = Contract.Friendly.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.content(parseChoiceElement("content", jsonObject, Attachment.class, Reference.class));
         stackPop();
@@ -5033,10 +5159,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Legal.class, jsonObject);
         }
         Contract.Legal.Builder builder = Contract.Legal.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.content(parseChoiceElement("content", jsonObject, Attachment.class, Reference.class));
         stackPop();
@@ -5048,10 +5175,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Rule.class, jsonObject);
         }
         Contract.Rule.Builder builder = Contract.Rule.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.content(parseChoiceElement("content", jsonObject, Attachment.class, Reference.class));
         stackPop();
@@ -5063,10 +5191,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Signer.class, jsonObject);
         }
         Contract.Signer.Builder builder = Contract.Signer.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCoding("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.party(parseReference("party", getJsonValue(jsonObject, "party", JsonObject.class), -1));
@@ -5085,10 +5214,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Term.class, jsonObject);
         }
         Contract.Term.Builder builder = Contract.Term.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.issued(parseDateTime("issued", getJsonValue(jsonObject, "issued", JsonString.class), jsonObject.get("_issued"), -1));
@@ -5131,10 +5261,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Term.Action.class, jsonObject);
         }
         Contract.Term.Action.Builder builder = Contract.Term.Action.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.doNotPerform(parseBoolean("doNotPerform", getJsonValue(jsonObject, "doNotPerform", JsonValue.class), jsonObject.get("_doNotPerform"), -1));
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
@@ -5238,10 +5369,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Term.Action.Subject.class, jsonObject);
         }
         Contract.Term.Action.Subject.Builder builder = Contract.Term.Action.Subject.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray referenceArray = getJsonArray(jsonObject, "reference");
         if (referenceArray != null) {
@@ -5259,10 +5391,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Term.Asset.class, jsonObject);
         }
         Contract.Term.Asset.Builder builder = Contract.Term.Asset.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.scope(parseCodeableConcept("scope", getJsonValue(jsonObject, "scope", JsonObject.class), -1));
         JsonArray typeArray = getJsonArray(jsonObject, "type");
@@ -5345,10 +5478,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Term.Asset.Context.class, jsonObject);
         }
         Contract.Term.Asset.Context.Builder builder = Contract.Term.Asset.Context.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.reference(parseReference("reference", getJsonValue(jsonObject, "reference", JsonObject.class), -1));
         JsonArray codeArray = getJsonArray(jsonObject, "code");
@@ -5367,10 +5501,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Term.Asset.ValuedItem.class, jsonObject);
         }
         Contract.Term.Asset.ValuedItem.Builder builder = Contract.Term.Asset.ValuedItem.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.entity(parseChoiceElement("entity", jsonObject, CodeableConcept.class, Reference.class));
         builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
@@ -5407,10 +5542,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Term.Offer.class, jsonObject);
         }
         Contract.Term.Offer.Builder builder = Contract.Term.Offer.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -5463,10 +5599,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Term.Offer.Answer.class, jsonObject);
         }
         Contract.Term.Offer.Answer.Builder builder = Contract.Term.Offer.Answer.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.value(parseChoiceElement("value", jsonObject, Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class));
         stackPop();
@@ -5478,10 +5615,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Term.Offer.Party.class, jsonObject);
         }
         Contract.Term.Offer.Party.Builder builder = Contract.Term.Offer.Party.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray referenceArray = getJsonArray(jsonObject, "reference");
         if (referenceArray != null) {
@@ -5499,10 +5637,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contract.Term.SecurityLabel.class, jsonObject);
         }
         Contract.Term.SecurityLabel.Builder builder = Contract.Term.SecurityLabel.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray numberArray = getJsonArray(jsonObject, "number", true);
         if (numberArray != null) {
@@ -5533,10 +5672,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Contributor.class, jsonObject);
         }
         Contributor.Builder builder = Contributor.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.type((ContributorType) parseString(ContributorType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
@@ -5555,10 +5695,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Coverage.class, jsonObject);
         }
         Coverage.Builder builder = Coverage.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -5611,10 +5752,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Coverage.Class.class, jsonObject);
         }
         Coverage.Class.Builder builder = Coverage.Class.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.value(parseString("value", getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1));
@@ -5628,10 +5770,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Coverage.CostToBeneficiary.class, jsonObject);
         }
         Coverage.CostToBeneficiary.Builder builder = Coverage.CostToBeneficiary.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.value(parseChoiceElement("value", jsonObject, SimpleQuantity.class, Money.class));
@@ -5650,10 +5793,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Coverage.CostToBeneficiary.Exception.class, jsonObject);
         }
         Coverage.CostToBeneficiary.Exception.Builder builder = Coverage.CostToBeneficiary.Exception.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.period(parsePeriod("period", getJsonValue(jsonObject, "period", JsonObject.class), -1));
@@ -5666,10 +5810,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CoverageEligibilityRequest.class, jsonObject);
         }
         CoverageEligibilityRequest.Builder builder = CoverageEligibilityRequest.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -5720,10 +5865,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CoverageEligibilityRequest.Insurance.class, jsonObject);
         }
         CoverageEligibilityRequest.Insurance.Builder builder = CoverageEligibilityRequest.Insurance.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.focal(parseBoolean("focal", getJsonValue(jsonObject, "focal", JsonValue.class), jsonObject.get("_focal"), -1));
         builder.coverage(parseReference("coverage", getJsonValue(jsonObject, "coverage", JsonObject.class), -1));
@@ -5737,10 +5883,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CoverageEligibilityRequest.Item.class, jsonObject);
         }
         CoverageEligibilityRequest.Item.Builder builder = CoverageEligibilityRequest.Item.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray supportingInfoSequenceArray = getJsonArray(jsonObject, "supportingInfoSequence", true);
         if (supportingInfoSequenceArray != null) {
@@ -5782,10 +5929,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CoverageEligibilityRequest.Item.Diagnosis.class, jsonObject);
         }
         CoverageEligibilityRequest.Item.Diagnosis.Builder builder = CoverageEligibilityRequest.Item.Diagnosis.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.diagnosis(parseChoiceElement("diagnosis", jsonObject, CodeableConcept.class, Reference.class));
         stackPop();
@@ -5797,10 +5945,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CoverageEligibilityRequest.SupportingInfo.class, jsonObject);
         }
         CoverageEligibilityRequest.SupportingInfo.Builder builder = CoverageEligibilityRequest.SupportingInfo.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         builder.information(parseReference("information", getJsonValue(jsonObject, "information", JsonObject.class), -1));
@@ -5814,10 +5963,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CoverageEligibilityResponse.class, jsonObject);
         }
         CoverageEligibilityResponse.Builder builder = CoverageEligibilityResponse.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -5864,10 +6014,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CoverageEligibilityResponse.Error.class, jsonObject);
         }
         CoverageEligibilityResponse.Error.Builder builder = CoverageEligibilityResponse.Error.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         stackPop();
@@ -5879,10 +6030,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CoverageEligibilityResponse.Insurance.class, jsonObject);
         }
         CoverageEligibilityResponse.Insurance.Builder builder = CoverageEligibilityResponse.Insurance.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.coverage(parseReference("coverage", getJsonValue(jsonObject, "coverage", JsonObject.class), -1));
         builder.inforce(parseBoolean("inforce", getJsonValue(jsonObject, "inforce", JsonValue.class), jsonObject.get("_inforce"), -1));
@@ -5902,10 +6054,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CoverageEligibilityResponse.Insurance.Item.class, jsonObject);
         }
         CoverageEligibilityResponse.Insurance.Item.Builder builder = CoverageEligibilityResponse.Insurance.Item.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.category(parseCodeableConcept("category", getJsonValue(jsonObject, "category", JsonObject.class), -1));
         builder.productOrService(parseCodeableConcept("productOrService", getJsonValue(jsonObject, "productOrService", JsonObject.class), -1));
@@ -5945,10 +6098,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(CoverageEligibilityResponse.Insurance.Item.Benefit.class, jsonObject);
         }
         CoverageEligibilityResponse.Insurance.Item.Benefit.Builder builder = CoverageEligibilityResponse.Insurance.Item.Benefit.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.allowed(parseChoiceElement("allowed", jsonObject, UnsignedInt.class, String.class, Money.class));
@@ -5962,10 +6116,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DataRequirement.class, jsonObject);
         }
         DataRequirement.Builder builder = DataRequirement.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.type((FHIRAllTypes) parseString(FHIRAllTypes.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         JsonArray profileArray = getJsonArray(jsonObject, "profile", true);
@@ -6011,10 +6166,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DataRequirement.CodeFilter.class, jsonObject);
         }
         DataRequirement.CodeFilter.Builder builder = DataRequirement.CodeFilter.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.path(parseString("path", getJsonValue(jsonObject, "path", JsonString.class), jsonObject.get("_path"), -1));
         builder.searchParam(parseString("searchParam", getJsonValue(jsonObject, "searchParam", JsonString.class), jsonObject.get("_searchParam"), -1));
@@ -6034,10 +6190,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DataRequirement.DateFilter.class, jsonObject);
         }
         DataRequirement.DateFilter.Builder builder = DataRequirement.DateFilter.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.path(parseString("path", getJsonValue(jsonObject, "path", JsonString.class), jsonObject.get("_path"), -1));
         builder.searchParam(parseString("searchParam", getJsonValue(jsonObject, "searchParam", JsonString.class), jsonObject.get("_searchParam"), -1));
@@ -6051,10 +6208,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DataRequirement.Sort.class, jsonObject);
         }
         DataRequirement.Sort.Builder builder = DataRequirement.Sort.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.path(parseString("path", getJsonValue(jsonObject, "path", JsonString.class), jsonObject.get("_path"), -1));
         builder.direction((SortDirection) parseString(SortDirection.builder(), "direction", getJsonValue(jsonObject, "direction", JsonString.class), jsonObject.get("_direction"), -1));
@@ -6068,9 +6226,10 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         }
         stackPush(elementName, elementIndex);
         Date.Builder builder = Date.builder();
+        builder.setValidating(validating);
         if (_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT) {
             JsonObject jsonObject = (JsonObject) _jsonValue;
-            if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+            if (!ignoringUnrecognizedElements) {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
@@ -6093,9 +6252,10 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         }
         stackPush(elementName, elementIndex);
         DateTime.Builder builder = DateTime.builder();
+        builder.setValidating(validating);
         if (_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT) {
             JsonObject jsonObject = (JsonObject) _jsonValue;
-            if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+            if (!ignoringUnrecognizedElements) {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
@@ -6118,9 +6278,10 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         }
         stackPush(elementName, elementIndex);
         Decimal.Builder builder = Decimal.builder();
+        builder.setValidating(validating);
         if (_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT) {
             JsonObject jsonObject = (JsonObject) _jsonValue;
-            if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+            if (!ignoringUnrecognizedElements) {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
@@ -6142,10 +6303,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DetectedIssue.class, jsonObject);
         }
         DetectedIssue.Builder builder = DetectedIssue.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -6188,10 +6350,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DetectedIssue.Evidence.class, jsonObject);
         }
         DetectedIssue.Evidence.Builder builder = DetectedIssue.Evidence.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray codeArray = getJsonArray(jsonObject, "code");
         if (codeArray != null) {
@@ -6214,10 +6377,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DetectedIssue.Mitigation.class, jsonObject);
         }
         DetectedIssue.Mitigation.Builder builder = DetectedIssue.Mitigation.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.action(parseCodeableConcept("action", getJsonValue(jsonObject, "action", JsonObject.class), -1));
         builder.date(parseDateTime("date", getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
@@ -6231,10 +6395,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Device.class, jsonObject);
         }
         Device.Builder builder = Device.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -6321,10 +6486,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Device.DeviceName.class, jsonObject);
         }
         Device.DeviceName.Builder builder = Device.DeviceName.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.type((DeviceNameType) parseString(DeviceNameType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
@@ -6337,10 +6503,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Device.Property.class, jsonObject);
         }
         Device.Property.Builder builder = Device.Property.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray valueQuantityArray = getJsonArray(jsonObject, "valueQuantity");
@@ -6364,10 +6531,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Device.Specialization.class, jsonObject);
         }
         Device.Specialization.Builder builder = Device.Specialization.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.systemType(parseCodeableConcept("systemType", getJsonValue(jsonObject, "systemType", JsonObject.class), -1));
         builder.version(parseString("version", getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
@@ -6380,10 +6548,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Device.UdiCarrier.class, jsonObject);
         }
         Device.UdiCarrier.Builder builder = Device.UdiCarrier.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.deviceIdentifier(parseString("deviceIdentifier", getJsonValue(jsonObject, "deviceIdentifier", JsonString.class), jsonObject.get("_deviceIdentifier"), -1));
         builder.issuer(parseUri("issuer", getJsonValue(jsonObject, "issuer", JsonString.class), jsonObject.get("_issuer"), -1));
@@ -6400,10 +6569,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Device.Version.class, jsonObject);
         }
         Device.Version.Builder builder = Device.Version.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.component(parseIdentifier("component", getJsonValue(jsonObject, "component", JsonObject.class), -1));
@@ -6417,10 +6587,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DeviceDefinition.class, jsonObject);
         }
         DeviceDefinition.Builder builder = DeviceDefinition.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -6519,10 +6690,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DeviceDefinition.Capability.class, jsonObject);
         }
         DeviceDefinition.Capability.Builder builder = DeviceDefinition.Capability.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray descriptionArray = getJsonArray(jsonObject, "description");
@@ -6540,10 +6712,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DeviceDefinition.DeviceName.class, jsonObject);
         }
         DeviceDefinition.DeviceName.Builder builder = DeviceDefinition.DeviceName.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.type((DeviceNameType) parseString(DeviceNameType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
@@ -6556,10 +6729,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DeviceDefinition.Material.class, jsonObject);
         }
         DeviceDefinition.Material.Builder builder = DeviceDefinition.Material.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.substance(parseCodeableConcept("substance", getJsonValue(jsonObject, "substance", JsonObject.class), -1));
         builder.alternate(parseBoolean("alternate", getJsonValue(jsonObject, "alternate", JsonValue.class), jsonObject.get("_alternate"), -1));
@@ -6573,10 +6747,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DeviceDefinition.Property.class, jsonObject);
         }
         DeviceDefinition.Property.Builder builder = DeviceDefinition.Property.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray valueQuantityArray = getJsonArray(jsonObject, "valueQuantity");
@@ -6600,10 +6775,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DeviceDefinition.Specialization.class, jsonObject);
         }
         DeviceDefinition.Specialization.Builder builder = DeviceDefinition.Specialization.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.systemType(parseString("systemType", getJsonValue(jsonObject, "systemType", JsonString.class), jsonObject.get("_systemType"), -1));
         builder.version(parseString("version", getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
@@ -6616,10 +6792,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DeviceDefinition.UdiDeviceIdentifier.class, jsonObject);
         }
         DeviceDefinition.UdiDeviceIdentifier.Builder builder = DeviceDefinition.UdiDeviceIdentifier.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.deviceIdentifier(parseString("deviceIdentifier", getJsonValue(jsonObject, "deviceIdentifier", JsonString.class), jsonObject.get("_deviceIdentifier"), -1));
         builder.issuer(parseUri("issuer", getJsonValue(jsonObject, "issuer", JsonString.class), jsonObject.get("_issuer"), -1));
@@ -6633,10 +6810,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DeviceMetric.class, jsonObject);
         }
         DeviceMetric.Builder builder = DeviceMetric.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -6667,10 +6845,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DeviceMetric.Calibration.class, jsonObject);
         }
         DeviceMetric.Calibration.Builder builder = DeviceMetric.Calibration.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type((DeviceMetricCalibrationType) parseString(DeviceMetricCalibrationType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.state((DeviceMetricCalibrationState) parseString(DeviceMetricCalibrationState.builder(), "state", getJsonValue(jsonObject, "state", JsonString.class), jsonObject.get("_state"), -1));
@@ -6684,10 +6863,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DeviceRequest.class, jsonObject);
         }
         DeviceRequest.Builder builder = DeviceRequest.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -6784,10 +6964,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DeviceRequest.Parameter.class, jsonObject);
         }
         DeviceRequest.Parameter.Builder builder = DeviceRequest.Parameter.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.value(parseChoiceElement("value", jsonObject, CodeableConcept.class, Quantity.class, Range.class, Boolean.class));
@@ -6800,10 +6981,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DeviceUseStatement.class, jsonObject);
         }
         DeviceUseStatement.Builder builder = DeviceUseStatement.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -6857,10 +7039,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DiagnosticReport.class, jsonObject);
         }
         DiagnosticReport.Builder builder = DiagnosticReport.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -6944,10 +7127,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DiagnosticReport.Media.class, jsonObject);
         }
         DiagnosticReport.Media.Builder builder = DiagnosticReport.Media.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.comment(parseString("comment", getJsonValue(jsonObject, "comment", JsonString.class), jsonObject.get("_comment"), -1));
         builder.link(parseReference("link", getJsonValue(jsonObject, "link", JsonObject.class), -1));
@@ -6960,10 +7144,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DocumentManifest.class, jsonObject);
         }
         DocumentManifest.Builder builder = DocumentManifest.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.masterIdentifier(parseIdentifier("masterIdentifier", getJsonValue(jsonObject, "masterIdentifier", JsonObject.class), -1));
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
@@ -7011,10 +7196,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DocumentManifest.Related.class, jsonObject);
         }
         DocumentManifest.Related.Builder builder = DocumentManifest.Related.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.ref(parseReference("ref", getJsonValue(jsonObject, "ref", JsonObject.class), -1));
@@ -7027,10 +7213,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DocumentReference.class, jsonObject);
         }
         DocumentReference.Builder builder = DocumentReference.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.masterIdentifier(parseIdentifier("masterIdentifier", getJsonValue(jsonObject, "masterIdentifier", JsonObject.class), -1));
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
@@ -7087,10 +7274,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DocumentReference.Content.class, jsonObject);
         }
         DocumentReference.Content.Builder builder = DocumentReference.Content.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.attachment(parseAttachment("attachment", getJsonValue(jsonObject, "attachment", JsonObject.class), -1));
         builder.format(parseCoding("format", getJsonValue(jsonObject, "format", JsonObject.class), -1));
@@ -7103,10 +7291,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DocumentReference.Context.class, jsonObject);
         }
         DocumentReference.Context.Builder builder = DocumentReference.Context.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray encounterArray = getJsonArray(jsonObject, "encounter");
         if (encounterArray != null) {
@@ -7139,10 +7328,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(DocumentReference.RelatesTo.class, jsonObject);
         }
         DocumentReference.RelatesTo.Builder builder = DocumentReference.RelatesTo.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code((DocumentRelationshipType) parseString(DocumentRelationshipType.builder(), "code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.target(parseReference("target", getJsonValue(jsonObject, "target", JsonObject.class), -1));
@@ -7151,6 +7341,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
     }
 
     private void parseDomainResource(DomainResource.Builder builder, JsonObject jsonObject) {
+        builder.setValidating(validating);
         parseResource(builder, jsonObject);
         builder.text(parseNarrative("text", getJsonValue(jsonObject, "text", JsonObject.class), -1));
         JsonArray containedArray = getJsonArray(jsonObject, "contained");
@@ -7178,10 +7369,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Dosage.class, jsonObject);
         }
         Dosage.Builder builder = Dosage.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.sequence(parseInteger("sequence", getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         builder.text(parseString("text", getJsonValue(jsonObject, "text", JsonString.class), jsonObject.get("_text"), -1));
@@ -7215,10 +7407,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Dosage.DoseAndRate.class, jsonObject);
         }
         Dosage.DoseAndRate.Builder builder = Dosage.DoseAndRate.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.dose(parseChoiceElement("dose", jsonObject, Range.class, SimpleQuantity.class));
@@ -7232,10 +7425,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EffectEvidenceSynthesis.class, jsonObject);
         }
         EffectEvidenceSynthesis.Builder builder = EffectEvidenceSynthesis.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
@@ -7349,10 +7543,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EffectEvidenceSynthesis.Certainty.class, jsonObject);
         }
         EffectEvidenceSynthesis.Certainty.Builder builder = EffectEvidenceSynthesis.Certainty.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray ratingArray = getJsonArray(jsonObject, "rating");
         if (ratingArray != null) {
@@ -7381,10 +7576,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EffectEvidenceSynthesis.Certainty.CertaintySubcomponent.class, jsonObject);
         }
         EffectEvidenceSynthesis.Certainty.CertaintySubcomponent.Builder builder = EffectEvidenceSynthesis.Certainty.CertaintySubcomponent.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray ratingArray = getJsonArray(jsonObject, "rating");
@@ -7408,10 +7604,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EffectEvidenceSynthesis.EffectEstimate.class, jsonObject);
         }
         EffectEvidenceSynthesis.EffectEstimate.Builder builder = EffectEvidenceSynthesis.EffectEstimate.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
@@ -7433,10 +7630,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EffectEvidenceSynthesis.EffectEstimate.PrecisionEstimate.class, jsonObject);
         }
         EffectEvidenceSynthesis.EffectEstimate.PrecisionEstimate.Builder builder = EffectEvidenceSynthesis.EffectEstimate.PrecisionEstimate.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.level(parseDecimal("level", getJsonValue(jsonObject, "level", JsonNumber.class), jsonObject.get("_level"), -1));
@@ -7451,10 +7649,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EffectEvidenceSynthesis.ResultsByExposure.class, jsonObject);
         }
         EffectEvidenceSynthesis.ResultsByExposure.Builder builder = EffectEvidenceSynthesis.ResultsByExposure.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.exposureState((ExposureState) parseString(ExposureState.builder(), "exposureState", getJsonValue(jsonObject, "exposureState", JsonString.class), jsonObject.get("_exposureState"), -1));
@@ -7469,10 +7668,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EffectEvidenceSynthesis.SampleSize.class, jsonObject);
         }
         EffectEvidenceSynthesis.SampleSize.Builder builder = EffectEvidenceSynthesis.SampleSize.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.numberOfStudies(parseInteger("numberOfStudies", getJsonValue(jsonObject, "numberOfStudies", JsonNumber.class), jsonObject.get("_numberOfStudies"), -1));
@@ -7482,6 +7682,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
     }
 
     private void parseElement(Element.Builder builder, JsonObject jsonObject) {
+        builder.setValidating(validating);
         builder.id(parseJavaString("id", getJsonValue(jsonObject, "id", JsonString.class), -1));
         JsonArray extensionArray = getJsonArray(jsonObject, "extension");
         if (extensionArray != null) {
@@ -7496,10 +7697,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ElementDefinition.class, jsonObject);
         }
         ElementDefinition.Builder builder = ElementDefinition.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.path(parseString("path", getJsonValue(jsonObject, "path", JsonString.class), jsonObject.get("_path"), -1));
         JsonArray representationArray = getJsonArray(jsonObject, "representation", true);
@@ -7587,10 +7789,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ElementDefinition.Base.class, jsonObject);
         }
         ElementDefinition.Base.Builder builder = ElementDefinition.Base.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.path(parseString("path", getJsonValue(jsonObject, "path", JsonString.class), jsonObject.get("_path"), -1));
         builder.min((UnsignedInt) parseInteger(UnsignedInt.builder(), "min", getJsonValue(jsonObject, "min", JsonNumber.class), jsonObject.get("_min"), -1));
@@ -7604,10 +7807,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ElementDefinition.Binding.class, jsonObject);
         }
         ElementDefinition.Binding.Builder builder = ElementDefinition.Binding.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.strength((BindingStrength) parseString(BindingStrength.builder(), "strength", getJsonValue(jsonObject, "strength", JsonString.class), jsonObject.get("_strength"), -1));
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
@@ -7621,10 +7825,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ElementDefinition.Constraint.class, jsonObject);
         }
         ElementDefinition.Constraint.Builder builder = ElementDefinition.Constraint.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.key((Id) parseString(Id.builder(), "key", getJsonValue(jsonObject, "key", JsonString.class), jsonObject.get("_key"), -1));
         builder.requirements(parseString("requirements", getJsonValue(jsonObject, "requirements", JsonString.class), jsonObject.get("_requirements"), -1));
@@ -7642,10 +7847,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ElementDefinition.Example.class, jsonObject);
         }
         ElementDefinition.Example.Builder builder = ElementDefinition.Example.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.label(parseString("label", getJsonValue(jsonObject, "label", JsonString.class), jsonObject.get("_label"), -1));
         builder.value(parseChoiceElement("value", jsonObject, Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class));
@@ -7658,10 +7864,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ElementDefinition.Mapping.class, jsonObject);
         }
         ElementDefinition.Mapping.Builder builder = ElementDefinition.Mapping.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.identity((Id) parseString(Id.builder(), "identity", getJsonValue(jsonObject, "identity", JsonString.class), jsonObject.get("_identity"), -1));
         builder.language((Code) parseString(Code.builder(), "language", getJsonValue(jsonObject, "language", JsonString.class), jsonObject.get("_language"), -1));
@@ -7676,10 +7883,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ElementDefinition.Slicing.class, jsonObject);
         }
         ElementDefinition.Slicing.Builder builder = ElementDefinition.Slicing.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray discriminatorArray = getJsonArray(jsonObject, "discriminator");
         if (discriminatorArray != null) {
@@ -7699,10 +7907,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ElementDefinition.Slicing.Discriminator.class, jsonObject);
         }
         ElementDefinition.Slicing.Discriminator.Builder builder = ElementDefinition.Slicing.Discriminator.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type((DiscriminatorType) parseString(DiscriminatorType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.path(parseString("path", getJsonValue(jsonObject, "path", JsonString.class), jsonObject.get("_path"), -1));
@@ -7715,10 +7924,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ElementDefinition.Type.class, jsonObject);
         }
         ElementDefinition.Type.Builder builder = ElementDefinition.Type.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseUri("code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         JsonArray profileArray = getJsonArray(jsonObject, "profile", true);
@@ -7752,10 +7962,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Encounter.class, jsonObject);
         }
         Encounter.Builder builder = Encounter.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -7854,10 +8065,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Encounter.ClassHistory.class, jsonObject);
         }
         Encounter.ClassHistory.Builder builder = Encounter.ClassHistory.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.clazz(parseCoding("class", getJsonValue(jsonObject, "class", JsonObject.class), -1));
         builder.period(parsePeriod("period", getJsonValue(jsonObject, "period", JsonObject.class), -1));
@@ -7870,10 +8082,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Encounter.Diagnosis.class, jsonObject);
         }
         Encounter.Diagnosis.Builder builder = Encounter.Diagnosis.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.condition(parseReference("condition", getJsonValue(jsonObject, "condition", JsonObject.class), -1));
         builder.use(parseCodeableConcept("use", getJsonValue(jsonObject, "use", JsonObject.class), -1));
@@ -7887,10 +8100,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Encounter.Hospitalization.class, jsonObject);
         }
         Encounter.Hospitalization.Builder builder = Encounter.Hospitalization.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.preAdmissionIdentifier(parseIdentifier("preAdmissionIdentifier", getJsonValue(jsonObject, "preAdmissionIdentifier", JsonObject.class), -1));
         builder.origin(parseReference("origin", getJsonValue(jsonObject, "origin", JsonObject.class), -1));
@@ -7925,10 +8139,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Encounter.Location.class, jsonObject);
         }
         Encounter.Location.Builder builder = Encounter.Location.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.location(parseReference("location", getJsonValue(jsonObject, "location", JsonObject.class), -1));
         builder.status((EncounterLocationStatus) parseString(EncounterLocationStatus.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
@@ -7943,10 +8158,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Encounter.Participant.class, jsonObject);
         }
         Encounter.Participant.Builder builder = Encounter.Participant.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray typeArray = getJsonArray(jsonObject, "type");
         if (typeArray != null) {
@@ -7965,10 +8181,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Encounter.StatusHistory.class, jsonObject);
         }
         Encounter.StatusHistory.Builder builder = Encounter.StatusHistory.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.status((EncounterStatus) parseString(EncounterStatus.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.period(parsePeriod("period", getJsonValue(jsonObject, "period", JsonObject.class), -1));
@@ -7981,10 +8198,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Endpoint.class, jsonObject);
         }
         Endpoint.Builder builder = Endpoint.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -8033,10 +8251,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EnrollmentRequest.class, jsonObject);
         }
         EnrollmentRequest.Builder builder = EnrollmentRequest.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -8059,10 +8278,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EnrollmentResponse.class, jsonObject);
         }
         EnrollmentResponse.Builder builder = EnrollmentResponse.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -8086,10 +8306,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EpisodeOfCare.class, jsonObject);
         }
         EpisodeOfCare.Builder builder = EpisodeOfCare.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -8147,10 +8368,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EpisodeOfCare.Diagnosis.class, jsonObject);
         }
         EpisodeOfCare.Diagnosis.Builder builder = EpisodeOfCare.Diagnosis.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.condition(parseReference("condition", getJsonValue(jsonObject, "condition", JsonObject.class), -1));
         builder.role(parseCodeableConcept("role", getJsonValue(jsonObject, "role", JsonObject.class), -1));
@@ -8164,10 +8386,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EpisodeOfCare.StatusHistory.class, jsonObject);
         }
         EpisodeOfCare.StatusHistory.Builder builder = EpisodeOfCare.StatusHistory.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.status((EpisodeOfCareStatus) parseString(EpisodeOfCareStatus.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.period(parsePeriod("period", getJsonValue(jsonObject, "period", JsonObject.class), -1));
@@ -8180,10 +8403,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EventDefinition.class, jsonObject);
         }
         EventDefinition.Builder builder = EventDefinition.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
@@ -8277,10 +8501,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Evidence.class, jsonObject);
         }
         Evidence.Builder builder = Evidence.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
@@ -8384,10 +8609,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EvidenceVariable.class, jsonObject);
         }
         EvidenceVariable.Builder builder = EvidenceVariable.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
@@ -8485,10 +8711,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(EvidenceVariable.Characteristic.class, jsonObject);
         }
         EvidenceVariable.Characteristic.Builder builder = EvidenceVariable.Characteristic.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.definition(parseChoiceElement("definition", jsonObject, Reference.class, Canonical.class, CodeableConcept.class, Expression.class, DataRequirement.class, TriggerDefinition.class));
@@ -8511,10 +8738,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExampleScenario.class, jsonObject);
         }
         ExampleScenario.Builder builder = ExampleScenario.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
@@ -8583,10 +8811,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExampleScenario.Actor.class, jsonObject);
         }
         ExampleScenario.Actor.Builder builder = ExampleScenario.Actor.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.actorId(parseString("actorId", getJsonValue(jsonObject, "actorId", JsonString.class), jsonObject.get("_actorId"), -1));
         builder.type((ExampleScenarioActorType) parseString(ExampleScenarioActorType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
@@ -8601,10 +8830,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExampleScenario.Instance.class, jsonObject);
         }
         ExampleScenario.Instance.Builder builder = ExampleScenario.Instance.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.resourceId(parseString("resourceId", getJsonValue(jsonObject, "resourceId", JsonString.class), jsonObject.get("_resourceId"), -1));
         builder.resourceType((FHIRResourceType) parseString(FHIRResourceType.builder(), "resourceType", getJsonValue(jsonObject, "resourceType", JsonString.class), jsonObject.get("_resourceType"), -1));
@@ -8631,10 +8861,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExampleScenario.Instance.ContainedInstance.class, jsonObject);
         }
         ExampleScenario.Instance.ContainedInstance.Builder builder = ExampleScenario.Instance.ContainedInstance.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.resourceId(parseString("resourceId", getJsonValue(jsonObject, "resourceId", JsonString.class), jsonObject.get("_resourceId"), -1));
         builder.versionId(parseString("versionId", getJsonValue(jsonObject, "versionId", JsonString.class), jsonObject.get("_versionId"), -1));
@@ -8647,10 +8878,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExampleScenario.Instance.Version.class, jsonObject);
         }
         ExampleScenario.Instance.Version.Builder builder = ExampleScenario.Instance.Version.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.versionId(parseString("versionId", getJsonValue(jsonObject, "versionId", JsonString.class), jsonObject.get("_versionId"), -1));
         builder.description((Markdown) parseString(Markdown.builder(), "description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
@@ -8663,10 +8895,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExampleScenario.Process.class, jsonObject);
         }
         ExampleScenario.Process.Builder builder = ExampleScenario.Process.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.title(parseString("title", getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
         builder.description((Markdown) parseString(Markdown.builder(), "description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
@@ -8687,10 +8920,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExampleScenario.Process.Step.class, jsonObject);
         }
         ExampleScenario.Process.Step.Builder builder = ExampleScenario.Process.Step.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray processArray = getJsonArray(jsonObject, "process");
         if (processArray != null) {
@@ -8715,10 +8949,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExampleScenario.Process.Step.Alternative.class, jsonObject);
         }
         ExampleScenario.Process.Step.Alternative.Builder builder = ExampleScenario.Process.Step.Alternative.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.title(parseString("title", getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
         builder.description((Markdown) parseString(Markdown.builder(), "description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
@@ -8737,10 +8972,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExampleScenario.Process.Step.Operation.class, jsonObject);
         }
         ExampleScenario.Process.Step.Operation.Builder builder = ExampleScenario.Process.Step.Operation.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.number(parseString("number", getJsonValue(jsonObject, "number", JsonString.class), jsonObject.get("_number"), -1));
         builder.type(parseString("type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
@@ -8761,10 +8997,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.class, jsonObject);
         }
         ExplanationOfBenefit.Builder builder = ExplanationOfBenefit.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -8894,10 +9131,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.Accident.class, jsonObject);
         }
         ExplanationOfBenefit.Accident.Builder builder = ExplanationOfBenefit.Accident.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.date(parseDate("date", getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
@@ -8911,10 +9149,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.AddItem.class, jsonObject);
         }
         ExplanationOfBenefit.AddItem.Builder builder = ExplanationOfBenefit.AddItem.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray itemSequenceArray = getJsonArray(jsonObject, "itemSequence", true);
         if (itemSequenceArray != null) {
@@ -8997,10 +9236,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.AddItem.Detail.class, jsonObject);
         }
         ExplanationOfBenefit.AddItem.Detail.Builder builder = ExplanationOfBenefit.AddItem.Detail.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.productOrService(parseCodeableConcept("productOrService", getJsonValue(jsonObject, "productOrService", JsonObject.class), -1));
         JsonArray modifierArray = getJsonArray(jsonObject, "modifier");
@@ -9041,10 +9281,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.AddItem.Detail.SubDetail.class, jsonObject);
         }
         ExplanationOfBenefit.AddItem.Detail.SubDetail.Builder builder = ExplanationOfBenefit.AddItem.Detail.SubDetail.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.productOrService(parseCodeableConcept("productOrService", getJsonValue(jsonObject, "productOrService", JsonObject.class), -1));
         JsonArray modifierArray = getJsonArray(jsonObject, "modifier");
@@ -9079,10 +9320,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.BenefitBalance.class, jsonObject);
         }
         ExplanationOfBenefit.BenefitBalance.Builder builder = ExplanationOfBenefit.BenefitBalance.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.category(parseCodeableConcept("category", getJsonValue(jsonObject, "category", JsonObject.class), -1));
         builder.excluded(parseBoolean("excluded", getJsonValue(jsonObject, "excluded", JsonValue.class), jsonObject.get("_excluded"), -1));
@@ -9106,10 +9348,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.BenefitBalance.Financial.class, jsonObject);
         }
         ExplanationOfBenefit.BenefitBalance.Financial.Builder builder = ExplanationOfBenefit.BenefitBalance.Financial.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.allowed(parseChoiceElement("allowed", jsonObject, UnsignedInt.class, String.class, Money.class));
@@ -9123,10 +9366,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.CareTeam.class, jsonObject);
         }
         ExplanationOfBenefit.CareTeam.Builder builder = ExplanationOfBenefit.CareTeam.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         builder.provider(parseReference("provider", getJsonValue(jsonObject, "provider", JsonObject.class), -1));
@@ -9142,10 +9386,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.Diagnosis.class, jsonObject);
         }
         ExplanationOfBenefit.Diagnosis.Builder builder = ExplanationOfBenefit.Diagnosis.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         builder.diagnosis(parseChoiceElement("diagnosis", jsonObject, CodeableConcept.class, Reference.class));
@@ -9166,10 +9411,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.Insurance.class, jsonObject);
         }
         ExplanationOfBenefit.Insurance.Builder builder = ExplanationOfBenefit.Insurance.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.focal(parseBoolean("focal", getJsonValue(jsonObject, "focal", JsonValue.class), jsonObject.get("_focal"), -1));
         builder.coverage(parseReference("coverage", getJsonValue(jsonObject, "coverage", JsonObject.class), -1));
@@ -9189,10 +9435,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.Item.class, jsonObject);
         }
         ExplanationOfBenefit.Item.Builder builder = ExplanationOfBenefit.Item.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         JsonArray careTeamSequenceArray = getJsonArray(jsonObject, "careTeamSequence", true);
@@ -9291,10 +9538,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.Item.Adjudication.class, jsonObject);
         }
         ExplanationOfBenefit.Item.Adjudication.Builder builder = ExplanationOfBenefit.Item.Adjudication.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.category(parseCodeableConcept("category", getJsonValue(jsonObject, "category", JsonObject.class), -1));
         builder.reason(parseCodeableConcept("reason", getJsonValue(jsonObject, "reason", JsonObject.class), -1));
@@ -9309,10 +9557,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.Item.Detail.class, jsonObject);
         }
         ExplanationOfBenefit.Item.Detail.Builder builder = ExplanationOfBenefit.Item.Detail.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         builder.revenue(parseCodeableConcept("revenue", getJsonValue(jsonObject, "revenue", JsonObject.class), -1));
@@ -9368,10 +9617,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.Item.Detail.SubDetail.class, jsonObject);
         }
         ExplanationOfBenefit.Item.Detail.SubDetail.Builder builder = ExplanationOfBenefit.Item.Detail.SubDetail.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         builder.revenue(parseCodeableConcept("revenue", getJsonValue(jsonObject, "revenue", JsonObject.class), -1));
@@ -9421,10 +9671,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.Payee.class, jsonObject);
         }
         ExplanationOfBenefit.Payee.Builder builder = ExplanationOfBenefit.Payee.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.party(parseReference("party", getJsonValue(jsonObject, "party", JsonObject.class), -1));
@@ -9437,10 +9688,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.Payment.class, jsonObject);
         }
         ExplanationOfBenefit.Payment.Builder builder = ExplanationOfBenefit.Payment.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.adjustment(parseMoney("adjustment", getJsonValue(jsonObject, "adjustment", JsonObject.class), -1));
@@ -9457,10 +9709,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.Procedure.class, jsonObject);
         }
         ExplanationOfBenefit.Procedure.Builder builder = ExplanationOfBenefit.Procedure.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         JsonArray typeArray = getJsonArray(jsonObject, "type");
@@ -9486,10 +9739,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.ProcessNote.class, jsonObject);
         }
         ExplanationOfBenefit.ProcessNote.Builder builder = ExplanationOfBenefit.ProcessNote.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.number((PositiveInt) parseInteger(PositiveInt.builder(), "number", getJsonValue(jsonObject, "number", JsonNumber.class), jsonObject.get("_number"), -1));
         builder.type((NoteType) parseString(NoteType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
@@ -9504,10 +9758,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.Related.class, jsonObject);
         }
         ExplanationOfBenefit.Related.Builder builder = ExplanationOfBenefit.Related.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.claim(parseReference("claim", getJsonValue(jsonObject, "claim", JsonObject.class), -1));
         builder.relationship(parseCodeableConcept("relationship", getJsonValue(jsonObject, "relationship", JsonObject.class), -1));
@@ -9521,10 +9776,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.SupportingInfo.class, jsonObject);
         }
         ExplanationOfBenefit.SupportingInfo.Builder builder = ExplanationOfBenefit.SupportingInfo.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         builder.category(parseCodeableConcept("category", getJsonValue(jsonObject, "category", JsonObject.class), -1));
@@ -9541,10 +9797,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ExplanationOfBenefit.Total.class, jsonObject);
         }
         ExplanationOfBenefit.Total.Builder builder = ExplanationOfBenefit.Total.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.category(parseCodeableConcept("category", getJsonValue(jsonObject, "category", JsonObject.class), -1));
         builder.amount(parseMoney("amount", getJsonValue(jsonObject, "amount", JsonObject.class), -1));
@@ -9557,10 +9814,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Expression.class, jsonObject);
         }
         Expression.Builder builder = Expression.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.name((Id) parseString(Id.builder(), "name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
@@ -9576,10 +9834,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Extension.class, jsonObject);
         }
         Extension.Builder builder = Extension.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.url(parseJavaString("url", getJsonValue(jsonObject, "url", JsonString.class), -1));
         builder.value(parseChoiceElement("value", jsonObject, Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class));
@@ -9592,10 +9851,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(FamilyMemberHistory.class, jsonObject);
         }
         FamilyMemberHistory.Builder builder = FamilyMemberHistory.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -9661,10 +9921,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(FamilyMemberHistory.Condition.class, jsonObject);
         }
         FamilyMemberHistory.Condition.Builder builder = FamilyMemberHistory.Condition.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.outcome(parseCodeableConcept("outcome", getJsonValue(jsonObject, "outcome", JsonObject.class), -1));
@@ -9685,10 +9946,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Flag.class, jsonObject);
         }
         Flag.Builder builder = Flag.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -9717,10 +9979,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Goal.class, jsonObject);
         }
         Goal.Builder builder = Goal.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -9782,10 +10045,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Goal.Target.class, jsonObject);
         }
         Goal.Target.Builder builder = Goal.Target.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.measure(parseCodeableConcept("measure", getJsonValue(jsonObject, "measure", JsonObject.class), -1));
         builder.detail(parseChoiceElement("detail", jsonObject, Quantity.class, Range.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Ratio.class));
@@ -9799,10 +10063,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(GraphDefinition.class, jsonObject);
         }
         GraphDefinition.Builder builder = GraphDefinition.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         builder.version(parseString("version", getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
@@ -9848,10 +10113,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(GraphDefinition.Link.class, jsonObject);
         }
         GraphDefinition.Link.Builder builder = GraphDefinition.Link.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.path(parseString("path", getJsonValue(jsonObject, "path", JsonString.class), jsonObject.get("_path"), -1));
         builder.sliceName(parseString("sliceName", getJsonValue(jsonObject, "sliceName", JsonString.class), jsonObject.get("_sliceName"), -1));
@@ -9873,10 +10139,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(GraphDefinition.Link.Target.class, jsonObject);
         }
         GraphDefinition.Link.Target.Builder builder = GraphDefinition.Link.Target.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type((ResourceType) parseString(ResourceType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.params(parseString("params", getJsonValue(jsonObject, "params", JsonString.class), jsonObject.get("_params"), -1));
@@ -9902,10 +10169,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(GraphDefinition.Link.Target.Compartment.class, jsonObject);
         }
         GraphDefinition.Link.Target.Compartment.Builder builder = GraphDefinition.Link.Target.Compartment.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.use((GraphCompartmentUse) parseString(GraphCompartmentUse.builder(), "use", getJsonValue(jsonObject, "use", JsonString.class), jsonObject.get("_use"), -1));
         builder.code((CompartmentCode) parseString(CompartmentCode.builder(), "code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
@@ -9921,10 +10189,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Group.class, jsonObject);
         }
         Group.Builder builder = Group.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -9960,10 +10229,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Group.Characteristic.class, jsonObject);
         }
         Group.Characteristic.Builder builder = Group.Characteristic.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.value(parseChoiceElement("value", jsonObject, CodeableConcept.class, Boolean.class, Quantity.class, Range.class, Reference.class));
@@ -9978,10 +10248,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Group.Member.class, jsonObject);
         }
         Group.Member.Builder builder = Group.Member.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.entity(parseReference("entity", getJsonValue(jsonObject, "entity", JsonObject.class), -1));
         builder.period(parsePeriod("period", getJsonValue(jsonObject, "period", JsonObject.class), -1));
@@ -9995,10 +10266,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(GuidanceResponse.class, jsonObject);
         }
         GuidanceResponse.Builder builder = GuidanceResponse.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.requestIdentifier(parseIdentifier("requestIdentifier", getJsonValue(jsonObject, "requestIdentifier", JsonObject.class), -1));
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
@@ -10054,10 +10326,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(HealthcareService.class, jsonObject);
         }
         HealthcareService.Builder builder = HealthcareService.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -10172,10 +10445,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(HealthcareService.AvailableTime.class, jsonObject);
         }
         HealthcareService.AvailableTime.Builder builder = HealthcareService.AvailableTime.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray daysOfWeekArray = getJsonArray(jsonObject, "daysOfWeek", true);
         if (daysOfWeekArray != null) {
@@ -10196,10 +10470,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(HealthcareService.Eligibility.class, jsonObject);
         }
         HealthcareService.Eligibility.Builder builder = HealthcareService.Eligibility.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.comment((Markdown) parseString(Markdown.builder(), "comment", getJsonValue(jsonObject, "comment", JsonString.class), jsonObject.get("_comment"), -1));
@@ -10212,10 +10487,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(HealthcareService.NotAvailable.class, jsonObject);
         }
         HealthcareService.NotAvailable.Builder builder = HealthcareService.NotAvailable.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.during(parsePeriod("during", getJsonValue(jsonObject, "during", JsonObject.class), -1));
@@ -10228,10 +10504,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(HumanName.class, jsonObject);
         }
         HumanName.Builder builder = HumanName.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.use((NameUse) parseString(NameUse.builder(), "use", getJsonValue(jsonObject, "use", JsonString.class), jsonObject.get("_use"), -1));
         builder.text(parseString("text", getJsonValue(jsonObject, "text", JsonString.class), jsonObject.get("_text"), -1));
@@ -10267,10 +10544,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Identifier.class, jsonObject);
         }
         Identifier.Builder builder = Identifier.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.use((IdentifierUse) parseString(IdentifierUse.builder(), "use", getJsonValue(jsonObject, "use", JsonString.class), jsonObject.get("_use"), -1));
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
@@ -10287,10 +10565,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImagingStudy.class, jsonObject);
         }
         ImagingStudy.Builder builder = ImagingStudy.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -10371,10 +10650,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImagingStudy.Series.class, jsonObject);
         }
         ImagingStudy.Series.Builder builder = ImagingStudy.Series.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.uid((Id) parseString(Id.builder(), "uid", getJsonValue(jsonObject, "uid", JsonString.class), jsonObject.get("_uid"), -1));
         builder.number((UnsignedInt) parseInteger(UnsignedInt.builder(), "number", getJsonValue(jsonObject, "number", JsonNumber.class), jsonObject.get("_number"), -1));
@@ -10417,10 +10697,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImagingStudy.Series.Instance.class, jsonObject);
         }
         ImagingStudy.Series.Instance.Builder builder = ImagingStudy.Series.Instance.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.uid((Id) parseString(Id.builder(), "uid", getJsonValue(jsonObject, "uid", JsonString.class), jsonObject.get("_uid"), -1));
         builder.sopClass(parseCoding("sopClass", getJsonValue(jsonObject, "sopClass", JsonObject.class), -1));
@@ -10435,10 +10716,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImagingStudy.Series.Performer.class, jsonObject);
         }
         ImagingStudy.Series.Performer.Builder builder = ImagingStudy.Series.Performer.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.function(parseCodeableConcept("function", getJsonValue(jsonObject, "function", JsonObject.class), -1));
         builder.actor(parseReference("actor", getJsonValue(jsonObject, "actor", JsonObject.class), -1));
@@ -10451,10 +10733,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Immunization.class, jsonObject);
         }
         Immunization.Builder builder = Immunization.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -10543,10 +10826,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Immunization.Education.class, jsonObject);
         }
         Immunization.Education.Builder builder = Immunization.Education.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.documentType(parseString("documentType", getJsonValue(jsonObject, "documentType", JsonString.class), jsonObject.get("_documentType"), -1));
         builder.reference(parseUri("reference", getJsonValue(jsonObject, "reference", JsonString.class), jsonObject.get("_reference"), -1));
@@ -10561,10 +10845,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Immunization.Performer.class, jsonObject);
         }
         Immunization.Performer.Builder builder = Immunization.Performer.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.function(parseCodeableConcept("function", getJsonValue(jsonObject, "function", JsonObject.class), -1));
         builder.actor(parseReference("actor", getJsonValue(jsonObject, "actor", JsonObject.class), -1));
@@ -10577,10 +10862,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Immunization.ProtocolApplied.class, jsonObject);
         }
         Immunization.ProtocolApplied.Builder builder = Immunization.ProtocolApplied.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.series(parseString("series", getJsonValue(jsonObject, "series", JsonString.class), jsonObject.get("_series"), -1));
         builder.authority(parseReference("authority", getJsonValue(jsonObject, "authority", JsonObject.class), -1));
@@ -10601,10 +10887,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Immunization.Reaction.class, jsonObject);
         }
         Immunization.Reaction.Builder builder = Immunization.Reaction.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.date(parseDateTime("date", getJsonValue(jsonObject, "date", JsonString.class), jsonObject.get("_date"), -1));
         builder.detail(parseReference("detail", getJsonValue(jsonObject, "detail", JsonObject.class), -1));
@@ -10618,10 +10905,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImmunizationEvaluation.class, jsonObject);
         }
         ImmunizationEvaluation.Builder builder = ImmunizationEvaluation.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -10655,10 +10943,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImmunizationRecommendation.class, jsonObject);
         }
         ImmunizationRecommendation.Builder builder = ImmunizationRecommendation.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -10684,10 +10973,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImmunizationRecommendation.Recommendation.class, jsonObject);
         }
         ImmunizationRecommendation.Recommendation.Builder builder = ImmunizationRecommendation.Recommendation.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray vaccineCodeArray = getJsonArray(jsonObject, "vaccineCode");
         if (vaccineCodeArray != null) {
@@ -10740,10 +11030,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImmunizationRecommendation.Recommendation.DateCriterion.class, jsonObject);
         }
         ImmunizationRecommendation.Recommendation.DateCriterion.Builder builder = ImmunizationRecommendation.Recommendation.DateCriterion.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.value(parseDateTime("value", getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1));
@@ -10756,10 +11047,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImplementationGuide.class, jsonObject);
         }
         ImplementationGuide.Builder builder = ImplementationGuide.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         builder.version(parseString("version", getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
@@ -10821,10 +11113,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImplementationGuide.Definition.class, jsonObject);
         }
         ImplementationGuide.Definition.Builder builder = ImplementationGuide.Definition.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray groupingArray = getJsonArray(jsonObject, "grouping");
         if (groupingArray != null) {
@@ -10860,10 +11153,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImplementationGuide.Definition.Grouping.class, jsonObject);
         }
         ImplementationGuide.Definition.Grouping.Builder builder = ImplementationGuide.Definition.Grouping.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
@@ -10876,10 +11170,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImplementationGuide.Definition.Page.class, jsonObject);
         }
         ImplementationGuide.Definition.Page.Builder builder = ImplementationGuide.Definition.Page.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name(parseChoiceElement("name", jsonObject, Url.class, Reference.class));
         builder.title(parseString("title", getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
@@ -10899,10 +11194,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImplementationGuide.Definition.Parameter.class, jsonObject);
         }
         ImplementationGuide.Definition.Parameter.Builder builder = ImplementationGuide.Definition.Parameter.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code((GuideParameterCode) parseString(GuideParameterCode.builder(), "code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.value(parseString("value", getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1));
@@ -10915,10 +11211,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImplementationGuide.Definition.Resource.class, jsonObject);
         }
         ImplementationGuide.Definition.Resource.Builder builder = ImplementationGuide.Definition.Resource.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.reference(parseReference("reference", getJsonValue(jsonObject, "reference", JsonObject.class), -1));
         JsonArray fhirVersionArray = getJsonArray(jsonObject, "fhirVersion", true);
@@ -10941,10 +11238,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImplementationGuide.Definition.Template.class, jsonObject);
         }
         ImplementationGuide.Definition.Template.Builder builder = ImplementationGuide.Definition.Template.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code((Code) parseString(Code.builder(), "code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.source(parseString("source", getJsonValue(jsonObject, "source", JsonString.class), jsonObject.get("_source"), -1));
@@ -10958,10 +11256,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImplementationGuide.DependsOn.class, jsonObject);
         }
         ImplementationGuide.DependsOn.Builder builder = ImplementationGuide.DependsOn.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.uri((Canonical) parseUri(Canonical.builder(), "uri", getJsonValue(jsonObject, "uri", JsonString.class), jsonObject.get("_uri"), -1));
         builder.packageId((Id) parseString(Id.builder(), "packageId", getJsonValue(jsonObject, "packageId", JsonString.class), jsonObject.get("_packageId"), -1));
@@ -10975,10 +11274,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImplementationGuide.Global.class, jsonObject);
         }
         ImplementationGuide.Global.Builder builder = ImplementationGuide.Global.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type((ResourceType) parseString(ResourceType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.profile((Canonical) parseUri(Canonical.builder(), "profile", getJsonValue(jsonObject, "profile", JsonString.class), jsonObject.get("_profile"), -1));
@@ -10991,10 +11291,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImplementationGuide.Manifest.class, jsonObject);
         }
         ImplementationGuide.Manifest.Builder builder = ImplementationGuide.Manifest.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.rendering((Url) parseUri(Url.builder(), "rendering", getJsonValue(jsonObject, "rendering", JsonString.class), jsonObject.get("_rendering"), -1));
         JsonArray resourceArray = getJsonArray(jsonObject, "resource");
@@ -11032,10 +11333,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImplementationGuide.Manifest.Page.class, jsonObject);
         }
         ImplementationGuide.Manifest.Page.Builder builder = ImplementationGuide.Manifest.Page.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.title(parseString("title", getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
@@ -11055,10 +11357,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ImplementationGuide.Manifest.Resource.class, jsonObject);
         }
         ImplementationGuide.Manifest.Resource.Builder builder = ImplementationGuide.Manifest.Resource.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.reference(parseReference("reference", getJsonValue(jsonObject, "reference", JsonObject.class), -1));
         builder.example(parseChoiceElement("example", jsonObject, Boolean.class, Canonical.class));
@@ -11073,9 +11376,10 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         }
         stackPush(elementName, elementIndex);
         Instant.Builder builder = Instant.builder();
+        builder.setValidating(validating);
         if (_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT) {
             JsonObject jsonObject = (JsonObject) _jsonValue;
-            if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+            if (!ignoringUnrecognizedElements) {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
@@ -11097,10 +11401,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(InsurancePlan.class, jsonObject);
         }
         InsurancePlan.Builder builder = InsurancePlan.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -11171,10 +11476,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(InsurancePlan.Contact.class, jsonObject);
         }
         InsurancePlan.Contact.Builder builder = InsurancePlan.Contact.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.purpose(parseCodeableConcept("purpose", getJsonValue(jsonObject, "purpose", JsonObject.class), -1));
         builder.name(parseHumanName("name", getJsonValue(jsonObject, "name", JsonObject.class), -1));
@@ -11194,10 +11500,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(InsurancePlan.Coverage.class, jsonObject);
         }
         InsurancePlan.Coverage.Builder builder = InsurancePlan.Coverage.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray networkArray = getJsonArray(jsonObject, "network");
@@ -11221,10 +11528,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(InsurancePlan.Coverage.Benefit.class, jsonObject);
         }
         InsurancePlan.Coverage.Benefit.Builder builder = InsurancePlan.Coverage.Benefit.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.requirement(parseString("requirement", getJsonValue(jsonObject, "requirement", JsonString.class), jsonObject.get("_requirement"), -1));
@@ -11243,10 +11551,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(InsurancePlan.Coverage.Benefit.Limit.class, jsonObject);
         }
         InsurancePlan.Coverage.Benefit.Limit.Builder builder = InsurancePlan.Coverage.Benefit.Limit.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.value(parseQuantity("value", getJsonValue(jsonObject, "value", JsonObject.class), -1));
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
@@ -11259,10 +11568,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(InsurancePlan.Plan.class, jsonObject);
         }
         InsurancePlan.Plan.Builder builder = InsurancePlan.Plan.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -11304,10 +11614,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(InsurancePlan.Plan.GeneralCost.class, jsonObject);
         }
         InsurancePlan.Plan.GeneralCost.Builder builder = InsurancePlan.Plan.GeneralCost.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.groupSize((PositiveInt) parseInteger(PositiveInt.builder(), "groupSize", getJsonValue(jsonObject, "groupSize", JsonNumber.class), jsonObject.get("_groupSize"), -1));
@@ -11322,10 +11633,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(InsurancePlan.Plan.SpecificCost.class, jsonObject);
         }
         InsurancePlan.Plan.SpecificCost.Builder builder = InsurancePlan.Plan.SpecificCost.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.category(parseCodeableConcept("category", getJsonValue(jsonObject, "category", JsonObject.class), -1));
         JsonArray benefitArray = getJsonArray(jsonObject, "benefit");
@@ -11343,10 +11655,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(InsurancePlan.Plan.SpecificCost.Benefit.class, jsonObject);
         }
         InsurancePlan.Plan.SpecificCost.Benefit.Builder builder = InsurancePlan.Plan.SpecificCost.Benefit.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray costArray = getJsonArray(jsonObject, "cost");
@@ -11364,10 +11677,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(InsurancePlan.Plan.SpecificCost.Benefit.Cost.class, jsonObject);
         }
         InsurancePlan.Plan.SpecificCost.Benefit.Cost.Builder builder = InsurancePlan.Plan.SpecificCost.Benefit.Cost.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.applicability(parseCodeableConcept("applicability", getJsonValue(jsonObject, "applicability", JsonObject.class), -1));
@@ -11387,9 +11701,10 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
+        builder.setValidating(validating);
         if (_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT) {
             JsonObject jsonObject = (JsonObject) _jsonValue;
-            if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+            if (!ignoringUnrecognizedElements) {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
@@ -11415,10 +11730,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Invoice.class, jsonObject);
         }
         Invoice.Builder builder = Invoice.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -11470,10 +11786,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Invoice.LineItem.class, jsonObject);
         }
         Invoice.LineItem.Builder builder = Invoice.LineItem.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.sequence((PositiveInt) parseInteger(PositiveInt.builder(), "sequence", getJsonValue(jsonObject, "sequence", JsonNumber.class), jsonObject.get("_sequence"), -1));
         builder.chargeItem(parseChoiceElement("chargeItem", jsonObject, Reference.class, CodeableConcept.class));
@@ -11492,10 +11809,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Invoice.LineItem.PriceComponent.class, jsonObject);
         }
         Invoice.LineItem.PriceComponent.Builder builder = Invoice.LineItem.PriceComponent.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type((InvoicePriceComponentType) parseString(InvoicePriceComponentType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
@@ -11510,10 +11828,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Invoice.Participant.class, jsonObject);
         }
         Invoice.Participant.Builder builder = Invoice.Participant.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.role(parseCodeableConcept("role", getJsonValue(jsonObject, "role", JsonObject.class), -1));
         builder.actor(parseReference("actor", getJsonValue(jsonObject, "actor", JsonObject.class), -1));
@@ -11526,10 +11845,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Library.class, jsonObject);
         }
         Library.Builder builder = Library.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
@@ -11636,10 +11956,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Linkage.class, jsonObject);
         }
         Linkage.Builder builder = Linkage.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.active(parseBoolean("active", getJsonValue(jsonObject, "active", JsonValue.class), jsonObject.get("_active"), -1));
         builder.author(parseReference("author", getJsonValue(jsonObject, "author", JsonObject.class), -1));
@@ -11658,10 +11979,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Linkage.Item.class, jsonObject);
         }
         Linkage.Item.Builder builder = Linkage.Item.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type((LinkageType) parseString(LinkageType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.resource(parseReference("resource", getJsonValue(jsonObject, "resource", JsonObject.class), -1));
@@ -11674,10 +11996,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(List.class, jsonObject);
         }
         List.Builder builder = List.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -11716,10 +12039,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(List.Entry.class, jsonObject);
         }
         List.Entry.Builder builder = List.Entry.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.flag(parseCodeableConcept("flag", getJsonValue(jsonObject, "flag", JsonObject.class), -1));
         builder.deleted(parseBoolean("deleted", getJsonValue(jsonObject, "deleted", JsonValue.class), jsonObject.get("_deleted"), -1));
@@ -11734,10 +12058,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Location.class, jsonObject);
         }
         Location.Builder builder = Location.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -11796,10 +12121,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Location.HoursOfOperation.class, jsonObject);
         }
         Location.HoursOfOperation.Builder builder = Location.HoursOfOperation.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray daysOfWeekArray = getJsonArray(jsonObject, "daysOfWeek", true);
         if (daysOfWeekArray != null) {
@@ -11820,10 +12146,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Location.Position.class, jsonObject);
         }
         Location.Position.Builder builder = Location.Position.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.longitude(parseDecimal("longitude", getJsonValue(jsonObject, "longitude", JsonNumber.class), jsonObject.get("_longitude"), -1));
         builder.latitude(parseDecimal("latitude", getJsonValue(jsonObject, "latitude", JsonNumber.class), jsonObject.get("_latitude"), -1));
@@ -11837,10 +12164,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MarketingStatus.class, jsonObject);
         }
         MarketingStatus.Builder builder = MarketingStatus.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.country(parseCodeableConcept("country", getJsonValue(jsonObject, "country", JsonObject.class), -1));
         builder.jurisdiction(parseCodeableConcept("jurisdiction", getJsonValue(jsonObject, "jurisdiction", JsonObject.class), -1));
@@ -11856,10 +12184,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Measure.class, jsonObject);
         }
         Measure.Builder builder = Measure.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
@@ -11988,10 +12317,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Measure.Group.class, jsonObject);
         }
         Measure.Group.Builder builder = Measure.Group.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
@@ -12016,10 +12346,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Measure.Group.Population.class, jsonObject);
         }
         Measure.Group.Population.Builder builder = Measure.Group.Population.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
@@ -12033,10 +12364,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Measure.Group.Stratifier.class, jsonObject);
         }
         Measure.Group.Stratifier.Builder builder = Measure.Group.Stratifier.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
@@ -12056,10 +12388,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Measure.Group.Stratifier.Component.class, jsonObject);
         }
         Measure.Group.Stratifier.Component.Builder builder = Measure.Group.Stratifier.Component.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
@@ -12073,10 +12406,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Measure.SupplementalData.class, jsonObject);
         }
         Measure.SupplementalData.Builder builder = Measure.SupplementalData.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         JsonArray usageArray = getJsonArray(jsonObject, "usage");
@@ -12096,10 +12430,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MeasureReport.class, jsonObject);
         }
         MeasureReport.Builder builder = MeasureReport.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -12136,10 +12471,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MeasureReport.Group.class, jsonObject);
         }
         MeasureReport.Group.Builder builder = MeasureReport.Group.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         JsonArray populationArray = getJsonArray(jsonObject, "population");
@@ -12164,10 +12500,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MeasureReport.Group.Population.class, jsonObject);
         }
         MeasureReport.Group.Population.Builder builder = MeasureReport.Group.Population.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.count(parseInteger("count", getJsonValue(jsonObject, "count", JsonNumber.class), jsonObject.get("_count"), -1));
@@ -12181,10 +12518,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MeasureReport.Group.Stratifier.class, jsonObject);
         }
         MeasureReport.Group.Stratifier.Builder builder = MeasureReport.Group.Stratifier.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray codeArray = getJsonArray(jsonObject, "code");
         if (codeArray != null) {
@@ -12207,10 +12545,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MeasureReport.Group.Stratifier.Stratum.class, jsonObject);
         }
         MeasureReport.Group.Stratifier.Stratum.Builder builder = MeasureReport.Group.Stratifier.Stratum.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.value(parseCodeableConcept("value", getJsonValue(jsonObject, "value", JsonObject.class), -1));
         JsonArray componentArray = getJsonArray(jsonObject, "component");
@@ -12235,10 +12574,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MeasureReport.Group.Stratifier.Stratum.Component.class, jsonObject);
         }
         MeasureReport.Group.Stratifier.Stratum.Component.Builder builder = MeasureReport.Group.Stratifier.Stratum.Component.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.value(parseCodeableConcept("value", getJsonValue(jsonObject, "value", JsonObject.class), -1));
@@ -12251,10 +12591,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MeasureReport.Group.Stratifier.Stratum.Population.class, jsonObject);
         }
         MeasureReport.Group.Stratifier.Stratum.Population.Builder builder = MeasureReport.Group.Stratifier.Stratum.Population.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.count(parseInteger("count", getJsonValue(jsonObject, "count", JsonNumber.class), jsonObject.get("_count"), -1));
@@ -12268,10 +12609,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Media.class, jsonObject);
         }
         Media.Builder builder = Media.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -12329,10 +12671,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Medication.class, jsonObject);
         }
         Medication.Builder builder = Medication.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -12361,10 +12704,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Medication.Batch.class, jsonObject);
         }
         Medication.Batch.Builder builder = Medication.Batch.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.lotNumber(parseString("lotNumber", getJsonValue(jsonObject, "lotNumber", JsonString.class), jsonObject.get("_lotNumber"), -1));
         builder.expirationDate(parseDateTime("expirationDate", getJsonValue(jsonObject, "expirationDate", JsonString.class), jsonObject.get("_expirationDate"), -1));
@@ -12377,10 +12721,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Medication.Ingredient.class, jsonObject);
         }
         Medication.Ingredient.Builder builder = Medication.Ingredient.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.item(parseChoiceElement("item", jsonObject, CodeableConcept.class, Reference.class));
         builder.isActive(parseBoolean("isActive", getJsonValue(jsonObject, "isActive", JsonValue.class), jsonObject.get("_isActive"), -1));
@@ -12394,10 +12739,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationAdministration.class, jsonObject);
         }
         MedicationAdministration.Builder builder = MedicationAdministration.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -12483,10 +12829,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationAdministration.Dosage.class, jsonObject);
         }
         MedicationAdministration.Dosage.Builder builder = MedicationAdministration.Dosage.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.text(parseString("text", getJsonValue(jsonObject, "text", JsonString.class), jsonObject.get("_text"), -1));
         builder.site(parseCodeableConcept("site", getJsonValue(jsonObject, "site", JsonObject.class), -1));
@@ -12503,10 +12850,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationAdministration.Performer.class, jsonObject);
         }
         MedicationAdministration.Performer.Builder builder = MedicationAdministration.Performer.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.function(parseCodeableConcept("function", getJsonValue(jsonObject, "function", JsonObject.class), -1));
         builder.actor(parseReference("actor", getJsonValue(jsonObject, "actor", JsonObject.class), -1));
@@ -12519,10 +12867,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationDispense.class, jsonObject);
         }
         MedicationDispense.Builder builder = MedicationDispense.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -12607,10 +12956,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationDispense.Performer.class, jsonObject);
         }
         MedicationDispense.Performer.Builder builder = MedicationDispense.Performer.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.function(parseCodeableConcept("function", getJsonValue(jsonObject, "function", JsonObject.class), -1));
         builder.actor(parseReference("actor", getJsonValue(jsonObject, "actor", JsonObject.class), -1));
@@ -12623,10 +12973,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationDispense.Substitution.class, jsonObject);
         }
         MedicationDispense.Substitution.Builder builder = MedicationDispense.Substitution.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.wasSubstituted(parseBoolean("wasSubstituted", getJsonValue(jsonObject, "wasSubstituted", JsonValue.class), jsonObject.get("_wasSubstituted"), -1));
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
@@ -12651,10 +13002,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.class, jsonObject);
         }
         MedicationKnowledge.Builder builder = MedicationKnowledge.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.status((MedicationKnowledgeStatus) parseString(MedicationKnowledgeStatus.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
@@ -12763,10 +13115,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.AdministrationGuidelines.class, jsonObject);
         }
         MedicationKnowledge.AdministrationGuidelines.Builder builder = MedicationKnowledge.AdministrationGuidelines.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray dosageArray = getJsonArray(jsonObject, "dosage");
         if (dosageArray != null) {
@@ -12790,10 +13143,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.AdministrationGuidelines.Dosage.class, jsonObject);
         }
         MedicationKnowledge.AdministrationGuidelines.Dosage.Builder builder = MedicationKnowledge.AdministrationGuidelines.Dosage.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray dosageArray = getJsonArray(jsonObject, "dosage");
@@ -12811,10 +13165,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics.class, jsonObject);
         }
         MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics.Builder builder = MedicationKnowledge.AdministrationGuidelines.PatientCharacteristics.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.characteristic(parseChoiceElement("characteristic", jsonObject, CodeableConcept.class, SimpleQuantity.class));
         JsonArray valueArray = getJsonArray(jsonObject, "value", true);
@@ -12833,10 +13188,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.Cost.class, jsonObject);
         }
         MedicationKnowledge.Cost.Builder builder = MedicationKnowledge.Cost.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.source(parseString("source", getJsonValue(jsonObject, "source", JsonString.class), jsonObject.get("_source"), -1));
@@ -12850,10 +13206,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.DrugCharacteristic.class, jsonObject);
         }
         MedicationKnowledge.DrugCharacteristic.Builder builder = MedicationKnowledge.DrugCharacteristic.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.value(parseChoiceElement("value", jsonObject, CodeableConcept.class, String.class, SimpleQuantity.class, Base64Binary.class));
@@ -12866,10 +13223,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.Ingredient.class, jsonObject);
         }
         MedicationKnowledge.Ingredient.Builder builder = MedicationKnowledge.Ingredient.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.item(parseChoiceElement("item", jsonObject, CodeableConcept.class, Reference.class));
         builder.isActive(parseBoolean("isActive", getJsonValue(jsonObject, "isActive", JsonValue.class), jsonObject.get("_isActive"), -1));
@@ -12883,10 +13241,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.Kinetics.class, jsonObject);
         }
         MedicationKnowledge.Kinetics.Builder builder = MedicationKnowledge.Kinetics.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray areaUnderCurveArray = getJsonArray(jsonObject, "areaUnderCurve");
         if (areaUnderCurveArray != null) {
@@ -12910,10 +13269,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.MedicineClassification.class, jsonObject);
         }
         MedicationKnowledge.MedicineClassification.Builder builder = MedicationKnowledge.MedicineClassification.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray classificationArray = getJsonArray(jsonObject, "classification");
@@ -12931,10 +13291,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.MonitoringProgram.class, jsonObject);
         }
         MedicationKnowledge.MonitoringProgram.Builder builder = MedicationKnowledge.MonitoringProgram.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
@@ -12947,10 +13308,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.Monograph.class, jsonObject);
         }
         MedicationKnowledge.Monograph.Builder builder = MedicationKnowledge.Monograph.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.source(parseReference("source", getJsonValue(jsonObject, "source", JsonObject.class), -1));
@@ -12963,10 +13325,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.Packaging.class, jsonObject);
         }
         MedicationKnowledge.Packaging.Builder builder = MedicationKnowledge.Packaging.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
@@ -12979,10 +13342,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.Regulatory.class, jsonObject);
         }
         MedicationKnowledge.Regulatory.Builder builder = MedicationKnowledge.Regulatory.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.regulatoryAuthority(parseReference("regulatoryAuthority", getJsonValue(jsonObject, "regulatoryAuthority", JsonObject.class), -1));
         JsonArray substitutionArray = getJsonArray(jsonObject, "substitution");
@@ -13007,10 +13371,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.Regulatory.MaxDispense.class, jsonObject);
         }
         MedicationKnowledge.Regulatory.MaxDispense.Builder builder = MedicationKnowledge.Regulatory.MaxDispense.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         builder.period((Duration) parseQuantity(Duration.builder(), "period", getJsonValue(jsonObject, "period", JsonObject.class), -1));
@@ -13023,10 +13388,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.Regulatory.Schedule.class, jsonObject);
         }
         MedicationKnowledge.Regulatory.Schedule.Builder builder = MedicationKnowledge.Regulatory.Schedule.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.schedule(parseCodeableConcept("schedule", getJsonValue(jsonObject, "schedule", JsonObject.class), -1));
         stackPop();
@@ -13038,10 +13404,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.Regulatory.Substitution.class, jsonObject);
         }
         MedicationKnowledge.Regulatory.Substitution.Builder builder = MedicationKnowledge.Regulatory.Substitution.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.allowed(parseBoolean("allowed", getJsonValue(jsonObject, "allowed", JsonValue.class), jsonObject.get("_allowed"), -1));
@@ -13054,10 +13421,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationKnowledge.RelatedMedicationKnowledge.class, jsonObject);
         }
         MedicationKnowledge.RelatedMedicationKnowledge.Builder builder = MedicationKnowledge.RelatedMedicationKnowledge.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray referenceArray = getJsonArray(jsonObject, "reference");
@@ -13075,10 +13443,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationRequest.class, jsonObject);
         }
         MedicationRequest.Builder builder = MedicationRequest.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -13188,10 +13557,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationRequest.DispenseRequest.class, jsonObject);
         }
         MedicationRequest.DispenseRequest.Builder builder = MedicationRequest.DispenseRequest.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.initialFill(parseMedicationRequestDispenseRequestInitialFill("initialFill", getJsonValue(jsonObject, "initialFill", JsonObject.class), -1));
         builder.dispenseInterval((Duration) parseQuantity(Duration.builder(), "dispenseInterval", getJsonValue(jsonObject, "dispenseInterval", JsonObject.class), -1));
@@ -13209,10 +13579,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationRequest.DispenseRequest.InitialFill.class, jsonObject);
         }
         MedicationRequest.DispenseRequest.InitialFill.Builder builder = MedicationRequest.DispenseRequest.InitialFill.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         builder.duration((Duration) parseQuantity(Duration.builder(), "duration", getJsonValue(jsonObject, "duration", JsonObject.class), -1));
@@ -13225,10 +13596,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationRequest.Substitution.class, jsonObject);
         }
         MedicationRequest.Substitution.Builder builder = MedicationRequest.Substitution.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.allowed(parseChoiceElement("allowed", jsonObject, Boolean.class, CodeableConcept.class));
         builder.reason(parseCodeableConcept("reason", getJsonValue(jsonObject, "reason", JsonObject.class), -1));
@@ -13241,10 +13613,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicationStatement.class, jsonObject);
         }
         MedicationStatement.Builder builder = MedicationStatement.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -13317,10 +13690,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProduct.class, jsonObject);
         }
         MedicinalProduct.Builder builder = MedicinalProduct.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -13422,10 +13796,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProduct.ManufacturingBusinessOperation.class, jsonObject);
         }
         MedicinalProduct.ManufacturingBusinessOperation.Builder builder = MedicinalProduct.ManufacturingBusinessOperation.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.operationType(parseCodeableConcept("operationType", getJsonValue(jsonObject, "operationType", JsonObject.class), -1));
         builder.authorisationReferenceNumber(parseIdentifier("authorisationReferenceNumber", getJsonValue(jsonObject, "authorisationReferenceNumber", JsonObject.class), -1));
@@ -13447,10 +13822,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProduct.Name.class, jsonObject);
         }
         MedicinalProduct.Name.Builder builder = MedicinalProduct.Name.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.productName(parseString("productName", getJsonValue(jsonObject, "productName", JsonString.class), jsonObject.get("_productName"), -1));
         JsonArray namePartArray = getJsonArray(jsonObject, "namePart");
@@ -13474,10 +13850,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProduct.Name.CountryLanguage.class, jsonObject);
         }
         MedicinalProduct.Name.CountryLanguage.Builder builder = MedicinalProduct.Name.CountryLanguage.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.country(parseCodeableConcept("country", getJsonValue(jsonObject, "country", JsonObject.class), -1));
         builder.jurisdiction(parseCodeableConcept("jurisdiction", getJsonValue(jsonObject, "jurisdiction", JsonObject.class), -1));
@@ -13491,10 +13868,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProduct.Name.NamePart.class, jsonObject);
         }
         MedicinalProduct.Name.NamePart.Builder builder = MedicinalProduct.Name.NamePart.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.part(parseString("part", getJsonValue(jsonObject, "part", JsonString.class), jsonObject.get("_part"), -1));
         builder.type(parseCoding("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
@@ -13507,10 +13885,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProduct.SpecialDesignation.class, jsonObject);
         }
         MedicinalProduct.SpecialDesignation.Builder builder = MedicinalProduct.SpecialDesignation.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -13533,10 +13912,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductAuthorization.class, jsonObject);
         }
         MedicinalProductAuthorization.Builder builder = MedicinalProductAuthorization.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -13583,10 +13963,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductAuthorization.JurisdictionalAuthorization.class, jsonObject);
         }
         MedicinalProductAuthorization.JurisdictionalAuthorization.Builder builder = MedicinalProductAuthorization.JurisdictionalAuthorization.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -13612,10 +13993,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductAuthorization.Procedure.class, jsonObject);
         }
         MedicinalProductAuthorization.Procedure.Builder builder = MedicinalProductAuthorization.Procedure.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
@@ -13635,10 +14017,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductContraindication.class, jsonObject);
         }
         MedicinalProductContraindication.Builder builder = MedicinalProductContraindication.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray subjectArray = getJsonArray(jsonObject, "subject");
         if (subjectArray != null) {
@@ -13681,10 +14064,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductContraindication.OtherTherapy.class, jsonObject);
         }
         MedicinalProductContraindication.OtherTherapy.Builder builder = MedicinalProductContraindication.OtherTherapy.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.therapyRelationshipType(parseCodeableConcept("therapyRelationshipType", getJsonValue(jsonObject, "therapyRelationshipType", JsonObject.class), -1));
         builder.medication(parseChoiceElement("medication", jsonObject, CodeableConcept.class, Reference.class));
@@ -13697,10 +14081,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductIndication.class, jsonObject);
         }
         MedicinalProductIndication.Builder builder = MedicinalProductIndication.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray subjectArray = getJsonArray(jsonObject, "subject");
         if (subjectArray != null) {
@@ -13745,10 +14130,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductIndication.OtherTherapy.class, jsonObject);
         }
         MedicinalProductIndication.OtherTherapy.Builder builder = MedicinalProductIndication.OtherTherapy.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.therapyRelationshipType(parseCodeableConcept("therapyRelationshipType", getJsonValue(jsonObject, "therapyRelationshipType", JsonObject.class), -1));
         builder.medication(parseChoiceElement("medication", jsonObject, CodeableConcept.class, Reference.class));
@@ -13761,10 +14147,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductIngredient.class, jsonObject);
         }
         MedicinalProductIngredient.Builder builder = MedicinalProductIngredient.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.role(parseCodeableConcept("role", getJsonValue(jsonObject, "role", JsonObject.class), -1));
@@ -13791,10 +14178,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductIngredient.SpecifiedSubstance.class, jsonObject);
         }
         MedicinalProductIngredient.SpecifiedSubstance.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.group(parseCodeableConcept("group", getJsonValue(jsonObject, "group", JsonObject.class), -1));
@@ -13814,10 +14202,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductIngredient.SpecifiedSubstance.Strength.class, jsonObject);
         }
         MedicinalProductIngredient.SpecifiedSubstance.Strength.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.Strength.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.presentation(parseRatio("presentation", getJsonValue(jsonObject, "presentation", JsonObject.class), -1));
         builder.presentationLowLimit(parseRatio("presentationLowLimit", getJsonValue(jsonObject, "presentationLowLimit", JsonObject.class), -1));
@@ -13845,10 +14234,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength.class, jsonObject);
         }
         MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength.Builder builder = MedicinalProductIngredient.SpecifiedSubstance.Strength.ReferenceStrength.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.substance(parseCodeableConcept("substance", getJsonValue(jsonObject, "substance", JsonObject.class), -1));
         builder.strength(parseRatio("strength", getJsonValue(jsonObject, "strength", JsonObject.class), -1));
@@ -13869,10 +14259,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductIngredient.Substance.class, jsonObject);
         }
         MedicinalProductIngredient.Substance.Builder builder = MedicinalProductIngredient.Substance.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         JsonArray strengthArray = getJsonArray(jsonObject, "strength");
@@ -13890,10 +14281,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductInteraction.class, jsonObject);
         }
         MedicinalProductInteraction.Builder builder = MedicinalProductInteraction.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray subjectArray = getJsonArray(jsonObject, "subject");
         if (subjectArray != null) {
@@ -13921,10 +14313,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductInteraction.Interactant.class, jsonObject);
         }
         MedicinalProductInteraction.Interactant.Builder builder = MedicinalProductInteraction.Interactant.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.item(parseChoiceElement("item", jsonObject, Reference.class, CodeableConcept.class));
         stackPop();
@@ -13936,10 +14329,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductManufactured.class, jsonObject);
         }
         MedicinalProductManufactured.Builder builder = MedicinalProductManufactured.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.manufacturedDoseForm(parseCodeableConcept("manufacturedDoseForm", getJsonValue(jsonObject, "manufacturedDoseForm", JsonObject.class), -1));
         builder.unitOfPresentation(parseCodeableConcept("unitOfPresentation", getJsonValue(jsonObject, "unitOfPresentation", JsonObject.class), -1));
@@ -13972,10 +14366,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductPackaged.class, jsonObject);
         }
         MedicinalProductPackaged.Builder builder = MedicinalProductPackaged.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -14025,10 +14420,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductPackaged.BatchIdentifier.class, jsonObject);
         }
         MedicinalProductPackaged.BatchIdentifier.Builder builder = MedicinalProductPackaged.BatchIdentifier.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.outerPackaging(parseIdentifier("outerPackaging", getJsonValue(jsonObject, "outerPackaging", JsonObject.class), -1));
         builder.immediatePackaging(parseIdentifier("immediatePackaging", getJsonValue(jsonObject, "immediatePackaging", JsonObject.class), -1));
@@ -14041,10 +14437,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductPackaged.PackageItem.class, jsonObject);
         }
         MedicinalProductPackaged.PackageItem.Builder builder = MedicinalProductPackaged.PackageItem.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -14112,10 +14509,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductPharmaceutical.class, jsonObject);
         }
         MedicinalProductPharmaceutical.Builder builder = MedicinalProductPharmaceutical.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -14158,10 +14556,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductPharmaceutical.Characteristics.class, jsonObject);
         }
         MedicinalProductPharmaceutical.Characteristics.Builder builder = MedicinalProductPharmaceutical.Characteristics.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.status(parseCodeableConcept("status", getJsonValue(jsonObject, "status", JsonObject.class), -1));
@@ -14174,10 +14573,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductPharmaceutical.RouteOfAdministration.class, jsonObject);
         }
         MedicinalProductPharmaceutical.RouteOfAdministration.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.firstDose(parseQuantity("firstDose", getJsonValue(jsonObject, "firstDose", JsonObject.class), -1));
@@ -14200,10 +14600,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.class, jsonObject);
         }
         MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         JsonArray withdrawalPeriodArray = getJsonArray(jsonObject, "withdrawalPeriod");
@@ -14221,10 +14622,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.class, jsonObject);
         }
         MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.Builder builder = MedicinalProductPharmaceutical.RouteOfAdministration.TargetSpecies.WithdrawalPeriod.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.tissue(parseCodeableConcept("tissue", getJsonValue(jsonObject, "tissue", JsonObject.class), -1));
         builder.value(parseQuantity("value", getJsonValue(jsonObject, "value", JsonObject.class), -1));
@@ -14238,10 +14640,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MedicinalProductUndesirableEffect.class, jsonObject);
         }
         MedicinalProductUndesirableEffect.Builder builder = MedicinalProductUndesirableEffect.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray subjectArray = getJsonArray(jsonObject, "subject");
         if (subjectArray != null) {
@@ -14267,10 +14670,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MessageDefinition.class, jsonObject);
         }
         MessageDefinition.Builder builder = MessageDefinition.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
@@ -14353,10 +14757,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MessageDefinition.AllowedResponse.class, jsonObject);
         }
         MessageDefinition.AllowedResponse.Builder builder = MessageDefinition.AllowedResponse.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.message((Canonical) parseUri(Canonical.builder(), "message", getJsonValue(jsonObject, "message", JsonString.class), jsonObject.get("_message"), -1));
         builder.situation((Markdown) parseString(Markdown.builder(), "situation", getJsonValue(jsonObject, "situation", JsonString.class), jsonObject.get("_situation"), -1));
@@ -14369,10 +14774,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MessageDefinition.Focus.class, jsonObject);
         }
         MessageDefinition.Focus.Builder builder = MessageDefinition.Focus.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code((ResourceType) parseString(ResourceType.builder(), "code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.profile((Canonical) parseUri(Canonical.builder(), "profile", getJsonValue(jsonObject, "profile", JsonString.class), jsonObject.get("_profile"), -1));
@@ -14387,10 +14793,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MessageHeader.class, jsonObject);
         }
         MessageHeader.Builder builder = MessageHeader.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.event(parseChoiceElement("event", jsonObject, Coding.class, Uri.class));
         JsonArray destinationArray = getJsonArray(jsonObject, "destination");
@@ -14422,10 +14829,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MessageHeader.Destination.class, jsonObject);
         }
         MessageHeader.Destination.Builder builder = MessageHeader.Destination.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.target(parseReference("target", getJsonValue(jsonObject, "target", JsonObject.class), -1));
@@ -14440,10 +14848,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MessageHeader.Response.class, jsonObject);
         }
         MessageHeader.Response.Builder builder = MessageHeader.Response.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.identifier((Id) parseString(Id.builder(), "identifier", getJsonValue(jsonObject, "identifier", JsonString.class), jsonObject.get("_identifier"), -1));
         builder.code((ResponseType) parseString(ResponseType.builder(), "code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
@@ -14457,10 +14866,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MessageHeader.Source.class, jsonObject);
         }
         MessageHeader.Source.Builder builder = MessageHeader.Source.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.software(parseString("software", getJsonValue(jsonObject, "software", JsonString.class), jsonObject.get("_software"), -1));
@@ -14476,10 +14886,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Meta.class, jsonObject);
         }
         Meta.Builder builder = Meta.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.versionId((Id) parseString(Id.builder(), "versionId", getJsonValue(jsonObject, "versionId", JsonString.class), jsonObject.get("_versionId"), -1));
         builder.lastUpdated(parseInstant("lastUpdated", getJsonValue(jsonObject, "lastUpdated", JsonString.class), jsonObject.get("_lastUpdated"), -1));
@@ -14512,10 +14923,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MolecularSequence.class, jsonObject);
         }
         MolecularSequence.Builder builder = MolecularSequence.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -14572,10 +14984,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MolecularSequence.Quality.class, jsonObject);
         }
         MolecularSequence.Quality.Builder builder = MolecularSequence.Quality.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type((QualityType) parseString(QualityType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.standardSequence(parseCodeableConcept("standardSequence", getJsonValue(jsonObject, "standardSequence", JsonObject.class), -1));
@@ -14601,10 +15014,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MolecularSequence.Quality.Roc.class, jsonObject);
         }
         MolecularSequence.Quality.Roc.Builder builder = MolecularSequence.Quality.Roc.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray scoreArray = getJsonArray(jsonObject, "score", true);
         if (scoreArray != null) {
@@ -14664,10 +15078,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MolecularSequence.ReferenceSeq.class, jsonObject);
         }
         MolecularSequence.ReferenceSeq.Builder builder = MolecularSequence.ReferenceSeq.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.chromosome(parseCodeableConcept("chromosome", getJsonValue(jsonObject, "chromosome", JsonObject.class), -1));
         builder.genomeBuild(parseString("genomeBuild", getJsonValue(jsonObject, "genomeBuild", JsonString.class), jsonObject.get("_genomeBuild"), -1));
@@ -14687,10 +15102,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MolecularSequence.Repository.class, jsonObject);
         }
         MolecularSequence.Repository.Builder builder = MolecularSequence.Repository.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type((RepositoryType) parseString(RepositoryType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
@@ -14707,10 +15123,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MolecularSequence.StructureVariant.class, jsonObject);
         }
         MolecularSequence.StructureVariant.Builder builder = MolecularSequence.StructureVariant.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.variantType(parseCodeableConcept("variantType", getJsonValue(jsonObject, "variantType", JsonObject.class), -1));
         builder.exact(parseBoolean("exact", getJsonValue(jsonObject, "exact", JsonValue.class), jsonObject.get("_exact"), -1));
@@ -14726,10 +15143,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MolecularSequence.StructureVariant.Inner.class, jsonObject);
         }
         MolecularSequence.StructureVariant.Inner.Builder builder = MolecularSequence.StructureVariant.Inner.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.start(parseInteger("start", getJsonValue(jsonObject, "start", JsonNumber.class), jsonObject.get("_start"), -1));
         builder.end(parseInteger("end", getJsonValue(jsonObject, "end", JsonNumber.class), jsonObject.get("_end"), -1));
@@ -14742,10 +15160,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MolecularSequence.StructureVariant.Outer.class, jsonObject);
         }
         MolecularSequence.StructureVariant.Outer.Builder builder = MolecularSequence.StructureVariant.Outer.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.start(parseInteger("start", getJsonValue(jsonObject, "start", JsonNumber.class), jsonObject.get("_start"), -1));
         builder.end(parseInteger("end", getJsonValue(jsonObject, "end", JsonNumber.class), jsonObject.get("_end"), -1));
@@ -14758,10 +15177,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(MolecularSequence.Variant.class, jsonObject);
         }
         MolecularSequence.Variant.Builder builder = MolecularSequence.Variant.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.start(parseInteger("start", getJsonValue(jsonObject, "start", JsonNumber.class), jsonObject.get("_start"), -1));
         builder.end(parseInteger("end", getJsonValue(jsonObject, "end", JsonNumber.class), jsonObject.get("_end"), -1));
@@ -14778,10 +15198,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Money.class, jsonObject);
         }
         Money.Builder builder = Money.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.value(parseDecimal("value", getJsonValue(jsonObject, "value", JsonNumber.class), jsonObject.get("_value"), -1));
         builder.currency((Code) parseString(Code.builder(), "currency", getJsonValue(jsonObject, "currency", JsonString.class), jsonObject.get("_currency"), -1));
@@ -14794,10 +15215,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(NamingSystem.class, jsonObject);
         }
         NamingSystem.Builder builder = NamingSystem.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.status((PublicationStatus) parseString(PublicationStatus.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
@@ -14841,10 +15263,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(NamingSystem.UniqueId.class, jsonObject);
         }
         NamingSystem.UniqueId.Builder builder = NamingSystem.UniqueId.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type((NamingSystemIdentifierType) parseString(NamingSystemIdentifierType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.value(parseString("value", getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1));
@@ -14860,10 +15283,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Narrative.class, jsonObject);
         }
         Narrative.Builder builder = Narrative.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.status((NarrativeStatus) parseString(NarrativeStatus.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         builder.div(parseXhtml("div", getJsonValue(jsonObject, "div", JsonString.class), jsonObject.get("_div"), -1));
@@ -14876,10 +15300,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(NutritionOrder.class, jsonObject);
         }
         NutritionOrder.Builder builder = NutritionOrder.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -14955,10 +15380,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(NutritionOrder.EnteralFormula.class, jsonObject);
         }
         NutritionOrder.EnteralFormula.Builder builder = NutritionOrder.EnteralFormula.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.baseFormulaType(parseCodeableConcept("baseFormulaType", getJsonValue(jsonObject, "baseFormulaType", JsonObject.class), -1));
         builder.baseFormulaProductName(parseString("baseFormulaProductName", getJsonValue(jsonObject, "baseFormulaProductName", JsonString.class), jsonObject.get("_baseFormulaProductName"), -1));
@@ -14983,10 +15409,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(NutritionOrder.EnteralFormula.Administration.class, jsonObject);
         }
         NutritionOrder.EnteralFormula.Administration.Builder builder = NutritionOrder.EnteralFormula.Administration.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.schedule(parseTiming("schedule", getJsonValue(jsonObject, "schedule", JsonObject.class), -1));
         builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
@@ -15000,10 +15427,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(NutritionOrder.OralDiet.class, jsonObject);
         }
         NutritionOrder.OralDiet.Builder builder = NutritionOrder.OralDiet.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray typeArray = getJsonArray(jsonObject, "type");
         if (typeArray != null) {
@@ -15045,10 +15473,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(NutritionOrder.OralDiet.Nutrient.class, jsonObject);
         }
         NutritionOrder.OralDiet.Nutrient.Builder builder = NutritionOrder.OralDiet.Nutrient.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.modifier(parseCodeableConcept("modifier", getJsonValue(jsonObject, "modifier", JsonObject.class), -1));
         builder.amount((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "amount", getJsonValue(jsonObject, "amount", JsonObject.class), -1));
@@ -15061,10 +15490,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(NutritionOrder.OralDiet.Texture.class, jsonObject);
         }
         NutritionOrder.OralDiet.Texture.Builder builder = NutritionOrder.OralDiet.Texture.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.modifier(parseCodeableConcept("modifier", getJsonValue(jsonObject, "modifier", JsonObject.class), -1));
         builder.foodType(parseCodeableConcept("foodType", getJsonValue(jsonObject, "foodType", JsonObject.class), -1));
@@ -15077,10 +15507,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(NutritionOrder.Supplement.class, jsonObject);
         }
         NutritionOrder.Supplement.Builder builder = NutritionOrder.Supplement.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.productName(parseString("productName", getJsonValue(jsonObject, "productName", JsonString.class), jsonObject.get("_productName"), -1));
@@ -15101,10 +15532,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Observation.class, jsonObject);
         }
         Observation.Builder builder = Observation.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -15199,10 +15631,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Observation.Component.class, jsonObject);
         }
         Observation.Component.Builder builder = Observation.Component.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.value(parseChoiceElement("value", jsonObject, Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class));
@@ -15228,10 +15661,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Observation.ReferenceRange.class, jsonObject);
         }
         Observation.ReferenceRange.Builder builder = Observation.ReferenceRange.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.low((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "low", getJsonValue(jsonObject, "low", JsonObject.class), -1));
         builder.high((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "high", getJsonValue(jsonObject, "high", JsonObject.class), -1));
@@ -15253,10 +15687,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ObservationDefinition.class, jsonObject);
         }
         ObservationDefinition.Builder builder = ObservationDefinition.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray categoryArray = getJsonArray(jsonObject, "category");
         if (categoryArray != null) {
@@ -15301,10 +15736,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ObservationDefinition.QualifiedInterval.class, jsonObject);
         }
         ObservationDefinition.QualifiedInterval.Builder builder = ObservationDefinition.QualifiedInterval.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.category((ObservationRangeCategory) parseString(ObservationRangeCategory.builder(), "category", getJsonValue(jsonObject, "category", JsonString.class), jsonObject.get("_category"), -1));
         builder.range(parseRange("range", getJsonValue(jsonObject, "range", JsonObject.class), -1));
@@ -15328,10 +15764,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ObservationDefinition.QuantitativeDetails.class, jsonObject);
         }
         ObservationDefinition.QuantitativeDetails.Builder builder = ObservationDefinition.QuantitativeDetails.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.customaryUnit(parseCodeableConcept("customaryUnit", getJsonValue(jsonObject, "customaryUnit", JsonObject.class), -1));
         builder.unit(parseCodeableConcept("unit", getJsonValue(jsonObject, "unit", JsonObject.class), -1));
@@ -15346,10 +15783,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(OperationDefinition.class, jsonObject);
         }
         OperationDefinition.Builder builder = OperationDefinition.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         builder.version(parseString("version", getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
@@ -15417,10 +15855,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(OperationDefinition.Overload.class, jsonObject);
         }
         OperationDefinition.Overload.Builder builder = OperationDefinition.Overload.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray parameterNameArray = getJsonArray(jsonObject, "parameterName", true);
         if (parameterNameArray != null) {
@@ -15439,10 +15878,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(OperationDefinition.Parameter.class, jsonObject);
         }
         OperationDefinition.Parameter.Builder builder = OperationDefinition.Parameter.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name((Code) parseString(Code.builder(), "name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.use((OperationParameterUse) parseString(OperationParameterUse.builder(), "use", getJsonValue(jsonObject, "use", JsonString.class), jsonObject.get("_use"), -1));
@@ -15480,10 +15920,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(OperationDefinition.Parameter.Binding.class, jsonObject);
         }
         OperationDefinition.Parameter.Binding.Builder builder = OperationDefinition.Parameter.Binding.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.strength((BindingStrength) parseString(BindingStrength.builder(), "strength", getJsonValue(jsonObject, "strength", JsonString.class), jsonObject.get("_strength"), -1));
         builder.valueSet((Canonical) parseUri(Canonical.builder(), "valueSet", getJsonValue(jsonObject, "valueSet", JsonString.class), jsonObject.get("_valueSet"), -1));
@@ -15496,10 +15937,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(OperationDefinition.Parameter.ReferencedFrom.class, jsonObject);
         }
         OperationDefinition.Parameter.ReferencedFrom.Builder builder = OperationDefinition.Parameter.ReferencedFrom.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.source(parseString("source", getJsonValue(jsonObject, "source", JsonString.class), jsonObject.get("_source"), -1));
         builder.sourceId(parseString("sourceId", getJsonValue(jsonObject, "sourceId", JsonString.class), jsonObject.get("_sourceId"), -1));
@@ -15512,10 +15954,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(OperationOutcome.class, jsonObject);
         }
         OperationOutcome.Builder builder = OperationOutcome.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray issueArray = getJsonArray(jsonObject, "issue");
         if (issueArray != null) {
@@ -15532,10 +15975,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(OperationOutcome.Issue.class, jsonObject);
         }
         OperationOutcome.Issue.Builder builder = OperationOutcome.Issue.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.severity((IssueSeverity) parseString(IssueSeverity.builder(), "severity", getJsonValue(jsonObject, "severity", JsonString.class), jsonObject.get("_severity"), -1));
         builder.code((IssueType) parseString(IssueType.builder(), "code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
@@ -15564,10 +16008,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Organization.class, jsonObject);
         }
         Organization.Builder builder = Organization.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -15624,10 +16069,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Organization.Contact.class, jsonObject);
         }
         Organization.Contact.Builder builder = Organization.Contact.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.purpose(parseCodeableConcept("purpose", getJsonValue(jsonObject, "purpose", JsonObject.class), -1));
         builder.name(parseHumanName("name", getJsonValue(jsonObject, "name", JsonObject.class), -1));
@@ -15647,10 +16093,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(OrganizationAffiliation.class, jsonObject);
         }
         OrganizationAffiliation.Builder builder = OrganizationAffiliation.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -15713,10 +16160,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ParameterDefinition.class, jsonObject);
         }
         ParameterDefinition.Builder builder = ParameterDefinition.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.name((Code) parseString(Code.builder(), "name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.use((ParameterUse) parseString(ParameterUse.builder(), "use", getJsonValue(jsonObject, "use", JsonString.class), jsonObject.get("_use"), -1));
@@ -15734,10 +16182,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Parameters.class, jsonObject);
         }
         Parameters.Builder builder = Parameters.builder();
+        builder.setValidating(validating);
         parseResource(builder, jsonObject);
         JsonArray parameterArray = getJsonArray(jsonObject, "parameter");
         if (parameterArray != null) {
@@ -15754,10 +16203,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Parameters.Parameter.class, jsonObject);
         }
         Parameters.Parameter.Builder builder = Parameters.Parameter.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.value(parseChoiceElement("value", jsonObject, Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class));
@@ -15777,10 +16227,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Patient.class, jsonObject);
         }
         Patient.Builder builder = Patient.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -15852,10 +16303,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Patient.Communication.class, jsonObject);
         }
         Patient.Communication.Builder builder = Patient.Communication.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.language(parseCodeableConcept("language", getJsonValue(jsonObject, "language", JsonObject.class), -1));
         builder.preferred(parseBoolean("preferred", getJsonValue(jsonObject, "preferred", JsonValue.class), jsonObject.get("_preferred"), -1));
@@ -15868,10 +16320,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Patient.Contact.class, jsonObject);
         }
         Patient.Contact.Builder builder = Patient.Contact.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray relationshipArray = getJsonArray(jsonObject, "relationship");
         if (relationshipArray != null) {
@@ -15899,10 +16352,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Patient.Link.class, jsonObject);
         }
         Patient.Link.Builder builder = Patient.Link.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.other(parseReference("other", getJsonValue(jsonObject, "other", JsonObject.class), -1));
         builder.type((LinkType) parseString(LinkType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
@@ -15915,10 +16369,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PaymentNotice.class, jsonObject);
         }
         PaymentNotice.Builder builder = PaymentNotice.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -15946,10 +16401,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PaymentReconciliation.class, jsonObject);
         }
         PaymentReconciliation.Builder builder = PaymentReconciliation.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -15990,10 +16446,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PaymentReconciliation.Detail.class, jsonObject);
         }
         PaymentReconciliation.Detail.Builder builder = PaymentReconciliation.Detail.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.predecessor(parseIdentifier("predecessor", getJsonValue(jsonObject, "predecessor", JsonObject.class), -1));
@@ -16014,10 +16471,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PaymentReconciliation.ProcessNote.class, jsonObject);
         }
         PaymentReconciliation.ProcessNote.Builder builder = PaymentReconciliation.ProcessNote.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type((NoteType) parseString(NoteType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.text(parseString("text", getJsonValue(jsonObject, "text", JsonString.class), jsonObject.get("_text"), -1));
@@ -16030,10 +16488,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Period.class, jsonObject);
         }
         Period.Builder builder = Period.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.start(parseDateTime("start", getJsonValue(jsonObject, "start", JsonString.class), jsonObject.get("_start"), -1));
         builder.end(parseDateTime("end", getJsonValue(jsonObject, "end", JsonString.class), jsonObject.get("_end"), -1));
@@ -16046,10 +16505,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Person.class, jsonObject);
         }
         Person.Builder builder = Person.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -16095,10 +16555,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Person.Link.class, jsonObject);
         }
         Person.Link.Builder builder = Person.Link.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.target(parseReference("target", getJsonValue(jsonObject, "target", JsonObject.class), -1));
         builder.assurance((IdentityAssuranceLevel) parseString(IdentityAssuranceLevel.builder(), "assurance", getJsonValue(jsonObject, "assurance", JsonString.class), jsonObject.get("_assurance"), -1));
@@ -16111,10 +16572,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PlanDefinition.class, jsonObject);
         }
         PlanDefinition.Builder builder = PlanDefinition.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
@@ -16222,10 +16684,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PlanDefinition.Action.class, jsonObject);
         }
         PlanDefinition.Action.Builder builder = PlanDefinition.Action.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.prefix(parseString("prefix", getJsonValue(jsonObject, "prefix", JsonString.class), jsonObject.get("_prefix"), -1));
         builder.title(parseString("title", getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
@@ -16324,10 +16787,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PlanDefinition.Action.Condition.class, jsonObject);
         }
         PlanDefinition.Action.Condition.Builder builder = PlanDefinition.Action.Condition.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.kind((ActionConditionKind) parseString(ActionConditionKind.builder(), "kind", getJsonValue(jsonObject, "kind", JsonString.class), jsonObject.get("_kind"), -1));
         builder.expression(parseExpression("expression", getJsonValue(jsonObject, "expression", JsonObject.class), -1));
@@ -16340,10 +16804,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PlanDefinition.Action.DynamicValue.class, jsonObject);
         }
         PlanDefinition.Action.DynamicValue.Builder builder = PlanDefinition.Action.DynamicValue.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.path(parseString("path", getJsonValue(jsonObject, "path", JsonString.class), jsonObject.get("_path"), -1));
         builder.expression(parseExpression("expression", getJsonValue(jsonObject, "expression", JsonObject.class), -1));
@@ -16356,10 +16821,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PlanDefinition.Action.Participant.class, jsonObject);
         }
         PlanDefinition.Action.Participant.Builder builder = PlanDefinition.Action.Participant.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type((ActionParticipantType) parseString(ActionParticipantType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.role(parseCodeableConcept("role", getJsonValue(jsonObject, "role", JsonObject.class), -1));
@@ -16372,10 +16838,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PlanDefinition.Action.RelatedAction.class, jsonObject);
         }
         PlanDefinition.Action.RelatedAction.Builder builder = PlanDefinition.Action.RelatedAction.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.actionId((Id) parseString(Id.builder(), "actionId", getJsonValue(jsonObject, "actionId", JsonString.class), jsonObject.get("_actionId"), -1));
         builder.relationship((ActionRelationshipType) parseString(ActionRelationshipType.builder(), "relationship", getJsonValue(jsonObject, "relationship", JsonString.class), jsonObject.get("_relationship"), -1));
@@ -16389,10 +16856,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PlanDefinition.Goal.class, jsonObject);
         }
         PlanDefinition.Goal.Builder builder = PlanDefinition.Goal.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.category(parseCodeableConcept("category", getJsonValue(jsonObject, "category", JsonObject.class), -1));
         builder.description(parseCodeableConcept("description", getJsonValue(jsonObject, "description", JsonObject.class), -1));
@@ -16425,10 +16893,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PlanDefinition.Goal.Target.class, jsonObject);
         }
         PlanDefinition.Goal.Target.Builder builder = PlanDefinition.Goal.Target.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.measure(parseCodeableConcept("measure", getJsonValue(jsonObject, "measure", JsonObject.class), -1));
         builder.detail(parseChoiceElement("detail", jsonObject, Quantity.class, Range.class, CodeableConcept.class));
@@ -16442,10 +16911,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Population.class, jsonObject);
         }
         Population.Builder builder = Population.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.age(parseChoiceElement("age", jsonObject, Range.class, CodeableConcept.class));
         builder.gender(parseCodeableConcept("gender", getJsonValue(jsonObject, "gender", JsonObject.class), -1));
@@ -16460,10 +16930,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Practitioner.class, jsonObject);
         }
         Practitioner.Builder builder = Practitioner.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -16519,10 +16990,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Practitioner.Qualification.class, jsonObject);
         }
         Practitioner.Qualification.Builder builder = Practitioner.Qualification.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -16542,10 +17014,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PractitionerRole.class, jsonObject);
         }
         PractitionerRole.Builder builder = PractitionerRole.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -16615,10 +17088,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PractitionerRole.AvailableTime.class, jsonObject);
         }
         PractitionerRole.AvailableTime.Builder builder = PractitionerRole.AvailableTime.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray daysOfWeekArray = getJsonArray(jsonObject, "daysOfWeek", true);
         if (daysOfWeekArray != null) {
@@ -16639,10 +17113,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(PractitionerRole.NotAvailable.class, jsonObject);
         }
         PractitionerRole.NotAvailable.Builder builder = PractitionerRole.NotAvailable.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.during(parsePeriod("during", getJsonValue(jsonObject, "during", JsonObject.class), -1));
@@ -16655,10 +17130,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Procedure.class, jsonObject);
         }
         Procedure.Builder builder = Procedure.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -16784,10 +17260,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Procedure.FocalDevice.class, jsonObject);
         }
         Procedure.FocalDevice.Builder builder = Procedure.FocalDevice.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.action(parseCodeableConcept("action", getJsonValue(jsonObject, "action", JsonObject.class), -1));
         builder.manipulated(parseReference("manipulated", getJsonValue(jsonObject, "manipulated", JsonObject.class), -1));
@@ -16800,10 +17277,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Procedure.Performer.class, jsonObject);
         }
         Procedure.Performer.Builder builder = Procedure.Performer.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.function(parseCodeableConcept("function", getJsonValue(jsonObject, "function", JsonObject.class), -1));
         builder.actor(parseReference("actor", getJsonValue(jsonObject, "actor", JsonObject.class), -1));
@@ -16817,10 +17295,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ProdCharacteristic.class, jsonObject);
         }
         ProdCharacteristic.Builder builder = ProdCharacteristic.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.height(parseQuantity("height", getJsonValue(jsonObject, "height", JsonObject.class), -1));
         builder.width(parseQuantity("width", getJsonValue(jsonObject, "width", JsonObject.class), -1));
@@ -16859,10 +17338,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ProductShelfLife.class, jsonObject);
         }
         ProductShelfLife.Builder builder = ProductShelfLife.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
@@ -16882,10 +17362,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Provenance.class, jsonObject);
         }
         Provenance.Builder builder = Provenance.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray targetArray = getJsonArray(jsonObject, "target");
         if (targetArray != null) {
@@ -16937,10 +17418,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Provenance.Agent.class, jsonObject);
         }
         Provenance.Agent.Builder builder = Provenance.Agent.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray roleArray = getJsonArray(jsonObject, "role");
@@ -16960,10 +17442,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Provenance.Entity.class, jsonObject);
         }
         Provenance.Entity.Builder builder = Provenance.Entity.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.role((ProvenanceEntityRole) parseString(ProvenanceEntityRole.builder(), "role", getJsonValue(jsonObject, "role", JsonString.class), jsonObject.get("_role"), -1));
         builder.what(parseReference("what", getJsonValue(jsonObject, "what", JsonObject.class), -1));
@@ -16982,9 +17465,10 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Quantity.class, jsonObject);
         }
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.value(parseDecimal("value", getJsonValue(jsonObject, "value", JsonNumber.class), jsonObject.get("_value"), -1));
         builder.comparator((QuantityComparator) parseString(QuantityComparator.builder(), "comparator", getJsonValue(jsonObject, "comparator", JsonString.class), jsonObject.get("_comparator"), -1));
@@ -17004,10 +17488,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Questionnaire.class, jsonObject);
         }
         Questionnaire.Builder builder = Questionnaire.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
@@ -17082,10 +17567,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Questionnaire.Item.class, jsonObject);
         }
         Questionnaire.Item.Builder builder = Questionnaire.Item.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.linkId(parseString("linkId", getJsonValue(jsonObject, "linkId", JsonString.class), jsonObject.get("_linkId"), -1));
         builder.definition(parseUri("definition", getJsonValue(jsonObject, "definition", JsonString.class), jsonObject.get("_definition"), -1));
@@ -17137,10 +17623,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Questionnaire.Item.AnswerOption.class, jsonObject);
         }
         Questionnaire.Item.AnswerOption.Builder builder = Questionnaire.Item.AnswerOption.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.value(parseChoiceElement("value", jsonObject, Integer.class, Date.class, Time.class, String.class, Coding.class, Reference.class));
         builder.initialSelected(parseBoolean("initialSelected", getJsonValue(jsonObject, "initialSelected", JsonValue.class), jsonObject.get("_initialSelected"), -1));
@@ -17153,10 +17640,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Questionnaire.Item.EnableWhen.class, jsonObject);
         }
         Questionnaire.Item.EnableWhen.Builder builder = Questionnaire.Item.EnableWhen.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.question(parseString("question", getJsonValue(jsonObject, "question", JsonString.class), jsonObject.get("_question"), -1));
         builder.operator((QuestionnaireItemOperator) parseString(QuestionnaireItemOperator.builder(), "operator", getJsonValue(jsonObject, "operator", JsonString.class), jsonObject.get("_operator"), -1));
@@ -17170,10 +17658,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Questionnaire.Item.Initial.class, jsonObject);
         }
         Questionnaire.Item.Initial.Builder builder = Questionnaire.Item.Initial.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.value(parseChoiceElement("value", jsonObject, Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class));
         stackPop();
@@ -17185,10 +17674,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(QuestionnaireResponse.class, jsonObject);
         }
         QuestionnaireResponse.Builder builder = QuestionnaireResponse.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         JsonArray basedOnArray = getJsonArray(jsonObject, "basedOn");
@@ -17225,10 +17715,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(QuestionnaireResponse.Item.class, jsonObject);
         }
         QuestionnaireResponse.Item.Builder builder = QuestionnaireResponse.Item.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.linkId(parseString("linkId", getJsonValue(jsonObject, "linkId", JsonString.class), jsonObject.get("_linkId"), -1));
         builder.definition(parseUri("definition", getJsonValue(jsonObject, "definition", JsonString.class), jsonObject.get("_definition"), -1));
@@ -17254,10 +17745,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(QuestionnaireResponse.Item.Answer.class, jsonObject);
         }
         QuestionnaireResponse.Item.Answer.Builder builder = QuestionnaireResponse.Item.Answer.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.value(parseChoiceElement("value", jsonObject, Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class));
         JsonArray itemArray = getJsonArray(jsonObject, "item");
@@ -17275,10 +17767,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Range.class, jsonObject);
         }
         Range.Builder builder = Range.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.low((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "low", getJsonValue(jsonObject, "low", JsonObject.class), -1));
         builder.high((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "high", getJsonValue(jsonObject, "high", JsonObject.class), -1));
@@ -17291,10 +17784,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Ratio.class, jsonObject);
         }
         Ratio.Builder builder = Ratio.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.numerator(parseQuantity("numerator", getJsonValue(jsonObject, "numerator", JsonObject.class), -1));
         builder.denominator(parseQuantity("denominator", getJsonValue(jsonObject, "denominator", JsonObject.class), -1));
@@ -17307,10 +17801,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Reference.class, jsonObject);
         }
         Reference.Builder builder = Reference.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.reference(parseString("reference", getJsonValue(jsonObject, "reference", JsonString.class), jsonObject.get("_reference"), -1));
         builder.type(parseUri("type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
@@ -17325,10 +17820,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RelatedArtifact.class, jsonObject);
         }
         RelatedArtifact.Builder builder = RelatedArtifact.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.type((RelatedArtifactType) parseString(RelatedArtifactType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.label(parseString("label", getJsonValue(jsonObject, "label", JsonString.class), jsonObject.get("_label"), -1));
@@ -17346,10 +17842,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RelatedPerson.class, jsonObject);
         }
         RelatedPerson.Builder builder = RelatedPerson.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -17407,10 +17904,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RelatedPerson.Communication.class, jsonObject);
         }
         RelatedPerson.Communication.Builder builder = RelatedPerson.Communication.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.language(parseCodeableConcept("language", getJsonValue(jsonObject, "language", JsonObject.class), -1));
         builder.preferred(parseBoolean("preferred", getJsonValue(jsonObject, "preferred", JsonValue.class), jsonObject.get("_preferred"), -1));
@@ -17423,10 +17921,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RequestGroup.class, jsonObject);
         }
         RequestGroup.Builder builder = RequestGroup.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -17502,10 +18001,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RequestGroup.Action.class, jsonObject);
         }
         RequestGroup.Action.Builder builder = RequestGroup.Action.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.prefix(parseString("prefix", getJsonValue(jsonObject, "prefix", JsonString.class), jsonObject.get("_prefix"), -1));
         builder.title(parseString("title", getJsonValue(jsonObject, "title", JsonString.class), jsonObject.get("_title"), -1));
@@ -17565,10 +18065,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RequestGroup.Action.Condition.class, jsonObject);
         }
         RequestGroup.Action.Condition.Builder builder = RequestGroup.Action.Condition.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.kind((ActionConditionKind) parseString(ActionConditionKind.builder(), "kind", getJsonValue(jsonObject, "kind", JsonString.class), jsonObject.get("_kind"), -1));
         builder.expression(parseExpression("expression", getJsonValue(jsonObject, "expression", JsonObject.class), -1));
@@ -17581,10 +18082,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RequestGroup.Action.RelatedAction.class, jsonObject);
         }
         RequestGroup.Action.RelatedAction.Builder builder = RequestGroup.Action.RelatedAction.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.actionId((Id) parseString(Id.builder(), "actionId", getJsonValue(jsonObject, "actionId", JsonString.class), jsonObject.get("_actionId"), -1));
         builder.relationship((ActionRelationshipType) parseString(ActionRelationshipType.builder(), "relationship", getJsonValue(jsonObject, "relationship", JsonString.class), jsonObject.get("_relationship"), -1));
@@ -17598,10 +18100,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ResearchDefinition.class, jsonObject);
         }
         ResearchDefinition.Builder builder = ResearchDefinition.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
@@ -17708,10 +18211,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ResearchElementDefinition.class, jsonObject);
         }
         ResearchElementDefinition.Builder builder = ResearchElementDefinition.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
@@ -17822,10 +18326,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ResearchElementDefinition.Characteristic.class, jsonObject);
         }
         ResearchElementDefinition.Characteristic.Builder builder = ResearchElementDefinition.Characteristic.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.definition(parseChoiceElement("definition", jsonObject, CodeableConcept.class, Canonical.class, Expression.class, DataRequirement.class));
         JsonArray usageContextArray = getJsonArray(jsonObject, "usageContext");
@@ -17853,10 +18358,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ResearchStudy.class, jsonObject);
         }
         ResearchStudy.Builder builder = ResearchStudy.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -17966,10 +18472,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ResearchStudy.Arm.class, jsonObject);
         }
         ResearchStudy.Arm.Builder builder = ResearchStudy.Arm.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
@@ -17983,10 +18490,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ResearchStudy.Objective.class, jsonObject);
         }
         ResearchStudy.Objective.Builder builder = ResearchStudy.Objective.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
@@ -17999,10 +18507,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ResearchSubject.class, jsonObject);
         }
         ResearchSubject.Builder builder = ResearchSubject.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -18022,6 +18531,7 @@ public class FHIRJsonParser extends FHIRAbstractParser {
     }
 
     private void parseResource(Resource.Builder builder, JsonObject jsonObject) {
+        builder.setValidating(validating);
         builder.id(parseJavaString("id", getJsonValue(jsonObject, "id", JsonString.class), -1));
         builder.meta(parseMeta("meta", getJsonValue(jsonObject, "meta", JsonObject.class), -1));
         builder.implicitRules(parseUri("implicitRules", getJsonValue(jsonObject, "implicitRules", JsonString.class), jsonObject.get("_implicitRules"), -1));
@@ -18033,10 +18543,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RiskAssessment.class, jsonObject);
         }
         RiskAssessment.Builder builder = RiskAssessment.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -18094,10 +18605,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RiskAssessment.Prediction.class, jsonObject);
         }
         RiskAssessment.Prediction.Builder builder = RiskAssessment.Prediction.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.outcome(parseCodeableConcept("outcome", getJsonValue(jsonObject, "outcome", JsonObject.class), -1));
         builder.probability(parseChoiceElement("probability", jsonObject, Decimal.class, Range.class));
@@ -18114,10 +18626,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RiskEvidenceSynthesis.class, jsonObject);
         }
         RiskEvidenceSynthesis.Builder builder = RiskEvidenceSynthesis.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
@@ -18219,10 +18732,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RiskEvidenceSynthesis.Certainty.class, jsonObject);
         }
         RiskEvidenceSynthesis.Certainty.Builder builder = RiskEvidenceSynthesis.Certainty.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray ratingArray = getJsonArray(jsonObject, "rating");
         if (ratingArray != null) {
@@ -18251,10 +18765,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RiskEvidenceSynthesis.Certainty.CertaintySubcomponent.class, jsonObject);
         }
         RiskEvidenceSynthesis.Certainty.CertaintySubcomponent.Builder builder = RiskEvidenceSynthesis.Certainty.CertaintySubcomponent.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         JsonArray ratingArray = getJsonArray(jsonObject, "rating");
@@ -18278,10 +18793,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RiskEvidenceSynthesis.RiskEstimate.class, jsonObject);
         }
         RiskEvidenceSynthesis.RiskEstimate.Builder builder = RiskEvidenceSynthesis.RiskEstimate.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
@@ -18304,10 +18820,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RiskEvidenceSynthesis.RiskEstimate.PrecisionEstimate.class, jsonObject);
         }
         RiskEvidenceSynthesis.RiskEstimate.PrecisionEstimate.Builder builder = RiskEvidenceSynthesis.RiskEstimate.PrecisionEstimate.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.level(parseDecimal("level", getJsonValue(jsonObject, "level", JsonNumber.class), jsonObject.get("_level"), -1));
@@ -18322,10 +18839,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(RiskEvidenceSynthesis.SampleSize.class, jsonObject);
         }
         RiskEvidenceSynthesis.SampleSize.Builder builder = RiskEvidenceSynthesis.SampleSize.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.numberOfStudies(parseInteger("numberOfStudies", getJsonValue(jsonObject, "numberOfStudies", JsonNumber.class), jsonObject.get("_numberOfStudies"), -1));
@@ -18339,10 +18857,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SampledData.class, jsonObject);
         }
         SampledData.Builder builder = SampledData.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.origin((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "origin", getJsonValue(jsonObject, "origin", JsonObject.class), -1));
         builder.period(parseDecimal("period", getJsonValue(jsonObject, "period", JsonNumber.class), jsonObject.get("_period"), -1));
@@ -18360,10 +18879,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Schedule.class, jsonObject);
         }
         Schedule.Builder builder = Schedule.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -18407,10 +18927,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SearchParameter.class, jsonObject);
         }
         SearchParameter.Builder builder = SearchParameter.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         builder.version(parseString("version", getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
@@ -18497,10 +19018,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SearchParameter.Component.class, jsonObject);
         }
         SearchParameter.Component.Builder builder = SearchParameter.Component.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.definition((Canonical) parseUri(Canonical.builder(), "definition", getJsonValue(jsonObject, "definition", JsonString.class), jsonObject.get("_definition"), -1));
         builder.expression(parseString("expression", getJsonValue(jsonObject, "expression", JsonString.class), jsonObject.get("_expression"), -1));
@@ -18513,10 +19035,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ServiceRequest.class, jsonObject);
         }
         ServiceRequest.Builder builder = ServiceRequest.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -18652,10 +19175,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Signature.class, jsonObject);
         }
         Signature.Builder builder = Signature.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         JsonArray typeArray = getJsonArray(jsonObject, "type");
         if (typeArray != null) {
@@ -18678,10 +19202,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Slot.class, jsonObject);
         }
         Slot.Builder builder = Slot.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -18723,10 +19248,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Specimen.class, jsonObject);
         }
         Specimen.Builder builder = Specimen.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -18785,10 +19311,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Specimen.Collection.class, jsonObject);
         }
         Specimen.Collection.Builder builder = Specimen.Collection.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.collector(parseReference("collector", getJsonValue(jsonObject, "collector", JsonObject.class), -1));
         builder.collected(parseChoiceElement("collected", jsonObject, DateTime.class, Period.class));
@@ -18806,10 +19333,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Specimen.Container.class, jsonObject);
         }
         Specimen.Container.Builder builder = Specimen.Container.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -18831,10 +19359,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Specimen.Processing.class, jsonObject);
         }
         Specimen.Processing.Builder builder = Specimen.Processing.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.procedure(parseCodeableConcept("procedure", getJsonValue(jsonObject, "procedure", JsonObject.class), -1));
@@ -18854,10 +19383,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SpecimenDefinition.class, jsonObject);
         }
         SpecimenDefinition.Builder builder = SpecimenDefinition.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.typeCollected(parseCodeableConcept("typeCollected", getJsonValue(jsonObject, "typeCollected", JsonObject.class), -1));
@@ -18889,10 +19419,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SpecimenDefinition.TypeTested.class, jsonObject);
         }
         SpecimenDefinition.TypeTested.Builder builder = SpecimenDefinition.TypeTested.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.isDerived(parseBoolean("isDerived", getJsonValue(jsonObject, "isDerived", JsonValue.class), jsonObject.get("_isDerived"), -1));
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
@@ -18921,10 +19452,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SpecimenDefinition.TypeTested.Container.class, jsonObject);
         }
         SpecimenDefinition.TypeTested.Container.Builder builder = SpecimenDefinition.TypeTested.Container.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.material(parseCodeableConcept("material", getJsonValue(jsonObject, "material", JsonObject.class), -1));
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
@@ -18948,10 +19480,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SpecimenDefinition.TypeTested.Container.Additive.class, jsonObject);
         }
         SpecimenDefinition.TypeTested.Container.Additive.Builder builder = SpecimenDefinition.TypeTested.Container.Additive.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.additive(parseChoiceElement("additive", jsonObject, CodeableConcept.class, Reference.class));
         stackPop();
@@ -18963,10 +19496,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SpecimenDefinition.TypeTested.Handling.class, jsonObject);
         }
         SpecimenDefinition.TypeTested.Handling.Builder builder = SpecimenDefinition.TypeTested.Handling.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.temperatureQualifier(parseCodeableConcept("temperatureQualifier", getJsonValue(jsonObject, "temperatureQualifier", JsonObject.class), -1));
         builder.temperatureRange(parseRange("temperatureRange", getJsonValue(jsonObject, "temperatureRange", JsonObject.class), -1));
@@ -18981,9 +19515,10 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
+        builder.setValidating(validating);
         if (_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT) {
             JsonObject jsonObject = (JsonObject) _jsonValue;
-            if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+            if (!ignoringUnrecognizedElements) {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
@@ -19009,10 +19544,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureDefinition.class, jsonObject);
         }
         StructureDefinition.Builder builder = StructureDefinition.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
@@ -19091,10 +19627,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureDefinition.Context.class, jsonObject);
         }
         StructureDefinition.Context.Builder builder = StructureDefinition.Context.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type((ExtensionContextType) parseString(ExtensionContextType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.expression(parseString("expression", getJsonValue(jsonObject, "expression", JsonString.class), jsonObject.get("_expression"), -1));
@@ -19107,10 +19644,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureDefinition.Differential.class, jsonObject);
         }
         StructureDefinition.Differential.Builder builder = StructureDefinition.Differential.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray elementArray = getJsonArray(jsonObject, "element");
         if (elementArray != null) {
@@ -19127,10 +19665,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureDefinition.Mapping.class, jsonObject);
         }
         StructureDefinition.Mapping.Builder builder = StructureDefinition.Mapping.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.identity((Id) parseString(Id.builder(), "identity", getJsonValue(jsonObject, "identity", JsonString.class), jsonObject.get("_identity"), -1));
         builder.uri(parseUri("uri", getJsonValue(jsonObject, "uri", JsonString.class), jsonObject.get("_uri"), -1));
@@ -19145,10 +19684,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureDefinition.Snapshot.class, jsonObject);
         }
         StructureDefinition.Snapshot.Builder builder = StructureDefinition.Snapshot.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray elementArray = getJsonArray(jsonObject, "element");
         if (elementArray != null) {
@@ -19165,10 +19705,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureMap.class, jsonObject);
         }
         StructureMap.Builder builder = StructureMap.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
@@ -19233,10 +19774,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureMap.Group.class, jsonObject);
         }
         StructureMap.Group.Builder builder = StructureMap.Group.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name((Id) parseString(Id.builder(), "name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder._extends((Id) parseString(Id.builder(), "extends", getJsonValue(jsonObject, "extends", JsonString.class), jsonObject.get("_extends"), -1));
@@ -19263,10 +19805,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureMap.Group.Input.class, jsonObject);
         }
         StructureMap.Group.Input.Builder builder = StructureMap.Group.Input.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name((Id) parseString(Id.builder(), "name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.type(parseString("type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
@@ -19281,10 +19824,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureMap.Group.Rule.class, jsonObject);
         }
         StructureMap.Group.Rule.Builder builder = StructureMap.Group.Rule.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name((Id) parseString(Id.builder(), "name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         JsonArray sourceArray = getJsonArray(jsonObject, "source");
@@ -19321,10 +19865,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureMap.Group.Rule.Dependent.class, jsonObject);
         }
         StructureMap.Group.Rule.Dependent.Builder builder = StructureMap.Group.Rule.Dependent.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name((Id) parseString(Id.builder(), "name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         JsonArray variableArray = getJsonArray(jsonObject, "variable", true);
@@ -19343,10 +19888,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureMap.Group.Rule.Source.class, jsonObject);
         }
         StructureMap.Group.Rule.Source.Builder builder = StructureMap.Group.Rule.Source.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.context((Id) parseString(Id.builder(), "context", getJsonValue(jsonObject, "context", JsonString.class), jsonObject.get("_context"), -1));
         builder.min(parseInteger("min", getJsonValue(jsonObject, "min", JsonNumber.class), jsonObject.get("_min"), -1));
@@ -19368,10 +19914,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureMap.Group.Rule.Target.class, jsonObject);
         }
         StructureMap.Group.Rule.Target.Builder builder = StructureMap.Group.Rule.Target.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.context((Id) parseString(Id.builder(), "context", getJsonValue(jsonObject, "context", JsonString.class), jsonObject.get("_context"), -1));
         builder.contextType((StructureMapContextType) parseString(StructureMapContextType.builder(), "contextType", getJsonValue(jsonObject, "contextType", JsonString.class), jsonObject.get("_contextType"), -1));
@@ -19401,10 +19948,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureMap.Group.Rule.Target.Parameter.class, jsonObject);
         }
         StructureMap.Group.Rule.Target.Parameter.Builder builder = StructureMap.Group.Rule.Target.Parameter.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.value(parseChoiceElement("value", jsonObject, Id.class, String.class, Boolean.class, Integer.class, Decimal.class));
         stackPop();
@@ -19416,10 +19964,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(StructureMap.Structure.class, jsonObject);
         }
         StructureMap.Structure.Builder builder = StructureMap.Structure.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.url((Canonical) parseUri(Canonical.builder(), "url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         builder.mode((StructureMapModelMode) parseString(StructureMapModelMode.builder(), "mode", getJsonValue(jsonObject, "mode", JsonString.class), jsonObject.get("_mode"), -1));
@@ -19434,10 +19983,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Subscription.class, jsonObject);
         }
         Subscription.Builder builder = Subscription.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.status((SubscriptionStatus) parseString(SubscriptionStatus.builder(), "status", getJsonValue(jsonObject, "status", JsonString.class), jsonObject.get("_status"), -1));
         JsonArray contactArray = getJsonArray(jsonObject, "contact");
@@ -19460,10 +20010,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Subscription.Channel.class, jsonObject);
         }
         Subscription.Channel.Builder builder = Subscription.Channel.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type((SubscriptionChannelType) parseString(SubscriptionChannelType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.endpoint((Url) parseUri(Url.builder(), "endpoint", getJsonValue(jsonObject, "endpoint", JsonString.class), jsonObject.get("_endpoint"), -1));
@@ -19484,10 +20035,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Substance.class, jsonObject);
         }
         Substance.Builder builder = Substance.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -19525,10 +20077,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Substance.Ingredient.class, jsonObject);
         }
         Substance.Ingredient.Builder builder = Substance.Ingredient.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.quantity(parseRatio("quantity", getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         builder.substance(parseChoiceElement("substance", jsonObject, CodeableConcept.class, Reference.class));
@@ -19541,10 +20094,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Substance.Instance.class, jsonObject);
         }
         Substance.Instance.Builder builder = Substance.Instance.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.expiry(parseDateTime("expiry", getJsonValue(jsonObject, "expiry", JsonString.class), jsonObject.get("_expiry"), -1));
@@ -19558,10 +20112,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceAmount.class, jsonObject);
         }
         SubstanceAmount.Builder builder = SubstanceAmount.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.amount(parseChoiceElement("amount", jsonObject, Quantity.class, Range.class, String.class));
         builder.amountType(parseCodeableConcept("amountType", getJsonValue(jsonObject, "amountType", JsonObject.class), -1));
@@ -19576,10 +20131,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceAmount.ReferenceRange.class, jsonObject);
         }
         SubstanceAmount.ReferenceRange.Builder builder = SubstanceAmount.ReferenceRange.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.lowLimit(parseQuantity("lowLimit", getJsonValue(jsonObject, "lowLimit", JsonObject.class), -1));
         builder.highLimit(parseQuantity("highLimit", getJsonValue(jsonObject, "highLimit", JsonObject.class), -1));
@@ -19592,10 +20148,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceNucleicAcid.class, jsonObject);
         }
         SubstanceNucleicAcid.Builder builder = SubstanceNucleicAcid.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.sequenceType(parseCodeableConcept("sequenceType", getJsonValue(jsonObject, "sequenceType", JsonObject.class), -1));
         builder.numberOfSubunits(parseInteger("numberOfSubunits", getJsonValue(jsonObject, "numberOfSubunits", JsonNumber.class), jsonObject.get("_numberOfSubunits"), -1));
@@ -19616,10 +20173,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceNucleicAcid.Subunit.class, jsonObject);
         }
         SubstanceNucleicAcid.Subunit.Builder builder = SubstanceNucleicAcid.Subunit.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.subunit(parseInteger("subunit", getJsonValue(jsonObject, "subunit", JsonNumber.class), jsonObject.get("_subunit"), -1));
         builder.sequence(parseString("sequence", getJsonValue(jsonObject, "sequence", JsonString.class), jsonObject.get("_sequence"), -1));
@@ -19648,10 +20206,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceNucleicAcid.Subunit.Linkage.class, jsonObject);
         }
         SubstanceNucleicAcid.Subunit.Linkage.Builder builder = SubstanceNucleicAcid.Subunit.Linkage.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.connectivity(parseString("connectivity", getJsonValue(jsonObject, "connectivity", JsonString.class), jsonObject.get("_connectivity"), -1));
         builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
@@ -19666,10 +20225,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceNucleicAcid.Subunit.Sugar.class, jsonObject);
         }
         SubstanceNucleicAcid.Subunit.Sugar.Builder builder = SubstanceNucleicAcid.Subunit.Sugar.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
@@ -19683,10 +20243,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstancePolymer.class, jsonObject);
         }
         SubstancePolymer.Builder builder = SubstancePolymer.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.clazz(parseCodeableConcept("class", getJsonValue(jsonObject, "class", JsonObject.class), -1));
         builder.geometry(parseCodeableConcept("geometry", getJsonValue(jsonObject, "geometry", JsonObject.class), -1));
@@ -19724,10 +20285,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstancePolymer.MonomerSet.class, jsonObject);
         }
         SubstancePolymer.MonomerSet.Builder builder = SubstancePolymer.MonomerSet.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.ratioType(parseCodeableConcept("ratioType", getJsonValue(jsonObject, "ratioType", JsonObject.class), -1));
         JsonArray startingMaterialArray = getJsonArray(jsonObject, "startingMaterial");
@@ -19745,10 +20307,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstancePolymer.MonomerSet.StartingMaterial.class, jsonObject);
         }
         SubstancePolymer.MonomerSet.StartingMaterial.Builder builder = SubstancePolymer.MonomerSet.StartingMaterial.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.material(parseCodeableConcept("material", getJsonValue(jsonObject, "material", JsonObject.class), -1));
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
@@ -19763,10 +20326,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstancePolymer.Repeat.class, jsonObject);
         }
         SubstancePolymer.Repeat.Builder builder = SubstancePolymer.Repeat.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.numberOfUnits(parseInteger("numberOfUnits", getJsonValue(jsonObject, "numberOfUnits", JsonNumber.class), jsonObject.get("_numberOfUnits"), -1));
         builder.averageMolecularFormula(parseString("averageMolecularFormula", getJsonValue(jsonObject, "averageMolecularFormula", JsonString.class), jsonObject.get("_averageMolecularFormula"), -1));
@@ -19786,10 +20350,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstancePolymer.Repeat.RepeatUnit.class, jsonObject);
         }
         SubstancePolymer.Repeat.RepeatUnit.Builder builder = SubstancePolymer.Repeat.RepeatUnit.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.orientationOfPolymerisation(parseCodeableConcept("orientationOfPolymerisation", getJsonValue(jsonObject, "orientationOfPolymerisation", JsonObject.class), -1));
         builder.repeatUnit(parseString("repeatUnit", getJsonValue(jsonObject, "repeatUnit", JsonString.class), jsonObject.get("_repeatUnit"), -1));
@@ -19815,10 +20380,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstancePolymer.Repeat.RepeatUnit.DegreeOfPolymerisation.class, jsonObject);
         }
         SubstancePolymer.Repeat.RepeatUnit.DegreeOfPolymerisation.Builder builder = SubstancePolymer.Repeat.RepeatUnit.DegreeOfPolymerisation.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.degree(parseCodeableConcept("degree", getJsonValue(jsonObject, "degree", JsonObject.class), -1));
         builder.amount(parseSubstanceAmount("amount", getJsonValue(jsonObject, "amount", JsonObject.class), -1));
@@ -19831,10 +20397,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstancePolymer.Repeat.RepeatUnit.StructuralRepresentation.class, jsonObject);
         }
         SubstancePolymer.Repeat.RepeatUnit.StructuralRepresentation.Builder builder = SubstancePolymer.Repeat.RepeatUnit.StructuralRepresentation.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.representation(parseString("representation", getJsonValue(jsonObject, "representation", JsonString.class), jsonObject.get("_representation"), -1));
@@ -19848,10 +20415,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceProtein.class, jsonObject);
         }
         SubstanceProtein.Builder builder = SubstanceProtein.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.sequenceType(parseCodeableConcept("sequenceType", getJsonValue(jsonObject, "sequenceType", JsonObject.class), -1));
         builder.numberOfSubunits(parseInteger("numberOfSubunits", getJsonValue(jsonObject, "numberOfSubunits", JsonNumber.class), jsonObject.get("_numberOfSubunits"), -1));
@@ -19877,10 +20445,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceProtein.Subunit.class, jsonObject);
         }
         SubstanceProtein.Subunit.Builder builder = SubstanceProtein.Subunit.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.subunit(parseInteger("subunit", getJsonValue(jsonObject, "subunit", JsonNumber.class), jsonObject.get("_subunit"), -1));
         builder.sequence(parseString("sequence", getJsonValue(jsonObject, "sequence", JsonString.class), jsonObject.get("_sequence"), -1));
@@ -19899,10 +20468,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceReferenceInformation.class, jsonObject);
         }
         SubstanceReferenceInformation.Builder builder = SubstanceReferenceInformation.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.comment(parseString("comment", getJsonValue(jsonObject, "comment", JsonString.class), jsonObject.get("_comment"), -1));
         JsonArray geneArray = getJsonArray(jsonObject, "gene");
@@ -19938,10 +20508,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceReferenceInformation.Classification.class, jsonObject);
         }
         SubstanceReferenceInformation.Classification.Builder builder = SubstanceReferenceInformation.Classification.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.domain(parseCodeableConcept("domain", getJsonValue(jsonObject, "domain", JsonObject.class), -1));
         builder.classification(parseCodeableConcept("classification", getJsonValue(jsonObject, "classification", JsonObject.class), -1));
@@ -19966,10 +20537,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceReferenceInformation.Gene.class, jsonObject);
         }
         SubstanceReferenceInformation.Gene.Builder builder = SubstanceReferenceInformation.Gene.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.geneSequenceOrigin(parseCodeableConcept("geneSequenceOrigin", getJsonValue(jsonObject, "geneSequenceOrigin", JsonObject.class), -1));
         builder.gene(parseCodeableConcept("gene", getJsonValue(jsonObject, "gene", JsonObject.class), -1));
@@ -19988,10 +20560,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceReferenceInformation.GeneElement.class, jsonObject);
         }
         SubstanceReferenceInformation.GeneElement.Builder builder = SubstanceReferenceInformation.GeneElement.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.element(parseIdentifier("element", getJsonValue(jsonObject, "element", JsonObject.class), -1));
@@ -20010,10 +20583,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceReferenceInformation.Target.class, jsonObject);
         }
         SubstanceReferenceInformation.Target.Builder builder = SubstanceReferenceInformation.Target.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.target(parseIdentifier("target", getJsonValue(jsonObject, "target", JsonObject.class), -1));
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
@@ -20037,10 +20611,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSourceMaterial.class, jsonObject);
         }
         SubstanceSourceMaterial.Builder builder = SubstanceSourceMaterial.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.sourceMaterialClass(parseCodeableConcept("sourceMaterialClass", getJsonValue(jsonObject, "sourceMaterialClass", JsonObject.class), -1));
         builder.sourceMaterialType(parseCodeableConcept("sourceMaterialType", getJsonValue(jsonObject, "sourceMaterialType", JsonObject.class), -1));
@@ -20096,10 +20671,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSourceMaterial.FractionDescription.class, jsonObject);
         }
         SubstanceSourceMaterial.FractionDescription.Builder builder = SubstanceSourceMaterial.FractionDescription.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.fraction(parseString("fraction", getJsonValue(jsonObject, "fraction", JsonString.class), jsonObject.get("_fraction"), -1));
         builder.materialType(parseCodeableConcept("materialType", getJsonValue(jsonObject, "materialType", JsonObject.class), -1));
@@ -20112,10 +20688,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSourceMaterial.Organism.class, jsonObject);
         }
         SubstanceSourceMaterial.Organism.Builder builder = SubstanceSourceMaterial.Organism.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.family(parseCodeableConcept("family", getJsonValue(jsonObject, "family", JsonObject.class), -1));
         builder.genus(parseCodeableConcept("genus", getJsonValue(jsonObject, "genus", JsonObject.class), -1));
@@ -20139,10 +20716,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSourceMaterial.Organism.Author.class, jsonObject);
         }
         SubstanceSourceMaterial.Organism.Author.Builder builder = SubstanceSourceMaterial.Organism.Author.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.authorType(parseCodeableConcept("authorType", getJsonValue(jsonObject, "authorType", JsonObject.class), -1));
         builder.authorDescription(parseString("authorDescription", getJsonValue(jsonObject, "authorDescription", JsonString.class), jsonObject.get("_authorDescription"), -1));
@@ -20155,10 +20733,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSourceMaterial.Organism.Hybrid.class, jsonObject);
         }
         SubstanceSourceMaterial.Organism.Hybrid.Builder builder = SubstanceSourceMaterial.Organism.Hybrid.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.maternalOrganismId(parseString("maternalOrganismId", getJsonValue(jsonObject, "maternalOrganismId", JsonString.class), jsonObject.get("_maternalOrganismId"), -1));
         builder.maternalOrganismName(parseString("maternalOrganismName", getJsonValue(jsonObject, "maternalOrganismName", JsonString.class), jsonObject.get("_maternalOrganismName"), -1));
@@ -20174,10 +20753,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSourceMaterial.Organism.OrganismGeneral.class, jsonObject);
         }
         SubstanceSourceMaterial.Organism.OrganismGeneral.Builder builder = SubstanceSourceMaterial.Organism.OrganismGeneral.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.kingdom(parseCodeableConcept("kingdom", getJsonValue(jsonObject, "kingdom", JsonObject.class), -1));
         builder.phylum(parseCodeableConcept("phylum", getJsonValue(jsonObject, "phylum", JsonObject.class), -1));
@@ -20192,10 +20772,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSourceMaterial.PartDescription.class, jsonObject);
         }
         SubstanceSourceMaterial.PartDescription.Builder builder = SubstanceSourceMaterial.PartDescription.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.part(parseCodeableConcept("part", getJsonValue(jsonObject, "part", JsonObject.class), -1));
         builder.partLocation(parseCodeableConcept("partLocation", getJsonValue(jsonObject, "partLocation", JsonObject.class), -1));
@@ -20208,10 +20789,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSpecification.class, jsonObject);
         }
         SubstanceSpecification.Builder builder = SubstanceSpecification.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
@@ -20276,10 +20858,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSpecification.Code.class, jsonObject);
         }
         SubstanceSpecification.Code.Builder builder = SubstanceSpecification.Code.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.status(parseCodeableConcept("status", getJsonValue(jsonObject, "status", JsonObject.class), -1));
@@ -20300,10 +20883,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSpecification.Moiety.class, jsonObject);
         }
         SubstanceSpecification.Moiety.Builder builder = SubstanceSpecification.Moiety.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.role(parseCodeableConcept("role", getJsonValue(jsonObject, "role", JsonObject.class), -1));
         builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
@@ -20321,10 +20905,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSpecification.Name.class, jsonObject);
         }
         SubstanceSpecification.Name.Builder builder = SubstanceSpecification.Name.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
@@ -20381,10 +20966,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSpecification.Name.Official.class, jsonObject);
         }
         SubstanceSpecification.Name.Official.Builder builder = SubstanceSpecification.Name.Official.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.authority(parseCodeableConcept("authority", getJsonValue(jsonObject, "authority", JsonObject.class), -1));
         builder.status(parseCodeableConcept("status", getJsonValue(jsonObject, "status", JsonObject.class), -1));
@@ -20398,10 +20984,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSpecification.Property.class, jsonObject);
         }
         SubstanceSpecification.Property.Builder builder = SubstanceSpecification.Property.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.category(parseCodeableConcept("category", getJsonValue(jsonObject, "category", JsonObject.class), -1));
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
@@ -20417,10 +21004,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSpecification.Relationship.class, jsonObject);
         }
         SubstanceSpecification.Relationship.Builder builder = SubstanceSpecification.Relationship.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.substance(parseChoiceElement("substance", jsonObject, Reference.class, CodeableConcept.class));
         builder.relationship(parseCodeableConcept("relationship", getJsonValue(jsonObject, "relationship", JsonObject.class), -1));
@@ -20443,10 +21031,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSpecification.Structure.class, jsonObject);
         }
         SubstanceSpecification.Structure.Builder builder = SubstanceSpecification.Structure.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.stereochemistry(parseCodeableConcept("stereochemistry", getJsonValue(jsonObject, "stereochemistry", JsonObject.class), -1));
         builder.opticalActivity(parseCodeableConcept("opticalActivity", getJsonValue(jsonObject, "opticalActivity", JsonObject.class), -1));
@@ -20480,10 +21069,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSpecification.Structure.Isotope.class, jsonObject);
         }
         SubstanceSpecification.Structure.Isotope.Builder builder = SubstanceSpecification.Structure.Isotope.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.name(parseCodeableConcept("name", getJsonValue(jsonObject, "name", JsonObject.class), -1));
@@ -20499,10 +21089,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSpecification.Structure.Isotope.MolecularWeight.class, jsonObject);
         }
         SubstanceSpecification.Structure.Isotope.MolecularWeight.Builder builder = SubstanceSpecification.Structure.Isotope.MolecularWeight.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.method(parseCodeableConcept("method", getJsonValue(jsonObject, "method", JsonObject.class), -1));
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
@@ -20516,10 +21107,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SubstanceSpecification.Structure.Representation.class, jsonObject);
         }
         SubstanceSpecification.Structure.Representation.Builder builder = SubstanceSpecification.Structure.Representation.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.representation(parseString("representation", getJsonValue(jsonObject, "representation", JsonString.class), jsonObject.get("_representation"), -1));
@@ -20533,10 +21125,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SupplyDelivery.class, jsonObject);
         }
         SupplyDelivery.Builder builder = SupplyDelivery.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -20578,10 +21171,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SupplyDelivery.SuppliedItem.class, jsonObject);
         }
         SupplyDelivery.SuppliedItem.Builder builder = SupplyDelivery.SuppliedItem.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.quantity((SimpleQuantity) parseQuantity(SimpleQuantity.builder(), "quantity", getJsonValue(jsonObject, "quantity", JsonObject.class), -1));
         builder.item(parseChoiceElement("item", jsonObject, CodeableConcept.class, Reference.class));
@@ -20594,10 +21188,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SupplyRequest.class, jsonObject);
         }
         SupplyRequest.Builder builder = SupplyRequest.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -20648,10 +21243,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(SupplyRequest.Parameter.class, jsonObject);
         }
         SupplyRequest.Parameter.Builder builder = SupplyRequest.Parameter.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseCodeableConcept("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.value(parseChoiceElement("value", jsonObject, CodeableConcept.class, Quantity.class, Range.class, Boolean.class));
@@ -20664,10 +21260,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Task.class, jsonObject);
         }
         Task.Builder builder = Task.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -20754,10 +21351,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Task.Input.class, jsonObject);
         }
         Task.Input.Builder builder = Task.Input.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.value(parseChoiceElement("value", jsonObject, Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class));
@@ -20770,10 +21368,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Task.Output.class, jsonObject);
         }
         Task.Output.Builder builder = Task.Output.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCodeableConcept("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.value(parseChoiceElement("value", jsonObject, Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class));
@@ -20786,10 +21385,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Task.Restriction.class, jsonObject);
         }
         Task.Restriction.Builder builder = Task.Restriction.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.repetitions((PositiveInt) parseInteger(PositiveInt.builder(), "repetitions", getJsonValue(jsonObject, "repetitions", JsonNumber.class), jsonObject.get("_repetitions"), -1));
         builder.period(parsePeriod("period", getJsonValue(jsonObject, "period", JsonObject.class), -1));
@@ -20808,10 +21408,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TerminologyCapabilities.class, jsonObject);
         }
         TerminologyCapabilities.Builder builder = TerminologyCapabilities.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         builder.version(parseString("version", getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
@@ -20866,10 +21467,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TerminologyCapabilities.Closure.class, jsonObject);
         }
         TerminologyCapabilities.Closure.Builder builder = TerminologyCapabilities.Closure.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.translation(parseBoolean("translation", getJsonValue(jsonObject, "translation", JsonValue.class), jsonObject.get("_translation"), -1));
         stackPop();
@@ -20881,10 +21483,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TerminologyCapabilities.CodeSystem.class, jsonObject);
         }
         TerminologyCapabilities.CodeSystem.Builder builder = TerminologyCapabilities.CodeSystem.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.uri((Canonical) parseUri(Canonical.builder(), "uri", getJsonValue(jsonObject, "uri", JsonString.class), jsonObject.get("_uri"), -1));
         JsonArray versionArray = getJsonArray(jsonObject, "version");
@@ -20903,10 +21506,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TerminologyCapabilities.CodeSystem.Version.class, jsonObject);
         }
         TerminologyCapabilities.CodeSystem.Version.Builder builder = TerminologyCapabilities.CodeSystem.Version.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code(parseString("code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.isDefault(parseBoolean("isDefault", getJsonValue(jsonObject, "isDefault", JsonValue.class), jsonObject.get("_isDefault"), -1));
@@ -20940,10 +21544,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TerminologyCapabilities.CodeSystem.Version.Filter.class, jsonObject);
         }
         TerminologyCapabilities.CodeSystem.Version.Filter.Builder builder = TerminologyCapabilities.CodeSystem.Version.Filter.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code((Code) parseString(Code.builder(), "code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         JsonArray opArray = getJsonArray(jsonObject, "op", true);
@@ -20962,10 +21567,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TerminologyCapabilities.Expansion.class, jsonObject);
         }
         TerminologyCapabilities.Expansion.Builder builder = TerminologyCapabilities.Expansion.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.hierarchical(parseBoolean("hierarchical", getJsonValue(jsonObject, "hierarchical", JsonValue.class), jsonObject.get("_hierarchical"), -1));
         builder.paging(parseBoolean("paging", getJsonValue(jsonObject, "paging", JsonValue.class), jsonObject.get("_paging"), -1));
@@ -20986,10 +21592,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TerminologyCapabilities.Expansion.Parameter.class, jsonObject);
         }
         TerminologyCapabilities.Expansion.Parameter.Builder builder = TerminologyCapabilities.Expansion.Parameter.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name((Code) parseString(Code.builder(), "name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.documentation(parseString("documentation", getJsonValue(jsonObject, "documentation", JsonString.class), jsonObject.get("_documentation"), -1));
@@ -21002,10 +21609,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TerminologyCapabilities.Implementation.class, jsonObject);
         }
         TerminologyCapabilities.Implementation.Builder builder = TerminologyCapabilities.Implementation.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
         builder.url((Url) parseUri(Url.builder(), "url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
@@ -21018,10 +21626,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TerminologyCapabilities.Software.class, jsonObject);
         }
         TerminologyCapabilities.Software.Builder builder = TerminologyCapabilities.Software.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.version(parseString("version", getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
@@ -21034,10 +21643,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TerminologyCapabilities.Translation.class, jsonObject);
         }
         TerminologyCapabilities.Translation.Builder builder = TerminologyCapabilities.Translation.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.needsMap(parseBoolean("needsMap", getJsonValue(jsonObject, "needsMap", JsonValue.class), jsonObject.get("_needsMap"), -1));
         stackPop();
@@ -21049,10 +21659,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TerminologyCapabilities.ValidateCode.class, jsonObject);
         }
         TerminologyCapabilities.ValidateCode.Builder builder = TerminologyCapabilities.ValidateCode.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.translations(parseBoolean("translations", getJsonValue(jsonObject, "translations", JsonValue.class), jsonObject.get("_translations"), -1));
         stackPop();
@@ -21064,10 +21675,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestReport.class, jsonObject);
         }
         TestReport.Builder builder = TestReport.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
@@ -21100,10 +21712,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestReport.Participant.class, jsonObject);
         }
         TestReport.Participant.Builder builder = TestReport.Participant.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type((TestReportParticipantType) parseString(TestReportParticipantType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.uri(parseUri("uri", getJsonValue(jsonObject, "uri", JsonString.class), jsonObject.get("_uri"), -1));
@@ -21117,10 +21730,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestReport.Setup.class, jsonObject);
         }
         TestReport.Setup.Builder builder = TestReport.Setup.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray actionArray = getJsonArray(jsonObject, "action");
         if (actionArray != null) {
@@ -21137,10 +21751,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestReport.Setup.Action.class, jsonObject);
         }
         TestReport.Setup.Action.Builder builder = TestReport.Setup.Action.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.operation(parseTestReportSetupActionOperation("operation", getJsonValue(jsonObject, "operation", JsonObject.class), -1));
         builder._assert(parseTestReportSetupActionAssert("assert", getJsonValue(jsonObject, "assert", JsonObject.class), -1));
@@ -21153,10 +21768,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestReport.Setup.Action.Assert.class, jsonObject);
         }
         TestReport.Setup.Action.Assert.Builder builder = TestReport.Setup.Action.Assert.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.result((TestReportActionResult) parseString(TestReportActionResult.builder(), "result", getJsonValue(jsonObject, "result", JsonString.class), jsonObject.get("_result"), -1));
         builder.message((Markdown) parseString(Markdown.builder(), "message", getJsonValue(jsonObject, "message", JsonString.class), jsonObject.get("_message"), -1));
@@ -21170,10 +21786,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestReport.Setup.Action.Operation.class, jsonObject);
         }
         TestReport.Setup.Action.Operation.Builder builder = TestReport.Setup.Action.Operation.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.result((TestReportActionResult) parseString(TestReportActionResult.builder(), "result", getJsonValue(jsonObject, "result", JsonString.class), jsonObject.get("_result"), -1));
         builder.message((Markdown) parseString(Markdown.builder(), "message", getJsonValue(jsonObject, "message", JsonString.class), jsonObject.get("_message"), -1));
@@ -21187,10 +21804,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestReport.Teardown.class, jsonObject);
         }
         TestReport.Teardown.Builder builder = TestReport.Teardown.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray actionArray = getJsonArray(jsonObject, "action");
         if (actionArray != null) {
@@ -21207,10 +21825,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestReport.Teardown.Action.class, jsonObject);
         }
         TestReport.Teardown.Action.Builder builder = TestReport.Teardown.Action.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.operation(parseTestReportSetupActionOperation("operation", getJsonValue(jsonObject, "operation", JsonObject.class), -1));
         stackPop();
@@ -21222,10 +21841,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestReport.Test.class, jsonObject);
         }
         TestReport.Test.Builder builder = TestReport.Test.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
@@ -21244,10 +21864,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestReport.Test.Action.class, jsonObject);
         }
         TestReport.Test.Action.Builder builder = TestReport.Test.Action.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.operation(parseTestReportSetupActionOperation("operation", getJsonValue(jsonObject, "operation", JsonObject.class), -1));
         builder._assert(parseTestReportSetupActionAssert("assert", getJsonValue(jsonObject, "assert", JsonObject.class), -1));
@@ -21260,10 +21881,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.class, jsonObject);
         }
         TestScript.Builder builder = TestScript.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         builder.identifier(parseIdentifier("identifier", getJsonValue(jsonObject, "identifier", JsonObject.class), -1));
@@ -21343,10 +21965,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Destination.class, jsonObject);
         }
         TestScript.Destination.Builder builder = TestScript.Destination.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.index(parseInteger("index", getJsonValue(jsonObject, "index", JsonNumber.class), jsonObject.get("_index"), -1));
         builder.profile(parseCoding("profile", getJsonValue(jsonObject, "profile", JsonObject.class), -1));
@@ -21359,10 +21982,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Fixture.class, jsonObject);
         }
         TestScript.Fixture.Builder builder = TestScript.Fixture.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.autocreate(parseBoolean("autocreate", getJsonValue(jsonObject, "autocreate", JsonValue.class), jsonObject.get("_autocreate"), -1));
         builder.autodelete(parseBoolean("autodelete", getJsonValue(jsonObject, "autodelete", JsonValue.class), jsonObject.get("_autodelete"), -1));
@@ -21376,10 +22000,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Metadata.class, jsonObject);
         }
         TestScript.Metadata.Builder builder = TestScript.Metadata.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray linkArray = getJsonArray(jsonObject, "link");
         if (linkArray != null) {
@@ -21402,10 +22027,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Metadata.Capability.class, jsonObject);
         }
         TestScript.Metadata.Capability.Builder builder = TestScript.Metadata.Capability.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.required(parseBoolean("required", getJsonValue(jsonObject, "required", JsonValue.class), jsonObject.get("_required"), -1));
         builder.validated(parseBoolean("validated", getJsonValue(jsonObject, "validated", JsonValue.class), jsonObject.get("_validated"), -1));
@@ -21435,10 +22061,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Metadata.Link.class, jsonObject);
         }
         TestScript.Metadata.Link.Builder builder = TestScript.Metadata.Link.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
@@ -21451,10 +22078,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Origin.class, jsonObject);
         }
         TestScript.Origin.Builder builder = TestScript.Origin.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.index(parseInteger("index", getJsonValue(jsonObject, "index", JsonNumber.class), jsonObject.get("_index"), -1));
         builder.profile(parseCoding("profile", getJsonValue(jsonObject, "profile", JsonObject.class), -1));
@@ -21467,10 +22095,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Setup.class, jsonObject);
         }
         TestScript.Setup.Builder builder = TestScript.Setup.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray actionArray = getJsonArray(jsonObject, "action");
         if (actionArray != null) {
@@ -21487,10 +22116,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Setup.Action.class, jsonObject);
         }
         TestScript.Setup.Action.Builder builder = TestScript.Setup.Action.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.operation(parseTestScriptSetupActionOperation("operation", getJsonValue(jsonObject, "operation", JsonObject.class), -1));
         builder._assert(parseTestScriptSetupActionAssert("assert", getJsonValue(jsonObject, "assert", JsonObject.class), -1));
@@ -21503,10 +22133,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Setup.Action.Assert.class, jsonObject);
         }
         TestScript.Setup.Action.Assert.Builder builder = TestScript.Setup.Action.Assert.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.label(parseString("label", getJsonValue(jsonObject, "label", JsonString.class), jsonObject.get("_label"), -1));
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
@@ -21539,10 +22170,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Setup.Action.Operation.class, jsonObject);
         }
         TestScript.Setup.Action.Operation.Builder builder = TestScript.Setup.Action.Operation.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.type(parseCoding("type", getJsonValue(jsonObject, "type", JsonObject.class), -1));
         builder.resource((FHIRDefinedType) parseString(FHIRDefinedType.builder(), "resource", getJsonValue(jsonObject, "resource", JsonString.class), jsonObject.get("_resource"), -1));
@@ -21575,10 +22207,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Setup.Action.Operation.RequestHeader.class, jsonObject);
         }
         TestScript.Setup.Action.Operation.RequestHeader.Builder builder = TestScript.Setup.Action.Operation.RequestHeader.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.field(parseString("field", getJsonValue(jsonObject, "field", JsonString.class), jsonObject.get("_field"), -1));
         builder.value(parseString("value", getJsonValue(jsonObject, "value", JsonString.class), jsonObject.get("_value"), -1));
@@ -21591,10 +22224,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Teardown.class, jsonObject);
         }
         TestScript.Teardown.Builder builder = TestScript.Teardown.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray actionArray = getJsonArray(jsonObject, "action");
         if (actionArray != null) {
@@ -21611,10 +22245,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Teardown.Action.class, jsonObject);
         }
         TestScript.Teardown.Action.Builder builder = TestScript.Teardown.Action.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.operation(parseTestScriptSetupActionOperation("operation", getJsonValue(jsonObject, "operation", JsonObject.class), -1));
         stackPop();
@@ -21626,10 +22261,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Test.class, jsonObject);
         }
         TestScript.Test.Builder builder = TestScript.Test.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.description(parseString("description", getJsonValue(jsonObject, "description", JsonString.class), jsonObject.get("_description"), -1));
@@ -21648,10 +22284,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Test.Action.class, jsonObject);
         }
         TestScript.Test.Action.Builder builder = TestScript.Test.Action.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.operation(parseTestScriptSetupActionOperation("operation", getJsonValue(jsonObject, "operation", JsonObject.class), -1));
         builder._assert(parseTestScriptSetupActionAssert("assert", getJsonValue(jsonObject, "assert", JsonObject.class), -1));
@@ -21664,10 +22301,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TestScript.Variable.class, jsonObject);
         }
         TestScript.Variable.Builder builder = TestScript.Variable.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.defaultValue(parseString("defaultValue", getJsonValue(jsonObject, "defaultValue", JsonString.class), jsonObject.get("_defaultValue"), -1));
@@ -21687,9 +22325,10 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         }
         stackPush(elementName, elementIndex);
         Time.Builder builder = Time.builder();
+        builder.setValidating(validating);
         if (_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT) {
             JsonObject jsonObject = (JsonObject) _jsonValue;
-            if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+            if (!ignoringUnrecognizedElements) {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
@@ -21711,10 +22350,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Timing.class, jsonObject);
         }
         Timing.Builder builder = Timing.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         JsonArray eventArray = getJsonArray(jsonObject, "event", true);
         if (eventArray != null) {
@@ -21734,10 +22374,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(Timing.Repeat.class, jsonObject);
         }
         Timing.Repeat.Builder builder = Timing.Repeat.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.bounds(parseChoiceElement("bounds", jsonObject, Duration.class, Range.class, Period.class));
         builder.count((PositiveInt) parseInteger(PositiveInt.builder(), "count", getJsonValue(jsonObject, "count", JsonNumber.class), jsonObject.get("_count"), -1));
@@ -21781,10 +22422,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(TriggerDefinition.class, jsonObject);
         }
         TriggerDefinition.Builder builder = TriggerDefinition.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.type((TriggerType) parseString(TriggerType.builder(), "type", getJsonValue(jsonObject, "type", JsonString.class), jsonObject.get("_type"), -1));
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
@@ -21805,9 +22447,10 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
+        builder.setValidating(validating);
         if (_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT) {
             JsonObject jsonObject = (JsonObject) _jsonValue;
-            if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+            if (!ignoringUnrecognizedElements) {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);
@@ -21833,10 +22476,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(UsageContext.class, jsonObject);
         }
         UsageContext.Builder builder = UsageContext.builder();
+        builder.setValidating(validating);
         parseElement(builder, jsonObject);
         builder.code(parseCoding("code", getJsonValue(jsonObject, "code", JsonObject.class), -1));
         builder.value(parseChoiceElement("value", jsonObject, CodeableConcept.class, Quantity.class, Range.class, Reference.class));
@@ -21849,10 +22493,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ValueSet.class, jsonObject);
         }
         ValueSet.Builder builder = ValueSet.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         builder.url(parseUri("url", getJsonValue(jsonObject, "url", JsonString.class), jsonObject.get("_url"), -1));
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
@@ -21901,10 +22546,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ValueSet.Compose.class, jsonObject);
         }
         ValueSet.Compose.Builder builder = ValueSet.Compose.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.lockedDate(parseDate("lockedDate", getJsonValue(jsonObject, "lockedDate", JsonString.class), jsonObject.get("_lockedDate"), -1));
         builder.inactive(parseBoolean("inactive", getJsonValue(jsonObject, "inactive", JsonValue.class), jsonObject.get("_inactive"), -1));
@@ -21929,10 +22575,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ValueSet.Compose.Include.class, jsonObject);
         }
         ValueSet.Compose.Include.Builder builder = ValueSet.Compose.Include.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.system(parseUri("system", getJsonValue(jsonObject, "system", JsonString.class), jsonObject.get("_system"), -1));
         builder.version(parseString("version", getJsonValue(jsonObject, "version", JsonString.class), jsonObject.get("_version"), -1));
@@ -21964,10 +22611,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ValueSet.Compose.Include.Concept.class, jsonObject);
         }
         ValueSet.Compose.Include.Concept.Builder builder = ValueSet.Compose.Include.Concept.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.code((Code) parseString(Code.builder(), "code", getJsonValue(jsonObject, "code", JsonString.class), jsonObject.get("_code"), -1));
         builder.display(parseString("display", getJsonValue(jsonObject, "display", JsonString.class), jsonObject.get("_display"), -1));
@@ -21986,10 +22634,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ValueSet.Compose.Include.Concept.Designation.class, jsonObject);
         }
         ValueSet.Compose.Include.Concept.Designation.Builder builder = ValueSet.Compose.Include.Concept.Designation.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.language((Code) parseString(Code.builder(), "language", getJsonValue(jsonObject, "language", JsonString.class), jsonObject.get("_language"), -1));
         builder.use(parseCoding("use", getJsonValue(jsonObject, "use", JsonObject.class), -1));
@@ -22003,10 +22652,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ValueSet.Compose.Include.Filter.class, jsonObject);
         }
         ValueSet.Compose.Include.Filter.Builder builder = ValueSet.Compose.Include.Filter.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.property((Code) parseString(Code.builder(), "property", getJsonValue(jsonObject, "property", JsonString.class), jsonObject.get("_property"), -1));
         builder.op((FilterOperator) parseString(FilterOperator.builder(), "op", getJsonValue(jsonObject, "op", JsonString.class), jsonObject.get("_op"), -1));
@@ -22020,10 +22670,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ValueSet.Expansion.class, jsonObject);
         }
         ValueSet.Expansion.Builder builder = ValueSet.Expansion.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.identifier(parseUri("identifier", getJsonValue(jsonObject, "identifier", JsonString.class), jsonObject.get("_identifier"), -1));
         builder.timestamp(parseDateTime("timestamp", getJsonValue(jsonObject, "timestamp", JsonString.class), jsonObject.get("_timestamp"), -1));
@@ -22050,10 +22701,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ValueSet.Expansion.Contains.class, jsonObject);
         }
         ValueSet.Expansion.Contains.Builder builder = ValueSet.Expansion.Contains.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.system(parseUri("system", getJsonValue(jsonObject, "system", JsonString.class), jsonObject.get("_system"), -1));
         builder._abstract(parseBoolean("abstract", getJsonValue(jsonObject, "abstract", JsonValue.class), jsonObject.get("_abstract"), -1));
@@ -22082,10 +22734,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(ValueSet.Expansion.Parameter.class, jsonObject);
         }
         ValueSet.Expansion.Parameter.Builder builder = ValueSet.Expansion.Parameter.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.name(parseString("name", getJsonValue(jsonObject, "name", JsonString.class), jsonObject.get("_name"), -1));
         builder.value(parseChoiceElement("value", jsonObject, String.class, Boolean.class, Integer.class, Decimal.class, Uri.class, Code.class, DateTime.class));
@@ -22098,10 +22751,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(VerificationResult.class, jsonObject);
         }
         VerificationResult.Builder builder = VerificationResult.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray targetArray = getJsonArray(jsonObject, "target");
         if (targetArray != null) {
@@ -22152,10 +22806,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(VerificationResult.Attestation.class, jsonObject);
         }
         VerificationResult.Attestation.Builder builder = VerificationResult.Attestation.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.who(parseReference("who", getJsonValue(jsonObject, "who", JsonObject.class), -1));
         builder.onBehalfOf(parseReference("onBehalfOf", getJsonValue(jsonObject, "onBehalfOf", JsonObject.class), -1));
@@ -22174,10 +22829,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(VerificationResult.PrimarySource.class, jsonObject);
         }
         VerificationResult.PrimarySource.Builder builder = VerificationResult.PrimarySource.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.who(parseReference("who", getJsonValue(jsonObject, "who", JsonObject.class), -1));
         JsonArray typeArray = getJsonArray(jsonObject, "type");
@@ -22210,10 +22866,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(VerificationResult.Validator.class, jsonObject);
         }
         VerificationResult.Validator.Builder builder = VerificationResult.Validator.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.organization(parseReference("organization", getJsonValue(jsonObject, "organization", JsonObject.class), -1));
         builder.identityCertificate(parseString("identityCertificate", getJsonValue(jsonObject, "identityCertificate", JsonString.class), jsonObject.get("_identityCertificate"), -1));
@@ -22227,10 +22884,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(VisionPrescription.class, jsonObject);
         }
         VisionPrescription.Builder builder = VisionPrescription.builder();
+        builder.setValidating(validating);
         parseDomainResource(builder, jsonObject);
         JsonArray identifierArray = getJsonArray(jsonObject, "identifier");
         if (identifierArray != null) {
@@ -22259,10 +22917,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(VisionPrescription.LensSpecification.class, jsonObject);
         }
         VisionPrescription.LensSpecification.Builder builder = VisionPrescription.LensSpecification.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.product(parseCodeableConcept("product", getJsonValue(jsonObject, "product", JsonObject.class), -1));
         builder.eye((VisionEyes) parseString(VisionEyes.builder(), "eye", getJsonValue(jsonObject, "eye", JsonString.class), jsonObject.get("_eye"), -1));
@@ -22297,10 +22956,11 @@ public class FHIRJsonParser extends FHIRAbstractParser {
             return null;
         }
         stackPush(elementName, elementIndex);
-        if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+        if (!ignoringUnrecognizedElements) {
             checkForUnrecognizedElements(VisionPrescription.LensSpecification.Prism.class, jsonObject);
         }
         VisionPrescription.LensSpecification.Prism.Builder builder = VisionPrescription.LensSpecification.Prism.builder();
+        builder.setValidating(validating);
         parseBackboneElement(builder, jsonObject);
         builder.amount(parseDecimal("amount", getJsonValue(jsonObject, "amount", JsonNumber.class), jsonObject.get("_amount"), -1));
         builder.base((VisionBase) parseString(VisionBase.builder(), "base", getJsonValue(jsonObject, "base", JsonString.class), jsonObject.get("_base"), -1));
@@ -22314,9 +22974,10 @@ public class FHIRJsonParser extends FHIRAbstractParser {
         }
         stackPush(elementName, elementIndex);
         Xhtml.Builder builder = Xhtml.builder();
+        builder.setValidating(validating);
         if (_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT) {
             JsonObject jsonObject = (JsonObject) _jsonValue;
-            if (getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false) {
+            if (!ignoringUnrecognizedElements) {
                 checkForUnrecognizedElements(Element.class, jsonObject);
             }
             parseElement(builder, jsonObject);

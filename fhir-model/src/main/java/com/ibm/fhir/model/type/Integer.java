@@ -24,7 +24,6 @@ public class Integer extends Element {
     protected Integer(Builder builder) {
         super(builder);
         value = builder.value;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -221,7 +220,16 @@ public class Integer extends Element {
          */
         @Override
         public Integer build() {
-            return new Integer(this);
+            Integer integer = new Integer(this);
+            if (validating) {
+                validate(integer);
+            }
+            return integer;
+        }
+
+        protected void validate(Integer integer) {
+            super.validate(integer);
+            ValidationSupport.requireValueOrChildren(integer);
         }
 
         protected Builder from(Integer integer) {

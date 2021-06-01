@@ -1903,11 +1903,7 @@ public class FHIRResourceType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -1962,7 +1958,20 @@ public class FHIRResourceType extends Code {
 
         @Override
         public FHIRResourceType build() {
-            return new FHIRResourceType(this);
+            FHIRResourceType fHIRResourceType = new FHIRResourceType(this);
+            if (validating) {
+                validate(fHIRResourceType);
+            }
+            return fHIRResourceType;
+        }
+
+        protected void validate(FHIRResourceType fHIRResourceType) {
+            super.validate(fHIRResourceType);
+        }
+
+        protected Builder from(FHIRResourceType fHIRResourceType) {
+            super.from(fHIRResourceType);
+            return this;
         }
     }
 

@@ -171,11 +171,7 @@ public class GuidePageGeneration extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -230,7 +226,20 @@ public class GuidePageGeneration extends Code {
 
         @Override
         public GuidePageGeneration build() {
-            return new GuidePageGeneration(this);
+            GuidePageGeneration guidePageGeneration = new GuidePageGeneration(this);
+            if (validating) {
+                validate(guidePageGeneration);
+            }
+            return guidePageGeneration;
+        }
+
+        protected void validate(GuidePageGeneration guidePageGeneration) {
+            super.validate(guidePageGeneration);
+        }
+
+        protected Builder from(GuidePageGeneration guidePageGeneration) {
+            super.from(guidePageGeneration);
+            return this;
         }
     }
 

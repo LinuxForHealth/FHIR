@@ -123,27 +123,22 @@ public class MolecularSequence extends DomainResource {
 
     private MolecularSequence(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         type = builder.type;
-        coordinateSystem = ValidationSupport.requireNonNull(builder.coordinateSystem, "coordinateSystem");
+        coordinateSystem = builder.coordinateSystem;
         patient = builder.patient;
         specimen = builder.specimen;
         device = builder.device;
         performer = builder.performer;
         quantity = builder.quantity;
         referenceSeq = builder.referenceSeq;
-        variant = Collections.unmodifiableList(ValidationSupport.checkList(builder.variant, "variant", Variant.class));
+        variant = Collections.unmodifiableList(builder.variant);
         observedSeq = builder.observedSeq;
-        quality = Collections.unmodifiableList(ValidationSupport.checkList(builder.quality, "quality", Quality.class));
+        quality = Collections.unmodifiableList(builder.quality);
         readCoverage = builder.readCoverage;
-        repository = Collections.unmodifiableList(ValidationSupport.checkList(builder.repository, "repository", Repository.class));
-        pointer = Collections.unmodifiableList(ValidationSupport.checkList(builder.pointer, "pointer", Reference.class));
-        structureVariant = Collections.unmodifiableList(ValidationSupport.checkList(builder.structureVariant, "structureVariant", StructureVariant.class));
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
-        ValidationSupport.checkReferenceType(device, "device", "Device");
-        ValidationSupport.checkReferenceType(performer, "performer", "Organization");
-        ValidationSupport.checkReferenceType(pointer, "pointer", "MolecularSequence");
+        repository = Collections.unmodifiableList(builder.repository);
+        pointer = Collections.unmodifiableList(builder.pointer);
+        structureVariant = Collections.unmodifiableList(builder.structureVariant);
     }
 
     /**
@@ -1074,7 +1069,27 @@ public class MolecularSequence extends DomainResource {
          */
         @Override
         public MolecularSequence build() {
-            return new MolecularSequence(this);
+            MolecularSequence molecularSequence = new MolecularSequence(this);
+            if (validating) {
+                validate(molecularSequence);
+            }
+            return molecularSequence;
+        }
+
+        protected void validate(MolecularSequence molecularSequence) {
+            super.validate(molecularSequence);
+            ValidationSupport.checkList(molecularSequence.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(molecularSequence.coordinateSystem, "coordinateSystem");
+            ValidationSupport.checkList(molecularSequence.variant, "variant", Variant.class);
+            ValidationSupport.checkList(molecularSequence.quality, "quality", Quality.class);
+            ValidationSupport.checkList(molecularSequence.repository, "repository", Repository.class);
+            ValidationSupport.checkList(molecularSequence.pointer, "pointer", Reference.class);
+            ValidationSupport.checkList(molecularSequence.structureVariant, "structureVariant", StructureVariant.class);
+            ValidationSupport.checkReferenceType(molecularSequence.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(molecularSequence.specimen, "specimen", "Specimen");
+            ValidationSupport.checkReferenceType(molecularSequence.device, "device", "Device");
+            ValidationSupport.checkReferenceType(molecularSequence.performer, "performer", "Organization");
+            ValidationSupport.checkReferenceType(molecularSequence.pointer, "pointer", "MolecularSequence");
         }
 
         protected Builder from(MolecularSequence molecularSequence) {
@@ -1158,8 +1173,6 @@ public class MolecularSequence extends DomainResource {
             strand = builder.strand;
             windowStart = builder.windowStart;
             windowEnd = builder.windowEnd;
-            ValidationSupport.checkReferenceType(referenceSeqPointer, "referenceSeqPointer", "MolecularSequence");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1623,7 +1636,17 @@ public class MolecularSequence extends DomainResource {
              */
             @Override
             public ReferenceSeq build() {
-                return new ReferenceSeq(this);
+                ReferenceSeq referenceSeq = new ReferenceSeq(this);
+                if (validating) {
+                    validate(referenceSeq);
+                }
+                return referenceSeq;
+            }
+
+            protected void validate(ReferenceSeq referenceSeq) {
+                super.validate(referenceSeq);
+                ValidationSupport.checkReferenceType(referenceSeq.referenceSeqPointer, "referenceSeqPointer", "MolecularSequence");
+                ValidationSupport.requireValueOrChildren(referenceSeq);
             }
 
             protected Builder from(ReferenceSeq referenceSeq) {
@@ -1671,8 +1694,6 @@ public class MolecularSequence extends DomainResource {
             referenceAllele = builder.referenceAllele;
             cigar = builder.cigar;
             variantPointer = builder.variantPointer;
-            ValidationSupport.checkReferenceType(variantPointer, "variantPointer", "Observation");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2053,7 +2074,17 @@ public class MolecularSequence extends DomainResource {
              */
             @Override
             public Variant build() {
-                return new Variant(this);
+                Variant variant = new Variant(this);
+                if (validating) {
+                    validate(variant);
+                }
+                return variant;
+            }
+
+            protected void validate(Variant variant) {
+                super.validate(variant);
+                ValidationSupport.checkReferenceType(variant.variantPointer, "variantPointer", "Observation");
+                ValidationSupport.requireValueOrChildren(variant);
             }
 
             protected Builder from(Variant variant) {
@@ -2126,7 +2157,7 @@ public class MolecularSequence extends DomainResource {
 
         private Quality(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
+            type = builder.type;
             standardSequence = builder.standardSequence;
             start = builder.start;
             end = builder.end;
@@ -2141,7 +2172,6 @@ public class MolecularSequence extends DomainResource {
             recall = builder.recall;
             fScore = builder.fScore;
             roc = builder.roc;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2783,7 +2813,17 @@ public class MolecularSequence extends DomainResource {
              */
             @Override
             public Quality build() {
-                return new Quality(this);
+                Quality quality = new Quality(this);
+                if (validating) {
+                    validate(quality);
+                }
+                return quality;
+            }
+
+            protected void validate(Quality quality) {
+                super.validate(quality);
+                ValidationSupport.requireNonNull(quality.type, "type");
+                ValidationSupport.requireValueOrChildren(quality);
             }
 
             protected Builder from(Quality quality) {
@@ -2828,14 +2868,13 @@ public class MolecularSequence extends DomainResource {
 
             private Roc(Builder builder) {
                 super(builder);
-                score = Collections.unmodifiableList(ValidationSupport.checkList(builder.score, "score", Integer.class));
-                numTP = Collections.unmodifiableList(ValidationSupport.checkList(builder.numTP, "numTP", Integer.class));
-                numFP = Collections.unmodifiableList(ValidationSupport.checkList(builder.numFP, "numFP", Integer.class));
-                numFN = Collections.unmodifiableList(ValidationSupport.checkList(builder.numFN, "numFN", Integer.class));
-                precision = Collections.unmodifiableList(ValidationSupport.checkList(builder.precision, "precision", Decimal.class));
-                sensitivity = Collections.unmodifiableList(ValidationSupport.checkList(builder.sensitivity, "sensitivity", Decimal.class));
-                fMeasure = Collections.unmodifiableList(ValidationSupport.checkList(builder.fMeasure, "fMeasure", Decimal.class));
-                ValidationSupport.requireValueOrChildren(this);
+                score = Collections.unmodifiableList(builder.score);
+                numTP = Collections.unmodifiableList(builder.numTP);
+                numFP = Collections.unmodifiableList(builder.numFP);
+                numFN = Collections.unmodifiableList(builder.numFN);
+                precision = Collections.unmodifiableList(builder.precision);
+                sensitivity = Collections.unmodifiableList(builder.sensitivity);
+                fMeasure = Collections.unmodifiableList(builder.fMeasure);
             }
 
             /**
@@ -3356,7 +3395,23 @@ public class MolecularSequence extends DomainResource {
                  */
                 @Override
                 public Roc build() {
-                    return new Roc(this);
+                    Roc roc = new Roc(this);
+                    if (validating) {
+                        validate(roc);
+                    }
+                    return roc;
+                }
+
+                protected void validate(Roc roc) {
+                    super.validate(roc);
+                    ValidationSupport.checkList(roc.score, "score", Integer.class);
+                    ValidationSupport.checkList(roc.numTP, "numTP", Integer.class);
+                    ValidationSupport.checkList(roc.numFP, "numFP", Integer.class);
+                    ValidationSupport.checkList(roc.numFN, "numFN", Integer.class);
+                    ValidationSupport.checkList(roc.precision, "precision", Decimal.class);
+                    ValidationSupport.checkList(roc.sensitivity, "sensitivity", Decimal.class);
+                    ValidationSupport.checkList(roc.fMeasure, "fMeasure", Decimal.class);
+                    ValidationSupport.requireValueOrChildren(roc);
                 }
 
                 protected Builder from(Roc roc) {
@@ -3401,13 +3456,12 @@ public class MolecularSequence extends DomainResource {
 
         private Repository(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
+            type = builder.type;
             url = builder.url;
             name = builder.name;
             datasetId = builder.datasetId;
             variantsetId = builder.variantsetId;
             readsetId = builder.readsetId;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3770,7 +3824,17 @@ public class MolecularSequence extends DomainResource {
              */
             @Override
             public Repository build() {
-                return new Repository(this);
+                Repository repository = new Repository(this);
+                if (validating) {
+                    validate(repository);
+                }
+                return repository;
+            }
+
+            protected void validate(Repository repository) {
+                super.validate(repository);
+                ValidationSupport.requireNonNull(repository.type, "type");
+                ValidationSupport.requireValueOrChildren(repository);
             }
 
             protected Builder from(Repository repository) {
@@ -3814,7 +3878,6 @@ public class MolecularSequence extends DomainResource {
             length = builder.length;
             outer = builder.outer;
             inner = builder.inner;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -4137,7 +4200,16 @@ public class MolecularSequence extends DomainResource {
              */
             @Override
             public StructureVariant build() {
-                return new StructureVariant(this);
+                StructureVariant structureVariant = new StructureVariant(this);
+                if (validating) {
+                    validate(structureVariant);
+                }
+                return structureVariant;
+            }
+
+            protected void validate(StructureVariant structureVariant) {
+                super.validate(structureVariant);
+                ValidationSupport.requireValueOrChildren(structureVariant);
             }
 
             protected Builder from(StructureVariant structureVariant) {
@@ -4164,7 +4236,6 @@ public class MolecularSequence extends DomainResource {
                 super(builder);
                 start = builder.start;
                 end = builder.end;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -4404,7 +4475,16 @@ public class MolecularSequence extends DomainResource {
                  */
                 @Override
                 public Outer build() {
-                    return new Outer(this);
+                    Outer outer = new Outer(this);
+                    if (validating) {
+                        validate(outer);
+                    }
+                    return outer;
+                }
+
+                protected void validate(Outer outer) {
+                    super.validate(outer);
+                    ValidationSupport.requireValueOrChildren(outer);
                 }
 
                 protected Builder from(Outer outer) {
@@ -4429,7 +4509,6 @@ public class MolecularSequence extends DomainResource {
                 super(builder);
                 start = builder.start;
                 end = builder.end;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -4669,7 +4748,16 @@ public class MolecularSequence extends DomainResource {
                  */
                 @Override
                 public Inner build() {
-                    return new Inner(this);
+                    Inner inner = new Inner(this);
+                    if (validating) {
+                        validate(inner);
+                    }
+                    return inner;
+                }
+
+                protected void validate(Inner inner) {
+                    super.validate(inner);
+                    ValidationSupport.requireValueOrChildren(inner);
                 }
 
                 protected Builder from(Inner inner) {

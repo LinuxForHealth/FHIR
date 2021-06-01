@@ -171,11 +171,7 @@ public class EligibilityRequestPurpose extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -230,7 +226,20 @@ public class EligibilityRequestPurpose extends Code {
 
         @Override
         public EligibilityRequestPurpose build() {
-            return new EligibilityRequestPurpose(this);
+            EligibilityRequestPurpose eligibilityRequestPurpose = new EligibilityRequestPurpose(this);
+            if (validating) {
+                validate(eligibilityRequestPurpose);
+            }
+            return eligibilityRequestPurpose;
+        }
+
+        protected void validate(EligibilityRequestPurpose eligibilityRequestPurpose) {
+            super.validate(eligibilityRequestPurpose);
+        }
+
+        protected Builder from(EligibilityRequestPurpose eligibilityRequestPurpose) {
+            super.from(eligibilityRequestPurpose);
+            return this;
         }
     }
 

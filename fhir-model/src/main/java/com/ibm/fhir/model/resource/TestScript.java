@@ -245,29 +245,29 @@ public class TestScript extends DomainResource {
 
     private TestScript(Builder builder) {
         super(builder);
-        url = ValidationSupport.requireNonNull(builder.url, "url");
+        url = builder.url;
         identifier = builder.identifier;
         version = builder.version;
-        name = ValidationSupport.requireNonNull(builder.name, "name");
+        name = builder.name;
         title = builder.title;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         copyright = builder.copyright;
-        origin = Collections.unmodifiableList(ValidationSupport.checkList(builder.origin, "origin", Origin.class));
-        destination = Collections.unmodifiableList(ValidationSupport.checkList(builder.destination, "destination", Destination.class));
+        origin = Collections.unmodifiableList(builder.origin);
+        destination = Collections.unmodifiableList(builder.destination);
         metadata = builder.metadata;
-        fixture = Collections.unmodifiableList(ValidationSupport.checkList(builder.fixture, "fixture", Fixture.class));
-        profile = Collections.unmodifiableList(ValidationSupport.checkList(builder.profile, "profile", Reference.class));
-        variable = Collections.unmodifiableList(ValidationSupport.checkList(builder.variable, "variable", Variable.class));
+        fixture = Collections.unmodifiableList(builder.fixture);
+        profile = Collections.unmodifiableList(builder.profile);
+        variable = Collections.unmodifiableList(builder.variable);
         setup = builder.setup;
-        test = Collections.unmodifiableList(ValidationSupport.checkList(builder.test, "test", Test.class));
+        test = Collections.unmodifiableList(builder.test);
         teardown = builder.teardown;
     }
 
@@ -1475,7 +1475,27 @@ public class TestScript extends DomainResource {
          */
         @Override
         public TestScript build() {
-            return new TestScript(this);
+            TestScript testScript = new TestScript(this);
+            if (validating) {
+                validate(testScript);
+            }
+            return testScript;
+        }
+
+        protected void validate(TestScript testScript) {
+            super.validate(testScript);
+            ValidationSupport.requireNonNull(testScript.url, "url");
+            ValidationSupport.requireNonNull(testScript.name, "name");
+            ValidationSupport.requireNonNull(testScript.status, "status");
+            ValidationSupport.checkList(testScript.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(testScript.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(testScript.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(testScript.origin, "origin", Origin.class);
+            ValidationSupport.checkList(testScript.destination, "destination", Destination.class);
+            ValidationSupport.checkList(testScript.fixture, "fixture", Fixture.class);
+            ValidationSupport.checkList(testScript.profile, "profile", Reference.class);
+            ValidationSupport.checkList(testScript.variable, "variable", Variable.class);
+            ValidationSupport.checkList(testScript.test, "test", Test.class);
         }
 
         protected Builder from(TestScript testScript) {
@@ -1525,9 +1545,8 @@ public class TestScript extends DomainResource {
 
         private Origin(Builder builder) {
             super(builder);
-            index = ValidationSupport.requireNonNull(builder.index, "index");
-            profile = ValidationSupport.requireNonNull(builder.profile, "profile");
-            ValidationSupport.requireValueOrChildren(this);
+            index = builder.index;
+            profile = builder.profile;
         }
 
         /**
@@ -1773,7 +1792,18 @@ public class TestScript extends DomainResource {
              */
             @Override
             public Origin build() {
-                return new Origin(this);
+                Origin origin = new Origin(this);
+                if (validating) {
+                    validate(origin);
+                }
+                return origin;
+            }
+
+            protected void validate(Origin origin) {
+                super.validate(origin);
+                ValidationSupport.requireNonNull(origin.index, "index");
+                ValidationSupport.requireNonNull(origin.profile, "profile");
+                ValidationSupport.requireValueOrChildren(origin);
             }
 
             protected Builder from(Origin origin) {
@@ -1802,9 +1832,8 @@ public class TestScript extends DomainResource {
 
         private Destination(Builder builder) {
             super(builder);
-            index = ValidationSupport.requireNonNull(builder.index, "index");
-            profile = ValidationSupport.requireNonNull(builder.profile, "profile");
-            ValidationSupport.requireValueOrChildren(this);
+            index = builder.index;
+            profile = builder.profile;
         }
 
         /**
@@ -2050,7 +2079,18 @@ public class TestScript extends DomainResource {
              */
             @Override
             public Destination build() {
-                return new Destination(this);
+                Destination destination = new Destination(this);
+                if (validating) {
+                    validate(destination);
+                }
+                return destination;
+            }
+
+            protected void validate(Destination destination) {
+                super.validate(destination);
+                ValidationSupport.requireNonNull(destination.index, "index");
+                ValidationSupport.requireNonNull(destination.profile, "profile");
+                ValidationSupport.requireValueOrChildren(destination);
             }
 
             protected Builder from(Destination destination) {
@@ -2072,9 +2112,8 @@ public class TestScript extends DomainResource {
 
         private Metadata(Builder builder) {
             super(builder);
-            link = Collections.unmodifiableList(ValidationSupport.checkList(builder.link, "link", Link.class));
-            capability = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.capability, "capability", Capability.class));
-            ValidationSupport.requireValueOrChildren(this);
+            link = Collections.unmodifiableList(builder.link);
+            capability = Collections.unmodifiableList(builder.capability);
         }
 
         /**
@@ -2359,7 +2398,18 @@ public class TestScript extends DomainResource {
              */
             @Override
             public Metadata build() {
-                return new Metadata(this);
+                Metadata metadata = new Metadata(this);
+                if (validating) {
+                    validate(metadata);
+                }
+                return metadata;
+            }
+
+            protected void validate(Metadata metadata) {
+                super.validate(metadata);
+                ValidationSupport.checkList(metadata.link, "link", Link.class);
+                ValidationSupport.checkNonEmptyList(metadata.capability, "capability", Capability.class);
+                ValidationSupport.requireValueOrChildren(metadata);
             }
 
             protected Builder from(Metadata metadata) {
@@ -2380,9 +2430,8 @@ public class TestScript extends DomainResource {
 
             private Link(Builder builder) {
                 super(builder);
-                url = ValidationSupport.requireNonNull(builder.url, "url");
+                url = builder.url;
                 description = builder.description;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2625,7 +2674,17 @@ public class TestScript extends DomainResource {
                  */
                 @Override
                 public Link build() {
-                    return new Link(this);
+                    Link link = new Link(this);
+                    if (validating) {
+                        validate(link);
+                    }
+                    return link;
+                }
+
+                protected void validate(Link link) {
+                    super.validate(link);
+                    ValidationSupport.requireNonNull(link.url, "url");
+                    ValidationSupport.requireValueOrChildren(link);
                 }
 
                 protected Builder from(Link link) {
@@ -2654,14 +2713,13 @@ public class TestScript extends DomainResource {
 
             private Capability(Builder builder) {
                 super(builder);
-                required = ValidationSupport.requireNonNull(builder.required, "required");
-                validated = ValidationSupport.requireNonNull(builder.validated, "validated");
+                required = builder.required;
+                validated = builder.validated;
                 description = builder.description;
-                origin = Collections.unmodifiableList(ValidationSupport.checkList(builder.origin, "origin", Integer.class));
+                origin = Collections.unmodifiableList(builder.origin);
                 destination = builder.destination;
-                link = Collections.unmodifiableList(ValidationSupport.checkList(builder.link, "link", Uri.class));
-                capabilities = ValidationSupport.requireNonNull(builder.capabilities, "capabilities");
-                ValidationSupport.requireValueOrChildren(this);
+                link = Collections.unmodifiableList(builder.link);
+                capabilities = builder.capabilities;
             }
 
             /**
@@ -3101,7 +3159,21 @@ public class TestScript extends DomainResource {
                  */
                 @Override
                 public Capability build() {
-                    return new Capability(this);
+                    Capability capability = new Capability(this);
+                    if (validating) {
+                        validate(capability);
+                    }
+                    return capability;
+                }
+
+                protected void validate(Capability capability) {
+                    super.validate(capability);
+                    ValidationSupport.requireNonNull(capability.required, "required");
+                    ValidationSupport.requireNonNull(capability.validated, "validated");
+                    ValidationSupport.checkList(capability.origin, "origin", Integer.class);
+                    ValidationSupport.checkList(capability.link, "link", Uri.class);
+                    ValidationSupport.requireNonNull(capability.capabilities, "capabilities");
+                    ValidationSupport.requireValueOrChildren(capability);
                 }
 
                 protected Builder from(Capability capability) {
@@ -3131,10 +3203,9 @@ public class TestScript extends DomainResource {
 
         private Fixture(Builder builder) {
             super(builder);
-            autocreate = ValidationSupport.requireNonNull(builder.autocreate, "autocreate");
-            autodelete = ValidationSupport.requireNonNull(builder.autodelete, "autodelete");
+            autocreate = builder.autocreate;
+            autodelete = builder.autodelete;
             resource = builder.resource;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3417,7 +3488,18 @@ public class TestScript extends DomainResource {
              */
             @Override
             public Fixture build() {
-                return new Fixture(this);
+                Fixture fixture = new Fixture(this);
+                if (validating) {
+                    validate(fixture);
+                }
+                return fixture;
+            }
+
+            protected void validate(Fixture fixture) {
+                super.validate(fixture);
+                ValidationSupport.requireNonNull(fixture.autocreate, "autocreate");
+                ValidationSupport.requireNonNull(fixture.autodelete, "autodelete");
+                ValidationSupport.requireValueOrChildren(fixture);
             }
 
             protected Builder from(Fixture fixture) {
@@ -3446,7 +3528,7 @@ public class TestScript extends DomainResource {
 
         private Variable(Builder builder) {
             super(builder);
-            name = ValidationSupport.requireNonNull(builder.name, "name");
+            name = builder.name;
             defaultValue = builder.defaultValue;
             description = builder.description;
             expression = builder.expression;
@@ -3454,7 +3536,6 @@ public class TestScript extends DomainResource {
             hint = builder.hint;
             path = builder.path;
             sourceId = builder.sourceId;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3875,7 +3956,17 @@ public class TestScript extends DomainResource {
              */
             @Override
             public Variable build() {
-                return new Variable(this);
+                Variable variable = new Variable(this);
+                if (validating) {
+                    validate(variable);
+                }
+                return variable;
+            }
+
+            protected void validate(Variable variable) {
+                super.validate(variable);
+                ValidationSupport.requireNonNull(variable.name, "name");
+                ValidationSupport.requireValueOrChildren(variable);
             }
 
             protected Builder from(Variable variable) {
@@ -3902,8 +3993,7 @@ public class TestScript extends DomainResource {
 
         private Setup(Builder builder) {
             super(builder);
-            action = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.action, "action", Action.class));
-            ValidationSupport.requireValueOrChildren(this);
+            action = Collections.unmodifiableList(builder.action);
         }
 
         /**
@@ -4139,7 +4229,17 @@ public class TestScript extends DomainResource {
              */
             @Override
             public Setup build() {
-                return new Setup(this);
+                Setup setup = new Setup(this);
+                if (validating) {
+                    validate(setup);
+                }
+                return setup;
+            }
+
+            protected void validate(Setup setup) {
+                super.validate(setup);
+                ValidationSupport.checkNonEmptyList(setup.action, "action", Action.class);
+                ValidationSupport.requireValueOrChildren(setup);
             }
 
             protected Builder from(Setup setup) {
@@ -4160,7 +4260,6 @@ public class TestScript extends DomainResource {
                 super(builder);
                 operation = builder.operation;
                 _assert = builder._assert;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -4396,7 +4495,16 @@ public class TestScript extends DomainResource {
                  */
                 @Override
                 public Action build() {
-                    return new Action(this);
+                    Action action = new Action(this);
+                    if (validating) {
+                        validate(action);
+                    }
+                    return action;
+                }
+
+                protected void validate(Action action) {
+                    super.validate(action);
+                    ValidationSupport.requireValueOrChildren(action);
                 }
 
                 protected Builder from(Action action) {
@@ -4469,17 +4577,16 @@ public class TestScript extends DomainResource {
                     accept = builder.accept;
                     contentType = builder.contentType;
                     destination = builder.destination;
-                    encodeRequestUrl = ValidationSupport.requireNonNull(builder.encodeRequestUrl, "encodeRequestUrl");
+                    encodeRequestUrl = builder.encodeRequestUrl;
                     method = builder.method;
                     origin = builder.origin;
                     params = builder.params;
-                    requestHeader = Collections.unmodifiableList(ValidationSupport.checkList(builder.requestHeader, "requestHeader", RequestHeader.class));
+                    requestHeader = Collections.unmodifiableList(builder.requestHeader);
                     requestId = builder.requestId;
                     responseId = builder.responseId;
                     sourceId = builder.sourceId;
                     targetId = builder.targetId;
                     url = builder.url;
-                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -5183,7 +5290,18 @@ public class TestScript extends DomainResource {
                      */
                     @Override
                     public Operation build() {
-                        return new Operation(this);
+                        Operation operation = new Operation(this);
+                        if (validating) {
+                            validate(operation);
+                        }
+                        return operation;
+                    }
+
+                    protected void validate(Operation operation) {
+                        super.validate(operation);
+                        ValidationSupport.requireNonNull(operation.encodeRequestUrl, "encodeRequestUrl");
+                        ValidationSupport.checkList(operation.requestHeader, "requestHeader", RequestHeader.class);
+                        ValidationSupport.requireValueOrChildren(operation);
                     }
 
                     protected Builder from(Operation operation) {
@@ -5220,9 +5338,8 @@ public class TestScript extends DomainResource {
 
                     private RequestHeader(Builder builder) {
                         super(builder);
-                        field = ValidationSupport.requireNonNull(builder.field, "field");
-                        value = ValidationSupport.requireNonNull(builder.value, "value");
-                        ValidationSupport.requireValueOrChildren(this);
+                        field = builder.field;
+                        value = builder.value;
                     }
 
                     /**
@@ -5468,7 +5585,18 @@ public class TestScript extends DomainResource {
                          */
                         @Override
                         public RequestHeader build() {
-                            return new RequestHeader(this);
+                            RequestHeader requestHeader = new RequestHeader(this);
+                            if (validating) {
+                                validate(requestHeader);
+                            }
+                            return requestHeader;
+                        }
+
+                        protected void validate(RequestHeader requestHeader) {
+                            super.validate(requestHeader);
+                            ValidationSupport.requireNonNull(requestHeader.field, "field");
+                            ValidationSupport.requireNonNull(requestHeader.value, "value");
+                            ValidationSupport.requireValueOrChildren(requestHeader);
                         }
 
                         protected Builder from(RequestHeader requestHeader) {
@@ -5568,8 +5696,7 @@ public class TestScript extends DomainResource {
                     sourceId = builder.sourceId;
                     validateProfileId = builder.validateProfileId;
                     value = builder.value;
-                    warningOnly = ValidationSupport.requireNonNull(builder.warningOnly, "warningOnly");
-                    ValidationSupport.requireValueOrChildren(this);
+                    warningOnly = builder.warningOnly;
                 }
 
                 /**
@@ -6401,7 +6528,17 @@ public class TestScript extends DomainResource {
                      */
                     @Override
                     public Assert build() {
-                        return new Assert(this);
+                        Assert _assert = new Assert(this);
+                        if (validating) {
+                            validate(_assert);
+                        }
+                        return _assert;
+                    }
+
+                    protected void validate(Assert _assert) {
+                        super.validate(_assert);
+                        ValidationSupport.requireNonNull(_assert.warningOnly, "warningOnly");
+                        ValidationSupport.requireValueOrChildren(_assert);
                     }
 
                     protected Builder from(Assert _assert) {
@@ -6448,8 +6585,7 @@ public class TestScript extends DomainResource {
             super(builder);
             name = builder.name;
             description = builder.description;
-            action = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.action, "action", Action.class));
-            ValidationSupport.requireValueOrChildren(this);
+            action = Collections.unmodifiableList(builder.action);
         }
 
         /**
@@ -6743,7 +6879,17 @@ public class TestScript extends DomainResource {
              */
             @Override
             public Test build() {
-                return new Test(this);
+                Test test = new Test(this);
+                if (validating) {
+                    validate(test);
+                }
+                return test;
+            }
+
+            protected void validate(Test test) {
+                super.validate(test);
+                ValidationSupport.checkNonEmptyList(test.action, "action", Action.class);
+                ValidationSupport.requireValueOrChildren(test);
             }
 
             protected Builder from(Test test) {
@@ -6766,7 +6912,6 @@ public class TestScript extends DomainResource {
                 super(builder);
                 operation = builder.operation;
                 _assert = builder._assert;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -7002,7 +7147,16 @@ public class TestScript extends DomainResource {
                  */
                 @Override
                 public Action build() {
-                    return new Action(this);
+                    Action action = new Action(this);
+                    if (validating) {
+                        validate(action);
+                    }
+                    return action;
+                }
+
+                protected void validate(Action action) {
+                    super.validate(action);
+                    ValidationSupport.requireValueOrChildren(action);
                 }
 
                 protected Builder from(Action action) {
@@ -7024,8 +7178,7 @@ public class TestScript extends DomainResource {
 
         private Teardown(Builder builder) {
             super(builder);
-            action = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.action, "action", Action.class));
-            ValidationSupport.requireValueOrChildren(this);
+            action = Collections.unmodifiableList(builder.action);
         }
 
         /**
@@ -7261,7 +7414,17 @@ public class TestScript extends DomainResource {
              */
             @Override
             public Teardown build() {
-                return new Teardown(this);
+                Teardown teardown = new Teardown(this);
+                if (validating) {
+                    validate(teardown);
+                }
+                return teardown;
+            }
+
+            protected void validate(Teardown teardown) {
+                super.validate(teardown);
+                ValidationSupport.checkNonEmptyList(teardown.action, "action", Action.class);
+                ValidationSupport.requireValueOrChildren(teardown);
             }
 
             protected Builder from(Teardown teardown) {
@@ -7280,8 +7443,7 @@ public class TestScript extends DomainResource {
 
             private Action(Builder builder) {
                 super(builder);
-                operation = ValidationSupport.requireNonNull(builder.operation, "operation");
-                ValidationSupport.requireValueOrChildren(this);
+                operation = builder.operation;
             }
 
             /**
@@ -7495,7 +7657,17 @@ public class TestScript extends DomainResource {
                  */
                 @Override
                 public Action build() {
-                    return new Action(this);
+                    Action action = new Action(this);
+                    if (validating) {
+                        validate(action);
+                    }
+                    return action;
+                }
+
+                protected void validate(Action action) {
+                    super.validate(action);
+                    ValidationSupport.requireNonNull(action.operation, "operation");
+                    ValidationSupport.requireValueOrChildren(action);
                 }
 
                 protected Builder from(Action action) {

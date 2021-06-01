@@ -192,31 +192,28 @@ public class Appointment extends DomainResource {
 
     private Appointment(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
         cancelationReason = builder.cancelationReason;
-        serviceCategory = Collections.unmodifiableList(ValidationSupport.checkList(builder.serviceCategory, "serviceCategory", CodeableConcept.class));
-        serviceType = Collections.unmodifiableList(ValidationSupport.checkList(builder.serviceType, "serviceType", CodeableConcept.class));
-        specialty = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialty, "specialty", CodeableConcept.class));
+        serviceCategory = Collections.unmodifiableList(builder.serviceCategory);
+        serviceType = Collections.unmodifiableList(builder.serviceType);
+        specialty = Collections.unmodifiableList(builder.specialty);
         appointmentType = builder.appointmentType;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
         priority = builder.priority;
         description = builder.description;
-        supportingInformation = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingInformation, "supportingInformation", Reference.class));
+        supportingInformation = Collections.unmodifiableList(builder.supportingInformation);
         start = builder.start;
         end = builder.end;
         minutesDuration = builder.minutesDuration;
-        slot = Collections.unmodifiableList(ValidationSupport.checkList(builder.slot, "slot", Reference.class));
+        slot = Collections.unmodifiableList(builder.slot);
         created = builder.created;
         comment = builder.comment;
         patientInstruction = builder.patientInstruction;
-        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
-        participant = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.participant, "participant", Participant.class));
-        requestedPeriod = Collections.unmodifiableList(ValidationSupport.checkList(builder.requestedPeriod, "requestedPeriod", Period.class));
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Procedure", "Observation", "ImmunizationRecommendation");
-        ValidationSupport.checkReferenceType(slot, "slot", "Slot");
-        ValidationSupport.checkReferenceType(basedOn, "basedOn", "ServiceRequest");
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        participant = Collections.unmodifiableList(builder.participant);
+        requestedPeriod = Collections.unmodifiableList(builder.requestedPeriod);
     }
 
     /**
@@ -1454,7 +1451,30 @@ public class Appointment extends DomainResource {
          */
         @Override
         public Appointment build() {
-            return new Appointment(this);
+            Appointment appointment = new Appointment(this);
+            if (validating) {
+                validate(appointment);
+            }
+            return appointment;
+        }
+
+        protected void validate(Appointment appointment) {
+            super.validate(appointment);
+            ValidationSupport.checkList(appointment.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(appointment.status, "status");
+            ValidationSupport.checkList(appointment.serviceCategory, "serviceCategory", CodeableConcept.class);
+            ValidationSupport.checkList(appointment.serviceType, "serviceType", CodeableConcept.class);
+            ValidationSupport.checkList(appointment.specialty, "specialty", CodeableConcept.class);
+            ValidationSupport.checkList(appointment.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(appointment.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(appointment.supportingInformation, "supportingInformation", Reference.class);
+            ValidationSupport.checkList(appointment.slot, "slot", Reference.class);
+            ValidationSupport.checkList(appointment.basedOn, "basedOn", Reference.class);
+            ValidationSupport.checkNonEmptyList(appointment.participant, "participant", Participant.class);
+            ValidationSupport.checkList(appointment.requestedPeriod, "requestedPeriod", Period.class);
+            ValidationSupport.checkReferenceType(appointment.reasonReference, "reasonReference", "Condition", "Procedure", "Observation", "ImmunizationRecommendation");
+            ValidationSupport.checkReferenceType(appointment.slot, "slot", "Slot");
+            ValidationSupport.checkReferenceType(appointment.basedOn, "basedOn", "ServiceRequest");
         }
 
         protected Builder from(Appointment appointment) {
@@ -1521,13 +1541,11 @@ public class Appointment extends DomainResource {
 
         private Participant(Builder builder) {
             super(builder);
-            type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
+            type = Collections.unmodifiableList(builder.type);
             actor = builder.actor;
             required = builder.required;
-            status = ValidationSupport.requireNonNull(builder.status, "status");
+            status = builder.status;
             period = builder.period;
-            ValidationSupport.checkReferenceType(actor, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1890,7 +1908,19 @@ public class Appointment extends DomainResource {
              */
             @Override
             public Participant build() {
-                return new Participant(this);
+                Participant participant = new Participant(this);
+                if (validating) {
+                    validate(participant);
+                }
+                return participant;
+            }
+
+            protected void validate(Participant participant) {
+                super.validate(participant);
+                ValidationSupport.checkList(participant.type, "type", CodeableConcept.class);
+                ValidationSupport.requireNonNull(participant.status, "status");
+                ValidationSupport.checkReferenceType(participant.actor, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
+                ValidationSupport.requireValueOrChildren(participant);
             }
 
             protected Builder from(Participant participant) {

@@ -38,12 +38,11 @@ public class MarketingStatus extends BackboneElement {
 
     private MarketingStatus(Builder builder) {
         super(builder);
-        country = ValidationSupport.requireNonNull(builder.country, "country");
+        country = builder.country;
         jurisdiction = builder.jurisdiction;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        dateRange = ValidationSupport.requireNonNull(builder.dateRange, "dateRange");
+        status = builder.status;
+        dateRange = builder.dateRange;
         restoreDate = builder.restoreDate;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -409,7 +408,19 @@ public class MarketingStatus extends BackboneElement {
          */
         @Override
         public MarketingStatus build() {
-            return new MarketingStatus(this);
+            MarketingStatus marketingStatus = new MarketingStatus(this);
+            if (validating) {
+                validate(marketingStatus);
+            }
+            return marketingStatus;
+        }
+
+        protected void validate(MarketingStatus marketingStatus) {
+            super.validate(marketingStatus);
+            ValidationSupport.requireNonNull(marketingStatus.country, "country");
+            ValidationSupport.requireNonNull(marketingStatus.status, "status");
+            ValidationSupport.requireNonNull(marketingStatus.dateRange, "dateRange");
+            ValidationSupport.requireValueOrChildren(marketingStatus);
         }
 
         protected Builder from(MarketingStatus marketingStatus) {

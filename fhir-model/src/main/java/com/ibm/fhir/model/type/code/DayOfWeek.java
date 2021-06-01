@@ -202,11 +202,7 @@ public class DayOfWeek extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -261,7 +257,20 @@ public class DayOfWeek extends Code {
 
         @Override
         public DayOfWeek build() {
-            return new DayOfWeek(this);
+            DayOfWeek dayOfWeek = new DayOfWeek(this);
+            if (validating) {
+                validate(dayOfWeek);
+            }
+            return dayOfWeek;
+        }
+
+        protected void validate(DayOfWeek dayOfWeek) {
+            super.validate(dayOfWeek);
+        }
+
+        protected Builder from(DayOfWeek dayOfWeek) {
+            super.from(dayOfWeek);
+            return this;
         }
     }
 

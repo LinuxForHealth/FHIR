@@ -207,11 +207,7 @@ public class CarePlanStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -266,7 +262,20 @@ public class CarePlanStatus extends Code {
 
         @Override
         public CarePlanStatus build() {
-            return new CarePlanStatus(this);
+            CarePlanStatus carePlanStatus = new CarePlanStatus(this);
+            if (validating) {
+                validate(carePlanStatus);
+            }
+            return carePlanStatus;
+        }
+
+        protected void validate(CarePlanStatus carePlanStatus) {
+            super.validate(carePlanStatus);
+        }
+
+        protected Builder from(CarePlanStatus carePlanStatus) {
+            super.from(carePlanStatus);
+            return this;
         }
     }
 

@@ -143,11 +143,7 @@ public class ClinicalImpressionStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -202,7 +198,20 @@ public class ClinicalImpressionStatus extends Code {
 
         @Override
         public ClinicalImpressionStatus build() {
-            return new ClinicalImpressionStatus(this);
+            ClinicalImpressionStatus clinicalImpressionStatus = new ClinicalImpressionStatus(this);
+            if (validating) {
+                validate(clinicalImpressionStatus);
+            }
+            return clinicalImpressionStatus;
+        }
+
+        protected void validate(ClinicalImpressionStatus clinicalImpressionStatus) {
+            super.validate(clinicalImpressionStatus);
+        }
+
+        protected Builder from(ClinicalImpressionStatus clinicalImpressionStatus) {
+            super.from(clinicalImpressionStatus);
+            return this;
         }
     }
 

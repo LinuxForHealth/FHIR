@@ -191,11 +191,7 @@ public class GroupMeasure extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -250,7 +246,20 @@ public class GroupMeasure extends Code {
 
         @Override
         public GroupMeasure build() {
-            return new GroupMeasure(this);
+            GroupMeasure groupMeasure = new GroupMeasure(this);
+            if (validating) {
+                validate(groupMeasure);
+            }
+            return groupMeasure;
+        }
+
+        protected void validate(GroupMeasure groupMeasure) {
+            super.validate(groupMeasure);
+        }
+
+        protected Builder from(GroupMeasure groupMeasure) {
+            super.from(groupMeasure);
+            return this;
         }
     }
 

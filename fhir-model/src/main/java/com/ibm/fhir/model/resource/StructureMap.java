@@ -179,24 +179,24 @@ public class StructureMap extends DomainResource {
 
     private StructureMap(Builder builder) {
         super(builder);
-        url = ValidationSupport.requireNonNull(builder.url, "url");
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        url = builder.url;
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
-        name = ValidationSupport.requireNonNull(builder.name, "name");
+        name = builder.name;
         title = builder.title;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         copyright = builder.copyright;
-        structure = Collections.unmodifiableList(ValidationSupport.checkList(builder.structure, "structure", Structure.class));
-        _import = Collections.unmodifiableList(ValidationSupport.checkList(builder._import, "import", Canonical.class));
-        group = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.group, "group", Group.class));
+        structure = Collections.unmodifiableList(builder.structure);
+        _import = Collections.unmodifiableList(builder._import);
+        group = Collections.unmodifiableList(builder.group);
     }
 
     /**
@@ -1198,7 +1198,25 @@ public class StructureMap extends DomainResource {
          */
         @Override
         public StructureMap build() {
-            return new StructureMap(this);
+            StructureMap structureMap = new StructureMap(this);
+            if (validating) {
+                validate(structureMap);
+            }
+            return structureMap;
+        }
+
+        protected void validate(StructureMap structureMap) {
+            super.validate(structureMap);
+            ValidationSupport.requireNonNull(structureMap.url, "url");
+            ValidationSupport.checkList(structureMap.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(structureMap.name, "name");
+            ValidationSupport.requireNonNull(structureMap.status, "status");
+            ValidationSupport.checkList(structureMap.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(structureMap.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(structureMap.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(structureMap.structure, "structure", Structure.class);
+            ValidationSupport.checkList(structureMap._import, "import", Canonical.class);
+            ValidationSupport.checkNonEmptyList(structureMap.group, "group", Group.class);
         }
 
         protected Builder from(StructureMap structureMap) {
@@ -1248,11 +1266,10 @@ public class StructureMap extends DomainResource {
 
         private Structure(Builder builder) {
             super(builder);
-            url = ValidationSupport.requireNonNull(builder.url, "url");
-            mode = ValidationSupport.requireNonNull(builder.mode, "mode");
+            url = builder.url;
+            mode = builder.mode;
             alias = builder.alias;
             documentation = builder.documentation;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1556,7 +1573,18 @@ public class StructureMap extends DomainResource {
              */
             @Override
             public Structure build() {
-                return new Structure(this);
+                Structure structure = new Structure(this);
+                if (validating) {
+                    validate(structure);
+                }
+                return structure;
+            }
+
+            protected void validate(Structure structure) {
+                super.validate(structure);
+                ValidationSupport.requireNonNull(structure.url, "url");
+                ValidationSupport.requireNonNull(structure.mode, "mode");
+                ValidationSupport.requireValueOrChildren(structure);
             }
 
             protected Builder from(Structure structure) {
@@ -1599,13 +1627,12 @@ public class StructureMap extends DomainResource {
 
         private Group(Builder builder) {
             super(builder);
-            name = ValidationSupport.requireNonNull(builder.name, "name");
+            name = builder.name;
             _extends = builder._extends;
-            typeMode = ValidationSupport.requireNonNull(builder.typeMode, "typeMode");
+            typeMode = builder.typeMode;
             documentation = builder.documentation;
-            input = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.input, "input", Input.class));
-            rule = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.rule, "rule", Rule.class));
-            ValidationSupport.requireValueOrChildren(this);
+            input = Collections.unmodifiableList(builder.input);
+            rule = Collections.unmodifiableList(builder.rule);
         }
 
         /**
@@ -2017,7 +2044,20 @@ public class StructureMap extends DomainResource {
              */
             @Override
             public Group build() {
-                return new Group(this);
+                Group group = new Group(this);
+                if (validating) {
+                    validate(group);
+                }
+                return group;
+            }
+
+            protected void validate(Group group) {
+                super.validate(group);
+                ValidationSupport.requireNonNull(group.name, "name");
+                ValidationSupport.requireNonNull(group.typeMode, "typeMode");
+                ValidationSupport.checkNonEmptyList(group.input, "input", Input.class);
+                ValidationSupport.checkNonEmptyList(group.rule, "rule", Rule.class);
+                ValidationSupport.requireValueOrChildren(group);
             }
 
             protected Builder from(Group group) {
@@ -2054,11 +2094,10 @@ public class StructureMap extends DomainResource {
 
             private Input(Builder builder) {
                 super(builder);
-                name = ValidationSupport.requireNonNull(builder.name, "name");
+                name = builder.name;
                 type = builder.type;
-                mode = ValidationSupport.requireNonNull(builder.mode, "mode");
+                mode = builder.mode;
                 documentation = builder.documentation;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2362,7 +2401,18 @@ public class StructureMap extends DomainResource {
                  */
                 @Override
                 public Input build() {
-                    return new Input(this);
+                    Input input = new Input(this);
+                    if (validating) {
+                        validate(input);
+                    }
+                    return input;
+                }
+
+                protected void validate(Input input) {
+                    super.validate(input);
+                    ValidationSupport.requireNonNull(input.name, "name");
+                    ValidationSupport.requireNonNull(input.mode, "mode");
+                    ValidationSupport.requireValueOrChildren(input);
                 }
 
                 protected Builder from(Input input) {
@@ -2396,13 +2446,12 @@ public class StructureMap extends DomainResource {
 
             private Rule(Builder builder) {
                 super(builder);
-                name = ValidationSupport.requireNonNull(builder.name, "name");
-                source = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.source, "source", Source.class));
-                target = Collections.unmodifiableList(ValidationSupport.checkList(builder.target, "target", Target.class));
-                rule = Collections.unmodifiableList(ValidationSupport.checkList(builder.rule, "rule", StructureMap.Group.Rule.class));
-                dependent = Collections.unmodifiableList(ValidationSupport.checkList(builder.dependent, "dependent", Dependent.class));
+                name = builder.name;
+                source = Collections.unmodifiableList(builder.source);
+                target = Collections.unmodifiableList(builder.target);
+                rule = Collections.unmodifiableList(builder.rule);
+                dependent = Collections.unmodifiableList(builder.dependent);
                 documentation = builder.documentation;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2846,7 +2895,21 @@ public class StructureMap extends DomainResource {
                  */
                 @Override
                 public Rule build() {
-                    return new Rule(this);
+                    Rule rule = new Rule(this);
+                    if (validating) {
+                        validate(rule);
+                    }
+                    return rule;
+                }
+
+                protected void validate(Rule rule) {
+                    super.validate(rule);
+                    ValidationSupport.requireNonNull(rule.name, "name");
+                    ValidationSupport.checkNonEmptyList(rule.source, "source", Source.class);
+                    ValidationSupport.checkList(rule.target, "target", Target.class);
+                    ValidationSupport.checkList(rule.rule, "rule", StructureMap.Group.Rule.class);
+                    ValidationSupport.checkList(rule.dependent, "dependent", Dependent.class);
+                    ValidationSupport.requireValueOrChildren(rule);
                 }
 
                 protected Builder from(Rule rule) {
@@ -2898,18 +2961,17 @@ public class StructureMap extends DomainResource {
 
                 private Source(Builder builder) {
                     super(builder);
-                    context = ValidationSupport.requireNonNull(builder.context, "context");
+                    context = builder.context;
                     min = builder.min;
                     max = builder.max;
                     type = builder.type;
-                    defaultValue = ValidationSupport.choiceElement(builder.defaultValue, "defaultValue", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
+                    defaultValue = builder.defaultValue;
                     element = builder.element;
                     listMode = builder.listMode;
                     variable = builder.variable;
                     condition = builder.condition;
                     check = builder.check;
                     logMessage = builder.logMessage;
-                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -3473,7 +3535,18 @@ public class StructureMap extends DomainResource {
                      */
                     @Override
                     public Source build() {
-                        return new Source(this);
+                        Source source = new Source(this);
+                        if (validating) {
+                            validate(source);
+                        }
+                        return source;
+                    }
+
+                    protected void validate(Source source) {
+                        super.validate(source);
+                        ValidationSupport.requireNonNull(source.context, "context");
+                        ValidationSupport.choiceElement(source.defaultValue, "defaultValue", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
+                        ValidationSupport.requireValueOrChildren(source);
                     }
 
                     protected Builder from(Source source) {
@@ -3539,11 +3612,10 @@ public class StructureMap extends DomainResource {
                     contextType = builder.contextType;
                     element = builder.element;
                     variable = builder.variable;
-                    listMode = Collections.unmodifiableList(ValidationSupport.checkList(builder.listMode, "listMode", StructureMapTargetListMode.class));
+                    listMode = Collections.unmodifiableList(builder.listMode);
                     listRuleId = builder.listRuleId;
                     transform = builder.transform;
-                    parameter = Collections.unmodifiableList(ValidationSupport.checkList(builder.parameter, "parameter", Parameter.class));
-                    ValidationSupport.requireValueOrChildren(this);
+                    parameter = Collections.unmodifiableList(builder.parameter);
                 }
 
                 /**
@@ -3993,7 +4065,18 @@ public class StructureMap extends DomainResource {
                      */
                     @Override
                     public Target build() {
-                        return new Target(this);
+                        Target target = new Target(this);
+                        if (validating) {
+                            validate(target);
+                        }
+                        return target;
+                    }
+
+                    protected void validate(Target target) {
+                        super.validate(target);
+                        ValidationSupport.checkList(target.listMode, "listMode", StructureMapTargetListMode.class);
+                        ValidationSupport.checkList(target.parameter, "parameter", Parameter.class);
+                        ValidationSupport.requireValueOrChildren(target);
                     }
 
                     protected Builder from(Target target) {
@@ -4021,8 +4104,7 @@ public class StructureMap extends DomainResource {
 
                     private Parameter(Builder builder) {
                         super(builder);
-                        value = ValidationSupport.requireChoiceElement(builder.value, "value", Id.class, String.class, Boolean.class, Integer.class, Decimal.class);
-                        ValidationSupport.requireValueOrChildren(this);
+                        value = builder.value;
                     }
 
                     /**
@@ -4245,7 +4327,17 @@ public class StructureMap extends DomainResource {
                          */
                         @Override
                         public Parameter build() {
-                            return new Parameter(this);
+                            Parameter parameter = new Parameter(this);
+                            if (validating) {
+                                validate(parameter);
+                            }
+                            return parameter;
+                        }
+
+                        protected void validate(Parameter parameter) {
+                            super.validate(parameter);
+                            ValidationSupport.requireChoiceElement(parameter.value, "value", Id.class, String.class, Boolean.class, Integer.class, Decimal.class);
+                            ValidationSupport.requireValueOrChildren(parameter);
                         }
 
                         protected Builder from(Parameter parameter) {
@@ -4270,9 +4362,8 @@ public class StructureMap extends DomainResource {
 
                 private Dependent(Builder builder) {
                     super(builder);
-                    name = ValidationSupport.requireNonNull(builder.name, "name");
-                    variable = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.variable, "variable", String.class));
-                    ValidationSupport.requireValueOrChildren(this);
+                    name = builder.name;
+                    variable = Collections.unmodifiableList(builder.variable);
                 }
 
                 /**
@@ -4540,7 +4631,18 @@ public class StructureMap extends DomainResource {
                      */
                     @Override
                     public Dependent build() {
-                        return new Dependent(this);
+                        Dependent dependent = new Dependent(this);
+                        if (validating) {
+                            validate(dependent);
+                        }
+                        return dependent;
+                    }
+
+                    protected void validate(Dependent dependent) {
+                        super.validate(dependent);
+                        ValidationSupport.requireNonNull(dependent.name, "name");
+                        ValidationSupport.checkNonEmptyList(dependent.variable, "variable", String.class);
+                        ValidationSupport.requireValueOrChildren(dependent);
                     }
 
                     protected Builder from(Dependent dependent) {

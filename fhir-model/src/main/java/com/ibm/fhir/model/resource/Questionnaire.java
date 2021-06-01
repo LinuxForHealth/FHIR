@@ -239,27 +239,27 @@ public class Questionnaire extends DomainResource {
     private Questionnaire(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
-        derivedFrom = Collections.unmodifiableList(ValidationSupport.checkList(builder.derivedFrom, "derivedFrom", Canonical.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        derivedFrom = Collections.unmodifiableList(builder.derivedFrom);
+        status = builder.status;
         experimental = builder.experimental;
-        subjectType = Collections.unmodifiableList(ValidationSupport.checkList(builder.subjectType, "subjectType", ResourceType.class));
+        subjectType = Collections.unmodifiableList(builder.subjectType);
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", Coding.class));
-        item = Collections.unmodifiableList(ValidationSupport.checkList(builder.item, "item", Item.class));
+        code = Collections.unmodifiableList(builder.code);
+        item = Collections.unmodifiableList(builder.item);
     }
 
     /**
@@ -1387,7 +1387,24 @@ public class Questionnaire extends DomainResource {
          */
         @Override
         public Questionnaire build() {
-            return new Questionnaire(this);
+            Questionnaire questionnaire = new Questionnaire(this);
+            if (validating) {
+                validate(questionnaire);
+            }
+            return questionnaire;
+        }
+
+        protected void validate(Questionnaire questionnaire) {
+            super.validate(questionnaire);
+            ValidationSupport.checkList(questionnaire.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(questionnaire.derivedFrom, "derivedFrom", Canonical.class);
+            ValidationSupport.requireNonNull(questionnaire.status, "status");
+            ValidationSupport.checkList(questionnaire.subjectType, "subjectType", ResourceType.class);
+            ValidationSupport.checkList(questionnaire.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(questionnaire.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(questionnaire.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(questionnaire.code, "code", Coding.class);
+            ValidationSupport.checkList(questionnaire.item, "item", Item.class);
         }
 
         protected Builder from(Questionnaire questionnaire) {
@@ -1461,23 +1478,22 @@ public class Questionnaire extends DomainResource {
 
         private Item(Builder builder) {
             super(builder);
-            linkId = ValidationSupport.requireNonNull(builder.linkId, "linkId");
+            linkId = builder.linkId;
             definition = builder.definition;
-            code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", Coding.class));
+            code = Collections.unmodifiableList(builder.code);
             prefix = builder.prefix;
             text = builder.text;
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            enableWhen = Collections.unmodifiableList(ValidationSupport.checkList(builder.enableWhen, "enableWhen", EnableWhen.class));
+            type = builder.type;
+            enableWhen = Collections.unmodifiableList(builder.enableWhen);
             enableBehavior = builder.enableBehavior;
             required = builder.required;
             repeats = builder.repeats;
             readOnly = builder.readOnly;
             maxLength = builder.maxLength;
             answerValueSet = builder.answerValueSet;
-            answerOption = Collections.unmodifiableList(ValidationSupport.checkList(builder.answerOption, "answerOption", AnswerOption.class));
-            initial = Collections.unmodifiableList(ValidationSupport.checkList(builder.initial, "initial", Initial.class));
-            item = Collections.unmodifiableList(ValidationSupport.checkList(builder.item, "item", Questionnaire.Item.class));
-            ValidationSupport.requireValueOrChildren(this);
+            answerOption = Collections.unmodifiableList(builder.answerOption);
+            initial = Collections.unmodifiableList(builder.initial);
+            item = Collections.unmodifiableList(builder.item);
         }
 
         /**
@@ -2274,7 +2290,23 @@ public class Questionnaire extends DomainResource {
              */
             @Override
             public Item build() {
-                return new Item(this);
+                Item item = new Item(this);
+                if (validating) {
+                    validate(item);
+                }
+                return item;
+            }
+
+            protected void validate(Item item) {
+                super.validate(item);
+                ValidationSupport.requireNonNull(item.linkId, "linkId");
+                ValidationSupport.checkList(item.code, "code", Coding.class);
+                ValidationSupport.requireNonNull(item.type, "type");
+                ValidationSupport.checkList(item.enableWhen, "enableWhen", EnableWhen.class);
+                ValidationSupport.checkList(item.answerOption, "answerOption", AnswerOption.class);
+                ValidationSupport.checkList(item.initial, "initial", Initial.class);
+                ValidationSupport.checkList(item.item, "item", Questionnaire.Item.class);
+                ValidationSupport.requireValueOrChildren(item);
             }
 
             protected Builder from(Item item) {
@@ -2326,10 +2358,9 @@ public class Questionnaire extends DomainResource {
 
             private EnableWhen(Builder builder) {
                 super(builder);
-                question = ValidationSupport.requireNonNull(builder.question, "question");
-                operator = ValidationSupport.requireNonNull(builder.operator, "operator");
-                answer = ValidationSupport.requireChoiceElement(builder.answer, "answer", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Coding.class, Quantity.class, Reference.class);
-                ValidationSupport.requireValueOrChildren(this);
+                question = builder.question;
+                operator = builder.operator;
+                answer = builder.answer;
             }
 
             /**
@@ -2621,7 +2652,19 @@ public class Questionnaire extends DomainResource {
                  */
                 @Override
                 public EnableWhen build() {
-                    return new EnableWhen(this);
+                    EnableWhen enableWhen = new EnableWhen(this);
+                    if (validating) {
+                        validate(enableWhen);
+                    }
+                    return enableWhen;
+                }
+
+                protected void validate(EnableWhen enableWhen) {
+                    super.validate(enableWhen);
+                    ValidationSupport.requireNonNull(enableWhen.question, "question");
+                    ValidationSupport.requireNonNull(enableWhen.operator, "operator");
+                    ValidationSupport.requireChoiceElement(enableWhen.answer, "answer", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Coding.class, Quantity.class, Reference.class);
+                    ValidationSupport.requireValueOrChildren(enableWhen);
                 }
 
                 protected Builder from(EnableWhen enableWhen) {
@@ -2651,9 +2694,8 @@ public class Questionnaire extends DomainResource {
 
             private AnswerOption(Builder builder) {
                 super(builder);
-                value = ValidationSupport.requireChoiceElement(builder.value, "value", Integer.class, Date.class, Time.class, String.class, Coding.class, Reference.class);
+                value = builder.value;
                 initialSelected = builder.initialSelected;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2906,7 +2948,17 @@ public class Questionnaire extends DomainResource {
                  */
                 @Override
                 public AnswerOption build() {
-                    return new AnswerOption(this);
+                    AnswerOption answerOption = new AnswerOption(this);
+                    if (validating) {
+                        validate(answerOption);
+                    }
+                    return answerOption;
+                }
+
+                protected void validate(AnswerOption answerOption) {
+                    super.validate(answerOption);
+                    ValidationSupport.requireChoiceElement(answerOption.value, "value", Integer.class, Date.class, Time.class, String.class, Coding.class, Reference.class);
+                    ValidationSupport.requireValueOrChildren(answerOption);
                 }
 
                 protected Builder from(AnswerOption answerOption) {
@@ -2935,8 +2987,7 @@ public class Questionnaire extends DomainResource {
 
             private Initial(Builder builder) {
                 super(builder);
-                value = ValidationSupport.requireChoiceElement(builder.value, "value", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class);
-                ValidationSupport.requireValueOrChildren(this);
+                value = builder.value;
             }
 
             /**
@@ -3166,7 +3217,17 @@ public class Questionnaire extends DomainResource {
                  */
                 @Override
                 public Initial build() {
-                    return new Initial(this);
+                    Initial initial = new Initial(this);
+                    if (validating) {
+                        validate(initial);
+                    }
+                    return initial;
+                }
+
+                protected void validate(Initial initial) {
+                    super.validate(initial);
+                    ValidationSupport.requireChoiceElement(initial.value, "value", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class);
+                    ValidationSupport.requireValueOrChildren(initial);
                 }
 
                 protected Builder from(Initial initial) {

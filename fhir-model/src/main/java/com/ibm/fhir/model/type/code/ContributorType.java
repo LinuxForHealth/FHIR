@@ -169,11 +169,7 @@ public class ContributorType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class ContributorType extends Code {
 
         @Override
         public ContributorType build() {
-            return new ContributorType(this);
+            ContributorType contributorType = new ContributorType(this);
+            if (validating) {
+                validate(contributorType);
+            }
+            return contributorType;
+        }
+
+        protected void validate(ContributorType contributorType) {
+            super.validate(contributorType);
+        }
+
+        protected Builder from(ContributorType contributorType) {
+            super.from(contributorType);
+            return this;
         }
     }
 

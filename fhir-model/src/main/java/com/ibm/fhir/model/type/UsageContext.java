@@ -59,10 +59,8 @@ public class UsageContext extends Element {
 
     private UsageContext(Builder builder) {
         super(builder);
-        code = ValidationSupport.requireNonNull(builder.code, "code");
-        value = ValidationSupport.requireChoiceElement(builder.value, "value", CodeableConcept.class, Quantity.class, Range.class, Reference.class);
-        ValidationSupport.checkReferenceType(value, "value", "PlanDefinition", "ResearchStudy", "InsurancePlan", "HealthcareService", "Group", "Location", "Organization");
-        ValidationSupport.requireValueOrChildren(this);
+        code = builder.code;
+        value = builder.value;
     }
 
     /**
@@ -278,7 +276,19 @@ public class UsageContext extends Element {
          */
         @Override
         public UsageContext build() {
-            return new UsageContext(this);
+            UsageContext usageContext = new UsageContext(this);
+            if (validating) {
+                validate(usageContext);
+            }
+            return usageContext;
+        }
+
+        protected void validate(UsageContext usageContext) {
+            super.validate(usageContext);
+            ValidationSupport.requireNonNull(usageContext.code, "code");
+            ValidationSupport.requireChoiceElement(usageContext.value, "value", CodeableConcept.class, Quantity.class, Range.class, Reference.class);
+            ValidationSupport.checkReferenceType(usageContext.value, "value", "PlanDefinition", "ResearchStudy", "InsurancePlan", "HealthcareService", "Group", "Location", "Organization");
+            ValidationSupport.requireValueOrChildren(usageContext);
         }
 
         protected Builder from(UsageContext usageContext) {

@@ -119,32 +119,26 @@ public class ClinicalImpression extends DomainResource {
 
     private ClinicalImpression(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
         statusReason = builder.statusReason;
         code = builder.code;
         description = builder.description;
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        subject = builder.subject;
         encounter = builder.encounter;
-        effective = ValidationSupport.choiceElement(builder.effective, "effective", DateTime.class, Period.class);
+        effective = builder.effective;
         date = builder.date;
         assessor = builder.assessor;
         previous = builder.previous;
-        problem = Collections.unmodifiableList(ValidationSupport.checkList(builder.problem, "problem", Reference.class));
-        investigation = Collections.unmodifiableList(ValidationSupport.checkList(builder.investigation, "investigation", Investigation.class));
-        protocol = Collections.unmodifiableList(ValidationSupport.checkList(builder.protocol, "protocol", Uri.class));
+        problem = Collections.unmodifiableList(builder.problem);
+        investigation = Collections.unmodifiableList(builder.investigation);
+        protocol = Collections.unmodifiableList(builder.protocol);
         summary = builder.summary;
-        finding = Collections.unmodifiableList(ValidationSupport.checkList(builder.finding, "finding", Finding.class));
-        prognosisCodeableConcept = Collections.unmodifiableList(ValidationSupport.checkList(builder.prognosisCodeableConcept, "prognosisCodeableConcept", CodeableConcept.class));
-        prognosisReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.prognosisReference, "prognosisReference", Reference.class));
-        supportingInfo = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingInfo, "supportingInfo", Reference.class));
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(assessor, "assessor", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(previous, "previous", "ClinicalImpression");
-        ValidationSupport.checkReferenceType(problem, "problem", "Condition", "AllergyIntolerance");
-        ValidationSupport.checkReferenceType(prognosisReference, "prognosisReference", "RiskAssessment");
+        finding = Collections.unmodifiableList(builder.finding);
+        prognosisCodeableConcept = Collections.unmodifiableList(builder.prognosisCodeableConcept);
+        prognosisReference = Collections.unmodifiableList(builder.prognosisReference);
+        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -1275,7 +1269,33 @@ public class ClinicalImpression extends DomainResource {
          */
         @Override
         public ClinicalImpression build() {
-            return new ClinicalImpression(this);
+            ClinicalImpression clinicalImpression = new ClinicalImpression(this);
+            if (validating) {
+                validate(clinicalImpression);
+            }
+            return clinicalImpression;
+        }
+
+        protected void validate(ClinicalImpression clinicalImpression) {
+            super.validate(clinicalImpression);
+            ValidationSupport.checkList(clinicalImpression.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(clinicalImpression.status, "status");
+            ValidationSupport.requireNonNull(clinicalImpression.subject, "subject");
+            ValidationSupport.choiceElement(clinicalImpression.effective, "effective", DateTime.class, Period.class);
+            ValidationSupport.checkList(clinicalImpression.problem, "problem", Reference.class);
+            ValidationSupport.checkList(clinicalImpression.investigation, "investigation", Investigation.class);
+            ValidationSupport.checkList(clinicalImpression.protocol, "protocol", Uri.class);
+            ValidationSupport.checkList(clinicalImpression.finding, "finding", Finding.class);
+            ValidationSupport.checkList(clinicalImpression.prognosisCodeableConcept, "prognosisCodeableConcept", CodeableConcept.class);
+            ValidationSupport.checkList(clinicalImpression.prognosisReference, "prognosisReference", Reference.class);
+            ValidationSupport.checkList(clinicalImpression.supportingInfo, "supportingInfo", Reference.class);
+            ValidationSupport.checkList(clinicalImpression.note, "note", Annotation.class);
+            ValidationSupport.checkReferenceType(clinicalImpression.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(clinicalImpression.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(clinicalImpression.assessor, "assessor", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(clinicalImpression.previous, "previous", "ClinicalImpression");
+            ValidationSupport.checkReferenceType(clinicalImpression.problem, "problem", "Condition", "AllergyIntolerance");
+            ValidationSupport.checkReferenceType(clinicalImpression.prognosisReference, "prognosisReference", "RiskAssessment");
         }
 
         protected Builder from(ClinicalImpression clinicalImpression) {
@@ -1323,10 +1343,8 @@ public class ClinicalImpression extends DomainResource {
 
         private Investigation(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
-            item = Collections.unmodifiableList(ValidationSupport.checkList(builder.item, "item", Reference.class));
-            ValidationSupport.checkReferenceType(item, "item", "Observation", "QuestionnaireResponse", "FamilyMemberHistory", "DiagnosticReport", "RiskAssessment", "ImagingStudy", "Media");
-            ValidationSupport.requireValueOrChildren(this);
+            code = builder.code;
+            item = Collections.unmodifiableList(builder.item);
         }
 
         /**
@@ -1615,7 +1633,19 @@ public class ClinicalImpression extends DomainResource {
              */
             @Override
             public Investigation build() {
-                return new Investigation(this);
+                Investigation investigation = new Investigation(this);
+                if (validating) {
+                    validate(investigation);
+                }
+                return investigation;
+            }
+
+            protected void validate(Investigation investigation) {
+                super.validate(investigation);
+                ValidationSupport.requireNonNull(investigation.code, "code");
+                ValidationSupport.checkList(investigation.item, "item", Reference.class);
+                ValidationSupport.checkReferenceType(investigation.item, "item", "Observation", "QuestionnaireResponse", "FamilyMemberHistory", "DiagnosticReport", "RiskAssessment", "ImagingStudy", "Media");
+                ValidationSupport.requireValueOrChildren(investigation);
             }
 
             protected Builder from(Investigation investigation) {
@@ -1647,8 +1677,6 @@ public class ClinicalImpression extends DomainResource {
             itemCodeableConcept = builder.itemCodeableConcept;
             itemReference = builder.itemReference;
             basis = builder.basis;
-            ValidationSupport.checkReferenceType(itemReference, "itemReference", "Condition", "Observation", "Media");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1920,7 +1948,17 @@ public class ClinicalImpression extends DomainResource {
              */
             @Override
             public Finding build() {
-                return new Finding(this);
+                Finding finding = new Finding(this);
+                if (validating) {
+                    validate(finding);
+                }
+                return finding;
+            }
+
+            protected void validate(Finding finding) {
+                super.validate(finding);
+                ValidationSupport.checkReferenceType(finding.itemReference, "itemReference", "Condition", "Observation", "Media");
+                ValidationSupport.requireValueOrChildren(finding);
             }
 
             protected Builder from(Finding finding) {

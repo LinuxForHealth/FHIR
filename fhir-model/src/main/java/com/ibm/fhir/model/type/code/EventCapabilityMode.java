@@ -147,11 +147,7 @@ public class EventCapabilityMode extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -206,7 +202,20 @@ public class EventCapabilityMode extends Code {
 
         @Override
         public EventCapabilityMode build() {
-            return new EventCapabilityMode(this);
+            EventCapabilityMode eventCapabilityMode = new EventCapabilityMode(this);
+            if (validating) {
+                validate(eventCapabilityMode);
+            }
+            return eventCapabilityMode;
+        }
+
+        protected void validate(EventCapabilityMode eventCapabilityMode) {
+            super.validate(eventCapabilityMode);
+        }
+
+        protected Builder from(EventCapabilityMode eventCapabilityMode) {
+            super.from(eventCapabilityMode);
+            return this;
         }
     }
 

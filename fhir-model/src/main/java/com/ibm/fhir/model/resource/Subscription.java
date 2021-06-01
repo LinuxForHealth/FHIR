@@ -76,13 +76,13 @@ public class Subscription extends DomainResource {
 
     private Subscription(Builder builder) {
         super(builder);
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactPoint.class));
+        status = builder.status;
+        contact = Collections.unmodifiableList(builder.contact);
         end = builder.end;
-        reason = ValidationSupport.requireNonNull(builder.reason, "reason");
-        criteria = ValidationSupport.requireNonNull(builder.criteria, "criteria");
+        reason = builder.reason;
+        criteria = builder.criteria;
         error = builder.error;
-        channel = ValidationSupport.requireNonNull(builder.channel, "channel");
+        channel = builder.channel;
     }
 
     /**
@@ -612,7 +612,20 @@ public class Subscription extends DomainResource {
          */
         @Override
         public Subscription build() {
-            return new Subscription(this);
+            Subscription subscription = new Subscription(this);
+            if (validating) {
+                validate(subscription);
+            }
+            return subscription;
+        }
+
+        protected void validate(Subscription subscription) {
+            super.validate(subscription);
+            ValidationSupport.requireNonNull(subscription.status, "status");
+            ValidationSupport.checkList(subscription.contact, "contact", ContactPoint.class);
+            ValidationSupport.requireNonNull(subscription.reason, "reason");
+            ValidationSupport.requireNonNull(subscription.criteria, "criteria");
+            ValidationSupport.requireNonNull(subscription.channel, "channel");
         }
 
         protected Builder from(Subscription subscription) {
@@ -656,11 +669,10 @@ public class Subscription extends DomainResource {
 
         private Channel(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
+            type = builder.type;
             endpoint = builder.endpoint;
             payload = builder.payload;
-            header = Collections.unmodifiableList(ValidationSupport.checkList(builder.header, "header", String.class));
-            ValidationSupport.requireValueOrChildren(this);
+            header = Collections.unmodifiableList(builder.header);
         }
 
         /**
@@ -985,7 +997,18 @@ public class Subscription extends DomainResource {
              */
             @Override
             public Channel build() {
-                return new Channel(this);
+                Channel channel = new Channel(this);
+                if (validating) {
+                    validate(channel);
+                }
+                return channel;
+            }
+
+            protected void validate(Channel channel) {
+                super.validate(channel);
+                ValidationSupport.requireNonNull(channel.type, "type");
+                ValidationSupport.checkList(channel.header, "header", String.class);
+                ValidationSupport.requireValueOrChildren(channel);
             }
 
             protected Builder from(Channel channel) {

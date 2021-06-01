@@ -144,42 +144,32 @@ public class ChargeItem extends DomainResource {
 
     private ChargeItem(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        definitionUri = Collections.unmodifiableList(ValidationSupport.checkList(builder.definitionUri, "definitionUri", Uri.class));
-        definitionCanonical = Collections.unmodifiableList(ValidationSupport.checkList(builder.definitionCanonical, "definitionCanonical", Canonical.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Reference.class));
-        code = ValidationSupport.requireNonNull(builder.code, "code");
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        definitionUri = Collections.unmodifiableList(builder.definitionUri);
+        definitionCanonical = Collections.unmodifiableList(builder.definitionCanonical);
+        status = builder.status;
+        partOf = Collections.unmodifiableList(builder.partOf);
+        code = builder.code;
+        subject = builder.subject;
         context = builder.context;
-        occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
-        performer = Collections.unmodifiableList(ValidationSupport.checkList(builder.performer, "performer", Performer.class));
+        occurrence = builder.occurrence;
+        performer = Collections.unmodifiableList(builder.performer);
         performingOrganization = builder.performingOrganization;
         requestingOrganization = builder.requestingOrganization;
         costCenter = builder.costCenter;
         quantity = builder.quantity;
-        bodysite = Collections.unmodifiableList(ValidationSupport.checkList(builder.bodysite, "bodysite", CodeableConcept.class));
+        bodysite = Collections.unmodifiableList(builder.bodysite);
         factorOverride = builder.factorOverride;
         priceOverride = builder.priceOverride;
         overrideReason = builder.overrideReason;
         enterer = builder.enterer;
         enteredDate = builder.enteredDate;
-        reason = Collections.unmodifiableList(ValidationSupport.checkList(builder.reason, "reason", CodeableConcept.class));
-        service = Collections.unmodifiableList(ValidationSupport.checkList(builder.service, "service", Reference.class));
-        product = ValidationSupport.choiceElement(builder.product, "product", Reference.class, CodeableConcept.class);
-        account = Collections.unmodifiableList(ValidationSupport.checkList(builder.account, "account", Reference.class));
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-        supportingInformation = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingInformation, "supportingInformation", Reference.class));
-        ValidationSupport.checkReferenceType(partOf, "partOf", "ChargeItem");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
-        ValidationSupport.checkReferenceType(performingOrganization, "performingOrganization", "Organization");
-        ValidationSupport.checkReferenceType(requestingOrganization, "requestingOrganization", "Organization");
-        ValidationSupport.checkReferenceType(costCenter, "costCenter", "Organization");
-        ValidationSupport.checkReferenceType(enterer, "enterer", "Practitioner", "PractitionerRole", "Organization", "Patient", "Device", "RelatedPerson");
-        ValidationSupport.checkReferenceType(service, "service", "DiagnosticReport", "ImagingStudy", "Immunization", "MedicationAdministration", "MedicationDispense", "Observation", "Procedure", "SupplyDelivery");
-        ValidationSupport.checkReferenceType(product, "product", "Device", "Medication", "Substance");
-        ValidationSupport.checkReferenceType(account, "account", "Account");
+        reason = Collections.unmodifiableList(builder.reason);
+        service = Collections.unmodifiableList(builder.service);
+        product = builder.product;
+        account = Collections.unmodifiableList(builder.account);
+        note = Collections.unmodifiableList(builder.note);
+        supportingInformation = Collections.unmodifiableList(builder.supportingInformation);
     }
 
     /**
@@ -1557,7 +1547,41 @@ public class ChargeItem extends DomainResource {
          */
         @Override
         public ChargeItem build() {
-            return new ChargeItem(this);
+            ChargeItem chargeItem = new ChargeItem(this);
+            if (validating) {
+                validate(chargeItem);
+            }
+            return chargeItem;
+        }
+
+        protected void validate(ChargeItem chargeItem) {
+            super.validate(chargeItem);
+            ValidationSupport.checkList(chargeItem.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(chargeItem.definitionUri, "definitionUri", Uri.class);
+            ValidationSupport.checkList(chargeItem.definitionCanonical, "definitionCanonical", Canonical.class);
+            ValidationSupport.requireNonNull(chargeItem.status, "status");
+            ValidationSupport.checkList(chargeItem.partOf, "partOf", Reference.class);
+            ValidationSupport.requireNonNull(chargeItem.code, "code");
+            ValidationSupport.requireNonNull(chargeItem.subject, "subject");
+            ValidationSupport.choiceElement(chargeItem.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
+            ValidationSupport.checkList(chargeItem.performer, "performer", Performer.class);
+            ValidationSupport.checkList(chargeItem.bodysite, "bodysite", CodeableConcept.class);
+            ValidationSupport.checkList(chargeItem.reason, "reason", CodeableConcept.class);
+            ValidationSupport.checkList(chargeItem.service, "service", Reference.class);
+            ValidationSupport.choiceElement(chargeItem.product, "product", Reference.class, CodeableConcept.class);
+            ValidationSupport.checkList(chargeItem.account, "account", Reference.class);
+            ValidationSupport.checkList(chargeItem.note, "note", Annotation.class);
+            ValidationSupport.checkList(chargeItem.supportingInformation, "supportingInformation", Reference.class);
+            ValidationSupport.checkReferenceType(chargeItem.partOf, "partOf", "ChargeItem");
+            ValidationSupport.checkReferenceType(chargeItem.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(chargeItem.context, "context", "Encounter", "EpisodeOfCare");
+            ValidationSupport.checkReferenceType(chargeItem.performingOrganization, "performingOrganization", "Organization");
+            ValidationSupport.checkReferenceType(chargeItem.requestingOrganization, "requestingOrganization", "Organization");
+            ValidationSupport.checkReferenceType(chargeItem.costCenter, "costCenter", "Organization");
+            ValidationSupport.checkReferenceType(chargeItem.enterer, "enterer", "Practitioner", "PractitionerRole", "Organization", "Patient", "Device", "RelatedPerson");
+            ValidationSupport.checkReferenceType(chargeItem.service, "service", "DiagnosticReport", "ImagingStudy", "Immunization", "MedicationAdministration", "MedicationDispense", "Observation", "Procedure", "SupplyDelivery");
+            ValidationSupport.checkReferenceType(chargeItem.product, "product", "Device", "Medication", "Substance");
+            ValidationSupport.checkReferenceType(chargeItem.account, "account", "Account");
         }
 
         protected Builder from(ChargeItem chargeItem) {
@@ -1610,9 +1634,7 @@ public class ChargeItem extends DomainResource {
         private Performer(Builder builder) {
             super(builder);
             function = builder.function;
-            actor = ValidationSupport.requireNonNull(builder.actor, "actor");
-            ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "Device", "RelatedPerson");
-            ValidationSupport.requireValueOrChildren(this);
+            actor = builder.actor;
         }
 
         /**
@@ -1866,7 +1888,18 @@ public class ChargeItem extends DomainResource {
              */
             @Override
             public Performer build() {
-                return new Performer(this);
+                Performer performer = new Performer(this);
+                if (validating) {
+                    validate(performer);
+                }
+                return performer;
+            }
+
+            protected void validate(Performer performer) {
+                super.validate(performer);
+                ValidationSupport.requireNonNull(performer.actor, "actor");
+                ValidationSupport.checkReferenceType(performer.actor, "actor", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "Device", "RelatedPerson");
+                ValidationSupport.requireValueOrChildren(performer);
             }
 
             protected Builder from(Performer performer) {

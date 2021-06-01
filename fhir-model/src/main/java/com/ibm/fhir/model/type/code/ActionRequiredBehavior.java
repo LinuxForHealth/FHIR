@@ -160,11 +160,7 @@ public class ActionRequiredBehavior extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -219,7 +215,20 @@ public class ActionRequiredBehavior extends Code {
 
         @Override
         public ActionRequiredBehavior build() {
-            return new ActionRequiredBehavior(this);
+            ActionRequiredBehavior actionRequiredBehavior = new ActionRequiredBehavior(this);
+            if (validating) {
+                validate(actionRequiredBehavior);
+            }
+            return actionRequiredBehavior;
+        }
+
+        protected void validate(ActionRequiredBehavior actionRequiredBehavior) {
+            super.validate(actionRequiredBehavior);
+        }
+
+        protected Builder from(ActionRequiredBehavior actionRequiredBehavior) {
+            super.from(actionRequiredBehavior);
+            return this;
         }
     }
 

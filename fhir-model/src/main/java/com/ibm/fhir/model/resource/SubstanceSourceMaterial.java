@@ -82,14 +82,14 @@ public class SubstanceSourceMaterial extends DomainResource {
         sourceMaterialState = builder.sourceMaterialState;
         organismId = builder.organismId;
         organismName = builder.organismName;
-        parentSubstanceId = Collections.unmodifiableList(ValidationSupport.checkList(builder.parentSubstanceId, "parentSubstanceId", Identifier.class));
-        parentSubstanceName = Collections.unmodifiableList(ValidationSupport.checkList(builder.parentSubstanceName, "parentSubstanceName", String.class));
-        countryOfOrigin = Collections.unmodifiableList(ValidationSupport.checkList(builder.countryOfOrigin, "countryOfOrigin", CodeableConcept.class));
-        geographicalLocation = Collections.unmodifiableList(ValidationSupport.checkList(builder.geographicalLocation, "geographicalLocation", String.class));
+        parentSubstanceId = Collections.unmodifiableList(builder.parentSubstanceId);
+        parentSubstanceName = Collections.unmodifiableList(builder.parentSubstanceName);
+        countryOfOrigin = Collections.unmodifiableList(builder.countryOfOrigin);
+        geographicalLocation = Collections.unmodifiableList(builder.geographicalLocation);
         developmentStage = builder.developmentStage;
-        fractionDescription = Collections.unmodifiableList(ValidationSupport.checkList(builder.fractionDescription, "fractionDescription", FractionDescription.class));
+        fractionDescription = Collections.unmodifiableList(builder.fractionDescription);
         organism = builder.organism;
-        partDescription = Collections.unmodifiableList(ValidationSupport.checkList(builder.partDescription, "partDescription", PartDescription.class));
+        partDescription = Collections.unmodifiableList(builder.partDescription);
     }
 
     /**
@@ -926,7 +926,21 @@ public class SubstanceSourceMaterial extends DomainResource {
          */
         @Override
         public SubstanceSourceMaterial build() {
-            return new SubstanceSourceMaterial(this);
+            SubstanceSourceMaterial substanceSourceMaterial = new SubstanceSourceMaterial(this);
+            if (validating) {
+                validate(substanceSourceMaterial);
+            }
+            return substanceSourceMaterial;
+        }
+
+        protected void validate(SubstanceSourceMaterial substanceSourceMaterial) {
+            super.validate(substanceSourceMaterial);
+            ValidationSupport.checkList(substanceSourceMaterial.parentSubstanceId, "parentSubstanceId", Identifier.class);
+            ValidationSupport.checkList(substanceSourceMaterial.parentSubstanceName, "parentSubstanceName", String.class);
+            ValidationSupport.checkList(substanceSourceMaterial.countryOfOrigin, "countryOfOrigin", CodeableConcept.class);
+            ValidationSupport.checkList(substanceSourceMaterial.geographicalLocation, "geographicalLocation", String.class);
+            ValidationSupport.checkList(substanceSourceMaterial.fractionDescription, "fractionDescription", FractionDescription.class);
+            ValidationSupport.checkList(substanceSourceMaterial.partDescription, "partDescription", PartDescription.class);
         }
 
         protected Builder from(SubstanceSourceMaterial substanceSourceMaterial) {
@@ -966,7 +980,6 @@ public class SubstanceSourceMaterial extends DomainResource {
             super(builder);
             fraction = builder.fraction;
             materialType = builder.materialType;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1205,7 +1218,16 @@ public class SubstanceSourceMaterial extends DomainResource {
              */
             @Override
             public FractionDescription build() {
-                return new FractionDescription(this);
+                FractionDescription fractionDescription = new FractionDescription(this);
+                if (validating) {
+                    validate(fractionDescription);
+                }
+                return fractionDescription;
+            }
+
+            protected void validate(FractionDescription fractionDescription) {
+                super.validate(fractionDescription);
+                ValidationSupport.requireValueOrChildren(fractionDescription);
             }
 
             protected Builder from(FractionDescription fractionDescription) {
@@ -1247,10 +1269,9 @@ public class SubstanceSourceMaterial extends DomainResource {
             species = builder.species;
             intraspecificType = builder.intraspecificType;
             intraspecificDescription = builder.intraspecificDescription;
-            author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", Author.class));
+            author = Collections.unmodifiableList(builder.author);
             hybrid = builder.hybrid;
             organismGeneral = builder.organismGeneral;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1689,7 +1710,17 @@ public class SubstanceSourceMaterial extends DomainResource {
              */
             @Override
             public Organism build() {
-                return new Organism(this);
+                Organism organism = new Organism(this);
+                if (validating) {
+                    validate(organism);
+                }
+                return organism;
+            }
+
+            protected void validate(Organism organism) {
+                super.validate(organism);
+                ValidationSupport.checkList(organism.author, "author", Author.class);
+                ValidationSupport.requireValueOrChildren(organism);
             }
 
             protected Builder from(Organism organism) {
@@ -1719,7 +1750,6 @@ public class SubstanceSourceMaterial extends DomainResource {
                 super(builder);
                 authorType = builder.authorType;
                 authorDescription = builder.authorDescription;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1966,7 +1996,16 @@ public class SubstanceSourceMaterial extends DomainResource {
                  */
                 @Override
                 public Author build() {
-                    return new Author(this);
+                    Author author = new Author(this);
+                    if (validating) {
+                        validate(author);
+                    }
+                    return author;
+                }
+
+                protected void validate(Author author) {
+                    super.validate(author);
+                    ValidationSupport.requireValueOrChildren(author);
                 }
 
                 protected Builder from(Author author) {
@@ -2000,7 +2039,6 @@ public class SubstanceSourceMaterial extends DomainResource {
                 paternalOrganismId = builder.paternalOrganismId;
                 paternalOrganismName = builder.paternalOrganismName;
                 hybridType = builder.hybridType;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2335,7 +2373,16 @@ public class SubstanceSourceMaterial extends DomainResource {
                  */
                 @Override
                 public Hybrid build() {
-                    return new Hybrid(this);
+                    Hybrid hybrid = new Hybrid(this);
+                    if (validating) {
+                        validate(hybrid);
+                    }
+                    return hybrid;
+                }
+
+                protected void validate(Hybrid hybrid) {
+                    super.validate(hybrid);
+                    ValidationSupport.requireValueOrChildren(hybrid);
                 }
 
                 protected Builder from(Hybrid hybrid) {
@@ -2369,7 +2416,6 @@ public class SubstanceSourceMaterial extends DomainResource {
                 phylum = builder.phylum;
                 clazz = builder.clazz;
                 order = builder.order;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2663,7 +2709,16 @@ public class SubstanceSourceMaterial extends DomainResource {
                  */
                 @Override
                 public OrganismGeneral build() {
-                    return new OrganismGeneral(this);
+                    OrganismGeneral organismGeneral = new OrganismGeneral(this);
+                    if (validating) {
+                        validate(organismGeneral);
+                    }
+                    return organismGeneral;
+                }
+
+                protected void validate(OrganismGeneral organismGeneral) {
+                    super.validate(organismGeneral);
+                    ValidationSupport.requireValueOrChildren(organismGeneral);
                 }
 
                 protected Builder from(OrganismGeneral organismGeneral) {
@@ -2691,7 +2746,6 @@ public class SubstanceSourceMaterial extends DomainResource {
             super(builder);
             part = builder.part;
             partLocation = builder.partLocation;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2930,7 +2984,16 @@ public class SubstanceSourceMaterial extends DomainResource {
              */
             @Override
             public PartDescription build() {
-                return new PartDescription(this);
+                PartDescription partDescription = new PartDescription(this);
+                if (validating) {
+                    validate(partDescription);
+                }
+                return partDescription;
+            }
+
+            protected void validate(PartDescription partDescription) {
+                super.validate(partDescription);
+                ValidationSupport.requireValueOrChildren(partDescription);
             }
 
             protected Builder from(PartDescription partDescription) {

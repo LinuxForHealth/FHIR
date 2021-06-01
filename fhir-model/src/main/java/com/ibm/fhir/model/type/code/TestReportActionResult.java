@@ -180,11 +180,7 @@ public class TestReportActionResult extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -239,7 +235,20 @@ public class TestReportActionResult extends Code {
 
         @Override
         public TestReportActionResult build() {
-            return new TestReportActionResult(this);
+            TestReportActionResult testReportActionResult = new TestReportActionResult(this);
+            if (validating) {
+                validate(testReportActionResult);
+            }
+            return testReportActionResult;
+        }
+
+        protected void validate(TestReportActionResult testReportActionResult) {
+            super.validate(testReportActionResult);
+        }
+
+        protected Builder from(TestReportActionResult testReportActionResult) {
+            super.from(testReportActionResult);
+            return this;
         }
     }
 

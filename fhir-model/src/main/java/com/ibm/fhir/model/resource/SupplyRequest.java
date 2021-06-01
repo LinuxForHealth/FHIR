@@ -122,27 +122,21 @@ public class SupplyRequest extends DomainResource {
 
     private SupplyRequest(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         status = builder.status;
         category = builder.category;
         priority = builder.priority;
-        item = ValidationSupport.requireChoiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
-        quantity = ValidationSupport.requireNonNull(builder.quantity, "quantity");
-        parameter = Collections.unmodifiableList(ValidationSupport.checkList(builder.parameter, "parameter", Parameter.class));
-        occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
+        item = builder.item;
+        quantity = builder.quantity;
+        parameter = Collections.unmodifiableList(builder.parameter);
+        occurrence = builder.occurrence;
         authoredOn = builder.authoredOn;
         requester = builder.requester;
-        supplier = Collections.unmodifiableList(ValidationSupport.checkList(builder.supplier, "supplier", Reference.class));
-        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
+        supplier = Collections.unmodifiableList(builder.supplier);
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
         deliverFrom = builder.deliverFrom;
         deliverTo = builder.deliverTo;
-        ValidationSupport.checkReferenceType(item, "item", "Medication", "Substance", "Device");
-        ValidationSupport.checkReferenceType(requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
-        ValidationSupport.checkReferenceType(supplier, "supplier", "Organization", "HealthcareService");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-        ValidationSupport.checkReferenceType(deliverFrom, "deliverFrom", "Organization", "Location");
-        ValidationSupport.checkReferenceType(deliverTo, "deliverTo", "Organization", "Location", "Patient");
     }
 
     /**
@@ -1053,7 +1047,29 @@ public class SupplyRequest extends DomainResource {
          */
         @Override
         public SupplyRequest build() {
-            return new SupplyRequest(this);
+            SupplyRequest supplyRequest = new SupplyRequest(this);
+            if (validating) {
+                validate(supplyRequest);
+            }
+            return supplyRequest;
+        }
+
+        protected void validate(SupplyRequest supplyRequest) {
+            super.validate(supplyRequest);
+            ValidationSupport.checkList(supplyRequest.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireChoiceElement(supplyRequest.item, "item", CodeableConcept.class, Reference.class);
+            ValidationSupport.requireNonNull(supplyRequest.quantity, "quantity");
+            ValidationSupport.checkList(supplyRequest.parameter, "parameter", Parameter.class);
+            ValidationSupport.choiceElement(supplyRequest.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
+            ValidationSupport.checkList(supplyRequest.supplier, "supplier", Reference.class);
+            ValidationSupport.checkList(supplyRequest.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(supplyRequest.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkReferenceType(supplyRequest.item, "item", "Medication", "Substance", "Device");
+            ValidationSupport.checkReferenceType(supplyRequest.requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
+            ValidationSupport.checkReferenceType(supplyRequest.supplier, "supplier", "Organization", "HealthcareService");
+            ValidationSupport.checkReferenceType(supplyRequest.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+            ValidationSupport.checkReferenceType(supplyRequest.deliverFrom, "deliverFrom", "Organization", "Location");
+            ValidationSupport.checkReferenceType(supplyRequest.deliverTo, "deliverTo", "Organization", "Location", "Patient");
         }
 
         protected Builder from(SupplyRequest supplyRequest) {
@@ -1093,8 +1109,7 @@ public class SupplyRequest extends DomainResource {
         private Parameter(Builder builder) {
             super(builder);
             code = builder.code;
-            value = ValidationSupport.choiceElement(builder.value, "value", CodeableConcept.class, Quantity.class, Range.class, Boolean.class);
-            ValidationSupport.requireValueOrChildren(this);
+            value = builder.value;
         }
 
         /**
@@ -1338,7 +1353,17 @@ public class SupplyRequest extends DomainResource {
              */
             @Override
             public Parameter build() {
-                return new Parameter(this);
+                Parameter parameter = new Parameter(this);
+                if (validating) {
+                    validate(parameter);
+                }
+                return parameter;
+            }
+
+            protected void validate(Parameter parameter) {
+                super.validate(parameter);
+                ValidationSupport.choiceElement(parameter.value, "value", CodeableConcept.class, Quantity.class, Range.class, Boolean.class);
+                ValidationSupport.requireValueOrChildren(parameter);
             }
 
             protected Builder from(Parameter parameter) {

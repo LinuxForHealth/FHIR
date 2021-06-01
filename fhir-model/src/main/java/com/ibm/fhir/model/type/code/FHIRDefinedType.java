@@ -2620,11 +2620,7 @@ public class FHIRDefinedType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -2679,7 +2675,20 @@ public class FHIRDefinedType extends Code {
 
         @Override
         public FHIRDefinedType build() {
-            return new FHIRDefinedType(this);
+            FHIRDefinedType fHIRDefinedType = new FHIRDefinedType(this);
+            if (validating) {
+                validate(fHIRDefinedType);
+            }
+            return fHIRDefinedType;
+        }
+
+        protected void validate(FHIRDefinedType fHIRDefinedType) {
+            super.validate(fHIRDefinedType);
+        }
+
+        protected Builder from(FHIRDefinedType fHIRDefinedType) {
+            super.from(fHIRDefinedType);
+            return this;
         }
     }
 

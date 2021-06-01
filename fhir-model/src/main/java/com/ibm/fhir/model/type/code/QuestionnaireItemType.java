@@ -317,11 +317,7 @@ public class QuestionnaireItemType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -376,7 +372,20 @@ public class QuestionnaireItemType extends Code {
 
         @Override
         public QuestionnaireItemType build() {
-            return new QuestionnaireItemType(this);
+            QuestionnaireItemType questionnaireItemType = new QuestionnaireItemType(this);
+            if (validating) {
+                validate(questionnaireItemType);
+            }
+            return questionnaireItemType;
+        }
+
+        protected void validate(QuestionnaireItemType questionnaireItemType) {
+            super.validate(questionnaireItemType);
+        }
+
+        protected Builder from(QuestionnaireItemType questionnaireItemType) {
+            super.from(questionnaireItemType);
+            return this;
         }
     }
 

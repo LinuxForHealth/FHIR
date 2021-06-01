@@ -243,11 +243,7 @@ public class ConceptMapEquivalence extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -302,7 +298,20 @@ public class ConceptMapEquivalence extends Code {
 
         @Override
         public ConceptMapEquivalence build() {
-            return new ConceptMapEquivalence(this);
+            ConceptMapEquivalence conceptMapEquivalence = new ConceptMapEquivalence(this);
+            if (validating) {
+                validate(conceptMapEquivalence);
+            }
+            return conceptMapEquivalence;
+        }
+
+        protected void validate(ConceptMapEquivalence conceptMapEquivalence) {
+            super.validate(conceptMapEquivalence);
+        }
+
+        protected Builder from(ConceptMapEquivalence conceptMapEquivalence) {
+            super.from(conceptMapEquivalence);
+            return this;
         }
     }
 

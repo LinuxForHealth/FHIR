@@ -158,11 +158,7 @@ public class SearchEntryMode extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -217,7 +213,20 @@ public class SearchEntryMode extends Code {
 
         @Override
         public SearchEntryMode build() {
-            return new SearchEntryMode(this);
+            SearchEntryMode searchEntryMode = new SearchEntryMode(this);
+            if (validating) {
+                validate(searchEntryMode);
+            }
+            return searchEntryMode;
+        }
+
+        protected void validate(SearchEntryMode searchEntryMode) {
+            super.validate(searchEntryMode);
+        }
+
+        protected Builder from(SearchEntryMode searchEntryMode) {
+            super.from(searchEntryMode);
+            return this;
         }
     }
 

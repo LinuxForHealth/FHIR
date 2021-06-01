@@ -215,11 +215,7 @@ public class TriggerType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -274,7 +270,20 @@ public class TriggerType extends Code {
 
         @Override
         public TriggerType build() {
-            return new TriggerType(this);
+            TriggerType triggerType = new TriggerType(this);
+            if (validating) {
+                validate(triggerType);
+            }
+            return triggerType;
+        }
+
+        protected void validate(TriggerType triggerType) {
+            super.validate(triggerType);
+        }
+
+        protected Builder from(TriggerType triggerType) {
+            super.from(triggerType);
+            return this;
         }
     }
 

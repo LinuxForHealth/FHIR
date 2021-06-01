@@ -226,11 +226,7 @@ public class BundleType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -285,7 +281,20 @@ public class BundleType extends Code {
 
         @Override
         public BundleType build() {
-            return new BundleType(this);
+            BundleType bundleType = new BundleType(this);
+            if (validating) {
+                validate(bundleType);
+            }
+            return bundleType;
+        }
+
+        protected void validate(BundleType bundleType) {
+            super.validate(bundleType);
+        }
+
+        protected Builder from(BundleType bundleType) {
+            super.from(bundleType);
+            return this;
         }
     }
 

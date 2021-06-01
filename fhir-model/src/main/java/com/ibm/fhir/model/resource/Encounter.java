@@ -200,37 +200,29 @@ public class Encounter extends DomainResource {
 
     private Encounter(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        statusHistory = Collections.unmodifiableList(ValidationSupport.checkList(builder.statusHistory, "statusHistory", StatusHistory.class));
-        clazz = ValidationSupport.requireNonNull(builder.clazz, "class");
-        classHistory = Collections.unmodifiableList(ValidationSupport.checkList(builder.classHistory, "classHistory", ClassHistory.class));
-        type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        statusHistory = Collections.unmodifiableList(builder.statusHistory);
+        clazz = builder.clazz;
+        classHistory = Collections.unmodifiableList(builder.classHistory);
+        type = Collections.unmodifiableList(builder.type);
         serviceType = builder.serviceType;
         priority = builder.priority;
         subject = builder.subject;
-        episodeOfCare = Collections.unmodifiableList(ValidationSupport.checkList(builder.episodeOfCare, "episodeOfCare", Reference.class));
-        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
-        participant = Collections.unmodifiableList(ValidationSupport.checkList(builder.participant, "participant", Participant.class));
-        appointment = Collections.unmodifiableList(ValidationSupport.checkList(builder.appointment, "appointment", Reference.class));
+        episodeOfCare = Collections.unmodifiableList(builder.episodeOfCare);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        participant = Collections.unmodifiableList(builder.participant);
+        appointment = Collections.unmodifiableList(builder.appointment);
         period = builder.period;
         length = builder.length;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
-        diagnosis = Collections.unmodifiableList(ValidationSupport.checkList(builder.diagnosis, "diagnosis", Diagnosis.class));
-        account = Collections.unmodifiableList(ValidationSupport.checkList(builder.account, "account", Reference.class));
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        diagnosis = Collections.unmodifiableList(builder.diagnosis);
+        account = Collections.unmodifiableList(builder.account);
         hospitalization = builder.hospitalization;
-        location = Collections.unmodifiableList(ValidationSupport.checkList(builder.location, "location", Location.class));
+        location = Collections.unmodifiableList(builder.location);
         serviceProvider = builder.serviceProvider;
         partOf = builder.partOf;
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(episodeOfCare, "episodeOfCare", "EpisodeOfCare");
-        ValidationSupport.checkReferenceType(basedOn, "basedOn", "ServiceRequest");
-        ValidationSupport.checkReferenceType(appointment, "appointment", "Appointment");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Procedure", "Observation", "ImmunizationRecommendation");
-        ValidationSupport.checkReferenceType(account, "account", "Account");
-        ValidationSupport.checkReferenceType(serviceProvider, "serviceProvider", "Organization");
-        ValidationSupport.checkReferenceType(partOf, "partOf", "Encounter");
     }
 
     /**
@@ -1568,7 +1560,38 @@ public class Encounter extends DomainResource {
          */
         @Override
         public Encounter build() {
-            return new Encounter(this);
+            Encounter encounter = new Encounter(this);
+            if (validating) {
+                validate(encounter);
+            }
+            return encounter;
+        }
+
+        protected void validate(Encounter encounter) {
+            super.validate(encounter);
+            ValidationSupport.checkList(encounter.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(encounter.status, "status");
+            ValidationSupport.checkList(encounter.statusHistory, "statusHistory", StatusHistory.class);
+            ValidationSupport.requireNonNull(encounter.clazz, "class");
+            ValidationSupport.checkList(encounter.classHistory, "classHistory", ClassHistory.class);
+            ValidationSupport.checkList(encounter.type, "type", CodeableConcept.class);
+            ValidationSupport.checkList(encounter.episodeOfCare, "episodeOfCare", Reference.class);
+            ValidationSupport.checkList(encounter.basedOn, "basedOn", Reference.class);
+            ValidationSupport.checkList(encounter.participant, "participant", Participant.class);
+            ValidationSupport.checkList(encounter.appointment, "appointment", Reference.class);
+            ValidationSupport.checkList(encounter.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(encounter.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(encounter.diagnosis, "diagnosis", Diagnosis.class);
+            ValidationSupport.checkList(encounter.account, "account", Reference.class);
+            ValidationSupport.checkList(encounter.location, "location", Location.class);
+            ValidationSupport.checkReferenceType(encounter.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(encounter.episodeOfCare, "episodeOfCare", "EpisodeOfCare");
+            ValidationSupport.checkReferenceType(encounter.basedOn, "basedOn", "ServiceRequest");
+            ValidationSupport.checkReferenceType(encounter.appointment, "appointment", "Appointment");
+            ValidationSupport.checkReferenceType(encounter.reasonReference, "reasonReference", "Condition", "Procedure", "Observation", "ImmunizationRecommendation");
+            ValidationSupport.checkReferenceType(encounter.account, "account", "Account");
+            ValidationSupport.checkReferenceType(encounter.serviceProvider, "serviceProvider", "Organization");
+            ValidationSupport.checkReferenceType(encounter.partOf, "partOf", "Encounter");
         }
 
         protected Builder from(Encounter encounter) {
@@ -1618,9 +1641,8 @@ public class Encounter extends DomainResource {
 
         private StatusHistory(Builder builder) {
             super(builder);
-            status = ValidationSupport.requireNonNull(builder.status, "status");
-            period = ValidationSupport.requireNonNull(builder.period, "period");
-            ValidationSupport.requireValueOrChildren(this);
+            status = builder.status;
+            period = builder.period;
         }
 
         /**
@@ -1866,7 +1888,18 @@ public class Encounter extends DomainResource {
              */
             @Override
             public StatusHistory build() {
-                return new StatusHistory(this);
+                StatusHistory statusHistory = new StatusHistory(this);
+                if (validating) {
+                    validate(statusHistory);
+                }
+                return statusHistory;
+            }
+
+            protected void validate(StatusHistory statusHistory) {
+                super.validate(statusHistory);
+                ValidationSupport.requireNonNull(statusHistory.status, "status");
+                ValidationSupport.requireNonNull(statusHistory.period, "period");
+                ValidationSupport.requireValueOrChildren(statusHistory);
             }
 
             protected Builder from(StatusHistory statusHistory) {
@@ -1899,9 +1932,8 @@ public class Encounter extends DomainResource {
 
         private ClassHistory(Builder builder) {
             super(builder);
-            clazz = ValidationSupport.requireNonNull(builder.clazz, "class");
-            period = ValidationSupport.requireNonNull(builder.period, "period");
-            ValidationSupport.requireValueOrChildren(this);
+            clazz = builder.clazz;
+            period = builder.period;
         }
 
         /**
@@ -2147,7 +2179,18 @@ public class Encounter extends DomainResource {
              */
             @Override
             public ClassHistory build() {
-                return new ClassHistory(this);
+                ClassHistory classHistory = new ClassHistory(this);
+                if (validating) {
+                    validate(classHistory);
+                }
+                return classHistory;
+            }
+
+            protected void validate(ClassHistory classHistory) {
+                super.validate(classHistory);
+                ValidationSupport.requireNonNull(classHistory.clazz, "class");
+                ValidationSupport.requireNonNull(classHistory.period, "period");
+                ValidationSupport.requireValueOrChildren(classHistory);
             }
 
             protected Builder from(ClassHistory classHistory) {
@@ -2178,11 +2221,9 @@ public class Encounter extends DomainResource {
 
         private Participant(Builder builder) {
             super(builder);
-            type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
+            type = Collections.unmodifiableList(builder.type);
             period = builder.period;
             individual = builder.individual;
-            ValidationSupport.checkReferenceType(individual, "individual", "Practitioner", "PractitionerRole", "RelatedPerson");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2476,7 +2517,18 @@ public class Encounter extends DomainResource {
              */
             @Override
             public Participant build() {
-                return new Participant(this);
+                Participant participant = new Participant(this);
+                if (validating) {
+                    validate(participant);
+                }
+                return participant;
+            }
+
+            protected void validate(Participant participant) {
+                super.validate(participant);
+                ValidationSupport.checkList(participant.type, "type", CodeableConcept.class);
+                ValidationSupport.checkReferenceType(participant.individual, "individual", "Practitioner", "PractitionerRole", "RelatedPerson");
+                ValidationSupport.requireValueOrChildren(participant);
             }
 
             protected Builder from(Participant participant) {
@@ -2508,11 +2560,9 @@ public class Encounter extends DomainResource {
 
         private Diagnosis(Builder builder) {
             super(builder);
-            condition = ValidationSupport.requireNonNull(builder.condition, "condition");
+            condition = builder.condition;
             use = builder.use;
             rank = builder.rank;
-            ValidationSupport.checkReferenceType(condition, "condition", "Condition", "Procedure");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2794,7 +2844,18 @@ public class Encounter extends DomainResource {
              */
             @Override
             public Diagnosis build() {
-                return new Diagnosis(this);
+                Diagnosis diagnosis = new Diagnosis(this);
+                if (validating) {
+                    validate(diagnosis);
+                }
+                return diagnosis;
+            }
+
+            protected void validate(Diagnosis diagnosis) {
+                super.validate(diagnosis);
+                ValidationSupport.requireNonNull(diagnosis.condition, "condition");
+                ValidationSupport.checkReferenceType(diagnosis.condition, "condition", "Condition", "Procedure");
+                ValidationSupport.requireValueOrChildren(diagnosis);
             }
 
             protected Builder from(Diagnosis diagnosis) {
@@ -2865,14 +2926,11 @@ public class Encounter extends DomainResource {
             origin = builder.origin;
             admitSource = builder.admitSource;
             reAdmission = builder.reAdmission;
-            dietPreference = Collections.unmodifiableList(ValidationSupport.checkList(builder.dietPreference, "dietPreference", CodeableConcept.class));
-            specialCourtesy = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialCourtesy, "specialCourtesy", CodeableConcept.class));
-            specialArrangement = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialArrangement, "specialArrangement", CodeableConcept.class));
+            dietPreference = Collections.unmodifiableList(builder.dietPreference);
+            specialCourtesy = Collections.unmodifiableList(builder.specialCourtesy);
+            specialArrangement = Collections.unmodifiableList(builder.specialArrangement);
             destination = builder.destination;
             dischargeDisposition = builder.dischargeDisposition;
-            ValidationSupport.checkReferenceType(origin, "origin", "Location", "Organization");
-            ValidationSupport.checkReferenceType(destination, "destination", "Location", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3387,7 +3445,21 @@ public class Encounter extends DomainResource {
              */
             @Override
             public Hospitalization build() {
-                return new Hospitalization(this);
+                Hospitalization hospitalization = new Hospitalization(this);
+                if (validating) {
+                    validate(hospitalization);
+                }
+                return hospitalization;
+            }
+
+            protected void validate(Hospitalization hospitalization) {
+                super.validate(hospitalization);
+                ValidationSupport.checkList(hospitalization.dietPreference, "dietPreference", CodeableConcept.class);
+                ValidationSupport.checkList(hospitalization.specialCourtesy, "specialCourtesy", CodeableConcept.class);
+                ValidationSupport.checkList(hospitalization.specialArrangement, "specialArrangement", CodeableConcept.class);
+                ValidationSupport.checkReferenceType(hospitalization.origin, "origin", "Location", "Organization");
+                ValidationSupport.checkReferenceType(hospitalization.destination, "destination", "Location", "Organization");
+                ValidationSupport.requireValueOrChildren(hospitalization);
             }
 
             protected Builder from(Hospitalization hospitalization) {
@@ -3431,12 +3503,10 @@ public class Encounter extends DomainResource {
 
         private Location(Builder builder) {
             super(builder);
-            location = ValidationSupport.requireNonNull(builder.location, "location");
+            location = builder.location;
             status = builder.status;
             physicalType = builder.physicalType;
             period = builder.period;
-            ValidationSupport.checkReferenceType(location, "location", "Location");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3746,7 +3816,18 @@ public class Encounter extends DomainResource {
              */
             @Override
             public Location build() {
-                return new Location(this);
+                Location location = new Location(this);
+                if (validating) {
+                    validate(location);
+                }
+                return location;
+            }
+
+            protected void validate(Location location) {
+                super.validate(location);
+                ValidationSupport.requireNonNull(location.location, "location");
+                ValidationSupport.checkReferenceType(location.location, "location", "Location");
+                ValidationSupport.requireValueOrChildren(location);
             }
 
             protected Builder from(Location location) {

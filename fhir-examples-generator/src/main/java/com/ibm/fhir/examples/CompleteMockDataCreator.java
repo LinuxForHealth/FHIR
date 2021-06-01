@@ -501,7 +501,7 @@ public class CompleteMockDataCreator extends DataCreatorBase {
         Class<?>[] classes = elementClass.getClasses();
         // If the element has a ValueSet, set one of the values randomly
         for (Class<?> clazz : classes) {
-            if ("ValueSet".equals(clazz.getSimpleName())) {
+            if ("Value".equals(clazz.getSimpleName())) {
                 Object[] enumConstants = clazz.getEnumConstants();
                 Object enumConstant = enumConstants[ThreadLocalRandom.current().nextInt(0, enumConstants.length)];
 

@@ -184,11 +184,7 @@ public class IdentifierUse extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -243,7 +239,20 @@ public class IdentifierUse extends Code {
 
         @Override
         public IdentifierUse build() {
-            return new IdentifierUse(this);
+            IdentifierUse identifierUse = new IdentifierUse(this);
+            if (validating) {
+                validate(identifierUse);
+            }
+            return identifierUse;
+        }
+
+        protected void validate(IdentifierUse identifierUse) {
+            super.validate(identifierUse);
+        }
+
+        protected Builder from(IdentifierUse identifierUse) {
+            super.from(identifierUse);
+            return this;
         }
     }
 
